@@ -35,6 +35,14 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Corrected the fixture and registered the capability in AIBrigde `standard_capabilities()`.
 - Deterministic verification then passed at AIBrigde commit `ef72311f95e210860c173f21546437f114a5ffa3`: compile, imports, and two focused Maya runtime capability tests all passed without launching Maya.
 
+## 2026-09-12 — Maya 2024 UI bootstrap proven live
+
+- Added a reusable AIBrigde `maya:ui_smoke` capability for bounded owner-machine Maya UI validation.
+- Early live attempts exposed two runtime-boundary issues: Maya batch mode is not suitable for validating a real UI window, and Maya 2024 GUI startup on the owner host did not reliably execute the `-command` probe.
+- Reworked the transport to launch Maya GUI without `-batch` or `-command`, use isolated temporary `MAYA_APP_DIR`/`MAYA_SCRIPT_PATH`, inject an isolated `userSetup.py`, defer the probe until Maya startup completes, and persist deterministic success/error evidence to a result file.
+- Deterministic verification of the final transport passed at AIBrigde commit `39dbc126c3ffd3240824f24bf285220bad707dff` with compile/import checks and 5 focused tests.
+- Live Maya 2024 validation then passed on the owner machine: `bootstrap.install_and_launch` created `AIMayaToolWindow`, the window was verified, the success marker `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow` was recorded, and Maya self-quit with exit code 0 without saving or modifying a user scene.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
