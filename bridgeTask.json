@@ -9,27 +9,15 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "project-profile-contract",
-        "purpose": "Verify the current AIMayaTool foundation before any Maya runtime work. This is the first project-worker task and intentionally uses only inherited AIBrigde verification/Git capabilities.",
+        "purpose": "Verify the current AIMayaTool foundation before any Maya runtime work.",
         "result": "PRECONDITION_PERMISSION_FAIL",
-        "diagnosis": "The verification route did not run because its git_pull precondition requires permissions.edit=true. No source verification or Maya work was performed.",
-        "acceptance": [
-          "Fast-forward pull main into D:/AIMayaTool.",
-          "Compile every current Python source file in bootstrap.py and aimayatool/.",
-          "Run import smoke for Python-only package entry points that do not require Maya.",
-          "Report exact main commit, interpreter, changed/failing file if any, and concise stdout/stderr evidence.",
-          "Do not launch Maya and do not mutate scenes."
-        ]
+        "diagnosis": "The verification route did not run because its git_pull precondition requires permissions.edit=true. No source verification or Maya work was performed."
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["bootstrap.py", "aimayatool/__init__.py", "aimayatool/app.py", "aimayatool/registry.py", "aimayatool/ui/__init__.py", "aimayatool/ui/main_window.py", "aimayatool/tools/skinning/__init__.py", "aimayatool/tools/setup/__init__.py", "aimayatool/tools/scene/__init__.py", "aimayatool/maya/__init__.py", "aimayatool/maya/skin.py"],
-        "imports": ["aimayatool", "aimayatool.registry"],
-        "timeout": 180
-      }
+      "payload": {}
     },
     {
       "task_id": "aimayatool-foundation-deterministic-verify-001r",
@@ -40,44 +28,95 @@
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "project-profile-contract",
         "retry_of": "aimayatool-foundation-deterministic-verify-001",
-        "purpose": "Retry the deterministic foundation verification with the minimum permission required for the ff-only git_pull precondition.",
         "result": "PASS",
         "proven_main_commit": "07c5e66473c61a0756bd93fc4ccee6d036fd8d26",
-        "python": "C:/Users/nguye/AppData/Local/Programs/Python/Python314/python.exe",
-        "diagnosis": "ff-only pull succeeded; all listed Python files compiled; aimayatool and aimayatool.registry import smoke passed; no Maya runtime work was performed.",
-        "acceptance": [
-          "Fast-forward pull main into D:/AIMayaTool without local source edits.",
-          "Compile every current Python source file in bootstrap.py and aimayatool/.",
-          "Run import smoke for Python-only package entry points that do not require Maya.",
-          "Report exact main commit, interpreter, changed/failing file if any, and concise stdout/stderr evidence.",
-          "Do not launch Maya and do not mutate scenes."
-        ]
+        "evidence": "ff-only pull succeeded; py_compile passed for all current foundation Python files; imports aimayatool and aimayatool.registry passed under Python 3.14."
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["bootstrap.py", "aimayatool/__init__.py", "aimayatool/app.py", "aimayatool/registry.py", "aimayatool/ui/__init__.py", "aimayatool/ui/main_window.py", "aimayatool/tools/skinning/__init__.py", "aimayatool/tools/setup/__init__.py", "aimayatool/tools/scene/__init__.py", "aimayatool/maya/__init__.py", "aimayatool/maya/skin.py"],
-        "imports": ["aimayatool", "aimayatool.registry"],
-        "timeout": 180
-      }
+      "payload": {}
     },
     {
       "task_id": "aimayatool-maya-runtime-discovery-002",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "maya-runtime-routes",
+        "result": "ROUTE_MISSING",
+        "diagnosis": "The project worker reached maya:runtime_discovery correctly, but the current AIBrigde runtime had no registered handler. This is expected integration evidence; no Maya executable was launched and no scene was changed."
+      },
+      "action": {"type": "maya", "target": "runtime_discovery"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"read_only": true, "timeout": 120}
+    },
+    {
+      "task_id": "aimayatool-platform-maya-runtime-route-verify-002a",
       "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "maya-runtime-routes",
-        "depends_on": "aimayatool-foundation-deterministic-verify-001r",
-        "purpose": "Read-only discovery of locally available Maya/mayapy executables and versions so Maya-specific routes can bind to real owner-machine evidence instead of hard-coded paths.",
+        "depends_on": "aimayatool-maya-runtime-discovery-002",
+        "purpose": "Pull and deterministically verify the small reusable AIBrigde Maya runtime discovery extension before restarting the platform.",
         "acceptance": [
-          "Do not install or modify Maya.",
-          "Return discovered Maya versions and executable paths relevant to mayapy or batch validation.",
-          "Do not launch an interactive scene and do not mutate user files.",
-          "If the required generic discovery route is not yet available, report ROUTE_MISSING without substituting an unrelated route."
+          "Fast-forward AIBrigde main into D:/AIBrigde.",
+          "Compile the new Maya runtime capability and its registration boundary.",
+          "Run focused Maya runtime capability unit tests without launching Maya.",
+          "Do not modify AIMayaTool source or user Maya files."
+        ]
+      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": [
+          "aibridge/maya_runtime_capability.py",
+          "aibridge/python_verification_capability.py",
+          "tests/test_maya_runtime_capability.py"
+        ],
+        "imports": ["aibridge.maya_runtime_capability", "aibridge.python_verification_capability"],
+        "tests": ["tests.test_maya_runtime_capability"],
+        "timeout": 180
+      }
+    },
+    {
+      "task_id": "aimayatool-platform-restart-for-maya-route-002b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "maya-runtime-routes",
+        "depends_on": "aimayatool-platform-maya-runtime-route-verify-002a",
+        "purpose": "Restart the managed AIBrigde platform only after the new reusable Maya runtime route passes deterministic verification."
+      },
+      "action": {"type": "bridge", "target": "restart"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
+      "permissions": {"read": true, "edit": false, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {}
+    },
+    {
+      "task_id": "aimayatool-maya-runtime-discovery-002r",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "maya-runtime-routes",
+        "retry_of": "aimayatool-maya-runtime-discovery-002",
+        "depends_on": "aimayatool-platform-restart-for-maya-route-002b",
+        "purpose": "Retry read-only Maya runtime discovery after the verified platform extension is active.",
+        "acceptance": [
+          "Do not install, modify, or launch Maya.",
+          "Return discovered Maya versions and maya/mayapy executable paths from owner-machine evidence.",
+          "Do not mutate user files or scenes."
         ]
       },
       "action": {"type": "maya", "target": "runtime_discovery"},
@@ -93,7 +132,7 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "foundation-live-validation",
-        "depends_on": "aimayatool-maya-runtime-discovery-002",
+        "depends_on": "aimayatool-maya-runtime-discovery-002r",
         "purpose": "Validate the current bootstrap and main UI shell in a bounded Maya runtime after deterministic verification and runtime discovery pass.",
         "acceptance": [
           "Launch/import AIMayaTool through the supported bootstrap path in an isolated Maya validation context.",
