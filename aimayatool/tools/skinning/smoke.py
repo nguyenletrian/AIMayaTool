@@ -35,15 +35,34 @@ def run_max_influence_smoke():
     joint_c = cmds.joint(name='AIMayaToolMaxInfluenceJointC', position=(1, 0, 0))
     skin_cluster = cmds.skinCluster([joint_a, joint_b, joint_c], mesh, toSelectedBones=True, maximumInfluences=3, normalizeWeights=1, name='AIMayaToolMaxInfluenceSmokeCluster')[0]
     vertex = mesh + '.vtx[0]'
-    cmds.skinPercent(skin_cluster, vertex, transformValue=[(joint_a, 0.5), (joint_b, 0.3), (joint_c, 0.2)], normalize=True)
+
+    # Configure the desired limit first, then deliberately create a violating
+    # vertex with maintainMaxInfluences disabled. Setting maxInfluences after
+    # authoring the weights can let Maya prune them immediately, which makes
+    # the validation smoke test the host instead of the AIMayaTool workflow.
+    cmds.setAttr(skin_cluster + '.maintainMaxInfluences', 0)
     cmds.setAttr(skin_cluster + '.maxInfluences', 2)
+    cmds.skinPercent(skin_cluster, vertex, transformValue=[(joint_a, 0.5), (joint_b, 0.3), (joint_c, 0.2)], normalize=True)
+
+    before = dict(max_influences._vertex_weights(skin_cluster, vertex))
+    nonzero_before = [joint for joint, value in before.items() if abs(value) > 1e-8]
+    if len(nonzero_before) != 3:
+        raise RuntimeError('smoke setup failed to create three non-zero influences: %s' % before)
+
     violating = max_influences.violating_vertices(mesh)
     if vertex not in violating:
-        raise RuntimeError('max influence validation failed')
+        raise RuntimeError('max influence validation failed: %s' % before)
     fixed = max_influences.fix(mesh)
     if vertex not in fixed:
         raise RuntimeError('max influence fix did not report target vertex')
     remaining = max_influences.violating_vertices(mesh)
     if remaining:
         raise RuntimeError('max influence fix left violations: %s' % remaining)
+
+    after = dict(max_influences._vertex_weights(skin_cluster, vertex))
+    kept = [joint for joint, value in after.items() if abs(value) > 1e-8]
+    if set(kept) != set([joint_a, joint_b]):
+        raise RuntimeError('max influence fix did not preserve strongest influences: %s' % after)
+    if abs(sum(after.values()) - 1.0) > 1e-6:
+        raise RuntimeError('max influence fix did not normalize weights: %s' % after)
     return 'SKINNING_MAX_INFLUENCE_SMOKE_OK'
