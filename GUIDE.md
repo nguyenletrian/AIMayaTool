@@ -1,5 +1,27 @@
 # AIMayaTool Guide
 
+## Platform inheritance
+AIMayaTool is a project executed by the AIBrigde platform; it is not a fork or copy of the AIBrigde worker/runtime.
+
+Rule precedence is:
+1. AIBrigde `GUIDE.md` system/runtime contracts;
+2. this AIMayaTool project Guide;
+3. task-specific instructions.
+
+AIMayaTool may add stricter project rules, Maya-specific validation requirements, and bounded project routers/capabilities, but it must not weaken or duplicate AIBrigde queue, ACK, Git, provider, permission, retry, restart, backup, or repository-integrity contracts.
+
+The canonical project binding is declared in `.aibridge/project.json`. Capability expectations and project router ownership are declared in `.aibridge/capabilities.json` and `.aibridge/routers.json`. Project workflow state lives in `bridgeGoals.json` and `bridgeTask.json` in this repository.
+
+### Reusable project-profile rule
+Design AIMayaTool's AIBrigde integration as a reusable project-profile pattern for later projects such as AIUnrealTool or AIBlenderTool:
+- keep generic orchestration/runtime behavior in AIBrigde;
+- keep product/domain behavior in the project repository;
+- bind each worker instance to one explicit project id/repository/workdir/Guide/task source;
+- reuse existing AIBrigde routes when semantics match;
+- add a generic AIBrigde capability only when multiple projects can reasonably reuse it;
+- keep project-specific routing metadata local when behavior belongs only to that project/domain;
+- never copy the AIBrigde worker implementation into the project repository.
+
 ## Mission
 Build a clean Maya toolset from the proven ideas in `nguyenletrian/MayaScriptNew`, while redesigning helpers, UI, structure, loading, and runtime boundaries for maintainability and speed.
 
@@ -157,12 +179,20 @@ For changed Python:
 - run focused unit tests for deterministic helpers;
 - run Maya smoke validation for host-specific behavior before declaring migrated workflows accepted.
 
+Validation should use the cheapest sufficient tier in this order:
+1. normal Python deterministic verification;
+2. `mayapy`/headless Maya-Python when host APIs are required but UI is not;
+3. Maya batch for bounded scene/runtime behavior;
+4. interactive Maya only for UI, drag/drop, selection, viewport, or behavior that genuinely requires the live application.
+
 Never treat successful import as proof that a Maya operation works.
 
 ## AIBridge workflow
 Repository evidence is current truth. Architect may autonomously perform low-risk implementation, migration, tests, commits, and task publication within this goal.
 
 Codex is reviewer-only when requested. Owner is final acceptance tester for Maya-visible behavior.
+
+Bridge executes owner-machine work through the inherited AIBrigde runtime. AIMayaTool tasks must target this repository/workdir and may request Maya-specific capabilities, but lifecycle processing remains governed by AIBrigde.
 
 For each substantial migration slice:
 `inventory -> implement -> deterministic verification -> review if useful -> Maya live validation -> accepted checkpoint`.
