@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "project_id": "aimayatool",
+  "routers": [
+    {
+      "route": "verification:python",
+      "provider": "aibridge",
+      "status": "reuse"
+    },
+    {
+      "route": "git:pull",
+      "provider": "aibridge",
+      "status": "reuse"
+    },
+    {
+      "route": "maya:mayapy",
+      "provider": "project",
+      "status": "planned",
+      "safety": "non_interactive"
+    },
+    {
+      "route": "maya:batch",
+      "provider": "project",
+      "status": "planned",
+      "safety": "bounded_scene_runtime"
+    },
+    {
+      "route": "maya:live",
+      "provider": "project",
+      "status": "planned",
+      "safety": "interactive_explicit_task"
+    }
+  ],
+  "rules": [
+    "Project routers extend AIBrigde; they do not replace its task, ACK, Git, provider, permission, or restart contracts.",
+    "Prefer existing AIBrigde routes whenever semantics match.",
+    "A Maya-specific route should be generic enough to serve future Maya projects rather than embedding AIMayaTool business logic into AIBrigde.",
+    "Interactive or scene-mutating routes require explicit task intent and bounded acceptance evidence."
+  ]
+}
