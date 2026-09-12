@@ -43,6 +43,14 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Deterministic verification of the final transport passed at AIBrigde commit `39dbc126c3ffd3240824f24bf285220bad707dff` with compile/import checks and 5 focused tests.
 - Live Maya 2024 validation then passed on the owner machine: `bootstrap.install_and_launch` created `AIMayaToolWindow`, the window was verified, the success marker `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow` was recorded, and Maya self-quit with exit code 0 without saving or modifying a user scene.
 
+## 2026-09-12 — First Skinning vertical slice accepted
+
+- Migrated the first Skinning workflow as explicit domain APIs around skinCluster discovery and add/remove influence operations, with thin selection-driven UI wrappers rather than legacy global session/scriptJob behavior.
+- Deterministic verification passed for the skin adapter, influence workflow, smoke module, and Skinning UI at AIMayaTool commit `a37f476c39a7960c741cda0df75f09996bea35ee`.
+- Live Maya 2024 functional validation created a disposable mesh, joints, and skinCluster, discovered the skinCluster, added and verified a second influence, removed it and verified absence, and returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_SMOKE_OK` with exit code 0.
+- The first live attempt was blocked by a transient Autodesk license checkout failure before AIMayaTool code executed; retry passed without code changes.
+- UI regression validation then passed in Maya 2024: `bootstrap.install_and_launch` still created `AIMayaToolWindow` with the new Skinning controls, and Maya closed cleanly without saving a user scene.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
