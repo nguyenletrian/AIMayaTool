@@ -6,6 +6,7 @@ from aimayatool.maya import skin
 from aimayatool.tools.skinning import copy_weights
 from aimayatool.tools.skinning import influences
 from aimayatool.tools.skinning import max_influences
+from aimayatool.tools.skinning import mirror_skin
 
 
 def run_smoke():
@@ -93,3 +94,39 @@ def run_copy_weights_smoke():
     if any(abs(a - b) > 1e-5 for a, b in zip(source_values, target_values)):
         raise RuntimeError('copy weights mismatch: source=%s target=%s' % (source_values, target_values))
     return 'SKINNING_COPY_WEIGHTS_SMOKE_OK'
+
+
+def run_mirror_skin_smoke():
+    cmds.file(new=True, force=True)
+    mesh = cmds.polyPlane(name='AIMayaToolMirrorSkinMesh', width=4, height=2, subdivisionsX=2, subdivisionsY=1)[0]
+    joint_left = cmds.joint(name='AIMayaToolMirrorSkinJointL', position=(-1.5, 0, 0))
+    cmds.select(clear=True)
+    joint_right = cmds.joint(name='AIMayaToolMirrorSkinJointR', position=(1.5, 0, 0))
+    skin_cluster = cmds.skinCluster([joint_left, joint_right], mesh, toSelectedBones=True, normalizeWeights=1, name='AIMayaToolMirrorSkinCluster')[0]
+
+    points = cmds.xform(mesh + '.vtx[*]', query=True, worldSpace=True, translation=True) or []
+    vertex_count = int(cmds.polyEvaluate(mesh, vertex=True) or 0)
+    left_vertex = None
+    right_vertex = None
+    for index in range(vertex_count):
+        x_value = points[index * 3]
+        if x_value < -0.5 and left_vertex is None:
+            left_vertex = mesh + '.vtx[%d]' % index
+        if x_value > 0.5 and right_vertex is None:
+            right_vertex = mesh + '.vtx[%d]' % index
+    if not left_vertex or not right_vertex:
+        raise RuntimeError('mirror smoke could not resolve opposite-side vertices')
+
+    cmds.skinPercent(skin_cluster, left_vertex, transformValue=[(joint_left, 1.0), (joint_right, 0.0)], normalize=True)
+    cmds.skinPercent(skin_cluster, right_vertex, transformValue=[(joint_left, 0.0), (joint_right, 1.0)], normalize=True)
+
+    mirror_skin.mirror(mesh, axis='x', inverse=False)
+    first_right = cmds.skinPercent(skin_cluster, right_vertex, query=True, transform=joint_left)
+    first_left = cmds.skinPercent(skin_cluster, left_vertex, query=True, transform=joint_right)
+    if max(first_right, first_left) < 0.99:
+        mirror_skin.mirror(mesh, axis='x', inverse=True)
+        second_right = cmds.skinPercent(skin_cluster, right_vertex, query=True, transform=joint_left)
+        second_left = cmds.skinPercent(skin_cluster, left_vertex, query=True, transform=joint_right)
+        if max(second_right, second_left) < 0.99:
+            raise RuntimeError('mirror skin did not transfer opposite-side influence weights')
+    return 'SKINNING_MIRROR_SKIN_SMOKE_OK'
