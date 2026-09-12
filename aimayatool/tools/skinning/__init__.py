@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 import maya.cmds as cmds
 
+from . import copy_weights
 from . import influences
 from . import max_influences
 
@@ -9,7 +10,11 @@ from . import max_influences
 def _run(label, fn):
     try:
         changed = fn()
-        cmds.inViewMessage(amg='%s: %s' % (label, ', '.join(changed) if changed else 'no changes'), pos='midCenter', fade=True)
+        if isinstance(changed, (list, tuple)):
+            text = ', '.join(changed) if changed else 'no changes'
+        else:
+            text = str(changed) if changed else 'no changes'
+        cmds.inViewMessage(amg='%s: %s' % (label, text), pos='midCenter', fade=True)
     except Exception as exc:
         cmds.warning('AIMayaTool Skinning: %s' % exc)
 
@@ -26,3 +31,6 @@ def build_ui():
     cmds.button(label='Check Configured Max', command=lambda *_: _run('Over max', max_influences.check_from_selection))
     cmds.button(label='Fix Configured Max', command=lambda *_: _run('Fixed', max_influences.fix_from_selection))
     cmds.setParent('..')
+    cmds.separator(height=8, style='none')
+    cmds.text(label='Skin transfer', align='left')
+    cmds.button(label='Copy Skin Weights (Source -> Targets)', command=lambda *_: _run('Copied skin', copy_weights.copy_from_selection))
