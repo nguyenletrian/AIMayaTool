@@ -31,12 +31,16 @@ def _vertex_weights(skin_cluster, vertex):
     return list(zip(joints, values))
 
 
+def _vertices(mesh):
+    count = int(cmds.polyEvaluate(mesh, vertex=True) or 0)
+    return ['%s.vtx[%d]' % (mesh, index) for index in range(count)]
+
+
 def violating_vertices(node, max_influences=None, epsilon=1e-8):
     skin_cluster, mesh = _skin_and_mesh(node)
     limit = _resolved_limit(skin_cluster, max_influences)
-    vertices = cmds.ls(mesh + '.vtx[*]', flatten=True) or []
     violating = []
-    for vertex in vertices:
+    for vertex in _vertices(mesh):
         count = sum(1 for _, value in _vertex_weights(skin_cluster, vertex) if abs(value) > epsilon)
         if count > limit:
             violating.append(vertex)
