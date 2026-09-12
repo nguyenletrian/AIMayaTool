@@ -1,0 +1,11 @@
+{
+  "project_id": "aimayatool",
+  "name": "AIMayaTool",
+  "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+  "branch": "main",
+  "guide": "GUIDE.md",
+  "source_repositories": [
+    "https://github.com/nguyenletrian/MayaScriptNew.git"
+  ],
+  "task_source": "bridgeTask.json"
+}
