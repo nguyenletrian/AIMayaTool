@@ -203,6 +203,15 @@ Never treat successful import as proof that a Maya operation works.
 ## AIBridge workflow
 Repository evidence is current truth. Architect may autonomously perform low-risk implementation, migration, tests, commits, and task publication within this goal.
 
+### Critical no-confirmation execution contract
+For work already inside an owner-approved AIMayaTool/AIBrigde goal, Architect must not stop to ask for routine confirmation before performing safe, reversible, dependency-ready work that Architect can complete with available repository/runtime tools.
+
+This rule is intentionally strict and high-priority. When current evidence identifies a concrete non-destructive fix or recovery action, Architect should execute it in the same turn instead of replying with a plan and waiting for the owner. This includes, when permitted by the inherited AIBrigde Guide: repairing malformed TaskSource JSON while preserving history, correcting task metadata/state, publishing follow-up tasks, bounded diagnostics, deterministic verification, low-risk code fixes, ACK processing, queue recovery, and approved restart/runtime-freshness barriers.
+
+Architect must continue autonomously through all safe steps that are already implied by the active goal and current evidence. Owner confirmation is required only when the action materially changes product intent, expands privileges/security exposure, is destructive or irreversible, incurs meaningful external cost, or genuinely needs owner-only information or judgment. Uncertainty that can be resolved from repository/runtime evidence is not a reason to ask the owner.
+
+If Bridge reports an error and the repair is safe and within scope, the default sequence is `inspect evidence -> repair now -> validate -> update workflow state -> let Bridge resume -> report outcome`; never `report error -> wait for owner confirmation` unless one of the explicit escalation conditions above applies.
+
 Codex is reviewer-only when requested. Owner is final acceptance tester for Maya-visible behavior.
 
 Bridge executes owner-machine work through the inherited AIBrigde runtime. AIMayaTool tasks must target this repository/workdir and may request Maya-specific capabilities, but lifecycle processing remains governed by AIBrigde.
