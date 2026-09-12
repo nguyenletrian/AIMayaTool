@@ -20,65 +20,31 @@
           "Do not launch Maya and do not mutate scenes."
         ]
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "bootstrap.py",
-          "aimayatool/__init__.py",
-          "aimayatool/app.py",
-          "aimayatool/registry.py",
-          "aimayatool/ui/__init__.py",
-          "aimayatool/ui/main_window.py",
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py",
-          "aimayatool/maya/__init__.py",
-          "aimayatool/maya/skin.py"
-        ],
-        "imports": [
-          "aimayatool",
-          "aimayatool.registry"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["bootstrap.py", "aimayatool/__init__.py", "aimayatool/app.py", "aimayatool/registry.py", "aimayatool/ui/__init__.py", "aimayatool/ui/main_window.py", "aimayatool/tools/skinning/__init__.py", "aimayatool/tools/setup/__init__.py", "aimayatool/tools/scene/__init__.py", "aimayatool/maya/__init__.py", "aimayatool/maya/skin.py"],
+        "imports": ["aimayatool", "aimayatool.registry"],
         "timeout": 180
       }
     },
     {
       "task_id": "aimayatool-foundation-deterministic-verify-001r",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "project-profile-contract",
         "retry_of": "aimayatool-foundation-deterministic-verify-001",
         "purpose": "Retry the deterministic foundation verification with the minimum permission required for the ff-only git_pull precondition.",
+        "result": "PASS",
+        "proven_main_commit": "07c5e66473c61a0756bd93fc4ccee6d036fd8d26",
+        "python": "C:/Users/nguye/AppData/Local/Programs/Python/Python314/python.exe",
+        "diagnosis": "ff-only pull succeeded; all listed Python files compiled; aimayatool and aimayatool.registry import smoke passed; no Maya runtime work was performed.",
         "acceptance": [
           "Fast-forward pull main into D:/AIMayaTool without local source edits.",
           "Compile every current Python source file in bootstrap.py and aimayatool/.",
@@ -87,53 +53,14 @@
           "Do not launch Maya and do not mutate scenes."
         ]
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "bootstrap.py",
-          "aimayatool/__init__.py",
-          "aimayatool/app.py",
-          "aimayatool/registry.py",
-          "aimayatool/ui/__init__.py",
-          "aimayatool/ui/main_window.py",
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py",
-          "aimayatool/maya/__init__.py",
-          "aimayatool/maya/skin.py"
-        ],
-        "imports": [
-          "aimayatool",
-          "aimayatool.registry"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["bootstrap.py", "aimayatool/__init__.py", "aimayatool/app.py", "aimayatool/registry.py", "aimayatool/ui/__init__.py", "aimayatool/ui/main_window.py", "aimayatool/tools/skinning/__init__.py", "aimayatool/tools/setup/__init__.py", "aimayatool/tools/scene/__init__.py", "aimayatool/maya/__init__.py", "aimayatool/maya/skin.py"],
+        "imports": ["aimayatool", "aimayatool.registry"],
         "timeout": 180
       }
     },
@@ -153,31 +80,11 @@
           "If the required generic discovery route is not yet available, report ROUTE_MISSING without substituting an unrelated route."
         ]
       },
-      "action": {
-        "type": "maya",
-        "target": "runtime_discovery"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "read_only": true,
-        "timeout": 120
-      }
+      "action": {"type": "maya", "target": "runtime_discovery"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"read_only": true, "timeout": 120}
     },
     {
       "task_id": "aimayatool-bootstrap-ui-maya-smoke-003",
@@ -196,32 +103,11 @@
           "Do not save or modify production scenes."
         ]
       },
-      "action": {
-        "type": "maya",
-        "target": "ui_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 180
-      }
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "timeout": 180}
     }
   ]
 }
