@@ -4,6 +4,7 @@ import maya.cmds as cmds
 
 from aimayatool.maya import skin
 from aimayatool.tools.skinning import influences
+from aimayatool.tools.skinning import max_influences
 
 
 def run_smoke():
@@ -22,3 +23,27 @@ def run_smoke():
     if removed != [joint_b] or joint_b in skin.influences(skin_cluster):
         raise RuntimeError('remove influence smoke failed')
     return 'SKINNING_INFLUENCE_SMOKE_OK'
+
+
+def run_max_influence_smoke():
+    cmds.file(new=True, force=True)
+    mesh = cmds.polyPlane(name='AIMayaToolMaxInfluenceSmokeMesh', subdivisionsX=1, subdivisionsY=1)[0]
+    joint_a = cmds.joint(name='AIMayaToolMaxInfluenceJointA', position=(-1, 0, 0))
+    cmds.select(clear=True)
+    joint_b = cmds.joint(name='AIMayaToolMaxInfluenceJointB', position=(0, 0, 0))
+    cmds.select(clear=True)
+    joint_c = cmds.joint(name='AIMayaToolMaxInfluenceJointC', position=(1, 0, 0))
+    skin_cluster = cmds.skinCluster([joint_a, joint_b, joint_c], mesh, toSelectedBones=True, maximumInfluences=3, normalizeWeights=1, name='AIMayaToolMaxInfluenceSmokeCluster')[0]
+    vertex = mesh + '.vtx[0]'
+    cmds.skinPercent(skin_cluster, vertex, transformValue=[(joint_a, 0.5), (joint_b, 0.3), (joint_c, 0.2)], normalize=True)
+    cmds.setAttr(skin_cluster + '.maxInfluences', 2)
+    violating = max_influences.violating_vertices(mesh)
+    if vertex not in violating:
+        raise RuntimeError('max influence validation failed')
+    fixed = max_influences.fix(mesh)
+    if vertex not in fixed:
+        raise RuntimeError('max influence fix did not report target vertex')
+    remaining = max_influences.violating_vertices(mesh)
+    if remaining:
+        raise RuntimeError('max influence fix left violations: %s' % remaining)
+    return 'SKINNING_MAX_INFLUENCE_SMOKE_OK'
