@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "project_id": "aimayatool",
+  "capabilities": [
+    {
+      "id": "python_verify",
+      "owner": "aibridge",
+      "required": true,
+      "purpose": "Compile changed Python, run import smoke checks, focused tests, and structural verification."
+    },
+    {
+      "id": "git_sync",
+      "owner": "aibridge",
+      "required": true,
+      "purpose": "Fast-forward sync the AIMayaTool workdir before local validation."
+    },
+    {
+      "id": "mayapy",
+      "owner": "aimayatool",
+      "required": false,
+      "purpose": "Run Maya-Python host validation without requiring the interactive Maya UI."
+    },
+    {
+      "id": "maya_batch",
+      "owner": "aimayatool",
+      "required": false,
+      "purpose": "Run bounded Maya batch scene/runtime smoke validation."
+    },
+    {
+      "id": "maya_live",
+      "owner": "aimayatool",
+      "required": false,
+      "purpose": "Run explicit interactive Maya validation for UI, drag/drop bootstrap, selection, scene mutation, and workflows that cannot be proven headlessly."
+    }
+  ],
+  "policy": {
+    "reuse_platform_routes_first": true,
+    "project_routes_must_be_bounded": true,
+    "project_routes_must_not_reimplement_queue_ack_git_or_provider_lifecycle": true,
+    "missing_maya_routes_may_be_added_as_generic_aibridge_extensions_when_reusable": true
+  }
+}
