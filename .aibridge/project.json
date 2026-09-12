@@ -1,11 +1,30 @@
 {
+  "schema_version": 1,
   "project_id": "aimayatool",
   "name": "AIMayaTool",
-  "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-  "branch": "main",
-  "guide": "GUIDE.md",
+  "platform": {
+    "name": "AIBrigde",
+    "repository": "https://github.com/nguyenletrian/AIBrigde.git",
+    "branch": "main",
+    "guide": "GUIDE.md",
+    "inherit_system_contracts": true
+  },
+  "project": {
+    "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+    "branch": "main",
+    "workdir": "D:/AIMayaTool",
+    "guide": "GUIDE.md",
+    "goal_source": "bridgeGoals.json",
+    "task_source": "bridgeTask.json"
+  },
   "source_repositories": [
     "https://github.com/nguyenletrian/MayaScriptNew.git"
   ],
-  "task_source": "bridgeTask.json"
+  "capability_manifest": ".aibridge/capabilities.json",
+  "router_manifest": ".aibridge/routers.json",
+  "rule_precedence": [
+    "AIBrigde system contracts",
+    "AIMayaTool project guide",
+    "task-specific instructions"
+  ]
 }
