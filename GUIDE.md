@@ -22,6 +22,19 @@ Design AIMayaTool's AIBrigde integration as a reusable project-profile pattern f
 - keep project-specific routing metadata local when behavior belongs only to that project/domain;
 - never copy the AIBrigde worker implementation into the project repository.
 
+### Durable history contract
+`HISTORY.md` records concise, durable product and architecture milestones. It is not a duplicate task log.
+
+Use these sources for different kinds of truth:
+- `HISTORY.md`: accepted architecture/product milestones, stable checkpoints, reusable capability introductions, and owner-visible workflows proven in Maya;
+- `bridgeGoals.json`: active goal/milestone state;
+- `bridgeTask.json`: detailed task execution, retries, failures, ACK state, and runtime evidence;
+- Git history: exact code changes and commit identity.
+
+Update `HISTORY.md` when a durable conclusion is reached, not for every transient task result. When a migration slice is accepted, record the relevant proven commit/checkpoint and the validation tier that passed.
+
+Future project profiles should use the same separation so history stays readable while task evidence remains machine-oriented.
+
 ## Mission
 Build a clean Maya toolset from the proven ideas in `nguyenletrian/MayaScriptNew`, while redesigning helpers, UI, structure, loading, and runtime boundaries for maintainability and speed.
 
