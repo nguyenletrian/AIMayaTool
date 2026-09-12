@@ -5,6 +5,7 @@ import maya.cmds as cmds
 from . import copy_weights
 from . import influences
 from . import max_influences
+from . import mirror_skin
 
 
 def _run(label, fn):
@@ -34,3 +35,9 @@ def build_ui():
     cmds.separator(height=8, style='none')
     cmds.text(label='Skin transfer', align='left')
     cmds.button(label='Copy Skin Weights (Source -> Targets)', command=lambda *_: _run('Copied skin', copy_weights.copy_from_selection))
+    cmds.separator(height=8, style='none')
+    cmds.text(label='Mirror skin across X / YZ plane', align='left')
+    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
+    cmds.button(label='Mirror +X Direction', command=lambda *_: _run('Mirrored skin', lambda: mirror_skin.mirror_from_selection(axis='x', inverse=False)))
+    cmds.button(label='Mirror -X Direction', command=lambda *_: _run('Mirrored skin', lambda: mirror_skin.mirror_from_selection(axis='x', inverse=True)))
+    cmds.setParent('..')
