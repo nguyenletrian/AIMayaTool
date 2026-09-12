@@ -33,15 +33,15 @@ def run_max_influence_smoke():
     joint_b = cmds.joint(name='AIMayaToolMaxInfluenceJointB', position=(0, 0, 0))
     cmds.select(clear=True)
     joint_c = cmds.joint(name='AIMayaToolMaxInfluenceJointC', position=(1, 0, 0))
-    skin_cluster = cmds.skinCluster([joint_a, joint_b, joint_c], mesh, toSelectedBones=True, maximumInfluences=3, normalizeWeights=1, name='AIMayaToolMaxInfluenceSmokeCluster')[0]
+    skin_cluster = cmds.skinCluster([joint_a, joint_b, joint_c], mesh, toSelectedBones=True, maximumInfluences=2, normalizeWeights=1, name='AIMayaToolMaxInfluenceSmokeCluster')[0]
     vertex = mesh + '.vtx[0]'
 
-    # Configure the desired limit first, then deliberately create a violating
-    # vertex with maintainMaxInfluences disabled. Setting maxInfluences after
-    # authoring the weights can let Maya prune them immediately, which makes
-    # the validation smoke test the host instead of the AIMayaTool workflow.
+    # Create the skinCluster with the intended configured limit from the start.
+    # Then disable enforcement so the fixture can deliberately author a vertex
+    # that violates that limit without asking Maya to reinterpret the setting.
     cmds.setAttr(skin_cluster + '.maintainMaxInfluences', 0)
-    cmds.setAttr(skin_cluster + '.maxInfluences', 2)
+    if max_influences.configured_limit(skin_cluster) != 2:
+        raise RuntimeError('smoke setup max influence limit is not two')
     cmds.skinPercent(skin_cluster, vertex, transformValue=[(joint_a, 0.5), (joint_b, 0.3), (joint_c, 0.2)], normalize=True)
 
     before = dict(max_influences._vertex_weights(skin_cluster, vertex))
