@@ -13,6 +13,12 @@
       "status": "reuse"
     },
     {
+      "route": "maya:runtime_discovery",
+      "provider": "aibridge",
+      "status": "reuse",
+      "safety": "read_only_host_discovery"
+    },
+    {
       "route": "maya:mayapy",
       "provider": "project",
       "status": "planned",
