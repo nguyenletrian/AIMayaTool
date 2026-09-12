@@ -74,13 +74,17 @@
     {
       "task_id": "aimayatool-platform-maya-runtime-route-verify-002ar",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "maya-runtime-routes",
         "retry_of": "aimayatool-platform-maya-runtime-route-verify-002a",
         "depends_on": "aimayatool-platform-maya-runtime-route-verify-002a",
         "purpose": "Verify the reusable Maya runtime discovery capability after correcting the schema-invalid test fixture and registering it in standard_capabilities.",
+        "result": "PASS",
+        "proven_aibridge_main_commit": "ef72311f95e210860c173f21546437f114a5ffa3",
+        "evidence": "ff-only pull succeeded; py_compile passed for maya_runtime_capability.py, __main__.py, and the focused test; imports passed for aibridge.maya_runtime_capability and aibridge.__main__; tests.test_maya_runtime_capability ran 2 tests and passed under Python 3.14.",
         "acceptance": [
           "Fast-forward AIBrigde main into D:/AIBrigde.",
           "Compile maya_runtime_capability.py, __main__.py, and the focused test.",
