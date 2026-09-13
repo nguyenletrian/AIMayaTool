@@ -19,7 +19,16 @@ class InfluenceTransferTests(unittest.TestCase):
 
     def test_transfer_moves_source_into_target(self):
         self.cmds.skinCluster.return_value = ["jointA", "jointB"]
-        self.cmds.skinPercent.side_effect = [0.25, 0.5]
+
+        def skin_percent(*args, **kwargs):
+            if kwargs.get("query"):
+                if kwargs.get("transform") == "jointA":
+                    return 0.25
+                if kwargs.get("transform") == "jointB":
+                    return 0.5
+            return None
+
+        self.cmds.skinPercent.side_effect = skin_percent
         changed = influence_transfer.transfer_influence_weight("skin1", ["mesh.vtx[0]"], "jointA", "jointB")
         self.assertEqual(changed, ["mesh.vtx[0]"])
         self.cmds.skinPercent.assert_called_with("skin1", "mesh.vtx[0]", transformValue=[("jointA", 0.0), ("jointB", 0.75)], normalize=True)
