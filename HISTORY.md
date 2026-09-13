@@ -73,6 +73,15 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - The first UI regression attempt timed out without product-failure evidence; a fresh Maya retry then emitted `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow` and exited 0.
 - Created immutable stable checkpoint `backup/2026-09-13-0752-SetupFirstSlice-5a17a47` pointing exactly to the proven code commit.
 
+## 2026-09-13 — ScenePattern first slice closed
+
+- Added the versioned `ScenePattern` JSON model and deterministic `PatternRegistry` with duplicate rejection, replacement, lookup, removal, and sorted identifiers.
+- Deterministic Python verification passed at proven AIMayaTool code commit `255375819c7dea39672b260b514f8bea669e83de`.
+- Introduced the reusable AIBrigde managed-live Maya workflow: reuse a healthy session or launch Maya 2024 automatically, force a fresh scene for each test, never save the test scene, and leave Maya running for later tasks.
+- Fixed managed-session lifecycle so `MAYA_APP_DIR` persists outside per-task result cleanup; focused AIBrigde regression verification passed at `59b78bd28ac9daab728658a95762aa405a98cc86`.
+- Live ScenePattern validation returned `AIBRIDGE_UI_SMOKE_OK:SCENE_PATTERN_SMOKE_OK`; UI regression then reused the existing Maya session and returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`, with `new_scene_forced=true`, `scene_saved=false`, and `maya_quit=false`.
+- Created immutable stable checkpoint `backup/2026-09-13-0830-ScenePatternFirstSlice-2553758` pointing exactly to the proven AIMayaTool code commit.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
