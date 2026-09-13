@@ -63,6 +63,8 @@ These are migration candidates, not a mandate to preserve historical UI grouping
 
 The actual `MayaScriptNew/UIs/ScenePattern/` directory is broader than that visible button list and includes additional concrete pattern modules such as AimConstraint, animation backup, blendshape-sequence generation, clear/create offsets, ControlShape variants, CreateAttribute, CreateCurve, CreateIK, CreateRef and other specialized builders. Goal 002 must inventory the directory itself, not infer parity only from `UIs/Scene.py`.
 
+`MayaScriptNew/UIs/SceneDefaultFunctions/` currently contains five curve-oriented ad-hoc scripts: Export Curve, Import Curve, Export Curve Up, Import Curve Up, and Update Curve Up. These are not five independent product capabilities; they form one control/curve-data workflow family with orientation/update variants. Their modern destination should be the shared Setup control-shape/curve serialization API, with Scene only composing or exposing that capability where project workflows need it.
+
 AIMayaTool already has the deterministic ScenePattern/data/build foundation, but most legacy pattern behaviors and equivalent modern UI exposure still require reconciliation.
 
 ## Preliminary parity classification
@@ -95,6 +97,7 @@ AIMayaTool already has the deterministic ScenePattern/data/build foundation, but
 | Scene | SpaceSwitch / IKFK / DrivenKey / SDK patterns | Missing | Implement on reusable Setup primitives rather than duplicating rig logic in Scene |
 | Scene | ProxyAttribute / Rivet / Rope / AimConstraint patterns | Missing | Reconcile dependencies and migrate vertically |
 | Scene | ControlShape patterns | Missing but Setup-dependent | Reuse modern Setup control-shape library rather than preserve duplicate pattern implementation |
+| Scene | Default curve import/export/update scripts | Missing but Setup-dependent | Collapse five ad-hoc scripts into one shared curve/control-shape data workflow with explicit orientation/update options |
 | Scene | Animation/blendshape backup/build patterns | Unclassified | Determine usefulness and domain ownership before migration or retirement |
 | Scene | Dynamic project/default functions | Partially Missing | Replace unsafe ad-hoc loading with explicit registry/plugin contract if still useful |
 
@@ -104,7 +107,8 @@ AIMayaTool already has the deterministic ScenePattern/data/build foundation, but
 2. **Control-shape data is a Setup primitive used by Scene.** Build one modern control-shape library and let Scene patterns compose it. Do not create separate Scene and Setup copies.
 3. **Scene rig patterns depend on Setup.** SpaceSwitch, IK/FK, DrivenKey/SDK, AimConstraint, CreateIK, ProxyAttribute and related patterns should be thin composition/data layers over accepted Setup primitives.
 4. **ScenePattern directory inventory is authoritative.** The visible `Scene.py` menu is insufficient because the directory contains additional modules not surfaced in the initial button map.
-5. **Backup/duplicate legacy files are evidence, not separate capabilities.** `_Backup.py`, `.pyc`, duplicate ControlShape variants and similar artifacts must be reconciled to one behavior classification, not counted as independent migration requirements.
+5. **Default Scene curve scripts collapse into one reusable primitive family.** Export/import/up-orientation/update variations belong in shared curve/control-shape serialization rather than five standalone Scene features.
+6. **Backup/duplicate legacy files are evidence, not separate capabilities.** `_Backup.py`, `.pyc`, duplicate ControlShape variants and similar artifacts must be reconciled to one behavior classification, not counted as independent migration requirements.
 
 ## Next Goal 002 work
 1. Complete full source/module/UI inventory for all three target domains, including helper symbols and duplicate/backup modules.
