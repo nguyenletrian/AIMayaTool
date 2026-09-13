@@ -10,13 +10,21 @@ Rule precedence is:
 
 AIMayaTool may add stricter project rules, Maya-specific validation requirements, and bounded project routers/capabilities, but it must not weaken or duplicate AIBrigde queue, ACK, Git, provider, permission, retry, restart, backup, or repository-integrity contracts.
 
-The canonical project binding is declared in `.aibridge/project.json`. Capability expectations and project router ownership are declared in `.aibridge/capabilities.json` and `.aibridge/routers.json`. Project workflow state lives in `bridgeGoals.json` and `bridgeTask.json` in this repository.
+The canonical project binding is declared in `.aibridge/project.json`. Capability expectations and project router ownership are declared in `.aibridge/capabilities.json` and `.aibridge/routers.json`. Project workflow state lives in `bridgeGoals.json` and `AIMayaToolTask.json` in this repository.
+
+### Project-specific TaskSource rule
+AIMayaTool owns `AIMayaToolTask.json` as its canonical TaskSource. Do not use the generic filename `bridgeTask.json` for new AIMayaTool queue state.
+
+This project-specific filename is part of the reusable project-profile contract so multiple AIBrigde-backed projects can run in parallel, including from separate ChatGPT accounts or worker instances, without accidentally sharing, polling, ACKing, or overwriting another project's task file. Every project profile should bind an explicit project-unique TaskSource path in `.aibridge/project.json`.
+
+`bridgeTask.json` may remain in Git history or temporarily exist as a migration artifact, but once the project binding points to `AIMayaToolTask.json`, it is no longer authoritative for AIMayaTool execution and must not receive new AIMayaTool tasks or ACK mutations.
 
 ### Reusable project-profile rule
 Design AIMayaTool's AIBrigde integration as a reusable project-profile pattern for later projects such as AIUnrealTool or AIBlenderTool:
 - keep generic orchestration/runtime behavior in AIBrigde;
 - keep product/domain behavior in the project repository;
 - bind each worker instance to one explicit project id/repository/workdir/Guide/task source;
+- give each project a project-unique TaskSource filename rather than sharing a generic task filename;
 - reuse existing AIBrigde routes when semantics match;
 - add a generic AIBrigde capability only when multiple projects can reasonably reuse it;
 - keep project-specific routing metadata local when behavior belongs only to that project/domain;
@@ -28,7 +36,7 @@ Design AIMayaTool's AIBrigde integration as a reusable project-profile pattern f
 Use these sources for different kinds of truth:
 - `HISTORY.md`: accepted architecture/product milestones, stable checkpoints, reusable capability introductions, and owner-visible workflows proven in Maya;
 - `bridgeGoals.json`: active goal/milestone state;
-- `bridgeTask.json`: bounded recent task execution/ACK/runtime evidence;
+- `AIMayaToolTask.json`: bounded recent task execution/ACK/runtime evidence;
 - Git history: exact code changes, older TaskSource history, and commit identity.
 
 Update `HISTORY.md` when a durable conclusion is reached, not for every transient task result. When a migration slice is accepted, record the relevant proven commit/checkpoint and the validation tier that passed.
@@ -200,28 +208,34 @@ Validation should use the cheapest sufficient tier in this order:
 
 Never treat successful import as proof that a Maya operation works.
 
-### Maya client popup/relaunch recovery
-When a Maya live-validation task fails because of the Maya client/runtime rather than AIMayaTool product behavior, recovery should be persistent rather than immediately escalating a transient failure.
+### Maya client crash / popup / relaunch recovery
+When a Maya live-validation task fails because of the Maya client/runtime rather than conclusive AIMayaTool product behavior, recovery should be persistent rather than immediately escalating a transient failure.
 
-If runtime evidence establishes that Maya 2024 is installed/available on the owner machine, then for Maya client failures such as a blocking startup popup/dialog, transient license/startup state, an unresponsive launch, or a launch timeout with no product failure marker:
-1. dismiss/close the blocking Maya popup or dialog when the route can safely do so;
-2. close the failed/stale Maya instance or process when necessary;
-3. launch Maya again in a fresh session and retry the same bounded validation;
-4. continue retrying through transient Maya-client failures until the validation obtains conclusive product evidence, unless the inherited AIBrigde safety/runtime contract supplies a stricter retry limit or a genuinely non-transient blocker is identified;
-5. do not classify these Maya-client failures as AIMayaTool product failures without product-level evidence.
+Treat the following as Maya-runtime loss signals when no product exception/failure marker was returned: a blocking startup popup/dialog, transient license/startup state, an unresponsive launch, launch timeout, live-socket `ConnectionRefusedError` / WinError 10061 after a previously healthy session, `MAYA_LIVE_SESSION_LOST`, disappearance of the Maya process/window, abrupt process exit, or an OS/application crash report.
 
-Once Maya availability has already been proven, prefer this popup-dismiss/relaunch/retry recovery automatically for later AIMayaTool Maya tasks. Preserve each task's truthful runtime evidence; recovery must not fabricate a success marker or hide a genuine AIMayaTool exception/failure.
+If runtime evidence establishes that Maya 2024 is installed/available on the owner machine:
+1. preserve the exact failed task/runtime evidence and classify the first runtime-loss event as inconclusive rather than a product failure unless a product-level exception already proves otherwise;
+2. dismiss/close blocking Maya popups or dialogs when the route can safely do so;
+3. treat a missing/refused live listener after a previously healthy session as a stale or crashed Maya instance, not as a reusable session;
+4. close any stale/half-alive Maya process when necessary, then launch Maya again in a fresh managed session;
+5. re-establish the live listener and force a fresh unsaved scene before invoking AIMayaTool product code again;
+6. retry the same bounded validation so the comparison is meaningful;
+7. if the same bounded product operation crashes Maya again on a genuinely fresh session, preserve both runs and classify the repeated crash as a reproducible product-level Maya crash blocker for investigation; do not keep relaunching indefinitely once reproducibility is established;
+8. if the fresh retry succeeds, retain the earlier crash/session-loss evidence as transient runtime evidence and continue the workflow;
+9. never fabricate a success marker, hide a crash, or convert a transport/runtime failure into an AIMayaTool PASS.
+
+Once Maya availability has already been proven, prefer this crash/popup-dismiss/relaunch/retry recovery automatically for later AIMayaTool Maya tasks. A crashed process or refused listener must trigger fresh-session recovery before any subsequent live validation.
 
 ## AIBridge workflow
 Repository evidence is current truth. Architect may autonomously perform low-risk implementation, migration, tests, commits, and task publication within this goal.
 
 ### Mandatory TaskSource serialization contract
-All Architect writes to `bridgeTask.json` are machine-structured operations. Hand-written, manually concatenated, partially copied, or text-patched JSON is forbidden.
+All Architect writes to `AIMayaToolTask.json` are machine-structured operations. Hand-written, manually concatenated, partially copied, or text-patched JSON is forbidden.
 
 **This serialization contract is a write-safety procedure, never a reason to withhold valid work.** If a safe dependency-ready task can be identified, Architect must perform the required parse/mutate/validate/serialize/reparse/write/refetch sequence and publish it in the same turn. The fact that a serializer or structured mutation step is required does not justify leaving the queue empty, replying with only a plan, or deferring publication. If the currently available tool surface cannot execute one required serialization step directly, Architect must use an available structured/runtime method to complete that step when possible; only a genuine unavailable capability or failed validation may block the write, and that blocker must be concrete rather than assumed.
 
 For every TaskSource publish, ACK, recovery, retention, or metadata mutation, Architect must follow this exact safety pattern:
-1. fetch the current authoritative `bridgeTask.json` and its current blob SHA from `main`;
+1. fetch the current authoritative `AIMayaToolTask.json` and its current blob SHA from `main`;
 2. parse the full document with a JSON parser before any mutation;
 3. mutate only the parsed object/list structure in memory;
 4. validate required root/task fields, task-id uniqueness, and dependency references;
@@ -236,7 +250,7 @@ For every TaskSource publish, ACK, recovery, retention, or metadata mutation, Ar
 A truthful `queue_exhausted` request is an instruction to actively look for the next safe work inside the already approved goal, not a stop condition.
 
 When Bridge requests additional work because the queue is exhausted, Architect must in the same turn:
-1. re-read the current Guide, goal state, and authoritative TaskSource;
+1. re-read the current Guide, goal state, and authoritative `AIMayaToolTask.json`;
 2. inspect enough repository/reference evidence to identify the next bounded migration, verification, assessment, or recovery slice;
 3. if architecture, permissions, dependencies, and acceptance criteria are clear, publish one or more pending tasks immediately using the mandatory serialization contract;
 4. prefer a dependency chain of multiple tasks when implementation -> deterministic verification -> Maya validation -> UI regression is already predictable and each step has clear acceptance criteria;
@@ -246,7 +260,7 @@ When Bridge requests additional work because the queue is exhausted, Architect m
 Serialization safety and automation continuity are complementary requirements: **serialize correctly and continue**, rather than choosing one at the expense of the other.
 
 #### Bounded TaskSource retention
-`bridgeTask.json` must contain at most the 10 newest task records, preserving their chronological order. Apply this retention rule whenever Architect publishes, ACKs, recovers, or otherwise rewrites TaskSource.
+`AIMayaToolTask.json` must contain at most the 10 newest task records, preserving their chronological order. Apply this retention rule whenever Architect publishes, ACKs, recovers, or otherwise rewrites TaskSource.
 
 Before removing an older task:
 - ensure it is already `architect_ack: true` and `bridge_completed: true`; never evict active, unACKed, or incomplete work merely to satisfy the limit;
@@ -262,7 +276,7 @@ A missing brace, quote, comma, malformed object boundary, duplicate key/id, unre
 ### Automation continuity / anti-sabotage contract
 Architect must never intentionally create an error, malformed TaskSource, invalid dependency state, false failure, artificial queue exhaustion, blocking condition, stale-state trap, or other fault in order to pause, stop, slow, bypass, or manipulate the automation loop.
 
-Architect must never use failure as a control-flow mechanism when a valid state transition, dependency, ACK, queue update, retry, or explicit stop condition exists. Deliberately making `bridgeTask.json` invalid so Bridge stops or asks for help is strictly forbidden.
+Architect must never use failure as a control-flow mechanism when a valid state transition, dependency, ACK, queue update, retry, or explicit stop condition exists. Deliberately making `AIMayaToolTask.json` invalid so Bridge stops or asks for help is strictly forbidden.
 
 Within an owner-approved goal, the default objective is continuous safe forward progress. If Architect introduces a defect accidentally, Architect must treat recovery as urgent: `detect -> stop further mutation -> restore last proven-valid state -> validate parser/schema/dependencies -> resume automation -> report`. Architect must not leave a known self-created defect in place to force owner intervention.
 
