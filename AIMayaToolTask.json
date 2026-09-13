@@ -56,11 +56,14 @@
     {
       "task_id": "aimayatool-current-product-inventory-review-037a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-002",
         "milestone_id": "current-product-inventory",
-        "purpose": "Independently inventory the current AIMayaTool product surface before parity reconciliation. This is read-only review/assessment evidence; Architect will combine it with the authoritative MayaScriptNew inventory and implement follow-up slices."
+        "purpose": "Independently inventory the current AIMayaTool product surface before parity reconciliation. This is read-only review/assessment evidence; Architect will combine it with the authoritative MayaScriptNew inventory and implement follow-up slices.",
+        "result": "FAIL",
+        "classification": "architect_task_permission_mismatch",
+        "evidence": "Bridge rejected the git_pull precondition before Codex review because the task had permissions.edit=false while git_pull requires permissions.edit=true. No review or product mutation occurred."
       },
       "action": {"type":"review","target":"codex"},
       "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
@@ -70,6 +73,28 @@
         "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],
         "instructions": "Review current AIMayaTool only. Inventory all user-facing and reusable Skinning, Setup, and Scene capabilities currently present in registry, tools, maya adapters, UI sections, smoke/tests, and durable history. Identify duplicate/dead/temporary adapters and important architecture boundaries. Do not implement or edit. Return a structured capability inventory with file/symbol evidence suitable for Architect to reconcile against MayaScriptNew.",
         "acceptance": ["Current Skinning capabilities enumerated with file/symbol evidence.","Current Setup capabilities enumerated with file/symbol evidence.","Current Scene capabilities enumerated with file/symbol evidence.","Temporary adapters, dead/duplicate surfaces, and validation coverage gaps called out.","No repository mutation."],
+        "timeout": 600
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-current-product-inventory-review-retry-037b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-002",
+        "milestone_id": "current-product-inventory",
+        "purpose": "Retry the read-only current-product inventory after 037a was rejected by the git_pull permission gate.",
+        "retry_of": "aimayatool-current-product-inventory-review-037a"
+      },
+      "action": {"type":"review","target":"codex"},
+      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
+      "permissions": {"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},
+      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
+      "payload": {
+        "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],
+        "instructions": "Review current AIMayaTool only after the bounded fast-forward pull. Inventory all user-facing and reusable Skinning, Setup, and Scene capabilities currently present in registry, tools, maya adapters, UI sections, smoke/tests, and durable history. Identify duplicate/dead/temporary adapters and important architecture boundaries. Do not implement, edit project files, commit, or push; permissions.edit=true exists only because the git_pull precondition requires it.",
+        "acceptance": ["Fast-forward pull precondition succeeds or repository is already current.","Current Skinning capabilities enumerated with file/symbol evidence.","Current Setup capabilities enumerated with file/symbol evidence.","Current Scene capabilities enumerated with file/symbol evidence.","Temporary adapters, dead/duplicate surfaces, and validation coverage gaps called out.","Codex review itself performs no repository mutation."],
         "timeout": 600
       }
     }
