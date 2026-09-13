@@ -10,7 +10,7 @@ def run_skirt_parent_workflow_smoke():
     importlib.reload(skirt_parent_workflow)
 
     cmds.file(new=True, force=True)
-    mesh = cmds.polyCylinder(name='AIMayaToolSkirtWorkflowMesh', radius=2.0, height=4.0, subdivisionsX=16, subdivisionsY=3, subdivisionsZ=1)[0]
+    mesh = cmds.polyCylinder(name='AIMayaToolSkirtWorkflowMesh', radius=2.0, height=3.0, subdivisionsX=8, subdivisionsY=2, subdivisionsZ=1)[0]
     selection = om.MSelectionList()
     selection.add(mesh)
     mesh_fn = om.MFnMesh(selection.getDagPath(0))
@@ -25,8 +25,8 @@ def run_skirt_parent_workflow_smoke():
         if (abs(points[v0].y - max_y) < 1e-5 and abs(points[v1].y - max_y) < 1e-5 and
                 abs(radius0 - max_radius) < 1e-5 and abs(radius1 - max_radius) < 1e-5):
             root_loop.append('%s.e[%d]' % (mesh, edge_id))
-    if len(root_loop) != 16:
-        raise RuntimeError('Expected 16 top-ring circumference edges, got %d' % len(root_loop))
+    if len(root_loop) != 8:
+        raise RuntimeError('Expected 8 top-ring circumference edges, got %d' % len(root_loop))
 
     parent = cmds.createNode('joint', name='AIMayaToolSkirtWorkflowParent')
     cmds.xform(parent, worldSpace=True, translation=(0.0, max_y, 0.0))
@@ -38,8 +38,12 @@ def run_skirt_parent_workflow_smoke():
 
     skin_cluster = cmds.skinCluster([parent] + joints, mesh, toSelectedBones=True, normalizeWeights=1, maximumInfluences=5)[0]
     all_vertices = cmds.ls(mesh + '.vtx[*]', flatten=True) or []
-    for vertex in all_vertices:
-        cmds.skinPercent(skin_cluster, vertex, transformValue=[(parent, 1.0)] + [(joint, 0.0) for joint in joints], normalize=True)
+    cmds.skinPercent(
+        skin_cluster,
+        all_vertices,
+        transformValue=[(parent, 1.0)] + [(joint, 0.0) for joint in joints],
+        normalize=True,
+    )
 
     def loop_selector(node, **kwargs):
         pair = kwargs.get('edgeRingPath') or kwargs.get('edgeLoopPath')
