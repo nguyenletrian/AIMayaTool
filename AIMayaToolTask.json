@@ -15,63 +15,19 @@
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Verify the API 2.0 batched ratio-weighting candidate and A/B benchmark smoke before live comparison.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal004-performance-baseline-managed-live-053b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "6914cb5d8fc564c445d49328558f1db11a0a96d5",
-          "44750e43180e5a91b630c4e2a4e3aec3d8276876",
-          "792105d23410280d203b5e10f2a4e6a1a6b71b4c"
-        ],
+        "archived_prerequisite": {"task_id": "aimayatool-goal004-performance-baseline-managed-live-053b", "result": "PASS", "architect_ack": true, "bridge_completed": true},
+        "implementation_commits": ["6914cb5d8fc564c445d49328558f1db11a0a96d5", "44750e43180e5a91b630c4e2a4e3aec3d8276876", "792105d23410280d203b5e10f2a4e6a1a6b71b4c"],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_ratio_api2_candidate_python_verification_pass",
         "proven_main_commit": "21d3f9c17e3993042aa45f487e35184e4d7185cf",
         "evidence": "Bridge fast-forwarded D:/AIMayaTool from e35fb0afbb841b7681eabface2417f530702e6fb to 21d3f9c17e3993042aa45f487e35184e4d7185cf; py_compile passed with exit_code=0 for ratio_weights.py and performance_compare_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/ratio_weights.py",
-          "aimayatool/tools/skinning/performance_compare_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/ratio_weights.py", "aimayatool/tools/skinning/performance_compare_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
       "bridge_completed": true
     },
     {
@@ -82,12 +38,7 @@
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Compare legacy component-wise ratio weighting against the API 2.0 batched candidate on identical 441-vertex fixtures and verify semantic parity.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal004-ratio-api2-candidate-verify-054a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
+        "archived_prerequisite": {"task_id": "aimayatool-goal004-ratio-api2-candidate-verify-054a", "result": "PASS", "architect_ack": true, "bridge_completed": true},
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_ratio_api2_ab_managed_live_pass",
@@ -104,45 +55,11 @@
         "scene_saved": false,
         "maya_quit": false
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.performance_compare_smoke",
-        "callable": "run_skinning_performance_compare_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.performance_compare_smoke", "callable": "run_skinning_performance_compare_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
       "bridge_completed": true
     },
     {
@@ -153,12 +70,7 @@
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Verify the promoted API 2.0 batched default ratio-weighting path with compatibility fallback.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal004-ratio-api2-ab-managed-live-054b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
+        "archived_prerequisite": {"task_id": "aimayatool-goal004-ratio-api2-ab-managed-live-054b", "result": "PASS", "architect_ack": true, "bridge_completed": true},
         "implementation_commit": "ee53c6bf66dffce307fd588a6f670ebc57cf9591",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
@@ -166,46 +78,11 @@
         "proven_main_commit": "9246dfec26085ffb942ac94360c2b911eb8322f0",
         "evidence": "Bridge fast-forwarded D:/AIMayaTool from 958d49aae8123dbe1d1b23fdb9eda79364e68248 to 9246dfec26085ffb942ac94360c2b911eb8322f0; py_compile passed with exit_code=0 for ratio_weights.py and regression_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/ratio_weights.py",
-          "aimayatool/tools/skinning/regression_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/ratio_weights.py", "aimayatool/tools/skinning/regression_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
       "bridge_completed": true
     },
     {
@@ -216,124 +93,44 @@
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Validate the promoted batched default path through the consolidated Skinning regression in reusable Maya 2024.",
-        "depends_on": [
-          "aimayatool-goal004-ratio-api2-default-verify-055a"
-        ],
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.regression_smoke.run_skinning_regression_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_CONSOLIDATED_REGRESSION_OK for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
+        "depends_on": ["aimayatool-goal004-ratio-api2-default-verify-055a"],
+        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.regression_smoke.run_skinning_regression_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_CONSOLIDATED_REGRESSION_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "FAIL",
         "classification": "skinning_ratio_api2_return_format_regression",
         "proven_main_commit": "2282e90edf15827c9455e3f23c7bb9fb647123f3",
         "evidence": "Managed Maya 2024 PID 10632 reused port 7001 with a fresh unsaved scene. Consolidated regression reached ratio_weights_smoke and failed because apply_influence_ratios returned a long DAG component path ['|AIMayaToolRatioWeightMesh|AIMayaToolRatioWeightMeshShape.vtx[1]'] instead of the legacy-compatible target ['AIMayaToolRatioWeightMesh.vtx[1]']. Maya remained open; scene_saved=false; maya_quit=false."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.regression_smoke",
-        "callable": "run_skinning_regression_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.regression_smoke", "callable": "run_skinning_regression_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal004-ratio-api2-return-format-fix-verify-055c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Verify the API 2.0 ratio-weighting return-format compatibility fix before Maya regression retry.",
-        "depends_on": [
-          "aimayatool-goal004-ratio-api2-default-regression-managed-live-055b"
-        ],
+        "depends_on": ["aimayatool-goal004-ratio-api2-default-regression-managed-live-055b"],
         "implementation_commit": "2ebd09ea5a8aa1368f978a22dee9f6cefc5b1fdf",
-        "acceptance": [
-          "Fast-forward main.",
-          "py_compile ratio_weights.py and ratio_weights_smoke.py.",
-          "Import aimayatool.tools.skinning successfully.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "acceptance": ["Fast-forward main.", "py_compile ratio_weights.py and ratio_weights_smoke.py.", "Import aimayatool.tools.skinning successfully.", "Do not invoke Codex."],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_ratio_api2_return_format_fix_python_verification_pass",
+        "proven_main_commit": "cf9d9f805e9e9a93b90d1e1c12782c1b07bd6f8",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 2282e90edf15827c9455e3f23c7bb9fb647123f3 to cf9d9f805e9e9a93b90d1e1c12782c1b07bd6f8; py_compile passed with exit_code=0 for ratio_weights.py and ratio_weights_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/ratio_weights.py",
-          "aimayatool/tools/skinning/ratio_weights_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      }
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/ratio_weights.py", "aimayatool/tools/skinning/ratio_weights_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal004-ratio-api2-default-regression-retry-055d",
@@ -343,59 +140,16 @@
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Retry consolidated Skinning regression after preserving legacy-compatible component reporting in the API 2.0 default path.",
-        "depends_on": [
-          "aimayatool-goal004-ratio-api2-return-format-fix-verify-055c"
-        ],
+        "depends_on": ["aimayatool-goal004-ratio-api2-return-format-fix-verify-055c"],
         "retry_of": "aimayatool-goal004-ratio-api2-default-regression-managed-live-055b",
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.regression_smoke.run_skinning_regression_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_CONSOLIDATED_REGRESSION_OK for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
+        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.regression_smoke.run_skinning_regression_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_CONSOLIDATED_REGRESSION_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.regression_smoke",
-        "callable": "run_skinning_regression_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      }
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.regression_smoke", "callable": "run_skinning_regression_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300}
     }
   ]
 }
