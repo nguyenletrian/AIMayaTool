@@ -195,9 +195,9 @@ def import_meshes(meshes, directory, preserve_existing=True, require_existing=Fa
     return _batch(lambda mesh: import_skin(mesh, directory, preserve_existing=preserve_existing, require_existing=require_existing), ordered_meshes, progress=progress)
 
 
-def _rollback_import_plan(plan, snapshot_directory):
+def _rollback_import_items(items, snapshot_directory):
     errors = {}
-    for item in reversed(plan['items']):
+    for item in reversed(items):
         mesh = item['mesh']
         original_skin = item['existing_skin_cluster']
         try:
@@ -221,6 +221,7 @@ def import_meshes_transactional(meshes, directory, preserve_existing=True, requi
     plan = preview_import_meshes(meshes, directory, require_existing=require_existing)
     snapshot_directory = tempfile.mkdtemp(prefix='aimayatool_skin_io_snapshot_')
     report = {'succeeded': {}, 'failed': {}, 'rolled_back': False, 'rollback_failed': {}}
+    applied_items = []
     try:
         existing_meshes = [item['mesh'] for item in plan['items'] if item['existing_skin_cluster']]
         if existing_meshes:
@@ -232,11 +233,12 @@ def import_meshes_transactional(meshes, directory, preserve_existing=True, requi
             mesh = item['mesh']
             try:
                 report['succeeded'][mesh] = import_skin(mesh, directory, preserve_existing=preserve_existing, require_existing=require_existing)
+                applied_items.append(item)
             except Exception as exc:
                 report['failed'][mesh] = str(exc)
                 if progress:
                     progress(index, total, mesh, False)
-                report['rollback_failed'] = _rollback_import_plan(plan, snapshot_directory)
+                report['rollback_failed'] = _rollback_import_items(applied_items, snapshot_directory)
                 report['rolled_back'] = not bool(report['rollback_failed'])
                 report['succeeded'] = {}
                 return report
