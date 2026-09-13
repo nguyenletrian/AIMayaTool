@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "history_checkpoint_blob": "72b15b42bdf3f367c93ec15968e4c99fdbf5dd0a",
+  "history_checkpoint_blob": "98769cea5b52fa18da9ab92ab99dce6af61966be",
   "tasks": [
     {
       "task_id": "aimayatool-scene-pattern-operations-deterministic-012a",
@@ -286,7 +286,7 @@
     {
       "task_id": "aimayatool-scene-pattern-operations-ui-regression-012c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "scene-pattern-operations",
@@ -295,6 +295,174 @@
         "acceptance": [
           "Reuse the healthy managed Maya session where possible.",
           "Force a new unsaved scene before validation.",
+          "Verify bootstrap.install_and_launch creates AIMayaToolWindow.",
+          "Do not save or quit Maya after validation."
+        ],
+        "result": "PASS",
+        "proven_main_commit": "e3c792e676217510086213516838d815b6b00953",
+        "stable_checkpoint": "backup/2026-09-13-0852-ScenePatternOperations-e3c792e",
+        "evidence": "maya:managed_live_smoke reused the existing Maya 2024 session on 127.0.0.1:7001, forced a new scene, did not save or quit Maya, and bootstrap.install_and_launch returned AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow."
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "bootstrap",
+        "callable": "install_and_launch",
+        "expected_window": "AIMayaToolWindow",
+        "live_port": 7001,
+        "timeout": 180
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-scene-display-layers-deterministic-013a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "scene-display-layers",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-scene-pattern-operations-ui-regression-012c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "stable_checkpoint": "backup/2026-09-13-0852-ScenePatternOperations-e3c792e"
+        },
+        "purpose": "Deterministically verify reusable display-layer helpers and Python-only Scene imports.",
+        "acceptance": [
+          "Fast-forward AIMayaTool main to include commit 5590dcd6f53abba5053026136dcf06ba28bb37aa or later.",
+          "Compile display_layers.py, display_layer_smoke.py, scene __init__.py, and tests/test_scene_display_layers.py.",
+          "Import aimayatool.tools.scene.display_layers outside Maya successfully.",
+          "Run tests.test_scene_display_layers and require all focused tests to pass."
+        ]
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/display_layers.py",
+          "aimayatool/tools/scene/display_layer_smoke.py",
+          "aimayatool/tools/scene/__init__.py",
+          "tests/test_scene_display_layers.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.display_layers"
+        ],
+        "tests": [
+          "tests.test_scene_display_layers"
+        ],
+        "timeout": 180
+      }
+    },
+    {
+      "task_id": "aimayatool-scene-display-layers-maya-smoke-013b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "scene-display-layers",
+        "depends_on": "aimayatool-scene-display-layers-deterministic-013a",
+        "purpose": "Validate display-layer creation, membership, visibility, and displayType in managed Maya 2024.",
+        "acceptance": [
+          "Reuse the healthy managed Maya 2024 session or launch one automatically.",
+          "Force a fresh unsaved scene; do not save or quit Maya.",
+          "Run aimayatool.tools.scene.display_layer_smoke.run_scene_display_layer_smoke.",
+          "Return AIBRIDGE_UI_SMOKE_OK:SCENE_DISPLAY_LAYER_SMOKE_OK."
+        ]
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.scene.display_layer_smoke",
+        "callable": "run_scene_display_layer_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180
+      }
+    },
+    {
+      "task_id": "aimayatool-scene-display-layers-ui-regression-013c",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "scene-display-layers",
+        "depends_on": "aimayatool-scene-display-layers-maya-smoke-013b",
+        "purpose": "Verify display-layer Scene API exposure does not regress AIMayaTool launch.",
+        "acceptance": [
+          "Reuse the healthy managed Maya session where possible.",
+          "Force a fresh unsaved scene before validation.",
           "Verify bootstrap.install_and_launch creates AIMayaToolWindow.",
           "Do not save or quit Maya after validation."
         ]
