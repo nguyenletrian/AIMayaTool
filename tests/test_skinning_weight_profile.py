@@ -34,6 +34,7 @@ class WeightProfileTests(unittest.TestCase):
         self.assertEqual(weight_profile.ensure_profile("Profile"), "Profile")
         self.cmds.createNode.assert_called_once_with("animCurveTU", name="Profile")
         self.assertEqual(self.cmds.setKeyframe.call_count, 2)
+        self.cmds.keyTangent.assert_called_once_with("Profile", inTangentType="flat", outTangentType="flat")
 
     def test_sample_profile_normalizes_output(self):
         self.cmds.objExists.return_value = True
@@ -45,13 +46,13 @@ class WeightProfileTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             weight_profile.sample_profile(1.01, "Profile")
 
-    def test_reset_profile_uses_maya_tangent_aliases(self):
+    def test_reset_profile_uses_maya_tangent_flags(self):
         self.cmds.objExists.return_value = True
         self.cmds.keyframe.return_value = [0.0, 50.0, 100.0]
         self.assertEqual(weight_profile.reset_profile("Profile", outgoing="linear", incoming="flat"), "Profile")
         self.cmds.cutKey.assert_called_once_with("Profile", time=(50.0, 50.0), clear=True)
-        self.cmds.keyTangent.assert_any_call("Profile", time=(0.0, 0.0), ott="linear")
-        self.cmds.keyTangent.assert_any_call("Profile", time=(100.0, 100.0), itt="flat")
+        self.cmds.keyTangent.assert_any_call("Profile", time=(0.0, 0.0), outTangentType="linear")
+        self.cmds.keyTangent.assert_any_call("Profile", time=(100.0, 100.0), inTangentType="flat")
 
 
 if __name__ == "__main__":
