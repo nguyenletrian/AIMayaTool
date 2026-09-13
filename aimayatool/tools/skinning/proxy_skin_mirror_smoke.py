@@ -20,10 +20,10 @@ def _weight_total(skin_cluster, component, influences):
     return sum(cmds.skinPercent(skin_cluster, component, query=True, transform=influence) for influence in influences)
 
 
-def _axis_center(mesh, axis):
+def _axis_bounds(mesh, axis):
     index = ('x', 'y', 'z').index(axis)
     bounds = cmds.exactWorldBoundingBox(mesh)
-    return (bounds[index] + bounds[index + 3]) * 0.5
+    return bounds[index], bounds[index + 3]
 
 
 def _build_source(axis):
@@ -46,7 +46,9 @@ def run_proxy_skin_mirror_smoke():
     for axis in ('x', 'y', 'z'):
         mesh, joints = _build_source(axis)
         source_faces = cmds.ls(mesh + '.f[*]', flatten=True) or []
-        result = proxy_skin.create_mirrored_proxy([source_faces[0]], axis=axis, name='AIMayaToolProxyMirrored_' + axis, copy_skin_weights=True)
+        source_face = source_faces[0]
+        source_min, source_max = _axis_bounds(source_face, axis)
+        result = proxy_skin.create_mirrored_proxy([source_face], axis=axis, name='AIMayaToolProxyMirrored_' + axis, copy_skin_weights=True)
         proxy = result['proxy_mesh']
         if result['axis'] != axis:
             raise RuntimeError('proxy mirror axis mismatch: %s' % axis)
@@ -54,8 +56,15 @@ def run_proxy_skin_mirror_smoke():
             raise RuntimeError('positive-side axis direction mismatch: %s' % axis)
         if not cmds.objExists(proxy):
             raise RuntimeError('mirrored proxy was not created: %s' % axis)
-        if _axis_center(proxy, axis) >= 0.0:
-            raise RuntimeError('mirrored proxy did not cross to negative side: %s' % axis)
+        proxy_min, proxy_max = _axis_bounds(proxy, axis)
+        if source_min <= 0.0:
+            raise RuntimeError('smoke source face was not fully positive-side: %s' % axis)
+        if proxy_min >= 0.0:
+            raise RuntimeError('mirrored proxy did not add opposite-side geometry: %s' % axis)
+        if proxy_max < source_max - 1e-5:
+            raise RuntimeError('mirrored proxy did not preserve source-side geometry: %s' % axis)
+        if cmds.polyEvaluate(proxy, face=True) <= 1:
+            raise RuntimeError('mirrored proxy face count did not increase: %s' % axis)
         target_skin = result['skin_cluster']
         if not target_skin:
             raise RuntimeError('mirrored proxy skinCluster missing: %s' % axis)
