@@ -13,11 +13,37 @@
         "proven_main_commit": "61ad1463239988d086b148e3a3ca00f5b5120057",
         "evidence": "Managed Maya 2024 reused session port 7001, forced a fresh unsaved scene, reloaded weight_profile from disk, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_WEIGHT_PROFILE_SMOKE_OK; Maya remained running."
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.weight_profile_smoke", "callable": "run_weight_profile_smoke", "expected_window": "", "live_port": 7001, "timeout": 180},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.weight_profile_smoke",
+        "callable": "run_weight_profile_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
@@ -31,11 +57,41 @@
         "proven_main_commit": "9266dca228f66667b93ceb46ab17b5853b0151b3",
         "evidence": "py_compile passed for ratio_weights.py, ratio_weights_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_ratio_weights passed 5/5."
       },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"files": ["aimayatool/tools/skinning/ratio_weights.py", "aimayatool/tools/skinning/ratio_weights_smoke.py", "tests/test_skinning_ratio_weights.py"], "imports": ["aimayatool.tools.skinning.ratio_weights"], "tests": ["tests.test_skinning_ratio_weights"], "timeout": 180},
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "files": [
+          "aimayatool/tools/skinning/ratio_weights.py",
+          "aimayatool/tools/skinning/ratio_weights_smoke.py",
+          "tests/test_skinning_ratio_weights.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning.ratio_weights"
+        ],
+        "tests": [
+          "tests.test_skinning_ratio_weights"
+        ],
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
@@ -49,11 +105,37 @@
         "evidence": "Managed Maya reused session port 7001 and failed while importing ratio_weights_smoke because the already-loaded child module ratio_weights did not yet expose copy_influence_ratios. Current main does expose the function; smoke was repaired to invalidate caches and reload ratio_weights from disk before resolving callables.",
         "repair_commit": "2b17a8e49b580fc41bb4030d2e6ae2a48a08967d"
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.ratio_weights_smoke", "callable": "run_ratio_weights_smoke", "expected_window": "", "live_port": 7001, "timeout": 180},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.ratio_weights_smoke",
+        "callable": "run_ratio_weights_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
@@ -63,17 +145,60 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-copy-influence-ratios",
-        "archived_prerequisite": {"task_id": "aimayatool-copy-influence-ratios-maya-smoke-019b", "result": "FAIL_STALE_MAYA_MODULE", "architect_ack": true, "bridge_completed": true},
+        "archived_prerequisite": {
+          "task_id": "aimayatool-copy-influence-ratios-maya-smoke-019b",
+          "result": "FAIL_STALE_MAYA_MODULE",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
         "purpose": "Verify the ratio-weights smoke freshness barrier that reloads ratio_weights from disk before validation.",
         "result": "PASS",
         "proven_main_commit": "a5b8691e4f7083cbcc6f0b63f0f657f92fef8359",
         "evidence": "py_compile passed for ratio_weights.py, ratio_weights_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_ratio_weights passed 5/5 after the child-module freshness barrier."
       },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/ratio_weights.py", "aimayatool/tools/skinning/ratio_weights_smoke.py", "tests/test_skinning_ratio_weights.py"], "imports": ["aimayatool.tools.skinning.ratio_weights"], "tests": ["tests.test_skinning_ratio_weights"], "timeout": 180},
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/ratio_weights.py",
+          "aimayatool/tools/skinning/ratio_weights_smoke.py",
+          "tests/test_skinning_ratio_weights.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning.ratio_weights"
+        ],
+        "tests": [
+          "tests.test_skinning_ratio_weights"
+        ],
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
@@ -83,36 +208,125 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-copy-influence-ratios",
-        "archived_prerequisite": {"task_id": "aimayatool-copy-influence-ratios-deterministic-019a-r1", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "a5b8691e4f7083cbcc6f0b63f0f657f92fef8359"},
-        "archived_retry_source": {"task_id": "aimayatool-copy-influence-ratios-maya-smoke-019b", "result": "FAIL_STALE_MAYA_MODULE", "architect_ack": true, "bridge_completed": true},
+        "archived_prerequisite": {
+          "task_id": "aimayatool-copy-influence-ratios-deterministic-019a-r1",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "a5b8691e4f7083cbcc6f0b63f0f657f92fef8359"
+        },
+        "archived_retry_source": {
+          "task_id": "aimayatool-copy-influence-ratios-maya-smoke-019b",
+          "result": "FAIL_STALE_MAYA_MODULE",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
         "purpose": "Retry managed Maya ratio-copy validation with an explicit child-module reload freshness barrier.",
-        "acceptance": ["Reuse a healthy managed Maya 2024 session where possible.", "Force a fresh unsaved scene and do not save or quit Maya.", "Run ratio_weights_smoke after syncing commit 2b17a8e49b580fc41bb4030d2e6ae2a48a08967d or later; the smoke must reload ratio_weights from disk before resolving callables.", "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_RATIO_WEIGHTS_SMOKE_OK."],
+        "acceptance": [
+          "Reuse a healthy managed Maya 2024 session where possible.",
+          "Force a fresh unsaved scene and do not save or quit Maya.",
+          "Run ratio_weights_smoke after syncing commit 2b17a8e49b580fc41bb4030d2e6ae2a48a08967d or later; the smoke must reload ratio_weights from disk before resolving callables.",
+          "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_RATIO_WEIGHTS_SMOKE_OK."
+        ],
         "result": "PASS",
         "proven_main_commit": "a5b8691e4f7083cbcc6f0b63f0f657f92fef8359",
         "evidence": "Managed Maya 2024 reused session port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_RATIO_WEIGHTS_SMOKE_OK after reloading ratio_weights from disk; scene was not saved and Maya remained running."
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.ratio_weights_smoke", "callable": "run_ratio_weights_smoke", "expected_window": "", "live_port": 7001, "timeout": 180},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.ratio_weights_smoke",
+        "callable": "run_ratio_weights_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-gradient-profile-deterministic-020a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-gradient-profile",
         "purpose": "Verify the reusable inverse-distance-to-profile mapping extracted from legacy GradientActiveJoint behavior.",
-        "acceptance": ["Fast-forward main and include commit e29d30cb8f0a43a40c81581e8c5af9e97782b877 or later.", "Compile gradient_profile.py, gradient_profile_smoke.py, and focused tests.", "Import aimayatool.tools.skinning.gradient_profile outside Maya.", "Run tests.test_skinning_gradient_profile and require all 4 tests to pass, including equal-distance legacy behavior and normalized sampler validation."]
+        "acceptance": [
+          "Fast-forward main and include commit e29d30cb8f0a43a40c81581e8c5af9e97782b877 or later.",
+          "Compile gradient_profile.py, gradient_profile_smoke.py, and focused tests.",
+          "Import aimayatool.tools.skinning.gradient_profile outside Maya.",
+          "Run tests.test_skinning_gradient_profile and require all 4 tests to pass, including equal-distance legacy behavior and normalized sampler validation."
+        ],
+        "result": "PASS",
+        "proven_main_commit": "3b9e4757d9d23a51495d7216db11c6c54088936b",
+        "evidence": "py_compile passed for gradient_profile.py, gradient_profile_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_gradient_profile passed 4/4."
       },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/gradient_profile.py", "aimayatool/tools/skinning/gradient_profile_smoke.py", "tests/test_skinning_gradient_profile.py"], "imports": ["aimayatool.tools.skinning.gradient_profile"], "tests": ["tests.test_skinning_gradient_profile"], "timeout": 180}
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/gradient_profile.py",
+          "aimayatool/tools/skinning/gradient_profile_smoke.py",
+          "tests/test_skinning_gradient_profile.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning.gradient_profile"
+        ],
+        "tests": [
+          "tests.test_skinning_gradient_profile"
+        ],
+        "timeout": 180
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-gradient-profile-maya-smoke-020b",
@@ -121,15 +335,52 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-gradient-profile",
-        "depends_on": "aimayatool-gradient-profile-deterministic-020a",
         "purpose": "Validate inverse-distance mapping through the real Maya animCurve-backed weight profile.",
-        "acceptance": ["Reuse a healthy managed Maya 2024 session where possible.", "Force a fresh unsaved scene and do not save or quit Maya.", "Run gradient_profile_smoke after syncing commit e29d30cb8f0a43a40c81581e8c5af9e97782b877 or later.", "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_GRADIENT_PROFILE_SMOKE_OK."]
+        "acceptance": [
+          "Reuse a healthy managed Maya 2024 session where possible.",
+          "Force a fresh unsaved scene and do not save or quit Maya.",
+          "Run gradient_profile_smoke after syncing commit e29d30cb8f0a43a40c81581e8c5af9e97782b877 or later.",
+          "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_GRADIENT_PROFILE_SMOKE_OK."
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-gradient-profile-deterministic-020a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "3b9e4757d9d23a51495d7216db11c6c54088936b"
+        }
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.gradient_profile_smoke", "callable": "run_gradient_profile_smoke", "expected_window": "", "live_port": 7001, "timeout": 180}
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.gradient_profile_smoke",
+        "callable": "run_gradient_profile_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180
+      }
     }
   ]
 }
