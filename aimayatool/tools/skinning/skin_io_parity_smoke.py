@@ -53,15 +53,36 @@ def run_skin_io_parity_smoke():
             raise RuntimeError('preserve-existing import replaced the skinCluster')
         _assert_weights(imported_skin, vertex, [joint_a, joint_b], expected, 'preserve-existing import')
 
+        cmds.skinPercent(imported_skin, vertex, transformValue=[(joint_a, 0.35), (joint_b, 0.65)], normalize=True)
+        strict_existing = skin_io.import_existing_skin(mesh, directory)
+        if _uuid(strict_existing) != original_uuid:
+            raise RuntimeError('strict existing import replaced the skinCluster')
+        _assert_weights(strict_existing, vertex, [joint_a, joint_b], expected, 'strict existing import')
+
+        cmds.delete(strict_existing)
+        try:
+            skin_io.import_existing_skin(mesh, directory)
+        except RuntimeError as exc:
+            if 'Existing skinCluster required' not in str(exc):
+                raise
+        else:
+            raise RuntimeError('strict existing import created a missing skinCluster')
+
+        rebuilt_skin = skin_io.import_skin(mesh, directory, preserve_existing=True)
+        if not rebuilt_skin or skin.find_skin_cluster(mesh) != rebuilt_skin:
+            raise RuntimeError('normal import did not recreate the missing skinCluster')
+        _assert_weights(rebuilt_skin, vertex, [joint_a, joint_b], expected, 'normal recreate import')
+
+        rebuilt_uuid = _uuid(rebuilt_skin)
         replaced_skin = skin_io.import_skin(mesh, directory, preserve_existing=False)
         replaced_uuid = _uuid(replaced_skin)
-        if not replaced_uuid or replaced_uuid == original_uuid or skin.find_skin_cluster(mesh) != replaced_skin:
+        if not replaced_uuid or replaced_uuid == rebuilt_uuid or skin.find_skin_cluster(mesh) != replaced_skin:
             raise RuntimeError('replace-existing import did not rebuild the skinCluster')
         _assert_weights(replaced_skin, vertex, [joint_a, joint_b], expected, 'replace-existing import')
 
-        batch_import = skin_io.import_meshes([mesh], directory, preserve_existing=True)
+        batch_import = skin_io.import_existing_meshes([mesh], directory)
         if mesh not in batch_import['succeeded'] or batch_import['failed']:
-            raise RuntimeError('batch skin import report failed: %s' % batch_import)
+            raise RuntimeError('strict existing batch skin import report failed: %s' % batch_import)
 
         scene_path = os.path.join(scene_directory, 'SkinIOQuickSmoke.ma')
         cmds.file(rename=scene_path)
@@ -75,8 +96,8 @@ def run_skin_io_parity_smoke():
         if not quick_exports or not os.path.isfile(quick_exports[0]):
             raise RuntimeError('quick skin export did not create weights')
         cmds.skinPercent(replaced_skin, vertex, transformValue=[(joint_a, 0.2), (joint_b, 0.8)], normalize=True)
-        skin_io.import_quick_selected(preserve_existing=True)
-        _assert_weights(replaced_skin, vertex, [joint_a, joint_b], expected, 'quick skin import')
+        skin_io.import_quick_existing_selected()
+        _assert_weights(replaced_skin, vertex, [joint_a, joint_b], expected, 'quick strict existing skin import')
     finally:
         shutil.rmtree(directory, ignore_errors=True)
         shutil.rmtree(scene_directory, ignore_errors=True)
