@@ -90,6 +90,14 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Maya 2024 operations validation then reused the existing session and returned `AIBRIDGE_UI_SMOKE_OK:SCENE_PATTERN_OPERATIONS_SMOKE_OK`; UI regression returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`, with a fresh unsaved scene and Maya left running.
 - Created immutable stable checkpoint `backup/2026-09-13-0852-ScenePatternOperations-e3c792e` pointing exactly to the proven AIMayaTool code commit.
 
+## 2026-09-13 — Scene display-layer helpers closed
+
+- Added reusable Scene display-layer helpers for deterministic layer creation, membership add/remove/query, visibility, and displayType control, while keeping the Python-only Scene API importable outside Maya.
+- Deterministic verification passed at proven AIMayaTool main `d60cde8f0b0aef7afad242a2e6b9795fa29f7f8e`; focused unit tests passed 2/2 and explicitly cover the default full-DAG-name membership contract plus `full_names=False` short-name behavior.
+- Initial live Maya smoke exposed a validation expectation mismatch rather than an API failure: Maya correctly returned full DAG paths by default. The smoke was corrected and the deterministic gate was also corrected so Maya-only smoke modules are compiled but not imported by normal Python.
+- Managed Maya 2024 retry returned `AIBRIDGE_UI_SMOKE_OK:SCENE_DISPLAY_LAYER_SMOKE_OK`; UI regression returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`, both reusing the existing session with a fresh scene, no save, and no Maya quit.
+- Created immutable stable checkpoint `backup/2026-09-13-0900-SceneDisplayLayers-d60cde8` pointing exactly to the proven AIMayaTool commit.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
