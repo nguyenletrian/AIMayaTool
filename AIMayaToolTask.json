@@ -8,34 +8,15 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-proxy-skin-extraction-sync-037y",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-advanced-tools",
-        "result": "PASS",
-        "classification": "goal003_proxy_skin_extraction_synced",
-        "evidence": "Bridge fast-forwarded local AIMayaTool main to f5b753970c7d4aa25973dae97dc91fbcfc647a7d successfully, including proxy_skin.py."
-      },
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal003-proxy-skin-extraction-maya-smoke-037z",
       "status": "pending",
       "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
-        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-sync-037y"],
         "result": "INCONCLUSIVE",
         "classification": "maya_ui_smoke_runtime_timeout_no_product_exception",
-        "evidence": "Maya UI smoke timed out after 90 seconds with empty output and no traceback, product exception, or success marker."
+        "evidence": "Maya UI smoke timed out after 90 seconds with empty output and no product exception."
       },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -55,7 +36,6 @@
         "retry_of": "aimayatool-goal003-proxy-skin-extraction-maya-smoke-037z",
         "result": "FAIL",
         "classification": "proxy_smoke_invalid_influence_name_identity_assertion",
-        "evidence": "Fresh Maya 2024 reached the proxy validation and failed only at the raw-string influence-set assertion. The target skinCluster existed and execution progressed past extraction/binding; skinCluster influence queries can return DAG-path forms that differ from cmds.joint return names, so raw string set equality is not stable object identity evidence.",
         "smoke_fix_commit": "aa01f762253c822e6ecd0b84df909785803ba0af"
       },
       "action": {"type": "maya", "target": "ui_smoke"},
@@ -68,21 +48,43 @@
     {
       "task_id": "aimayatool-goal003-proxy-skin-extraction-maya-identity-retry-038b",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-maya-fresh-retry-038a"],
+        "retry_of": "aimayatool-goal003-proxy-skin-extraction-maya-fresh-retry-038a",
+        "result": "FAIL",
+        "classification": "proxy_binding_influence_set_incomplete",
+        "evidence": "Fresh Maya 2024 failed the UUID-based influence identity assertion, proving the proxy target skinCluster did not contain the same influence objects as the source. This is a product binding defect rather than a naming-format smoke defect.",
+        "fix_commit": "c604d5a625081cb046fe7062a78846cc5e64430f"
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_smoke", "callable": "run_proxy_skin_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-proxy-skin-extraction-maya-explicit-influences-retry-038c",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
-        "purpose": "Retry proxy-skin extraction after correcting the smoke to compare influence object identity by UUID instead of unstable raw DAG-name strings.",
-        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-maya-fresh-retry-038a"],
-        "retry_of": "aimayatool-goal003-proxy-skin-extraction-maya-fresh-retry-038a",
-        "smoke_fix_commit": "aa01f762253c822e6ecd0b84df909785803ba0af",
+        "purpose": "Retry proxy extraction after removing selection-dependent toSelectedBones binding and binding the proxy directly to the complete explicit source influence list.",
+        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-maya-identity-retry-038b"],
+        "retry_of": "aimayatool-goal003-proxy-skin-extraction-maya-identity-retry-038b",
+        "fix_commit": "c604d5a625081cb046fe7062a78846cc5e64430f",
         "acceptance": [
           "Fast-forward main before validation.",
           "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.",
           "Invoke aimayatool.tools.skinning.proxy_skin_smoke.run_proxy_skin_smoke.",
           "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_EXTRACTION_SMOKE_OK for PASS.",
-          "Validate source and proxy influence sets by object UUID identity, not raw short/long DAG strings.",
-          "If PASS, accept proxy extraction and continue to the axis-mirror proxy slice."
+          "Prove target skinCluster influence UUID set exactly matches the source influence UUID set.",
+          "Prove transferred proxy weights remain normalized and unskinned-source behavior remains unchanged.",
+          "If PASS, accept proxy extraction and continue to axis-mirror proxy behavior."
         ]
       },
       "action": {"type": "maya", "target": "ui_smoke"},
