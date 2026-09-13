@@ -65,21 +65,25 @@
     {
       "task_id": "aimayatool-goal004-ratio-api2-default-verify-055a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Verify the promoted API 2.0 batched default ratio-weighting path with compatibility fallback.",
         "archived_prerequisite": {"task_id": "aimayatool-goal004-ratio-api2-ab-managed-live-054b", "result": "PASS", "architect_ack": true, "bridge_completed": true},
         "implementation_commit": "ee53c6bf66dffce307fd588a6f670ebc57cf9591",
-        "acceptance": ["Fast-forward D:/AIMayaTool main.", "py_compile ratio_weights.py and regression_smoke.py successfully.", "Import aimayatool.tools.skinning outside Maya successfully.", "Do not invoke Codex."],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_ratio_api2_default_python_verification_pass",
+        "proven_main_commit": "9246dfec26085ffb942ac94360c2b911eb8322f0",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 958d49aae8123dbe1d1b23fdb9eda79364e68248 to 9246dfec26085ffb942ac94360c2b911eb8322f0; py_compile passed with exit_code=0 for ratio_weights.py and regression_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/ratio_weights.py", "aimayatool/tools/skinning/regression_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/ratio_weights.py", "aimayatool/tools/skinning/regression_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal004-ratio-api2-default-regression-managed-live-055b",
