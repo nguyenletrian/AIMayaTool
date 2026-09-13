@@ -13,6 +13,11 @@ def _skin_cluster(node):
     return skin_cluster
 
 
+def _long_name(node):
+    matches = cmds.ls(node, long=True) or []
+    return matches[0] if matches else node
+
+
 def lock_state(node):
     skin_cluster = _skin_cluster(node)
     return {
@@ -98,12 +103,13 @@ def relative_influence(node, influence, direction):
         raise ValueError('Influence is not bound to target: %s' % influence)
     direction = str(direction).lower()
     if direction == 'parent':
-        relatives = cmds.listRelatives(influence, parent=True, type='joint', fullPath=True) or cmds.listRelatives(influence, parent=True, type='joint') or []
+        relatives = cmds.listRelatives(influence, parent=True, type='joint', fullPath=True) or []
     elif direction == 'child':
-        relatives = cmds.listRelatives(influence, children=True, type='joint', fullPath=True) or cmds.listRelatives(influence, children=True, type='joint') or []
+        relatives = cmds.listRelatives(influence, children=True, type='joint', fullPath=True) or []
     else:
         raise ValueError('Direction must be parent or child: %s' % direction)
-    relative = next((joint for joint in relatives if joint in bound), None)
+    bound_by_long_name = {_long_name(joint): joint for joint in bound}
+    relative = next((bound_by_long_name.get(_long_name(joint)) for joint in relatives if _long_name(joint) in bound_by_long_name), None)
     if not relative:
         raise RuntimeError('%s has no bound %s influence.' % (influence, direction))
     return relative
@@ -180,9 +186,9 @@ def unlock_parent_from_selection():
     items = cmds.ls(selection=True, flatten=True, long=True) or []
     node = _selection_skin_node(items)
     if not node:
-        raise RuntimeError('Select a skinned mesh/component while Paint Skin Weights is active.')
-    current = active_influence()
-    pair = unlock_relative_pair(node, current, 'parent')
+        raise RuntimeError('Select a skinned mesh/component.')
+    influence = active_influence()
+    pair = unlock_relative_pair(node, influence, 'parent')
     set_active_influence(pair[1])
     return pair
 
@@ -191,9 +197,9 @@ def unlock_child_from_selection():
     items = cmds.ls(selection=True, flatten=True, long=True) or []
     node = _selection_skin_node(items)
     if not node:
-        raise RuntimeError('Select a skinned mesh/component while Paint Skin Weights is active.')
-    current = active_influence()
-    pair = unlock_relative_pair(node, current, 'child')
+        raise RuntimeError('Select a skinned mesh/component.')
+    influence = active_influence()
+    pair = unlock_relative_pair(node, influence, 'child')
     set_active_influence(pair[1])
     return pair
 
@@ -202,6 +208,7 @@ def switch_unlocked_from_selection():
     items = cmds.ls(selection=True, flatten=True, long=True) or []
     node = _selection_skin_node(items)
     if not node:
-        raise RuntimeError('Select a skinned mesh/component while Paint Skin Weights is active.')
+        raise RuntimeError('Select a skinned mesh/component.')
     influence = next_unlocked(node, active_influence())
-    return set_active_influence(influence)
+    set_active_influence(influence)
+    return influence
