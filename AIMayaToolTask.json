@@ -19,14 +19,62 @@
         "classification": "skirt_parent_ui_regression_accepted_with_known_shutdown_anomaly",
         "proven_main_commit": "6952e625d3ec6cf5049d499ea2466dbdad7c0acf",
         "evidence": "Maya 2024 UI smoke invoked bootstrap.install_and_launch and emitted AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow. Process exit 3221227010 occurred only after the success marker and is the known Maya Windows shutdown anomaly explicitly allowed by this task's acceptance criteria.",
-        "archived_retry_source": {"task_id":"aimayatool-skirt-parent-ui-regression-maya-smoke-036v","result":"FAIL","classification":"architect_task_payload_invalid_module","architect_ack":true,"bridge_completed":true},
-        "archived_prerequisite": {"task_id":"aimayatool-skirt-parent-interactive-ui-maya-smoke-036u","result":"PASS","classification":"skirt_parent_interactive_selection_adapter_healthy","architect_ack":true,"bridge_completed":true,"proven_main_commit":"15b43c29446f119383d7389624941d1071c50641"}
+        "archived_retry_source": {
+          "task_id": "aimayatool-skirt-parent-ui-regression-maya-smoke-036v",
+          "result": "FAIL",
+          "classification": "architect_task_payload_invalid_module",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "archived_prerequisite": {
+          "task_id": "aimayatool-skirt-parent-interactive-ui-maya-smoke-036u",
+          "result": "PASS",
+          "classification": "skirt_parent_interactive_selection_adapter_healthy",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "15b43c29446f119383d7389624941d1071c50641"
+        }
       },
-      "action": {"type":"maya","target":"ui_smoke"},
-      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
-      "permissions": {"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},
-      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
-      "payload": {"isolated_scene":true,"save_scene":false,"maya_version":"2024","module":"bootstrap","callable":"install_and_launch","expected_window":"AIMayaToolWindow","timeout":45,"startup_timeout":90,"operation_timeout":45,"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}]},
+      "action": {
+        "type": "maya",
+        "target": "ui_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "bootstrap",
+        "callable": "install_and_launch",
+        "expected_window": "AIMayaToolWindow",
+        "timeout": 45,
+        "startup_timeout": 90,
+        "operation_timeout": 45,
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ]
+      },
       "bridge_completed": true
     },
     {
@@ -43,14 +91,55 @@
         "route_failure": "No route handler registered for implementation:repository",
         "history_commit": "6d94ba504b669749211c96804b77ab2441b67717",
         "goal_completion_commit": "ac30bfb71eaedc6bf4e47afb03f404b7cbd7e5e4",
-        "files_changed": ["HISTORY.md","bridgeGoals.json"],
-        "archived_prerequisite": {"task_id":"aimayatool-skirt-parent-ui-regression-bootstrap-retry-036w","result":"PASS","classification":"skirt_parent_ui_regression_accepted_with_known_shutdown_anomaly","architect_ack":true,"bridge_completed":true,"proven_main_commit":"6952e625d3ec6cf5049d499ea2466dbdad7c0acf"}
+        "files_changed": [
+          "HISTORY.md",
+          "bridgeGoals.json"
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-skirt-parent-ui-regression-bootstrap-retry-036w",
+          "result": "PASS",
+          "classification": "skirt_parent_ui_regression_accepted_with_known_shutdown_anomaly",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "6952e625d3ec6cf5049d499ea2466dbdad7c0acf"
+        }
       },
-      "action": {"type":"implementation","target":"repository"},
-      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
-      "permissions": {"read":true,"edit":true,"run_tests":true,"commit":true,"push":true},
-      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
-      "payload": {"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["HISTORY.md","bridgeGoals.json"],"timeout":180},
+      "action": {
+        "type": "implementation",
+        "target": "repository"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "HISTORY.md",
+          "bridgeGoals.json"
+        ],
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
@@ -65,14 +154,44 @@
         "classification": "architect_task_permission_mismatch",
         "evidence": "Bridge rejected the git_pull precondition before Codex review because the task had permissions.edit=false while git_pull requires permissions.edit=true. No review or product mutation occurred."
       },
-      "action": {"type":"review","target":"codex"},
-      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
-      "permissions": {"read":true,"edit":false,"run_tests":true,"commit":false,"push":false},
-      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
+      "action": {
+        "type": "review",
+        "target": "codex"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "instructions": "Review current AIMayaTool only. Inventory all user-facing and reusable Skinning, Setup, and Scene capabilities currently present in registry, tools, maya adapters, UI sections, smoke/tests, and durable history. Identify duplicate/dead/temporary adapters and important architecture boundaries. Do not implement or edit. Return a structured capability inventory with file/symbol evidence suitable for Architect to reconcile against MayaScriptNew.",
-        "acceptance": ["Current Skinning capabilities enumerated with file/symbol evidence.","Current Setup capabilities enumerated with file/symbol evidence.","Current Scene capabilities enumerated with file/symbol evidence.","Temporary adapters, dead/duplicate surfaces, and validation coverage gaps called out.","No repository mutation."],
+        "acceptance": [
+          "Current Skinning capabilities enumerated with file/symbol evidence.",
+          "Current Setup capabilities enumerated with file/symbol evidence.",
+          "Current Scene capabilities enumerated with file/symbol evidence.",
+          "Temporary adapters, dead/duplicate surfaces, and validation coverage gaps called out.",
+          "No repository mutation."
+        ],
         "timeout": 600
       },
       "bridge_completed": true
@@ -80,23 +199,59 @@
     {
       "task_id": "aimayatool-current-product-inventory-review-retry-037b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-002",
         "milestone_id": "current-product-inventory",
         "purpose": "Retry the read-only current-product inventory after 037a was rejected by the git_pull permission gate.",
-        "retry_of": "aimayatool-current-product-inventory-review-037a"
+        "retry_of": "aimayatool-current-product-inventory-review-037a",
+        "result": "FAIL",
+        "classification": "codex_auth_refresh_token_revoked",
+        "evidence": "git_pull precondition succeeded and advanced local AIMayaTool main to 8387fc41a0d08cf4abd79ac97a846d8cbc45a153. Codex then exited 1 before review because its ChatGPT OAuth refresh token was revoked/invalidated (401 token_revoked). No Codex review or project code mutation occurred.",
+        "fallback": "Architect will continue Goal 002 directly from GitHub repository evidence; do not retry Codex until authentication is restored."
       },
-      "action": {"type":"review","target":"codex"},
-      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
-      "permissions": {"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},
-      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
+      "action": {
+        "type": "review",
+        "target": "codex"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "instructions": "Review current AIMayaTool only after the bounded fast-forward pull. Inventory all user-facing and reusable Skinning, Setup, and Scene capabilities currently present in registry, tools, maya adapters, UI sections, smoke/tests, and durable history. Identify duplicate/dead/temporary adapters and important architecture boundaries. Do not implement, edit project files, commit, or push; permissions.edit=true exists only because the git_pull precondition requires it.",
-        "acceptance": ["Fast-forward pull precondition succeeds or repository is already current.","Current Skinning capabilities enumerated with file/symbol evidence.","Current Setup capabilities enumerated with file/symbol evidence.","Current Scene capabilities enumerated with file/symbol evidence.","Temporary adapters, dead/duplicate surfaces, and validation coverage gaps called out.","Codex review itself performs no repository mutation."],
+        "acceptance": [
+          "Fast-forward pull precondition succeeds or repository is already current.",
+          "Current Skinning capabilities enumerated with file/symbol evidence.",
+          "Current Setup capabilities enumerated with file/symbol evidence.",
+          "Current Scene capabilities enumerated with file/symbol evidence.",
+          "Temporary adapters, dead/duplicate surfaces, and validation coverage gaps called out.",
+          "Codex review itself performs no repository mutation."
+        ],
         "timeout": 600
-      }
+      },
+      "bridge_completed": true
     }
   ]
 }
