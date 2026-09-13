@@ -158,6 +158,15 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Created stable checkpoint `backup/2026-09-13-1757-SkinningGoal003FinalPASS-6462ecf`.
 - Goal 003 is complete; Goal 004 Skinning 2.0 is active and begins with measured performance baselines before optimization.
 
+## 2026-09-13 — Skinning 2.0 performance, batch safety, and recovery accepted
+
+- Accepted the first three Goal 004 milestones. API 2.0/batched hot paths preserved behavior while measuring about `9.507x` speedup for ratio redistribution and `6.407x` for active-influence gradient weighting; consolidated Skinning regression remained green after promotion.
+- Added non-mutating preview/preflight plus progress-aware batch workflows for Copy Skin and Skin IO, with managed Maya validation proving multi-target behavior before mutation.
+- Added reusable Maya undo boundaries and proved Copy Skin multi-target mutation is reverted by one native Maya undo. Native undo was explicitly rejected as the recovery mechanism for `deformerWeights` after managed Maya proved it does not restore imported Skin IO weights reliably.
+- Replaced Skin IO native-undo reliance with explicit snapshot/restore transactional import. Managed Maya validation proved a forced three-target mid-batch failure restores previously mutated existing weights, removes a newly-created skinCluster, leaves the untouched failing target alone, and returns a clean rollback report.
+- Skinning UI callbacks now surface operation-specific errors while preserving traceback visibility for technical diagnosis; managed Maya returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_ACTIONABLE_ERROR_FEEDBACK_OK` with a fresh unsaved scene.
+- `skinning-api2-performance`, `skinning-batch-preview`, and `skinning-undo-errors` are complete. Goal 004 remains active with `skinning-ux-polish` as the remaining milestone.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
