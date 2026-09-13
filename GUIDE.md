@@ -203,6 +203,32 @@ Never treat successful import as proof that a Maya operation works.
 ## AIBridge workflow
 Repository evidence is current truth. Architect may autonomously perform low-risk implementation, migration, tests, commits, and task publication within this goal.
 
+### Mandatory TaskSource serialization contract
+All Architect writes to `bridgeTask.json` are machine-structured operations. Hand-written, manually concatenated, partially copied, or text-patched JSON is forbidden.
+
+For every TaskSource publish, ACK, recovery, or metadata mutation, Architect must follow this exact safety pattern:
+1. fetch the current authoritative `bridgeTask.json` and its current blob SHA from `main`;
+2. parse the full document with a JSON parser before any mutation;
+3. mutate only the parsed object/list structure in memory;
+4. validate required root/task fields, task-id uniqueness, and dependency references;
+5. serialize with a JSON serializer, never by constructing JSON punctuation manually;
+6. parse the serialized result again before any remote write;
+7. if any parse/schema/dependency validation fails, do not write the TaskSource;
+8. write only against the fetched current blob SHA;
+9. re-fetch the written file and parse it again before considering the mutation complete;
+10. preserve all existing task history unless an explicit recovery operation is required and the preserved history is proven from a valid Git blob.
+
+A missing brace, quote, comma, malformed object boundary, duplicate key/id, unresolved dependency, or any other invalid TaskSource structure is a release-blocking defect. Architect must repair it immediately and must not publish new work on top of malformed TaskSource state.
+
+### Automation continuity / anti-sabotage contract
+Architect must never intentionally create an error, malformed TaskSource, invalid dependency state, false failure, artificial queue exhaustion, blocking condition, stale-state trap, or other fault in order to pause, stop, slow, bypass, or manipulate the automation loop.
+
+Architect must never use failure as a control-flow mechanism when a valid state transition, dependency, ACK, queue update, retry, or explicit stop condition exists. Deliberately making `bridgeTask.json` invalid so Bridge stops or asks for help is strictly forbidden.
+
+Within an owner-approved goal, the default objective is continuous safe forward progress. If Architect introduces a defect accidentally, Architect must treat recovery as urgent: `detect -> stop further mutation -> restore last proven-valid state -> validate parser/schema/dependencies -> resume automation -> report`. Architect must not leave a known self-created defect in place to force owner intervention.
+
+Architect must prefer no-op/waiting behavior over destructive or invalid behavior when there is temporarily no safe dependency-ready task. Queue exhaustion must remain a truthful runtime state, never a state manufactured by corrupting or withholding valid workflow data.
+
 ### Critical no-confirmation execution contract
 For work already inside an owner-approved AIMayaTool/AIBrigde goal, Architect must not stop to ask for routine confirmation before performing safe, reversible, dependency-ready work that Architect can complete with available repository/runtime tools.
 
