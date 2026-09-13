@@ -66,13 +66,25 @@
     {
       "task_id": "aimayatool-goal003-paint-state-adapter-sync-037o",
       "status": "pending",
-      "architect_ack": false,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-weight-tools", "purpose": "Synchronize the first paint-state adapter slice after Skin IO parity was accepted in Maya.", "depends_on": ["aimayatool-goal003-skin-io-parity-maya-smoke-retry-037n"], "artifact_commit": "51d576105494fd953ee657ebdaedb9b561e08112", "changed_files": ["aimayatool/tools/skinning/paint_state.py"], "scope": "Host adapter only: detect/require Paint Skin Weights context and read/write opacity/value. Brush operations remain a separate follow-up slice."},
+      "architect_ack": true,
+      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-weight-tools", "purpose": "Synchronize the first paint-state adapter slice after Skin IO parity was accepted in Maya.", "depends_on": ["aimayatool-goal003-skin-io-parity-maya-smoke-retry-037n"], "artifact_commit": "51d576105494fd953ee657ebdaedb9b561e08112", "changed_files": ["aimayatool/tools/skinning/paint_state.py"], "scope": "Host adapter only: detect/require Paint Skin Weights context and read/write opacity/value. Brush operations remain a separate follow-up slice.", "result": "PASS", "classification": "goal003_paint_state_adapter_synced", "evidence": "Bridge fast-forwarded local AIMayaTool main from 519c861c6108d2ce80d5fb281b7158d57eec3096 to d598af30e2c4503083f94e2854170cf87c372549 successfully, including paint_state.py."},
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"}
+      "payload": {"strategy": "ff-only", "remote": "origin"},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-paint-state-adapter-maya-smoke-037p",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-weight-tools", "purpose": "Validate the Paint Skin Weights context adapter in Maya before implementing brush-weight operations.", "depends_on": ["aimayatool-goal003-paint-state-adapter-sync-037o"], "smoke_commit": "189473a4f874528697c617fb6ab4b59cd965d4d8", "acceptance": ["Fast-forward main before validation.", "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.", "Invoke aimayatool.tools.skinning.paint_state_smoke.run_paint_state_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_STATE_ADAPTER_SMOKE_OK for PASS.", "Prove Paint Skin context detection, require guard, opacity round trip, brush value round trip, snapshot, and invalid-opacity rejection.", "If PASS, begin brush-weight editing as a separate API slice rather than adding brush operations to paint_state.py."]},
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_state_smoke", "callable": "run_paint_state_smoke", "expected_window": "", "timeout": 45, "startup_timeout": 90, "operation_timeout": 45, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]}
     }
   ]
 }
