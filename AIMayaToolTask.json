@@ -8,43 +8,24 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-skin-io-parity-maya-smoke-037m",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-core-parity",
-        "result": "FAIL",
-        "classification": "skin_io_smoke_invalid_name_identity_assertion",
-        "evidence": "Maya reached the replace-existing check and raised before the success marker. preserve_existing=False deletes and recreates the skinCluster, but Maya may reuse the saved skinCluster name, so comparing returned names falsely reported no rebuild.",
-        "fix_commit": "83c037903529b5989218393f0a2694a798986a6a",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal003-skin-io-parity-sync-037l",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.smoke", "callable": "run_skin_io_smoke", "expected_window": "", "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal003-skin-io-parity-maya-smoke-retry-037n",
       "status": "pending",
       "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-core-parity",
-        "depends_on": ["aimayatool-goal003-skin-io-parity-maya-smoke-037m"],
         "retry_of": "aimayatool-goal003-skin-io-parity-maya-smoke-037m",
         "result": "PASS",
         "classification": "goal003_skin_io_parity_maya_accepted_with_known_shutdown_anomaly",
         "evidence": "Maya 2024 returned AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIN_IO_PARITY_SMOKE_OK. Exit 3221227010 occurred only after the success marker and is accepted as the known Maya Windows shutdown anomaly.",
-        "proven_main_commit": "519c861c6108d2ce80d5fb281b7158d57eec3096"
+        "proven_main_commit": "519c861c6108d2ce80d5fb281b7158d57eec3096",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal003-skin-io-parity-maya-smoke-037m",
+          "result": "FAIL",
+          "classification": "skin_io_smoke_invalid_name_identity_assertion",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -83,7 +64,7 @@
         "depends_on": ["aimayatool-goal003-paint-state-adapter-sync-037o"],
         "result": "FAIL",
         "classification": "paint_state_context_detection_too_narrow",
-        "evidence": "Maya raised 'paint context detection failed' before the success marker. Adapter relied only on contextInfo(context, c=True) == 'artAttrSkin'. A context created directly with cmds.artAttrSkinPaintCtx is authoritative evidence that detection must first query cmds.artAttrSkinPaintCtx(context, exists=True), with contextInfo class names only as fallback.",
+        "evidence": "Maya raised 'paint context detection failed' before the success marker. Adapter detection was hardened to query artAttrSkinPaintCtx existence first and contextInfo only as fallback.",
         "fix_commit": "2ba000635784bef9af03ecb86249864f455c3647"
       },
       "action": {"type": "maya", "target": "ui_smoke"},
@@ -100,13 +81,12 @@
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
-        "purpose": "Retry Paint Skin Weights adapter validation after hardening context detection.",
         "depends_on": ["aimayatool-goal003-paint-state-adapter-maya-smoke-037p"],
         "retry_of": "aimayatool-goal003-paint-state-adapter-maya-smoke-037p",
         "fix_commit": "2ba000635784bef9af03ecb86249864f455c3647",
         "result": "INCONCLUSIVE",
         "classification": "maya_ui_smoke_runtime_timeout_no_product_exception",
-        "evidence": "Bridge fast-forwarded local main from 0985fa2fa03daacd75fab5a0329bcfa23b6aada7 to 808ea206a885b9384879c447c55156670dd555a6, then Maya UI smoke timed out after 45 seconds with empty output and no traceback, exception, or success marker. Under GUIDE runtime-loss rules this does not prove a paint-state product failure; bounded fresh-session retry is required."
+        "evidence": "Maya UI smoke timed out after 45 seconds with empty output and no traceback, exception, or success marker; bounded fresh-session retry required."
       },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -118,40 +98,42 @@
     {
       "task_id": "aimayatool-goal003-paint-state-adapter-maya-smoke-fresh-retry-037r",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
-        "purpose": "Bounded fresh-session retry of Paint Skin Weights adapter validation after 037q produced only an empty runtime timeout.",
         "depends_on": ["aimayatool-goal003-paint-state-adapter-maya-smoke-retry-037q"],
         "retry_of": "aimayatool-goal003-paint-state-adapter-maya-smoke-retry-037q",
-        "acceptance": [
-          "Fast-forward main before validation.",
-          "Launch a fresh Maya 2024 process with a fresh unsaved scene and do not save the user scene.",
-          "Invoke aimayatool.tools.skinning.paint_state_smoke.run_paint_state_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_STATE_ADAPTER_SMOKE_OK for PASS.",
-          "Use the wider bounded timeout only to distinguish a transient Maya startup/runtime stall from product behavior.",
-          "If PASS, accept the paint-state adapter and begin brush-weight editing. If a product traceback occurs, diagnose it before any further retry."
-        ]
+        "result": "PASS",
+        "classification": "goal003_paint_state_adapter_maya_accepted_with_known_shutdown_anomaly",
+        "evidence": "Fresh Maya 2024 returned AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_STATE_ADAPTER_SMOKE_OK. Exit 3221227010 occurred only after the success marker and is accepted as the known Maya Windows shutdown anomaly.",
+        "proven_main_commit": "0630196fff3cb02742bddeb3e3e47e9442beeb00"
       },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.paint_state_smoke",
-        "callable": "run_paint_state_smoke",
-        "expected_window": "",
-        "timeout": 90,
-        "startup_timeout": 120,
-        "operation_timeout": 90,
-        "preconditions": [
-          {"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}
-        ]
-      }
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_state_smoke", "callable": "run_paint_state_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-brush-weight-editing-sync-037s",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "purpose": "Synchronize the first brush-weight editing slice after the Paint Skin state adapter passed Maya validation.",
+        "depends_on": ["aimayatool-goal003-paint-state-adapter-maya-smoke-fresh-retry-037r"],
+        "artifact_commit": "9c92968e72ac6e95dd3ac0f168dcb741a2b1ef80",
+        "changed_files": ["aimayatool/tools/skinning/brush_weight.py"],
+        "scope": "Paint operations only: Replace, Add, Smooth, Flood, and add-sign toggle. CopyWeight and CopyRatio remain separate component-weight workflows."
+      },
+      "action": {"type": "git", "target": "pull"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"strategy": "ff-only", "remote": "origin"}
     }
   ]
 }
