@@ -3,89 +3,29 @@
   "history_checkpoint_blob": "802273f83c71e04ec51c129ca4af5e2524ecc179",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-skinning-ux-polish-070",
+    "request_id": "aimayatool-skinning-ux-polish-071",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal004-skinning-ux-copy-preview-cachefix-verify-069a",
+      "task_id": "aimayatool-goal004-skinning-ux-copy-preview-callable-result-managed-live-070",
       "status": "pending",
       "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-ux-polish",
-        "purpose": "Verify the UX preview smoke reloads the Skinning UI module before launching AIMayaTool in a reused managed Maya session.",
+        "purpose": "Prove the Copy Skin UX smoke callable itself returns its specific success marker after cache reload, without expected-window result masking.",
         "archived_prerequisite": {
-          "task_id": "aimayatool-goal004-skinning-ux-copy-preview-managed-live-068b",
-          "result": "FAIL",
+          "task_id": "aimayatool-goal004-skinning-ux-copy-preview-cachefix-managed-live-069b",
+          "result": "INCONCLUSIVE",
           "architect_ack": true,
           "bridge_completed": true
         },
-        "implementation_commit": "03fb46ee99dfd7bcbb6a61c1075c60accb496db1",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
-        "classification": "skinning_ux_copy_preview_cachefix_python_verification_pass",
-        "proven_main_commit": "eb17ad92ceb6c55b77eded9c9659c16ac9fe1b7e",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from ad966ba121f29502e124761cf1fe1b6bcc86bd69 to eb17ad92ceb6c55b77eded9c9659c16ac9fe1b7e; py_compile passed with exit_code=0 for ux_preview_smoke.py and importing aimayatool.tools.skinning passed with exit_code=0.",
-        "bridge_completed": true
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/ux_preview_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal004-skinning-ux-copy-preview-cachefix-managed-live-069b",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-004",
-        "milestone_id": "skinning-ux-polish",
-        "purpose": "Retry live Copy Skin UX validation after reloading the cached Skinning UI module before launch.",
-        "depends_on": [
-          "aimayatool-goal004-skinning-ux-copy-preview-cachefix-verify-069a"
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "INCONCLUSIVE",
-        "classification": "managed_live_expected_window_masked_callable_result",
-        "proven_main_commit": "03432cfd74e7a18d95c74896f8561675bae8bd8b",
-        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene and returned route success with AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow. The task acceptance required SKINNING_UX_COPY_PREVIEW_OK targets=2, so the generic expected_window marker does not prove the callable-specific preview assertions. scene_saved=false and maya_quit=false.",
+        "classification": "skinning_ux_copy_preview_managed_live_pass",
+        "proven_main_commit": "df7a3d5916afed9ee1b9acdeadff196403735430",
+        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene and returned SKINNING_UX_COPY_PREVIEW_OK targets=2. Copy Skin preview remained non-mutating, explained create/reuse skinCluster behavior, and the Preview/Execute UI controls were present. scene_saved=false and maya_quit=false.",
         "managed_pid": 10632,
         "managed_port": 7001,
         "session": "existing",
@@ -129,31 +69,97 @@
         "maya_version": "2024",
         "module": "aimayatool.tools.skinning.ux_preview_smoke",
         "callable": "run_ux_preview_smoke",
-        "expected_window": "AIMayaToolWindow",
+        "expected_window": "",
         "startup_timeout": 180,
         "operation_timeout": 300
       },
       "bridge_completed": true
     },
     {
-      "task_id": "aimayatool-goal004-skinning-ux-copy-preview-callable-result-managed-live-070",
+      "task_id": "aimayatool-goal004-skinning-ux-skin-io-preview-verify-071a",
       "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-ux-polish",
-        "purpose": "Prove the Copy Skin UX smoke callable itself returns its specific success marker after cache reload, without expected-window result masking.",
+        "purpose": "Verify explicit Skin Data export/import preview helpers and their UI controls before live Maya validation.",
         "archived_prerequisite": {
-          "task_id": "aimayatool-goal004-skinning-ux-copy-preview-cachefix-managed-live-069b",
-          "result": "INCONCLUSIVE",
+          "task_id": "aimayatool-goal004-skinning-ux-copy-preview-callable-result-managed-live-070",
+          "result": "PASS",
           "architect_ack": true,
           "bridge_completed": true
         },
+        "implementation_commits": [
+          "f426e1cd6c50f40849e3de7011f3d05727776aa6",
+          "300d7d13a4baaef3190271587af2c800f3e62f7f",
+          "e88b4cf327836b91968d0bbd10f6f8669dcb3ae3"
+        ],
+        "acceptance": [
+          "Fast-forward main.",
+          "py_compile aimayatool/tools/skinning/skin_io.py, __init__.py and skin_io_preview_ux_smoke.py.",
+          "Import aimayatool.tools.skinning successfully.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/skin_io.py",
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/skinning/skin_io_preview_ux_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning"
+        ],
+        "tests": [],
+        "timeout": 240
+      }
+    },
+    {
+      "task_id": "aimayatool-goal004-skinning-ux-skin-io-preview-managed-live-071b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-ux-polish",
+        "purpose": "Prove Skin Data export/import previews are non-mutating and their Preview controls appear in the live Skinning UI.",
+        "depends_on": [
+          "aimayatool-goal004-skinning-ux-skin-io-preview-verify-071a"
+        ],
         "acceptance": [
           "Reuse healthy managed Maya 2024 session when available.",
           "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.ux_preview_smoke.run_ux_preview_smoke with expected_window empty so callable output is preserved.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_UX_COPY_PREVIEW_OK targets=2 for PASS.",
+          "Run aimayatool.tools.skinning.skin_io_preview_ux_smoke.run_skin_io_preview_ux_smoke.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_UX_SKIN_IO_PREVIEW_OK targets=2 for PASS.",
           "Return maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
@@ -192,8 +198,8 @@
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.ux_preview_smoke",
-        "callable": "run_ux_preview_smoke",
+        "module": "aimayatool.tools.skinning.skin_io_preview_ux_smoke",
+        "callable": "run_skin_io_preview_ux_smoke",
         "expected_window": "",
         "startup_timeout": 180,
         "operation_timeout": 300
