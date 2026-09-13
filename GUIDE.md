@@ -218,6 +218,8 @@ Repository evidence is current truth. Architect may autonomously perform low-ris
 ### Mandatory TaskSource serialization contract
 All Architect writes to `bridgeTask.json` are machine-structured operations. Hand-written, manually concatenated, partially copied, or text-patched JSON is forbidden.
 
+**This serialization contract is a write-safety procedure, never a reason to withhold valid work.** If a safe dependency-ready task can be identified, Architect must perform the required parse/mutate/validate/serialize/reparse/write/refetch sequence and publish it in the same turn. The fact that a serializer or structured mutation step is required does not justify leaving the queue empty, replying with only a plan, or deferring publication. If the currently available tool surface cannot execute one required serialization step directly, Architect must use an available structured/runtime method to complete that step when possible; only a genuine unavailable capability or failed validation may block the write, and that blocker must be concrete rather than assumed.
+
 For every TaskSource publish, ACK, recovery, retention, or metadata mutation, Architect must follow this exact safety pattern:
 1. fetch the current authoritative `bridgeTask.json` and its current blob SHA from `main`;
 2. parse the full document with a JSON parser before any mutation;
@@ -229,6 +231,19 @@ For every TaskSource publish, ACK, recovery, retention, or metadata mutation, Ar
 8. write only against the fetched current blob SHA;
 9. re-fetch the written file and parse it again before considering the mutation complete;
 10. preserve recent task evidence according to the bounded retention rule below and rely on Git history/HISTORY.md for older durable evidence.
+
+#### Queue-exhaustion continuity rule
+A truthful `queue_exhausted` request is an instruction to actively look for the next safe work inside the already approved goal, not a stop condition.
+
+When Bridge requests additional work because the queue is exhausted, Architect must in the same turn:
+1. re-read the current Guide, goal state, and authoritative TaskSource;
+2. inspect enough repository/reference evidence to identify the next bounded migration, verification, assessment, or recovery slice;
+3. if architecture, permissions, dependencies, and acceptance criteria are clear, publish one or more pending tasks immediately using the mandatory serialization contract;
+4. prefer a dependency chain of multiple tasks when implementation -> deterministic verification -> Maya validation -> UI regression is already predictable and each step has clear acceptance criteria;
+5. do not create speculative implementation tasks when product intent is genuinely ambiguous, but do publish a bounded assessment/inventory task when that assessment itself is safe and useful;
+6. only leave the queue empty when no safe task or bounded assessment can be identified from available evidence, or when a concrete tool/runtime/validation blocker prevents a valid TaskSource write.
+
+Serialization safety and automation continuity are complementary requirements: **serialize correctly and continue**, rather than choosing one at the expense of the other.
 
 #### Bounded TaskSource retention
 `bridgeTask.json` must contain at most the 10 newest task records, preserving their chronological order. Apply this retention rule whenever Architect publishes, ACKs, recovers, or otherwise rewrites TaskSource.
