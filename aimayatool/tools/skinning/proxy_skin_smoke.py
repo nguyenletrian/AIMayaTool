@@ -10,6 +10,16 @@ def _weight(skin_cluster, component, influence):
     return cmds.skinPercent(skin_cluster, component, query=True, transform=influence)
 
 
+def _uuids(nodes):
+    result = set()
+    for node in nodes or []:
+        values = cmds.ls(node, uuid=True) or []
+        if not values:
+            raise RuntimeError('could not resolve node identity: %s' % node)
+        result.add(values[0])
+    return result
+
+
 def run_proxy_skin_smoke():
     cmds.file(new=True, force=True)
     mesh = cmds.polyPlane(name='AIMayaToolProxySource', subdivisionsX=2, subdivisionsY=1)[0]
@@ -31,8 +41,8 @@ def run_proxy_skin_smoke():
     target_skin = result['skin_cluster']
     if not target_skin or skin.find_skin_cluster(proxy) != target_skin:
         raise RuntimeError('proxy skinCluster was not created')
-    if set(skin.influences(target_skin)) != set([joint_a, joint_b]):
-        raise RuntimeError('proxy influence set mismatch')
+    if _uuids(skin.influences(target_skin)) != _uuids([joint_a, joint_b]):
+        raise RuntimeError('proxy influence identity set mismatch')
     proxy_vertices = cmds.ls(proxy + '.vtx[*]', flatten=True) or []
     if not proxy_vertices:
         raise RuntimeError('proxy has no vertices')
