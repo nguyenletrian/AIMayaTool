@@ -28,84 +28,6 @@
       "bridge_completed": true
     },
     {
-      "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-diagnostic-035h",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "After the proven planner+transfer phase, run only the first smoothing span through group_vertices_by_perpendicular_loops using the default bounded API topology path.",
-        "result": "INCONCLUSIVE",
-        "classification": "maya_session_startup_unavailable_on_stale_runtime",
-        "proven_main_commit": "10d0226bc3b7a86efefee5a6073cefd25bf91925",
-        "evidence": "The managed-live route never executed AIMayaTool product code. It returned MAYA_LIVE_SESSION_UNAVAILABLE because managed Maya did not become ready after 120 seconds on the stale runtime."
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_loop_group_smoke", "callable": "run_skirt_parent_post_transfer_loop_group_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aibridge-runtime-self-update-for-aimayatool-036a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Fast-forward the local AIBrigde runtime checkout before restarting the managed worker.",
-        "result": "PASS",
-        "proven_main_commit": "9ed6c682ae739ed457e31a1e51b2000e130d951e",
-        "evidence": "git:pull on D:/AIBrigde main reported before=after=9ed6c682ae739ed457e31a1e51b2000e130d951e, changed=false, output=Already up to date."
-      },
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-retry-036b",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Retry the first post-transfer default API loop-group diagnostic after reloading the split-timeout managed-live runtime.",
-        "result": "INCONCLUSIVE",
-        "classification": "aibridge_windows_process_probe_cleanup_failure",
-        "proven_aibridge_commit": "9ed6c682ae739ed457e31a1e51b2000e130d951e",
-        "evidence": "The route failed in AIBridge runtime cleanup with Routing failed: <built-in function kill> returned a result with an exception set. No AIMayaTool product result was produced. AIBridge main fixes the Windows process probe in commit 36c560abc91d622ac3c683a36f9f91fa478989a9."
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_loop_group_smoke", "callable": "run_skirt_parent_post_transfer_loop_group_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aibridge-runtime-windows-cleanup-fix-sync-036c",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Fast-forward D:/AIBrigde to the Windows managed-Maya process probe fix before restarting the worker and retrying Maya.",
-        "result": "PASS",
-        "proven_main_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "git:pull on D:/AIBrigde main reported before=after=36c560abc91d622ac3c683a36f9f91fa478989a9, changed=false, output=Already up to date. The runtime checkout is ready for one new managed-worker restart."
-      },
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-retry-036d",
       "status": "pending",
       "architect_ack": true,
@@ -117,7 +39,7 @@
         "classification": "reproducible_post_transfer_first_loop_group_maya_crash",
         "proven_main_commit": "c064fea8175e5cd07afd5543fc4241ee1fc17ddb",
         "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "A fresh managed Maya 2024 session launched as PID 14720 on port 7001. The bounded first post-transfer loop-group operation did not produce a product result within 45 seconds; the subsequent active health probe was refused with WinError 10061, and cleanup reported managed_pid_already_exited for PID 14720. Because the session was freshly launched and runtime cleanup behaved correctly, this is product-level evidence that the first post-transfer loop-group path kills/exits Maya rather than a stale-session ambiguity."
+        "evidence": "A fresh managed Maya 2024 session launched as PID 14720 on port 7001. The bounded first post-transfer loop-group operation did not produce a product result within 45 seconds; the active health probe was refused with WinError 10061, and cleanup reported managed_pid_already_exited for PID 14720."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -129,25 +51,46 @@
     {
       "task_id": "aimayatool-skirt-parent-post-transfer-mesh-fn-maya-diagnostic-036e",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
         "purpose": "After planner and parent transfer, isolate only post-transfer MFnMesh resolution and one trivial topology query before any loop traversal.",
+        "result": "FAIL",
+        "classification": "reproducible_post_transfer_mesh_fn_query_maya_crash",
+        "proven_main_commit": "aff0ae3bf86b28e0ef2f82c077ab865b4f9244b4",
+        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
+        "evidence": "A fresh managed Maya 2024 session launched as PID 15584 on port 7001. The post-transfer diagnostic that only resolved loop_groups._mesh_fn(mesh), read numEdges/numVertices, and queried getEdgeVertices(0) did not produce a product result within 45 seconds. The subsequent active health probe was refused with WinError 10061 and cleanup reported managed_pid_already_exited for PID 15584. This reproduces the product-level Maya crash without loop traversal/grouping."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_mesh_fn_smoke", "callable": "run_skirt_parent_post_transfer_mesh_fn_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-post-transfer-dagpath-maya-diagnostic-036f",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "purpose": "After planner and parent transfer, isolate only MSelectionList mesh resolution and getDagPath(0), stopping before MFnMesh construction or any topology query.",
         "acceptance": [
-          "Fast-forward AIMayaTool main and include diagnostic smoke commit d0348d2911ac66231641a77d053d713d48f1c124 or later.",
-          "Use a fresh healthy managed Maya 2024 session with startup_timeout=90 and operation_timeout=45; do not reuse a dead listener.",
+          "Fast-forward AIMayaTool main and include diagnostic smoke commit 8fbbf1c9f353bb5cc2d5f141c7f33c0061785c8c or later.",
+          "Use a fresh healthy managed Maya 2024 session with startup_timeout=90 and operation_timeout=45.",
           "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run run_skirt_parent_post_transfer_mesh_fn_smoke. It must perform planner+transfer, then only loop_groups._mesh_fn(mesh), read numEdges/numVertices, and getEdgeVertices(0); it must not perform loop traversal/grouping.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_POST_TRANSFER_MESH_FN_SMOKE_OK. If Maya exits again, classify post-transfer mesh-function resolution/topology query as the crash blocker. If it passes, next isolate one _quad_loop_edge_ids traversal seed."
+          "Run run_skirt_parent_post_transfer_dagpath_smoke. After planner+transfer it must only create MSelectionList, add(mesh), and call getDagPath(0); it must not construct MFnMesh or query topology post-transfer.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_POST_TRANSFER_DAGPATH_SMOKE_OK. If Maya exits, isolate the crash to post-transfer DAG-path resolution. If it passes, next split MFnMesh construction from its first topology query."
         ],
         "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-retry-036d",
+          "task_id": "aimayatool-skirt-parent-post-transfer-mesh-fn-maya-diagnostic-036e",
           "result": "FAIL",
-          "classification": "reproducible_post_transfer_first_loop_group_maya_crash",
+          "classification": "reproducible_post_transfer_mesh_fn_query_maya_crash",
           "architect_ack": true,
           "bridge_completed": true,
-          "proven_main_commit": "c064fea8175e5cd07afd5543fc4241ee1fc17ddb"
+          "proven_main_commit": "aff0ae3bf86b28e0ef2f82c077ab865b4f9244b4"
         }
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
@@ -158,8 +101,8 @@
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_mesh_fn_smoke",
-        "callable": "run_skirt_parent_post_transfer_mesh_fn_smoke",
+        "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_dagpath_smoke",
+        "callable": "run_skirt_parent_post_transfer_dagpath_smoke",
         "expected_window": "",
         "live_port": 7001,
         "timeout": 45,
