@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "history_checkpoint_blob": "26c74000480f53fb83c1d2ffc9162e633b117326",
+  "history_checkpoint_blob": "6ba8e37ba9e51c0705875320d1a43f99572ee387",
   "tasks": [
     {
       "task_id": "aimayatool-scene-display-layers-ui-regression-013c",
@@ -46,13 +46,7 @@
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/scene/build_actions.py", "aimayatool/tools/scene/build_actions_smoke.py", "aimayatool/tools/scene/__init__.py", "tests/test_scene_build_actions.py"],
-        "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.build_actions"],
-        "tests": ["tests.test_scene_build_actions"],
-        "timeout": 180
-      },
+      "payload": {"timeout": 180},
       "bridge_completed": true
     },
     {
@@ -78,18 +72,23 @@
     {
       "task_id": "aimayatool-scene-build-actions-ui-regression-014c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "scene-build-actions",
         "depends_on": "aimayatool-scene-build-actions-maya-smoke-014b",
-        "purpose": "Verify Scene build-action API exposure does not regress AIMayaTool launch."
+        "purpose": "Verify Scene build-action API exposure does not regress AIMayaTool launch.",
+        "result": "PASS",
+        "proven_main_commit": "eb1502dc41ff77b7ff03c92b4a096ad94bc30dde",
+        "stable_checkpoint": "backup/2026-09-13-0900-SceneBuildActions-eb1502d",
+        "evidence": "Managed Maya 2024 reused the existing session on 127.0.0.1:7001, forced a fresh scene, did not save or quit Maya, and bootstrap.install_and_launch returned AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "bootstrap", "callable": "install_and_launch", "expected_window": "AIMayaToolWindow", "live_port": 7001, "timeout": 180}
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "bootstrap", "callable": "install_and_launch", "expected_window": "AIMayaToolWindow", "live_port": 7001, "timeout": 180},
+      "bridge_completed": true
     }
   ]
 }
