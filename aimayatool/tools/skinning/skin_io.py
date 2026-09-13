@@ -169,6 +169,44 @@ def preview_import_meshes(meshes, directory, require_existing=False):
     return {'operation': 'import', 'directory': directory, 'count': len(items), 'items': items}
 
 
+def _preview_lines(plan):
+    lines = ['%s %d mesh(es): %s' % (plan['operation'].title(), plan['count'], plan['directory'])]
+    for item in plan['items']:
+        if plan['operation'] == 'export':
+            lines.append('%s -> %s' % (item['mesh'], item['weights_file']))
+        else:
+            state = 'reuse skinCluster' if item['existing_skin_cluster'] else 'create skinCluster'
+            missing = item['missing_influences']
+            suffix = '; missing influences: %s' % ', '.join(missing) if missing else ''
+            lines.append('%s -> %s%s' % (item['mesh'], state, suffix))
+    return lines
+
+
+def _choose_directory(caption):
+    result = cmds.fileDialog2(dialogStyle=2, fileMode=3, caption=caption) or []
+    return result[0] if result else None
+
+
+def preview_export_selected(directory=None):
+    meshes = _selected_meshes()
+    if not meshes:
+        raise RuntimeError('Select one or more skinned meshes')
+    directory = directory or _choose_directory('Preview Export Skin Data')
+    if not directory:
+        return []
+    return _preview_lines(preview_export_meshes(meshes, directory))
+
+
+def preview_import_selected(directory=None, require_existing=False):
+    meshes = _selected_meshes()
+    if not meshes:
+        raise RuntimeError('Select one or more meshes')
+    directory = directory or _choose_directory('Preview Import Skin Data')
+    if not directory:
+        return []
+    return _preview_lines(preview_import_meshes(meshes, directory, require_existing=require_existing))
+
+
 def _batch(operation, meshes, progress=None):
     report = {'succeeded': {}, 'failed': {}}
     total = len(meshes)
@@ -265,10 +303,9 @@ def export_selected(directory=None):
     if not meshes:
         raise RuntimeError('Select one or more skinned meshes')
     if not directory:
-        result = cmds.fileDialog2(dialogStyle=2, fileMode=3, caption='Export Skin Data') or []
-        if not result:
+        directory = _choose_directory('Export Skin Data')
+        if not directory:
             return []
-        directory = result[0]
     preview_export_meshes(meshes, directory)
     progress = _progress_window('Export Skin Data', len(meshes)) if len(meshes) > 1 else None
     try:
@@ -286,10 +323,9 @@ def import_selected(directory=None, preserve_existing=True, require_existing=Fal
     if not meshes:
         raise RuntimeError('Select one or more meshes')
     if not directory:
-        result = cmds.fileDialog2(dialogStyle=2, fileMode=3, caption='Import Skin Data') or []
-        if not result:
+        directory = _choose_directory('Import Skin Data')
+        if not directory:
             return []
-        directory = result[0]
     preview_import_meshes(meshes, directory, require_existing=require_existing)
     progress = _progress_window('Import Skin Data', len(meshes)) if len(meshes) > 1 else None
     try:
