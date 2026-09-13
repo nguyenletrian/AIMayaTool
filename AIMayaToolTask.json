@@ -8,46 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-current-product-inventory-review-037a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-002",
-        "milestone_id": "current-product-inventory",
-        "purpose": "Independently inventory the current AIMayaTool product surface before parity reconciliation.",
-        "result": "FAIL",
-        "classification": "architect_task_permission_mismatch",
-        "evidence": "Bridge rejected the git_pull precondition before Codex review because permissions.edit was false. No review or product mutation occurred."
-      },
-      "action": {"type": "review", "target": "codex"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 600},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-current-product-inventory-review-retry-037b",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-002",
-        "milestone_id": "current-product-inventory",
-        "purpose": "Retry the read-only current-product inventory after 037a was rejected by the git_pull permission gate.",
-        "retry_of": "aimayatool-current-product-inventory-review-037a",
-        "result": "FAIL",
-        "classification": "codex_auth_refresh_token_revoked",
-        "evidence": "git_pull succeeded to 8387fc41a0d08cf4abd79ac97a846d8cbc45a153, then Codex exited before review because OAuth refresh token was revoked (401 token_revoked). No product code mutation occurred.",
-        "fallback": "Architect continues Goal 002 directly from repository evidence; do not retry Codex until authentication is restored."
-      },
-      "action": {"type": "review", "target": "codex"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 600},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal002-inventory-sync-037c",
       "status": "pending",
       "architect_ack": true,
@@ -157,14 +117,36 @@
     {
       "task_id": "aimayatool-goal002-setup-dependency-parity-sync-037h",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-002",
         "milestone_id": "migration-priority-plan",
         "purpose": "Synchronize Goal 002 dependency evidence proving that Scene SpaceSwitch, DrivenKey and CreateIK should compose reusable Setup constraints/spaces, SDK and IK/FK primitives rather than duplicate rig mechanics.",
         "depends_on": ["aimayatool-goal002-proxy-graph-parity-sync-037g"],
         "artifact": "PARITY_MAP.md",
-        "artifact_commit": "3e8541297011d92b483ff1923a22ce3a8b1de7f0"
+        "artifact_commit": "3e8541297011d92b483ff1923a22ce3a8b1de7f0",
+        "result": "PASS",
+        "classification": "goal002_setup_dependency_parity_synced",
+        "evidence": "Bridge fast-forwarded local AIMayaTool main from cc3a5f405ac4ff7666f7bd132a65765c29b4448f to fec18b4504ada7b42497788619e4fc3051e5be1d successfully, including the Setup dependency-order parity expansion."
+      },
+      "action": {"type": "git", "target": "pull"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"strategy": "ff-only", "remote": "origin"},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal002-migration-plan-sync-037i",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-002",
+        "milestone_id": "migration-priority-plan",
+        "purpose": "Synchronize the dependency-ordered executable migration plan for Goals 003-008 derived from the durable parity evidence.",
+        "depends_on": ["aimayatool-goal002-setup-dependency-parity-sync-037h"],
+        "artifact": "MIGRATION.md",
+        "artifact_commit": "f9fd9bbfabcac58d5232cf88d242569e787d240f"
       },
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
