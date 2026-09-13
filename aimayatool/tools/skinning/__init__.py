@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import traceback
+
 
 def _cmds():
     import maya.cmds as cmds
@@ -15,8 +17,16 @@ def _run(label, fn):
         else:
             text = str(changed) if changed else 'no changes'
         cmds.inViewMessage(amg='%s: %s' % (label, text), pos='midCenter', fade=True)
+        return changed
     except Exception as exc:
-        cmds.warning('AIMayaTool Skinning: %s' % exc)
+        message = '%s failed: %s' % (label, exc)
+        cmds.warning('AIMayaTool Skinning: %s' % message)
+        try:
+            cmds.inViewMessage(amg='<hl>%s</hl>' % message, pos='midCenter', fade=True)
+        except Exception:
+            pass
+        traceback.print_exc()
+        return None
 
 
 def build_ui():
