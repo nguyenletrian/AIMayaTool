@@ -65,6 +65,14 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - UI regression emitted `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`; the subsequent Windows exit `3221227010` occurred after functional acceptance and matches the known Maya shutdown anomaly allowed by the validation contract.
 - Created immutable stable checkpoint `backup/2026-09-13-0737-SkinningFirstSlice-05b8c0c` pointing exactly to the proven code commit.
 
+## 2026-09-13 — Setup first slice closed
+
+- Added composable Setup primitives for Circle/Box control creation, explicit world-transform matching, and zero-group insertion while preserving world pose.
+- Deterministic verification passed for `controls.py`, Setup smoke, and Setup UI at proven AIMayaTool code commit `5a17a4701de516fc3899907dd2269f201dbde092`.
+- Maya 2024 functional validation returned `AIBRIDGE_UI_SMOKE_OK:SETUP_CONTROLS_SMOKE_OK`; the Windows shutdown anomaly occurred only after functional completion.
+- The first UI regression attempt timed out without product-failure evidence; a fresh Maya retry then emitted `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow` and exited 0.
+- Created immutable stable checkpoint `backup/2026-09-13-0752-SetupFirstSlice-5a17a47` pointing exactly to the proven code commit.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
