@@ -96,7 +96,7 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Deterministic verification passed at proven AIMayaTool main `d60cde8f0b0aef7afad242a2e6b9795fa29f7f8e`; focused unit tests passed 2/2 and explicitly cover the default full-DAG-name membership contract plus `full_names=False` short-name behavior.
 - Initial live Maya smoke exposed a validation expectation mismatch rather than an API failure: Maya correctly returned full DAG paths by default. The smoke was corrected and the deterministic gate was also corrected so Maya-only smoke modules are compiled but not imported by normal Python.
 - Managed Maya 2024 retry returned `AIBRIDGE_UI_SMOKE_OK:SCENE_DISPLAY_LAYER_SMOKE_OK`; UI regression returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`, both reusing the existing session with a fresh scene, no save, and no Maya quit.
-- Created immutable stable checkpoint `backup/2026-09-13-0900-SceneDisplayLayers-d60cde8` pointing exactly to the proven AIMayaTool commit.
+- Created immutable stable checkpoint `backup/2026-09-13-0900-SceneDisplayLayers-d60cde8` pointing exactly to the proven main commit.
 
 ## 2026-09-13 — Scene build actions closed
 
@@ -104,7 +104,7 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Deterministic verification passed at proven AIMayaTool main `eb1502dc41ff77b7ff03c92b4a096ad94bc30dde`: compile/import checks passed and focused unit tests passed 3/3.
 - Managed Maya 2024 functional validation returned `AIBRIDGE_UI_SMOKE_OK:SCENE_BUILD_ACTIONS_SMOKE_OK`, proving hierarchy construction plus world-space preservation after parenting in a fresh unsaved scene.
 - UI regression returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`; both live checks reused the managed Maya session with no scene save and no Maya quit.
-- Created immutable stable checkpoint `backup/2026-09-13-0900-SceneBuildActions-eb1502d` pointing exactly to the proven AIMayaTool commit.
+- Created immutable stable checkpoint `backup/2026-09-13-0900-SceneBuildActions-eb1502d` pointing exactly to the proven main commit.
 
 ## 2026-09-13 — Scene legacy-adapter assessment closed
 
@@ -134,6 +134,13 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Added explicit component-index parsing, edge-to-vertex conversion, closed edge-loop detection, and ring-path with loop-path fallback as the first topology layer required by higher-level skirt workflows.
 - Deterministic verification passed compile/import plus 4/4 focused topology tests at proven main `8bc754c832be6164a86603fca43f109bb4204183`.
 - Managed Maya 2024 validation reused the existing session and returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_TOPOLOGY_SMOKE_OK` on a fresh unsaved mesh with Maya left running.
+
+## 2026-09-13 — Advanced SkirtParent workflow accepted
+
+- Composed the legacy-inspired SkirtParent behavior into explicit phases: non-mutating planning, parent-to-skirt influence transfer, adjacent-joint smoothing-plan construction, smoothing apply, and an end-to-end workflow executor.
+- Live diagnostics identified a Maya API lifetime hazard: retaining an `MFnMesh` created before `skinCluster` history insertion can destabilize later topology/skin queries. The accepted workflow resolves a fresh post-skin `MFnMesh` before planner execution instead of carrying the pre-history function set across mutation.
+- Full managed Maya 2024 validation passed with `AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_WORKFLOW_SMOKE_OK`, proving planner, four parent transfers, production smoothing-plan construction, smoothing apply, zero-pair-safe ratio propagation, and final transferred-weight checks in a fresh unsaved scene.
+- The accepted full-workflow checkpoint is AIMayaTool main `8b8b0d6400ee26440b16558f0dd950100076b07a`; the smoothing zero-pair guard was introduced at `2d6d4307937c5c9cdc4214e141e62679d10016b7` and the live-smoke dependency reload fix at `ddf9ce291134d2614c5af333fbaf03be8d98761a`.
 
 ## Recording rule
 
