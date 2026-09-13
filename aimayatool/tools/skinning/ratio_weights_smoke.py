@@ -1,11 +1,17 @@
 from __future__ import absolute_import
 
+import importlib
 import maya.cmds as cmds
 
-from aimayatool.tools.skinning.ratio_weights import apply_influence_ratios, copy_influence_ratios
+from aimayatool.tools.skinning import ratio_weights
 
 
 def run_ratio_weights_smoke():
+    importlib.invalidate_caches()
+    importlib.reload(ratio_weights)
+    apply_influence_ratios = ratio_weights.apply_influence_ratios
+    copy_influence_ratios = ratio_weights.copy_influence_ratios
+
     cmds.file(new=True, force=True)
     mesh = cmds.polyPlane(name='AIMayaToolRatioWeightMesh', subdivisionsX=1, subdivisionsY=1)[0]
     joint_a = cmds.joint(name='AIMayaToolRatioJointA', position=(-1, 0, 0)); cmds.select(clear=True)
