@@ -67,12 +67,12 @@ def _batched_vertex_component(components):
     import maya.api.OpenMaya as om
 
     cmds = _cmds()
-    report_components = cmds.ls(list(components or []), flatten=True) or []
-    flat = cmds.ls(list(components or []), flatten=True, long=True) or []
+    report_components = list(components or [])
+    flat = cmds.ls(report_components, flatten=True, long=True) or []
     if not flat:
         return None, None, [], []
     if len(report_components) != len(flat):
-        raise ValueError("Could not preserve component reporting while batching ratio weighting")
+        raise ValueError("Batched ratio weighting requires explicit vertices to preserve caller component reporting")
     mesh = None
     indices = []
     for component in flat:
