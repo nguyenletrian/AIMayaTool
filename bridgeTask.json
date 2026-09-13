@@ -3,23 +3,23 @@
   "history_checkpoint_blob": "5ed3032c8f44931a8eaa04e828e9c9d73a860215",
   "tasks": [
     {
-      "task_id": "aimayatool-scene-build-actions-ui-regression-014c",
+      "task_id": "aimayatool-scene-post-assessment-ui-regression-015c",
       "status": "pending",
       "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "scene-build-actions",
+        "milestone_id": "scene-legacy-adapters-assessment",
         "archived_prerequisite": {
-          "task_id": "aimayatool-scene-build-actions-maya-smoke-014b",
+          "task_id": "aimayatool-scene-post-assessment-deterministic-015b",
           "result": "PASS",
           "architect_ack": true,
           "bridge_completed": true,
-          "proven_main_commit": "eb1502dc41ff77b7ff03c92b4a096ad94bc30dde"
+          "proven_main_commit": "fc048d0a73c73b8d54ca1fd777428840511aeef7"
         },
-        "purpose": "Verify Scene build-action API exposure does not regress AIMayaTool launch.",
+        "purpose": "Final managed-Maya UI regression for the Scene foundation after the no-adapter decision.",
         "result": "PASS",
-        "proven_main_commit": "eb1502dc41ff77b7ff03c92b4a096ad94bc30dde",
-        "stable_checkpoint": "backup/2026-09-13-0900-SceneBuildActions-eb1502d",
+        "proven_main_commit": "fc048d0a73c73b8d54ca1fd777428840511aeef7",
+        "stable_checkpoint": "backup/2026-09-13-0900-SceneLegacyAssessment-fc048d0",
         "evidence": "Managed Maya 2024 returned AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow with a fresh unsaved scene and Maya left running."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
@@ -30,18 +30,17 @@
       "bridge_completed": true
     },
     {
-      "task_id": "aimayatool-scene-legacy-adapters-assessment-015a",
+      "task_id": "aimayatool-advanced-helper-assessment-016a",
       "status": "pending",
       "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "scene-legacy-adapters-assessment",
-        "depends_on": "aimayatool-scene-build-actions-ui-regression-014c",
-        "purpose": "Assess whether legacy Scene JSON compatibility adapters are actually required before adding migration code.",
-        "result": "PASS_NO_ADAPTER_REQUIRED",
-        "decision": "Do not add a legacy Scene JSON adapter at this stage.",
-        "evidence": "MayaScriptNew main contains no useful legacy Scene JSON schema: Libs/NLTA_Scene.py is empty, Libs/NLTA_Json.py only prints a string, and targeted searches found no ScenePattern/JSON load-save workflow to preserve.",
-        "source_commit": "5e30a1dd1c1072952a86a183560e57074aa16e07"
+        "milestone_id": "advanced-helpers-assessment",
+        "depends_on": "aimayatool-scene-post-assessment-ui-regression-015c",
+        "purpose": "Select the next advanced helper by finding a narrow reusable primitive rather than migrating a legacy monolith.",
+        "result": "PASS_SELECTED_INFLUENCE_TRANSFER",
+        "decision": "Migrate TransferInfluenceWeight as an explicit Skinning primitive before larger graph/skirt workflows.",
+        "evidence": "Legacy NLTA_GraphSkinning.py contains a reusable TransferInfluenceWeight primitive used by higher-level skirt workflows. Target AIMayaTool has no equivalent transfer-influence API. The slice is bounded, composable, and testable independently of legacy graph UI/global state."
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -51,45 +50,70 @@
       "bridge_completed": true
     },
     {
-      "task_id": "aimayatool-scene-post-assessment-deterministic-015b",
+      "task_id": "aimayatool-influence-transfer-deterministic-016b",
       "status": "pending",
-      "architect_ack": true,
+      "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "scene-legacy-adapters-assessment",
-        "depends_on": "aimayatool-scene-legacy-adapters-assessment-015a",
-        "purpose": "Verify the accepted Scene stack remains deterministic after deciding not to add unsupported legacy adapters.",
-        "result": "PASS",
-        "proven_main_commit": "fc048d0a73c73b8d54ca1fd777428840511aeef7",
-        "evidence": "The current Scene stack compiled, all five Python-safe Scene imports passed, and focused Scene tests passed 8/8."
+        "milestone_id": "advanced-influence-transfer",
+        "depends_on": "aimayatool-advanced-helper-assessment-016a",
+        "purpose": "Deterministically verify the explicit influence-weight transfer helper and its Skinning UI exposure.",
+        "acceptance": [
+          "Fast-forward AIMayaTool main before verification.",
+          "Compile influence_transfer.py, influence_transfer_smoke.py, Skinning __init__.py, and focused tests.",
+          "Import aimayatool.tools.skinning.influence_transfer outside Maya using its lazy host boundary.",
+          "Run tests.test_skinning_influence_transfer and require all focused tests to pass."
+        ]
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 180},
-      "bridge_completed": true
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/skinning/influence_transfer.py", "aimayatool/tools/skinning/influence_transfer_smoke.py", "aimayatool/tools/skinning/__init__.py", "tests/test_skinning_influence_transfer.py"],
+        "imports": ["aimayatool.tools.skinning.influence_transfer"],
+        "tests": ["tests.test_skinning_influence_transfer"],
+        "timeout": 180
+      }
     },
     {
-      "task_id": "aimayatool-scene-post-assessment-ui-regression-015c",
+      "task_id": "aimayatool-influence-transfer-maya-smoke-016c",
       "status": "pending",
-      "architect_ack": true,
+      "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "scene-legacy-adapters-assessment",
-        "depends_on": "aimayatool-scene-post-assessment-deterministic-015b",
-        "purpose": "Final managed-Maya UI regression for the Scene foundation after the no-adapter decision.",
-        "result": "PASS",
-        "proven_main_commit": "fc048d0a73c73b8d54ca1fd777428840511aeef7",
-        "stable_checkpoint": "backup/2026-09-13-0900-SceneLegacyAssessment-fc048d0",
-        "evidence": "Managed Maya 2024 reused the existing session on 127.0.0.1:7001, forced a fresh scene, did not save or quit Maya, and bootstrap.install_and_launch returned AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow."
+        "milestone_id": "advanced-influence-transfer",
+        "depends_on": "aimayatool-influence-transfer-deterministic-016b",
+        "purpose": "Validate real skinCluster source-to-target influence transfer in managed Maya 2024.",
+        "acceptance": [
+          "Reuse a healthy managed Maya session where possible.",
+          "Force a fresh unsaved scene and do not save or quit Maya.",
+          "Run the current influence-transfer smoke from disk.",
+          "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_TRANSFER_SMOKE_OK."
+        ]
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "bootstrap", "callable": "install_and_launch", "expected_window": "AIMayaToolWindow", "live_port": 7001, "timeout": 180},
-      "bridge_completed": true
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.influence_transfer_smoke", "callable": "run_influence_transfer_smoke", "expected_window": "", "live_port": 7001, "timeout": 180}
+    },
+    {
+      "task_id": "aimayatool-influence-transfer-ui-regression-016d",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-influence-transfer",
+        "depends_on": "aimayatool-influence-transfer-maya-smoke-016c",
+        "purpose": "Verify the new Skinning transfer control does not regress AIMayaTool launch."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "bootstrap", "callable": "install_and_launch", "expected_window": "AIMayaToolWindow", "live_port": 7001, "timeout": 180}
     }
   ]
 }
