@@ -200,7 +200,7 @@
     {
       "task_id": "aimayatool-skirt-parent-plan-maya-smoke-030d",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-plan",
@@ -218,7 +218,10 @@
           "architect_ack": true,
           "bridge_completed": true,
           "proven_main_commit": "47e13477b819d47005c98fb52402677fe99dd651"
-        }
+        },
+        "result": "PASS",
+        "proven_main_commit": "da86869b06f760e6220f3185bc1888087b51d956",
+        "evidence": "Managed Maya 2024 reused the existing session on port 7001 after a successful ff-only git pull from 47e13477b819d47005c98fb52402677fe99dd651 to da86869b06f760e6220f3185bc1888087b51d956, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_PLAN_SMOKE_OK, did not save the scene, and left Maya running."
       },
       "action": {
         "type": "maya",
@@ -258,6 +261,96 @@
             "branch": "main"
           }
         ]
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-plan-regression-030e",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-plan",
+        "purpose": "Run a consolidated deterministic regression over the proven topology, joint-region, loop-group, and composed skirt-parent planner stack before advancing to any skin-weight mutation semantics.",
+        "acceptance": [
+          "Fast-forward main and include commit da86869b06f760e6220f3185bc1888087b51d956 or later.",
+          "Compile the focused topology and skirt-parent modules and tests.",
+          "Run tests.test_skinning_topology, tests.test_skinning_topology_axis, tests.test_skinning_topology_loops, tests.test_skinning_topology_region, tests.test_skinning_joint_regions, tests.test_skinning_loop_groups, and tests.test_skinning_skirt_parent.",
+          "Require every focused test module to pass before advancing to a mutating skirt-weighting slice."
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-skirt-parent-plan-maya-smoke-030d",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "da86869b06f760e6220f3185bc1888087b51d956"
+        }
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/topology.py",
+          "aimayatool/tools/skinning/topology_axis.py",
+          "aimayatool/tools/skinning/topology_loops.py",
+          "aimayatool/tools/skinning/topology_region.py",
+          "aimayatool/tools/skinning/joint_regions.py",
+          "aimayatool/tools/skinning/loop_groups.py",
+          "aimayatool/tools/skinning/skirt_parent.py",
+          "tests/test_skinning_topology.py",
+          "tests/test_skinning_topology_axis.py",
+          "tests/test_skinning_topology_loops.py",
+          "tests/test_skinning_topology_region.py",
+          "tests/test_skinning_joint_regions.py",
+          "tests/test_skinning_loop_groups.py",
+          "tests/test_skinning_skirt_parent.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning.topology",
+          "aimayatool.tools.skinning.topology_axis",
+          "aimayatool.tools.skinning.topology_loops",
+          "aimayatool.tools.skinning.topology_region",
+          "aimayatool.tools.skinning.joint_regions",
+          "aimayatool.tools.skinning.loop_groups",
+          "aimayatool.tools.skinning.skirt_parent"
+        ],
+        "tests": [
+          "tests.test_skinning_topology",
+          "tests.test_skinning_topology_axis",
+          "tests.test_skinning_topology_loops",
+          "tests.test_skinning_topology_region",
+          "tests.test_skinning_joint_regions",
+          "tests.test_skinning_loop_groups",
+          "tests.test_skinning_skirt_parent"
+        ],
+        "timeout": 300
       }
     }
   ]
