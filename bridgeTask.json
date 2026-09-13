@@ -326,7 +326,7 @@
     {
       "task_id": "aimayatool-skirt-parent-plan-maya-smoke-030b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-plan",
@@ -337,6 +337,66 @@
           "Run skirt_parent_smoke after syncing commit d6c72cae02cacb0bc592f9f4ae021412a98a5e03 or later.",
           "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_PLAN_SMOKE_OK."
         ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-skirt-parent-plan-deterministic-030a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "47e13477b819d47005c98fb52402677fe99dd651"
+        },
+        "result": "FAIL",
+        "evidence": "Managed Maya 2024 reused the existing session on port 7001 and forced a fresh unsaved scene. Smoke failed before planner execution because the fixture selected 32 max-Y edges: 16 circumference edges plus 16 cap/radial edges. This is a smoke-fixture defect, not product-level planner failure evidence.",
+        "failure_classification": "validation_fixture",
+        "fix_commit": "e17b7d6aa029d4e84218a4d0e0717144c6363d2b"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.skirt_parent_smoke",
+        "callable": "run_skirt_parent_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-plan-maya-smoke-030c",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-plan",
+        "purpose": "Retry the composed skirt-parent Maya validation after correcting the smoke fixture to select only the 16 circumference edges of the closed top ring.",
+        "acceptance": [
+          "Fast-forward main and include fix commit e17b7d6aa029d4e84218a4d0e0717144c6363d2b or later.",
+          "Reuse a healthy managed Maya 2024 session where possible.",
+          "Force a fresh unsaved scene and do not save or quit Maya.",
+          "Run skirt_parent_smoke and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_PLAN_SMOKE_OK."
+        ],
+        "retry_of": "aimayatool-skirt-parent-plan-maya-smoke-030b",
         "archived_prerequisite": {
           "task_id": "aimayatool-skirt-parent-plan-deterministic-030a",
           "result": "PASS",
@@ -374,7 +434,15 @@
         "callable": "run_skirt_parent_smoke",
         "expected_window": "",
         "live_port": 7001,
-        "timeout": 180
+        "timeout": 180,
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ]
       }
     }
   ]
