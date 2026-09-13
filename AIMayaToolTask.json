@@ -29,11 +29,38 @@
           "bridge_completed": true
         }
       },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.selection_sets_smoke", "callable": "run_selection_sets_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
+      "action": {
+        "type": "maya",
+        "target": "ui_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.selection_sets_smoke",
+        "callable": "run_selection_sets_smoke",
+        "expected_window": "",
+        "timeout": 90,
+        "startup_timeout": 120,
+        "operation_timeout": 90
+      },
       "bridge_completed": true
     },
     {
@@ -46,14 +73,36 @@
         "result": "PASS",
         "classification": "selection_sets_shared_member_fix_synced",
         "evidence": "Bridge fast-forwarded D:/AIMayaTool main from b7c9385ca96fb676fdb27e45f690807987b35c43 to 1781f19318bcf3f3416c2f915ef3cc5d5bfa27f0. Runtime now contains the shared-member visibility fix in selection_sets.py.",
-        "depends_on": ["aimayatool-goal003-selection-sets-maya-smoke-043b"],
+        "depends_on": [
+          "aimayatool-goal003-selection-sets-maya-smoke-043b"
+        ],
         "fix_commit": "1cd8da6a0f2db99471d9e164b3f091785c0cb278"
       },
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"},
+      "action": {
+        "type": "git",
+        "target": "pull"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": false,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "strategy": "ff-only",
+        "remote": "origin"
+      },
       "bridge_completed": true
     },
     {
@@ -64,7 +113,9 @@
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
         "purpose": "Retry selection-set navigation after fixing shared family-anchor visibility handling.",
-        "depends_on": ["aimayatool-goal003-selection-sets-fix-sync-043c"],
+        "depends_on": [
+          "aimayatool-goal003-selection-sets-fix-sync-043c"
+        ],
         "acceptance": [
           "Run in a fresh unsaved Maya 2024 scene.",
           "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SELECTION_SETS_SMOKE_OK for PASS.",
@@ -75,11 +126,38 @@
           "If PASS, continue to the next remaining Goal 003 Skinning parity gap without pausing."
         ]
       },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.selection_sets_smoke", "callable": "run_selection_sets_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90}
+      "action": {
+        "type": "maya",
+        "target": "ui_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.selection_sets_smoke",
+        "callable": "run_selection_sets_smoke",
+        "expected_window": "",
+        "timeout": 90,
+        "startup_timeout": 120,
+        "operation_timeout": 90
+      }
     },
     {
       "task_id": "aimayatool-goal003-skin-io-existing-verify-044a",
@@ -104,22 +182,57 @@
         "proven_main_commit": "a05402ea0c38ade4cdefd91a87716b0e2120fd1f",
         "evidence": "Bridge fast-forwarded D:/AIMayaTool main from 1781f19318bcf3f3416c2f915ef3cc5d5bfa27f0 to a05402ea0c38ade4cdefd91a87716b0e2120fd1f; py_compile passed with exit_code=0 for skin_io.py and skin_io_parity_smoke.py using D:/softFolder/python/python.exe."
       },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skin_io.py", "aimayatool/tools/skinning/skin_io_parity_smoke.py"], "imports": [], "tests": [], "timeout": 180},
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/skin_io.py",
+          "aimayatool/tools/skinning/skin_io_parity_smoke.py"
+        ],
+        "imports": [],
+        "tests": [],
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal003-skin-io-existing-maya-smoke-044b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
         "purpose": "Validate legacy Import Skin Exist parity plus existing folder/quick skin IO behavior in Maya 2024.",
-        "depends_on": ["aimayatool-goal003-skin-io-existing-verify-044a"],
+        "depends_on": [
+          "aimayatool-goal003-skin-io-existing-verify-044a"
+        ],
         "acceptance": [
           "Run in a fresh unsaved Maya 2024 scene.",
           "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIN_IO_PARITY_SMOKE_OK for PASS.",
@@ -128,13 +241,114 @@
           "Prove normal import can still recreate a missing skinCluster.",
           "Prove batch strict-existing import and quick-folder strict-existing import succeed on valid existing skin.",
           "Do not save or modify a user scene."
+        ],
+        "result": "PASS",
+        "classification": "skin_io_existing_maya_validation_pass",
+        "evidence": "Maya 2024 ui_smoke ran aimayatool.tools.skinning.skin_io_parity_smoke.run_skin_io_parity_smoke and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIN_IO_PARITY_SMOKE_OK with exit_code=0.",
+        "maya_version": "2024"
+      },
+      "action": {
+        "type": "maya",
+        "target": "ui_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.skin_io_parity_smoke",
+        "callable": "run_skin_io_parity_smoke",
+        "expected_window": "",
+        "timeout": 120,
+        "startup_timeout": 120,
+        "operation_timeout": 120
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-skinning-remaining-gap-audit-045a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-core-parity",
+        "purpose": "Reconcile the now-expanded AIMayaTool Skinning surface against MayaScriptNew and identify the exact remaining Goal 003 parity gaps without reimplementing already accepted work.",
+        "depends_on": [
+          "aimayatool-goal003-skin-io-existing-maya-smoke-044b"
+        ],
+        "acceptance": [
+          "Fast-forward D:/AIMayaTool main before assessment.",
+          "Inspect current AIMayaTool Skinning modules/UI plus PARITY_MAP.md and authoritative MayaScriptNew Skinning UI/libs.",
+          "Classify each remaining useful legacy Skinning workflow as already migrated/replaced, still missing, or intentionally retired with concise rationale.",
+          "Do not edit product code in this task.",
+          "Return an ordered list of only genuinely remaining Goal 003 implementation or validation gaps, including the recommended next bounded slice.",
+          "Do not count animation/keyframe convenience actions that merely happened to live in the legacy Skinning UI as Skinning parity unless they are skinning-specific."
         ]
       },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_io_parity_smoke", "callable": "run_skin_io_parity_smoke", "expected_window": "", "timeout": 120, "startup_timeout": 120, "operation_timeout": 120}
+      "action": {
+        "type": "review",
+        "target": "codex"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "scope": [
+          "aimayatool/tools/skinning",
+          "aimayatool/ui",
+          "PARITY_MAP.md",
+          "MIGRATION.md"
+        ],
+        "reference_repository": "https://github.com/nguyenletrian/MayaScriptNew.git",
+        "reference_paths": [
+          "UIs/Skinning.py",
+          "Libs/NLTA_Skinning.py",
+          "Libs/NLTA_Brush.py",
+          "Libs/NLTA_Proxy.py",
+          "Libs/NLTA_GraphSkinning.py",
+          "Libs/NLTA_Set.py"
+        ],
+        "review_focus": "remaining Goal 003 Skinning parity gaps only",
+        "timeout": 300
+      }
     }
   ]
 }
