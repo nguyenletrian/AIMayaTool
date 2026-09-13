@@ -88,7 +88,7 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Python verification passed at proven AIMayaTool commit `e3c792e676217510086213516838d815b6b00953`, including compile/import checks and the focused operations unit suite.
 - Reusable managed-live validation exposed a stale module-cache issue when reusing a Maya session; AIBrigde now invalidates import caches and reloads the requested target module before each live probe, verified at AIBrigde commit `221f1601954ba9bfed70d4e29d0496b2c7b74f55`.
 - Maya 2024 operations validation then reused the existing session and returned `AIBRIDGE_UI_SMOKE_OK:SCENE_PATTERN_OPERATIONS_SMOKE_OK`; UI regression returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`, with a fresh unsaved scene and Maya left running.
-- Created immutable stable checkpoint `backup/2026-09-13-0852-ScenePatternOperations-e3c792e` pointing exactly to the proven AIMayaTool code commit.
+- Created immutable stable checkpoint `backup/2026-09-13-0852-ScenePatternOperations-e3c792e` pointing exactly to the proven AIMayaTool commit.
 
 ## 2026-09-13 — Scene display-layer helpers closed
 
@@ -120,6 +120,14 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Corrected the Skinning package boundary so Python-only imports remain usable outside Maya; deterministic verification then passed compile, non-Maya import, and focused tests 3/3 at proven code state `753786ea6fb2055e5892ee68a11047d45af9f91e`.
 - Managed Maya 2024 functional validation reused the existing session and returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_TRANSFER_SMOKE_OK`, proving the real skinCluster source-to-target transfer in a fresh unsaved scene.
 - Final UI regression reused the managed Maya session and returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`, with no scene save and no Maya quit.
+
+## 2026-09-13 — Advanced ratio and gradient Skinning primitives accepted
+
+- Added explicit influence-ratio redistribution and source-to-target ratio-copy primitives that preserve each target component's combined selected-influence weight while leaving unrelated influences untouched.
+- Added a reusable normalized animCurve-backed weight profile and inverse-distance profile mapping extracted from legacy `GradientActiveJoint` behavior.
+- Added explicit active-influence distance gradient weighting composed from those deterministic primitives rather than relying on legacy selection, envelope, timeline, or implicit normalization side effects.
+- Deterministic gradient-weighting verification passed 4/4 focused tests at proven main `e3fea2a3a1d24547e4ac699e9deee36a1c396aeb`.
+- Managed Maya 2024 validation reused the existing session and returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_GRADIENT_WEIGHTS_SMOKE_OK` in a fresh unsaved scene with Maya left running.
 
 ## Recording rule
 
