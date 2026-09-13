@@ -31,7 +31,17 @@
       "task_id": "aimayatool-goal003-skinning-readiness-verify-047a",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-maya-validation", "purpose": "Run a non-Codex deterministic readiness verification across representative Skinning parity modules before the next consolidated Maya validation slice.", "depends_on": ["aimayatool-goal003-skinning-ui-parity-maya-smoke-retry-046c"], "result": "PASS", "classification": "skinning_readiness_python_verification_pass", "proven_main_commit": "ddc56fb4c85af7b8861247db7d8a6a56e5f91740", "evidence": "Bridge fast-forwarded D:/AIMayaTool to ddc56fb4c85af7b8861247db7d8a6a56e5f91740; representative Skinning smoke modules compiled and importing aimayatool.tools.skinning passed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."},
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-maya-validation",
+        "purpose": "Run a non-Codex deterministic readiness verification across representative Skinning parity modules before the next consolidated Maya validation slice.",
+        "depends_on": ["aimayatool-goal003-skinning-ui-parity-maya-smoke-retry-046c"],
+        "result": "PASS",
+        "classification": "skinning_readiness_python_verification_pass",
+        "proven_main_commit": "ddc56fb4c85af7b8861247db7d8a6a56e5f91740",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to ddc56fb4c85af7b8861247db7d8a6a56e5f91740; representative Skinning smoke modules compiled and importing aimayatool.tools.skinning passed.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -43,7 +53,18 @@
       "task_id": "aimayatool-goal003-skinning-regression-verify-047b",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-maya-validation", "purpose": "Verify the consolidated Skinning regression entrypoint before Maya execution.", "depends_on": ["aimayatool-goal003-skinning-readiness-verify-047a"], "implementation_commit": "4dc219cee727e571e737830b919b830c4658306a", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "skinning_regression_entrypoint_python_verification_pass", "proven_main_commit": "055f6a98841f392d0f8e7ea0825761051870304e", "evidence": "py_compile passed for regression_smoke.py and importing aimayatool.tools.skinning passed."},
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-maya-validation",
+        "purpose": "Verify the consolidated Skinning regression entrypoint before Maya execution.",
+        "depends_on": ["aimayatool-goal003-skinning-readiness-verify-047a"],
+        "implementation_commit": "4dc219cee727e571e737830b919b830c4658306a",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_regression_entrypoint_python_verification_pass",
+        "proven_main_commit": "055f6a98841f392d0f8e7ea0825761051870304e",
+        "evidence": "py_compile passed for regression_smoke.py and importing aimayatool.tools.skinning passed."
+      },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -55,7 +76,18 @@
       "task_id": "aimayatool-goal003-skinning-regression-maya-047c",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-maya-validation", "purpose": "Run a consolidated Maya 2024 regression across representative Goal 003 Skinning workflows.", "depends_on": ["aimayatool-goal003-skinning-regression-verify-047b"], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "skinning_consolidated_maya_regression_pass", "proven_main_commit": "055f6a98841f392d0f8e7ea0825761051870304e", "evidence": "Maya 2024 returned exact marker AIBRIDGE_UI_SMOKE_OK:SKINNING_CONSOLIDATED_REGRESSION_OK with success=true and exit_code=0.", "runtime_exit_code": 0},
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-maya-validation",
+        "purpose": "Run a consolidated Maya 2024 regression across representative Goal 003 Skinning workflows.",
+        "depends_on": ["aimayatool-goal003-skinning-regression-verify-047b"],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_consolidated_maya_regression_pass",
+        "proven_main_commit": "055f6a98841f392d0f8e7ea0825761051870304e",
+        "evidence": "Maya 2024 returned exact marker AIBRIDGE_UI_SMOKE_OK:SKINNING_CONSOLIDATED_REGRESSION_OK with success=true and exit_code=0.",
+        "runtime_exit_code": 0
+      },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -66,7 +98,7 @@
     {
       "task_id": "aimayatool-goal003-skinning-remaining-ui-verify-048a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-ui-parity",
@@ -74,13 +106,36 @@
         "depends_on": ["aimayatool-goal003-skinning-regression-maya-047c"],
         "implementation_commits": ["c783c62628ce003a3aff26d6646c81ecb490d9e1", "558ef375edd9caeb202ebbf1efed466e6264654a", "a0564c1033d267bf2ca7e057c2f39a00ecda10dc"],
         "acceptance": ["Fast-forward D:/AIMayaTool main.", "py_compile proxy_clipboard.py, __init__.py, and ui_parity_smoke.py successfully.", "Import aimayatool.tools.skinning outside Maya successfully.", "Do not invoke Codex."],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_remaining_ui_python_verification_pass",
+        "proven_main_commit": "a03df6211f22ea22402b813a1bba77c010e90c64",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 055f6a98841f392d0f8e7ea0825761051870304e to a03df6211f22ea22402b813a1bba77c010e90c64; py_compile passed with exit_code=0 for proxy_clipboard.py, __init__.py, and ui_parity_smoke.py; importing aimayatool.tools.skinning passed with exit_code=0."
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/proxy_clipboard.py", "aimayatool/tools/skinning/__init__.py", "aimayatool/tools/skinning/ui_parity_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/proxy_clipboard.py", "aimayatool/tools/skinning/__init__.py", "aimayatool/tools/skinning/ui_parity_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-skinning-remaining-ui-managed-live-048b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-ui-parity",
+        "purpose": "Validate the remaining Skinning UI parity controls in a reusable managed Maya 2024 session and keep Maya alive for later tasks.",
+        "depends_on": ["aimayatool-goal003-skinning-remaining-ui-verify-048a"],
+        "acceptance": ["Fast-forward D:/AIMayaTool main before validation.", "Reuse a healthy compatible managed Maya 2024 session when available; launch only when reuse is unavailable.", "Force a fresh unsaved scene for task isolation without quitting Maya after success.", "Run aimayatool.tools.skinning.ui_parity_smoke.run_skinning_ui_parity_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK for PASS.", "Return maya_quit=false on normal success so the managed host remains reusable.", "Do not invoke Codex."],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.ui_parity_smoke", "callable": "run_skinning_ui_parity_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180}
     }
   ]
 }
