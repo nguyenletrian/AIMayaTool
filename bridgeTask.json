@@ -9,20 +9,9 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-weight-profile",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-weight-profile-deterministic-018a-r2",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "0413d1fbd3038314f0f83085f8e3d66b593d10db"
-        },
+        "archived_prerequisite": {"task_id": "aimayatool-weight-profile-deterministic-018a-r2", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "0413d1fbd3038314f0f83085f8e3d66b593d10db"},
         "purpose": "Verify the MEL tangent-command repair that bypasses the broken maya.cmds.keyTangent wrapper.",
-        "acceptance": [
-          "Fast-forward AIMayaTool main and include commit 4e30ab31798c32e58800bbd8d5808db67c67d7ff or later.",
-          "Compile weight_profile.py, weight_profile_smoke.py, and focused tests.",
-          "Import aimayatool.tools.skinning.weight_profile outside Maya without requiring maya.cmds or maya.mel at import time.",
-          "Run tests.test_skinning_weight_profile and require all focused tests to pass, including MEL tangent command and unsupported-tangent coverage."
-        ],
+        "acceptance": ["Fast-forward AIMayaTool main and include commit 4e30ab31798c32e58800bbd8d5808db67c67d7ff or later.", "Compile weight_profile.py, weight_profile_smoke.py, and focused tests.", "Import aimayatool.tools.skinning.weight_profile outside Maya without requiring maya.cmds or maya.mel at import time.", "Run tests.test_skinning_weight_profile and require all focused tests to pass, including MEL tangent command and unsupported-tangent coverage."],
         "result": "PASS",
         "proven_main_commit": "c5f924b4f76409de7db21a11e28d58c1c70ad59e",
         "evidence": "py_compile passed for weight_profile.py, weight_profile_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_weight_profile passed 5/5 including MEL tangent command and unsupported-tangent coverage."
@@ -31,13 +20,7 @@
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/skinning/weight_profile.py", "aimayatool/tools/skinning/weight_profile_smoke.py", "tests/test_skinning_weight_profile.py"],
-        "imports": ["aimayatool.tools.skinning.weight_profile"],
-        "tests": ["tests.test_skinning_weight_profile"],
-        "timeout": 180
-      },
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/weight_profile.py", "aimayatool/tools/skinning/weight_profile_smoke.py", "tests/test_skinning_weight_profile.py"], "imports": ["aimayatool.tools.skinning.weight_profile"], "tests": ["tests.test_skinning_weight_profile"], "timeout": 180},
       "bridge_completed": true
     },
     {
@@ -50,12 +33,7 @@
         "archived_prerequisite": {"task_id": "aimayatool-weight-profile-deterministic-018a-r3", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "c5f924b4f76409de7db21a11e28d58c1c70ad59e"},
         "archived_retry_source": {"task_id": "aimayatool-weight-profile-maya-smoke-018b-r2", "result": "FAIL_MAYA_TANGENT_WRAPPER", "architect_ack": true, "bridge_completed": true},
         "purpose": "Retry managed Maya weight-profile validation using MEL tangent commands instead of the broken Python keyTangent wrapper.",
-        "acceptance": [
-          "Reuse a healthy managed Maya session where possible.",
-          "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run the current weight-profile smoke from disk after syncing commit 4e30ab31798c32e58800bbd8d5808db67c67d7ff or later.",
-          "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_WEIGHT_PROFILE_SMOKE_OK."
-        ],
+        "acceptance": ["Reuse a healthy managed Maya session where possible.", "Force a fresh unsaved scene and do not save or quit Maya.", "Run the current weight-profile smoke from disk after syncing commit 4e30ab31798c32e58800bbd8d5808db67c67d7ff or later.", "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_WEIGHT_PROFILE_SMOKE_OK."],
         "result": "FAIL_MAYA_COMMAND_PARSER",
         "evidence": "Managed Maya 2024 still raised Invalid flag 'outgoingTangentType' while _set_tangent executed the MEL keyTangent command path. This proves the command parser/alias path is affected too. Product repair now avoids keyTangent commands entirely and sets endpoint tangent types through maya.api.OpenMayaAnim.MFnAnimCurve.",
         "repair_commit": "d65eedd810973a96c29e1b556abb2a105d0c37bb"
@@ -70,30 +48,23 @@
     {
       "task_id": "aimayatool-weight-profile-deterministic-018a-r4",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-weight-profile",
         "archived_prerequisite": {"task_id": "aimayatool-weight-profile-maya-smoke-018b-r3", "result": "FAIL_MAYA_COMMAND_PARSER", "architect_ack": true, "bridge_completed": true},
         "purpose": "Verify the OpenMayaAnim tangent repair that removes all keyTangent command-parser dependency.",
-        "acceptance": [
-          "Fast-forward AIMayaTool main and include commit d65eedd810973a96c29e1b556abb2a105d0c37bb or later.",
-          "Compile weight_profile.py, weight_profile_smoke.py, and focused tests.",
-          "Import aimayatool.tools.skinning.weight_profile outside Maya without importing Maya APIs at module import time.",
-          "Run tests.test_skinning_weight_profile and require all 6 focused tests to pass, including OpenMayaAnim tangent assignment and missing-key validation."
-        ]
+        "acceptance": ["Fast-forward AIMayaTool main and include commit d65eedd810973a96c29e1b556abb2a105d0c37bb or later.", "Compile weight_profile.py, weight_profile_smoke.py, and focused tests.", "Import aimayatool.tools.skinning.weight_profile outside Maya without importing Maya APIs at module import time.", "Run tests.test_skinning_weight_profile and require all 6 focused tests to pass, including OpenMayaAnim tangent assignment and missing-key validation."],
+        "result": "PASS",
+        "proven_main_commit": "f129c23b332f95b53fa906223235aa8c7d29ef94",
+        "evidence": "py_compile passed for weight_profile.py, weight_profile_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_weight_profile passed 6/6 including OpenMayaAnim tangent assignment and missing-key validation."
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/skinning/weight_profile.py", "aimayatool/tools/skinning/weight_profile_smoke.py", "tests/test_skinning_weight_profile.py"],
-        "imports": ["aimayatool.tools.skinning.weight_profile"],
-        "tests": ["tests.test_skinning_weight_profile"],
-        "timeout": 180
-      }
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/weight_profile.py", "aimayatool/tools/skinning/weight_profile_smoke.py", "tests/test_skinning_weight_profile.py"], "imports": ["aimayatool.tools.skinning.weight_profile"], "tests": ["tests.test_skinning_weight_profile"], "timeout": 180},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-weight-profile-maya-smoke-018b-r4",
@@ -105,12 +76,7 @@
         "depends_on": "aimayatool-weight-profile-deterministic-018a-r4",
         "archived_retry_source": {"task_id": "aimayatool-weight-profile-maya-smoke-018b-r3", "result": "FAIL_MAYA_COMMAND_PARSER", "architect_ack": true, "bridge_completed": true},
         "purpose": "Retry managed Maya weight-profile validation with tangent types set directly through OpenMayaAnim.",
-        "acceptance": [
-          "Reuse a healthy managed Maya session where possible.",
-          "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run the current weight-profile smoke from disk after syncing commit d65eedd810973a96c29e1b556abb2a105d0c37bb or later.",
-          "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_WEIGHT_PROFILE_SMOKE_OK."
-        ]
+        "acceptance": ["Reuse a healthy managed Maya session where possible.", "Force a fresh unsaved scene and do not save or quit Maya.", "Run the current weight-profile smoke from disk after syncing commit d65eedd810973a96c29e1b556abb2a105d0c37bb or later.", "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_WEIGHT_PROFILE_SMOKE_OK."]
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
