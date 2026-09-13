@@ -8,26 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-skirt-parent-production-smoothing-plan-maya-diagnostic-035g",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Run planner and parent transfer, then call build_smoothing_plan(plan) exactly as production run_skirt_parent_workflow does.",
-        "result": "INCONCLUSIVE",
-        "classification": "production_smoothing_plan_post_transfer_timeout",
-        "proven_main_commit": "6ae4b8eb628c1db14d92fbb674255a07bcb32a15",
-        "evidence": "Managed Maya 2024 reused the existing session on port 7001 and timed out after 120 seconds. The production-exact post-transfer smoothing-plan path is therefore still unresolved; timeout alone does not prove Maya crashed."
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_transfer_smoothing_plan_production_smoke", "callable": "run_skirt_parent_transfer_smoothing_plan_production_smoke", "expected_window": "", "live_port": 7001, "timeout": 120},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-retry-036d",
       "status": "pending",
       "architect_ack": true,
@@ -39,7 +19,7 @@
         "classification": "reproducible_post_transfer_first_loop_group_maya_crash",
         "proven_main_commit": "c064fea8175e5cd07afd5543fc4241ee1fc17ddb",
         "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "A fresh managed Maya 2024 session launched as PID 14720 on port 7001. The bounded first post-transfer loop-group operation did not produce a product result within 45 seconds; the active health probe was refused with WinError 10061, and cleanup reported managed_pid_already_exited for PID 14720."
+        "evidence": "Fresh managed Maya 2024 PID 14720 exited during the first post-transfer loop-group diagnostic; health probe was refused with WinError 10061 and cleanup confirmed the managed PID had already exited."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -55,12 +35,12 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "After planner and parent transfer, isolate only post-transfer MFnMesh resolution and one trivial topology query before any loop traversal.",
+        "purpose": "After planner and parent transfer, isolate post-transfer MFnMesh resolution and one trivial topology query before loop traversal.",
         "result": "FAIL",
         "classification": "reproducible_post_transfer_mesh_fn_query_maya_crash",
         "proven_main_commit": "aff0ae3bf86b28e0ef2f82c077ab865b4f9244b4",
         "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "A fresh managed Maya 2024 session launched as PID 15584 on port 7001. The post-transfer diagnostic that only resolved loop_groups._mesh_fn(mesh), read numEdges/numVertices, and queried getEdgeVertices(0) did not produce a product result within 45 seconds. The subsequent active health probe was refused with WinError 10061 and cleanup reported managed_pid_already_exited for PID 15584. This reproduces the product-level Maya crash without loop traversal/grouping."
+        "evidence": "Fresh managed Maya 2024 PID 15584 exited during post-transfer MFnMesh resolution/topology query; health probe was refused with WinError 10061 and cleanup confirmed the managed PID had already exited."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -72,25 +52,46 @@
     {
       "task_id": "aimayatool-skirt-parent-post-transfer-dagpath-maya-diagnostic-036f",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "purpose": "After planner and parent transfer, isolate MSelectionList mesh resolution and DAG-path access before MFnMesh construction.",
+        "result": "FAIL",
+        "classification": "reproducible_post_transfer_dagpath_resolution_maya_crash",
+        "proven_main_commit": "f86ec87b9a937a1b72532d2d0de3889d24443571",
+        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
+        "evidence": "Fresh managed Maya 2024 PID 2300 exited during the post-transfer DAG-path diagnostic. The smoke performed planner+transfer then created MSelectionList, added the mesh, called getDagPath(0), and checked the returned path. No MFnMesh was constructed post-transfer. Health probe was refused with WinError 10061 and cleanup confirmed managed_pid_already_exited."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_dagpath_smoke", "callable": "run_skirt_parent_post_transfer_dagpath_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-post-transfer-selection-add-maya-diagnostic-036g",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "After planner and parent transfer, isolate only MSelectionList mesh resolution and getDagPath(0), stopping before MFnMesh construction or any topology query.",
+        "purpose": "After planner and parent transfer, isolate only MSelectionList construction plus add(mesh), returning before getDagPath or any post-transfer Maya API object resolution.",
         "acceptance": [
-          "Fast-forward AIMayaTool main and include diagnostic smoke commit 8fbbf1c9f353bb5cc2d5f141c7f33c0061785c8c or later.",
+          "Fast-forward AIMayaTool main and include diagnostic smoke commit 1508d32e62837138acfc17ad8952f9bbd0662e70 or later.",
           "Use a fresh healthy managed Maya 2024 session with startup_timeout=90 and operation_timeout=45.",
           "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run run_skirt_parent_post_transfer_dagpath_smoke. After planner+transfer it must only create MSelectionList, add(mesh), and call getDagPath(0); it must not construct MFnMesh or query topology post-transfer.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_POST_TRANSFER_DAGPATH_SMOKE_OK. If Maya exits, isolate the crash to post-transfer DAG-path resolution. If it passes, next split MFnMesh construction from its first topology query."
+          "Run run_skirt_parent_post_transfer_selection_add_smoke. After planner+transfer it must only construct MSelectionList and call add(mesh); it must return before getDagPath, MFnMesh construction, or topology queries.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_POST_TRANSFER_SELECTION_ADD_SMOKE_OK. If it passes, isolate getDagPath(0) alone next. If Maya exits, the trigger is at or before MSelectionList.add(mesh) after transfer."
         ],
         "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-post-transfer-mesh-fn-maya-diagnostic-036e",
+          "task_id": "aimayatool-skirt-parent-post-transfer-dagpath-maya-diagnostic-036f",
           "result": "FAIL",
-          "classification": "reproducible_post_transfer_mesh_fn_query_maya_crash",
+          "classification": "reproducible_post_transfer_dagpath_resolution_maya_crash",
           "architect_ack": true,
           "bridge_completed": true,
-          "proven_main_commit": "aff0ae3bf86b28e0ef2f82c077ab865b4f9244b4"
+          "proven_main_commit": "f86ec87b9a937a1b72532d2d0de3889d24443571"
         }
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
@@ -101,8 +102,8 @@
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_dagpath_smoke",
-        "callable": "run_skirt_parent_post_transfer_dagpath_smoke",
+        "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_selection_add_smoke",
+        "callable": "run_skirt_parent_post_transfer_selection_add_smoke",
         "expected_window": "",
         "live_port": 7001,
         "timeout": 45,
