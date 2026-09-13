@@ -14,6 +14,8 @@ _EXPECTED_BUTTONS = {
     'Add +0.1',
     'Smooth Brush',
     'Flood Current Operation',
+    'Pick Paint Value',
+    'Switch Add Sign',
     'Unlock Selected Influences',
     'Unlock Top 2 Influences',
     'Unlock Parent',
