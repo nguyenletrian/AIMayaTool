@@ -82,14 +82,62 @@ def perpendicular_edge_from_vertices(mesh, source_vertex, target_vertex, thresho
     return '%s.e[%d]' % (mesh, best_edge)
 
 
-def edge_loop_vertices(mesh, edge, mesh_fn=None, selector=None):
-    """Expand an explicit edge to its Maya edge loop and return touched vertices."""
-    selector = selector or _cmds().polySelect
-    edge_ids = selector(mesh, edgeLoop=component_index(edge), noSelection=True)
-    if not edge_ids:
+def _quad_loop_edge_ids(mesh_fn, start_edge_id):
+    """Return the bounded quad edge-loop containing start_edge_id using mesh topology only."""
+    start_edge_id = int(start_edge_id)
+    if start_edge_id < 0 or start_edge_id >= int(mesh_fn.numEdges):
         return []
-    if isinstance(edge_ids, int):
-        edge_ids = [edge_ids]
+    pair_to_edge = {}
+    for edge_id in range(mesh_fn.numEdges):
+        v0, v1 = mesh_fn.getEdgeVertices(edge_id)
+        pair_to_edge[tuple(sorted((int(v0), int(v1))))] = edge_id
+
+    adjacent_quad_edges = {}
+    for face_id in range(mesh_fn.numPolygons):
+        vertices = [int(value) for value in mesh_fn.getPolygonVertices(face_id)]
+        if len(vertices) != 4:
+            continue
+        face_edges = []
+        for index in range(4):
+            pair = tuple(sorted((vertices[index], vertices[(index + 1) % 4])))
+            edge_id = pair_to_edge.get(pair)
+            if edge_id is None:
+                face_edges = []
+                break
+            face_edges.append(edge_id)
+        if len(face_edges) != 4:
+            continue
+        for index, edge_id in enumerate(face_edges):
+            adjacent_quad_edges.setdefault(edge_id, []).append(face_edges[(index + 2) % 4])
+
+    visited = set()
+    pending = [start_edge_id]
+    while pending and len(visited) <= int(mesh_fn.numEdges):
+        edge_id = pending.pop()
+        if edge_id in visited:
+            continue
+        visited.add(edge_id)
+        for opposite_edge in adjacent_quad_edges.get(edge_id, []):
+            if opposite_edge not in visited:
+                pending.append(opposite_edge)
+    return sorted(visited)
+
+
+def edge_loop_vertices(mesh, edge, mesh_fn=None, selector=None):
+    """Expand an explicit edge to an edge loop and return touched vertices.
+
+    A supplied selector preserves Maya/polySelect compatibility. The default path uses a bounded
+    API-topology traversal across opposite edges of quad faces, avoiding unbounded host selection.
+    """
+    mesh_fn = mesh_fn or _mesh_fn(mesh)
+    if selector is not None:
+        edge_ids = selector(mesh, edgeLoop=component_index(edge), noSelection=True)
+        if not edge_ids:
+            return []
+        if isinstance(edge_ids, int):
+            edge_ids = [edge_ids]
+    else:
+        edge_ids = _quad_loop_edge_ids(mesh_fn, component_index(edge))
     return vertices_from_edges(mesh, ['%s.e[%d]' % (mesh, edge_id) for edge_id in edge_ids], mesh_fn=mesh_fn)
 
 
