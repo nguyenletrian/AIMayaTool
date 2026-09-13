@@ -8,302 +8,19 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-influence-sync-cleanup-verify-051a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-core-parity",
-        "purpose": "Verify source-to-target missing-influence sync and unused-influence cleanup implementation plus UI exposure.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal003-residual-paint-ui-managed-live-050c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "7a4dadc28fd85ba7ad0e1953f2bc9ddde0b987fa",
-          "17bc543570c74af5e975b98bd6a03c9c85a1ca04",
-          "a5b77f2619340464933f01fe893c08947f7e0326",
-          "fbc3b847892d9c69567950c91ee8d080051db94b"
-        ],
-        "acceptance": [
-          "Fast-forward D:/AIMayaTool main.",
-          "py_compile influences.py, influence_cleanup_smoke.py, __init__.py and ui_parity_smoke.py successfully.",
-          "Import aimayatool.tools.skinning outside Maya successfully.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_influence_sync_cleanup_python_verification_pass",
-        "proven_main_commit": "df1a3f7ed46ffdc8259b8a3a410a513b4c82efd3",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 5f07d8d0aa811b1f78c0c131be7a36cdbd703382 to df1a3f7ed46ffdc8259b8a3a410a513b4c82efd3; py_compile passed with exit_code=0 for influences.py, influence_cleanup_smoke.py, __init__.py, and ui_parity_smoke.py; importing aimayatool.tools.skinning passed with exit_code=0."
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/influences.py",
-          "aimayatool/tools/skinning/influence_cleanup_smoke.py",
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/skinning/ui_parity_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-influence-sync-cleanup-managed-live-051b",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-core-parity",
-        "purpose": "Validate missing-influence sync and unused-influence cleanup against real Maya skinClusters.",
-        "depends_on": [
-          "aimayatool-goal003-influence-sync-cleanup-verify-051a"
-        ],
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.influence_cleanup_smoke.run_influence_cleanup_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_CLEANUP_SMOKE_OK for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "INCONCLUSIVE",
-        "classification": "validation_fixture_zero_weight_cleanup_conflict",
-        "proven_main_commit": "fd7031b3ea610a38232f3a2e084e869bd4647bad",
-        "evidence": "Managed Maya reused PID 10632 and the product cleanup returned ['AIMayaToolInfluenceSyncJointB']. The smoke had just synced joint_b at weight 0.0, so Maya removeUnusedInfluence correctly treated both joint_b and joint_unused as unused. The fixture simultaneously expected joint_b to survive, making the assertion self-contradictory. No product defect proven.",
-        "managed_pid": 10632,
-        "managed_port": 7001,
-        "session": "existing",
-        "new_scene_forced": true,
-        "scene_saved": false,
-        "maya_quit": false
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.influence_cleanup_smoke",
-        "callable": "run_influence_cleanup_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-influence-cleanup-fixture-verify-051d",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-core-parity",
-        "purpose": "Verify corrected influence-cleanup smoke authors nonzero target weight for the synced influence before remove-unused validation.",
-        "depends_on": [
-          "aimayatool-goal003-influence-sync-cleanup-managed-live-051b"
-        ],
-        "implementation_commit": "20ed8b81c76b89b569e708adc7a03cc6f40887ca",
-        "acceptance": [
-          "Fast-forward D:/AIMayaTool main.",
-          "py_compile aimayatool/tools/skinning/influence_cleanup_smoke.py successfully.",
-          "Import aimayatool.tools.skinning outside Maya successfully.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_influence_cleanup_fixture_python_verification_pass",
-        "proven_main_commit": "b33a59fa0150b7d8d11683eb516ab657d2aabdb7",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from fd7031b3ea610a38232f3a2e084e869bd4647bad to b33a59fa0150b7d8d11683eb516ab657d2aabdb7; py_compile passed with exit_code=0 for influence_cleanup_smoke.py and importing aimayatool.tools.skinning passed with exit_code=0."
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/influence_cleanup_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-influence-sync-cleanup-managed-live-retry-051e",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-core-parity",
-        "purpose": "Retry influence sync and unused-influence cleanup with corrected used-vs-unused fixture.",
-        "depends_on": [
-          "aimayatool-goal003-influence-cleanup-fixture-verify-051d"
-        ],
-        "retry_of": "aimayatool-goal003-influence-sync-cleanup-managed-live-051b",
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.influence_cleanup_smoke.run_influence_cleanup_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_CLEANUP_SMOKE_OK for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "INCONCLUSIVE",
-        "classification": "validation_fixture_bound_influence_not_globally_unused",
-        "proven_main_commit": "789023caa445ecb71e9b2dc156562f20094b4889",
-        "evidence": "Managed Maya reused PID 10632 and remove_unused returned []. The fixture bound joint_unused when creating the target skinCluster, so Maya may assign it weight on vertices other than the single vertex explicitly zeroed. The test therefore did not establish that joint_unused was globally unused. No product defect proven.",
-        "managed_pid": 10632,
-        "managed_port": 7001,
-        "session": "existing",
-        "new_scene_forced": true,
-        "scene_saved": false,
-        "maya_quit": false
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.influence_cleanup_smoke",
-        "callable": "run_influence_cleanup_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal003-influence-cleanup-deterministic-fixture-verify-051f",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-core-parity",
         "purpose": "Verify second fixture correction creates the target skin with only the used joint, then adds the intended unused influence explicitly at zero weight across the mesh.",
-        "depends_on": [
-          "aimayatool-goal003-influence-sync-cleanup-managed-live-retry-051e"
-        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal003-influence-sync-cleanup-managed-live-retry-051e",
+          "result": "INCONCLUSIVE",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
         "implementation_commit": "6dc6774d82def0eae0da2d67cc116e43be248f98",
         "acceptance": [
           "Fast-forward D:/AIMayaTool main.",
@@ -311,7 +28,11 @@
           "Import aimayatool.tools.skinning outside Maya successfully.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_influence_cleanup_deterministic_fixture_python_verification_pass",
+        "proven_main_commit": "738519c0e433e0367f8920b17ae178e16e782499",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 789023caa445ecb71e9b2dc156562f20094b4889 to 738519c0e433e0367f8920b17ae178e16e782499; py_compile passed with exit_code=0 for influence_cleanup_smoke.py and importing aimayatool.tools.skinning passed with exit_code=0."
       },
       "action": {
         "type": "verification",
@@ -351,7 +72,8 @@
         ],
         "tests": [],
         "timeout": 240
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal003-influence-sync-cleanup-managed-live-retry2-051g",
