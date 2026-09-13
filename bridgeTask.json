@@ -22,37 +22,11 @@
         "stable_checkpoint": "backup/2026-09-13-0900-SceneDisplayLayers-d60cde8",
         "evidence": "maya:managed_live_smoke reused the existing Maya 2024 session on 127.0.0.1:7001, forced a fresh scene, did not save or quit Maya, and bootstrap.install_and_launch returned AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "bootstrap",
-        "callable": "install_and_launch",
-        "expected_window": "AIMayaToolWindow",
-        "live_port": 7001,
-        "timeout": 180
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "bootstrap", "callable": "install_and_launch", "expected_window": "AIMayaToolWindow", "live_port": 7001, "timeout": 180},
       "bridge_completed": true
     },
     {
@@ -64,59 +38,19 @@
         "milestone_id": "scene-build-actions",
         "depends_on": "aimayatool-scene-display-layers-ui-regression-013c",
         "purpose": "Deterministically verify reusable Scene transform hierarchy and parenting build actions.",
-        "acceptance": [
-          "Fast-forward AIMayaTool main before verification.",
-          "Compile build_actions.py, build_actions_smoke.py, Scene __init__.py, and tests/test_scene_build_actions.py.",
-          "Import aimayatool.tools.scene and aimayatool.tools.scene.build_actions outside Maya successfully.",
-          "Run tests.test_scene_build_actions and require all focused tests to pass."
-        ],
         "result": "PASS",
         "proven_main_commit": "eb1502dc41ff77b7ff03c92b4a096ad94bc30dde",
-        "evidence": "ff-only pull advanced D:/AIMayaTool from d60cde8f0b0aef7afad242a2e6b9795fa29f7f8e to eb1502dc41ff77b7ff03c92b4a096ad94bc30dde. py_compile passed for build_actions.py, build_actions_smoke.py, Scene __init__.py, and tests/test_scene_build_actions.py; imports of aimayatool.tools.scene and aimayatool.tools.scene.build_actions passed; focused unittest ran 3 tests in 0.001s and returned OK."
+        "evidence": "ff-only pull advanced D:/AIMayaTool to eb1502dc41ff77b7ff03c92b4a096ad94bc30dde; compile and both imports passed; focused unittest ran 3 tests in 0.001s and returned OK."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/build_actions.py",
-          "aimayatool/tools/scene/build_actions_smoke.py",
-          "aimayatool/tools/scene/__init__.py",
-          "tests/test_scene_build_actions.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene",
-          "aimayatool.tools.scene.build_actions"
-        ],
-        "tests": [
-          "tests.test_scene_build_actions"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/scene/build_actions.py", "aimayatool/tools/scene/build_actions_smoke.py", "aimayatool/tools/scene/__init__.py", "tests/test_scene_build_actions.py"],
+        "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.build_actions"],
+        "tests": ["tests.test_scene_build_actions"],
         "timeout": 180
       },
       "bridge_completed": true
@@ -124,50 +58,22 @@
     {
       "task_id": "aimayatool-scene-build-actions-maya-smoke-014b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "scene-build-actions",
         "depends_on": "aimayatool-scene-build-actions-deterministic-014a",
         "purpose": "Validate hierarchy creation and world-preserving parenting in managed Maya 2024.",
-        "acceptance": [
-          "Reuse a healthy managed Maya session where possible.",
-          "Force a fresh unsaved scene; do not save or quit Maya.",
-          "Reload current aimayatool.tools.scene.build_actions_smoke from disk.",
-          "Return AIBRIDGE_UI_SMOKE_OK:SCENE_BUILD_ACTIONS_SMOKE_OK."
-        ]
+        "result": "PASS",
+        "proven_main_commit": "eb1502dc41ff77b7ff03c92b4a096ad94bc30dde",
+        "evidence": "Managed Maya 2024 reused the existing session on 127.0.0.1:7001, forced a fresh scene, did not save or quit Maya, and run_scene_build_actions_smoke returned AIBRIDGE_UI_SMOKE_OK:SCENE_BUILD_ACTIONS_SMOKE_OK."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.scene.build_actions_smoke",
-        "callable": "run_scene_build_actions_smoke",
-        "expected_window": "",
-        "live_port": 7001,
-        "timeout": 180
-      }
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.build_actions_smoke", "callable": "run_scene_build_actions_smoke", "expected_window": "", "live_port": 7001, "timeout": 180},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-scene-build-actions-ui-regression-014c",
@@ -179,37 +85,11 @@
         "depends_on": "aimayatool-scene-build-actions-maya-smoke-014b",
         "purpose": "Verify Scene build-action API exposure does not regress AIMayaTool launch."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "bootstrap",
-        "callable": "install_and_launch",
-        "expected_window": "AIMayaToolWindow",
-        "live_port": 7001,
-        "timeout": 180
-      }
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "bootstrap", "callable": "install_and_launch", "expected_window": "AIMayaToolWindow", "live_port": 7001, "timeout": 180}
     }
   ]
 }
