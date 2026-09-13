@@ -5,7 +5,7 @@
     {
       "task_id": "aimayatool-ratio-weighting-assessment-017a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-ratio-weighting-assessment",
@@ -17,6 +17,67 @@
           "proven_main_commit": "e215be7a2b0193b0061935524a8fbb41da879ead"
         },
         "purpose": "Assess the next bounded Skinning primitive from legacy ratio/gradient weighting helpers without migrating the legacy graph/skirt monolith.",
+        "acceptance": [
+          "Fast-forward AIMayaTool main before assessment.",
+          "Inspect legacy MayaScriptNew Libs/NLTA_GraphSkinning.py around GradientActiveJoint, CopyRatioWeight, GradientTwoJoints, and their immediate callers.",
+          "Inspect current AIMayaTool Skinning APIs to identify overlap and reusable boundaries.",
+          "Recommend exactly one next primitive or a tightly coupled minimal pair, with explicit inputs/returns and no dependency on legacy UI/global state.",
+          "Report source behavior, proposed AIMayaTool module/API, deterministic-test strategy, Maya-smoke strategy, and any reason not to migrate a candidate.",
+          "Do not modify product code during this assessment task."
+        ],
+        "result": "FAIL_PERMISSION_CONTRACT",
+        "evidence": "Bridge rejected the git_pull precondition before assessment because permissions.edit was false. No product or assessment code executed."
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 180
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-ratio-weighting-assessment-017a-r1",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-ratio-weighting-assessment",
+        "retry_of": "aimayatool-ratio-weighting-assessment-017a",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-influence-transfer-ui-regression-016d",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "e215be7a2b0193b0061935524a8fbb41da879ead"
+        },
+        "purpose": "Retry the bounded ratio/gradient weighting assessment with permission for the required fast-forward pull.",
         "acceptance": [
           "Fast-forward AIMayaTool main before assessment.",
           "Inspect legacy MayaScriptNew Libs/NLTA_GraphSkinning.py around GradientActiveJoint, CopyRatioWeight, GradientTwoJoints, and their immediate callers.",
@@ -37,7 +98,7 @@
       },
       "permissions": {
         "read": true,
-        "edit": false,
+        "edit": true,
         "run_tests": true,
         "commit": false,
         "push": false
