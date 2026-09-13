@@ -125,16 +125,30 @@ def run_mirror_skin_smoke():
     if pair_error > 1e-5:
         raise RuntimeError('mirror smoke could not resolve an exact symmetric vertex pair: left=%s right=%s' % (left_position, right_position))
 
-    cmds.skinPercent(skin_cluster, left_vertex, transformValue=[(joint_left, 1.0), (joint_right, 0.0)], normalize=True)
-    cmds.skinPercent(skin_cluster, right_vertex, transformValue=[(joint_left, 0.0), (joint_right, 1.0)], normalize=True)
+    # closestJoint mirrors influence identity as well as vertex position. Author an
+    # asymmetric source signature and a deliberately different destination so a
+    # successful mirror is observable: 0.8 L + 0.2 R becomes 0.2 L + 0.8 R.
+    source_values = [(joint_left, 0.8), (joint_right, 0.2)]
+    destination_values = [(joint_left, 1.0), (joint_right, 0.0)]
+    expected_left = 0.2
+    expected_right = 0.8
 
+    def _author_fixture():
+        cmds.skinPercent(skin_cluster, left_vertex, transformValue=source_values, normalize=True)
+        cmds.skinPercent(skin_cluster, right_vertex, transformValue=destination_values, normalize=True)
+
+    def _destination_matches():
+        left_weight = cmds.skinPercent(skin_cluster, right_vertex, query=True, transform=joint_left)
+        right_weight = cmds.skinPercent(skin_cluster, right_vertex, query=True, transform=joint_right)
+        return abs(left_weight - expected_left) <= 1e-4 and abs(right_weight - expected_right) <= 1e-4
+
+    _author_fixture()
     mirror_skin.mirror(mesh, axis='x', inverse=False)
-    first_right = cmds.skinPercent(skin_cluster, right_vertex, query=True, transform=joint_left)
-    first_left = cmds.skinPercent(skin_cluster, left_vertex, query=True, transform=joint_right)
-    if max(first_right, first_left) < 0.99:
+    if not _destination_matches():
+        _author_fixture()
         mirror_skin.mirror(mesh, axis='x', inverse=True)
-        second_right = cmds.skinPercent(skin_cluster, right_vertex, query=True, transform=joint_left)
-        second_left = cmds.skinPercent(skin_cluster, left_vertex, query=True, transform=joint_right)
-        if max(second_right, second_left) < 0.99:
-            raise RuntimeError('mirror skin did not transfer opposite-side influence weights: left=%s right=%s' % (left_position, right_position))
+        if not _destination_matches():
+            actual_left = cmds.skinPercent(skin_cluster, right_vertex, query=True, transform=joint_left)
+            actual_right = cmds.skinPercent(skin_cluster, right_vertex, query=True, transform=joint_right)
+            raise RuntimeError('mirror skin destination mismatch: left=%s right=%s expected=(%s, %s)' % (actual_left, actual_right, expected_left, expected_right))
     return 'SKINNING_MIRROR_SKIN_SMOKE_OK'
