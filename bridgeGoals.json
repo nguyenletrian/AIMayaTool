@@ -4,7 +4,7 @@
     {
       "goal_id": "aimayatool-foundation-001",
       "title": "Reusable AIBrigde-backed Maya project foundation",
-      "status": "active",
+      "status": "completed",
       "purpose": "Establish AIMayaTool as a project profile that inherits AIBrigde system contracts while adding Maya-specific architecture, validation, routers, and migration rules locally so future projects can follow the same pattern with minimal AIBrigde changes.",
       "acceptance": [
         "AIMayaTool declares AIBrigde as its platform/runtime and does not copy or fork worker lifecycle code.",
