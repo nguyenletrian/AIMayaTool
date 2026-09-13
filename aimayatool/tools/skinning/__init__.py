@@ -6,6 +6,7 @@ from . import copy_weights
 from . import influences
 from . import max_influences
 from . import mirror_skin
+from . import utilities
 
 
 def _run(label, fn):
@@ -41,3 +42,14 @@ def build_ui():
     cmds.button(label='Mirror +X Direction', command=lambda *_: _run('Mirrored skin', lambda: mirror_skin.mirror_from_selection(axis='x', inverse=False)))
     cmds.button(label='Mirror -X Direction', command=lambda *_: _run('Mirrored skin', lambda: mirror_skin.mirror_from_selection(axis='x', inverse=True)))
     cmds.setParent('..')
+    cmds.separator(height=8, style='none')
+    cmds.text(label='Weight utilities', align='left')
+    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
+    cmds.button(label='Unlock All Influences', command=lambda *_: _run('Unlocked', utilities.unlock_all_from_selection))
+    cmds.button(label='Lock All Influences', command=lambda *_: _run('Locked', utilities.lock_all_from_selection))
+    cmds.setParent('..')
+    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
+    cmds.button(label='Prune Selected Weights', command=lambda *_: _run('Pruned', utilities.prune_from_selection))
+    cmds.button(label='Clear Joint From Vertices', command=lambda *_: _run('Cleared', utilities.clear_from_selection))
+    cmds.setParent('..')
+    cmds.button(label='Select Vertices Affected by Joints', command=lambda *_: _run('Affected vertices', utilities.select_affected_from_selection))
