@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import importlib
+
 import maya.cmds as cmds
 
 from aimayatool.tools.skinning import brush_weight
@@ -7,6 +9,9 @@ from aimayatool.tools.skinning import paint_state
 
 
 def run_brush_weight_smoke():
+    importlib.invalidate_caches()
+    importlib.reload(brush_weight)
+    importlib.reload(paint_state)
     cmds.file(new=True, force=True)
     mesh = cmds.polyPlane(name='AIMayaToolBrushWeightMesh', subdivisionsX=1, subdivisionsY=1)[0]
     joint = cmds.joint(name='AIMayaToolBrushWeightJoint', position=(0, 0, 0))
@@ -38,6 +43,14 @@ def run_brush_weight_smoke():
         raise RuntimeError('add-sign toggle mismatch')
     if brush_weight.operation(context) != 'additive':
         raise RuntimeError('toggle did not preserve additive mode')
+
+    picked_context = brush_weight.pick_value(context)
+    if picked_context != context:
+        raise RuntimeError('pick-value did not return active context')
+    if brush_weight.operation(context) != 'absolute':
+        raise RuntimeError('pick-value did not switch to replace mode')
+    if abs(paint_state.opacity(context) - 1.0) > 1e-6:
+        raise RuntimeError('pick-value did not restore full opacity')
 
     profile = brush_weight.smooth('soft', context)
     if profile != 'soft':
