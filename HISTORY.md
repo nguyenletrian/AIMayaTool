@@ -82,6 +82,14 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Live ScenePattern validation returned `AIBRIDGE_UI_SMOKE_OK:SCENE_PATTERN_SMOKE_OK`; UI regression then reused the existing Maya session and returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`, with `new_scene_forced=true`, `scene_saved=false`, and `maya_quit=false`.
 - Created immutable stable checkpoint `backup/2026-09-13-0830-ScenePatternFirstSlice-2553758` pointing exactly to the proven AIMayaTool code commit.
 
+## 2026-09-13 — ScenePattern operations closed
+
+- Added deterministic ScenePattern create/edit/save/load APIs with overwrite protection and explicit filesystem validation, while keeping Scene package imports usable outside Maya through lazy host imports.
+- Python verification passed at proven AIMayaTool commit `e3c792e676217510086213516838d815b6b00953`, including compile/import checks and the focused operations unit suite.
+- Reusable managed-live validation exposed a stale module-cache issue when reusing a Maya session; AIBrigde now invalidates import caches and reloads the requested target module before each live probe, verified at AIBrigde commit `221f1601954ba9bfed70d4e29d0496b2c7b74f55`.
+- Maya 2024 operations validation then reused the existing session and returned `AIBRIDGE_UI_SMOKE_OK:SCENE_PATTERN_OPERATIONS_SMOKE_OK`; UI regression returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`, with a fresh unsaved scene and Maya left running.
+- Created immutable stable checkpoint `backup/2026-09-13-0852-ScenePatternOperations-e3c792e` pointing exactly to the proven AIMayaTool code commit.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
