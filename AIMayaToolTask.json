@@ -8,52 +8,12 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-brush-weight-editing-maya-semantic-retry-037v",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-weight-tools",
-        "result": "PASS",
-        "classification": "goal003_brush_weight_editing_maya_accepted_with_known_shutdown_anomaly",
-        "evidence": "Maya 2024 returned AIBRIDGE_UI_SMOKE_OK:SKINNING_BRUSH_WEIGHT_SMOKE_OK after validating documented absolute/additive/smooth operation semantics, soft-to-gaussian profile mapping, toggle behavior, and Flood. Exit 3221227010 occurred only after the success marker and is accepted as the known Maya Windows shutdown anomaly.",
-        "proven_main_commit": "b3dc8543bfb8cd8923ac94018e6a7e8dda9c522b"
-      },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.brush_weight_smoke", "callable": "run_brush_weight_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-component-weight-workflows-sync-037w",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-weight-tools",
-        "depends_on": ["aimayatool-goal003-brush-weight-editing-maya-semantic-retry-037v"],
-        "artifact_commit": "7a0595467b3da2402f2b171034f5ad101e9e22ef",
-        "result": "PASS",
-        "classification": "goal003_component_weight_workflows_synced",
-        "evidence": "Bridge fast-forwarded local AIMayaTool main from b3dc8543bfb8cd8923ac94018e6a7e8dda9c522b to c45b023f4001971e4f69eaea9a6ad2f4584b7724 successfully, including component_weights.py."
-      },
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal003-component-weight-workflows-maya-smoke-037x",
       "status": "pending",
       "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
-        "depends_on": ["aimayatool-goal003-component-weight-workflows-sync-037w"],
         "result": "PASS",
         "classification": "goal003_component_weight_workflows_maya_accepted_with_known_shutdown_anomaly",
         "evidence": "Maya 2024 returned AIBRIDGE_UI_SMOKE_OK:SKINNING_COMPONENT_WEIGHTS_SMOKE_OK after validating full-vector CopyWeight, CopyRatio reuse, and cross-mesh rejection. Exit 3221227010 occurred only after the success marker and is accepted as the known Maya Windows shutdown anomaly.",
@@ -69,7 +29,7 @@
     {
       "task_id": "aimayatool-goal003-proxy-skin-extraction-sync-037y",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
@@ -77,13 +37,55 @@
         "depends_on": ["aimayatool-goal003-component-weight-workflows-maya-smoke-037x"],
         "artifact_commit": "06675c4ea7cfd23303e6ceb63be570438bd7ca9e",
         "changed_files": ["aimayatool/tools/skinning/proxy_skin.py"],
-        "scope": "Single proxy extraction and optional skin transfer only. Axis mirror, clipboard-style proxy copy/paste, and closest-face matching remain later proxy slices."
+        "scope": "Single proxy extraction and optional skin transfer only. Axis mirror, clipboard-style proxy copy/paste, and closest-face matching remain later proxy slices.",
+        "result": "PASS",
+        "classification": "goal003_proxy_skin_extraction_synced",
+        "evidence": "Bridge fast-forwarded local AIMayaTool main from a48dc001e31753b8642571db3a173a24da3c0649 to f5b753970c7d4aa25973dae97dc91fbcfc647a7d successfully, including proxy_skin.py."
       },
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"}
+      "payload": {"strategy": "ff-only", "remote": "origin"},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-proxy-skin-extraction-maya-smoke-037z",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "purpose": "Validate selected-face proxy extraction, source-like binding, skin transfer, and unskinned-source behavior in Maya before expanding proxy mirror/clipboard/closest-face workflows.",
+        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-sync-037y"],
+        "smoke_commit": "317fcb35d441dabbaa73187fca9b67ee1876f840",
+        "acceptance": [
+          "Fast-forward main before validation.",
+          "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.",
+          "Invoke aimayatool.tools.skinning.proxy_skin_smoke.run_proxy_skin_smoke.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_EXTRACTION_SMOKE_OK for PASS.",
+          "Prove explicit face extraction keeps the requested region and produces valid proxy topology.",
+          "Prove a skinned source creates a proxy skinCluster with the same influence set and normalized transferred weights.",
+          "Prove an unskinned source remains unskinned instead of fabricating a skinCluster.",
+          "If PASS, continue with axis-mirror proxy behavior as the next bounded proxy slice."
+        ]
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.proxy_skin_smoke",
+        "callable": "run_proxy_skin_smoke",
+        "expected_window": "",
+        "timeout": 90,
+        "startup_timeout": 120,
+        "operation_timeout": 90,
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]
+      }
     }
   ]
 }
