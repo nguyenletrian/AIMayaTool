@@ -13,41 +13,41 @@ def _context(context=None):
     return paint_state.require_skin_paint_context(context)
 
 
-def _paint_mode_select():
-    mel.eval('artAttrSkinPaintModePaintSelect 1 %s;' % _CONTEXT)
+def _set_operation(operation, context=None):
+    context = _context(context)
+    try:
+        cmds.artAttrSkinPaintCtx(context, edit=True, selectedattroper=operation)
+    except (TypeError, RuntimeError):
+        mel.eval('artAttrPaintOperation %s %s;' % (_CONTEXT, operation))
+    return context
 
 
 def replace(value, context=None):
-    context = _context(context)
-    _paint_mode_select()
-    mel.eval('artAttrPaintOperation %s Replace;' % _CONTEXT)
+    context = _set_operation('replace', context)
     value = float(value)
-    mel.eval('artSkinSetSelectionValue %s false %s artAttrSkin;' % (value, _CONTEXT))
     cmds.artAttrSkinPaintCtx(context, edit=True, value=value)
     return value
 
 
 def add(value, context=None):
-    context = _context(context)
-    _paint_mode_select()
-    mel.eval('artAttrPaintOperation %s Add;' % _CONTEXT)
+    context = _set_operation('additive', context)
     value = float(value)
-    mel.eval('artSkinSetSelectionValue %s false %s artAttrSkin;' % (value, _CONTEXT))
     cmds.artAttrSkinPaintCtx(context, edit=True, value=value)
     return value
 
 
 def smooth(profile='soft', context=None):
-    _context(context)
-    _paint_mode_select()
-    mel.eval('artUpdateStampProfile %s %s;' % (str(profile), _CONTEXT))
-    mel.eval('artAttrPaintOperation %s Smooth;' % _CONTEXT)
-    return str(profile)
+    context = _set_operation('smooth', context)
+    profile = str(profile)
+    try:
+        cmds.artAttrSkinPaintCtx(context, edit=True, stampProfile=profile)
+    except (TypeError, RuntimeError):
+        mel.eval('artUpdateStampProfile %s %s;' % (profile, _CONTEXT))
+    return profile
 
 
 def flood(context=None):
     context = _context(context)
-    _paint_mode_select()
     cmds.artAttrSkinPaintCtx(context, edit=True, clear=True)
     return context
 
