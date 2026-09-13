@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import importlib
+
 import maya.cmds as cmds
 
 from aimayatool.tools.skinning import paint_influence
@@ -13,6 +15,10 @@ def _assert(condition, message):
 
 
 def run_paint_influence_smoke():
+    # Managed Maya sessions are intentionally long-lived. Reload the product
+    # dependency so this validation exercises the current checkout rather than
+    # a stale module cached by an earlier task in the same Maya process.
+    importlib.reload(paint_influence)
     cmds.file(new=True, force=True)
 
     joint_a = cmds.joint(name='paintInfA', position=(-1.0, 0.0, 0.0))
