@@ -1,32 +1,13 @@
 {
   "version": 1,
   "history_checkpoint_blob": "802273f83c71e04ec51c129ca4af5e2524ecc179",
-  "force_restart": {
-    "enabled": true,
-    "request_id": "aimayatool-load-aibridge-36c560ab-036c",
-    "reason": "reload_windows_managed_maya_cleanup_fix_before_retry"
-  },
+  "force_restart": {"enabled": true, "request_id": "aimayatool-load-aibridge-36c560ab-036c", "reason": "reload_windows_managed_maya_cleanup_fix_before_retry"},
   "tasks": [
     {
       "task_id": "aimayatool-goal002-closure-classification-sync-037j",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-002",
-        "milestone_id": "parity-matrix",
-        "purpose": "Synchronize Goal 002 closure classifications for generated/backup artifacts, selection-navigation ownership, Scene specialized pattern families, and remaining bounded closure blockers.",
-        "artifact": "PARITY_MAP.md",
-        "artifact_commit": "4a250d1956c123f5dfa96a4f4e86aa7c9b35d42d",
-        "result": "PASS",
-        "classification": "goal002_closure_classification_synced",
-        "evidence": "Bridge fast-forwarded local AIMayaTool main from 24c548f5d5176cfb0a14886437c185664bc5eb3a to 0a356517a88d7ded32c7e168fe3f77fdaac65ccb successfully. Architect re-read active and backup legacy evidence, confirmed backup/generated artifacts add no independent migration capability, and Goal 002 acceptance is satisfied.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal002-migration-plan-sync-037i",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
+      "metadata": {"goal_id": "aimayatool-002", "milestone_id": "parity-matrix", "purpose": "Synchronize Goal 002 closure classifications.", "result": "PASS", "classification": "goal002_closure_classification_synced", "evidence": "Bridge fast-forwarded local AIMayaTool main to 0a356517a88d7ded32c7e168fe3f77fdaac65ccb; Goal 002 acceptance satisfied.", "archived_prerequisite": {"task_id": "aimayatool-goal002-migration-plan-sync-037i", "result": "PASS", "architect_ack": true, "bridge_completed": true}},
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
@@ -38,17 +19,7 @@
       "task_id": "aimayatool-goal003-activation-sync-037k",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-core-parity",
-        "purpose": "Synchronize the worker to the authoritative Goal 002 closure and Goal 003 activation before the first Skin IO parity implementation slice.",
-        "depends_on": ["aimayatool-goal002-closure-classification-sync-037j"],
-        "goal_transition_commit": "8293b72cba3136eb5c692b02a6862ac5e3c783b5",
-        "next_slice": "Skin IO parity: existing-skin import, folder and quick-folder variants, error handling, selection wrappers and batch-safe behavior around the accepted core serializer.",
-        "result": "PASS",
-        "classification": "goal003_activation_synced",
-        "evidence": "Bridge fast-forwarded local AIMayaTool main from 0a356517a88d7ded32c7e168fe3f77fdaac65ccb to dc7f8cdd07022943d98e8b7262757e5ec197853c successfully, including Goal 002 closure and Goal 003 activation."
-      },
+      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-core-parity", "purpose": "Synchronize Goal 003 activation.", "depends_on": ["aimayatool-goal002-closure-classification-sync-037j"], "result": "PASS", "classification": "goal003_activation_synced", "evidence": "Bridge fast-forwarded local AIMayaTool main to dc7f8cdd07022943d98e8b7262757e5ec197853c."},
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
@@ -60,18 +31,7 @@
       "task_id": "aimayatool-goal003-skin-io-parity-sync-037l",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-core-parity",
-        "purpose": "Synchronize the first Goal 003 Skin IO parity implementation before Maya validation.",
-        "depends_on": ["aimayatool-goal003-activation-sync-037k"],
-        "artifact_commit": "b4e45271e82ceb399e26465950f5bc56b2010a17",
-        "changed_files": ["aimayatool/tools/skinning/skin_io.py", "aimayatool/tools/skinning/smoke.py"],
-        "expected_smoke": "SKINNING_SKIN_IO_PARITY_SMOKE_OK",
-        "result": "PASS",
-        "classification": "goal003_skin_io_parity_synced",
-        "evidence": "Bridge fast-forwarded local AIMayaTool main from dc7f8cdd07022943d98e8b7262757e5ec197853c to 4bd5f9ab2fdcf482d7617b2935bfd2a7274d487a successfully, including the Skin IO parity implementation and expanded smoke coverage."
-      },
+      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-core-parity", "purpose": "Synchronize the first Goal 003 Skin IO parity implementation before Maya validation.", "depends_on": ["aimayatool-goal003-activation-sync-037k"], "artifact_commit": "b4e45271e82ceb399e26465950f5bc56b2010a17", "result": "PASS", "classification": "goal003_skin_io_parity_synced", "evidence": "Bridge fast-forwarded local AIMayaTool main to 4bd5f9ab2fdcf482d7617b2935bfd2a7274d487a."},
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
@@ -82,38 +42,25 @@
     {
       "task_id": "aimayatool-goal003-skin-io-parity-maya-smoke-037m",
       "status": "pending",
-      "architect_ack": false,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-core-parity",
-        "purpose": "Validate the first Goal 003 Skin IO parity slice in Maya before advancing to paint-state adapter work.",
-        "depends_on": ["aimayatool-goal003-skin-io-parity-sync-037l"],
-        "acceptance": [
-          "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.",
-          "Invoke aimayatool.tools.skinning.smoke.run_skin_io_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIN_IO_PARITY_SMOKE_OK for PASS.",
-          "The smoke must cover preserve-existing import, rebuild import, batch export/import reporting, and quick scene-relative folder round trip.",
-          "If PASS, accept the Skin IO parity slice and begin the paint-state adapter slice."
-        ]
-      },
+      "architect_ack": true,
+      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-core-parity", "purpose": "Validate Skin IO parity in Maya.", "depends_on": ["aimayatool-goal003-skin-io-parity-sync-037l"], "result": "FAIL", "classification": "skin_io_smoke_invalid_name_identity_assertion", "evidence": "Maya reached the replace-existing check and raised before the success marker. Architect diagnosis: preserve_existing=False deletes and recreates the skinCluster, but Maya may reuse the saved skinCluster name, so comparing returned names falsely reports no rebuild. Validation must compare Maya object UUIDs instead. Exit 3221227010 occurred after the exception and is not the known success-marker shutdown anomaly.", "fix_commit": "83c037903529b5989218393f0a2694a798986a6a"},
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.smoke",
-        "callable": "run_skin_io_smoke",
-        "expected_window": "",
-        "timeout": 45,
-        "startup_timeout": 90,
-        "operation_timeout": 45,
-        "preconditions": [
-          {"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}
-        ]
-      }
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.smoke", "callable": "run_skin_io_smoke", "expected_window": "", "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-skin-io-parity-maya-smoke-retry-037n",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-core-parity", "purpose": "Retry Skin IO parity validation using UUID-based rebuild identity after 037m used an invalid name inequality assertion.", "depends_on": ["aimayatool-goal003-skin-io-parity-maya-smoke-037m"], "retry_of": "aimayatool-goal003-skin-io-parity-maya-smoke-037m", "fix_commit": "83c037903529b5989218393f0a2694a798986a6a", "acceptance": ["Fast-forward main before validation.", "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.", "Invoke aimayatool.tools.skinning.skin_io_parity_smoke.run_skin_io_parity_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIN_IO_PARITY_SMOKE_OK for PASS.", "The rebuild check must prove object UUID changed even if Maya reuses the original skinCluster name.", "If PASS, accept Skin IO parity and begin paint-state adapter work."]},
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_io_parity_smoke", "callable": "run_skin_io_parity_smoke", "expected_window": "", "timeout": 45, "startup_timeout": 90, "operation_timeout": 45, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]}
     }
   ]
 }
