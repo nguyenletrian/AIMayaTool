@@ -1,13 +1,30 @@
 {
   "version": 1,
   "history_checkpoint_blob": "802273f83c71e04ec51c129ca4af5e2524ecc179",
-  "force_restart": {"enabled": true, "request_id": "aimayatool-load-aibridge-36c560ab-036c", "reason": "reload_windows_managed_maya_cleanup_fix_before_retry"},
+  "force_restart": {
+    "enabled": true,
+    "request_id": "aimayatool-load-aibridge-36c560ab-036c",
+    "reason": "reload_windows_managed_maya_cleanup_fix_before_retry"
+  },
   "tasks": [
     {
       "task_id": "aimayatool-goal003-paint-state-adapter-maya-smoke-fresh-retry-037r",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-weight-tools", "result": "PASS", "classification": "goal003_paint_state_adapter_maya_accepted_with_known_shutdown_anomaly", "evidence": "Fresh Maya 2024 returned AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_STATE_ADAPTER_SMOKE_OK. Exit 3221227010 occurred only after the success marker and is accepted as the known Maya Windows shutdown anomaly.", "proven_main_commit": "0630196fff3cb02742bddeb3e3e47e9442beeb00", "archived_prerequisite": {"task_id": "aimayatool-goal003-paint-state-adapter-maya-smoke-retry-037q", "result": "INCONCLUSIVE", "architect_ack": true, "bridge_completed": true}},
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "result": "PASS",
+        "classification": "goal003_paint_state_adapter_maya_accepted_with_known_shutdown_anomaly",
+        "evidence": "Fresh Maya 2024 returned AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_STATE_ADAPTER_SMOKE_OK. Exit 3221227010 occurred only after the success marker and is accepted as the known Maya Windows shutdown anomaly.",
+        "proven_main_commit": "0630196fff3cb02742bddeb3e3e47e9442beeb00",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal003-paint-state-adapter-maya-smoke-retry-037q",
+          "result": "INCONCLUSIVE",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
+      },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -19,7 +36,15 @@
       "task_id": "aimayatool-goal003-brush-weight-editing-sync-037s",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-weight-tools", "depends_on": ["aimayatool-goal003-paint-state-adapter-maya-smoke-fresh-retry-037r"], "artifact_commit": "9c92968e72ac6e95dd3ac0f168dcb741a2b1ef80", "result": "PASS", "classification": "goal003_brush_weight_editing_synced", "evidence": "Bridge fast-forwarded local AIMayaTool main to 3a59b228fc2f3d15bba4fce0c6c986cf61105e37 successfully, including brush_weight.py."},
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "depends_on": ["aimayatool-goal003-paint-state-adapter-maya-smoke-fresh-retry-037r"],
+        "artifact_commit": "9c92968e72ac6e95dd3ac0f168dcb741a2b1ef80",
+        "result": "PASS",
+        "classification": "goal003_brush_weight_editing_synced",
+        "evidence": "Bridge fast-forwarded local AIMayaTool main to 3a59b228fc2f3d15bba4fce0c6c986cf61105e37 successfully, including brush_weight.py."
+      },
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
@@ -31,7 +56,15 @@
       "task_id": "aimayatool-goal003-brush-weight-editing-maya-smoke-037t",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-weight-tools", "purpose": "Validate the first brush-weight editing slice in Maya before starting component-weight copy/ratio workflows.", "depends_on": ["aimayatool-goal003-brush-weight-editing-sync-037s"], "result": "FAIL", "classification": "brush_weight_legacy_missing_mel_procedure", "evidence": "Maya 2024 raised Cannot find procedure artAttrSkinPaintModePaintSelect before the success marker. The legacy helper is not available in this runtime, so brush operations must use artAttrSkinPaintCtx-native operation state instead of depending on that MEL procedure.", "fix_commit": "236270753a8248f4e6d9ec2f3bcda362686df51d"},
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "depends_on": ["aimayatool-goal003-brush-weight-editing-sync-037s"],
+        "result": "FAIL",
+        "classification": "brush_weight_legacy_missing_mel_procedure",
+        "evidence": "Maya 2024 raised Cannot find procedure artAttrSkinPaintModePaintSelect before the success marker.",
+        "fix_commit": "236270753a8248f4e6d9ec2f3bcda362686df51d"
+      },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -42,13 +75,61 @@
     {
       "task_id": "aimayatool-goal003-brush-weight-editing-maya-smoke-retry-037u",
       "status": "pending",
-      "architect_ack": false,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-weight-tools", "purpose": "Retry brush-weight editing validation after replacing the missing legacy MEL paint-mode procedure with Maya 2024 artAttrSkinPaintCtx-native operation state.", "depends_on": ["aimayatool-goal003-brush-weight-editing-maya-smoke-037t"], "retry_of": "aimayatool-goal003-brush-weight-editing-maya-smoke-037t", "fix_commit": "236270753a8248f4e6d9ec2f3bcda362686df51d", "acceptance": ["Fast-forward main before validation.", "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.", "Invoke aimayatool.tools.skinning.brush_weight_smoke.run_brush_weight_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_BRUSH_WEIGHT_SMOKE_OK for PASS.", "Prove Replace/Add/toggle plus Smooth/Flood execute without depending on artAttrSkinPaintModePaintSelect.", "If PASS, accept brush-weight editing and begin component-weight CopyWeight/CopyRatio work."]},
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "depends_on": ["aimayatool-goal003-brush-weight-editing-maya-smoke-037t"],
+        "retry_of": "aimayatool-goal003-brush-weight-editing-maya-smoke-037t",
+        "result": "FAIL",
+        "classification": "brush_weight_invalid_maya_operation_values",
+        "evidence": "Maya 2024 rejected selectedattroper='replace', then the MEL fallback also failed before the success marker. Autodesk Maya 2024 documents selectedattroper values as absolute, additive, scale, and smooth; legacy labels replace/add are not valid command values.",
+        "fix_commit": "ae86d4f81dd40e8ff25e6201226c8c65b80f36a8"
+      },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.brush_weight_smoke", "callable": "run_brush_weight_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]}
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.brush_weight_smoke", "callable": "run_brush_weight_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-brush-weight-editing-maya-semantic-retry-037v",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "purpose": "Retry brush-weight editing using Maya 2024 documented operation and stamp-profile semantics with no legacy MEL operation fallback.",
+        "depends_on": ["aimayatool-goal003-brush-weight-editing-maya-smoke-retry-037u"],
+        "retry_of": "aimayatool-goal003-brush-weight-editing-maya-smoke-retry-037u",
+        "fix_commit": "ae86d4f81dd40e8ff25e6201226c8c65b80f36a8",
+        "acceptance": [
+          "Fast-forward main before validation.",
+          "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.",
+          "Invoke aimayatool.tools.skinning.brush_weight_smoke.run_brush_weight_smoke.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_BRUSH_WEIGHT_SMOKE_OK for PASS.",
+          "Prove replace maps to selectedattroper absolute, add/toggle map to additive, smooth maps to smooth, and legacy soft stamp profile maps to Maya gaussian.",
+          "Prove Flood executes on the active Paint Skin context without a product exception.",
+          "If PASS, accept brush-weight editing and begin component-weight CopyWeight/CopyRatio work."
+        ]
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.brush_weight_smoke",
+        "callable": "run_brush_weight_smoke",
+        "expected_window": "",
+        "timeout": 90,
+        "startup_timeout": 120,
+        "operation_timeout": 90,
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]
+      }
     }
   ]
 }
