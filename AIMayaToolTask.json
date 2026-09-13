@@ -8,26 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-skirt-parent-full-workflow-zero-pair-skip-maya-smoke-036s",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-workflow",
-        "result": "INCONCLUSIVE",
-        "classification": "existing_maya_stale_smoothing_apply_module",
-        "proven_main_commit": "371a894f4ce249d15e5f37fb2b0ebff76f363425",
-        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "The existing Maya session retained the pre-patch smoothing implementation in memory; the retry did not invalidate the zero-pair guard."
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_workflow_smoke", "callable": "run_skirt_parent_workflow_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-skirt-parent-full-workflow-reloaded-smoothing-maya-smoke-036t",
       "status": "pending",
       "architect_ack": true,
@@ -50,30 +30,49 @@
     {
       "task_id": "aimayatool-skirt-parent-interactive-ui-maya-smoke-036u",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-ui",
+        "result": "PASS",
+        "classification": "skirt_parent_interactive_selection_adapter_healthy",
+        "proven_main_commit": "15b43c29446f119383d7389624941d1071c50641",
+        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
+        "evidence": "Managed Maya 2024 PID 16220 returned AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_INTERACTIVE_SMOKE_OK in an existing managed session with a fresh unsaved scene. The thin selection adapter preserved parent-first joint ordering, skirt joints, one-mesh root-loop edges, discovered the skinCluster, and executed the accepted SkirtParent workflow end to end."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_interactive_smoke", "callable": "run_skirt_parent_interactive_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-ui-regression-maya-smoke-036v",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-ui",
-        "purpose": "Validate the thin interactive selection adapter and Skinning UI exposure added after the core SkirtParent workflow was accepted. The selection contract is parent joint first, then skirt joints, plus the root-loop edge components on one skinned mesh.",
+        "purpose": "Run the normal AIMayaTool UI regression after the SkirtParent interactive adapter passed, proving the main window and Skinning panel still open with the new Run Skirt Parent control wired through the thin wrapper.",
         "acceptance": [
-          "Fast-forward AIMayaTool main and include commits c2d4371a7dad139106af2053f195f939e69bed82, 06c01e6e6d5235827b2752f4f30410d9365f1a3e, and 8701e4bb5d1f9ad9310dd438ebfb1b4894d498f3 or later.",
-          "Use a healthy managed Maya 2024 session with startup_timeout=90 and operation_timeout=45, force a fresh unsaved scene, and do not save or quit Maya.",
-          "Run run_skirt_parent_interactive_smoke from aimayatool.tools.skinning.skirt_parent_interactive_smoke.",
-          "Require context_from_selection to preserve the first selected joint as parent, remaining selected joints as skirt influences, one-mesh root-loop edges, and the discovered skinCluster.",
-          "Require run_from_selection to execute the accepted SkirtParent workflow and return four transfer results, four smoothing results, and at least one propagated smoothing result.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_INTERACTIVE_SMOKE_OK for PASS.",
-          "If functional smoke passes, run the normal AIMayaTool UI smoke next to verify the Skinning panel still opens with the new Run Skirt Parent control."
+          "Fast-forward AIMayaTool main to commit 15b43c29446f119383d7389624941d1071c50641 or later.",
+          "Use a healthy Maya 2024 UI smoke with a fresh unsaved scene and do not save the user scene.",
+          "Launch AIMayaTool through the standard bootstrap/UI smoke path.",
+          "Require AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow for PASS.",
+          "The Skinning UI module on main must include the Run Skirt Parent control calling skirt_parent_interactive.run_from_selection through the thin _run wrapper.",
+          "If PASS, close milestone advanced-skirt-parent-ui and record the accepted interactive workflow in HISTORY.md. If FAIL, preserve the exact UI traceback/runtime evidence and isolate only the newly exposed UI integration issue."
         ],
         "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-full-workflow-reloaded-smoothing-maya-smoke-036t",
+          "task_id": "aimayatool-skirt-parent-interactive-ui-maya-smoke-036u",
           "result": "PASS",
-          "classification": "advanced_skirt_parent_workflow_maya_accepted",
+          "classification": "skirt_parent_interactive_selection_adapter_healthy",
           "architect_ack": true,
           "bridge_completed": true,
-          "proven_main_commit": "8b8b0d6400ee26440b16558f0dd950100076b07a"
+          "proven_main_commit": "15b43c29446f119383d7389624941d1071c50641"
         }
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
@@ -81,10 +80,9 @@
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.skirt_parent_interactive_smoke",
-        "callable": "run_skirt_parent_interactive_smoke",
-        "expected_window": "",
-        "live_port": 7001,
+        "module": "aimayatool.smoke",
+        "callable": "run_ui_smoke",
+        "expected_window": "AIMayaToolWindow",
         "timeout": 45,
         "startup_timeout": 90,
         "operation_timeout": 45,
