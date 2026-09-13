@@ -34,45 +34,11 @@
         "proven_main_commit": "738519c0e433e0367f8920b17ae178e16e782499",
         "evidence": "Bridge fast-forwarded D:/AIMayaTool from 789023caa445ecb71e9b2dc156562f20094b4889 to 738519c0e433e0367f8920b17ae178e16e782499; py_compile passed with exit_code=0 for influence_cleanup_smoke.py and importing aimayatool.tools.skinning passed with exit_code=0."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/influence_cleanup_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/influence_cleanup_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
       "bridge_completed": true
     },
     {
@@ -83,23 +49,9 @@
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-core-parity",
         "purpose": "Retry influence sync and unused-influence cleanup with a deterministic globally-unused influence fixture.",
-        "depends_on": [
-          "aimayatool-goal003-influence-cleanup-deterministic-fixture-verify-051f"
-        ],
-        "archived_retry": {
-          "task_id": "aimayatool-goal003-influence-sync-cleanup-managed-live-retry-051e",
-          "result": "INCONCLUSIVE",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.influence_cleanup_smoke.run_influence_cleanup_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_CLEANUP_SMOKE_OK for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
+        "depends_on": ["aimayatool-goal003-influence-cleanup-deterministic-fixture-verify-051f"],
+        "archived_retry": {"task_id": "aimayatool-goal003-influence-sync-cleanup-managed-live-retry-051e", "result": "INCONCLUSIVE", "architect_ack": true, "bridge_completed": true},
+        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.influence_cleanup_smoke.run_influence_cleanup_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_CLEANUP_SMOKE_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_influence_sync_cleanup_managed_live_pass",
@@ -112,107 +64,41 @@
         "scene_saved": false,
         "maya_quit": false
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.influence_cleanup_smoke",
-        "callable": "run_influence_cleanup_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.influence_cleanup_smoke", "callable": "run_influence_cleanup_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180},
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal003-influence-sync-cleanup-ui-managed-live-051c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-ui-parity",
         "purpose": "Validate Skinning UI parity after exposing influence sync and unused-influence cleanup.",
-        "depends_on": [
-          "aimayatool-goal003-influence-sync-cleanup-managed-live-retry2-051g"
-        ],
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.ui_parity_smoke.run_skinning_ui_parity_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "depends_on": ["aimayatool-goal003-influence-sync-cleanup-managed-live-retry2-051g"],
+        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.ui_parity_smoke.run_skinning_ui_parity_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_influence_sync_cleanup_ui_managed_live_pass",
+        "proven_main_commit": "f01bce8d3b1852de4628c1f548bf90014b628fc3",
+        "evidence": "Managed Maya 2024 reused existing PID 10632 on port 7001, forced a fresh unsaved scene, validated Skinning UI parity after exposing influence sync and unused-influence cleanup, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK; maya_quit=false.",
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "session": "existing",
+        "new_scene_forced": true,
+        "scene_saved": false,
+        "maya_quit": false
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.ui_parity_smoke",
-        "callable": "run_skinning_ui_parity_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      }
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.ui_parity_smoke", "callable": "run_skinning_ui_parity_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180},
+      "bridge_completed": true
     }
   ]
 }
