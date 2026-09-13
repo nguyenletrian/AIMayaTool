@@ -21,11 +21,30 @@
         "proven_main_commit": "8e5ac2f7ef75750a9e877c228652cfeecd0b5542",
         "evidence": "ff-only pull advanced D:/AIMayaTool to 8e5ac2f7ef75750a9e877c228652cfeecd0b5542; py_compile passed; import of aimayatool.tools.scene.display_layers passed; focused unittest ran 2 tests and returned OK."
       },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 180},
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
@@ -41,11 +60,37 @@
         "diagnosis": "Maya returned full DAG paths because members() defaults full_names=True; the smoke compared against short transform names. Membership succeeded and the smoke expectation was corrected.",
         "evidence": "Managed Maya reused the existing session, forced a new scene, did not save or quit, and failed only at the short-name assertion."
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.display_layer_smoke", "callable": "run_scene_display_layer_smoke", "expected_window": "", "live_port": 7001, "timeout": 180},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.scene.display_layer_smoke",
+        "callable": "run_scene_display_layer_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
@@ -61,17 +106,36 @@
         "diagnosis": "The task incorrectly required importing aimayatool.tools.scene.display_layer_smoke under normal Python even though that Maya-only smoke module intentionally imports maya.cmds at module scope. py_compile passed; the import gate was invalid, not a product failure.",
         "evidence": "py_compile passed for display_layer_smoke.py and tests/test_scene_display_layers.py; normal-Python import failed only with ModuleNotFoundError: No module named maya."
       },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 180},
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-scene-display-layers-name-contract-verify-013br2",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "scene-display-layers",
@@ -82,19 +146,55 @@
           "Compile display_layer_smoke.py, display_layers.py, and tests/test_scene_display_layers.py.",
           "Import aimayatool.tools.scene.display_layers outside Maya successfully; do not import the Maya-only smoke module under normal Python.",
           "Run tests.test_scene_display_layers and require all focused tests to pass."
-        ]
+        ],
+        "result": "PASS",
+        "proven_main_commit": "d60cde8f0b0aef7afad242a2e6b9795fa29f7f8e",
+        "evidence": "ff-only pull advanced D:/AIMayaTool from bb55e2437324f4cc50169ed0c2ce6620ee69e059 to d60cde8f0b0aef7afad242a2e6b9795fa29f7f8e. py_compile passed for display_layer_smoke.py, display_layers.py, and tests/test_scene_display_layers.py; import of aimayatool.tools.scene.display_layers passed; focused unittest ran 2 tests in 0.001s and returned OK."
       },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/scene/display_layer_smoke.py", "aimayatool/tools/scene/display_layers.py", "tests/test_scene_display_layers.py"],
-        "imports": ["aimayatool.tools.scene.display_layers"],
-        "tests": ["tests.test_scene_display_layers"],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/display_layer_smoke.py",
+          "aimayatool/tools/scene/display_layers.py",
+          "tests/test_scene_display_layers.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.display_layers"
+        ],
+        "tests": [
+          "tests.test_scene_display_layers"
+        ],
         "timeout": 180
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-scene-display-layers-maya-smoke-013br",
@@ -106,13 +206,44 @@
         "depends_on": "aimayatool-scene-display-layers-name-contract-verify-013br2",
         "retry_of": "aimayatool-scene-display-layers-maya-smoke-013b",
         "purpose": "Retry display-layer Maya validation with corrected DAG-path expectations.",
-        "acceptance": ["Reuse the healthy managed Maya session.", "Force a fresh unsaved scene; do not save or quit Maya.", "Reload current display_layer_smoke from disk before execution.", "Return AIBRIDGE_UI_SMOKE_OK:SCENE_DISPLAY_LAYER_SMOKE_OK."]
+        "acceptance": [
+          "Reuse the healthy managed Maya session.",
+          "Force a fresh unsaved scene; do not save or quit Maya.",
+          "Reload current display_layer_smoke from disk before execution.",
+          "Return AIBRIDGE_UI_SMOKE_OK:SCENE_DISPLAY_LAYER_SMOKE_OK."
+        ]
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.display_layer_smoke", "callable": "run_scene_display_layer_smoke", "expected_window": "", "live_port": 7001, "timeout": 180}
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.scene.display_layer_smoke",
+        "callable": "run_scene_display_layer_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180
+      }
     },
     {
       "task_id": "aimayatool-scene-display-layers-ui-regression-013c",
@@ -124,11 +255,37 @@
         "depends_on": "aimayatool-scene-display-layers-maya-smoke-013br",
         "purpose": "Verify display-layer Scene API exposure does not regress AIMayaTool launch."
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "bootstrap", "callable": "install_and_launch", "expected_window": "AIMayaToolWindow", "live_port": 7001, "timeout": 180}
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "bootstrap",
+        "callable": "install_and_launch",
+        "expected_window": "AIMayaToolWindow",
+        "live_port": 7001,
+        "timeout": 180
+      }
     }
   ]
 }
