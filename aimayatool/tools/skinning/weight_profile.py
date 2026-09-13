@@ -17,7 +17,7 @@ def ensure_profile(name=DEFAULT_PROFILE):
     curve = cmds.createNode("animCurveTU", name=name)
     cmds.setKeyframe(curve, time=0.0, value=0.0)
     cmds.setKeyframe(curve, time=100.0, value=100.0)
-    cmds.keyTangent(curve, itt="flat", ott="flat")
+    cmds.keyTangent(curve, inTangentType="flat", outTangentType="flat")
     return curve
 
 
@@ -44,6 +44,6 @@ def reset_profile(name=DEFAULT_PROFILE, outgoing="flat", incoming="flat"):
             cmds.cutKey(name, time=(key, key), clear=True)
     cmds.setKeyframe(name, time=0.0, value=0.0)
     cmds.setKeyframe(name, time=100.0, value=100.0)
-    cmds.keyTangent(name, time=(0.0, 0.0), ott=outgoing)
-    cmds.keyTangent(name, time=(100.0, 100.0), itt=incoming)
+    cmds.keyTangent(name, time=(0.0, 0.0), outTangentType=outgoing)
+    cmds.keyTangent(name, time=(100.0, 100.0), inTangentType=incoming)
     return name
