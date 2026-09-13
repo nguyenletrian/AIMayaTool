@@ -3,90 +3,10 @@
   "history_checkpoint_blob": "802273f83c71e04ec51c129ca4af5e2524ecc179",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-skinning-undo-errors-063",
+    "request_id": "aimayatool-skinning-undo-errors-064",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
-    {
-      "task_id": "aimayatool-goal004-skinning-undo-boundary-managed-live-061b",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-004",
-        "milestone_id": "skinning-undo-errors",
-        "purpose": "Prove grouped Skinning mutations undo in one step and failure paths always close the Maya undo chunk.",
-        "archived_prerequisite": {"task_id": "aimayatool-goal004-skinning-undo-boundary-verify-061a", "result": "PASS", "architect_ack": true, "bridge_completed": true},
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_undo_boundary_managed_live_pass",
-        "proven_main_commit": "e6b681756614b5eda39db37ff9e51d4c4bbcb710",
-        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene and returned SKINNING_UNDO_BOUNDARY_OK; grouped mutation reverted with one undo and the intentional exception path still left a closable undo chunk. scene_saved=false and maya_quit=false.",
-        "managed_pid": 10632,
-        "managed_port": 7001,
-        "session": "existing",
-        "new_scene_forced": true,
-        "scene_saved": false,
-        "maya_quit": false
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.undo_smoke", "callable": "run_skinning_undo_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal004-copy-skin-undo-integration-verify-062a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-004",
-        "milestone_id": "skinning-undo-errors",
-        "purpose": "Verify Copy Skin batch now uses the reusable undo boundary and its production undo smoke compiles before Maya validation.",
-        "depends_on": ["aimayatool-goal004-skinning-undo-boundary-managed-live-061b"],
-        "implementation_commits": ["f99c01583f591198c66b7a76fd5320aceae0746c", "592c24cf8be54f0ba0ca9195107f97ad6df5e8d1"],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_copy_batch_undo_python_verification_pass",
-        "proven_main_commit": "c05d5aaca6038eb1cc80f96b09a114cf83a4edac",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from e6b681756614b5eda39db37ff9e51d4c4bbcb710 to c05d5aaca6038eb1cc80f96b09a114cf83a4edac; py_compile passed with exit_code=0 for copy_weights.py and copy_weights_undo_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
-      },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/copy_weights.py", "aimayatool/tools/skinning/copy_weights_undo_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal004-copy-skin-undo-integration-managed-live-062b",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-004",
-        "milestone_id": "skinning-undo-errors",
-        "purpose": "Prove the real two-target Copy Skin batch is reverted completely by a single Maya undo.",
-        "depends_on": ["aimayatool-goal004-copy-skin-undo-integration-verify-062a"],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_copy_batch_undo_managed_live_pass",
-        "proven_main_commit": "5426990e8d04a0720c880448b19c553af127ac46",
-        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene and returned SKINNING_COPY_BATCH_UNDO_OK targets=2; the real two-target Copy Skin batch was reverted completely by one cmds.undo(). scene_saved=false and maya_quit=false.",
-        "targets": 2,
-        "managed_pid": 10632,
-        "managed_port": 7001,
-        "session": "existing",
-        "new_scene_forced": true,
-        "scene_saved": false,
-        "maya_quit": false
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.copy_weights_undo_smoke", "callable": "run_copy_weights_undo_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "bridge_completed": true
-    },
     {
       "task_id": "aimayatool-goal004-skin-io-import-undo-integration-verify-063a",
       "status": "pending",
@@ -94,14 +14,13 @@
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-undo-errors",
-        "purpose": "Verify Skin IO multi-mesh import now uses one undo boundary while export remains a non-scene file operation.",
-        "depends_on": ["aimayatool-goal004-copy-skin-undo-integration-managed-live-062b"],
-        "implementation_commits": ["3bc9a244e9c7f333a4859715cc2b522845387fb8", "e15facced16da4b55d8eb051a987ffbb5982530c"],
+        "purpose": "Verify Skin IO multi-mesh import native undo candidate before live validation.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_io_import_undo_python_verification_pass",
         "proven_main_commit": "3269c51bb71e7c00aa1f0fe26959a2f2ce6ff604",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 5426990e8d04a0720c880448b19c553af127ac46 to 3269c51bb71e7c00aa1f0fe26959a2f2ce6ff604; py_compile passed with exit_code=0 for skin_io.py and skin_io_undo_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
+        "evidence": "py_compile passed for skin_io.py and skin_io_undo_smoke.py; importing aimayatool.tools.skinning passed.",
+        "bridge_completed": true
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -113,20 +32,68 @@
     {
       "task_id": "aimayatool-goal004-skin-io-import-undo-integration-managed-live-063b",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-undo-errors",
+        "purpose": "Determine whether a real two-mesh Skin IO import is fully reverted by one native Maya undo.",
+        "depends_on": ["aimayatool-goal004-skin-io-import-undo-integration-verify-063a"],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "FAIL",
+        "classification": "skin_io_native_undo_does_not_restore_deformerweights",
+        "proven_main_commit": "4f1f724f0f0186b44fb4e13bb2022ad3268c19c3",
+        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene. Skin IO import completed, but one cmds.undo() did not restore mesh A pre-import weights. This is product/runtime behavior, not stale cache. scene_saved=false and maya_quit=false.",
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "session": "existing",
+        "new_scene_forced": true,
+        "scene_saved": false,
+        "maya_quit": false,
+        "bridge_completed": true
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_io_undo_smoke", "callable": "run_skin_io_undo_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal004-skin-io-explicit-rollback-verify-064a",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-undo-errors",
-        "purpose": "Prove a real two-mesh Skin IO import can be reverted completely by a single Maya undo.",
-        "depends_on": ["aimayatool-goal004-skin-io-import-undo-integration-verify-063a"],
-        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.skin_io_undo_smoke.run_skin_io_undo_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_IO_IMPORT_UNDO_OK targets=2 for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
+        "purpose": "Verify the explicit Skin IO snapshot/restore rollback strategy that replaces unreliable native undo for deformerWeights imports.",
+        "archived_prerequisite": {"task_id": "aimayatool-goal004-skin-io-import-undo-integration-managed-live-063b", "result": "FAIL", "architect_ack": true, "bridge_completed": true},
+        "implementation_commit": "d7b171aad2a6136d57055f6cc4f8fc30fb239e7a",
+        "acceptance": ["Fast-forward main.", "py_compile skin_io_rollback_smoke.py.", "Import aimayatool.tools.skinning successfully.", "Do not invoke Codex."],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skin_io_rollback_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+    },
+    {
+      "task_id": "aimayatool-goal004-skin-io-explicit-rollback-managed-live-064b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-undo-errors",
+        "purpose": "Prove explicit snapshot/restore returns both Skin IO targets to their exact pre-import weights in Maya.",
+        "depends_on": ["aimayatool-goal004-skin-io-explicit-rollback-verify-064a"],
+        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.skin_io_rollback_smoke.run_skin_io_rollback_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_IO_EXPLICIT_ROLLBACK_OK targets=2 for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_io_undo_smoke", "callable": "run_skin_io_undo_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_io_rollback_smoke", "callable": "run_skin_io_rollback_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300}
     }
   ]
 }
