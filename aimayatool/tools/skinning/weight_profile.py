@@ -44,6 +44,6 @@ def reset_profile(name=DEFAULT_PROFILE, outgoing="flat", incoming="flat"):
             cmds.cutKey(name, time=(key, key), clear=True)
     cmds.setKeyframe(name, time=0.0, value=0.0)
     cmds.setKeyframe(name, time=100.0, value=100.0)
-    cmds.keyTangent(name, time=(0.0, 0.0), outgoingTangentType=outgoing)
-    cmds.keyTangent(name, time=(100.0, 100.0), incomingTangentType=incoming)
+    cmds.keyTangent(name, time=(0.0, 0.0), ott=outgoing)
+    cmds.keyTangent(name, time=(100.0, 100.0), itt=incoming)
     return name
