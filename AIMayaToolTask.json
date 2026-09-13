@@ -52,22 +52,40 @@
     {
       "task_id": "aimayatool-goal003-proxy-skin-extraction-maya-smoke-037z",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-sync-037y"],
+        "result": "INCONCLUSIVE",
+        "classification": "maya_ui_smoke_runtime_timeout_no_product_exception",
+        "evidence": "Maya UI smoke timed out after 90 seconds with empty output and no traceback, product exception, or success marker. Per GUIDE this is inconclusive runtime loss and requires one bounded fresh-session retry before deeper hang diagnosis.",
+        "proven_main_commit": "a025ac7ee7d1229d3c49db3c326a7842ee25d026"
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_smoke", "callable": "run_proxy_skin_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-proxy-skin-extraction-maya-fresh-retry-038a",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
-        "purpose": "Validate selected-face proxy extraction, source-like binding, skin transfer, and unskinned-source behavior in Maya before expanding proxy mirror/clipboard/closest-face workflows.",
-        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-sync-037y"],
-        "smoke_commit": "317fcb35d441dabbaa73187fca9b67ee1876f840",
+        "purpose": "Perform the single bounded fresh-session retry for proxy-skin extraction after the first Maya UI smoke timed out without product evidence.",
+        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-maya-smoke-037z"],
+        "retry_of": "aimayatool-goal003-proxy-skin-extraction-maya-smoke-037z",
         "acceptance": [
           "Fast-forward main before validation.",
-          "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.",
+          "Launch a genuinely fresh Maya 2024 session and use a fresh unsaved scene; do not reuse the timed-out Maya process.",
           "Invoke aimayatool.tools.skinning.proxy_skin_smoke.run_proxy_skin_smoke.",
           "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_EXTRACTION_SMOKE_OK for PASS.",
-          "Prove explicit face extraction keeps the requested region and produces valid proxy topology.",
-          "Prove a skinned source creates a proxy skinCluster with the same influence set and normalized transferred weights.",
-          "Prove an unskinned source remains unskinned instead of fabricating a skinCluster.",
-          "If PASS, continue with axis-mirror proxy behavior as the next bounded proxy slice."
+          "If the success marker appears, accept even if exit 3221227010 occurs only afterward as the known Maya Windows shutdown anomaly.",
+          "If this fresh retry again times out with no marker/traceback, classify repeated fresh-session hang and switch to a narrower diagnostic smoke instead of retrying again."
         ]
       },
       "action": {"type": "maya", "target": "ui_smoke"},
