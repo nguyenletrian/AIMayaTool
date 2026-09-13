@@ -65,6 +65,13 @@ def flood(context=None):
     return context
 
 
+def pick_value(context=None):
+    context = _set_operation('replace', context)
+    cmds.artAttrSkinPaintCtx(context, edit=True, pickValue=True)
+    cmds.artAttrSkinPaintCtx(context, edit=True, opacity=1.0)
+    return context
+
+
 def toggle_add_sign(context=None):
     context = _context(context)
     current = paint_state.value(context)
