@@ -8,26 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-skirt-parent-postskin-meshfn-stub-selector-source-query-maya-diagnostic-036o",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-workflow",
-        "result": "PASS",
-        "classification": "fresh_postskin_meshfn_planner_path_healthy",
-        "proven_main_commit": "b361870f1286fc9d8c4eaf3fd1b3c96079ad9c49",
-        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "Fresh launched managed Maya 2024 PID 16220 completed the post-skin MFnMesh planner A/B successfully."
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_postskin_meshfn_stub_selector_source_query_smoke", "callable": "run_skirt_parent_postskin_meshfn_stub_selector_source_query_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45, "require_fresh_session": true},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-skirt-parent-transfer-workflow-postskin-meshfn-maya-smoke-036p",
       "status": "pending",
       "architect_ack": true,
@@ -38,41 +18,60 @@
         "classification": "postskin_meshfn_real_transfer_workflow_healthy",
         "proven_main_commit": "352f6e0c422105b2f0629dcda22ef100869e7243",
         "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "Managed Maya 2024 PID 16220 completed run_skirt_parent_transfer_workflow_smoke with AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_TRANSFER_WORKFLOW_SMOKE_OK. The smoke used a fresh post-skin MFnMesh, the real polySelect selector adapter, and all four real parent-to-skirt transfers. This confirms the prior crash chain was caused by carrying a stale pre-skin MFnMesh across skinCluster/history insertion rather than by polySelect or transfer mutation."
+        "evidence": "Managed Maya 2024 PID 16220 completed run_skirt_parent_transfer_workflow_smoke with AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_TRANSFER_WORKFLOW_SMOKE_OK using a fresh post-skin MFnMesh, real selector/polySelect traversal, and all four parent-to-skirt transfers."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_transfer_workflow_smoke", "callable": "run_skirt_parent_transfer_workflow_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45, "require_fresh_session": true},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_transfer_workflow_smoke", "callable": "run_skirt_parent_transfer_workflow_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-skirt-parent-production-smoothing-plan-postskin-meshfn-maya-smoke-036q",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "result": "PASS",
+        "classification": "postskin_meshfn_production_smoothing_plan_healthy",
+        "proven_main_commit": "8b630f41b7288cf15b1da2afd46dca9bc1ed5113",
+        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
+        "evidence": "Managed Maya 2024 PID 16220 completed run_skirt_parent_transfer_smoothing_plan_production_smoke with AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_TRANSFER_SMOOTHING_PLAN_PRODUCTION_SMOKE_OK. Planner used a fresh post-skin MFnMesh, all four transfers completed, and production build_smoothing_plan(plan) returned four non-empty operations without cached mesh_fn/selector overrides."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_transfer_smoothing_plan_production_smoke", "callable": "run_skirt_parent_transfer_smoothing_plan_production_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-full-workflow-postskin-meshfn-maya-smoke-036r",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Re-run the production smoothing-plan path after confirming stale pre-skin MFnMesh was the crash source. The fixture must use a fresh post-skin MFnMesh for planner execution, then apply all four real transfers and call build_smoothing_plan(plan) exactly as production does, without forwarding cached mesh_fn or selector overrides.",
+        "purpose": "Validate the complete skirt-parent production workflow end to end after eliminating stale pre-skin MFnMesh reuse. Run planner, all parent transfers, production smoothing-plan construction, and production smoothing apply/ratio propagation with a fresh post-skin MFnMesh supplied only to the planner.",
         "acceptance": [
-          "Fast-forward AIMayaTool main and include commit 65b0fd5d564385fcb9977159163972fcdf5c5335 or later.",
+          "Fast-forward AIMayaTool main and include commit 09d03161225928a3cde15afe1702a82ef70f3c5f or later.",
           "Use a healthy managed Maya 2024 session with startup_timeout=90 and operation_timeout=45, force a fresh unsaved scene, and do not save or quit Maya.",
-          "Run run_skirt_parent_transfer_smoothing_plan_production_smoke from aimayatool.tools.skinning.skirt_parent_transfer_smoothing_plan_production_smoke.",
-          "Use the pre-skin MFnMesh only to derive root_loop. After skinCluster creation and weight initialization, resolve a brand-new MSelectionList/MFnMesh and pass that post-skin function set to build_skirt_parent_plan.",
-          "Use the real selector/polySelect adapter and real apply_parent_transfers for all four assignments.",
-          "Call skirt_parent_smoothing.build_smoothing_plan(plan) exactly as production does, with no mesh_fn or selector override.",
-          "Require exactly four smoothing operations and non-empty root_vertices and strips for every operation.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_TRANSFER_SMOOTHING_PLAN_PRODUCTION_SMOKE_OK for PASS.",
-          "If PASS, advance to full smoothing apply/full workflow Maya validation under the same no-stale-function-set discipline. If FAIL, preserve exact fresh-session evidence and isolate the first failing production smoothing substep."
+          "Run run_skirt_parent_workflow_smoke from aimayatool.tools.skinning.skirt_parent_workflow_smoke.",
+          "Use the pre-skin MFnMesh only to derive root_loop. After skinCluster creation and bulk weight initialization, resolve a brand-new MSelectionList/MFnMesh and pass that fresh post-skin function set to run_skirt_parent_workflow via planner kwargs.",
+          "Use the real selector/polySelect adapter. Do not forward mesh_fn or selector overrides into production build_smoothing_plan(plan).",
+          "Require a closed plan with four assignments and four spans, four transfer results with changed components, four smoothing-plan operations, four smoothing apply results, parent weight near zero and skirt-joint total near one on a changed sample, and at least one smoothing result with propagated ratio data.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_WORKFLOW_SMOKE_OK for PASS.",
+          "If PASS, accept the advanced skirt-parent workflow Maya slice and treat stale MFnMesh lifetime across history mutation as the resolved root cause for the prior crash chain. If FAIL, preserve exact evidence and isolate the first full-workflow stage not already proven by 036p/036q."
         ],
         "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-transfer-workflow-postskin-meshfn-maya-smoke-036p",
+          "task_id": "aimayatool-skirt-parent-production-smoothing-plan-postskin-meshfn-maya-smoke-036q",
           "result": "PASS",
-          "classification": "postskin_meshfn_real_transfer_workflow_healthy",
+          "classification": "postskin_meshfn_production_smoothing_plan_healthy",
           "architect_ack": true,
           "bridge_completed": true,
-          "proven_main_commit": "352f6e0c422105b2f0629dcda22ef100869e7243"
+          "proven_main_commit": "8b630f41b7288cf15b1da2afd46dca9bc1ed5113"
         }
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
@@ -83,8 +82,8 @@
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.skirt_parent_transfer_smoothing_plan_production_smoke",
-        "callable": "run_skirt_parent_transfer_smoothing_plan_production_smoke",
+        "module": "aimayatool.tools.skinning.skirt_parent_workflow_smoke",
+        "callable": "run_skirt_parent_workflow_smoke",
         "expected_window": "",
         "live_port": 7001,
         "timeout": 45,
