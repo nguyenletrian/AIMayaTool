@@ -1,11 +1,16 @@
 from __future__ import absolute_import
 
+import importlib
+
 import maya.cmds as cmds
 
 from . import weight_profile
 
 
 def run_weight_profile_smoke():
+    # Managed live validation can reuse a Maya process across repository updates.
+    # Reload the product module so the smoke always executes the current file on disk.
+    importlib.reload(weight_profile)
     cmds.file(new=True, force=True)
     name = weight_profile.DEFAULT_PROFILE
     created = weight_profile.ensure_profile(name)
