@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import maya.cmds as cmds
 
 from aimayatool.maya import skin
+from aimayatool.maya import undo as maya_undo
 
 
 def _require_mesh(node, label):
@@ -105,6 +106,16 @@ def copy_batch(source, targets, surface_association='closestPoint', progress=Non
     return copied
 
 
+def copy_batch_undoable(source, targets, surface_association='closestPoint', progress=None):
+    """Run a validated copy batch as one Maya undo step."""
+    plan = plan_copy_batch(source, targets)
+    ordered_targets = [item['target_mesh'] for item in plan]
+    return maya_undo.run_undoable(
+        lambda: copy_batch(source, ordered_targets, surface_association=surface_association, progress=progress),
+        name='AIMayaTool Copy Skin Batch',
+    )
+
+
 def preview_from_selection():
     items = cmds.ls(selection=True, objectsOnly=True, long=True) or []
     if len(items) < 2:
@@ -119,10 +130,11 @@ def copy_from_selection():
         raise RuntimeError('Select source mesh first, then one or more target meshes.')
     source = items[0]
     targets = items[1:]
+    plan_copy_batch(source, targets)
     cmds.progressWindow(title='AIMayaTool Copy Skin', progress=0, maxValue=len(targets), status='Preflight...', isInterruptable=False)
     try:
         def _progress(index, total, target, _target_skin):
             cmds.progressWindow(edit=True, progress=index, status='Copying %d/%d: %s' % (index, total, target.split('|')[-1]))
-        return copy_batch(source, targets, progress=_progress)
+        return copy_batch_undoable(source, targets, progress=_progress)
     finally:
         cmds.progressWindow(endProgress=True)
