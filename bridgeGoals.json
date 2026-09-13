@@ -26,7 +26,8 @@
         {"milestone_id":"scene-build-actions","title":"Reusable Scene setup/build actions","status":"completed"},
         {"milestone_id":"scene-legacy-adapters-assessment","title":"Assess legacy Scene JSON adapters only where required","status":"completed"},
         {"milestone_id":"advanced-helpers-assessment","title":"Assess next advanced helper migration slice","status":"completed"},
-        {"milestone_id":"advanced-influence-transfer","title":"Explicit influence-weight transfer helper","status":"completed"}
+        {"milestone_id":"advanced-influence-transfer","title":"Explicit influence-weight transfer helper","status":"completed"},
+        {"milestone_id":"advanced-ratio-weighting-assessment","title":"Assess ratio and gradient skin-weight primitives","status":"in_progress"}
       ]
     }
   ]
