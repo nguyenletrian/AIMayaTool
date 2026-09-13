@@ -14,8 +14,34 @@ _MANIFEST = 'skinData.json'
 _QUICK_RELATIVE_DIRECTORY = ('NLTA_Data', 'MeshExport')
 
 
-def _mesh_key(mesh):
+def _encode_mesh_key(mesh):
     return (mesh or '').replace('|', '&').replace(':', '%')
+
+
+def _canonical_mesh(mesh):
+    mesh = skin.mesh_from_component(mesh)
+    matches = cmds.ls(mesh, long=True) or []
+    return matches[0] if matches else mesh
+
+
+def _mesh_key(mesh):
+    return _encode_mesh_key(_canonical_mesh(mesh))
+
+
+def _manifest_entry(manifest, mesh):
+    raw_mesh = skin.mesh_from_component(mesh)
+    candidates = [_mesh_key(raw_mesh), _encode_mesh_key(raw_mesh)]
+    leaf = raw_mesh.split('|')[-1] if raw_mesh else raw_mesh
+    candidates.append(_encode_mesh_key(leaf))
+    seen = set()
+    for key in candidates:
+        if key in seen:
+            continue
+        seen.add(key)
+        item = manifest.get(key)
+        if item:
+            return key, item
+    return None, None
 
 
 def _ensure_directory(directory):
@@ -81,7 +107,7 @@ def export_skin(mesh, directory):
     filename = key + '.xml'
     cmds.deformerWeights(filename, export=True, deformer=skin_cluster, path=directory, format='XML')
     manifest = _read_manifest(directory)
-    manifest[key] = {'mesh': mesh, 'skin_cluster': skin_cluster, 'influences': list(skin.influences(skin_cluster)), 'weights_file': filename}
+    manifest[key] = {'mesh': _canonical_mesh(mesh), 'skin_cluster': skin_cluster, 'influences': list(skin.influences(skin_cluster)), 'weights_file': filename}
     _write_manifest(directory, manifest)
     return os.path.join(directory, filename)
 
@@ -105,8 +131,7 @@ def import_skin(mesh, directory, preserve_existing=True, require_existing=False)
     if not os.path.isdir(directory):
         raise RuntimeError('Skin data directory does not exist: %s' % directory)
     manifest = _read_manifest(directory)
-    key = _mesh_key(mesh)
-    item = manifest.get(key)
+    key, item = _manifest_entry(manifest, mesh)
     if not item:
         raise RuntimeError('No saved skin data found for %s' % mesh)
     filename = item.get('weights_file') or (key + '.xml')
@@ -152,8 +177,7 @@ def preview_import_meshes(meshes, directory, require_existing=False):
     manifest = _read_manifest(directory)
     items = []
     for mesh in unique_meshes:
-        key = _mesh_key(mesh)
-        item = manifest.get(key)
+        key, item = _manifest_entry(manifest, mesh)
         if not item:
             raise RuntimeError('No saved skin data found for %s' % mesh)
         filename = item.get('weights_file') or (key + '.xml')
