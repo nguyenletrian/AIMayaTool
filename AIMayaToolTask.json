@@ -8,189 +8,24 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-skirt-parent-full-workflow-reloaded-smoothing-maya-smoke-036t",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-workflow",
-        "result": "PASS",
-        "classification": "advanced_skirt_parent_workflow_maya_accepted",
-        "proven_main_commit": "8b8b0d6400ee26440b16558f0dd950100076b07a",
-        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "Managed Maya 2024 PID 16220 returned AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_WORKFLOW_SMOKE_OK after explicitly reloading ratio_weights, skirt_parent_smoothing_apply, and skirt_parent_workflow. The accepted end-to-end path includes planner, four parent transfers, production smoothing plan, smoothing apply, zero-pair-safe ratio propagation, and transferred-weight checks."
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.skirt_parent_workflow_smoke",
-        "callable": "run_skirt_parent_workflow_smoke",
-        "expected_window": "",
-        "live_port": 7001,
-        "timeout": 45,
-        "startup_timeout": 90,
-        "operation_timeout": 45
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-skirt-parent-interactive-ui-maya-smoke-036u",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-ui",
-        "result": "PASS",
-        "classification": "skirt_parent_interactive_selection_adapter_healthy",
-        "proven_main_commit": "15b43c29446f119383d7389624941d1071c50641",
-        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "Managed Maya 2024 PID 16220 returned AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_INTERACTIVE_SMOKE_OK in an existing managed session with a fresh unsaved scene. The thin selection adapter preserved parent-first joint ordering, skirt joints, one-mesh root-loop edges, discovered the skinCluster, and executed the accepted SkirtParent workflow end to end."
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.skirt_parent_interactive_smoke",
-        "callable": "run_skirt_parent_interactive_smoke",
-        "expected_window": "",
-        "live_port": 7001,
-        "timeout": 45,
-        "startup_timeout": 90,
-        "operation_timeout": 45
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-skirt-parent-ui-regression-maya-smoke-036v",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-ui",
-        "purpose": "Run the normal AIMayaTool UI regression after the SkirtParent interactive adapter passed, proving the main window and Skinning panel still open with the new Run Skirt Parent control wired through the thin wrapper.",
-        "acceptance": [
-          "Fast-forward AIMayaTool main to commit 15b43c29446f119383d7389624941d1071c50641 or later.",
-          "Use a healthy Maya 2024 UI smoke with a fresh unsaved scene and do not save the user scene.",
-          "Launch AIMayaTool through the standard bootstrap/UI smoke path.",
-          "Require AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow for PASS.",
-          "The Skinning UI module on main must include the Run Skirt Parent control calling skirt_parent_interactive.run_from_selection through the thin _run wrapper.",
-          "If PASS, close milestone advanced-skirt-parent-ui and record the accepted interactive workflow in HISTORY.md. If FAIL, preserve the exact UI traceback/runtime evidence and isolate only the newly exposed UI integration issue."
-        ],
-        "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-interactive-ui-maya-smoke-036u",
-          "result": "PASS",
-          "classification": "skirt_parent_interactive_selection_adapter_healthy",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "15b43c29446f119383d7389624941d1071c50641"
-        },
-        "result": "FAIL",
-        "classification": "architect_task_payload_invalid_module",
-        "evidence": "maya:ui_smoke failed before product/UI execution with ModuleNotFoundError: No module named 'aimayatool.smoke'. Repository main has no aimayatool/smoke.py; the established UI entrypoint is bootstrap.install_and_launch. This is an Architect-authored validation payload defect, not a SkirtParent or AIMayaTool UI product failure.",
-        "observed_main_after_pull": "af90c49bc17e9115a4e878b5d1ccdd2cee2380a4"
-      },
-      "action": {
-        "type": "maya",
-        "target": "ui_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.smoke",
-        "callable": "run_ui_smoke",
-        "expected_window": "AIMayaToolWindow",
-        "timeout": 45,
-        "startup_timeout": 90,
-        "operation_timeout": 45,
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ]
-      },
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-skirt-parent-ui-regression-bootstrap-retry-036w",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-ui",
         "purpose": "Retry the final AIMayaTool UI regression using the repository's real standard bootstrap entrypoint after 036v used a nonexistent module.",
-        "acceptance": [
-          "Fast-forward AIMayaTool main before validation.",
-          "Use Maya 2024 UI smoke with a fresh unsaved scene and do not save the user scene.",
-          "Invoke bootstrap.install_and_launch, the established AIMayaTool UI entrypoint.",
-          "Require AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow for PASS.",
-          "Treat Windows exit 3221227010 only after the success marker as the known Maya shutdown anomaly; an exception before the marker is a failure.",
-          "If PASS, close milestone advanced-skirt-parent-ui and record the accepted interactive SkirtParent UI workflow in HISTORY.md."
-        ],
-        "retry_of": "aimayatool-skirt-parent-ui-regression-maya-smoke-036v",
+        "result": "PASS",
+        "classification": "skirt_parent_ui_regression_accepted_with_known_shutdown_anomaly",
+        "proven_main_commit": "6952e625d3ec6cf5049d499ea2466dbdad7c0acf",
+        "evidence": "Maya 2024 UI smoke invoked bootstrap.install_and_launch and emitted AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow. Process exit 3221227010 occurred only after the success marker and is the known Maya Windows shutdown anomaly explicitly allowed by this task's acceptance criteria.",
+        "archived_retry_source": {
+          "task_id": "aimayatool-skirt-parent-ui-regression-maya-smoke-036v",
+          "result": "FAIL",
+          "classification": "architect_task_payload_invalid_module",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
         "archived_prerequisite": {
           "task_id": "aimayatool-skirt-parent-interactive-ui-maya-smoke-036u",
           "result": "PASS",
@@ -239,6 +74,70 @@
             "branch": "main"
           }
         ]
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-ui-closeout-036x",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-ui",
+        "purpose": "Record the accepted interactive SkirtParent UI workflow as durable history and close its milestone after the final standard UI regression passed.",
+        "acceptance": [
+          "Fast-forward AIMayaTool main before editing.",
+          "Append a concise HISTORY.md milestone recording that the thin SkirtParent selection adapter passed managed Maya validation and the standard bootstrap UI regression emitted AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow.",
+          "Record that exit 3221227010 occurred only after the UI success marker and is the known accepted Maya Windows shutdown anomaly, not a product failure.",
+          "Update bridgeGoals.json milestone advanced-skirt-parent-ui from in_progress to completed without changing unrelated milestone states.",
+          "Validate bridgeGoals.json with a JSON parser after editing.",
+          "Commit and push the HISTORY.md and bridgeGoals.json closeout to main.",
+          "Return the resulting main commit and exact files changed."
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-skirt-parent-ui-regression-bootstrap-retry-036w",
+          "result": "PASS",
+          "classification": "skirt_parent_ui_regression_accepted_with_known_shutdown_anomaly",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "6952e625d3ec6cf5049d499ea2466dbdad7c0acf"
+        }
+      },
+      "action": {
+        "type": "implementation",
+        "target": "repository"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "HISTORY.md",
+          "bridgeGoals.json"
+        ],
+        "timeout": 180
       }
     }
   ]
