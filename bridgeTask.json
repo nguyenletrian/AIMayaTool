@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "history_checkpoint_blob": "98769cea5b52fa18da9ab92ab99dce6af61966be",
+  "history_checkpoint_blob": "26c74000480f53fb83c1d2ffc9162e633b117326",
   "tasks": [
     {
       "task_id": "aimayatool-scene-display-layers-maya-smoke-013b",
@@ -182,12 +182,16 @@
     {
       "task_id": "aimayatool-scene-display-layers-ui-regression-013c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "scene-display-layers",
         "depends_on": "aimayatool-scene-display-layers-maya-smoke-013br",
-        "purpose": "Verify display-layer Scene API exposure does not regress AIMayaTool launch."
+        "purpose": "Verify display-layer Scene API exposure does not regress AIMayaTool launch.",
+        "result": "PASS",
+        "proven_main_commit": "d60cde8f0b0aef7afad242a2e6b9795fa29f7f8e",
+        "stable_checkpoint": "backup/2026-09-13-0900-SceneDisplayLayers-d60cde8",
+        "evidence": "maya:managed_live_smoke reused the existing Maya 2024 session on 127.0.0.1:7001, forced a fresh scene, did not save or quit Maya, and bootstrap.install_and_launch returned AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow."
       },
       "action": {
         "type": "maya",
@@ -219,7 +223,8 @@
         "expected_window": "AIMayaToolWindow",
         "live_port": 7001,
         "timeout": 180
-      }
+      },
+      "bridge_completed": true
     }
   ]
 }
