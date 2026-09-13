@@ -24,18 +24,28 @@ def run_brush_weight_smoke():
     replaced = brush_weight.replace(0.42, context)
     if abs(replaced - 0.42) > 1e-6 or abs(paint_state.value(context) - 0.42) > 1e-6:
         raise RuntimeError('replace brush value mismatch')
+    if brush_weight.operation(context) != 'absolute':
+        raise RuntimeError('replace operation did not resolve to Maya absolute mode')
 
     added = brush_weight.add(0.18, context)
     if abs(added - 0.18) > 1e-6 or abs(paint_state.value(context) - 0.18) > 1e-6:
         raise RuntimeError('add brush value mismatch')
+    if brush_weight.operation(context) != 'additive':
+        raise RuntimeError('add operation did not resolve to Maya additive mode')
 
     toggled = brush_weight.toggle_add_sign(context)
     if abs(toggled + 0.18) > 1e-6 or abs(paint_state.value(context) + 0.18) > 1e-6:
         raise RuntimeError('add-sign toggle mismatch')
+    if brush_weight.operation(context) != 'additive':
+        raise RuntimeError('toggle did not preserve additive mode')
 
     profile = brush_weight.smooth('soft', context)
     if profile != 'soft':
         raise RuntimeError('smooth profile result mismatch: %s' % profile)
+    if brush_weight.operation(context) != 'smooth':
+        raise RuntimeError('smooth operation did not resolve to Maya smooth mode')
+    if cmds.artAttrSkinPaintCtx(context, query=True, stampProfile=True) != 'gaussian':
+        raise RuntimeError('legacy soft profile did not map to Maya gaussian profile')
 
     flooded_context = brush_weight.flood(context)
     if flooded_context != context:
