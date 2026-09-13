@@ -73,25 +73,46 @@
     {
       "task_id": "aimayatool-skirt-parent-post-transfer-selection-add-maya-diagnostic-036g",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
         "purpose": "After planner and parent transfer, isolate only MSelectionList construction plus add(mesh), returning before getDagPath or any post-transfer Maya API object resolution.",
+        "result": "FAIL",
+        "classification": "reproducible_post_transfer_selection_add_maya_crash",
+        "proven_main_commit": "286e405ccad9cdfb879483b8818d04a07755c091",
+        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
+        "evidence": "Fresh managed Maya 2024 PID 9764 exited during the post-transfer diagnostic whose only post-transfer OpenMaya work was constructing MSelectionList and calling add(mesh). The operation exceeded 45 seconds, health probe was refused with WinError 10061, and cleanup confirmed managed_pid_already_exited. This shows the crash occurs at or before MSelectionList.add(mesh), but does not yet exclude a transfer-side failure that surfaces on the next scene-graph touch."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_selection_add_smoke", "callable": "run_skirt_parent_post_transfer_selection_add_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-post-transfer-cmds-probe-maya-diagnostic-036h",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "purpose": "After the exact planner+transfer fixture, touch the scene only through maya.cmds.objExists(mesh) and return, with no post-transfer OpenMaya calls. This distinguishes an already-failed transfer/evaluation state from MSelectionList.add(mesh) as the first OpenMaya trigger.",
         "acceptance": [
-          "Fast-forward AIMayaTool main and include diagnostic smoke commit 1508d32e62837138acfc17ad8952f9bbd0662e70 or later.",
+          "Fast-forward AIMayaTool main and include diagnostic smoke commit 5f55667d4de6d484952f015afdc9ec72d9a8c91f or later.",
           "Use a fresh healthy managed Maya 2024 session with startup_timeout=90 and operation_timeout=45.",
           "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run run_skirt_parent_post_transfer_selection_add_smoke. After planner+transfer it must only construct MSelectionList and call add(mesh); it must return before getDagPath, MFnMesh construction, or topology queries.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_POST_TRANSFER_SELECTION_ADD_SMOKE_OK. If it passes, isolate getDagPath(0) alone next. If Maya exits, the trigger is at or before MSelectionList.add(mesh) after transfer."
+          "Run run_skirt_parent_post_transfer_cmds_probe_smoke. After planner+transfer it must not construct any new OpenMaya object and may only verify cmds.objExists(mesh) before returning.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_POST_TRANSFER_CMDS_PROBE_SMOKE_OK. If it passes, treat MSelectionList.add(mesh) as the first proven OpenMaya crash trigger. If Maya exits, move the isolation point into apply_parent_transfers itself because the scene is already invalid before any post-transfer OpenMaya call."
         ],
         "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-post-transfer-dagpath-maya-diagnostic-036f",
+          "task_id": "aimayatool-skirt-parent-post-transfer-selection-add-maya-diagnostic-036g",
           "result": "FAIL",
-          "classification": "reproducible_post_transfer_dagpath_resolution_maya_crash",
+          "classification": "reproducible_post_transfer_selection_add_maya_crash",
           "architect_ack": true,
           "bridge_completed": true,
-          "proven_main_commit": "f86ec87b9a937a1b72532d2d0de3889d24443571"
+          "proven_main_commit": "286e405ccad9cdfb879483b8818d04a07755c091"
         }
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
@@ -102,8 +123,8 @@
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_selection_add_smoke",
-        "callable": "run_skirt_parent_post_transfer_selection_add_smoke",
+        "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_cmds_probe_smoke",
+        "callable": "run_skirt_parent_post_transfer_cmds_probe_smoke",
         "expected_window": "",
         "live_port": 7001,
         "timeout": 45,
