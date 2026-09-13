@@ -4,25 +4,59 @@
   "force_restart": {"enabled": true, "request_id": "aimayatool-load-aibridge-36c560ab-036c", "reason": "reload_windows_managed_maya_cleanup_fix_before_retry"},
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-paint-context-influence-maya-smoke-041d",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-advanced-tools", "result": "PASS", "classification": "paint_context_influence_maya_smoke_passed_with_shutdown_anomaly", "evidence": "Maya 2024 emitted AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_CONTEXT_INFLUENCE_SMOKE_OK. The subsequent process exit 3221227010 matches the established Windows Maya shutdown anomaly and does not override the explicit success marker.", "smoke_commit": "76f709f3c04c4b5fdd37cbdcb3026525aa3def87", "archived_prerequisites": {"041b": "PASS", "041c": "PASS"}},
-      "action": {"type": "maya", "target": "ui_smoke"}, "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_context_influence_smoke", "callable": "run_paint_context_influence_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90}, "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-skin-envelope-sync-042a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-advanced-tools", "result": "PASS", "classification": "skin_envelope_runtime_sync_passed", "evidence": "Bridge fast-forwarded D:/AIMayaTool main from fbbaf864f49ac17409ab46953b5fdae7d1ae92b2 to 24db51625b8ec21b7bf08737f5503c8abb3b2ebe. Runtime now contains aimayatool/tools/skinning/skin_envelope.py and skin_envelope_smoke.py.", "depends_on": ["aimayatool-goal003-paint-context-influence-maya-smoke-041d"], "implementation_commits": ["69bcc07cc5f33399328e95019e5172fffa0c9d20", "33de22b6094f565f85cea3cc246d3ee9c8270d38"]},
-      "action": {"type": "git", "target": "pull"}, "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"strategy": "ff-only", "remote": "origin"}, "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal003-skin-envelope-maya-smoke-042b",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "result": "FAIL",
+        "classification": "skin_envelope_smoke_float_precision_assertion",
+        "evidence": "Maya returned skinCluster envelope 0.3499999940395355 after setting 0.35. The smoke compared the snapshot dictionary by exact float equality, so it failed before emitting the success marker. This is a smoke precision defect, not evidence of incorrect envelope behavior.",
+        "implementation_commits": ["69bcc07cc5f33399328e95019e5172fffa0c9d20", "33de22b6094f565f85cea3cc246d3ee9c8270d38"],
+        "smoke_fix_commit": "8ef56cd2231c4bde86feca50ae14f3fbd269026d"
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_envelope_smoke", "callable": "run_skin_envelope_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-skin-envelope-smoke-fix-sync-042c",
+      "status": "pending",
       "architect_ack": false,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-advanced-tools", "purpose": "Validate skinCluster envelope value, enable/disable/toggle, snapshot/restore, and unskinned-target rejection in Maya 2024.", "depends_on": ["aimayatool-goal003-skin-envelope-sync-042a"], "acceptance": ["Run in a fresh unsaved Maya 2024 scene.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIN_ENVELOPE_SMOKE_OK for PASS.", "Validate enable, disable and toggle against the actual skinCluster envelope attribute.", "Validate arbitrary envelope snapshot and exact restore.", "Validate unskinned meshes are rejected.", "If PASS, continue to the next remaining Goal 003 advanced Skinning parity gap without pausing."]},
-      "action": {"type": "maya", "target": "ui_smoke"}, "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_envelope_smoke", "callable": "run_skin_envelope_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90}
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "purpose": "Sync the skin-envelope smoke precision fix that compares Maya float attributes with tolerance instead of exact equality.",
+        "depends_on": ["aimayatool-goal003-skin-envelope-maya-smoke-042b"],
+        "smoke_fix_commit": "8ef56cd2231c4bde86feca50ae14f3fbd269026d",
+        "acceptance": ["Fast-forward D:/AIMayaTool main without merge commits.", "Runtime skin_envelope_smoke.py contains tolerance-based snapshot validation."]
+      },
+      "action": {"type": "git", "target": "pull"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"strategy": "ff-only", "remote": "origin"}
+    },
+    {
+      "task_id": "aimayatool-goal003-skin-envelope-maya-smoke-retry-042d",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "purpose": "Retry the skinCluster envelope Maya regression after fixing float precision assertions.",
+        "depends_on": ["aimayatool-goal003-skin-envelope-smoke-fix-sync-042c"],
+        "acceptance": ["Run in a fresh unsaved Maya 2024 scene.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIN_ENVELOPE_SMOKE_OK for PASS.", "Validate enable, disable and toggle against the actual skinCluster envelope attribute.", "Validate arbitrary envelope snapshot and restore within Maya float precision.", "Validate unskinned meshes are rejected.", "If PASS, continue to the next remaining Goal 003 advanced Skinning parity gap without pausing."]
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_envelope_smoke", "callable": "run_skin_envelope_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90}
     }
   ]
 }
