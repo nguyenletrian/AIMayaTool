@@ -6,6 +6,7 @@ import os
 import maya.cmds as cmds
 
 from aimayatool.maya import skin
+from aimayatool.maya.undo import undo_chunk
 
 
 _MANIFEST = 'skinData.json'
@@ -210,6 +211,17 @@ def import_meshes(meshes, directory, preserve_existing=True, require_existing=Fa
     )
 
 
+def import_meshes_undoable(meshes, directory, preserve_existing=True, require_existing=False, progress=None):
+    plan = preview_import_meshes(meshes, directory, require_existing=require_existing)
+    ordered_meshes = [item['mesh'] for item in plan['items']]
+    with undo_chunk('AIMayaTool Skin Import Batch'):
+        return _batch(
+            lambda mesh: import_skin(mesh, directory, preserve_existing=preserve_existing, require_existing=require_existing),
+            ordered_meshes,
+            progress=progress,
+        )
+
+
 def import_existing_meshes(meshes, directory, progress=None):
     return import_meshes(meshes, directory, preserve_existing=True, require_existing=True, progress=progress)
 
@@ -254,7 +266,7 @@ def import_selected(directory=None, preserve_existing=True, require_existing=Fal
     preview_import_meshes(meshes, directory, require_existing=require_existing)
     progress = _progress_window('Import Skin Data', len(meshes)) if len(meshes) > 1 else None
     try:
-        report = import_meshes(meshes, directory, preserve_existing=preserve_existing, require_existing=require_existing, progress=progress)
+        report = import_meshes_undoable(meshes, directory, preserve_existing=preserve_existing, require_existing=require_existing, progress=progress)
     finally:
         if progress:
             cmds.progressWindow(endProgress=True)
