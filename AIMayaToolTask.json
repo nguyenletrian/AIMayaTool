@@ -21,40 +21,11 @@
         "evidence": "py_compile passed for paint_influence.py, paint_influence_smoke.py, __init__.py, and ui_parity_smoke.py; importing aimayatool.tools.skinning passed.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "files": [
-          "aimayatool/tools/skinning/paint_influence.py",
-          "aimayatool/tools/skinning/paint_influence_smoke.py",
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/skinning/ui_parity_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"files": ["aimayatool/tools/skinning/paint_influence.py", "aimayatool/tools/skinning/paint_influence_smoke.py", "aimayatool/tools/skinning/__init__.py", "aimayatool/tools/skinning/ui_parity_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
       "bridge_completed": true
     },
     {
@@ -64,48 +35,20 @@
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
-        "depends_on": [
-          "aimayatool-goal003-paint-influence-verify-049a"
-        ],
+        "depends_on": ["aimayatool-goal003-paint-influence-verify-049a"],
         "result": "FAIL",
         "classification": "paint_influence_relative_dag_identity_bug",
         "proven_main_commit": "b64a8e06b8d3100503e33176652b24448eecc54d",
-        "evidence": "Managed Maya 2024 reused existing PID 10632 and remained healthy, but paint_influence.relative_influence compared full DAG paths returned by listRelatives(fullPath=True) against short influence names from skinCluster, causing child lookup for paintInfB -> paintInfC to fail.",
+        "evidence": "Managed Maya 2024 reused existing PID 10632 and remained healthy, but relative_influence compared full DAG paths against short influence names, causing child lookup to fail.",
         "runtime_error": "RuntimeError: paintInfB has no bound child influence.",
         "maya_quit": false,
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.paint_influence_smoke",
-        "callable": "run_paint_influence_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_influence_smoke", "callable": "run_paint_influence_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180},
       "bridge_completed": true
     },
     {
@@ -116,62 +59,19 @@
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
         "purpose": "Verify the DAG identity normalization fix for parent/child bound influence matching.",
-        "depends_on": [
-          "aimayatool-goal003-paint-influence-managed-live-049b"
-        ],
+        "depends_on": ["aimayatool-goal003-paint-influence-managed-live-049b"],
         "implementation_commit": "80f9b82252b0e7d0c986ae8981b24416916bedca",
-        "acceptance": [
-          "Fast-forward D:/AIMayaTool main.",
-          "py_compile paint_influence.py and paint_influence_smoke.py successfully.",
-          "Import aimayatool.tools.skinning outside Maya successfully.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "paint_influence_dag_identity_fix_python_verification_pass",
         "proven_main_commit": "4e037234de400b462ae319db6303fc41e79cb884",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from b64a8e06b8d3100503e33176652b24448eecc54d to 4e037234de400b462ae319db6303fc41e79cb884; py_compile passed with exit_code=0 for paint_influence.py and paint_influence_smoke.py; importing aimayatool.tools.skinning passed with exit_code=0."
+        "evidence": "py_compile passed for paint_influence.py and paint_influence_smoke.py; importing aimayatool.tools.skinning passed.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/paint_influence.py",
-          "aimayatool/tools/skinning/paint_influence_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/paint_influence.py", "aimayatool/tools/skinning/paint_influence_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
       "bridge_completed": true
     },
     {
@@ -182,120 +82,47 @@
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
         "purpose": "Retry paint-influence functional validation after fixing short/full DAG identity matching.",
-        "depends_on": [
-          "aimayatool-goal003-paint-influence-dag-fix-verify-049d"
-        ],
+        "depends_on": ["aimayatool-goal003-paint-influence-dag-fix-verify-049d"],
         "retry_of": "aimayatool-goal003-paint-influence-managed-live-049b",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "INCONCLUSIVE",
         "classification": "managed_live_stale_dependency_module_cache",
         "proven_main_commit": "a9cc933935908a95447ec86a8143ee11f0aefbe1",
-        "evidence": "Managed Maya reused existing PID 10632 and remained healthy, but the retry reproduced the pre-fix stack behavior even though authoritative main already contained the canonical DAG identity fix. The long-lived Maya process retained aimayatool.tools.skinning.paint_influence in sys.modules from the earlier task; the smoke module was re-entered without reloading that dependency.",
+        "evidence": "Managed Maya reused existing PID 10632 and remained healthy, but retained pre-fix paint_influence in sys.modules; authoritative main already contained the DAG identity fix.",
         "runtime_error": "RuntimeError: paintInfB has no bound child influence.",
         "managed_pid": 10632,
         "managed_port": 7001,
-        "maya_quit": false
+        "maya_quit": false,
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.paint_influence_smoke",
-        "callable": "run_paint_influence_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_influence_smoke", "callable": "run_paint_influence_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180},
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal003-paint-influence-hot-reload-verify-049f",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
         "purpose": "Verify managed-live paint-influence smoke reloads the current product dependency before execution.",
-        "depends_on": [
-          "aimayatool-goal003-paint-influence-managed-live-retry-049e"
-        ],
+        "depends_on": ["aimayatool-goal003-paint-influence-managed-live-retry-049e"],
         "implementation_commit": "e425719f9428f429c6021ff3a8fc02020175a3f4",
-        "acceptance": [
-          "Fast-forward D:/AIMayaTool main.",
-          "py_compile paint_influence_smoke.py successfully.",
-          "Import aimayatool.tools.skinning outside Maya successfully.",
-          "Do not invoke Codex."
-        ],
+        "result": "PASS",
+        "classification": "paint_influence_hot_reload_python_verification_pass",
+        "proven_main_commit": "596934f4485c9e8c5738fc33e1839f7696f4f49c",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from a9cc933935908a95447ec86a8143ee11f0aefbe1 to 596934f4485c9e8c5738fc33e1839f7696f4f49c; py_compile passed for paint_influence_smoke.py and importing aimayatool.tools.skinning passed.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/paint_influence_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      }
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/paint_influence_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal003-paint-influence-managed-live-retry2-049g",
@@ -305,59 +132,16 @@
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
         "purpose": "Retry paint-influence functional validation in the same managed Maya session after explicitly reloading the product dependency.",
-        "depends_on": [
-          "aimayatool-goal003-paint-influence-hot-reload-verify-049f"
-        ],
+        "depends_on": ["aimayatool-goal003-paint-influence-hot-reload-verify-049f"],
         "retry_of": "aimayatool-goal003-paint-influence-managed-live-retry-049e",
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Reload current paint_influence code inside the smoke before product assertions.",
-          "Force a fresh unsaved scene and do not save.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_INFLUENCE_SMOKE_OK for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
+        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Reload current paint_influence code inside the smoke before product assertions.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_INFLUENCE_SMOKE_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.paint_influence_smoke",
-        "callable": "run_paint_influence_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      }
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_influence_smoke", "callable": "run_paint_influence_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180}
     },
     {
       "task_id": "aimayatool-goal003-paint-influence-ui-managed-live-049c",
@@ -367,58 +151,15 @@
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-ui-parity",
         "purpose": "Validate Skinning UI parity after the paint-influence functional retry passes.",
-        "depends_on": [
-          "aimayatool-goal003-paint-influence-managed-live-retry2-049g"
-        ],
-        "acceptance": [
-          "Reuse a healthy compatible managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.ui_parity_smoke.run_skinning_ui_parity_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
+        "depends_on": ["aimayatool-goal003-paint-influence-managed-live-retry2-049g"],
+        "acceptance": ["Reuse a healthy compatible managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.ui_parity_smoke.run_skinning_ui_parity_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.ui_parity_smoke",
-        "callable": "run_skinning_ui_parity_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      }
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.ui_parity_smoke", "callable": "run_skinning_ui_parity_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180}
     }
   ]
 }
