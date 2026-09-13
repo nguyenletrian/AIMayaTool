@@ -196,7 +196,7 @@
     {
       "task_id": "aimayatool-ratio-weighting-maya-smoke-017c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-ratio-weighting",
@@ -207,7 +207,10 @@
           "Force a fresh unsaved scene and do not save or quit Maya.",
           "Run the ratio-weight smoke from current main.",
           "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_RATIO_WEIGHTS_SMOKE_OK."
-        ]
+        ],
+        "result": "PASS",
+        "proven_main_commit": "c97034c089ccbefce54e42ecae32566020287bd1",
+        "evidence": "Managed Maya 2024 reused the existing session on port 7001, forced a fresh unsaved scene, did not save or quit Maya, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_RATIO_WEIGHTS_SMOKE_OK."
       },
       "action": {
         "type": "maya",
@@ -236,6 +239,121 @@
         "maya_version": "2024",
         "module": "aimayatool.tools.skinning.ratio_weights_smoke",
         "callable": "run_ratio_weights_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-weight-profile-deterministic-018a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-weight-profile",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-ratio-weighting-maya-smoke-017c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "c97034c089ccbefce54e42ecae32566020287bd1"
+        },
+        "purpose": "Deterministically verify the reusable normalized animCurve-backed skin-weight profile primitive before Maya validation.",
+        "acceptance": [
+          "Fast-forward AIMayaTool main before verification.",
+          "Compile weight_profile.py, weight_profile_smoke.py, and focused tests.",
+          "Import aimayatool.tools.skinning.weight_profile outside Maya without requiring maya.cmds.",
+          "Run tests.test_skinning_weight_profile and require all focused tests to pass."
+        ]
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/weight_profile.py",
+          "aimayatool/tools/skinning/weight_profile_smoke.py",
+          "tests/test_skinning_weight_profile.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning.weight_profile"
+        ],
+        "tests": [
+          "tests.test_skinning_weight_profile"
+        ],
+        "timeout": 180
+      }
+    },
+    {
+      "task_id": "aimayatool-weight-profile-maya-smoke-018b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-weight-profile",
+        "depends_on": "aimayatool-weight-profile-deterministic-018a",
+        "purpose": "Validate normalized animCurve skin-weight profile creation, sampling, and reset in managed Maya 2024.",
+        "acceptance": [
+          "Reuse a healthy managed Maya session where possible.",
+          "Force a fresh unsaved scene and do not save or quit Maya.",
+          "Run the current weight-profile smoke from disk.",
+          "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_WEIGHT_PROFILE_SMOKE_OK."
+        ]
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.weight_profile_smoke",
+        "callable": "run_weight_profile_smoke",
         "expected_window": "",
         "live_port": 7001,
         "timeout": 180
