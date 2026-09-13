@@ -31,24 +31,22 @@
     {
       "task_id": "aimayatool-goal003-selection-sets-fix-sync-043c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
-        "purpose": "Sync the selection-set shared-member visibility fix.",
+        "result": "PASS",
+        "classification": "selection_sets_shared_member_fix_synced",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool main from b7c9385ca96fb676fdb27e45f690807987b35c43 to 1781f19318bcf3f3416c2f915ef3cc5d5bfa27f0. Runtime now contains the shared-member visibility fix in selection_sets.py.",
         "depends_on": ["aimayatool-goal003-selection-sets-maya-smoke-043b"],
-        "fix_commit": "1cd8da6a0f2db99471d9e164b3f091785c0cb278",
-        "acceptance": [
-          "Fast-forward D:/AIMayaTool main without merge commits.",
-          "Runtime selection_sets.py excludes members shared across multiple family sets from visibility discrimination while preserving set membership.",
-          "delete_family restores visibility once per underlying node."
-        ]
+        "fix_commit": "1cd8da6a0f2db99471d9e164b3f091785c0cb278"
       },
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"}
+      "payload": {"strategy": "ff-only", "remote": "origin"},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal003-selection-sets-maya-smoke-retry-043d",
