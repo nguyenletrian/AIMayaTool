@@ -58,6 +58,13 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Live Maya 2024 utility validation returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_UTILITIES_SMOKE_OK`; UI regression passed after restarting Maya following a transient Autodesk license checkout failure, with no product code change required.
 - The accepted utilities UI retry checkpoint is AIMayaTool commit `5385c1475c6674c31c09aa3910a3cfc579981064`.
 
+## 2026-09-13 — Skinning first slice closed
+
+- Completed the first Skinning migration slice with focused modules for influence management, max-influence handling, copy weights, mirror skin, utility workflows, and XML+manifest skin-data import/export.
+- Skin-data round-trip validation passed in Maya 2024 at proven AIMayaTool code commit `05b8c0c502069b208edd3cbcd2b6afd240735829`, including restore into an existing skinCluster and recreation after deleting the skinCluster.
+- UI regression emitted `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`; the subsequent Windows exit `3221227010` occurred after functional acceptance and matches the known Maya shutdown anomaly allowed by the validation contract.
+- Created immutable stable checkpoint `backup/2026-09-13-0737-SkinningFirstSlice-05b8c0c` pointing exactly to the proven code commit.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
