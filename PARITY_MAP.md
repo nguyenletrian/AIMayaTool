@@ -63,6 +63,11 @@ The old UI directly imports/reloads many global `NLTA_*` modules. AIMayaTool mus
 
 `MayaScriptNew/Libs/NLTA_Control.py` contains a large reusable control-shape template catalog rather than only one or two primitive shapes. That legacy data is a candidate for a modern explicit control-shape library, but not for wholesale module copying. The modern target should separate shape data, deterministic creation/mirroring/serialization primitives, and UI presets.
 
+Legacy Scene patterns provide direct evidence that Setup must own several reusable rig-building primitives:
+- `Scene_Pattern_SpaceSwitch.py` creates offset/default-space groups, parent constraints, enum/slide attributes, condition/reverse-style utility logic and weighted space blending. This is Setup constraints/spaces functionality; Scene should only store/compose the pattern data.
+- `Scene_Pattern_Drivenkey.py` creates reusable SDK offset groups, driver/driven mappings, keyed driver values and linear driven keys. This belongs in Setup SDK/driven-key primitives; Scene should serialize and invoke them rather than recreate keyframe mechanics.
+- `Scene_Pattern_CreateIK.py` performs joint-chain creation/orientation, duplicate IK/FK chains, pole-vector construction, control creation, grouping, parent constraints and local/world space switching. This is strong evidence that Goal 005 must establish controls, offsets, constraints/spaces and IK/FK composition APIs before Goal 007 migrates equivalent Scene patterns.
+
 These are migration candidates, not a mandate to preserve historical UI grouping or implementation shape.
 
 ### Scene legacy surface
@@ -98,13 +103,16 @@ AIMayaTool already has the deterministic ScenePattern/data/build foundation, but
 | Setup | Curve-shape IO/mirror/copy | Missing | Migrate as reusable control-shape workflow |
 | Setup | Joint/transform matching | Missing | Migrate as deterministic transform/joint primitives |
 | Setup | Attribute utilities | Missing | Migrate reusable connect/copy/visibility/lock helpers |
+| Setup | Space switching / weighted parent spaces | Missing | Build explicit constraints/spaces API covering enum selection, optional blend/slide weights and reusable offset groups |
+| Setup | Driven key / SDK graph | Missing | Build explicit serialized driver/driven key-data API and executor with predictable offset-group behavior |
+| Setup | IK/FK chain construction | Missing | Build composable joint-chain, controls, pole-vector, IK/FK and matching primitives before Scene CreateIK parity |
 | Setup | Naming/namespace workflows | Missing | Redesign with explicit data/config boundaries |
 | Setup | Constraint metadata helpers | Missing | Reconcile with future constraints/spaces goal |
 | Scene | ScenePattern model/serialization | Replaced/Improved | Keep current deterministic architecture |
 | Scene | Display layers | Replaced/Improved | Reconcile legacy Layer pattern behavior |
 | Scene | Build/hierarchy actions | Replaced/Improved | Reconcile legacy Group/CreateRef/etc. |
 | Scene | CreateAttribute / CreateCurve / CreateIK / offset patterns | Missing | Implement through reusable Setup/core primitives, then expose as Scene composition |
-| Scene | SpaceSwitch / IKFK / DrivenKey / SDK patterns | Missing | Implement on reusable Setup primitives rather than duplicating rig logic in Scene |
+| Scene | SpaceSwitch / IKFK / DrivenKey / SDK patterns | Missing but Setup-dependent | Scene should serialize/compose accepted Setup APIs; do not duplicate rig mechanics |
 | Scene | ProxyAttribute / Rivet / Rope / AimConstraint patterns | Missing | Reconcile dependencies and migrate vertically |
 | Scene | ControlShape patterns | Missing but Setup-dependent | Reuse modern Setup control-shape library rather than preserve duplicate pattern implementation |
 | Scene | Default curve import/export/update scripts | Missing but Setup-dependent | Collapse five ad-hoc scripts into one shared curve/control-shape data workflow with explicit orientation/update options |
@@ -117,15 +125,16 @@ AIMayaTool already has the deterministic ScenePattern/data/build foundation, but
 2. **Graph skinning is mostly already decomposed.** Ratio copying, influence transfer and active-joint gradient logic should reconcile against accepted AIMayaTool primitives before any new implementation; only uncovered option/UI behavior should create Goal 003 work.
 3. **Proxy is not one domain primitive.** Proxy extraction/skin transfer is a Skinning workflow, while edge/vertex-to-curve and geometric helpers should be shared geometry/Maya primitives. Do not recreate `NLTA_Proxy` as a monolith.
 4. **Control-shape data is a Setup primitive used by Scene.** Build one modern control-shape library and let Scene patterns compose it. Do not create separate Scene and Setup copies.
-5. **Scene rig patterns depend on Setup.** SpaceSwitch, IK/FK, DrivenKey/SDK, AimConstraint, CreateIK, ProxyAttribute and related patterns should be thin composition/data layers over accepted Setup primitives.
-6. **ScenePattern directory inventory is authoritative.** The visible `Scene.py` menu is insufficient because the directory contains additional modules not surfaced in the initial button map.
-7. **Default Scene curve scripts collapse into one reusable primitive family.** Export/import/up-orientation/update variations belong in shared curve/control-shape serialization rather than five standalone Scene features.
-8. **Backup/duplicate legacy files are evidence, not separate capabilities.** `_Backup.py`, `.pyc`, duplicate ControlShape variants and similar artifacts must be reconciled to one behavior classification, not counted as independent migration requirements.
+5. **Setup must own rig mechanics before Scene parity.** Space switching, SDK/driven-key execution, control/offset groups, constraint composition and IK/FK construction are reusable Setup responsibilities proven by legacy ScenePattern implementations. Scene should only own serializable pattern data, ordering and composition.
+6. **CreateIK is a compound consumer, not the primitive.** Its behavior decomposes into control creation, offset/group creation, joint-chain generation/orientation, IK/FK duplication, pole-vector placement, constraints and space switching. Goal 005 should implement/test these pieces independently before Goal 007 exposes a CreateIK pattern.
+7. **ScenePattern directory inventory is authoritative.** The visible `Scene.py` menu is insufficient because the directory contains additional modules not surfaced in the initial button map.
+8. **Default Scene curve scripts collapse into one reusable primitive family.** Export/import/up-orientation/update variations belong in shared curve/control-shape serialization rather than five standalone Scene features.
+9. **Backup/duplicate legacy files are evidence, not separate capabilities.** `_Backup.py`, `.pyc`, duplicate ControlShape variants and similar artifacts must be reconciled to one behavior classification, not counted as independent migration requirements.
 
 ## Migration-priority implications emerging from Goal 002
 
 - Goal 003 Skinning should first finish genuine user-facing gaps around paint/brush workflows, proxy extraction/skin transfer, remaining IO variants and any graph-skinning options not already covered by accepted primitives.
-- Goal 005 Setup is a dependency hub: control-shape library/IO, transform/joint matching, attributes, constraints/spaces, IK/FK and SDK primitives unlock a large fraction of Scene parity.
+- Goal 005 Setup is a dependency hub. Recommended early order inside Goal 005 is: **control-shape/offset primitives -> transform/joint matching -> attributes -> constraints/space switching -> SDK/driven keys -> IK/FK composition -> secondary rigs**. This sequence unlocks a large fraction of Goal 007 Scene patterns.
 - Goal 007 Scene should avoid implementing rig mechanics directly until the corresponding Setup primitives exist; Scene patterns should become composition/data wrappers over those APIs.
 - Shared geometry helpers discovered inside legacy Skinning/Proxy code should move to reusable Maya/geometry layers so Skinning, Setup and Scene can all consume them without duplication.
 
