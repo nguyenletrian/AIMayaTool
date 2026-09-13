@@ -98,6 +98,14 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Managed Maya 2024 retry returned `AIBRIDGE_UI_SMOKE_OK:SCENE_DISPLAY_LAYER_SMOKE_OK`; UI regression returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`, both reusing the existing session with a fresh scene, no save, and no Maya quit.
 - Created immutable stable checkpoint `backup/2026-09-13-0900-SceneDisplayLayers-d60cde8` pointing exactly to the proven AIMayaTool commit.
 
+## 2026-09-13 — Scene build actions closed
+
+- Added reusable Scene build actions for deterministic transform-group creation, hierarchy construction, and explicit parenting with world-transform preservation by default.
+- Deterministic verification passed at proven AIMayaTool main `eb1502dc41ff77b7ff03c92b4a096ad94bc30dde`: compile/import checks passed and focused unit tests passed 3/3.
+- Managed Maya 2024 functional validation returned `AIBRIDGE_UI_SMOKE_OK:SCENE_BUILD_ACTIONS_SMOKE_OK`, proving hierarchy construction plus world-space preservation after parenting in a fresh unsaved scene.
+- UI regression returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`; both live checks reused the managed Maya session with no scene save and no Maya quit.
+- Created immutable stable checkpoint `backup/2026-09-13-0900-SceneBuildActions-eb1502d` pointing exactly to the proven AIMayaTool commit.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
