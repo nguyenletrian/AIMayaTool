@@ -2,7 +2,7 @@
 
 This file records durable product/architecture milestones. It is intentionally concise.
 
-Detailed task execution, transient failures, ACK state, and runtime evidence remain in `bridgeTask.json`. Active goals remain in `bridgeGoals.json`. Git history remains the source of truth for exact code changes.
+Detailed task execution, transient failures, ACK state, and runtime evidence remain in `AIMayaToolTask.json`. Active goals remain in `bridgeGoals.json`. Git history remains the source of truth for exact code changes.
 
 ## 2026-09-12 — Project foundation
 
@@ -149,6 +149,15 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Final standard UI regression through `bootstrap.install_and_launch` emitted `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow` at main `6952e625d3ec6cf5049d499ea2466dbdad7c0acf`.
 - Windows exit `3221227010` occurred only after the success marker and remains the known accepted Maya shutdown anomaly, not a product failure.
 
+## 2026-09-13 — Skinning complete migration (Goal 003) closed
+
+- Reconciled the remaining Skinning parity gaps: proxy clipboard/closest-face UX, selection-set navigation, strict skin-IO variants, paint influence workflows, paint brush pick/sign operations, source-to-target influence sync, unused-influence cleanup, and final UI exposure.
+- Legacy animation/keyframe convenience, FBX/new-scene export, destructive scene cleanup, and generic curve/retopology helpers were explicitly moved out of Skinning scope rather than copied into the wrong domain; legacy GraphSkinning/session monoliths were replaced by deterministic ratio/gradient/transfer/paint primitives.
+- Final Python regression entrypoint verification passed at main `1da0bf25f28041d27e359fb04a0ab480424c69ab`.
+- Final managed Maya 2024 consolidated regression reused PID 10632 and returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_CONSOLIDATED_REGRESSION_OK` on proven main `6462ecf81c5e47f13837ff200b51139b155e5e26`, with a fresh unsaved scene and `maya_quit=false`.
+- Created stable checkpoint `backup/2026-09-13-1757-SkinningGoal003FinalPASS-6462ecf`.
+- Goal 003 is complete; Goal 004 Skinning 2.0 is active and begins with measured performance baselines before optimization.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
@@ -158,4 +167,4 @@ Add an entry here when one of these happens:
 - a stable checkpoint/backup is created;
 - a significant owner-visible workflow becomes proven in Maya.
 
-Do not copy every task result here. Keep transient retries and diagnostic details in `bridgeTask.json` and only promote durable conclusions to this history.
+Do not copy every task result here. Keep transient retries and diagnostic details in `AIMayaToolTask.json` and only promote durable conclusions to this history.
