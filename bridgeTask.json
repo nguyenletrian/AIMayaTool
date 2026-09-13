@@ -132,7 +132,7 @@
     {
       "task_id": "aimayatool-topology-region-deterministic-027a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-topology-region",
@@ -148,7 +148,76 @@
           "Compile topology_region.py, topology_region_smoke.py, and tests/test_skinning_topology_region.py.",
           "Import aimayatool.tools.skinning.topology_region outside Maya.",
           "Run tests.test_skinning_topology_region and require all 4 tests to pass."
-        ]
+        ],
+        "result": "FAIL_TEST_FIXTURE",
+        "evidence": "py_compile and non-Maya import passed, but 2/4 tests errored because the test fake vector did not support wrapping an already-vector point as MVector(existing_vector). Product logic was adjusted to construct the edge center from explicit xyz coordinates, which is compatible with Maya API points and the deterministic fixture."
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/topology_region.py",
+          "aimayatool/tools/skinning/topology_region_smoke.py",
+          "tests/test_skinning_topology_region.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning.topology_region"
+        ],
+        "tests": [
+          "tests.test_skinning_topology_region"
+        ],
+        "timeout": 180
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-topology-region-deterministic-027c",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-topology-region",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-topology-region-deterministic-027a",
+          "result": "FAIL_TEST_FIXTURE",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify closest-loop-edge and edge-region traversal primitives required to build bounded skirt weighting regions.",
+        "acceptance": [
+          "Fast-forward main and include fix commit b3fffd817c350f0814caaf0df407d90a5497dacb or later.",
+          "Compile topology_region.py, topology_region_smoke.py, and tests/test_skinning_topology_region.py.",
+          "Import aimayatool.tools.skinning.topology_region outside Maya.",
+          "Run tests.test_skinning_topology_region and require all 4 tests to pass."
+        ],
+        "retry_of": "aimayatool-topology-region-deterministic-027a"
       },
       "action": {
         "type": "verification",
@@ -201,12 +270,12 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-topology-region",
-        "depends_on": "aimayatool-topology-region-deterministic-027a",
+        "depends_on": "aimayatool-topology-region-deterministic-027c",
         "purpose": "Validate closest-loop-edge and edge-region traversal on a real Maya mesh.",
         "acceptance": [
           "Reuse a healthy managed Maya 2024 session where possible.",
           "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run topology_region_smoke after syncing commit a77529ee58b21cafbaa86cd8027976d7e9945660 or later.",
+          "Run topology_region_smoke after syncing fix commit b3fffd817c350f0814caaf0df407d90a5497dacb or later.",
           "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_TOPOLOGY_REGION_SMOKE_OK."
         ]
       },
