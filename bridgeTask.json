@@ -3,50 +3,6 @@
   "history_checkpoint_blob": "72b15b42bdf3f367c93ec15968e4c99fdbf5dd0a",
   "tasks": [
     {
-      "task_id": "aimayatool-scene-pattern-maya-live-smoke-011brr",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "scene-pattern-first-slice",
-        "archived_prerequisite": {"task_id": "aimayatool-aibridge-maya-live-persist-restart-011br4", "result": "PASS_RESTART_REQUESTED", "architect_ack": true, "bridge_completed": true},
-        "archived_retry_of": {"task_id": "aimayatool-scene-pattern-maya-live-smoke-011br", "result": "BLOCKED_RUNTIME_TEMP_CLEANUP", "architect_ack": true, "bridge_completed": true},
-        "purpose": "Retry ScenePattern validation after fixing managed Maya app-directory lifecycle.",
-        "acceptance": ["Reuse an existing healthy managed Maya session or launch one automatically.", "Force a new unsaved scene before validation.", "Do not save or quit Maya.", "Return SCENE_PATTERN_SMOKE_OK without WinError 32 cleanup failure."],
-        "result": "PASS",
-        "proven_main_commit": "255375819c7dea39672b260b514f8bea669e83de",
-        "evidence": "maya:managed_live_smoke launched Maya 2024 at PID 10076 using persistent MAYA_APP_DIR C:\\Users\\PC\\.aibridge\\maya-managed-live\\maya-2024-port-7001, forced a new scene, did not save or quit Maya, and returned AIBRIDGE_UI_SMOKE_OK:SCENE_PATTERN_SMOKE_OK."
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.smoke", "callable": "run_scene_pattern_smoke", "expected_window": "", "live_port": 7001, "timeout": 180},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-scene-pattern-ui-regression-011c",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "scene-pattern-first-slice",
-        "depends_on": "aimayatool-scene-pattern-maya-live-smoke-011brr",
-        "purpose": "Verify the ScenePattern model/registry UI composition does not break AIMayaTool launch using the managed Maya session.",
-        "acceptance": ["Reuse the same managed Maya session when healthy; automatically recover by launching Maya if no live session is available.", "Before validation, force a new scene without saving the currently open scene.", "Verify bootstrap.install_and_launch creates AIMayaToolWindow after ScenePattern UI composition.", "Do not save or quit Maya after validation."],
-        "result": "PASS",
-        "proven_main_commit": "255375819c7dea39672b260b514f8bea669e83de",
-        "stable_checkpoint": "backup/2026-09-13-0830-ScenePatternFirstSlice-2553758",
-        "evidence": "maya:managed_live_smoke reused the existing Maya 2024 session on 127.0.0.1:7001, forced a new scene, did not save or quit Maya, and bootstrap.install_and_launch returned AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow."
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "bootstrap", "callable": "install_and_launch", "expected_window": "AIMayaToolWindow", "live_port": 7001, "timeout": 180},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-scene-pattern-operations-deterministic-012a",
       "status": "pending",
       "architect_ack": true,
@@ -112,19 +68,35 @@
     {
       "task_id": "aimayatool-aibridge-maya-live-reload-restart-012br2",
       "status": "pending",
-      "architect_ack": false,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "scene-pattern-operations", "depends_on": "aimayatool-aibridge-maya-live-reload-verify-012br1", "purpose": "Restart AIBrigde so managed live smoke uses the verified module-refresh probe.", "acceptance": ["Restart only after 012br1 passes.", "Do not retry Maya operations on stale Bridge runtime code."]},
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "scene-pattern-operations",
+        "depends_on": "aimayatool-aibridge-maya-live-reload-verify-012br1",
+        "purpose": "Restart AIBrigde so managed live smoke uses the verified module-refresh probe.",
+        "acceptance": ["Restart only after 012br1 passes.", "Do not retry Maya operations on stale Bridge runtime code."],
+        "result": "PASS_RESTART_REQUESTED",
+        "evidence": "bridge:restart returned success=true with restart_requested=true after the verified module-refresh runtime task was acknowledged."
+      },
       "action": {"type": "bridge", "target": "restart"},
       "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
       "permissions": {"read": true, "edit": false, "run_tests": false, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {}
+      "payload": {},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-scene-pattern-operations-maya-smoke-012br",
       "status": "pending",
       "architect_ack": false,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "scene-pattern-operations", "depends_on": "aimayatool-aibridge-maya-live-reload-restart-012br2", "retry_of": "aimayatool-scene-pattern-operations-maya-smoke-012b", "purpose": "Retry ScenePattern operations in the reusable Maya session after target-module refresh support is loaded.", "acceptance": ["Reuse the healthy managed Maya session where possible.", "Force a new unsaved scene; do not save or quit Maya.", "Reload current aimayatool.tools.scene.smoke from disk before execution.", "Return AIBRIDGE_UI_SMOKE_OK:SCENE_PATTERN_OPERATIONS_SMOKE_OK."]},
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "scene-pattern-operations",
+        "depends_on": "aimayatool-aibridge-maya-live-reload-restart-012br2",
+        "retry_of": "aimayatool-scene-pattern-operations-maya-smoke-012b",
+        "purpose": "Retry ScenePattern operations in the reusable Maya session after target-module refresh support is loaded.",
+        "acceptance": ["Reuse the healthy managed Maya session where possible.", "Force a new unsaved scene; do not save or quit Maya.", "Reload current aimayatool.tools.scene.smoke from disk before execution.", "Return AIBRIDGE_UI_SMOKE_OK:SCENE_PATTERN_OPERATIONS_SMOKE_OK."]
+      },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
@@ -135,7 +107,13 @@
       "task_id": "aimayatool-scene-pattern-operations-ui-regression-012c",
       "status": "pending",
       "architect_ack": false,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "scene-pattern-operations", "depends_on": "aimayatool-scene-pattern-operations-maya-smoke-012br", "purpose": "Verify the new ScenePattern operations and lazy Maya import do not regress AIMayaTool launch.", "acceptance": ["Reuse the healthy managed Maya session where possible.", "Force a new unsaved scene before validation.", "Verify bootstrap.install_and_launch creates AIMayaToolWindow.", "Do not save or quit Maya after validation."]},
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "scene-pattern-operations",
+        "depends_on": "aimayatool-scene-pattern-operations-maya-smoke-012br",
+        "purpose": "Verify the new ScenePattern operations and lazy Maya import do not regress AIMayaTool launch.",
+        "acceptance": ["Reuse the healthy managed Maya session where possible.", "Force a new unsaved scene before validation.", "Verify bootstrap.install_and_launch creates AIMayaToolWindow.", "Do not save or quit Maya after validation."]
+      },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
