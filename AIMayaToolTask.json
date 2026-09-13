@@ -8,69 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal004-gradient-api2-default-verify-058a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-004",
-        "milestone_id": "skinning-api2-performance",
-        "purpose": "Verify promoted API 2.0 batched gradient weighting default with legacy fallback after 6.407x live speedup evidence.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal004-gradient-api2-ab-managed-live-057b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commit": "67083719b4dfc9cefeb8c533ac972d3f854d37fb",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_gradient_api2_default_python_verification_pass",
-        "proven_main_commit": "a15aca6a0b1fd3217ce4202793a4a38ab4bbf736",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 96890a8e3bddb16b3255cc0c9632c9402fc09f5c to a15aca6a0b1fd3217ce4202793a4a38ab4bbf736; py_compile passed with exit_code=0 for gradient_weights.py and gradient_weights_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/gradient_weights.py",
-          "aimayatool/tools/skinning/gradient_weights_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal004-gradient-api2-default-regression-managed-live-058b",
       "status": "pending",
       "architect_ack": true,
@@ -78,9 +15,12 @@
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Validate promoted batched gradient weighting default through consolidated Skinning regression.",
-        "depends_on": [
-          "aimayatool-goal004-gradient-api2-default-verify-058a"
-        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal004-gradient-api2-default-verify-058a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_gradient_api2_default_consolidated_regression_pass",
@@ -93,110 +33,35 @@
         "scene_saved": false,
         "maya_quit": false
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.regression_smoke",
-        "callable": "run_skinning_regression_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.regression_smoke", "callable": "run_skinning_regression_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal004-copy-skin-batch-preview-verify-059a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-batch-preview",
         "purpose": "Verify the first Skinning 2.0 batch/preview slice: non-mutating Copy Skin batch preflight plus progress-aware multi-target execution.",
-        "depends_on": [
-          "aimayatool-goal004-gradient-api2-default-regression-managed-live-058b"
-        ],
-        "implementation_commits": [
-          "7113b7d9ba7834722839845dd8238c1bceb5096c",
-          "9ba226c9ed3eda40f556d0c0717702bf26c25222"
-        ],
-        "acceptance": [
-          "Fast-forward main.",
-          "py_compile copy_weights.py and copy_weights_batch_smoke.py.",
-          "Import aimayatool.tools.skinning successfully.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "depends_on": ["aimayatool-goal004-gradient-api2-default-regression-managed-live-058b"],
+        "implementation_commits": ["7113b7d9ba7834722839845dd8238c1bceb5096c", "9ba226c9ed3eda40f556d0c0717702bf26c25222"],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_copy_batch_preview_python_verification_pass",
+        "proven_main_commit": "d3d92ed615bd8ecc34959bb2fb4c39a0cdceabdd",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from de9da56eb1fc207cf7bdfa8e19488e5a1f076494 to d3d92ed615bd8ecc34959bb2fb4c39a0cdceabdd; py_compile passed with exit_code=0 for copy_weights.py and copy_weights_batch_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/copy_weights.py",
-          "aimayatool/tools/skinning/copy_weights_batch_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      }
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/copy_weights.py", "aimayatool/tools/skinning/copy_weights_batch_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal004-copy-skin-batch-preview-managed-live-059b",
@@ -206,58 +71,15 @@
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-batch-preview",
         "purpose": "Prove Copy Skin batch preview is non-mutating and progress-aware two-target execution preserves expected weights in Maya.",
-        "depends_on": [
-          "aimayatool-goal004-copy-skin-batch-preview-verify-059a"
-        ],
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.copy_weights_batch_smoke.run_copy_weights_batch_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_COPY_BATCH_PREVIEW_OK targets=2 progress=2 for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
+        "depends_on": ["aimayatool-goal004-copy-skin-batch-preview-verify-059a"],
+        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.copy_weights_batch_smoke.run_copy_weights_batch_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_COPY_BATCH_PREVIEW_OK targets=2 progress=2 for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.copy_weights_batch_smoke",
-        "callable": "run_copy_weights_batch_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      }
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.copy_weights_batch_smoke", "callable": "run_copy_weights_batch_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300}
     }
   ]
 }
