@@ -27,47 +27,15 @@
         "proven_main_commit": "e9f17e509138bf0130a14ec8e34cb37626f312b9",
         "evidence": "py_compile passed for topology_loops.py, topology_loops_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_topology_loops passed 4/4."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/topology_loops.py",
-          "aimayatool/tools/skinning/topology_loops_smoke.py",
-          "tests/test_skinning_topology_loops.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning.topology_loops"
-        ],
-        "tests": [
-          "tests.test_skinning_topology_loops"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/skinning/topology_loops.py", "aimayatool/tools/skinning/topology_loops_smoke.py", "tests/test_skinning_topology_loops.py"],
+        "imports": ["aimayatool.tools.skinning.topology_loops"],
+        "tests": ["tests.test_skinning_topology_loops"],
         "timeout": 180
       },
       "bridge_completed": true
@@ -96,37 +64,11 @@
         "result": "PASS",
         "evidence": "Managed Maya 2024 reused the existing session on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_TOPOLOGY_LOOPS_SMOKE_OK; scene was not saved and Maya remained running."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.topology_loops_smoke",
-        "callable": "run_topology_loops_smoke",
-        "expected_window": "",
-        "live_port": 7001,
-        "timeout": 180
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.topology_loops_smoke", "callable": "run_topology_loops_smoke", "expected_window": "", "live_port": 7001, "timeout": 180},
       "bridge_completed": true
     },
     {
@@ -136,12 +78,7 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-topology-region",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-topology-loops-maya-smoke-026b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
+        "archived_prerequisite": {"task_id": "aimayatool-topology-loops-maya-smoke-026b", "result": "PASS", "architect_ack": true, "bridge_completed": true},
         "purpose": "Verify closest-loop-edge and edge-region traversal primitives required to build bounded skirt weighting regions.",
         "acceptance": [
           "Fast-forward main and include commit a77529ee58b21cafbaa86cd8027976d7e9945660 or later.",
@@ -152,47 +89,15 @@
         "result": "FAIL_TEST_FIXTURE",
         "evidence": "py_compile and non-Maya import passed, but 2/4 tests errored because the test fake vector did not support wrapping an already-vector point as MVector(existing_vector). Product logic was adjusted to construct the edge center from explicit xyz coordinates, which is compatible with Maya API points and the deterministic fixture."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/topology_region.py",
-          "aimayatool/tools/skinning/topology_region_smoke.py",
-          "tests/test_skinning_topology_region.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning.topology_region"
-        ],
-        "tests": [
-          "tests.test_skinning_topology_region"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/skinning/topology_region.py", "aimayatool/tools/skinning/topology_region_smoke.py", "tests/test_skinning_topology_region.py"],
+        "imports": ["aimayatool.tools.skinning.topology_region"],
+        "tests": ["tests.test_skinning_topology_region"],
         "timeout": 180
       },
       "bridge_completed": true
@@ -200,16 +105,11 @@
     {
       "task_id": "aimayatool-topology-region-deterministic-027c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-topology-region",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-topology-region-deterministic-027a",
-          "result": "FAIL_TEST_FIXTURE",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
+        "archived_prerequisite": {"task_id": "aimayatool-topology-region-deterministic-027a", "result": "FAIL_TEST_FIXTURE", "architect_ack": true, "bridge_completed": true},
         "purpose": "Verify closest-loop-edge and edge-region traversal primitives required to build bounded skirt weighting regions.",
         "acceptance": [
           "Fast-forward main and include fix commit b3fffd817c350f0814caaf0df407d90a5497dacb or later.",
@@ -217,51 +117,23 @@
           "Import aimayatool.tools.skinning.topology_region outside Maya.",
           "Run tests.test_skinning_topology_region and require all 4 tests to pass."
         ],
-        "retry_of": "aimayatool-topology-region-deterministic-027a"
+        "retry_of": "aimayatool-topology-region-deterministic-027a",
+        "result": "PASS",
+        "proven_main_commit": "8b3c3f2f69b29a1af39e863f2314d62f01b0e8d0",
+        "evidence": "py_compile passed for topology_region.py, topology_region_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_topology_region passed 4/4 after the vector-construction compatibility fix."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/topology_region.py",
-          "aimayatool/tools/skinning/topology_region_smoke.py",
-          "tests/test_skinning_topology_region.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning.topology_region"
-        ],
-        "tests": [
-          "tests.test_skinning_topology_region"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/skinning/topology_region.py", "aimayatool/tools/skinning/topology_region_smoke.py", "tests/test_skinning_topology_region.py"],
+        "imports": ["aimayatool.tools.skinning.topology_region"],
+        "tests": ["tests.test_skinning_topology_region"],
         "timeout": 180
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-topology-region-maya-smoke-027b",
@@ -270,46 +142,26 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-topology-region",
-        "depends_on": "aimayatool-topology-region-deterministic-027c",
         "purpose": "Validate closest-loop-edge and edge-region traversal on a real Maya mesh.",
         "acceptance": [
           "Reuse a healthy managed Maya 2024 session where possible.",
           "Force a fresh unsaved scene and do not save or quit Maya.",
           "Run topology_region_smoke after syncing fix commit b3fffd817c350f0814caaf0df407d90a5497dacb or later.",
           "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_TOPOLOGY_REGION_SMOKE_OK."
-        ]
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-topology-region-deterministic-027c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "8b3c3f2f69b29a1af39e863f2314d62f01b0e8d0"
+        }
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.topology_region_smoke",
-        "callable": "run_topology_region_smoke",
-        "expected_window": "",
-        "live_port": 7001,
-        "timeout": 180
-      }
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.topology_region_smoke", "callable": "run_topology_region_smoke", "expected_window": "", "live_port": 7001, "timeout": 180}
     }
   ]
 }
