@@ -8,24 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-proxy-skin-axis-mirror-maya-smoke-038h",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-advanced-tools",
-        "result": "FAIL",
-        "classification": "proxy_axis_mirror_smoke_invalid_center_expectation",
-        "evidence": "Maya smoke failed because it incorrectly required the whole proxy center to move negative. Runtime diagnostic later proved legacy polyMirrorFace preserves the source-side face and appends mirrored geometry on the opposite side."
-      },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_mirror_smoke", "callable": "run_proxy_skin_mirror_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal003-proxy-skin-axis-mirror-diagnostic-038i",
       "status": "pending",
       "architect_ack": true,
@@ -69,22 +51,63 @@
     {
       "task_id": "aimayatool-goal003-proxy-skin-clipboard-sync-038k",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
-        "purpose": "Synchronize the modern proxy clipboard slice replacing legacy global session state with an explicit snapshot object and explicit paste targets.",
-        "depends_on": ["aimayatool-goal003-proxy-skin-axis-mirror-corrected-smoke-038j"],
+        "result": "PASS",
+        "classification": "goal003_proxy_skin_clipboard_synced",
+        "evidence": "Bridge fast-forwarded local AIMayaTool main from 963df29ac4a01cda9c11bc79c25f5d1d6348e461 to f7ddbf8e4ddecc49c8df520e45a910f8fcf479a0 successfully, including the explicit proxy snapshot/paste implementation and its Maya smoke.",
         "artifact_commit": "4cc1829ef3be2793dc5063f935061adab965e241",
-        "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7",
-        "changed_files": ["aimayatool/tools/skinning/proxy_skin.py", "aimayatool/tools/skinning/proxy_skin_clipboard_smoke.py"],
-        "scope": "Adds capture_proxy_snapshot/paste_proxy_snapshot and thin selection wrappers. Snapshot data is explicit and caller-owned; the module has no global mutable clipboard session. Paste supports whole meshes and explicit vertex components, ensures source influences exist on targets, uses closestPoint plus closestJoint/oneToOne, and restores the previous Maya selection."
+        "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7"
       },
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"}
+      "payload": {"strategy": "ff-only", "remote": "origin"},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-proxy-skin-clipboard-maya-smoke-038l",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "purpose": "Validate the modern explicit proxy snapshot/paste workflow in Maya for whole-mesh and selected-component targets without module-global clipboard state.",
+        "depends_on": ["aimayatool-goal003-proxy-skin-clipboard-sync-038k"],
+        "artifact_commit": "4cc1829ef3be2793dc5063f935061adab965e241",
+        "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7",
+        "acceptance": [
+          "Fast-forward main before validation.",
+          "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.",
+          "Invoke aimayatool.tools.skinning.proxy_skin_clipboard_smoke.run_proxy_skin_clipboard_smoke.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_CLIPBOARD_SMOKE_OK for PASS.",
+          "Validate explicit capture snapshot data is sufficient to paste weights without relying on module-global session state.",
+          "Validate whole-mesh paste creates or updates a target skinCluster with the source influence UUID set and normalized weights.",
+          "Validate selected-component paste affects only the requested target components while preserving unrelated target components.",
+          "Validate the caller's Maya selection is restored after paste.",
+          "If the success marker appears, accept PASS even if exit 3221227010 occurs only afterward as the known Maya Windows shutdown anomaly.",
+          "If PASS, continue immediately to closest-face matching as a shared geometry primitive plus Skinning adapter."
+        ]
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke",
+        "callable": "run_proxy_skin_clipboard_smoke",
+        "expected_window": "",
+        "timeout": 90,
+        "startup_timeout": 120,
+        "operation_timeout": 90,
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]
+      }
     }
   ]
 }
