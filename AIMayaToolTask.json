@@ -114,7 +114,7 @@
         "result": "PASS",
         "classification": "paint_influence_hot_reload_python_verification_pass",
         "proven_main_commit": "596934f4485c9e8c5738fc33e1839f7696f4f49c",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from a9cc933935908a95447ec86a8143ee11f0aefbe1 to 596934f4485c9e8c5738fc33e1839f7696f4f49c; py_compile passed for paint_influence_smoke.py and importing aimayatool.tools.skinning passed.",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 596934f4485c9e8c5738fc33e1839f7696f4f49c; py_compile passed for paint_influence_smoke.py and importing aimayatool.tools.skinning passed.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
       "action": {"type": "verification", "target": "python"},
@@ -127,21 +127,32 @@
     {
       "task_id": "aimayatool-goal003-paint-influence-managed-live-retry2-049g",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
         "purpose": "Retry paint-influence functional validation in the same managed Maya session after explicitly reloading the product dependency.",
         "depends_on": ["aimayatool-goal003-paint-influence-hot-reload-verify-049f"],
         "retry_of": "aimayatool-goal003-paint-influence-managed-live-retry-049e",
-        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Reload current paint_influence code inside the smoke before product assertions.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_INFLUENCE_SMOKE_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
+        "result": "PASS",
+        "classification": "paint_influence_managed_live_hot_reload_pass",
+        "proven_main_commit": "8386f18c3e98fa51c0fa715f601a752e58600f34",
+        "evidence": "Managed Maya 2024 reused existing PID 10632 on port 7001, forced a fresh unsaved scene, hot-reloaded current paint_influence code, and returned a successful marker containing SKINNING_PAINT_INFLUENCE_SMOKE_OK; maya_quit=false.",
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "session": "existing",
+        "new_scene_forced": true,
+        "scene_saved": false,
+        "maya_quit": false,
+        "stable_backup": "backup/2026-09-13-1715-SkinningPaintInfluenceManagedLivePASS-8386f18",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_influence_smoke", "callable": "run_paint_influence_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_influence_smoke", "callable": "run_paint_influence_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal003-paint-influence-ui-managed-live-049c",
