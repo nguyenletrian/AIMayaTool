@@ -39,11 +39,45 @@
         "scene_saved": false,
         "maya_quit": false
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.influence_cleanup_smoke", "callable": "run_influence_cleanup_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.influence_cleanup_smoke",
+        "callable": "run_influence_cleanup_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 180
+      },
       "bridge_completed": true
     },
     {
@@ -72,17 +106,51 @@
         "scene_saved": false,
         "maya_quit": false
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.ui_parity_smoke", "callable": "run_skinning_ui_parity_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.ui_parity_smoke",
+        "callable": "run_skinning_ui_parity_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 180
+      },
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal003-final-regression-verify-052a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-maya-validation",
@@ -100,19 +168,52 @@
           "Import aimayatool.tools.skinning outside Maya successfully.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_final_regression_entrypoint_python_verification_pass",
+        "proven_main_commit": "1da0bf25f28041d27e359fb04a0ab480424c69ab",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from f01bce8d3b1852de4628c1f548bf90014b628fc3 to 1da0bf25f28041d27e359fb04a0ab480424c69ab; py_compile passed with exit_code=0 for regression_smoke.py and importing aimayatool.tools.skinning passed with exit_code=0."
       },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/skinning/regression_smoke.py"],
-        "imports": ["aimayatool.tools.skinning"],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/regression_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning"
+        ],
         "tests": [],
         "timeout": 240
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal003-final-regression-managed-live-052b",
@@ -122,7 +223,9 @@
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-maya-validation",
         "purpose": "Run final consolidated Skinning migration regression in reusable Maya 2024 before closing Goal 003.",
-        "depends_on": ["aimayatool-goal003-final-regression-verify-052a"],
+        "depends_on": [
+          "aimayatool-goal003-final-regression-verify-052a"
+        ],
         "acceptance": [
           "Reuse healthy managed Maya 2024 session when available.",
           "Force a fresh unsaved scene and do not save.",
@@ -133,12 +236,36 @@
         ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
