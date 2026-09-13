@@ -16,13 +16,17 @@ def run_skirt_parent_smoke():
     mesh_fn = om.MFnMesh(selection.getDagPath(0))
     points = mesh_fn.getPoints(om.MSpace.kWorld)
     max_y = max(point.y for point in points)
+    max_radius = max(math.sqrt(point.x * point.x + point.z * point.z) for point in points if abs(point.y - max_y) < 1e-5)
     root_loop = []
     for edge_id in range(mesh_fn.numEdges):
         v0, v1 = mesh_fn.getEdgeVertices(edge_id)
-        if abs(points[v0].y - max_y) < 1e-5 and abs(points[v1].y - max_y) < 1e-5:
+        radius0 = math.sqrt(points[v0].x * points[v0].x + points[v0].z * points[v0].z)
+        radius1 = math.sqrt(points[v1].x * points[v1].x + points[v1].z * points[v1].z)
+        if (abs(points[v0].y - max_y) < 1e-5 and abs(points[v1].y - max_y) < 1e-5 and
+                abs(radius0 - max_radius) < 1e-5 and abs(radius1 - max_radius) < 1e-5):
             root_loop.append('%s.e[%d]' % (mesh, edge_id))
     if len(root_loop) != 16:
-        raise RuntimeError('Expected 16 top-ring edges, got %d' % len(root_loop))
+        raise RuntimeError('Expected 16 top-ring circumference edges, got %d' % len(root_loop))
 
     parent = cmds.createNode('joint', name='AIMayaToolSkirtParent')
     cmds.xform(parent, worldSpace=True, translation=(0.0, max_y, 0.0))
