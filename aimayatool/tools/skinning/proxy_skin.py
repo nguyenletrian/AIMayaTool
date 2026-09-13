@@ -78,6 +78,49 @@ def _vertex_components(items):
     return mesh, vertices
 
 
+def _closest_source_vertex(source_vertices, target_vertex):
+    target_position = cmds.pointPosition(target_vertex, world=True)
+    closest = None
+    closest_distance = None
+    for source_vertex in source_vertices:
+        source_position = cmds.pointPosition(source_vertex, world=True)
+        distance = sum((source_position[index] - target_position[index]) ** 2 for index in range(3))
+        if closest_distance is None or distance < closest_distance:
+            closest = source_vertex
+            closest_distance = distance
+    return closest
+
+
+def _copy_selected_skin_weights_legacy(source_skin, target_skin, source_vertices, target_vertices):
+    """Compatibility fallback for Maya builds before copySkinWeights -selectedComponents."""
+    source_influences = skin.influences(source_skin)
+    for target_vertex in target_vertices:
+        source_vertex = _closest_source_vertex(source_vertices, target_vertex)
+        values = [(influence, cmds.skinPercent(source_skin, source_vertex, query=True, transform=influence)) for influence in source_influences]
+        cmds.skinPercent(target_skin, target_vertex, transformValue=values, normalize=True)
+
+
+def _copy_selected_skin_weights(source_skin, target_skin, source_vertices, target_vertices, surface_association):
+    cmds.select(source_vertices, replace=True)
+    cmds.select(target_vertices, add=True)
+    try:
+        cmds.copySkinWeights(
+            sourceSkin=source_skin,
+            destinationSkin=target_skin,
+            noMirror=True,
+            surfaceAssociation=surface_association,
+            influenceAssociation=['closestJoint', 'oneToOne'],
+            selectedComponents=True,
+            normalize=True,
+        )
+        return 'copySkinWeights:selectedComponents'
+    except TypeError as exc:
+        if 'selectedComponents' not in str(exc):
+            raise
+    _copy_selected_skin_weights_legacy(source_skin, target_skin, source_vertices, target_vertices)
+    return 'legacy:closestSelectedVertex'
+
+
 def extract_faces(faces, name=None):
     """Duplicate one mesh and keep only explicit source faces and mesh shapes."""
     source_mesh, faces = _face_components(faces)
@@ -176,18 +219,8 @@ def paste_proxy_snapshot(snapshot, targets, surface_association='closestPoint'):
             target_skin = bind_like_source(source_mesh, target_mesh)
             if not target_skin:
                 raise RuntimeError('Could not create target skinCluster: %s' % target_mesh)
-            cmds.select(source_vertices, replace=True)
-            cmds.select(vertices, add=True)
-            cmds.copySkinWeights(
-                sourceSkin=source_skin,
-                destinationSkin=target_skin,
-                noMirror=True,
-                surfaceAssociation=surface_association,
-                influenceAssociation=['closestJoint', 'oneToOne'],
-                selectedComponents=True,
-                normalize=True,
-            )
-            results.append({'target_mesh': target_mesh, 'skin_cluster': target_skin, 'vertex_count': len(vertices)})
+            transfer_mode = _copy_selected_skin_weights(source_skin, target_skin, source_vertices, vertices, surface_association)
+            results.append({'target_mesh': target_mesh, 'skin_cluster': target_skin, 'vertex_count': len(vertices), 'transfer_mode': transfer_mode})
     finally:
         if previous_selection:
             cmds.select(previous_selection, replace=True)
