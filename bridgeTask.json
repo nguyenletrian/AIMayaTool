@@ -3,180 +3,26 @@
   "history_checkpoint_blob": "eb31c39369ac27a8878789ae6bae130fcb07beb3",
   "tasks": [
     {
-      "task_id": "aimayatool-topology-primitives-deterministic-024a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-topology-primitives",
-        "purpose": "Verify the first reusable mesh-topology primitives extracted from legacy skirt prerequisites.",
-        "result": "PASS",
-        "proven_main_commit": "8bc754c832be6164a86603fca43f109bb4204183",
-        "evidence": "py_compile passed for topology.py, topology_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_topology passed 4/4."
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/topology.py",
-          "aimayatool/tools/skinning/topology_smoke.py",
-          "tests/test_skinning_topology.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning.topology"
-        ],
-        "tests": [
-          "tests.test_skinning_topology"
-        ],
-        "timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-topology-primitives-maya-smoke-024b",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-topology-primitives",
-        "purpose": "Validate edge-to-vertex conversion and closed-loop detection against a real Maya mesh.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-topology-primitives-deterministic-024a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "8bc754c832be6164a86603fca43f109bb4204183"
-        },
-        "result": "PASS",
-        "proven_main_commit": "72b7f612544cf09050341a30d208237ad9c0310d",
-        "evidence": "Managed Maya 2024 reused the existing session on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_TOPOLOGY_SMOKE_OK; scene was not saved and Maya remained running."
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.topology_smoke",
-        "callable": "run_topology_smoke",
-        "expected_window": "",
-        "live_port": 7001,
-        "timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-topology-axis-deterministic-025a",
       "status": "pending",
       "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-topology-axis",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-topology-primitives-maya-smoke-024b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "72b7f612544cf09050341a30d208237ad9c0310d"
-        },
         "purpose": "Verify deterministic parallel/perpendicular connected-edge selection against an explicit axis before composing skirt edge-loop discovery.",
-        "acceptance": [
-          "Fast-forward main and include commit b8f6d194379f3b41b8f11649d77d7dc0e7433255 or later.",
-          "Compile topology_axis.py, topology_axis_smoke.py, and tests/test_skinning_topology_axis.py.",
-          "Import aimayatool.tools.skinning.topology_axis outside Maya.",
-          "Run tests.test_skinning_topology_axis and require all 4 tests to pass."
-        ],
         "result": "PASS",
         "proven_main_commit": "e3b835fb060ef51e1a3760ec3348d6bd646c9894",
         "evidence": "py_compile passed for topology_axis.py, topology_axis_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_topology_axis passed 4/4."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/topology_axis.py",
-          "aimayatool/tools/skinning/topology_axis_smoke.py",
-          "tests/test_skinning_topology_axis.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning.topology_axis"
-        ],
-        "tests": [
-          "tests.test_skinning_topology_axis"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/skinning/topology_axis.py", "aimayatool/tools/skinning/topology_axis_smoke.py", "tests/test_skinning_topology_axis.py"],
+        "imports": ["aimayatool.tools.skinning.topology_axis"],
+        "tests": ["tests.test_skinning_topology_axis"],
         "timeout": 180
       },
       "bridge_completed": true
@@ -184,56 +30,72 @@
     {
       "task_id": "aimayatool-topology-axis-maya-smoke-025b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-topology-axis",
         "purpose": "Validate joint-axis parallel/perpendicular connected-edge selection on a real Maya mesh.",
+        "archived_prerequisite": {"task_id": "aimayatool-topology-axis-deterministic-025a", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "e3b835fb060ef51e1a3760ec3348d6bd646c9894"},
+        "result": "PASS",
+        "proven_main_commit": "18408fe06ab436d8cbbe310ab356e063e459e73a",
+        "evidence": "Managed Maya 2024 reused the existing session on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_TOPOLOGY_AXIS_SMOKE_OK; scene was not saved and Maya remained running."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.topology_axis_smoke", "callable": "run_topology_axis_smoke", "expected_window": "", "live_port": 7001, "timeout": 180},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-topology-loops-deterministic-026a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-topology-loops",
+        "archived_prerequisite": {"task_id": "aimayatool-topology-axis-maya-smoke-025b", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "18408fe06ab436d8cbbe310ab356e063e459e73a"},
+        "purpose": "Verify joint-axis edge selection composed with full Maya edge-loop discovery before higher-level skirt region traversal.",
+        "acceptance": [
+          "Fast-forward main and include commit 48a0e88af50204446c02e13dba09a4db024d7d22 or later.",
+          "Compile topology_loops.py, topology_loops_smoke.py, and tests/test_skinning_topology_loops.py.",
+          "Import aimayatool.tools.skinning.topology_loops outside Maya.",
+          "Run tests.test_skinning_topology_loops and require all 4 tests to pass."
+        ]
+      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/skinning/topology_loops.py", "aimayatool/tools/skinning/topology_loops_smoke.py", "tests/test_skinning_topology_loops.py"],
+        "imports": ["aimayatool.tools.skinning.topology_loops"],
+        "tests": ["tests.test_skinning_topology_loops"],
+        "timeout": 180
+      }
+    },
+    {
+      "task_id": "aimayatool-topology-loops-maya-smoke-026b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-topology-loops",
+        "depends_on": "aimayatool-topology-loops-deterministic-026a",
+        "purpose": "Validate parallel/perpendicular joint-axis edge-loop discovery on a real Maya mesh.",
         "acceptance": [
           "Reuse a healthy managed Maya 2024 session where possible.",
           "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run topology_axis_smoke after syncing commit b8f6d194379f3b41b8f11649d77d7dc0e7433255 or later.",
-          "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_TOPOLOGY_AXIS_SMOKE_OK."
-        ],
-        "archived_prerequisite": {
-          "task_id": "aimayatool-topology-axis-deterministic-025a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "e3b835fb060ef51e1a3760ec3348d6bd646c9894"
-        }
+          "Run topology_loops_smoke after syncing commit 48a0e88af50204446c02e13dba09a4db024d7d22 or later.",
+          "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_TOPOLOGY_LOOPS_SMOKE_OK."
+        ]
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.topology_axis_smoke",
-        "callable": "run_topology_axis_smoke",
-        "expected_window": "",
-        "live_port": 7001,
-        "timeout": 180
-      }
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.topology_loops_smoke", "callable": "run_topology_loops_smoke", "expected_window": "", "live_port": 7001, "timeout": 180}
     }
   ]
 }
