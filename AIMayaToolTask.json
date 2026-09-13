@@ -115,7 +115,7 @@
     {
       "task_id": "aimayatool-goal003-residual-paint-verify-050a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
@@ -123,13 +123,18 @@
         "depends_on": ["aimayatool-goal003-skinning-ui-managed-live-retry-049i"],
         "implementation_commits": ["a2055411048f9590b013214e58413194e7cd2ee9", "e2f391f1a9438dd2bdd6d123bf03edec27a6d2a9", "52aae0f398af592a2d891fac84d9bbc2fea63887", "6a67b9743b987e6cf9fc75979f0d9c1a03792e3a"],
         "acceptance": ["Fast-forward D:/AIMayaTool main.", "py_compile brush_weight.py, brush_weight_smoke.py, __init__.py, and ui_parity_smoke.py successfully.", "Import aimayatool.tools.skinning outside Maya successfully.", "Do not invoke Codex."],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_residual_paint_python_verification_pass",
+        "proven_main_commit": "a68a624d98573560332c7cb1f1220ebbb02659e7",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from ef25c4a9a485c8f05115f95082f6355884397b4b to a68a624d98573560332c7cb1f1220ebbb02659e7; py_compile passed with exit_code=0 for brush_weight.py, brush_weight_smoke.py, __init__.py, and ui_parity_smoke.py; importing aimayatool.tools.skinning passed with exit_code=0."
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/brush_weight.py", "aimayatool/tools/skinning/brush_weight_smoke.py", "aimayatool/tools/skinning/__init__.py", "aimayatool/tools/skinning/ui_parity_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/brush_weight.py", "aimayatool/tools/skinning/brush_weight_smoke.py", "aimayatool/tools/skinning/__init__.py", "aimayatool/tools/skinning/ui_parity_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal003-residual-paint-managed-live-050b",
