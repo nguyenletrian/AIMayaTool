@@ -9,77 +9,373 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-joint-regions",
-        "archived_prerequisite": {"task_id": "aimayatool-topology-region-maya-smoke-027b", "result": "PASS", "architect_ack": true, "bridge_completed": true},
+        "archived_prerequisite": {
+          "task_id": "aimayatool-topology-region-maya-smoke-027b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
         "purpose": "Verify circular joint ordering, nearest-joint distance selection, and inclusive radius filtering required by skirt region assignment.",
-        "acceptance": ["Fast-forward main and include commit 83d3e850bead66adad8f649fd7e0e1a1ae9e5491 or later.", "Compile joint_regions.py, joint_regions_smoke.py, and tests/test_skinning_joint_regions.py.", "Import aimayatool.tools.skinning.joint_regions outside Maya.", "Run tests.test_skinning_joint_regions and require all 4 tests to pass."],
+        "acceptance": [
+          "Fast-forward main and include commit 83d3e850bead66adad8f649fd7e0e1a1ae9e5491 or later.",
+          "Compile joint_regions.py, joint_regions_smoke.py, and tests/test_skinning_joint_regions.py.",
+          "Import aimayatool.tools.skinning.joint_regions outside Maya.",
+          "Run tests.test_skinning_joint_regions and require all 4 tests to pass."
+        ],
         "result": "PASS",
         "proven_main_commit": "ec09d857db6ab89a12147248185f611d28514996",
         "evidence": "py_compile passed for joint_regions.py, joint_regions_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_joint_regions passed 4/4."
       },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/joint_regions.py", "aimayatool/tools/skinning/joint_regions_smoke.py", "tests/test_skinning_joint_regions.py"], "imports": ["aimayatool.tools.skinning.joint_regions"], "tests": ["tests.test_skinning_joint_regions"], "timeout": 180},
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/joint_regions.py",
+          "aimayatool/tools/skinning/joint_regions_smoke.py",
+          "tests/test_skinning_joint_regions.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning.joint_regions"
+        ],
+        "tests": [
+          "tests.test_skinning_joint_regions"
+        ],
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-joint-regions-maya-smoke-028b",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "advanced-joint-regions", "purpose": "Validate circular joint ordering and nearest-joint selection against real Maya joint transforms.", "acceptance": ["Reuse a healthy managed Maya 2024 session where possible.", "Force a fresh unsaved scene and do not save or quit Maya.", "Run joint_regions_smoke after syncing commit 83d3e850bead66adad8f649fd7e0e1a1ae9e5491 or later.", "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_JOINT_REGIONS_SMOKE_OK."], "archived_prerequisite": {"task_id": "aimayatool-joint-regions-deterministic-028a", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "ec09d857db6ab89a12147248185f611d28514996"}, "result": "PASS", "evidence": "Managed Maya 2024 reused the existing session on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_JOINT_REGIONS_SMOKE_OK; scene was not saved and Maya remained running."},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.joint_regions_smoke", "callable": "run_joint_regions_smoke", "expected_window": "", "live_port": 7001, "timeout": 180},
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-joint-regions",
+        "purpose": "Validate circular joint ordering and nearest-joint selection against real Maya joint transforms.",
+        "acceptance": [
+          "Reuse a healthy managed Maya 2024 session where possible.",
+          "Force a fresh unsaved scene and do not save or quit Maya.",
+          "Run joint_regions_smoke after syncing commit 83d3e850bead66adad8f649fd7e0e1a1ae9e5491 or later.",
+          "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_JOINT_REGIONS_SMOKE_OK."
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-joint-regions-deterministic-028a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "ec09d857db6ab89a12147248185f611d28514996"
+        },
+        "result": "PASS",
+        "evidence": "Managed Maya 2024 reused the existing session on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_JOINT_REGIONS_SMOKE_OK; scene was not saved and Maya remained running."
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.joint_regions_smoke",
+        "callable": "run_joint_regions_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-loop-groups-deterministic-029a",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "advanced-loop-groups", "archived_prerequisite": {"task_id": "aimayatool-joint-regions-maya-smoke-028b", "result": "PASS", "architect_ack": true, "bridge_completed": true}, "purpose": "Verify explicit connected-root-vertex, perpendicular-edge, and edge-loop strip grouping primitives required by skirt weight propagation.", "acceptance": ["Fast-forward main and include commit 23d792f90db919126655d0f334db049546b86976 or later.", "Compile loop_groups.py, loop_groups_smoke.py, and tests/test_skinning_loop_groups.py.", "Import aimayatool.tools.skinning.loop_groups outside Maya.", "Run tests.test_skinning_loop_groups and require all 4 tests to pass."], "result": "PASS", "proven_main_commit": "c1d8c3e1b298e611ca22de0d9fc3e880bdeb646a", "evidence": "py_compile passed for loop_groups.py, loop_groups_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_loop_groups passed 4/4."},
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/loop_groups.py", "aimayatool/tools/skinning/loop_groups_smoke.py", "tests/test_skinning_loop_groups.py"], "imports": ["aimayatool.tools.skinning.loop_groups"], "tests": ["tests.test_skinning_loop_groups"], "timeout": 180},
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-loop-groups",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-joint-regions-maya-smoke-028b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify explicit connected-root-vertex, perpendicular-edge, and edge-loop strip grouping primitives required by skirt weight propagation.",
+        "acceptance": [
+          "Fast-forward main and include commit 23d792f90db919126655d0f334db049546b86976 or later.",
+          "Compile loop_groups.py, loop_groups_smoke.py, and tests/test_skinning_loop_groups.py.",
+          "Import aimayatool.tools.skinning.loop_groups outside Maya.",
+          "Run tests.test_skinning_loop_groups and require all 4 tests to pass."
+        ],
+        "result": "PASS",
+        "proven_main_commit": "c1d8c3e1b298e611ca22de0d9fc3e880bdeb646a",
+        "evidence": "py_compile passed for loop_groups.py, loop_groups_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_loop_groups passed 4/4."
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/loop_groups.py",
+          "aimayatool/tools/skinning/loop_groups_smoke.py",
+          "tests/test_skinning_loop_groups.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning.loop_groups"
+        ],
+        "tests": [
+          "tests.test_skinning_loop_groups"
+        ],
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-loop-groups-maya-smoke-029b",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "advanced-loop-groups", "purpose": "Validate perpendicular edge-loop strip grouping on a real Maya quad mesh.", "acceptance": ["Reuse a healthy managed Maya 2024 session where possible.", "Force a fresh unsaved scene and do not save or quit Maya.", "Run loop_groups_smoke after syncing commit 23d792f90db919126655d0f334db049546b86976 or later.", "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_LOOP_GROUPS_SMOKE_OK."], "archived_prerequisite": {"task_id": "aimayatool-loop-groups-deterministic-029a", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "c1d8c3e1b298e611ca22de0d9fc3e880bdeb646a"}, "result": "PASS", "evidence": "Managed Maya 2024 reused the existing session on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_LOOP_GROUPS_SMOKE_OK; scene was not saved and Maya remained running."},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.loop_groups_smoke", "callable": "run_loop_groups_smoke", "expected_window": "", "live_port": 7001, "timeout": 180},
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-loop-groups",
+        "purpose": "Validate perpendicular edge-loop strip grouping on a real Maya quad mesh.",
+        "acceptance": [
+          "Reuse a healthy managed Maya 2024 session where possible.",
+          "Force a fresh unsaved scene and do not save or quit Maya.",
+          "Run loop_groups_smoke after syncing commit 23d792f90db919126655d0f334db049546b86976 or later.",
+          "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_LOOP_GROUPS_SMOKE_OK."
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-loop-groups-deterministic-029a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "c1d8c3e1b298e611ca22de0d9fc3e880bdeb646a"
+        },
+        "result": "PASS",
+        "evidence": "Managed Maya 2024 reused the existing session on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_LOOP_GROUPS_SMOKE_OK; scene was not saved and Maya remained running."
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.loop_groups_smoke",
+        "callable": "run_loop_groups_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180
+      },
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-skirt-parent-plan-deterministic-030a",
       "status": "pending",
-      "architect_ack": false,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "advanced-skirt-parent-plan", "archived_prerequisite": {"task_id": "aimayatool-loop-groups-maya-smoke-029b", "result": "PASS", "architect_ack": true, "bridge_completed": true}, "purpose": "Verify the first composed skirt-parent planner built from proven circular-joint, root-loop, strip-group, and topology-region primitives without mutating skin weights.", "acceptance": ["Fast-forward main and include commit d6c72cae02cacb0bc592f9f4ae021412a98a5e03 or later.", "Compile skirt_parent.py, skirt_parent_smoke.py, and tests/test_skinning_skirt_parent.py.", "Import aimayatool.tools.skinning.skirt_parent outside Maya.", "Run tests.test_skinning_skirt_parent and require all 4 tests to pass."]},
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skirt_parent.py", "aimayatool/tools/skinning/skirt_parent_smoke.py", "tests/test_skinning_skirt_parent.py"], "imports": ["aimayatool.tools.skinning.skirt_parent"], "tests": ["tests.test_skinning_skirt_parent"], "timeout": 180}
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-plan",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-loop-groups-maya-smoke-029b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify the first composed skirt-parent planner built from proven circular-joint, root-loop, strip-group, and topology-region primitives without mutating skin weights.",
+        "acceptance": [
+          "Fast-forward main and include commit d6c72cae02cacb0bc592f9f4ae021412a98a5e03 or later.",
+          "Compile skirt_parent.py, skirt_parent_smoke.py, and tests/test_skinning_skirt_parent.py.",
+          "Import aimayatool.tools.skinning.skirt_parent outside Maya.",
+          "Run tests.test_skinning_skirt_parent and require all 4 tests to pass."
+        ],
+        "result": "PASS",
+        "proven_main_commit": "47e13477b819d47005c98fb52402677fe99dd651",
+        "evidence": "py_compile passed for skirt_parent.py, skirt_parent_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_skirt_parent passed 4/4."
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/skirt_parent.py",
+          "aimayatool/tools/skinning/skirt_parent_smoke.py",
+          "tests/test_skinning_skirt_parent.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning.skirt_parent"
+        ],
+        "tests": [
+          "tests.test_skinning_skirt_parent"
+        ],
+        "timeout": 180
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-skirt-parent-plan-maya-smoke-030b",
       "status": "pending",
       "architect_ack": false,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "advanced-skirt-parent-plan", "depends_on": "aimayatool-skirt-parent-plan-deterministic-030a", "purpose": "Validate the composed skirt-parent planning slice on a real Maya cylindrical quad mesh with a closed root loop.", "acceptance": ["Reuse a healthy managed Maya 2024 session where possible.", "Force a fresh unsaved scene and do not save or quit Maya.", "Run skirt_parent_smoke after syncing commit d6c72cae02cacb0bc592f9f4ae021412a98a5e03 or later.", "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_PLAN_SMOKE_OK."]},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_smoke", "callable": "run_skirt_parent_smoke", "expected_window": "", "live_port": 7001, "timeout": 180}
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-plan",
+        "purpose": "Validate the composed skirt-parent planning slice on a real Maya cylindrical quad mesh with a closed root loop.",
+        "acceptance": [
+          "Reuse a healthy managed Maya 2024 session where possible.",
+          "Force a fresh unsaved scene and do not save or quit Maya.",
+          "Run skirt_parent_smoke after syncing commit d6c72cae02cacb0bc592f9f4ae021412a98a5e03 or later.",
+          "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_PLAN_SMOKE_OK."
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-skirt-parent-plan-deterministic-030a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "47e13477b819d47005c98fb52402677fe99dd651"
+        }
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.skirt_parent_smoke",
+        "callable": "run_skirt_parent_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180
+      }
     }
   ]
 }
