@@ -8,67 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-proxy-skin-axis-mirror-diagnostic-038i",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-advanced-tools",
-        "result": "PASS",
-        "classification": "proxy_axis_mirror_append_semantics_confirmed",
-        "evidence": "Maya 2024 diagnostic proved polyMirrorFace preserves source-side geometry and appends mirrored geometry on the opposite side.",
-        "smoke_fix_commit": "bb341d558e90dc1b8174702dd42b7d570d219303"
-      },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_mirror_diagnostic_smoke", "callable": "run_proxy_skin_mirror_diagnostic_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-proxy-skin-axis-mirror-corrected-smoke-038j",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-advanced-tools",
-        "depends_on": ["aimayatool-goal003-proxy-skin-axis-mirror-diagnostic-038i"],
-        "retry_of": "aimayatool-goal003-proxy-skin-axis-mirror-maya-smoke-038h",
-        "result": "PASS",
-        "classification": "goal003_proxy_skin_axis_mirror_maya_accepted_with_known_shutdown_anomaly",
-        "evidence": "Maya 2024 returned AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_AXIS_MIRROR_SMOKE_OK after validating corrected append-mirror semantics for x/y/z, exact source influence UUID identity, and normalized closest-component skin transfer. Exit 3221227010 occurred only after the success marker and is accepted as the known Maya Windows shutdown anomaly.",
-        "proven_main_commit": "963df29ac4a01cda9c11bc79c25f5d1d6348e461",
-        "smoke_fix_commit": "bb341d558e90dc1b8174702dd42b7d570d219303"
-      },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_mirror_smoke", "callable": "run_proxy_skin_mirror_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-proxy-skin-clipboard-sync-038k",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-advanced-tools",
-        "result": "PASS",
-        "classification": "goal003_proxy_skin_clipboard_synced",
-        "evidence": "Bridge fast-forwarded local AIMayaTool main from 963df29ac4a01cda9c11bc79c25f5d1d6348e461 to f7ddbf8e4ddecc49c8df520e45a910f8fcf479a0 successfully, including the explicit proxy snapshot/paste implementation and its Maya smoke.",
-        "artifact_commit": "4cc1829ef3be2793dc5063f935061adab965e241",
-        "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7"
-      },
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal003-proxy-skin-clipboard-maya-smoke-038l",
       "status": "pending",
       "architect_ack": true,
@@ -78,9 +17,16 @@
         "result": "FAIL",
         "classification": "maya_2024_copy_skin_weights_selected_components_flag_unavailable",
         "evidence": "Maya 2024 executed proxy_skin_clipboard_smoke and failed in paste_proxy_snapshot because cmds.copySkinWeights rejected selectedComponents with TypeError: Invalid flag 'selectedComponents'. No success marker was produced; exit 3221227010 occurred after the product exception and does not override the failure.",
-        "depends_on": ["aimayatool-goal003-proxy-skin-clipboard-sync-038k"],
         "artifact_commit": "4cc1829ef3be2793dc5063f935061adab965e241",
-        "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7"
+        "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal003-proxy-skin-clipboard-sync-038k",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "artifact_commit": "4cc1829ef3be2793dc5063f935061adab965e241",
+          "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7"
+        }
       },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -109,6 +55,47 @@
       "payload": {"strategy": "ff-only", "remote": "origin"}
     },
     {
+      "task_id": "aibridge-owner-request-verify-039a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aibridge-owner-request-mailbox",
+        "milestone_id": "owner-request-preemption",
+        "purpose": "Fast-forward AIBrigde and deterministically verify the generic ownerRequest.py mailbox interceptor before runtime reload.",
+        "depends_on": ["aimayatool-goal003-proxy-skin-clipboard-compat-sync-038m"],
+        "implementation_commits": ["5a0a05e93c591f10b45ce6981d6ef21c99e79ff6", "2564569c7e78ac4f8ca39f19161a9d9cea09ab28", "77df7d0fa593e454fe2e57f4f19c91e28fe93f3b", "b7d6e6b2350447f151e9bb4f6029ae9c53adda43", "459031546eac6995b07768de40c6ae6f86754579"],
+        "acceptance": ["Fast-forward D:/AIBrigde main before verification.", "Compile aibridge/owner_request.py, aibridge/__init__.py, and tests/test_owner_request.py.", "Import aibridge successfully and confirm Bridge._owner_request_preemption_installed is true.", "Run tests.test_owner_request or the equivalent focused pytest target and require all owner-request regression cases to pass.", "Do not restart the long-lived runtime if deterministic verification fails."]
+      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aibridge/owner_request.py", "aibridge/__init__.py", "tests/test_owner_request.py"],
+        "imports": ["aibridge", "aibridge.owner_request"],
+        "tests": ["tests.test_owner_request"],
+        "timeout": 180
+      }
+    },
+    {
+      "task_id": "aibridge-owner-request-restart-039b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aibridge-owner-request-mailbox",
+        "milestone_id": "owner-request-preemption",
+        "purpose": "Reload the managed AIBrigde runtime only after owner-request deterministic verification passes.",
+        "depends_on": ["aibridge-owner-request-verify-039a"],
+        "acceptance": ["Request the normal managed Bridge restart barrier.", "Preserve worker queue state across restart.", "After restart, AIMayaTool worker must run from the updated AIBrigde platform code before ordinary queue work resumes."]
+      },
+      "action": {"type": "bridge", "target": "restart"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
+      "permissions": {"read": true, "edit": false, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {}
+    },
+    {
       "task_id": "aimayatool-goal003-proxy-skin-clipboard-compat-maya-smoke-038n",
       "status": "pending",
       "architect_ack": false,
@@ -116,7 +103,7 @@
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
         "purpose": "Retry explicit proxy clipboard validation on Maya 2024 using the compatibility path when selectedComponents is unavailable.",
-        "depends_on": ["aimayatool-goal003-proxy-skin-clipboard-compat-sync-038m"],
+        "depends_on": ["aimayatool-goal003-proxy-skin-clipboard-compat-sync-038m", "aibridge-owner-request-restart-039b"],
         "retry_of": "aimayatool-goal003-proxy-skin-clipboard-maya-smoke-038l",
         "implementation_commit": "a231959c09dba4ea149f1cbe010bc9d24f0cc1bf",
         "smoke_commit": "3610c67f00d6e3156ad50bf8021717690398a6ad",
