@@ -109,7 +109,7 @@ def _ensure_skin_cluster(mesh, item):
     )[0]
 
 
-def import_skin(mesh, directory, preserve_existing=True):
+def import_skin(mesh, directory, preserve_existing=True, require_existing=False):
     mesh = skin.mesh_from_component(mesh)
     directory = os.path.normpath(directory)
     if not os.path.isdir(directory):
@@ -126,6 +126,8 @@ def import_skin(mesh, directory, preserve_existing=True):
         raise RuntimeError('Missing skin weights file: %s' % filename)
 
     existing = skin.find_skin_cluster(mesh)
+    if require_existing and not existing:
+        raise RuntimeError('Existing skinCluster required on %s' % mesh)
     if existing and not preserve_existing:
         cmds.delete(existing)
 
@@ -139,6 +141,10 @@ def import_skin(mesh, directory, preserve_existing=True):
     )
     cmds.skinCluster(skin_cluster, edit=True, forceNormalizeWeights=True)
     return skin_cluster
+
+
+def import_existing_skin(mesh, directory):
+    return import_skin(mesh, directory, preserve_existing=True, require_existing=True)
 
 
 def _batch(operation, meshes):
@@ -163,7 +169,7 @@ def export_meshes(meshes, directory):
     return _batch(lambda mesh: export_skin(mesh, directory), unique_meshes)
 
 
-def import_meshes(meshes, directory, preserve_existing=True):
+def import_meshes(meshes, directory, preserve_existing=True, require_existing=False):
     directory = os.path.normpath(directory)
     if not os.path.isdir(directory):
         raise RuntimeError('Skin data directory does not exist: %s' % directory)
@@ -175,9 +181,18 @@ def import_meshes(meshes, directory, preserve_existing=True):
     if not unique_meshes:
         raise RuntimeError('No meshes supplied for skin import')
     return _batch(
-        lambda mesh: import_skin(mesh, directory, preserve_existing=preserve_existing),
+        lambda mesh: import_skin(
+            mesh,
+            directory,
+            preserve_existing=preserve_existing,
+            require_existing=require_existing,
+        ),
         unique_meshes,
     )
+
+
+def import_existing_meshes(meshes, directory):
+    return import_meshes(meshes, directory, preserve_existing=True, require_existing=True)
 
 
 def export_selected(directory=None):
@@ -195,7 +210,7 @@ def export_selected(directory=None):
     return [report['succeeded'][mesh] for mesh in meshes]
 
 
-def import_selected(directory=None, preserve_existing=True):
+def import_selected(directory=None, preserve_existing=True, require_existing=False):
     meshes = _selected_meshes()
     if not meshes:
         raise RuntimeError('Select one or more meshes')
@@ -204,18 +219,35 @@ def import_selected(directory=None, preserve_existing=True):
         if not result:
             return []
         directory = result[0]
-    report = import_meshes(meshes, directory, preserve_existing=preserve_existing)
+    report = import_meshes(
+        meshes,
+        directory,
+        preserve_existing=preserve_existing,
+        require_existing=require_existing,
+    )
     if report['failed']:
         raise RuntimeError('Skin import failed: %s' % report['failed'])
     return [report['succeeded'][mesh] for mesh in meshes]
+
+
+def import_existing_selected(directory=None):
+    return import_selected(directory, preserve_existing=True, require_existing=True)
 
 
 def export_quick_selected():
     return export_selected(quick_directory(create=True))
 
 
-def import_quick_selected(preserve_existing=True):
+def import_quick_selected(preserve_existing=True, require_existing=False):
     directory = quick_directory(create=False)
     if not os.path.isdir(directory):
         raise RuntimeError('Quick skin data directory does not exist: %s' % directory)
-    return import_selected(directory, preserve_existing=preserve_existing)
+    return import_selected(
+        directory,
+        preserve_existing=preserve_existing,
+        require_existing=require_existing,
+    )
+
+
+def import_quick_existing_selected():
+    return import_quick_selected(preserve_existing=True, require_existing=True)
