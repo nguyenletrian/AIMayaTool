@@ -113,20 +113,29 @@
     {
       "task_id": "aimayatool-goal003-proxy-clipboard-managed-live-048d",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
         "purpose": "Exercise proxy clipboard copy/paste end-to-end in the reusable managed Maya 2024 session.",
         "depends_on": ["aimayatool-goal003-proxy-clipboard-verify-048c"],
         "acceptance": ["Reuse the healthy managed Maya 2024 session on normal execution; launch only if reuse is unavailable.", "Force a fresh unsaved scene without quitting Maya after success.", "Run aimayatool.tools.skinning.proxy_clipboard_smoke.run_proxy_clipboard_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_CLIPBOARD_SMOKE_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_proxy_clipboard_managed_live_pass",
+        "proven_main_commit": "04ba8961d2985804349655926476fba5e60c8d56",
+        "evidence": "Maya managed live smoke reused the existing Maya 2024 session on port 7001 with managed PID 10632, forced a fresh unsaved scene, returned exact marker AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_CLIPBOARD_SMOKE_OK with success=true, and reported maya_quit=false so the host remains reusable.",
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "maya_quit": false,
+        "stable_backup": "backup/2026-09-13-1703-ProxyClipboardManagedLivePASS-04ba896"
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_clipboard_smoke", "callable": "run_proxy_clipboard_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_clipboard_smoke", "callable": "run_proxy_clipboard_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180},
+      "bridge_completed": true
     }
   ]
 }
