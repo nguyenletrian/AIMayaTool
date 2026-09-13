@@ -200,6 +200,18 @@ Validation should use the cheapest sufficient tier in this order:
 
 Never treat successful import as proof that a Maya operation works.
 
+### Maya client popup/relaunch recovery
+When a Maya live-validation task fails because of the Maya client/runtime rather than AIMayaTool product behavior, recovery should be persistent rather than immediately escalating a transient failure.
+
+If runtime evidence establishes that Maya 2024 is installed/available on the owner machine, then for Maya client failures such as a blocking startup popup/dialog, transient license/startup state, an unresponsive launch, or a launch timeout with no product failure marker:
+1. dismiss/close the blocking Maya popup or dialog when the route can safely do so;
+2. close the failed/stale Maya instance or process when necessary;
+3. launch Maya again in a fresh session and retry the same bounded validation;
+4. continue retrying through transient Maya-client failures until the validation obtains conclusive product evidence, unless the inherited AIBrigde safety/runtime contract supplies a stricter retry limit or a genuinely non-transient blocker is identified;
+5. do not classify these Maya-client failures as AIMayaTool product failures without product-level evidence.
+
+Once Maya availability has already been proven, prefer this popup-dismiss/relaunch/retry recovery automatically for later AIMayaTool Maya tasks. Preserve each task's truthful runtime evidence; recovery must not fabricate a success marker or hide a genuine AIMayaTool exception/failure.
+
 ## AIBridge workflow
 Repository evidence is current truth. Architect may autonomously perform low-risk implementation, migration, tests, commits, and task publication within this goal.
 
