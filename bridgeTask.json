@@ -162,7 +162,7 @@
     {
       "task_id": "aimayatool-influence-transfer-deterministic-016b-r1",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-influence-transfer",
@@ -171,6 +171,72 @@
         "purpose": "Retry deterministic influence-transfer verification after making the Skinning package boundary lazy outside Maya.",
         "acceptance": [
           "Fast-forward AIMayaTool main and include repair commit f8262f9df87e0577b09ed61ac559713fba45b2cc or later.",
+          "Compile influence_transfer.py, influence_transfer_smoke.py, Skinning __init__.py, and focused tests.",
+          "Import aimayatool.tools.skinning.influence_transfer outside Maya without requiring maya.cmds.",
+          "Run tests.test_skinning_influence_transfer and require all focused tests to pass."
+        ],
+        "result": "FAIL_TEST_HARNESS",
+        "evidence": "py_compile and non-Maya import passed. Focused unittest failed with StopIteration because the mock skinPercent side_effect supplied only the two query return values and did not handle the third set-weight call.",
+        "repair_commit": "bc0dfd9aa8c65d3ff6cdfb5bbbc6d5080fa9cc8f"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/influence_transfer.py",
+          "aimayatool/tools/skinning/influence_transfer_smoke.py",
+          "aimayatool/tools/skinning/__init__.py",
+          "tests/test_skinning_influence_transfer.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning.influence_transfer"
+        ],
+        "tests": [
+          "tests.test_skinning_influence_transfer"
+        ],
+        "timeout": 180
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-influence-transfer-deterministic-016b-r2",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-influence-transfer",
+        "depends_on": "aimayatool-advanced-helper-assessment-016a",
+        "retry_of": "aimayatool-influence-transfer-deterministic-016b-r1",
+        "purpose": "Retry deterministic influence-transfer verification after correcting the focused test mock to model query and set calls.",
+        "acceptance": [
+          "Fast-forward AIMayaTool main and include test repair commit bc0dfd9aa8c65d3ff6cdfb5bbbc6d5080fa9cc8f or later.",
           "Compile influence_transfer.py, influence_transfer_smoke.py, Skinning __init__.py, and focused tests.",
           "Import aimayatool.tools.skinning.influence_transfer outside Maya without requiring maya.cmds.",
           "Run tests.test_skinning_influence_transfer and require all focused tests to pass."
@@ -228,7 +294,7 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-influence-transfer",
-        "depends_on": "aimayatool-influence-transfer-deterministic-016b-r1",
+        "depends_on": "aimayatool-influence-transfer-deterministic-016b-r2",
         "purpose": "Validate real skinCluster source-to-target influence transfer in managed Maya 2024.",
         "acceptance": [
           "Reuse a healthy managed Maya session where possible.",
