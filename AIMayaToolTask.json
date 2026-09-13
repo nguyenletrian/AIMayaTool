@@ -208,7 +208,7 @@
     {
       "task_id": "aimayatool-goal004-gradient-api2-ab-managed-live-057b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
@@ -222,6 +222,143 @@
           "Run aimayatool.tools.skinning.gradient_performance_compare_smoke.run_gradient_performance_compare_smoke.",
           "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_GRADIENT_PERFORMANCE_COMPARE_OK.",
           "Capture legacy elapsed, batched elapsed, speedup and semantic parity evidence.",
+          "Return maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_gradient_api2_ab_managed_live_pass",
+        "proven_main_commit": "96890a8e3bddb16b3255cc0c9632c9402fc09f5c",
+        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene. Semantic parity passed on 441 vertices; legacy=0.081447s, batched=0.012712s, speedup=6.407x; marker SKINNING_GRADIENT_PERFORMANCE_COMPARE_OK; scene_saved=false and maya_quit=false.",
+        "benchmark_vertices": 441,
+        "legacy_elapsed_seconds": 0.081447,
+        "batched_elapsed_seconds": 0.012712,
+        "speedup": 6.407,
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "session": "existing",
+        "new_scene_forced": true,
+        "scene_saved": false,
+        "maya_quit": false
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.gradient_performance_compare_smoke",
+        "callable": "run_gradient_performance_compare_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal004-gradient-api2-default-verify-058a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-api2-performance",
+        "purpose": "Verify promoted API 2.0 batched gradient weighting default with legacy fallback after 6.407x live speedup evidence.",
+        "depends_on": [
+          "aimayatool-goal004-gradient-api2-ab-managed-live-057b"
+        ],
+        "implementation_commit": "67083719b4dfc9cefeb8c533ac972d3f854d37fb",
+        "acceptance": [
+          "Fast-forward main.",
+          "py_compile gradient_weights.py and gradient_weights_smoke.py.",
+          "Import aimayatool.tools.skinning successfully.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/gradient_weights.py",
+          "aimayatool/tools/skinning/gradient_weights_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning"
+        ],
+        "tests": [],
+        "timeout": 240
+      }
+    },
+    {
+      "task_id": "aimayatool-goal004-gradient-api2-default-regression-managed-live-058b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-api2-performance",
+        "purpose": "Validate promoted batched gradient weighting default through consolidated Skinning regression.",
+        "depends_on": [
+          "aimayatool-goal004-gradient-api2-default-verify-058a"
+        ],
+        "acceptance": [
+          "Reuse healthy managed Maya 2024 session when available.",
+          "Force a fresh unsaved scene and do not save.",
+          "Run aimayatool.tools.skinning.regression_smoke.run_skinning_regression_smoke.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_CONSOLIDATED_REGRESSION_OK for PASS.",
           "Return maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
@@ -260,8 +397,8 @@
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.gradient_performance_compare_smoke",
-        "callable": "run_gradient_performance_compare_smoke",
+        "module": "aimayatool.tools.skinning.regression_smoke",
+        "callable": "run_skinning_regression_smoke",
         "expected_window": "",
         "startup_timeout": 180,
         "operation_timeout": 300
