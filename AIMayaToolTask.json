@@ -4,25 +4,59 @@
   "force_restart": {"enabled": true, "request_id": "aimayatool-load-aibridge-36c560ab-036c", "reason": "reload_windows_managed_maya_cleanup_fix_before_retry"},
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-proxy-skin-clipboard-compat-maya-smoke-038o",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-advanced-tools", "result": "PASS", "classification": "proxy_skin_clipboard_maya_smoke_passed_with_shutdown_anomaly", "evidence": "Maya 2024 emitted AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_CLIPBOARD_SMOKE_OK. The subsequent process exit 3221227010 matches the established Windows Maya shutdown anomaly and does not override the explicit success marker.", "implementation_commit": "a231959c09dba4ea149f1cbe010bc9d24f0cc1bf", "smoke_commit": "3610c67f00d6e3156ad50bf8021717690398a6ad", "archived_recovery": {"038n": "FAIL:owner_request_worktree_precondition_conflict", "039d": "PASS", "039e": "PASS", "039f": "PASS"}},
-      "action": {"type": "maya", "target": "ui_smoke"}, "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke", "callable": "run_proxy_skin_clipboard_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90}, "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-closest-face-sync-040a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-advanced-tools", "result": "PASS", "classification": "closest_face_runtime_sync_passed", "evidence": "Bridge fast-forwarded D:/AIMayaTool main from 817f586c10dbe6f75c7dbb7fe49a0d0f606d2b47 to e07635ede533995345627bc6930cc64f8d8ea502. Runtime now contains aimayatool/maya/geometry.py, aimayatool/tools/skinning/closest_face.py, and closest_face_smoke.py.", "implementation_commits": ["c4744abb13c01da41340e5f60f232a82e78d0a74", "001b0044dc55ce0baf09f62e0bfc14603cbe282f", "1df22d857542812cd8d22deea221eeb1a1eed6d9"]},
-      "action": {"type": "git", "target": "pull"}, "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"strategy": "ff-only", "remote": "origin"}, "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal003-closest-face-maya-smoke-040b",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "result": "PASS",
+        "classification": "closest_face_maya_smoke_passed_with_shutdown_anomaly",
+        "evidence": "Maya 2024 emitted AIBRIDGE_UI_SMOKE_OK:SKINNING_CLOSEST_FACE_SMOKE_OK (wrapped by an additional AIBRIDGE_UI_SMOKE_OK prefix). The subsequent process exit 3221227010 matches the established Windows Maya shutdown anomaly and does not override the explicit success marker.",
+        "implementation_commits": ["c4744abb13c01da41340e5f60f232a82e78d0a74", "001b0044dc55ce0baf09f62e0bfc14603cbe282f", "1df22d857542812cd8d22deea221eeb1a1eed6d9"],
+        "archived_prerequisite": {"task_id": "aimayatool-goal003-closest-face-sync-040a", "result": "PASS", "architect_ack": true, "bridge_completed": true}
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.closest_face_smoke", "callable": "run_closest_face_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-paint-influence-sync-041a",
+      "status": "pending",
       "architect_ack": false,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-advanced-tools", "purpose": "Validate closest-face matching in Maya 2024 across transformed world-space geometry and Skinning selection semantics.", "depends_on": ["aimayatool-goal003-closest-face-sync-040a"], "acceptance": ["Run in a fresh unsaved Maya 2024 scene.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_CLOSEST_FACE_SMOKE_OK for PASS.", "Validate shared geometry primitive and Skinning adapter return the same face index and closest point.", "Validate world-space transformed geometry correctness.", "Validate matching does not mutate caller selection.", "If PASS, continue to the next advanced Skinning parity item without pausing."]},
-      "action": {"type": "maya", "target": "ui_smoke"}, "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.closest_face_smoke", "callable": "run_closest_face_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90}
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "purpose": "Sync the deterministic paint-influence lock/isolation workflow and Maya regression smoke.",
+        "depends_on": ["aimayatool-goal003-closest-face-maya-smoke-040b"],
+        "implementation_commits": ["026e7572e30ee8f3d4528f92b27242a4d06d94d6", "23425c1af9371ee41c1391e28824f005e802b520"],
+        "acceptance": ["Fast-forward D:/AIMayaTool main without merge commits.", "Runtime contains paint_influence.py and paint_influence_smoke.py."]
+      },
+      "action": {"type": "git", "target": "pull"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"strategy": "ff-only", "remote": "origin"}
+    },
+    {
+      "task_id": "aimayatool-goal003-paint-influence-maya-smoke-041b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "purpose": "Validate deterministic influence lock snapshot, isolate, restore, and bulk lock behavior in Maya 2024 before exposing richer paint-context UX.",
+        "depends_on": ["aimayatool-goal003-paint-influence-sync-041a"],
+        "acceptance": ["Run in a fresh unsaved Maya 2024 scene.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_INFLUENCE_SMOKE_OK for PASS.", "Validate isolate locks all non-active influences and unlocks the active influence.", "Validate original lock state is restored exactly.", "Validate bulk lock/unlock and unbound-influence rejection.", "If PASS, continue to active paint-context influence selection adapter validation without pausing."]
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_influence_smoke", "callable": "run_paint_influence_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90}
     }
   ]
 }
