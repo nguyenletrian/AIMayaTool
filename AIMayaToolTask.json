@@ -78,7 +78,7 @@
     {
       "task_id": "aimayatool-goal003-influence-sync-cleanup-managed-live-retry2-051g",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-core-parity",
@@ -86,7 +86,12 @@
         "depends_on": [
           "aimayatool-goal003-influence-cleanup-deterministic-fixture-verify-051f"
         ],
-        "retry_of": "aimayatool-goal003-influence-sync-cleanup-managed-live-retry-051e",
+        "archived_retry": {
+          "task_id": "aimayatool-goal003-influence-sync-cleanup-managed-live-retry-051e",
+          "result": "INCONCLUSIVE",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
         "acceptance": [
           "Reuse healthy managed Maya 2024 session when available.",
           "Force a fresh unsaved scene and do not save.",
@@ -95,7 +100,17 @@
           "Return maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_influence_sync_cleanup_managed_live_pass",
+        "proven_main_commit": "7a7cbaf86bdde885a0b094808ab17abe7692a510",
+        "evidence": "Managed Maya 2024 reused existing PID 10632 on port 7001, forced a fresh unsaved scene, validated source-to-target influence sync plus globally-unused influence cleanup, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_CLEANUP_SMOKE_OK; maya_quit=false.",
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "session": "existing",
+        "new_scene_forced": true,
+        "scene_saved": false,
+        "maya_quit": false
       },
       "action": {
         "type": "maya",
@@ -135,7 +150,8 @@
         "expected_window": "",
         "startup_timeout": 180,
         "operation_timeout": 180
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal003-influence-sync-cleanup-ui-managed-live-051c",
