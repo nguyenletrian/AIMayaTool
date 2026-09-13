@@ -6,6 +6,7 @@ from . import copy_weights
 from . import influences
 from . import max_influences
 from . import mirror_skin
+from . import skin_io
 from . import utilities
 
 
@@ -53,3 +54,9 @@ def build_ui():
     cmds.button(label='Clear Joint From Vertices', command=lambda *_: _run('Cleared', utilities.clear_from_selection))
     cmds.setParent('..')
     cmds.button(label='Select Vertices Affected by Joints', command=lambda *_: _run('Affected vertices', utilities.select_affected_from_selection))
+    cmds.separator(height=8, style='none')
+    cmds.text(label='Skin data', align='left')
+    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
+    cmds.button(label='Export Selected Skin Data', command=lambda *_: _run('Exported skin data', skin_io.export_selected))
+    cmds.button(label='Import Selected Skin Data', command=lambda *_: _run('Imported skin data', skin_io.import_selected))
+    cmds.setParent('..')
