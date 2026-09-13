@@ -52,6 +52,15 @@ def _selected_meshes():
     return meshes
 
 
+def _unique_meshes(meshes):
+    result = []
+    for node in meshes or []:
+        mesh = skin.mesh_from_component(node)
+        if mesh and mesh not in result:
+            result.append(mesh)
+    return result
+
+
 def quick_directory(scene_path=None, create=False):
     scene_path = scene_path or cmds.file(query=True, sceneName=True)
     if not scene_path:
@@ -69,13 +78,7 @@ def export_skin(mesh, directory):
     directory = _ensure_directory(directory)
     key = _mesh_key(mesh)
     filename = key + '.xml'
-    cmds.deformerWeights(
-        filename,
-        export=True,
-        deformer=skin_cluster,
-        path=directory,
-        format='XML',
-    )
+    cmds.deformerWeights(filename, export=True, deformer=skin_cluster, path=directory, format='XML')
 
     manifest = _read_manifest(directory)
     manifest[key] = {
@@ -100,13 +103,7 @@ def _ensure_skin_cluster(mesh, item):
         return existing
 
     desired_name = item.get('skin_cluster') or (mesh.split('|')[-1] + '_skinCluster')
-    return cmds.skinCluster(
-        influence_names,
-        mesh,
-        toSelectedBones=True,
-        normalizeWeights=1,
-        name=desired_name,
-    )[0]
+    return cmds.skinCluster(influence_names, mesh, toSelectedBones=True, normalizeWeights=1, name=desired_name)[0]
 
 
 def import_skin(mesh, directory, preserve_existing=True, require_existing=False):
@@ -132,13 +129,7 @@ def import_skin(mesh, directory, preserve_existing=True, require_existing=False)
         cmds.delete(existing)
 
     skin_cluster = _ensure_skin_cluster(mesh, item)
-    cmds.deformerWeights(
-        filename,
-        im=True,
-        method='index',
-        deformer=skin_cluster,
-        path=directory,
-    )
+    cmds.deformerWeights(filename, im=True, method='index', deformer=skin_cluster, path=directory)
     cmds.skinCluster(skin_cluster, edit=True, forceNormalizeWeights=True)
     return skin_cluster
 
@@ -147,52 +138,87 @@ def import_existing_skin(mesh, directory):
     return import_skin(mesh, directory, preserve_existing=True, require_existing=True)
 
 
-def _batch(operation, meshes):
+def preview_export_meshes(meshes, directory):
+    unique_meshes = _unique_meshes(meshes)
+    if not unique_meshes:
+        raise RuntimeError('No meshes supplied for skin export')
+    if not directory:
+        raise RuntimeError('Skin data directory is required')
+    items = []
+    for mesh in unique_meshes:
+        skin_cluster = skin.find_skin_cluster(mesh)
+        if not skin_cluster:
+            raise RuntimeError('No skinCluster found on %s' % mesh)
+        items.append({'mesh': mesh, 'skin_cluster': skin_cluster, 'weights_file': _mesh_key(mesh) + '.xml'})
+    return {'operation': 'export', 'directory': os.path.normpath(directory), 'count': len(items), 'items': items}
+
+
+def preview_import_meshes(meshes, directory, require_existing=False):
+    unique_meshes = _unique_meshes(meshes)
+    if not unique_meshes:
+        raise RuntimeError('No meshes supplied for skin import')
+    directory = os.path.normpath(directory)
+    if not os.path.isdir(directory):
+        raise RuntimeError('Skin data directory does not exist: %s' % directory)
+    manifest = _read_manifest(directory)
+    items = []
+    for mesh in unique_meshes:
+        key = _mesh_key(mesh)
+        item = manifest.get(key)
+        if not item:
+            raise RuntimeError('No saved skin data found for %s' % mesh)
+        filename = item.get('weights_file') or (key + '.xml')
+        if not os.path.isfile(os.path.join(directory, filename)):
+            raise RuntimeError('Missing skin weights file: %s' % filename)
+        existing = skin.find_skin_cluster(mesh)
+        if require_existing and not existing:
+            raise RuntimeError('Existing skinCluster required on %s' % mesh)
+        missing_influences = [name for name in item.get('influences', []) if not cmds.objExists(name)]
+        if len(missing_influences) == len(item.get('influences', [])):
+            raise RuntimeError('No saved influences exist in the current scene for %s' % mesh)
+        items.append({'mesh': mesh, 'existing_skin_cluster': existing, 'weights_file': filename, 'missing_influences': missing_influences})
+    return {'operation': 'import', 'directory': directory, 'count': len(items), 'items': items}
+
+
+def _batch(operation, meshes, progress=None):
     report = {'succeeded': {}, 'failed': {}}
-    for mesh in meshes:
+    total = len(meshes)
+    for index, mesh in enumerate(meshes, 1):
         try:
             report['succeeded'][mesh] = operation(mesh)
         except Exception as exc:
             report['failed'][mesh] = str(exc)
+        if progress:
+            progress(index, total, mesh, mesh in report['succeeded'])
     return report
 
 
-def export_meshes(meshes, directory):
+def export_meshes(meshes, directory, progress=None):
+    plan = preview_export_meshes(meshes, directory)
     directory = _ensure_directory(directory)
-    unique_meshes = []
-    for node in meshes or []:
-        mesh = skin.mesh_from_component(node)
-        if mesh and mesh not in unique_meshes:
-            unique_meshes.append(mesh)
-    if not unique_meshes:
-        raise RuntimeError('No meshes supplied for skin export')
-    return _batch(lambda mesh: export_skin(mesh, directory), unique_meshes)
+    ordered_meshes = [item['mesh'] for item in plan['items']]
+    return _batch(lambda mesh: export_skin(mesh, directory), ordered_meshes, progress=progress)
 
 
-def import_meshes(meshes, directory, preserve_existing=True, require_existing=False):
-    directory = os.path.normpath(directory)
-    if not os.path.isdir(directory):
-        raise RuntimeError('Skin data directory does not exist: %s' % directory)
-    unique_meshes = []
-    for node in meshes or []:
-        mesh = skin.mesh_from_component(node)
-        if mesh and mesh not in unique_meshes:
-            unique_meshes.append(mesh)
-    if not unique_meshes:
-        raise RuntimeError('No meshes supplied for skin import')
+def import_meshes(meshes, directory, preserve_existing=True, require_existing=False, progress=None):
+    plan = preview_import_meshes(meshes, directory, require_existing=require_existing)
+    ordered_meshes = [item['mesh'] for item in plan['items']]
     return _batch(
-        lambda mesh: import_skin(
-            mesh,
-            directory,
-            preserve_existing=preserve_existing,
-            require_existing=require_existing,
-        ),
-        unique_meshes,
+        lambda mesh: import_skin(mesh, directory, preserve_existing=preserve_existing, require_existing=require_existing),
+        ordered_meshes,
+        progress=progress,
     )
 
 
-def import_existing_meshes(meshes, directory):
-    return import_meshes(meshes, directory, preserve_existing=True, require_existing=True)
+def import_existing_meshes(meshes, directory, progress=None):
+    return import_meshes(meshes, directory, preserve_existing=True, require_existing=True, progress=progress)
+
+
+def _progress_window(title, total):
+    cmds.progressWindow(title=title, progress=0, maxValue=max(1, total), status='Preparing...', isInterruptable=False)
+    def update(index, count, mesh, succeeded):
+        cmds.progressWindow(edit=True, progress=index, status='%s %d/%d: %s' % ('Done' if succeeded else 'Failed', index, count, mesh.split('|')[-1]))
+    return update
 
 
 def export_selected(directory=None):
@@ -204,7 +230,13 @@ def export_selected(directory=None):
         if not result:
             return []
         directory = result[0]
-    report = export_meshes(meshes, directory)
+    preview_export_meshes(meshes, directory)
+    progress = _progress_window('Export Skin Data', len(meshes)) if len(meshes) > 1 else None
+    try:
+        report = export_meshes(meshes, directory, progress=progress)
+    finally:
+        if progress:
+            cmds.progressWindow(endProgress=True)
     if report['failed']:
         raise RuntimeError('Skin export failed: %s' % report['failed'])
     return [report['succeeded'][mesh] for mesh in meshes]
@@ -219,12 +251,13 @@ def import_selected(directory=None, preserve_existing=True, require_existing=Fal
         if not result:
             return []
         directory = result[0]
-    report = import_meshes(
-        meshes,
-        directory,
-        preserve_existing=preserve_existing,
-        require_existing=require_existing,
-    )
+    preview_import_meshes(meshes, directory, require_existing=require_existing)
+    progress = _progress_window('Import Skin Data', len(meshes)) if len(meshes) > 1 else None
+    try:
+        report = import_meshes(meshes, directory, preserve_existing=preserve_existing, require_existing=require_existing, progress=progress)
+    finally:
+        if progress:
+            cmds.progressWindow(endProgress=True)
     if report['failed']:
         raise RuntimeError('Skin import failed: %s' % report['failed'])
     return [report['succeeded'][mesh] for mesh in meshes]
@@ -242,11 +275,7 @@ def import_quick_selected(preserve_existing=True, require_existing=False):
     directory = quick_directory(create=False)
     if not os.path.isdir(directory):
         raise RuntimeError('Quick skin data directory does not exist: %s' % directory)
-    return import_selected(
-        directory,
-        preserve_existing=preserve_existing,
-        require_existing=require_existing,
-    )
+    return import_selected(directory, preserve_existing=preserve_existing, require_existing=require_existing)
 
 
 def import_quick_existing_selected():
