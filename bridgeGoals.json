@@ -37,7 +37,8 @@
         {"milestone_id": "advanced-skinning-regression", "title": "Consolidated advanced Skinning primitive regression", "status": "completed"},
         {"milestone_id": "advanced-skirt-topology-assessment", "title": "Assess reusable skirt/topology helper prerequisites", "status": "completed"},
         {"milestone_id": "advanced-topology-primitives", "title": "Reusable mesh topology primitives for higher-level skinning workflows", "status": "completed"},
-        {"milestone_id": "advanced-topology-axis", "title": "Axis-aware connected-edge topology selection", "status": "in_progress"}
+        {"milestone_id": "advanced-topology-axis", "title": "Axis-aware connected-edge topology selection", "status": "completed"},
+        {"milestone_id": "advanced-topology-loops", "title": "Joint-axis edge-loop discovery", "status": "in_progress"}
       ]
     }
   ]
