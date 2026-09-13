@@ -144,7 +144,7 @@
     {
       "task_id": "aimayatool-topology-primitives-deterministic-024a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-topology-primitives",
@@ -160,7 +160,10 @@
           "Compile topology.py, topology_smoke.py, and tests/test_skinning_topology.py.",
           "Import aimayatool.tools.skinning.topology outside Maya.",
           "Run tests.test_skinning_topology and require all 4 tests to pass."
-        ]
+        ],
+        "result": "PASS",
+        "proven_main_commit": "8bc754c832be6164a86603fca43f109bb4204183",
+        "evidence": "py_compile passed for topology.py, topology_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_topology passed 4/4."
       },
       "action": {
         "type": "verification",
@@ -204,7 +207,8 @@
           "tests.test_skinning_topology"
         ],
         "timeout": 180
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-topology-primitives-maya-smoke-024b",
@@ -213,14 +217,20 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-topology-primitives",
-        "depends_on": "aimayatool-topology-primitives-deterministic-024a",
         "purpose": "Validate edge-to-vertex conversion and closed-loop detection against a real Maya mesh.",
         "acceptance": [
           "Reuse a healthy managed Maya 2024 session where possible.",
           "Force a fresh unsaved scene and do not save or quit Maya.",
           "Run topology_smoke after syncing commit 0ba08add5583add18e5e0605405f45dcef6ea52c or later.",
           "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_TOPOLOGY_SMOKE_OK."
-        ]
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-topology-primitives-deterministic-024a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "8bc754c832be6164a86603fca43f109bb4204183"
+        }
       },
       "action": {
         "type": "maya",
