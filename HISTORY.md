@@ -129,6 +129,12 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Deterministic gradient-weighting verification passed 4/4 focused tests at proven main `e3fea2a3a1d24547e4ac699e9deee36a1c396aeb`.
 - Managed Maya 2024 validation reused the existing session and returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_GRADIENT_WEIGHTS_SMOKE_OK` in a fresh unsaved scene with Maya left running.
 
+## 2026-09-13 — Reusable mesh topology primitives accepted
+
+- Added explicit component-index parsing, edge-to-vertex conversion, closed edge-loop detection, and ring-path with loop-path fallback as the first topology layer required by higher-level skirt workflows.
+- Deterministic verification passed compile/import plus 4/4 focused topology tests at proven main `8bc754c832be6164a86603fca43f109bb4204183`.
+- Managed Maya 2024 validation reused the existing session and returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_TOPOLOGY_SMOKE_OK` on a fresh unsaved mesh with Maya left running.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
