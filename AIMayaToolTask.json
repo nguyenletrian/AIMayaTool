@@ -90,21 +90,26 @@
     {
       "task_id": "aimayatool-goal004-skin-io-transaction-rollback-scope-verify-066a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-undo-errors",
         "purpose": "Verify transactional rollback only restores targets that completed mutation before the failure, avoiding re-entry through the failed target operation.",
         "archived_prerequisite": {"task_id": "aimayatool-goal004-skin-io-transactional-import-managed-live-065b", "result": "FAIL", "architect_ack": true, "bridge_completed": true},
         "implementation_commit": "b1ee62ea85bc19db73ed35ca8f54690b50aa96a4",
-        "acceptance": ["Fast-forward main.", "py_compile skin_io.py and skin_io_transaction_smoke.py.", "Import aimayatool.tools.skinning successfully.", "Do not invoke Codex."],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_io_transaction_rollback_scope_python_verification_pass",
+        "proven_main_commit": "b9774c55ead422f27bf4c8c6ba2132893ee199f6",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from cfc582599ab7b950736f5fbe2ea0ba1df4549023 to b9774c55ead422f27bf4c8c6ba2132893ee199f6; py_compile passed with exit_code=0 for skin_io.py and skin_io_transaction_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0.",
+        "bridge_completed": true
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skin_io.py", "aimayatool/tools/skinning/skin_io_transaction_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skin_io.py", "aimayatool/tools/skinning/skin_io_transaction_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal004-skin-io-transaction-rollback-scope-managed-live-066b",
