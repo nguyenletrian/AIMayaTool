@@ -135,14 +135,36 @@
     {
       "task_id": "aimayatool-goal002-proxy-graph-parity-sync-037g",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-002",
         "milestone_id": "parity-matrix",
         "purpose": "Synchronize the next Goal 002 parity expansion separating legacy proxy skin workflows from shared geometry helpers and reconciling graph-skinning algorithms against already accepted AIMayaTool primitives.",
         "depends_on": ["aimayatool-goal002-scene-default-functions-sync-037f"],
         "artifact": "PARITY_MAP.md",
-        "artifact_commit": "0f2c1882885e6f4b37b27da206089a47936d7d9f"
+        "artifact_commit": "0f2c1882885e6f4b37b27da206089a47936d7d9f",
+        "result": "PASS",
+        "classification": "goal002_proxy_graph_parity_synced",
+        "evidence": "Bridge fast-forwarded local AIMayaTool main from 383cedd139aa23ae00d1f748fb03e874f992f515 to cc3a5f405ac4ff7666f7bd132a65765c29b4448f successfully, including the proxy/graph parity expansion."
+      },
+      "action": {"type": "git", "target": "pull"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"strategy": "ff-only", "remote": "origin"},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal002-setup-dependency-parity-sync-037h",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-002",
+        "milestone_id": "migration-priority-plan",
+        "purpose": "Synchronize Goal 002 dependency evidence proving that Scene SpaceSwitch, DrivenKey and CreateIK should compose reusable Setup constraints/spaces, SDK and IK/FK primitives rather than duplicate rig mechanics.",
+        "depends_on": ["aimayatool-goal002-proxy-graph-parity-sync-037g"],
+        "artifact": "PARITY_MAP.md",
+        "artifact_commit": "3e8541297011d92b483ff1923a22ce3a8b1de7f0"
       },
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
