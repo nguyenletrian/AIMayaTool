@@ -15,51 +15,16 @@
         "The project-profile pattern is documented so future projects can reuse it without duplicating AIBrigde runtime code."
       ],
       "milestones": [
-        {
-          "milestone_id": "project-profile-contract",
-          "title": "Project inheritance and worker binding contract",
-          "status": "completed"
-        },
-        {
-          "milestone_id": "maya-runtime-routes",
-          "title": "Reusable Maya execution routes",
-          "status": "completed"
-        },
-        {
-          "milestone_id": "foundation-live-validation",
-          "title": "Bootstrap and UI shell Maya validation",
-          "status": "completed"
-        },
-        {
-          "milestone_id": "skinning-first-slice",
-          "title": "Skinning primitive migration",
-          "status": "completed"
-        },
-        {
-          "milestone_id": "setup-first-slice",
-          "title": "Setup control and transform primitives",
-          "status": "completed"
-        },
-        {
-          "milestone_id": "scene-pattern-first-slice",
-          "title": "ScenePattern data model and registry foundation",
-          "status": "completed"
-        },
-        {
-          "milestone_id": "scene-pattern-operations",
-          "title": "Deterministic ScenePattern create/load/edit operations",
-          "status": "completed"
-        },
-        {
-          "milestone_id": "scene-display-layers",
-          "title": "Reusable Scene display-layer helpers",
-          "status": "completed"
-        },
-        {
-          "milestone_id": "scene-build-actions",
-          "title": "Reusable Scene setup/build actions",
-          "status": "in_progress"
-        }
+        {"milestone_id": "project-profile-contract", "title": "Project inheritance and worker binding contract", "status": "completed"},
+        {"milestone_id": "maya-runtime-routes", "title": "Reusable Maya execution routes", "status": "completed"},
+        {"milestone_id": "foundation-live-validation", "title": "Bootstrap and UI shell Maya validation", "status": "completed"},
+        {"milestone_id": "skinning-first-slice", "title": "Skinning primitive migration", "status": "completed"},
+        {"milestone_id": "setup-first-slice", "title": "Setup control and transform primitives", "status": "completed"},
+        {"milestone_id": "scene-pattern-first-slice", "title": "ScenePattern data model and registry foundation", "status": "completed"},
+        {"milestone_id": "scene-pattern-operations", "title": "Deterministic ScenePattern create/load/edit operations", "status": "completed"},
+        {"milestone_id": "scene-display-layers", "title": "Reusable Scene display-layer helpers", "status": "completed"},
+        {"milestone_id": "scene-build-actions", "title": "Reusable Scene setup/build actions", "status": "completed"},
+        {"milestone_id": "scene-legacy-adapters-assessment", "title": "Assess legacy Scene JSON adapters only where required", "status": "in_progress"}
       ]
     }
   ]
