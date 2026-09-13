@@ -8,26 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-proxy-skin-bind-diagnostic-result-retry-038e",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-advanced-tools",
-        "result": "PASS",
-        "classification": "proxy_bind_diagnostic_identified_duplicated_child_joint",
-        "evidence": "Diagnostic return payload proved a joint parented under the source mesh was duplicated under the proxy with a different UUID; this identified the hierarchy-duplication defect and the smoke scene-selection defect.",
-        "product_fix_commit": "32b4e4ae805aac5e1f05b9b0898a6dd7b3052e27",
-        "smoke_fix_commit": "d57c325e26738c29f37f7cf42c7d2a002f111ad9"
-      },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_diagnostic_smoke", "callable": "run_proxy_skin_diagnostic_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal003-proxy-skin-extraction-maya-hierarchy-fix-retry-038f",
       "status": "pending",
       "architect_ack": true,
@@ -51,21 +31,59 @@
     {
       "task_id": "aimayatool-goal003-proxy-skin-axis-mirror-sync-038g",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
-        "purpose": "Synchronize the next bounded proxy slice: explicit selected-face proxy mirroring across x/y/z with source-side direction detection and closest-component skin transfer.",
-        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-maya-hierarchy-fix-retry-038f"],
-        "artifact_commit": "8fe1c304c72e0ebd238380ad6b9e1904e74e71eb",
-        "changed_files": ["aimayatool/tools/skinning/proxy_skin.py"],
-        "scope": "Adds create_mirrored_proxy and a thin selection wrapper. It mirrors the extracted region across the requested world axis using the legacy side-direction semantics, then transfers skin with closestComponent. Clipboard copy/paste and closest-face matching remain later slices."
+        "result": "PASS",
+        "classification": "goal003_proxy_skin_axis_mirror_synced",
+        "evidence": "Bridge fast-forwarded local AIMayaTool main from 0028da3c02b8c11419af946927e34d2b11744644 to 5b5ce1f75bec6849e544ea53726cae7627654d54 successfully, including proxy axis-mirror implementation.",
+        "artifact_commit": "8fe1c304c72e0ebd238380ad6b9e1904e74e71eb"
       },
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"}
+      "payload": {"strategy": "ff-only", "remote": "origin"},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-proxy-skin-axis-mirror-maya-smoke-038h",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "purpose": "Validate proxy axis mirroring across x, y, and z in Maya with explicit source-side direction, mirrored geometry placement, source influence identity, and normalized closest-component skin transfer.",
+        "depends_on": ["aimayatool-goal003-proxy-skin-axis-mirror-sync-038g"],
+        "smoke_commit": "615229dcabfa6b06fd5055cd4977936a34dde794",
+        "acceptance": [
+          "Fast-forward main before validation.",
+          "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.",
+          "Invoke aimayatool.tools.skinning.proxy_skin_mirror_smoke.run_proxy_skin_mirror_smoke.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_AXIS_MIRROR_SMOKE_OK for PASS.",
+          "Validate x/y/z positive-side source regions report axis_direction 1 and mirrored proxy centers land on the negative side of each requested world axis.",
+          "Validate mirrored proxy skinClusters use the exact source influence UUID set and all proxy vertex weights remain normalized after closestComponent transfer.",
+          "If the success marker appears, accept PASS even if exit 3221227010 occurs only afterward as the known Maya Windows shutdown anomaly.",
+          "If PASS, continue to the explicit proxy clipboard copy/paste slice without global mutable session state."
+        ]
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.proxy_skin_mirror_smoke",
+        "callable": "run_proxy_skin_mirror_smoke",
+        "expected_window": "",
+        "timeout": 90,
+        "startup_timeout": 120,
+        "operation_timeout": 90,
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]
+      }
     }
   ]
 }
