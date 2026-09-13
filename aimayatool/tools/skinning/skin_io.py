@@ -2,11 +2,12 @@ from __future__ import absolute_import
 
 import json
 import os
+import shutil
+import tempfile
 
 import maya.cmds as cmds
 
 from aimayatool.maya import skin
-from aimayatool.maya.undo import undo_chunk
 
 
 _MANIFEST = 'skinData.json'
@@ -75,19 +76,12 @@ def export_skin(mesh, directory):
     skin_cluster = skin.find_skin_cluster(mesh)
     if not skin_cluster:
         raise RuntimeError('No skinCluster found on %s' % mesh)
-
     directory = _ensure_directory(directory)
     key = _mesh_key(mesh)
     filename = key + '.xml'
     cmds.deformerWeights(filename, export=True, deformer=skin_cluster, path=directory, format='XML')
-
     manifest = _read_manifest(directory)
-    manifest[key] = {
-        'mesh': mesh,
-        'skin_cluster': skin_cluster,
-        'influences': list(skin.influences(skin_cluster)),
-        'weights_file': filename,
-    }
+    manifest[key] = {'mesh': mesh, 'skin_cluster': skin_cluster, 'influences': list(skin.influences(skin_cluster)), 'weights_file': filename}
     _write_manifest(directory, manifest)
     return os.path.join(directory, filename)
 
@@ -97,12 +91,10 @@ def _ensure_skin_cluster(mesh, item):
     influence_names = [name for name in item.get('influences', []) if cmds.objExists(name)]
     if not influence_names:
         raise RuntimeError('No saved influences exist in the current scene for %s' % mesh)
-
     if existing:
         missing = [joint for joint in influence_names if joint not in skin.influences(existing)]
         skin.add_influences(existing, missing, weight=0.0, lock_weights=False)
         return existing
-
     desired_name = item.get('skin_cluster') or (mesh.split('|')[-1] + '_skinCluster')
     return cmds.skinCluster(influence_names, mesh, toSelectedBones=True, normalizeWeights=1, name=desired_name)[0]
 
@@ -112,23 +104,19 @@ def import_skin(mesh, directory, preserve_existing=True, require_existing=False)
     directory = os.path.normpath(directory)
     if not os.path.isdir(directory):
         raise RuntimeError('Skin data directory does not exist: %s' % directory)
-
     manifest = _read_manifest(directory)
     key = _mesh_key(mesh)
     item = manifest.get(key)
     if not item:
         raise RuntimeError('No saved skin data found for %s' % mesh)
-
     filename = item.get('weights_file') or (key + '.xml')
     if not os.path.isfile(os.path.join(directory, filename)):
         raise RuntimeError('Missing skin weights file: %s' % filename)
-
     existing = skin.find_skin_cluster(mesh)
     if require_existing and not existing:
         raise RuntimeError('Existing skinCluster required on %s' % mesh)
     if existing and not preserve_existing:
         cmds.delete(existing)
-
     skin_cluster = _ensure_skin_cluster(mesh, item)
     cmds.deformerWeights(filename, im=True, method='index', deformer=skin_cluster, path=directory)
     cmds.skinCluster(skin_cluster, edit=True, forceNormalizeWeights=True)
@@ -177,7 +165,7 @@ def preview_import_meshes(meshes, directory, require_existing=False):
         missing_influences = [name for name in item.get('influences', []) if not cmds.objExists(name)]
         if len(missing_influences) == len(item.get('influences', [])):
             raise RuntimeError('No saved influences exist in the current scene for %s' % mesh)
-        items.append({'mesh': mesh, 'existing_skin_cluster': existing, 'weights_file': filename, 'missing_influences': missing_influences})
+        items.append({'mesh': mesh, 'existing_skin_cluster': existing, 'existing_influences': list(skin.influences(existing)) if existing else [], 'weights_file': filename, 'missing_influences': missing_influences})
     return {'operation': 'import', 'directory': directory, 'count': len(items), 'items': items}
 
 
@@ -204,26 +192,63 @@ def export_meshes(meshes, directory, progress=None):
 def import_meshes(meshes, directory, preserve_existing=True, require_existing=False, progress=None):
     plan = preview_import_meshes(meshes, directory, require_existing=require_existing)
     ordered_meshes = [item['mesh'] for item in plan['items']]
-    return _batch(
-        lambda mesh: import_skin(mesh, directory, preserve_existing=preserve_existing, require_existing=require_existing),
-        ordered_meshes,
-        progress=progress,
-    )
+    return _batch(lambda mesh: import_skin(mesh, directory, preserve_existing=preserve_existing, require_existing=require_existing), ordered_meshes, progress=progress)
 
 
-def import_meshes_undoable(meshes, directory, preserve_existing=True, require_existing=False, progress=None):
+def _rollback_import_plan(plan, snapshot_directory):
+    errors = {}
+    for item in reversed(plan['items']):
+        mesh = item['mesh']
+        original_skin = item['existing_skin_cluster']
+        try:
+            current_skin = skin.find_skin_cluster(mesh)
+            if original_skin:
+                if not current_skin:
+                    raise RuntimeError('original skinCluster is missing after failed import')
+                import_skin(mesh, snapshot_directory, preserve_existing=True, require_existing=True)
+                extras = [joint for joint in skin.influences(current_skin) if joint not in item['existing_influences']]
+                if extras:
+                    skin.remove_influences(current_skin, extras)
+            elif current_skin:
+                cmds.delete(current_skin)
+        except Exception as exc:
+            errors[mesh] = str(exc)
+    return errors
+
+
+def import_meshes_transactional(meshes, directory, preserve_existing=True, require_existing=False, progress=None):
+    """Import a batch atomically using explicit snapshots because deformerWeights is not reliably undoable."""
     plan = preview_import_meshes(meshes, directory, require_existing=require_existing)
-    ordered_meshes = [item['mesh'] for item in plan['items']]
-    with undo_chunk('AIMayaTool Skin Import Batch'):
-        return _batch(
-            lambda mesh: import_skin(mesh, directory, preserve_existing=preserve_existing, require_existing=require_existing),
-            ordered_meshes,
-            progress=progress,
-        )
+    snapshot_directory = tempfile.mkdtemp(prefix='aimayatool_skin_io_snapshot_')
+    report = {'succeeded': {}, 'failed': {}, 'rolled_back': False, 'rollback_failed': {}}
+    try:
+        existing_meshes = [item['mesh'] for item in plan['items'] if item['existing_skin_cluster']]
+        if existing_meshes:
+            snapshot_report = export_meshes(existing_meshes, snapshot_directory)
+            if snapshot_report['failed']:
+                raise RuntimeError('Could not snapshot current skin state: %s' % snapshot_report['failed'])
+        total = len(plan['items'])
+        for index, item in enumerate(plan['items'], 1):
+            mesh = item['mesh']
+            try:
+                report['succeeded'][mesh] = import_skin(mesh, directory, preserve_existing=preserve_existing, require_existing=require_existing)
+            except Exception as exc:
+                report['failed'][mesh] = str(exc)
+                if progress:
+                    progress(index, total, mesh, False)
+                report['rollback_failed'] = _rollback_import_plan(plan, snapshot_directory)
+                report['rolled_back'] = not bool(report['rollback_failed'])
+                report['succeeded'] = {}
+                return report
+            if progress:
+                progress(index, total, mesh, True)
+        return report
+    finally:
+        shutil.rmtree(snapshot_directory, ignore_errors=True)
 
 
 def import_existing_meshes(meshes, directory, progress=None):
-    return import_meshes(meshes, directory, preserve_existing=True, require_existing=True, progress=progress)
+    return import_meshes_transactional(meshes, directory, preserve_existing=True, require_existing=True, progress=progress)
 
 
 def _progress_window(title, total):
@@ -266,12 +291,14 @@ def import_selected(directory=None, preserve_existing=True, require_existing=Fal
     preview_import_meshes(meshes, directory, require_existing=require_existing)
     progress = _progress_window('Import Skin Data', len(meshes)) if len(meshes) > 1 else None
     try:
-        report = import_meshes_undoable(meshes, directory, preserve_existing=preserve_existing, require_existing=require_existing, progress=progress)
+        report = import_meshes_transactional(meshes, directory, preserve_existing=preserve_existing, require_existing=require_existing, progress=progress)
     finally:
         if progress:
             cmds.progressWindow(endProgress=True)
     if report['failed']:
-        raise RuntimeError('Skin import failed: %s' % report['failed'])
+        if report['rollback_failed']:
+            raise RuntimeError('Skin import failed and rollback was incomplete. Import errors: %s; rollback errors: %s' % (report['failed'], report['rollback_failed']))
+        raise RuntimeError('Skin import failed; all changes were rolled back. %s' % report['failed'])
     return [report['succeeded'][mesh] for mesh in meshes]
 
 
