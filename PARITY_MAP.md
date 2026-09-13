@@ -73,9 +73,9 @@ These are migration candidates, not a mandate to preserve historical UI grouping
 ### Scene legacy surface
 `MayaScriptNew/UIs/Scene.py` provides dynamic default/project functions plus ScenePattern items. Known pattern types include SingleScript, Global, DefaultValue, SpaceSwitch, Visibility, Layer, ControlShape, DefaultSwitchIKFK, NewSwitchIKFK, DrivenKey, ModuloSDK, ProxyAttribute, Rivet, Rename, GradientTexture, RopeStraight, RopeRoll, AimConstraint, Group, CreateRef, ReplacePath, and Note.
 
-The actual `MayaScriptNew/UIs/ScenePattern/` directory is broader than that visible button list and includes additional concrete pattern modules such as AimConstraint, animation backup, blendshape-sequence generation, clear/create offsets, ControlShape variants, CreateAttribute, CreateCurve, CreateIK, CreateRef and other specialized builders. Goal 002 must inventory the directory itself, not infer parity only from `UIs/Scene.py`.
+The actual `MayaScriptNew/UIs/ScenePattern/` directory is broader than that visible button list. Directory evidence includes AimConstraint, AnimationBackup, BSSequenceFromObjKeys, ClearOffset, ControlShape and ControlShapeAS, CreateAttribute, CreateCurve, CreateIK, CreateOffset, CreateRef and additional pattern modules. Goal 002 therefore treats the directory itself as authoritative inventory rather than inferring parity only from `UIs/Scene.py`.
 
-`MayaScriptNew/UIs/SceneDefaultFunctions/` currently contains five curve-oriented ad-hoc scripts: Export Curve, Import Curve, Export Curve Up, Import Curve Up, and Update Curve Up. These are not five independent product capabilities; they form one control/curve-data workflow family with orientation/update variants. Their modern destination should be the shared Setup control-shape/curve serialization API, with Scene only composing or exposing that capability where project workflows need it.
+`MayaScriptNew/UIs/SceneDefaultFunctions/` contains five curve-oriented ad-hoc scripts: Export Curve, Import Curve, Export Curve Up, Import Curve Up, and Update Curve Up. These are not five independent product capabilities; they form one control/curve-data workflow family with orientation/update variants. Their modern destination should be the shared Setup control-shape/curve serialization API, with Scene only composing or exposing that capability where project workflows need it.
 
 AIMayaTool already has the deterministic ScenePattern/data/build foundation, but most legacy pattern behaviors and equivalent modern UI exposure still require reconciliation.
 
@@ -95,9 +95,9 @@ AIMayaTool already has the deterministic ScenePattern/data/build foundation, but
 | Skinning | Paint lock/unlock / active influence | Partially Migrated | Separate deterministic influence-lock operations from optional paint-context adapter |
 | Skinning | Paint/brush weight editing | Missing | Redesign as coherent modern weight-edit workflow |
 | Skinning | Proxy mesh extraction/mirror/skin copy | Missing | Migrate as explicit proxy workflow with deterministic mesh/skin primitives and thin selection UI |
-| Shared geometry | Edge/vertex-to-curve and geometric proxy helpers | Partially Replaced/Unclassified | Reuse current topology primitives where possible; move generic mesh/curve operations out of Skinning-specific API |
+| Shared geometry | Edge/vertex-to-curve and geometric proxy helpers | Replaced/Improved or Goal 003/005 dependency | Reuse accepted topology primitives first; migrate only uncovered generic mesh/curve helpers into shared Maya geometry APIs |
 | Skinning | Graph skinning monolith | Replaced/Improved as primitives | Do not migrate monolith; reconcile remaining UX/adapter gaps only |
-| Skinning | Selection sets/navigation | Missing or cross-domain | Decide correct modern domain/UI placement |
+| Skinning | Selection sets/navigation | Missing, low-level UX family | Preserve useful navigation behavior only as thin UI/productivity actions; do not make selection-set state a Skinning core primitive |
 | Setup | Basic controls/zero group | Migrated foundation | Expand beyond first slice |
 | Setup | Control-shape catalog | Missing / partial foundation | Build explicit reusable shape library rather than copy `NLTA_Control` wholesale |
 | Setup | Curve-shape IO/mirror/copy | Missing | Migrate as reusable control-shape workflow |
@@ -116,8 +116,12 @@ AIMayaTool already has the deterministic ScenePattern/data/build foundation, but
 | Scene | ProxyAttribute / Rivet / Rope / AimConstraint patterns | Missing | Reconcile dependencies and migrate vertically |
 | Scene | ControlShape patterns | Missing but Setup-dependent | Reuse modern Setup control-shape library rather than preserve duplicate pattern implementation |
 | Scene | Default curve import/export/update scripts | Missing but Setup-dependent | Collapse five ad-hoc scripts into one shared curve/control-shape data workflow with explicit orientation/update options |
-| Scene | Animation/blendshape backup/build patterns | Unclassified | Determine usefulness and domain ownership before migration or retirement |
-| Scene | Dynamic project/default functions | Partially Missing | Replace unsafe ad-hoc loading with explicit registry/plugin contract if still useful |
+| Scene | BSSequence / animation-backup family | Missing or intentionally retired after usefulness review | Treat `AnimationBackup` as supporting/backup evidence, not automatically a public capability; evaluate the concrete blendshape-sequence workflow and preserve only production-useful behavior |
+| Scene | Dynamic project/default functions | Replaced/Improved direction | Replace ad-hoc module discovery/loading with explicit registry/plugin contracts; retain project extensibility without arbitrary UI-time imports |
+| Legacy repo hygiene | `.pyc` / `__pycache__` | Intentionally Retired | Generated bytecode is never a migration capability and must not enter AIMayaTool source |
+| Legacy repo hygiene | zero-byte `NLTA_IK.py` / `NLTA_Scene.py` | Duplicate/Internal-only / Retired | Empty placeholders provide no behavior to migrate; actual IK/Scene behavior is inventoried from concrete callers/modules |
+| Legacy repo hygiene | exact duplicate backups (for example `NLTA_Proxy_Backup.py`) | Duplicate/Internal-only | Do not count an identical backup blob as a second capability |
+| Legacy repo hygiene | divergent `_Backup.py` files | Evidence only pending behavior reconciliation | Compare only where needed to discover behavior absent from the active module; never migrate backup files as separate product features |
 
 ## Architecture deductions for migration ordering
 
@@ -129,7 +133,7 @@ AIMayaTool already has the deterministic ScenePattern/data/build foundation, but
 6. **CreateIK is a compound consumer, not the primitive.** Its behavior decomposes into control creation, offset/group creation, joint-chain generation/orientation, IK/FK duplication, pole-vector placement, constraints and space switching. Goal 005 should implement/test these pieces independently before Goal 007 exposes a CreateIK pattern.
 7. **ScenePattern directory inventory is authoritative.** The visible `Scene.py` menu is insufficient because the directory contains additional modules not surfaced in the initial button map.
 8. **Default Scene curve scripts collapse into one reusable primitive family.** Export/import/up-orientation/update variations belong in shared curve/control-shape serialization rather than five standalone Scene features.
-9. **Backup/duplicate legacy files are evidence, not separate capabilities.** `_Backup.py`, `.pyc`, duplicate ControlShape variants and similar artifacts must be reconciled to one behavior classification, not counted as independent migration requirements.
+9. **Backup/generated files are evidence, not product scope.** `.pyc`, `__pycache__`, zero-byte placeholders and exact duplicate backups are explicitly non-capabilities; divergent backups are inspected only if they contain behavior absent from active code.
 
 ## Migration-priority implications emerging from Goal 002
 
@@ -138,10 +142,17 @@ AIMayaTool already has the deterministic ScenePattern/data/build foundation, but
 - Goal 007 Scene should avoid implementing rig mechanics directly until the corresponding Setup primitives exist; Scene patterns should become composition/data wrappers over those APIs.
 - Shared geometry helpers discovered inside legacy Skinning/Proxy code should move to reusable Maya/geometry layers so Skinning, Setup and Scene can all consume them without duplication.
 
+## Goal 002 closure blockers
+
+Goal 002 may close only when these remaining evidence checks are resolved:
+1. reconcile any production-useful behavior that exists only in divergent `NLTA_Mesh_Backup.py` or `NLTA_Skinning_Backup.py`; otherwise classify the backup-only differences as obsolete/internal with rationale;
+2. finish the remaining ScenePattern directory family grouping, especially specialized animation/blendshape/build helpers, without treating each historical file as a separate product requirement;
+3. verify current AIMayaTool public/domain inventory still matches the parity assumptions recorded here;
+4. then mark every Goal 002 milestone complete and activate Goal 003.
+
 ## Next Goal 002 work
-1. Complete full source/module/UI inventory for all three target domains, including helper symbols and duplicate/backup modules.
-2. Expand every useful legacy workflow into this matrix with file/symbol evidence and one final classification.
-3. Identify cross-domain dependencies so Scene patterns reuse Setup primitives and Skinning helpers reuse shared geometry/selection primitives.
-4. Produce dependency-ordered migration slices for Goals 003-008.
+1. Resolve the closure blockers above with bounded source comparisons rather than broad re-inventory.
+2. Preserve only behavior-level capability differences; generated/duplicate artifacts remain excluded.
+3. Once closure blockers are resolved, finalize Goal 002 state and immediately begin Goal 003 Skinning vertical slices.
 
 This file remains incomplete until Goal 002 acceptance is satisfied.
