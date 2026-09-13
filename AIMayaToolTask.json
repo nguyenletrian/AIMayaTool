@@ -61,21 +61,26 @@
     {
       "task_id": "aimayatool-goal004-skin-io-explicit-rollback-verify-064a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-undo-errors",
         "purpose": "Verify the explicit Skin IO snapshot/restore rollback strategy that replaces unreliable native undo for deformerWeights imports.",
         "archived_prerequisite": {"task_id": "aimayatool-goal004-skin-io-import-undo-integration-managed-live-063b", "result": "FAIL", "architect_ack": true, "bridge_completed": true},
         "implementation_commit": "d7b171aad2a6136d57055f6cc4f8fc30fb239e7a",
-        "acceptance": ["Fast-forward main.", "py_compile skin_io_rollback_smoke.py.", "Import aimayatool.tools.skinning successfully.", "Do not invoke Codex."],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_io_explicit_rollback_python_verification_pass",
+        "proven_main_commit": "0182e8c640486a267e661f9944b87ade56405bbe",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 4f1f724f0f0186b44fb4e13bb2022ad3268c19c3 to 0182e8c640486a267e661f9944b87ade56405bbe; py_compile passed with exit_code=0 for skin_io_rollback_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0.",
+        "bridge_completed": true
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skin_io_rollback_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skin_io_rollback_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal004-skin-io-explicit-rollback-managed-live-064b",
