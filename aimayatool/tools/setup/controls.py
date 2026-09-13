@@ -1,7 +1,5 @@
 from __future__ import absolute_import
 
-import maya.cmds as cmds
-
 
 _SHAPES = {
     "circle": [
@@ -36,6 +34,11 @@ _SHAPES = {
 }
 
 
+def _cmds():
+    import maya.cmds as cmds
+    return cmds
+
+
 def available_shapes():
     return tuple(sorted(_SHAPES))
 
@@ -51,6 +54,7 @@ def _scaled_points(shape, size):
 
 def create_control(name, shape="circle", size=1.0, match=None, parent=None):
     """Create a degree-1 curve control with optional world-space matching."""
+    cmds = _cmds()
     control = cmds.curve(name=name, degree=1, point=_scaled_points(shape, size))
     if match:
         if not cmds.objExists(match):
@@ -68,6 +72,7 @@ def create_control(name, shape="circle", size=1.0, match=None, parent=None):
 
 def create_zero_group(node, suffix="_ZERO"):
     """Insert a zero group above node while preserving the node world transform."""
+    cmds = _cmds()
     if not cmds.objExists(node):
         raise ValueError("Node does not exist: {0}".format(node))
     parent = cmds.listRelatives(node, parent=True, fullPath=True) or []
