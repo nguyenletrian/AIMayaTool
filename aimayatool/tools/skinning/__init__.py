@@ -149,8 +149,13 @@ def build_ui():
 
     cmds.separator(height=8, style='none')
     cmds.text(label='Skin data', align='left')
+    cmds.text(label='Preview validates selected meshes and planned skinCluster behavior before running.', align='left')
     cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
+    cmds.button(label='Preview Skin Export', command=lambda *_: _run('Skin export preview', skin_io.preview_export_selected))
     cmds.button(label='Export Selected Skin Data', command=lambda *_: _run('Exported skin data', skin_io.export_selected))
+    cmds.setParent('..')
+    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
+    cmds.button(label='Preview Skin Import', command=lambda *_: _run('Skin import preview', skin_io.preview_import_selected))
     cmds.button(label='Import Selected Skin Data', command=lambda *_: _run('Imported skin data', skin_io.import_selected))
     cmds.setParent('..')
     cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
