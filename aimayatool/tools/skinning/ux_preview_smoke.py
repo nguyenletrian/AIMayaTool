@@ -6,12 +6,14 @@ import maya.cmds as cmds
 
 import aimayatool
 from aimayatool.maya import skin
+from aimayatool.tools import skinning as skinning_ui
 from aimayatool.tools.skinning import copy_weights
 
 
 def run_ux_preview_smoke():
     importlib.invalidate_caches()
     importlib.reload(copy_weights)
+    importlib.reload(skinning_ui)
     cmds.file(new=True, force=True)
 
     joint_a = cmds.joint(name='AIMayaToolUXPreviewJointA', position=(-1, 0, 0)); cmds.select(clear=True)
@@ -41,6 +43,6 @@ def run_ux_preview_smoke():
         except Exception:
             pass
     if 'Preview Copy Skin' not in labels or 'Copy Skin Weights' not in labels:
-        raise RuntimeError('Copy Skin preview/execute UI controls not found')
+        raise RuntimeError('Copy Skin preview/execute UI controls not found: %s' % labels)
 
     return 'AIBRIDGE_UI_SMOKE_OK:SKINNING_UX_COPY_PREVIEW_OK targets=2'
