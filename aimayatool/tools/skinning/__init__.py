@@ -29,6 +29,7 @@ def build_ui():
     from . import influences
     from . import max_influences
     from . import mirror_skin
+    from . import paint_influence
     from . import proxy_clipboard
     from . import proxy_skin
     from . import selection_sets
@@ -81,7 +82,7 @@ def build_ui():
 
     cmds.separator(height=8, style='none')
     cmds.text(label='Paint Skin Weights', align='left')
-    cmds.text(label='Activate Maya Paint Skin Weights first.', align='left')
+    cmds.text(label='Activate Maya Paint Skin Weights for active-influence navigation.', align='left')
     cmds.rowLayout(numberOfColumns=4, adjustableColumn=4, columnWidth4=(95, 95, 95, 95))
     cmds.button(label='Replace 0', command=lambda *_: _run('Paint replace', lambda: brush_weight.replace(0.0)))
     cmds.button(label='Replace 1', command=lambda *_: _run('Paint replace', lambda: brush_weight.replace(1.0)))
@@ -91,6 +92,15 @@ def build_ui():
     cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
     cmds.button(label='Smooth Brush', command=lambda *_: _run('Paint smooth', brush_weight.smooth))
     cmds.button(label='Flood Current Operation', command=lambda *_: _run('Paint flood', brush_weight.flood))
+    cmds.setParent('..')
+    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
+    cmds.button(label='Unlock Selected Influences', command=lambda *_: _run('Paint influences', paint_influence.unlock_selected_from_selection))
+    cmds.button(label='Unlock Top 2 Influences', command=lambda *_: _run('Top influences', paint_influence.unlock_top_two_from_selection))
+    cmds.setParent('..')
+    cmds.rowLayout(numberOfColumns=3, adjustableColumn=3, columnWidth3=(126, 126, 126))
+    cmds.button(label='Unlock Parent', command=lambda *_: _run('Parent pair', paint_influence.unlock_parent_from_selection))
+    cmds.button(label='Unlock Child', command=lambda *_: _run('Child pair', paint_influence.unlock_child_from_selection))
+    cmds.button(label='Switch Unlocked Joint', command=lambda *_: _run('Active influence', paint_influence.switch_unlocked_from_selection))
     cmds.setParent('..')
 
     cmds.separator(height=8, style='none')
