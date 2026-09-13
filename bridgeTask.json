@@ -1,13 +1,63 @@
 {
   "version": 1,
-  "history_checkpoint_blob": "5ed3032c8f44931a8eaa04e828e9c9d73a860215",
+  "history_checkpoint_blob": "643d9025d055ab9cb8f75b51457a91a84a758a45",
   "tasks": [
-    {"task_id":"aimayatool-scene-post-assessment-ui-regression-015c","status":"pending","architect_ack":true,"metadata":{"goal_id":"aimayatool-foundation-001","milestone_id":"scene-legacy-adapters-assessment","archived_prerequisite":{"task_id":"aimayatool-scene-post-assessment-deterministic-015b","result":"PASS","architect_ack":true,"bridge_completed":true,"proven_main_commit":"fc048d0a73c73b8d54ca1fd777428840511aeef7"},"purpose":"Final managed-Maya UI regression for the Scene foundation after the no-adapter decision.","result":"PASS","proven_main_commit":"fc048d0a73c73b8d54ca1fd777428840511aeef7","stable_checkpoint":"backup/2026-09-13-0900-SceneLegacyAssessment-fc048d0","evidence":"Managed Maya 2024 returned AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow with a fresh unsaved scene and Maya left running."},"action":{"type":"maya","target":"managed_live_smoke"},"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"permissions":{"read":true,"edit":false,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"isolated_scene":true,"save_scene":false,"maya_version":"2024","module":"bootstrap","callable":"install_and_launch","expected_window":"AIMayaToolWindow","live_port":7001,"timeout":180},"bridge_completed":true},
-    {"task_id":"aimayatool-advanced-helper-assessment-016a","status":"pending","architect_ack":true,"metadata":{"goal_id":"aimayatool-foundation-001","milestone_id":"advanced-helpers-assessment","depends_on":"aimayatool-scene-post-assessment-ui-regression-015c","purpose":"Select the next advanced helper by finding a narrow reusable primitive rather than migrating a legacy monolith.","result":"PASS_SELECTED_INFLUENCE_TRANSFER","decision":"Migrate TransferInfluenceWeight as an explicit Skinning primitive before larger graph/skirt workflows.","evidence":"Legacy NLTA_GraphSkinning.py contains a reusable TransferInfluenceWeight primitive used by higher-level skirt workflows. Target AIMayaTool has no equivalent transfer-influence API. The slice is bounded, composable, and testable independently of legacy graph UI/global state."},"action":{"type":"verification","target":"python"},"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"permissions":{"read":true,"edit":false,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":1},"bridge_completed":true},
-    {"task_id":"aimayatool-influence-transfer-deterministic-016b","status":"pending","architect_ack":true,"metadata":{"goal_id":"aimayatool-foundation-001","milestone_id":"advanced-influence-transfer","depends_on":"aimayatool-advanced-helper-assessment-016a","purpose":"Deterministically verify the explicit influence-weight transfer helper and its Skinning UI exposure.","acceptance":["Fast-forward AIMayaTool main before verification.","Compile influence_transfer.py, influence_transfer_smoke.py, Skinning __init__.py, and focused tests.","Import aimayatool.tools.skinning.influence_transfer outside Maya using its lazy host boundary.","Run tests.test_skinning_influence_transfer and require all focused tests to pass."],"result":"FAIL_IMPORT_BOUNDARY","evidence":"py_compile passed, but importing aimayatool.tools.skinning.influence_transfer outside Maya failed because aimayatool.tools.skinning.__init__ eagerly imported maya.cmds.","repair_commit":"f8262f9df87e0577b09ed61ac559713fba45b2cc"},"action":{"type":"verification","target":"python"},"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/skinning/influence_transfer.py","aimayatool/tools/skinning/influence_transfer_smoke.py","aimayatool/tools/skinning/__init__.py","tests/test_skinning_influence_transfer.py"],"imports":["aimayatool.tools.skinning.influence_transfer"],"tests":["tests.test_skinning_influence_transfer"],"timeout":180},"bridge_completed":true},
-    {"task_id":"aimayatool-influence-transfer-deterministic-016b-r1","status":"pending","architect_ack":true,"metadata":{"goal_id":"aimayatool-foundation-001","milestone_id":"advanced-influence-transfer","depends_on":"aimayatool-advanced-helper-assessment-016a","retry_of":"aimayatool-influence-transfer-deterministic-016b","purpose":"Retry deterministic influence-transfer verification after making the Skinning package boundary lazy outside Maya.","acceptance":["Fast-forward AIMayaTool main and include repair commit f8262f9df87e0577b09ed61ac559713fba45b2cc or later.","Compile influence_transfer.py, influence_transfer_smoke.py, Skinning __init__.py, and focused tests.","Import aimayatool.tools.skinning.influence_transfer outside Maya without requiring maya.cmds.","Run tests.test_skinning_influence_transfer and require all focused tests to pass."],"result":"FAIL_TEST_HARNESS","evidence":"py_compile and non-Maya import passed. Focused unittest failed with StopIteration because the mock skinPercent side_effect supplied only the two query return values and did not handle the third set-weight call.","repair_commit":"bc0dfd9aa8c65d3ff6cdfb5bbbc6d5080fa9cc8f"},"action":{"type":"verification","target":"python"},"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/skinning/influence_transfer.py","aimayatool/tools/skinning/influence_transfer_smoke.py","aimayatool/tools/skinning/__init__.py","tests/test_skinning_influence_transfer.py"],"imports":["aimayatool.tools.skinning.influence_transfer"],"tests":["tests.test_skinning_influence_transfer"],"timeout":180},"bridge_completed":true},
-    {"task_id":"aimayatool-influence-transfer-deterministic-016b-r2","status":"pending","architect_ack":true,"metadata":{"goal_id":"aimayatool-foundation-001","milestone_id":"advanced-influence-transfer","depends_on":"aimayatool-advanced-helper-assessment-016a","retry_of":"aimayatool-influence-transfer-deterministic-016b-r1","purpose":"Retry deterministic influence-transfer verification after correcting the focused test mock to model query and set calls.","acceptance":["Fast-forward AIMayaTool main and include test repair commit bc0dfd9aa8c65d3ff6cdfb5bbbc6d5080fa9cc8f or later.","Compile influence_transfer.py, influence_transfer_smoke.py, Skinning __init__.py, and focused tests.","Import aimayatool.tools.skinning.influence_transfer outside Maya without requiring maya.cmds.","Run tests.test_skinning_influence_transfer and require all focused tests to pass."],"result":"PASS","proven_main_commit":"753786ea6fb2055e5892ee68a11047d45af9f91e","evidence":"py_compile passed for all four focused files, non-Maya import of aimayatool.tools.skinning.influence_transfer passed, and tests.test_skinning_influence_transfer passed 3/3."},"action":{"type":"verification","target":"python"},"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/skinning/influence_transfer.py","aimayatool/tools/skinning/influence_transfer_smoke.py","aimayatool/tools/skinning/__init__.py","tests/test_skinning_influence_transfer.py"],"imports":["aimayatool.tools.skinning.influence_transfer"],"tests":["tests.test_skinning_influence_transfer"],"timeout":180},"bridge_completed":true},
-    {"task_id":"aimayatool-influence-transfer-maya-smoke-016c","status":"pending","architect_ack":true,"metadata":{"goal_id":"aimayatool-foundation-001","milestone_id":"advanced-influence-transfer","depends_on":"aimayatool-influence-transfer-deterministic-016b-r2","purpose":"Validate real skinCluster source-to-target influence transfer in managed Maya 2024.","acceptance":["Reuse a healthy managed Maya session where possible.","Force a fresh unsaved scene and do not save or quit Maya.","Run the current influence-transfer smoke from disk.","Return AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_TRANSFER_SMOKE_OK."],"result":"PASS","proven_main_commit":"b3558cd13f93953e911e69c40f430477fee765fc","evidence":"Managed Maya 2024 reused the existing session on port 7001, forced a fresh unsaved scene, did not save or quit Maya, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_TRANSFER_SMOKE_OK."},"action":{"type":"maya","target":"managed_live_smoke"},"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"permissions":{"read":true,"edit":false,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"isolated_scene":true,"save_scene":false,"maya_version":"2024","module":"aimayatool.tools.skinning.influence_transfer_smoke","callable":"run_influence_transfer_smoke","expected_window":"","live_port":7001,"timeout":180},"bridge_completed":true},
-    {"task_id":"aimayatool-influence-transfer-ui-regression-016d","status":"pending","architect_ack":true,"metadata":{"goal_id":"aimayatool-foundation-001","milestone_id":"advanced-influence-transfer","depends_on":"aimayatool-influence-transfer-maya-smoke-016c","purpose":"Verify the new Skinning transfer control does not regress AIMayaTool launch.","result":"PASS","proven_main_commit":"e215be7a2b0193b0061935524a8fbb41da879ead","evidence":"Managed Maya 2024 reused the existing session on port 7001, forced a fresh unsaved scene, did not save or quit Maya, and bootstrap.install_and_launch returned AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow."},"action":{"type":"maya","target":"managed_live_smoke"},"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"permissions":{"read":true,"edit":false,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"isolated_scene":true,"save_scene":false,"maya_version":"2024","module":"bootstrap","callable":"install_and_launch","expected_window":"AIMayaToolWindow","live_port":7001,"timeout":180},"bridge_completed":true}
+    {
+      "task_id": "aimayatool-ratio-weighting-assessment-017a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-ratio-weighting-assessment",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-influence-transfer-ui-regression-016d",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "e215be7a2b0193b0061935524a8fbb41da879ead"
+        },
+        "purpose": "Assess the next bounded Skinning primitive from legacy ratio/gradient weighting helpers without migrating the legacy graph/skirt monolith.",
+        "acceptance": [
+          "Fast-forward AIMayaTool main before assessment.",
+          "Inspect legacy MayaScriptNew Libs/NLTA_GraphSkinning.py around GradientActiveJoint, CopyRatioWeight, GradientTwoJoints, and their immediate callers.",
+          "Inspect current AIMayaTool Skinning APIs to identify overlap and reusable boundaries.",
+          "Recommend exactly one next primitive or a tightly coupled minimal pair, with explicit inputs/returns and no dependency on legacy UI/global state.",
+          "Report source behavior, proposed AIMayaTool module/API, deterministic-test strategy, Maya-smoke strategy, and any reason not to migrate a candidate.",
+          "Do not modify product code during this assessment task."
+        ]
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 180
+      }
+    }
   ]
 }
