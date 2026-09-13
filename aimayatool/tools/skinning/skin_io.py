@@ -9,6 +9,7 @@ from aimayatool.maya import skin
 
 
 _MANIFEST = 'skinData.json'
+_QUICK_RELATIVE_DIRECTORY = ('NLTA_Data', 'MeshExport')
 
 
 def _mesh_key(mesh):
@@ -40,6 +41,23 @@ def _write_manifest(directory, data):
     with open(path, 'w') as stream:
         json.dump(data, stream, indent=2, sort_keys=True)
     return path
+
+
+def _selected_meshes():
+    meshes = []
+    for node in cmds.ls(selection=True, long=True) or []:
+        mesh = skin.mesh_from_component(node)
+        if mesh and mesh not in meshes:
+            meshes.append(mesh)
+    return meshes
+
+
+def quick_directory(scene_path=None, create=False):
+    scene_path = scene_path or cmds.file(query=True, sceneName=True)
+    if not scene_path:
+        raise RuntimeError('Save the Maya scene before using quick skin IO')
+    directory = os.path.join(os.path.dirname(scene_path), *_QUICK_RELATIVE_DIRECTORY)
+    return _ensure_directory(directory) if create else os.path.normpath(directory)
 
 
 def export_skin(mesh, directory):
@@ -91,9 +109,12 @@ def _ensure_skin_cluster(mesh, item):
     )[0]
 
 
-def import_skin(mesh, directory):
+def import_skin(mesh, directory, preserve_existing=True):
     mesh = skin.mesh_from_component(mesh)
     directory = os.path.normpath(directory)
+    if not os.path.isdir(directory):
+        raise RuntimeError('Skin data directory does not exist: %s' % directory)
+
     manifest = _read_manifest(directory)
     key = _mesh_key(mesh)
     item = manifest.get(key)
@@ -103,6 +124,10 @@ def import_skin(mesh, directory):
     filename = item.get('weights_file') or (key + '.xml')
     if not os.path.isfile(os.path.join(directory, filename)):
         raise RuntimeError('Missing skin weights file: %s' % filename)
+
+    existing = skin.find_skin_cluster(mesh)
+    if existing and not preserve_existing:
+        cmds.delete(existing)
 
     skin_cluster = _ensure_skin_cluster(mesh, item)
     cmds.deformerWeights(
@@ -116,12 +141,47 @@ def import_skin(mesh, directory):
     return skin_cluster
 
 
-def export_selected(directory=None):
-    meshes = []
-    for node in cmds.ls(selection=True, long=True) or []:
+def _batch(operation, meshes):
+    report = {'succeeded': {}, 'failed': {}}
+    for mesh in meshes:
+        try:
+            report['succeeded'][mesh] = operation(mesh)
+        except Exception as exc:
+            report['failed'][mesh] = str(exc)
+    return report
+
+
+def export_meshes(meshes, directory):
+    directory = _ensure_directory(directory)
+    unique_meshes = []
+    for node in meshes or []:
         mesh = skin.mesh_from_component(node)
-        if mesh not in meshes:
-            meshes.append(mesh)
+        if mesh and mesh not in unique_meshes:
+            unique_meshes.append(mesh)
+    if not unique_meshes:
+        raise RuntimeError('No meshes supplied for skin export')
+    return _batch(lambda mesh: export_skin(mesh, directory), unique_meshes)
+
+
+def import_meshes(meshes, directory, preserve_existing=True):
+    directory = os.path.normpath(directory)
+    if not os.path.isdir(directory):
+        raise RuntimeError('Skin data directory does not exist: %s' % directory)
+    unique_meshes = []
+    for node in meshes or []:
+        mesh = skin.mesh_from_component(node)
+        if mesh and mesh not in unique_meshes:
+            unique_meshes.append(mesh)
+    if not unique_meshes:
+        raise RuntimeError('No meshes supplied for skin import')
+    return _batch(
+        lambda mesh: import_skin(mesh, directory, preserve_existing=preserve_existing),
+        unique_meshes,
+    )
+
+
+def export_selected(directory=None):
+    meshes = _selected_meshes()
     if not meshes:
         raise RuntimeError('Select one or more skinned meshes')
     if not directory:
@@ -129,15 +189,14 @@ def export_selected(directory=None):
         if not result:
             return []
         directory = result[0]
-    return [export_skin(mesh, directory) for mesh in meshes]
+    report = export_meshes(meshes, directory)
+    if report['failed']:
+        raise RuntimeError('Skin export failed: %s' % report['failed'])
+    return [report['succeeded'][mesh] for mesh in meshes]
 
 
-def import_selected(directory=None):
-    meshes = []
-    for node in cmds.ls(selection=True, long=True) or []:
-        mesh = skin.mesh_from_component(node)
-        if mesh not in meshes:
-            meshes.append(mesh)
+def import_selected(directory=None, preserve_existing=True):
+    meshes = _selected_meshes()
     if not meshes:
         raise RuntimeError('Select one or more meshes')
     if not directory:
@@ -145,4 +204,18 @@ def import_selected(directory=None):
         if not result:
             return []
         directory = result[0]
-    return [import_skin(mesh, directory) for mesh in meshes]
+    report = import_meshes(meshes, directory, preserve_existing=preserve_existing)
+    if report['failed']:
+        raise RuntimeError('Skin import failed: %s' % report['failed'])
+    return [report['succeeded'][mesh] for mesh in meshes]
+
+
+def export_quick_selected():
+    return export_selected(quick_directory(create=True))
+
+
+def import_quick_selected(preserve_existing=True):
+    directory = quick_directory(create=False)
+    if not os.path.isdir(directory):
+        raise RuntimeError('Quick skin data directory does not exist: %s' % directory)
+    return import_selected(directory, preserve_existing=preserve_existing)
