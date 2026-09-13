@@ -111,18 +111,15 @@
     {
       "task_id": "aimayatool-skirt-parent-smoothing-topology-maya-fresh-035c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
         "purpose": "Validate the API-only smoothing-topology path in a newly launched managed Maya 2024 session after the previous listener on port 7001 was lost.",
-        "acceptance": [
-          "Fast-forward main and include commit 9d951b6d878765126c7657849c68a834d42feaf7 or later.",
-          "Do not treat the lost existing listener as reusable. Relaunch/recover managed Maya 2024 and establish a healthy live session before invoking product code.",
-          "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run skirt_parent_smoothing_smoke and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_SMOOTHING_SMOKE_OK."
-        ],
-        "retry_of": "aimayatool-skirt-parent-smoothing-topology-maya-retry-035b",
+        "result": "PASS",
+        "proven_main_commit": "862716ab87bbc00e84edf5aaa13c8fa58515a92b",
+        "evidence": "Managed Maya 2024 launched a fresh session (pid 19084) on port 7001 after ff-only sync to 862716ab87bbc00e84edf5aaa13c8fa58515a92b, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_SMOOTHING_SMOKE_OK with scene_saved=false and maya_quit=false.",
+        "migration_note": "Compatibility ACK mirror only: this legacy bridgeTask.json is non-authoritative after the project TaskSource moved to AIMayaToolTask.json. Mirrored once to drain a stale pre-migration Bridge ACK gate; do not publish new AIMayaTool work here.",
         "archived_prerequisite": {
           "task_id": "aimayatool-loop-groups-api-traversal-deterministic-035a",
           "result": "PASS",
@@ -135,7 +132,8 @@
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_smoothing_smoke", "callable": "run_skirt_parent_smoothing_smoke", "expected_window": "", "live_port": 7001, "timeout": 180, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]}
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_smoothing_smoke", "callable": "run_skirt_parent_smoothing_smoke", "expected_window": "", "live_port": 7001, "timeout": 180, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]},
+      "bridge_completed": true
     }
   ]
 }
