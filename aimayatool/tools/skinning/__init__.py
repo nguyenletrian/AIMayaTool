@@ -22,11 +22,14 @@ def _run(label, fn):
 def build_ui():
     cmds = _cmds()
     from . import brush_weight
+    from . import closest_face
+    from . import component_weights
     from . import copy_weights
     from . import influence_transfer
     from . import influences
     from . import max_influences
     from . import mirror_skin
+    from . import proxy_clipboard
     from . import proxy_skin
     from . import selection_sets
     from . import skin_io
@@ -50,6 +53,7 @@ def build_ui():
     cmds.text(label='Skin transfer', align='left')
     cmds.button(label='Copy Skin Weights (Source -> Targets)', command=lambda *_: _run('Copied skin', copy_weights.copy_from_selection))
     cmds.button(label='Transfer Influence Weight (Source -> Target)', command=lambda *_: _run('Transferred', influence_transfer.transfer_from_selection))
+    cmds.button(label='Copy Component Weights', command=lambda *_: _run('Copied component weights', component_weights.copy_weights_from_selection))
 
     cmds.separator(height=8, style='none')
     cmds.text(label='Skirt parent workflow', align='left')
@@ -96,6 +100,11 @@ def build_ui():
     cmds.button(label='Create Skin Proxy', command=lambda *_: _run('Proxy', proxy_skin.create_proxy_from_selection))
     cmds.button(label='Create Mirrored Proxy X', command=lambda *_: _run('Mirrored proxy', proxy_skin.create_mirrored_proxy_from_selection))
     cmds.setParent('..')
+    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
+    cmds.button(label='Copy Proxy Skin', command=lambda *_: _run('Proxy snapshot', proxy_clipboard.copy_from_selection))
+    cmds.button(label='Paste Proxy Skin', command=lambda *_: _run('Proxy paste', proxy_clipboard.paste_to_selection))
+    cmds.setParent('..')
+    cmds.button(label='Match Components To Closest Faces', command=lambda *_: _run('Closest faces', closest_face.match_from_selection))
 
     cmds.separator(height=8, style='none')
     cmds.text(label='Selection set navigation', align='left')
