@@ -8,26 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-skirt-parent-transfer-workflow-postskin-meshfn-maya-smoke-036p",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-workflow",
-        "result": "PASS",
-        "classification": "postskin_meshfn_real_transfer_workflow_healthy",
-        "proven_main_commit": "352f6e0c422105b2f0629dcda22ef100869e7243",
-        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "Managed Maya 2024 PID 16220 completed run_skirt_parent_transfer_workflow_smoke with AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_TRANSFER_WORKFLOW_SMOKE_OK using a fresh post-skin MFnMesh, real selector/polySelect traversal, and all four parent-to-skirt transfers."
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_transfer_workflow_smoke", "callable": "run_skirt_parent_transfer_workflow_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-skirt-parent-production-smoothing-plan-postskin-meshfn-maya-smoke-036q",
       "status": "pending",
       "architect_ack": true,
@@ -38,7 +18,7 @@
         "classification": "postskin_meshfn_production_smoothing_plan_healthy",
         "proven_main_commit": "8b630f41b7288cf15b1da2afd46dca9bc1ed5113",
         "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "Managed Maya 2024 PID 16220 completed run_skirt_parent_transfer_smoothing_plan_production_smoke with AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_TRANSFER_SMOOTHING_PLAN_PRODUCTION_SMOKE_OK. Planner used a fresh post-skin MFnMesh, all four transfers completed, and production build_smoothing_plan(plan) returned four non-empty operations without cached mesh_fn/selector overrides."
+        "evidence": "Managed Maya 2024 PID 16220 completed the production smoothing-plan smoke with four non-empty operations after planner and all four transfers."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -50,28 +30,48 @@
     {
       "task_id": "aimayatool-skirt-parent-full-workflow-postskin-meshfn-maya-smoke-036r",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "result": "FAIL",
+        "classification": "zero_combined_pair_weight_ratio_propagation_error",
+        "proven_main_commit": "fc3a00c75eaa1a778ca855b3d7155cb41d1fec98",
+        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
+        "evidence": "Managed Maya remained responsive and returned a product traceback during full workflow smoothing apply. apply_smoothing_plan called copy_influence_ratios for a root/source vertex whose two operation influences had zero combined weight, causing ValueError: Source component has zero combined influence weight. Planner, transfers, and smoothing-plan construction had already been proven healthy."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_workflow_smoke", "callable": "run_skirt_parent_workflow_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-full-workflow-zero-pair-skip-maya-smoke-036s",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Validate the complete skirt-parent production workflow end to end after eliminating stale pre-skin MFnMesh reuse. Run planner, all parent transfers, production smoothing-plan construction, and production smoothing apply/ratio propagation with a fresh post-skin MFnMesh supplied only to the planner.",
+        "purpose": "Retry the complete skirt-parent workflow after making smoothing propagation skip root/source vertices whose current two-influence operation pair has zero combined weight. Such vertices have no valid ratio to propagate and must not be passed to copy_influence_ratios.",
         "acceptance": [
-          "Fast-forward AIMayaTool main and include commit 09d03161225928a3cde15afe1702a82ef70f3c5f or later.",
+          "Fast-forward AIMayaTool main and include commit 2d6d4307937c5c9cdc4214e141e62679d10016b7 or later.",
           "Use a healthy managed Maya 2024 session with startup_timeout=90 and operation_timeout=45, force a fresh unsaved scene, and do not save or quit Maya.",
           "Run run_skirt_parent_workflow_smoke from aimayatool.tools.skinning.skirt_parent_workflow_smoke.",
-          "Use the pre-skin MFnMesh only to derive root_loop. After skinCluster creation and bulk weight initialization, resolve a brand-new MSelectionList/MFnMesh and pass that fresh post-skin function set to run_skirt_parent_workflow via planner kwargs.",
-          "Use the real selector/polySelect adapter. Do not forward mesh_fn or selector overrides into production build_smoothing_plan(plan).",
-          "Require a closed plan with four assignments and four spans, four transfer results with changed components, four smoothing-plan operations, four smoothing apply results, parent weight near zero and skirt-joint total near one on a changed sample, and at least one smoothing result with propagated ratio data.",
+          "Keep the fresh post-skin MFnMesh discipline already proven by 036o-036q.",
+          "apply_smoothing_plan must skip ratio propagation only when the source vertex has <=1e-12 combined weight across that operation's two influences; valid nonzero sources must still propagate through copy_influence_ratios.",
+          "Require a closed plan with four assignments and four spans, four transfer results, four smoothing-plan operations, four smoothing apply results, valid parent-to-skirt transferred weights, and at least one non-empty propagated smoothing result.",
           "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_WORKFLOW_SMOKE_OK for PASS.",
-          "If PASS, accept the advanced skirt-parent workflow Maya slice and treat stale MFnMesh lifetime across history mutation as the resolved root cause for the prior crash chain. If FAIL, preserve exact evidence and isolate the first full-workflow stage not already proven by 036p/036q."
+          "If PASS, accept the advanced skirt-parent workflow Maya slice. If FAIL, preserve the exact traceback and isolate the next smoothing-apply semantic mismatch rather than reopening the already-resolved stale-MFnMesh crash chain."
         ],
         "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-production-smoothing-plan-postskin-meshfn-maya-smoke-036q",
-          "result": "PASS",
-          "classification": "postskin_meshfn_production_smoothing_plan_healthy",
+          "task_id": "aimayatool-skirt-parent-full-workflow-postskin-meshfn-maya-smoke-036r",
+          "result": "FAIL",
+          "classification": "zero_combined_pair_weight_ratio_propagation_error",
           "architect_ack": true,
           "bridge_completed": true,
-          "proven_main_commit": "8b630f41b7288cf15b1da2afd46dca9bc1ed5113"
+          "proven_main_commit": "fc3a00c75eaa1a778ca855b3d7155cb41d1fec98"
         }
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
@@ -89,7 +89,7 @@
         "timeout": 45,
         "startup_timeout": 90,
         "operation_timeout": 45,
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]
+        "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}]
       }
     }
   ]
