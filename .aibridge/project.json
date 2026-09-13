@@ -15,7 +15,7 @@
     "workdir": "D:/AIMayaTool",
     "guide": "GUIDE.md",
     "goal_source": "bridgeGoals.json",
-    "task_source": "bridgeTask.json"
+    "task_source": "AIMayaToolTask.json"
   },
   "source_repositories": [
     "https://github.com/nguyenletrian/MayaScriptNew.git"
