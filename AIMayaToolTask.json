@@ -94,12 +94,11 @@
         "milestone_id": "skinning-api2-performance",
         "purpose": "Validate the promoted batched default path through the consolidated Skinning regression in reusable Maya 2024.",
         "depends_on": ["aimayatool-goal004-ratio-api2-default-verify-055a"],
-        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.regression_smoke.run_skinning_regression_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_CONSOLIDATED_REGRESSION_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "FAIL",
         "classification": "skinning_ratio_api2_return_format_regression",
         "proven_main_commit": "2282e90edf15827c9455e3f23c7bb9fb647123f3",
-        "evidence": "Managed Maya 2024 PID 10632 reused port 7001 with a fresh unsaved scene. Consolidated regression reached ratio_weights_smoke and failed because apply_influence_ratios returned a long DAG component path ['|AIMayaToolRatioWeightMesh|AIMayaToolRatioWeightMeshShape.vtx[1]'] instead of the legacy-compatible target ['AIMayaToolRatioWeightMesh.vtx[1]']. Maya remained open; scene_saved=false; maya_quit=false."
+        "evidence": "Managed Maya 2024 PID 10632 reused port 7001 with a fresh unsaved scene. Consolidated regression reached ratio_weights_smoke and failed because apply_influence_ratios returned a long DAG component path instead of the legacy-compatible caller target. Maya remained open; scene_saved=false; maya_quit=false."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -118,7 +117,6 @@
         "purpose": "Verify the API 2.0 ratio-weighting return-format compatibility fix before Maya regression retry.",
         "depends_on": ["aimayatool-goal004-ratio-api2-default-regression-managed-live-055b"],
         "implementation_commit": "2ebd09ea5a8aa1368f978a22dee9f6cefc5b1fdf",
-        "acceptance": ["Fast-forward main.", "py_compile ratio_weights.py and ratio_weights_smoke.py.", "Import aimayatool.tools.skinning successfully.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_ratio_api2_return_format_fix_python_verification_pass",
@@ -135,13 +133,55 @@
     {
       "task_id": "aimayatool-goal004-ratio-api2-default-regression-retry-055d",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Retry consolidated Skinning regression after preserving legacy-compatible component reporting in the API 2.0 default path.",
         "depends_on": ["aimayatool-goal004-ratio-api2-return-format-fix-verify-055c"],
         "retry_of": "aimayatool-goal004-ratio-api2-default-regression-managed-live-055b",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "FAIL",
+        "classification": "skinning_ratio_api2_shape_component_reporting_regression",
+        "proven_main_commit": "1e6d421ea3480e269f257f5166a737fd3cc894e4",
+        "evidence": "Managed Maya 2024 PID 10632 reused port 7001 with a fresh unsaved scene. Regression reached ratio_weights_smoke and apply_influence_ratios returned ['AIMayaToolRatioWeightMeshShape.vtx[1]'] instead of caller input ['AIMayaToolRatioWeightMesh.vtx[1]']. Maya remained open; scene_saved=false; maya_quit=false."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.regression_smoke", "callable": "run_skinning_regression_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal004-ratio-api2-caller-reporting-fix-verify-055e",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-api2-performance",
+        "purpose": "Verify the final caller-facing component reporting fix for API 2.0 ratio weighting.",
+        "depends_on": ["aimayatool-goal004-ratio-api2-default-regression-retry-055d"],
+        "implementation_commit": "0e3400fb833bbab421b2b08e4b70f1bf8a7cc75e",
+        "acceptance": ["Fast-forward main.", "py_compile ratio_weights.py and ratio_weights_smoke.py.", "Import aimayatool.tools.skinning successfully.", "Do not invoke Codex."],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/ratio_weights.py", "aimayatool/tools/skinning/ratio_weights_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+    },
+    {
+      "task_id": "aimayatool-goal004-ratio-api2-default-regression-retry2-055f",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-api2-performance",
+        "purpose": "Retry consolidated Skinning regression after preserving exact caller component strings in the API 2.0 path.",
+        "depends_on": ["aimayatool-goal004-ratio-api2-caller-reporting-fix-verify-055e"],
+        "retry_of": "aimayatool-goal004-ratio-api2-default-regression-retry-055d",
         "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.regression_smoke.run_skinning_regression_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_CONSOLIDATED_REGRESSION_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
