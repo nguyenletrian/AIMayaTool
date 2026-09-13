@@ -4,6 +4,7 @@ import maya.cmds as cmds
 
 from aimayatool.tools.skinning import brush_weight_smoke
 from aimayatool.tools.skinning import gradient_weights_smoke
+from aimayatool.tools.skinning import influence_cleanup_smoke
 from aimayatool.tools.skinning import proxy_skin_smoke
 from aimayatool.tools.skinning import ratio_weights_smoke
 from aimayatool.tools.skinning import selection_sets_smoke
@@ -25,6 +26,7 @@ def run_skinning_regression_smoke():
         ('selection_sets', selection_sets_smoke.run_selection_sets_smoke),
         ('brush_weight', brush_weight_smoke.run_brush_weight_smoke),
         ('skin_io', skin_io_parity_smoke.run_skin_io_parity_smoke),
+        ('influence_cleanup', influence_cleanup_smoke.run_influence_cleanup_smoke),
         ('ui_parity', ui_parity_smoke.run_skinning_ui_parity_smoke),
     ]
     results = []
