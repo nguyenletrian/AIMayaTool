@@ -8,37 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal004-copy-skin-batch-preview-verify-059a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-004",
-        "milestone_id": "skinning-batch-preview",
-        "purpose": "Verify the first Skinning 2.0 batch/preview slice: non-mutating Copy Skin batch preflight plus progress-aware multi-target execution.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal004-gradient-api2-default-regression-managed-live-058b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "7113b7d9ba7834722839845dd8238c1bceb5096c",
-          "9ba226c9ed3eda40f556d0c0717702bf26c25222"
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_copy_batch_preview_python_verification_pass",
-        "proven_main_commit": "d3d92ed615bd8ecc34959bb2fb4c39a0cdceabdd",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from de9da56eb1fc207cf7bdfa8e19488e5a1f076494 to d3d92ed615bd8ecc34959bb2fb4c39a0cdceabdd; py_compile passed with exit_code=0 for copy_weights.py and copy_weights_batch_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
-      },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/copy_weights.py", "aimayatool/tools/skinning/copy_weights_batch_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal004-copy-skin-batch-preview-managed-live-059b",
       "status": "pending",
       "architect_ack": true,
@@ -46,7 +15,12 @@
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-batch-preview",
         "purpose": "Prove Copy Skin batch preview is non-mutating and progress-aware two-target execution preserves expected weights in Maya.",
-        "depends_on": ["aimayatool-goal004-copy-skin-batch-preview-verify-059a"],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal004-copy-skin-batch-preview-verify-059a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_copy_batch_preview_managed_live_pass",
@@ -71,29 +45,25 @@
     {
       "task_id": "aimayatool-goal004-skin-io-batch-preview-verify-060a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-batch-preview",
         "purpose": "Verify Skin IO batch preview/preflight and progress-aware multi-mesh export/import before live Maya validation.",
         "depends_on": ["aimayatool-goal004-copy-skin-batch-preview-managed-live-059b"],
-        "implementation_commits": [
-          "f60e8572a7e85170b977d15fa4c2c09a71fa7061",
-          "6a82626d896c7d7353220d0580ca5d89717a74f1"
-        ],
-        "acceptance": [
-          "Fast-forward main.",
-          "py_compile skin_io.py and skin_io_batch_smoke.py.",
-          "Import aimayatool.tools.skinning successfully.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "implementation_commits": ["f60e8572a7e85170b977d15fa4c2c09a71fa7061", "6a82626d896c7d7353220d0580ca5d89717a74f1"],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_skin_io_batch_preview_python_verification_pass",
+        "proven_main_commit": "5e2382cbd479ff634d78fc9bfd03821368c642ad",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from f987632a4a91ad5e4aba33f507ffa152f984da2d to 5e2382cbd479ff634d78fc9bfd03821368c642ad; py_compile passed with exit_code=0 for skin_io.py and skin_io_batch_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skin_io.py", "aimayatool/tools/skinning/skin_io_batch_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skin_io.py", "aimayatool/tools/skinning/skin_io_batch_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal004-skin-io-batch-preview-managed-live-060b",
@@ -104,14 +74,7 @@
         "milestone_id": "skinning-batch-preview",
         "purpose": "Prove Skin IO export/import previews are non-mutating and two-mesh batch execution reports complete progress while restoring weights.",
         "depends_on": ["aimayatool-goal004-skin-io-batch-preview-verify-060a"],
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.skin_io_batch_smoke.run_skin_io_batch_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_IO_BATCH_PREVIEW_OK targets=2 progress=2 for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
+        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.skin_io_batch_smoke.run_skin_io_batch_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_IO_BATCH_PREVIEW_OK targets=2 progress=2 for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
