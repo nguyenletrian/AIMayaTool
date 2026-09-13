@@ -6,7 +6,9 @@ def run_skirt_parent_workflow_smoke():
     import math
     import maya.api.OpenMaya as om
     import maya.cmds as cmds
-    from aimayatool.tools.skinning import skirt_parent_workflow
+    from aimayatool.tools.skinning import ratio_weights, skirt_parent_smoothing_apply, skirt_parent_workflow
+    importlib.reload(ratio_weights)
+    importlib.reload(skirt_parent_smoothing_apply)
     importlib.reload(skirt_parent_workflow)
 
     cmds.file(new=True, force=True)
