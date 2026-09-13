@@ -27,50 +27,15 @@
         "proven_main_commit": "fe5202e3d19eac2c3108bcf812d8ff430fc3d732",
         "evidence": "After ff-only sync from f5167c04eccc14ecba7c545e1599df20a18c221a to fe5202e3d19eac2c3108bcf812d8ff430fc3d732, py_compile passed for skirt_parent_workflow.py and the four composed phase modules plus the focused test; non-Maya import passed; tests.test_skinning_skirt_parent_workflow passed 4/4."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/skirt_parent_workflow.py",
-          "aimayatool/tools/skinning/skirt_parent.py",
-          "aimayatool/tools/skinning/skirt_parent_transfer.py",
-          "aimayatool/tools/skinning/skirt_parent_smoothing.py",
-          "aimayatool/tools/skinning/skirt_parent_smoothing_apply.py",
-          "tests/test_skinning_skirt_parent_workflow.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning.skirt_parent_workflow"
-        ],
-        "tests": [
-          "tests.test_skinning_skirt_parent_workflow"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/skinning/skirt_parent_workflow.py", "aimayatool/tools/skinning/skirt_parent.py", "aimayatool/tools/skinning/skirt_parent_transfer.py", "aimayatool/tools/skinning/skirt_parent_smoothing.py", "aimayatool/tools/skinning/skirt_parent_smoothing_apply.py", "tests/test_skinning_skirt_parent_workflow.py"],
+        "imports": ["aimayatool.tools.skinning.skirt_parent_workflow"],
+        "tests": ["tests.test_skinning_skirt_parent_workflow"],
         "timeout": 180
       },
       "bridge_completed": true
@@ -83,126 +48,73 @@
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
         "purpose": "Validate the complete SkirtParent workflow on a real Maya cylindrical quad mesh and skinCluster, exercising planner, parent transfer, adjacent-joint smoothing plan, and smoothing mutation in one fresh scene.",
-        "acceptance": [
-          "Fast-forward main and include smoke commit c20404230bf3d748b8c41c02f7bff385f39f20e4 or later.",
-          "Reuse a healthy managed Maya 2024 session where possible.",
-          "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run skirt_parent_workflow_smoke and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_WORKFLOW_SMOKE_OK."
-        ],
-        "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-workflow-deterministic-034a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "fe5202e3d19eac2c3108bcf812d8ff430fc3d732"
-        },
+        "acceptance": ["Fast-forward main and include smoke commit c20404230bf3d748b8c41c02f7bff385f39f20e4 or later.", "Reuse a healthy managed Maya 2024 session where possible.", "Force a fresh unsaved scene and do not save or quit Maya.", "Run skirt_parent_workflow_smoke and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_WORKFLOW_SMOKE_OK."],
+        "archived_prerequisite": {"task_id": "aimayatool-skirt-parent-workflow-deterministic-034a", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "fe5202e3d19eac2c3108bcf812d8ff430fc3d732"},
         "result": "INCONCLUSIVE",
         "classification": "validation_fixture_timeout",
         "proven_main_commit": "142c9926ac102c89d7c251a699e8a3d19bd893da",
-        "evidence": "Managed Maya 2024 reused the existing session on port 7001 after ff-only sync from fe5202e3d19eac2c3108bcf812d8ff430fc3d732 to 142c9926ac102c89d7c251a699e8a3d19bd893da, forced a fresh unsaved scene, but the full-workflow smoke timed out after 240 seconds with no product failure marker; scene_saved=false and maya_quit=false. Deterministic full composition and each mutating phase had already passed independently, so this result is retained as inconclusive fixture/runtime evidence rather than a product failure."
+        "evidence": "Managed Maya 2024 reused the existing session on port 7001 after ff-only sync to 142c9926ac102c89d7c251a699e8a3d19bd893da, forced a fresh unsaved scene, then timed out after 240 seconds with no product failure marker."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.skirt_parent_workflow_smoke",
-        "callable": "run_skirt_parent_workflow_smoke",
-        "expected_window": "",
-        "live_port": 7001,
-        "timeout": 240,
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ]
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_workflow_smoke", "callable": "run_skirt_parent_workflow_smoke", "expected_window": "", "live_port": 7001, "timeout": 240, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]},
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-skirt-parent-workflow-maya-smoke-034c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
         "purpose": "Retry the complete SkirtParent Maya workflow with a bounded validation fixture: smaller cylindrical topology and bulk initial skin-weight assignment, leaving product workflow code unchanged.",
-        "acceptance": [
-          "Fast-forward main and include fixture-fix commit fc5c283a7a5083feb99f52e3f13d34a200375938 or later.",
-          "Reuse a healthy managed Maya 2024 session when responsive; recover/relaunch a stale or unresponsive Maya client per GUIDE.md if needed.",
-          "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run skirt_parent_workflow_smoke and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_WORKFLOW_SMOKE_OK."
-        ],
+        "acceptance": ["Fast-forward main and include fixture-fix commit fc5c283a7a5083feb99f52e3f13d34a200375938 or later.", "Reuse a healthy managed Maya 2024 session when responsive; recover/relaunch a stale or unresponsive Maya client per GUIDE.md if needed.", "Force a fresh unsaved scene and do not save or quit Maya.", "Run skirt_parent_workflow_smoke and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_WORKFLOW_SMOKE_OK."],
         "retry_of": "aimayatool-skirt-parent-workflow-maya-smoke-034b",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-workflow-deterministic-034a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "fe5202e3d19eac2c3108bcf812d8ff430fc3d732"
-        }
+        "archived_prerequisite": {"task_id": "aimayatool-skirt-parent-workflow-deterministic-034a", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "fe5202e3d19eac2c3108bcf812d8ff430fc3d732"},
+        "result": "INCONCLUSIVE",
+        "classification": "repeat_timeout_after_fixture_reduction",
+        "proven_main_commit": "346a938aa378120e632047fa9ba44c83762ffde1",
+        "evidence": "Managed Maya 2024 reused the existing session on port 7001 after ff-only sync from 142c9926ac102c89d7c251a699e8a3d19bd893da to 346a938aa378120e632047fa9ba44c83762ffde1, forced a fresh unsaved scene, and still timed out after 180 seconds with scene_saved=false and maya_quit=false. Reducing topology and bulk-initializing skin weights did not remove the timeout, so fixture initialization cost is no longer the leading hypothesis."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_workflow_smoke", "callable": "run_skirt_parent_workflow_smoke", "expected_window": "", "live_port": 7001, "timeout": 180, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-smoothing-topology-maya-diagnostic-034d",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "purpose": "Isolate the only composed phase not yet live-validated independently: build the adjacent-joint smoothing topology plan from a real skirt-parent plan, with no skinCluster or weight mutation.",
+        "acceptance": [
+          "Fast-forward main and include diagnostic smoke commit a147d723b67987f4eecc8fe98e4e509909f57876 or later.",
+          "Reuse a healthy managed Maya 2024 session when responsive; recover/relaunch stale or unresponsive Maya per GUIDE.md.",
+          "Force a fresh unsaved scene and do not save or quit Maya.",
+          "Run skirt_parent_smoothing_smoke and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_SMOOTHING_SMOKE_OK. If this bounded topology-only smoke times out, classify the smoothing topology grouping path as the blocker rather than the skin mutation phases."
+        ],
+        "archived_prerequisite": {"task_id": "aimayatool-skirt-parent-workflow-deterministic-034a", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "fe5202e3d19eac2c3108bcf812d8ff430fc3d732"}
       },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.skirt_parent_workflow_smoke",
-        "callable": "run_skirt_parent_workflow_smoke",
+        "module": "aimayatool.tools.skinning.skirt_parent_smoothing_smoke",
+        "callable": "run_skirt_parent_smoothing_smoke",
         "expected_window": "",
         "live_port": 7001,
-        "timeout": 180,
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ]
+        "timeout": 120,
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]
       }
     }
   ]
