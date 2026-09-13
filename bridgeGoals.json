@@ -118,6 +118,11 @@
         {
           "milestone_id": "advanced-skirt-topology-assessment",
           "title": "Assess reusable skirt/topology helper prerequisites",
+          "status": "completed"
+        },
+        {
+          "milestone_id": "advanced-topology-primitives",
+          "title": "Reusable mesh topology primitives for higher-level skinning workflows",
           "status": "in_progress"
         }
       ]
