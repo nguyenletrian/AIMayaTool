@@ -188,7 +188,7 @@
     {
       "task_id": "aimayatool-loop-groups-deterministic-029a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-loop-groups",
@@ -204,7 +204,10 @@
           "Compile loop_groups.py, loop_groups_smoke.py, and tests/test_skinning_loop_groups.py.",
           "Import aimayatool.tools.skinning.loop_groups outside Maya.",
           "Run tests.test_skinning_loop_groups and require all 4 tests to pass."
-        ]
+        ],
+        "result": "PASS",
+        "proven_main_commit": "c1d8c3e1b298e611ca22de0d9fc3e880bdeb646a",
+        "evidence": "py_compile passed for loop_groups.py, loop_groups_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_loop_groups passed 4/4."
       },
       "action": {
         "type": "verification",
@@ -248,7 +251,8 @@
           "tests.test_skinning_loop_groups"
         ],
         "timeout": 180
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-loop-groups-maya-smoke-029b",
@@ -257,14 +261,20 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-loop-groups",
-        "depends_on": "aimayatool-loop-groups-deterministic-029a",
         "purpose": "Validate perpendicular edge-loop strip grouping on a real Maya quad mesh.",
         "acceptance": [
           "Reuse a healthy managed Maya 2024 session where possible.",
           "Force a fresh unsaved scene and do not save or quit Maya.",
           "Run loop_groups_smoke after syncing commit 23d792f90db919126655d0f334db049546b86976 or later.",
           "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_LOOP_GROUPS_SMOKE_OK."
-        ]
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-loop-groups-deterministic-029a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "c1d8c3e1b298e611ca22de0d9fc3e880bdeb646a"
+        }
       },
       "action": {
         "type": "maya",
