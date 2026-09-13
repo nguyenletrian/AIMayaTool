@@ -11,124 +11,33 @@
       "task_id": "aimayatool-goal003-proxy-skin-clipboard-maya-smoke-038l",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-advanced-tools",
-        "result": "FAIL",
-        "classification": "maya_2024_copy_skin_weights_selected_components_flag_unavailable",
-        "evidence": "Maya 2024 executed proxy_skin_clipboard_smoke and failed in paste_proxy_snapshot because cmds.copySkinWeights rejected selectedComponents with TypeError: Invalid flag 'selectedComponents'. No success marker was produced; exit 3221227010 occurred after the product exception and does not override the failure.",
-        "artifact_commit": "4cc1829ef3be2793dc5063f935061adab965e241",
-        "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal003-proxy-skin-clipboard-sync-038k",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "artifact_commit": "4cc1829ef3be2793dc5063f935061adab965e241",
-          "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7"
-        }
-      },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke", "callable": "run_proxy_skin_clipboard_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]},
-      "bridge_completed": true
+      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-advanced-tools", "result": "FAIL", "classification": "maya_2024_copy_skin_weights_selected_components_flag_unavailable", "evidence": "Maya 2024 executed proxy_skin_clipboard_smoke and failed in paste_proxy_snapshot because cmds.copySkinWeights rejected selectedComponents with TypeError: Invalid flag 'selectedComponents'. No success marker was produced; exit 3221227010 occurred after the product exception and does not override the failure.", "artifact_commit": "4cc1829ef3be2793dc5063f935061adab965e241", "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7", "archived_prerequisite": {"task_id": "aimayatool-goal003-proxy-skin-clipboard-sync-038k", "result": "PASS", "architect_ack": true, "bridge_completed": true, "artifact_commit": "4cc1829ef3be2793dc5063f935061adab965e241", "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7"}},
+      "action": {"type": "maya", "target": "ui_smoke"}, "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke", "callable": "run_proxy_skin_clipboard_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]}, "bridge_completed": true
     },
     {
-      "task_id": "aimayatool-goal003-proxy-skin-clipboard-compat-sync-038m",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-advanced-tools",
-        "result": "PASS",
-        "classification": "goal003_proxy_skin_clipboard_compat_synced",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool main from 494fe7e94e71fe6058eda369a3f7a1d3713ed2b9 to 1436a052da1c507c3adb0fb9c85dbaf982978496 successfully, bringing in the Maya 2024.0-compatible proxy clipboard fallback and strengthened component-scope smoke without merge commits.",
-        "implementation_commit": "a231959c09dba4ea149f1cbe010bc9d24f0cc1bf",
-        "smoke_commit": "3610c67f00d6e3156ad50bf8021717690398a6ad"
-      },
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"},
-      "bridge_completed": true
+      "task_id": "aimayatool-goal003-proxy-skin-clipboard-compat-sync-038m", "status": "pending", "architect_ack": true,
+      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-advanced-tools", "result": "PASS", "classification": "goal003_proxy_skin_clipboard_compat_synced", "evidence": "Bridge fast-forwarded D:/AIMayaTool main from 494fe7e94e71fe6058eda369a3f7a1d3713ed2b9 to 1436a052da1c507c3adb0fb9c85dbaf982978496 successfully, bringing in the Maya 2024.0-compatible proxy clipboard fallback and strengthened component-scope smoke without merge commits.", "implementation_commit": "a231959c09dba4ea149f1cbe010bc9d24f0cc1bf", "smoke_commit": "3610c67f00d6e3156ad50bf8021717690398a6ad"},
+      "action": {"type": "git", "target": "pull"}, "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"strategy": "ff-only", "remote": "origin"}, "bridge_completed": true
     },
     {
-      "task_id": "aibridge-owner-request-verify-039a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aibridge-owner-request-mailbox",
-        "milestone_id": "owner-request-preemption",
-        "result": "FAIL",
-        "classification": "verification_test_runner_mismatch",
-        "evidence": "py_compile passed for owner_request.py, __init__.py, and test_owner_request.py; imports of aibridge and aibridge.owner_request passed. The verification route then invoked python -m unittest tests.test_owner_request, but the regression file was authored in pytest function style, so unittest returned exit 5 with Ran 0 tests / NO TESTS RAN. Runtime restart remains blocked.",
-        "test_compat_fix_commit": "5e7bed6d4a786ecdfeec8fb55de1aa6de65a4c4f"
-      },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aibridge/owner_request.py", "aibridge/__init__.py", "tests/test_owner_request.py"], "imports": ["aibridge", "aibridge.owner_request"], "tests": ["tests.test_owner_request"], "timeout": 180},
-      "bridge_completed": true
+      "task_id": "aibridge-owner-request-verify-039a", "status": "pending", "architect_ack": true,
+      "metadata": {"goal_id": "aibridge-owner-request-mailbox", "milestone_id": "owner-request-preemption", "result": "FAIL", "classification": "verification_test_runner_mismatch", "evidence": "py_compile passed for owner_request.py, __init__.py, and test_owner_request.py; imports of aibridge and aibridge.owner_request passed. The verification route then invoked python -m unittest tests.test_owner_request, but the regression file was authored in pytest function style, so unittest returned exit 5 with Ran 0 tests / NO TESTS RAN. Runtime restart remains blocked.", "test_compat_fix_commit": "5e7bed6d4a786ecdfeec8fb55de1aa6de65a4c4f"},
+      "action": {"type": "verification", "target": "python"}, "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aibridge/owner_request.py", "aibridge/__init__.py", "tests/test_owner_request.py"], "imports": ["aibridge", "aibridge.owner_request"], "tests": ["tests.test_owner_request"], "timeout": 180}, "bridge_completed": true
     },
     {
-      "task_id": "aibridge-owner-request-verify-unittest-039c",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aibridge-owner-request-mailbox",
-        "milestone_id": "owner-request-preemption",
-        "result": "PASS",
-        "classification": "owner_request_deterministic_verification_passed",
-        "evidence": "Bridge verified AIBrigde at main commit 5e7bed6d4a786ecdfeec8fb55de1aa6de65a4c4f: py_compile passed for owner_request.py, __init__.py, and test_owner_request.py; imports of aibridge and aibridge.owner_request passed; python -m unittest tests.test_owner_request ran 4 tests and all passed.",
-        "test_compat_fix_commit": "5e7bed6d4a786ecdfeec8fb55de1aa6de65a4c4f"
-      },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aibridge/owner_request.py", "aibridge/__init__.py", "tests/test_owner_request.py"], "imports": ["aibridge", "aibridge.owner_request"], "tests": ["tests.test_owner_request"], "timeout": 180},
-      "bridge_completed": true
+      "task_id": "aibridge-owner-request-verify-unittest-039c", "status": "pending", "architect_ack": true,
+      "metadata": {"goal_id": "aibridge-owner-request-mailbox", "milestone_id": "owner-request-preemption", "result": "PASS", "classification": "owner_request_deterministic_verification_passed", "evidence": "Bridge verified AIBrigde at main commit 5e7bed6d4a786ecdfeec8fb55de1aa6de65a4c4f: py_compile passed for owner_request.py, __init__.py, and test_owner_request.py; imports of aibridge and aibridge.owner_request passed; python -m unittest tests.test_owner_request ran 4 tests and all passed.", "test_compat_fix_commit": "5e7bed6d4a786ecdfeec8fb55de1aa6de65a4c4f"},
+      "action": {"type": "verification", "target": "python"}, "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aibridge/owner_request.py", "aibridge/__init__.py", "tests/test_owner_request.py"], "imports": ["aibridge", "aibridge.owner_request"], "tests": ["tests.test_owner_request"], "timeout": 180}, "bridge_completed": true
     },
     {
-      "task_id": "aibridge-owner-request-restart-039b",
-      "status": "pending",
-      "architect_ack": false,
-      "metadata": {
-        "goal_id": "aibridge-owner-request-mailbox",
-        "milestone_id": "owner-request-preemption",
-        "purpose": "Reload the managed AIBrigde runtime only after owner-request deterministic verification passes.",
-        "depends_on": ["aibridge-owner-request-verify-unittest-039c"],
-        "acceptance": ["Request the normal managed Bridge restart barrier.", "Preserve worker queue state across restart.", "After restart, AIMayaTool worker must run from the updated AIBrigde platform code before ordinary queue work resumes."]
-      },
-      "action": {"type": "bridge", "target": "restart"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
-      "permissions": {"read": true, "edit": false, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {}
+      "task_id": "aibridge-owner-request-restart-039b", "status": "pending", "architect_ack": true,
+      "metadata": {"goal_id": "aibridge-owner-request-mailbox", "milestone_id": "owner-request-preemption", "result": "PASS", "classification": "owner_request_runtime_restart_requested", "evidence": "Bridge reported restart_requested=true after the deterministic owner-request verification gate passed. The managed restart barrier is accepted and queue state remains dependency-gated before the Maya retry."},
+      "action": {"type": "bridge", "target": "restart"}, "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"}, "permissions": {"read": true, "edit": false, "run_tests": false, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {}, "bridge_completed": true
     },
     {
-      "task_id": "aimayatool-goal003-proxy-skin-clipboard-compat-maya-smoke-038n",
-      "status": "pending",
-      "architect_ack": false,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-advanced-tools",
-        "purpose": "Retry explicit proxy clipboard validation on Maya 2024 using the compatibility path when selectedComponents is unavailable.",
-        "depends_on": ["aimayatool-goal003-proxy-skin-clipboard-compat-sync-038m", "aibridge-owner-request-restart-039b"],
-        "retry_of": "aimayatool-goal003-proxy-skin-clipboard-maya-smoke-038l",
-        "implementation_commit": "a231959c09dba4ea149f1cbe010bc9d24f0cc1bf",
-        "smoke_commit": "3610c67f00d6e3156ad50bf8021717690398a6ad",
-        "acceptance": ["Run in a fresh unsaved Maya 2024 scene and do not save the user scene.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_CLIPBOARD_SMOKE_OK for PASS.", "Accept either native selectedComponents transfer on supported builds or legacy:closestSelectedVertex compatibility mode on Maya 2024.0.", "Validate whole-mesh transfer remains normalized with exact influence identity.", "Validate component paste changes only requested target vertices and preserves unrelated target vertices.", "Validate the caller's selection is restored.", "If PASS, continue immediately to closest-face matching as a shared geometry primitive plus Skinning adapter."]
-      },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke", "callable": "run_proxy_skin_clipboard_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]}
+      "task_id": "aimayatool-goal003-proxy-skin-clipboard-compat-maya-smoke-038n", "status": "pending", "architect_ack": false,
+      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-advanced-tools", "purpose": "Retry explicit proxy clipboard validation on Maya 2024 using the compatibility path when selectedComponents is unavailable.", "depends_on": ["aimayatool-goal003-proxy-skin-clipboard-compat-sync-038m", "aibridge-owner-request-restart-039b"], "retry_of": "aimayatool-goal003-proxy-skin-clipboard-maya-smoke-038l", "implementation_commit": "a231959c09dba4ea149f1cbe010bc9d24f0cc1bf", "smoke_commit": "3610c67f00d6e3156ad50bf8021717690398a6ad", "acceptance": ["Run in a fresh unsaved Maya 2024 scene and do not save the user scene.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_CLIPBOARD_SMOKE_OK for PASS.", "Accept either native selectedComponents transfer on supported builds or legacy:closestSelectedVertex compatibility mode on Maya 2024.0.", "Validate whole-mesh transfer remains normalized with exact influence identity.", "Validate component paste changes only requested target vertices and preserves unrelated target vertices.", "Validate the caller's selection is restored.", "If PASS, continue immediately to closest-face matching as a shared geometry primitive plus Skinning adapter."]},
+      "action": {"type": "maya", "target": "ui_smoke"}, "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke", "callable": "run_proxy_skin_clipboard_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]}
     }
   ]
 }
