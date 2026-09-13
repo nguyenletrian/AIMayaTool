@@ -1,115 +1,32 @@
 {
   "version": 1,
   "history_checkpoint_blob": "802273f83c71e04ec51c129ca4af5e2524ecc179",
-  "force_restart": {
-    "enabled": true,
-    "request_id": "aimayatool-load-aibridge-36c560ab-036c",
-    "reason": "reload_windows_managed_maya_cleanup_fix_before_retry"
-  },
+  "force_restart": {"enabled": true, "request_id": "aimayatool-load-aibridge-36c560ab-036c", "reason": "reload_windows_managed_maya_cleanup_fix_before_retry"},
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-proxy-skin-clipboard-compat-maya-smoke-038n",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-advanced-tools",
-        "result": "FAIL",
-        "classification": "owner_request_worktree_precondition_conflict",
-        "evidence": "Maya smoke did not run. Its git_pull precondition aborted because runtime had auto-created untracked D:/AIMayaTool/ownerRequest.py while repository main temporarily tracked the same path. Git correctly refused to overwrite the untracked file.",
-        "retry_of": "aimayatool-goal003-proxy-skin-clipboard-maya-smoke-038l",
-        "implementation_commit": "a231959c09dba4ea149f1cbe010bc9d24f0cc1bf",
-        "smoke_commit": "3610c67f00d6e3156ad50bf8021717690398a6ad",
-        "owner_request_sidecar_fix_commit": "bb5f218ca60561023d59112e6369f61aa5709362",
-        "aimayatool_placeholder_removal_commit": "2c32c4487ec58afd9af2d51e751b78cbd3b2cd26",
-        "archived_history": {
-          "compat_sync_038m": "PASS",
-          "owner_request_verify_039a": "FAIL:test_runner_mismatch",
-          "owner_request_verify_039c": "PASS",
-          "owner_request_restart_039b": "PASS"
-        }
-      },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke", "callable": "run_proxy_skin_clipboard_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
-      "bridge_completed": true
+      "task_id": "aimayatool-goal003-proxy-skin-clipboard-compat-maya-smoke-038n", "status": "pending", "architect_ack": true,
+      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-advanced-tools", "result": "FAIL", "classification": "owner_request_worktree_precondition_conflict", "evidence": "Maya smoke did not run because git_pull refused to overwrite the runtime-created untracked project-root ownerRequest.py while main temporarily tracked that path.", "retry_of": "aimayatool-goal003-proxy-skin-clipboard-maya-smoke-038l", "implementation_commit": "a231959c09dba4ea149f1cbe010bc9d24f0cc1bf", "smoke_commit": "3610c67f00d6e3156ad50bf8021717690398a6ad", "owner_request_sidecar_fix_commit": "bb5f218ca60561023d59112e6369f61aa5709362", "aimayatool_placeholder_removal_commit": "2c32c4487ec58afd9af2d51e751b78cbd3b2cd26", "archived_history": {"compat_sync_038m": "PASS", "owner_request_verify_039a": "FAIL:test_runner_mismatch", "owner_request_verify_039c": "PASS", "owner_request_restart_039b": "PASS"}},
+      "action": {"type": "maya", "target": "ui_smoke"}, "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke", "callable": "run_proxy_skin_clipboard_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90}, "bridge_completed": true
     },
     {
-      "task_id": "aibridge-owner-request-sidecar-verify-039d",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aibridge-owner-request-mailbox",
-        "milestone_id": "owner-request-sidecar-recovery",
-        "result": "PASS",
-        "classification": "owner_request_sidecar_verification_passed",
-        "evidence": "AIBrigde fast-forwarded from 5e7bed6d4a786ecdfeec8fb55de1aa6de65a4c4f to 2a049041ff8c902b49e8cf63f48b945880171a4b. py_compile passed, imports of aibridge and aibridge.owner_request passed, and python -m unittest tests.test_owner_request ran 5 tests with all PASS, including the sidecar mailbox path regression.",
-        "implementation_commit": "bb5f218ca60561023d59112e6369f61aa5709362",
-        "test_commit": "2a049041ff8c902b49e8cf63f48b945880171a4b",
-        "platform_placeholder_removal_commit": "4e881720c881bbd52236ae6794e567a87e1570a4"
-      },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aibridge/owner_request.py", "aibridge/__init__.py", "tests/test_owner_request.py"], "imports": ["aibridge", "aibridge.owner_request"], "tests": ["tests.test_owner_request"], "timeout": 180},
-      "bridge_completed": true
+      "task_id": "aibridge-owner-request-sidecar-verify-039d", "status": "pending", "architect_ack": true,
+      "metadata": {"goal_id": "aibridge-owner-request-mailbox", "milestone_id": "owner-request-sidecar-recovery", "result": "PASS", "classification": "owner_request_sidecar_verification_passed", "evidence": "AIBrigde fast-forwarded to 2a049041ff8c902b49e8cf63f48b945880171a4b; compile/import passed and 5/5 owner-request unittest cases passed, including sidecar path regression.", "implementation_commit": "bb5f218ca60561023d59112e6369f61aa5709362", "test_commit": "2a049041ff8c902b49e8cf63f48b945880171a4b", "platform_placeholder_removal_commit": "4e881720c881bbd52236ae6794e567a87e1570a4"},
+      "action": {"type": "verification", "target": "python"}, "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"files": ["aibridge/owner_request.py", "aibridge/__init__.py", "tests/test_owner_request.py"], "imports": ["aibridge", "aibridge.owner_request"], "tests": ["tests.test_owner_request"], "timeout": 180}, "bridge_completed": true
     },
     {
-      "task_id": "aibridge-owner-request-sidecar-restart-039e",
-      "status": "pending",
-      "architect_ack": false,
-      "metadata": {
-        "goal_id": "aibridge-owner-request-mailbox",
-        "milestone_id": "owner-request-sidecar-recovery",
-        "purpose": "Reload managed AIBrigde after sidecar mailbox verification.",
-        "depends_on": ["aibridge-owner-request-sidecar-verify-039d"]
-      },
-      "action": {"type": "bridge", "target": "restart"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
-      "permissions": {"read": true, "edit": false, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {}
+      "task_id": "aibridge-owner-request-sidecar-restart-039e", "status": "pending", "architect_ack": true,
+      "metadata": {"goal_id": "aibridge-owner-request-mailbox", "milestone_id": "owner-request-sidecar-recovery", "result": "PASS", "classification": "owner_request_sidecar_runtime_restart_requested", "evidence": "Bridge returned restart_requested=true after sidecar mailbox verification passed. Managed runtime restart is accepted; recovery sync remains dependency-gated after this restart barrier.", "depends_on": ["aibridge-owner-request-sidecar-verify-039d"]},
+      "action": {"type": "bridge", "target": "restart"}, "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"}, "permissions": {"read": true, "edit": false, "run_tests": false, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {}, "bridge_completed": true
     },
     {
-      "task_id": "aimayatool-owner-request-conflict-recovery-sync-039f",
-      "status": "pending",
-      "architect_ack": false,
-      "metadata": {
-        "goal_id": "aibridge-owner-request-mailbox",
-        "milestone_id": "owner-request-sidecar-recovery",
-        "purpose": "Fast-forward AIMayaTool after the tracked ownerRequest.py placeholder was removed from main.",
-        "depends_on": ["aibridge-owner-request-sidecar-restart-039e"],
-        "placeholder_removal_commit": "2c32c4487ec58afd9af2d51e751b78cbd3b2cd26",
-        "acceptance": ["Fast-forward D:/AIMayaTool main without merge commits.", "The stale untracked project-root ownerRequest.py must no longer block pull because main no longer tracks that path."]
-      },
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"}
+      "task_id": "aimayatool-owner-request-conflict-recovery-sync-039f", "status": "pending", "architect_ack": false,
+      "metadata": {"goal_id": "aibridge-owner-request-mailbox", "milestone_id": "owner-request-sidecar-recovery", "purpose": "Fast-forward AIMayaTool after the tracked ownerRequest.py placeholder was removed from main.", "depends_on": ["aibridge-owner-request-sidecar-restart-039e"], "placeholder_removal_commit": "2c32c4487ec58afd9af2d51e751b78cbd3b2cd26", "acceptance": ["Fast-forward D:/AIMayaTool main without merge commits.", "The stale untracked project-root ownerRequest.py must no longer block pull because main no longer tracks that path."]},
+      "action": {"type": "git", "target": "pull"}, "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"strategy": "ff-only", "remote": "origin"}
     },
     {
-      "task_id": "aimayatool-goal003-proxy-skin-clipboard-compat-maya-smoke-038o",
-      "status": "pending",
-      "architect_ack": false,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-advanced-tools",
-        "purpose": "Retry Maya 2024 proxy clipboard validation after ownerRequest worktree conflict recovery.",
-        "depends_on": ["aimayatool-owner-request-conflict-recovery-sync-039f"],
-        "retry_of": "aimayatool-goal003-proxy-skin-clipboard-compat-maya-smoke-038n",
-        "implementation_commit": "a231959c09dba4ea149f1cbe010bc9d24f0cc1bf",
-        "smoke_commit": "3610c67f00d6e3156ad50bf8021717690398a6ad",
-        "acceptance": ["Run in a fresh unsaved Maya 2024 scene.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_CLIPBOARD_SMOKE_OK.", "Accept native selectedComponents or legacy:closestSelectedVertex.", "Validate whole-mesh normalization and exact influence identity.", "Validate component paste preserves unrelated target vertices and caller selection.", "If PASS, continue immediately to closest-face matching as a shared geometry primitive plus Skinning adapter."]
-      },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke", "callable": "run_proxy_skin_clipboard_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90}
+      "task_id": "aimayatool-goal003-proxy-skin-clipboard-compat-maya-smoke-038o", "status": "pending", "architect_ack": false,
+      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-advanced-tools", "purpose": "Retry Maya 2024 proxy clipboard validation after ownerRequest worktree conflict recovery.", "depends_on": ["aimayatool-owner-request-conflict-recovery-sync-039f"], "retry_of": "aimayatool-goal003-proxy-skin-clipboard-compat-maya-smoke-038n", "implementation_commit": "a231959c09dba4ea149f1cbe010bc9d24f0cc1bf", "smoke_commit": "3610c67f00d6e3156ad50bf8021717690398a6ad", "acceptance": ["Run in a fresh unsaved Maya 2024 scene.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_CLIPBOARD_SMOKE_OK.", "Accept native selectedComponents or legacy:closestSelectedVertex.", "Validate whole-mesh normalization and exact influence identity.", "Validate component paste preserves unrelated target vertices and caller selection.", "If PASS, continue immediately to closest-face matching as a shared geometry primitive plus Skinning adapter."]},
+      "action": {"type": "maya", "target": "ui_smoke"}, "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke", "callable": "run_proxy_skin_clipboard_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90}
     }
   ]
 }
