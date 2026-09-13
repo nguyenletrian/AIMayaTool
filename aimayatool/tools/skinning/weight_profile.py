@@ -2,9 +2,9 @@ from __future__ import absolute_import
 
 
 DEFAULT_PROFILE = "AIMayaToolWeightProfile"
-_TANGENT_TYPES = {
-    "auto", "autocustom", "autoease", "automix", "clamped", "fast", "fixed",
-    "flat", "linear", "plateau", "slow", "spline", "step", "stepnext", "unstep",
+_TANGENT_ENUMS = {
+    "flat": "kTangentFlat",
+    "linear": "kTangentLinear",
 }
 
 
@@ -13,25 +13,35 @@ def _cmds():
     return cmds
 
 
-def _mel():
-    import maya.mel as mel
-    return mel
-
-
-def _mel_quote(value):
-    return str(value).replace("\\", "\\\\").replace('"', '\\"')
+def _maya_api():
+    import maya.api.OpenMaya as om
+    import maya.api.OpenMayaAnim as oma
+    return om, oma
 
 
 def _set_tangent(name, time, flag, tangent):
     tangent = str(tangent)
-    if tangent not in _TANGENT_TYPES:
+    enum_name = _TANGENT_ENUMS.get(tangent)
+    if enum_name is None:
         raise ValueError("Unsupported tangent type: {0}".format(tangent))
     if flag not in ("itt", "ott"):
         raise ValueError("Unsupported tangent flag: {0}".format(flag))
-    command = 'keyTangent -e -time {0} -{1} "{2}" "{3}";'.format(
-        float(time), flag, _mel_quote(tangent), _mel_quote(name)
-    )
-    _mel().eval(command)
+
+    cmds = _cmds()
+    keys = cmds.keyframe(name, query=True, timeChange=True) or []
+    index = next((i for i, key in enumerate(keys) if abs(float(key) - float(time)) <= 1e-8), None)
+    if index is None:
+        raise ValueError("No key found at {0} on {1}".format(time, name))
+
+    om, oma = _maya_api()
+    selection = om.MSelectionList()
+    selection.add(name)
+    curve = oma.MFnAnimCurve(selection.getDependNode(0))
+    tangent_type = getattr(oma.MFnAnimCurve, enum_name)
+    if flag == "itt":
+        curve.setInTangentType(index, tangent_type)
+    else:
+        curve.setOutTangentType(index, tangent_type)
 
 
 def ensure_profile(name=DEFAULT_PROFILE):
