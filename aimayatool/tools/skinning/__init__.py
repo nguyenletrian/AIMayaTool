@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import maya.cmds as cmds
 
 from . import copy_weights
+from . import influence_transfer
 from . import influences
 from . import max_influences
 from . import mirror_skin
@@ -37,6 +38,7 @@ def build_ui():
     cmds.separator(height=8, style='none')
     cmds.text(label='Skin transfer', align='left')
     cmds.button(label='Copy Skin Weights (Source -> Targets)', command=lambda *_: _run('Copied skin', copy_weights.copy_from_selection))
+    cmds.button(label='Transfer Influence Weight (Source -> Target)', command=lambda *_: _run('Transferred', influence_transfer.transfer_from_selection))
     cmds.separator(height=8, style='none')
     cmds.text(label='Mirror skin across X / YZ plane', align='left')
     cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
