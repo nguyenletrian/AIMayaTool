@@ -29,16 +29,8 @@ def _validate_influences(cmds, skin_cluster, influences):
     return influences
 
 
-def apply_influence_ratios(skin_cluster, components, influences, ratios, normalize=True):
-    """Redistribute the current combined weight of explicit influences by ratio."""
+def _apply_influence_ratios_legacy(skin_cluster, components, influences, normalized, normalize=True):
     cmds = _cmds()
-    components = list(components or [])
-    if not components:
-        return []
-    influences = _validate_influences(cmds, skin_cluster, influences)
-    if len(influences) != len(ratios):
-        raise ValueError("Influence and ratio counts must match")
-    normalized = _normalized_ratios(ratios)
     changed = []
     for component in components:
         current = [cmds.skinPercent(skin_cluster, component, query=True, transform=influence) for influence in influences]
@@ -49,6 +41,26 @@ def apply_influence_ratios(skin_cluster, components, influences, ratios, normali
         cmds.skinPercent(skin_cluster, component, transformValue=values, normalize=normalize)
         changed.append(component)
     return changed
+
+
+def apply_influence_ratios(skin_cluster, components, influences, ratios, normalize=True):
+    """Redistribute explicit influence weight by ratio, batching mesh vertices when possible."""
+    cmds = _cmds()
+    components = list(components or [])
+    if not components:
+        return []
+    influences = _validate_influences(cmds, skin_cluster, influences)
+    if len(influences) != len(ratios):
+        raise ValueError("Influence and ratio counts must match")
+    normalized = _normalized_ratios(ratios)
+    try:
+        return _apply_influence_ratios_batched_validated(
+            skin_cluster, components, influences, normalized, normalize=normalize
+        )
+    except (TypeError, ValueError):
+        return _apply_influence_ratios_legacy(
+            skin_cluster, components, influences, normalized, normalize=normalize
+        )
 
 
 def _batched_vertex_component(components):
@@ -97,22 +109,12 @@ def _influence_index(skin_fn, influence):
     return skin_fn.indexForInfluenceObject(selection.getDagPath(0))
 
 
-def apply_influence_ratios_batched(skin_cluster, components, influences, ratios):
-    """API 2.0 batch variant preserving the selected influences' combined weight."""
+def _apply_influence_ratios_batched_validated(skin_cluster, components, influences, normalized, normalize=True):
     import maya.api.OpenMaya as om
 
-    cmds = _cmds()
-    components = list(components or [])
-    if not components:
-        return []
-    influences = _validate_influences(cmds, skin_cluster, influences)
-    if len(influences) != len(ratios):
-        raise ValueError("Influence and ratio counts must match")
-    normalized = _normalized_ratios(ratios)
     dag_path, component_object, flat = _batched_vertex_component(components)
     if not flat:
         return []
-
     skin_fn = _skin_fn(skin_cluster)
     influence_indices = [_influence_index(skin_fn, influence) for influence in influences]
     per_influence = [skin_fn.getWeights(dag_path, component_object, index) for index in influence_indices]
@@ -132,10 +134,25 @@ def apply_influence_ratios_batched(skin_cluster, components, influences, ratios)
         component_object,
         om.MIntArray(influence_indices),
         om.MDoubleArray(values),
-        normalize=False,
+        normalize=normalize,
         returnOldWeights=False,
     )
     return changed
+
+
+def apply_influence_ratios_batched(skin_cluster, components, influences, ratios, normalize=True):
+    """API 2.0 batch variant preserving the selected influences' combined weight."""
+    cmds = _cmds()
+    components = list(components or [])
+    if not components:
+        return []
+    influences = _validate_influences(cmds, skin_cluster, influences)
+    if len(influences) != len(ratios):
+        raise ValueError("Influence and ratio counts must match")
+    normalized = _normalized_ratios(ratios)
+    return _apply_influence_ratios_batched_validated(
+        skin_cluster, components, influences, normalized, normalize=normalize
+    )
 
 
 def copy_influence_ratios(skin_cluster, source_component, target_components, influences, normalize=True):
