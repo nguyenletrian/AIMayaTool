@@ -106,6 +106,14 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - UI regression returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`; both live checks reused the managed Maya session with no scene save and no Maya quit.
 - Created immutable stable checkpoint `backup/2026-09-13-0900-SceneBuildActions-eb1502d` pointing exactly to the proven AIMayaTool commit.
 
+## 2026-09-13 — Scene legacy-adapter assessment closed
+
+- Inspected the MayaScriptNew main tree before adding any compatibility code. `Libs/NLTA_Scene.py` is empty, `Libs/NLTA_Json.py` only prints a string, and targeted searches found no legacy ScenePattern/JSON load-save schema that warrants preservation.
+- Accepted the explicit decision to add no legacy Scene JSON adapter until real source data or an owner workflow requires one; the versioned AIMayaTool `ScenePattern` format remains canonical.
+- Post-assessment deterministic regression passed at proven AIMayaTool main `fc048d0a73c73b8d54ca1fd777428840511aeef7`: the Scene stack compiled, all five Python-safe imports passed, and focused Scene tests passed 8/8.
+- Managed Maya UI regression reused the existing Maya 2024 session and returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow` with a fresh unsaved scene, no save, and no Maya quit.
+- Created immutable stable checkpoint `backup/2026-09-13-0900-SceneLegacyAssessment-fc048d0` pointing exactly to the proven main commit.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
