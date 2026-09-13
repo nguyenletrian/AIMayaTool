@@ -23,10 +23,11 @@ def _uuids(nodes):
 def run_proxy_skin_smoke():
     cmds.file(new=True, force=True)
     mesh = cmds.polyPlane(name='AIMayaToolProxySource', subdivisionsX=2, subdivisionsY=1)[0]
+    cmds.select(clear=True)
     joint_a = cmds.joint(name='AIMayaToolProxyJointA', position=(-1, 0, 0))
     cmds.select(clear=True)
     joint_b = cmds.joint(name='AIMayaToolProxyJointB', position=(1, 0, 0))
-    source_skin = cmds.skinCluster([joint_a, joint_b], mesh, toSelectedBones=True, normalizeWeights=1, name='AIMayaToolProxySourceSkin')[0]
+    source_skin = cmds.skinCluster([joint_a, joint_b], mesh, normalizeWeights=1, name='AIMayaToolProxySourceSkin')[0]
     cmds.skinPercent(source_skin, mesh + '.vtx[0]', transformValue=[(joint_a, 1.0), (joint_b, 0.0)], normalize=True)
     cmds.skinPercent(source_skin, mesh + '.vtx[1]', transformValue=[(joint_a, 0.75), (joint_b, 0.25)], normalize=True)
     cmds.skinPercent(source_skin, mesh + '.vtx[2]', transformValue=[(joint_a, 0.25), (joint_b, 0.75)], normalize=True)
@@ -38,6 +39,8 @@ def run_proxy_skin_smoke():
         raise RuntimeError('proxy mesh was not created')
     if cmds.polyEvaluate(proxy, face=True) != 1:
         raise RuntimeError('proxy face extraction count mismatch')
+    if [child for child in (cmds.listRelatives(proxy, children=True, fullPath=True) or []) if cmds.nodeType(child) != 'mesh']:
+        raise RuntimeError('proxy copied non-mesh source child hierarchy')
     target_skin = result['skin_cluster']
     if not target_skin or skin.find_skin_cluster(proxy) != target_skin:
         raise RuntimeError('proxy skinCluster was not created')
