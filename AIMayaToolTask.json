@@ -158,6 +158,118 @@
         "startup_timeout": 120,
         "operation_timeout": 90
       }
+    },
+    {
+      "task_id": "aimayatool-goal003-skin-io-existing-verify-044a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "purpose": "Deterministically verify the strict existing-skin import parity implementation before Maya execution.",
+        "implementation_commits": [
+          "e3d90daad0c6820ebac4d0bc7f770a1104b66228",
+          "9b40e709e28aa7aec7be26e9ea753b9c5d9a7140"
+        ],
+        "acceptance": [
+          "Fast-forward D:/AIMayaTool main before verification.",
+          "py_compile must pass for skin_io.py and skin_io_parity_smoke.py.",
+          "Do not launch Maya in this task.",
+          "Return the exact synced main commit and verification evidence."
+        ]
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/skin_io.py",
+          "aimayatool/tools/skinning/skin_io_parity_smoke.py"
+        ],
+        "imports": [],
+        "tests": [],
+        "timeout": 180
+      }
+    },
+    {
+      "task_id": "aimayatool-goal003-skin-io-existing-maya-smoke-044b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "purpose": "Validate legacy Import Skin Exist parity plus existing folder/quick skin IO behavior in Maya 2024.",
+        "depends_on": [
+          "aimayatool-goal003-skin-io-existing-verify-044a"
+        ],
+        "acceptance": [
+          "Run in a fresh unsaved Maya 2024 scene.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIN_IO_PARITY_SMOKE_OK for PASS.",
+          "Prove import_existing_skin preserves the existing skinCluster identity and restores exported weights.",
+          "Prove strict existing import raises instead of creating a skinCluster when the mesh is unskinned.",
+          "Prove normal import can still recreate a missing skinCluster.",
+          "Prove batch strict-existing import and quick-folder strict-existing import succeed on valid existing skin.",
+          "Do not save or modify a user scene."
+        ]
+      },
+      "action": {
+        "type": "maya",
+        "target": "ui_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.skin_io_parity_smoke",
+        "callable": "run_skin_io_parity_smoke",
+        "expected_window": "",
+        "timeout": 120,
+        "startup_timeout": 120,
+        "operation_timeout": 120
+      }
     }
   ]
 }
