@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "history_checkpoint_blob": "6ba8e37ba9e51c0705875320d1a43f99572ee387",
+  "history_checkpoint_blob": "5ed3032c8f44931a8eaa04e828e9c9d73a860215",
   "tasks": [
     {
       "task_id": "aimayatool-scene-build-actions-ui-regression-014c",
@@ -40,7 +40,7 @@
         "purpose": "Assess whether legacy Scene JSON compatibility adapters are actually required before adding migration code.",
         "result": "PASS_NO_ADAPTER_REQUIRED",
         "decision": "Do not add a legacy Scene JSON adapter at this stage.",
-        "evidence": "Architect inspected the MayaScriptNew main tree and targeted JSON/Scene sources. Libs/NLTA_Scene.py is an empty blob, Libs/NLTA_Json.py contains only a print statement, and targeted repository searches found no ScenePattern or JSON load/dump workflow that defines a useful legacy schema to preserve. Current versioned ScenePattern serialization remains the canonical format.",
+        "evidence": "MayaScriptNew main contains no useful legacy Scene JSON schema: Libs/NLTA_Scene.py is empty, Libs/NLTA_Json.py only prints a string, and targeted searches found no ScenePattern/JSON load-save workflow to preserve.",
         "source_commit": "5e30a1dd1c1072952a86a183560e57074aa16e07"
       },
       "action": {"type": "verification", "target": "python"},
@@ -58,39 +58,38 @@
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "scene-legacy-adapters-assessment",
         "depends_on": "aimayatool-scene-legacy-adapters-assessment-015a",
-        "purpose": "Verify the accepted ScenePattern/build/display-layer stack remains deterministic after deciding not to add unsupported legacy adapters.",
+        "purpose": "Verify the accepted Scene stack remains deterministic after deciding not to add unsupported legacy adapters.",
         "result": "PASS",
         "proven_main_commit": "fc048d0a73c73b8d54ca1fd777428840511aeef7",
-        "evidence": "ff-only pull advanced D:/AIMayaTool from eb1502dc41ff77b7ff03c92b4a096ad94bc30dde to fc048d0a73c73b8d54ca1fd777428840511aeef7. py_compile passed for the current Scene pattern, operations, display-layer, build-action modules and focused tests; all 5 Python-safe Scene imports passed; focused unittest ran 8 tests in 0.004s and returned OK."
+        "evidence": "The current Scene stack compiled, all five Python-safe Scene imports passed, and focused Scene tests passed 8/8."
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/display_layers.py", "aimayatool/tools/scene/build_actions.py", "aimayatool/tools/scene/__init__.py", "tests/test_scene_pattern_operations.py", "tests/test_scene_display_layers.py", "tests/test_scene_build_actions.py"],
-        "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.scene.display_layers", "aimayatool.tools.scene.build_actions"],
-        "tests": ["tests.test_scene_pattern_operations", "tests.test_scene_display_layers", "tests.test_scene_build_actions"],
-        "timeout": 180
-      },
+      "payload": {"timeout": 180},
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-scene-post-assessment-ui-regression-015c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "scene-legacy-adapters-assessment",
         "depends_on": "aimayatool-scene-post-assessment-deterministic-015b",
-        "purpose": "Final managed-Maya UI regression for the Scene foundation after the no-adapter decision."
+        "purpose": "Final managed-Maya UI regression for the Scene foundation after the no-adapter decision.",
+        "result": "PASS",
+        "proven_main_commit": "fc048d0a73c73b8d54ca1fd777428840511aeef7",
+        "stable_checkpoint": "backup/2026-09-13-0900-SceneLegacyAssessment-fc048d0",
+        "evidence": "Managed Maya 2024 reused the existing session on 127.0.0.1:7001, forced a fresh scene, did not save or quit Maya, and bootstrap.install_and_launch returned AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "bootstrap", "callable": "install_and_launch", "expected_window": "AIMayaToolWindow", "live_port": 7001, "timeout": 180}
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "bootstrap", "callable": "install_and_launch", "expected_window": "AIMayaToolWindow", "live_port": 7001, "timeout": 180},
+      "bridge_completed": true
     }
   ]
 }
