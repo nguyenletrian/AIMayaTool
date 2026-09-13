@@ -90,21 +90,25 @@
     {
       "task_id": "aimayatool-goal004-skin-io-import-undo-integration-verify-063a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-undo-errors",
         "purpose": "Verify Skin IO multi-mesh import now uses one undo boundary while export remains a non-scene file operation.",
         "depends_on": ["aimayatool-goal004-copy-skin-undo-integration-managed-live-062b"],
         "implementation_commits": ["3bc9a244e9c7f333a4859715cc2b522845387fb8", "e15facced16da4b55d8eb051a987ffbb5982530c"],
-        "acceptance": ["Fast-forward main.", "py_compile skin_io.py and skin_io_undo_smoke.py.", "Import aimayatool.tools.skinning successfully.", "Do not invoke Codex."],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_io_import_undo_python_verification_pass",
+        "proven_main_commit": "3269c51bb71e7c00aa1f0fe26959a2f2ce6ff604",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 5426990e8d04a0720c880448b19c553af127ac46 to 3269c51bb71e7c00aa1f0fe26959a2f2ce6ff604; py_compile passed with exit_code=0 for skin_io.py and skin_io_undo_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skin_io.py", "aimayatool/tools/skinning/skin_io_undo_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skin_io.py", "aimayatool/tools/skinning/skin_io_undo_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal004-skin-io-import-undo-integration-managed-live-063b",
