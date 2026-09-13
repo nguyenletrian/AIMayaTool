@@ -3,75 +3,6 @@
   "history_checkpoint_blob": "eb31c39369ac27a8878789ae6bae130fcb07beb3",
   "tasks": [
     {
-      "task_id": "aimayatool-skirt-parent-smoothing-plan-deterministic-032a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-smoothing-plan",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-transfer-maya-smoke-031b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "29fa1ac31b1506e9eab57acf014a612e13cb7c82"
-        },
-        "purpose": "Verify a non-mutating adjacent-joint smoothing propagation plan that converts each skirt-parent span into an explicit source/target influence pair, active target joint, root-loop vertices, and perpendicular strip map before any gradient or ratio mutation is applied.",
-        "acceptance": [
-          "Fast-forward main and include implementation commit 2680e9d33573a4c16790049fc9ba7ea3176a38e8 or later.",
-          "Compile skirt_parent_smoothing.py and tests/test_skinning_skirt_parent_smoothing.py.",
-          "Import aimayatool.tools.skinning.skirt_parent_smoothing outside Maya.",
-          "Run tests.test_skinning_skirt_parent_smoothing and require all 4 tests to pass, covering span mapping, closed-loop operation preservation, empty spans, and validation failures."
-        ],
-        "result": "PASS",
-        "proven_main_commit": "d7baffebd3471ba7982cbb672d3b1c33c8e9a549",
-        "evidence": "After ff-only sync from 29fa1ac31b1506e9eab57acf014a612e13cb7c82 to d7baffebd3471ba7982cbb672d3b1c33c8e9a549, py_compile passed for skirt_parent_smoothing.py and its focused test; non-Maya import passed; tests.test_skinning_skirt_parent_smoothing passed 4/4."
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/skirt_parent_smoothing.py",
-          "tests/test_skinning_skirt_parent_smoothing.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning.skirt_parent_smoothing"
-        ],
-        "tests": [
-          "tests.test_skinning_skirt_parent_smoothing"
-        ],
-        "timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-skirt-parent-smoothing-apply-deterministic-033a",
       "status": "pending",
       "architect_ack": true,
@@ -96,48 +27,15 @@
         "proven_main_commit": "fe9d38dd869ad8d9e7f78b8a6b9d89047bc70736",
         "evidence": "After ff-only sync from d7baffebd3471ba7982cbb672d3b1c33c8e9a549 to fe9d38dd869ad8d9e7f78b8a6b9d89047bc70736, py_compile passed for skirt_parent_smoothing_apply.py, gradient_weights.py, ratio_weights.py, and the focused test; non-Maya import passed; tests.test_skinning_skirt_parent_smoothing_apply passed 4/4."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type":"verification","target":"python"},
+      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
+      "permissions": {"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},
+      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/skirt_parent_smoothing_apply.py",
-          "aimayatool/tools/skinning/gradient_weights.py",
-          "aimayatool/tools/skinning/ratio_weights.py",
-          "tests/test_skinning_skirt_parent_smoothing_apply.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning.skirt_parent_smoothing_apply"
-        ],
-        "tests": [
-          "tests.test_skinning_skirt_parent_smoothing_apply"
-        ],
+        "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],
+        "files": ["aimayatool/tools/skinning/skirt_parent_smoothing_apply.py","aimayatool/tools/skinning/gradient_weights.py","aimayatool/tools/skinning/ratio_weights.py","tests/test_skinning_skirt_parent_smoothing_apply.py"],
+        "imports": ["aimayatool.tools.skinning.skirt_parent_smoothing_apply"],
+        "tests": ["tests.test_skinning_skirt_parent_smoothing_apply"],
         "timeout": 180
       },
       "bridge_completed": true
@@ -145,7 +43,7 @@
     {
       "task_id": "aimayatool-skirt-parent-smoothing-apply-maya-smoke-033b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-smoothing-apply",
@@ -162,29 +60,15 @@
           "architect_ack": true,
           "bridge_completed": true,
           "proven_main_commit": "fe9d38dd869ad8d9e7f78b8a6b9d89047bc70736"
-        }
+        },
+        "result": "PASS",
+        "proven_main_commit": "f5167c04eccc14ecba7c545e1599df20a18c221a",
+        "evidence": "Managed Maya 2024 reused the existing session on port 7001 after ff-only sync from fe9d38dd869ad8d9e7f78b8a6b9d89047bc70736 to f5167c04eccc14ecba7c545e1599df20a18c221a, forced a fresh unsaved scene, returned success=true with result AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_SMOOTHING_APPLY_SMOKE_OK (the required marker is present despite a duplicated wrapper prefix), did not save the scene, and left Maya running."
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type":"maya","target":"managed_live_smoke"},
+      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
+      "permissions": {"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},
+      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
       "payload": {
         "isolated_scene": true,
         "save_scene": false,
@@ -194,14 +78,42 @@
         "expected_window": "",
         "live_port": 7001,
         "timeout": 180,
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
+        "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}]
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-workflow-deterministic-034a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-skirt-parent-smoothing-apply-maya-smoke-033b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "f5167c04eccc14ecba7c545e1599df20a18c221a"
+        },
+        "purpose": "Verify the composed end-to-end SkirtParent executor sequences the accepted planner, parent-transfer, smoothing-plan, and smoothing-apply phases without hiding phase outputs or continuing after a failed mutation phase.",
+        "acceptance": [
+          "Fast-forward main and include workflow implementation commit bc9535e669270017380d500c826bf62a59823f5b or later.",
+          "Compile skirt_parent_workflow.py and tests/test_skinning_skirt_parent_workflow.py together with the composed phase modules.",
+          "Import aimayatool.tools.skinning.skirt_parent_workflow outside Maya.",
+          "Run tests.test_skinning_skirt_parent_workflow and require all 4 tests to pass, proving phase ordering, output preservation, normalize/option forwarding, validation, and stop-on-failure behavior."
         ]
+      },
+      "action": {"type":"verification","target":"python"},
+      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
+      "permissions": {"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},
+      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
+      "payload": {
+        "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],
+        "files": ["aimayatool/tools/skinning/skirt_parent_workflow.py","aimayatool/tools/skinning/skirt_parent.py","aimayatool/tools/skinning/skirt_parent_transfer.py","aimayatool/tools/skinning/skirt_parent_smoothing.py","aimayatool/tools/skinning/skirt_parent_smoothing_apply.py","tests/test_skinning_skirt_parent_workflow.py"],
+        "imports": ["aimayatool.tools.skinning.skirt_parent_workflow"],
+        "tests": ["tests.test_skinning_skirt_parent_workflow"],
+        "timeout": 180
       }
     }
   ]
