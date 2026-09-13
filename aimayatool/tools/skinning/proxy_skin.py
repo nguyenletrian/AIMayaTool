@@ -51,7 +51,12 @@ def bind_like_source(source_mesh, target_mesh):
         raise RuntimeError('Source skinCluster has no influences: %s' % source_skin)
     target_skin = skin.find_skin_cluster(target_mesh)
     if not target_skin:
-        target_skin = cmds.skinCluster(influences, target_mesh, toSelectedBones=True, normalizeWeights=1, name=target_mesh.split('|')[-1] + '_skinCluster')[0]
+        target_skin = cmds.skinCluster(
+            influences,
+            target_mesh,
+            normalizeWeights=1,
+            name=target_mesh.split('|')[-1] + '_skinCluster',
+        )[0]
     else:
         skin.add_influences(target_skin, influences, weight=0.0, lock_weights=False)
     return target_skin
