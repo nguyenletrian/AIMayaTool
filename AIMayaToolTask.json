@@ -8,225 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-paint-influence-managed-live-retry2-049g",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-weight-tools",
-        "result": "PASS",
-        "classification": "paint_influence_managed_live_hot_reload_pass",
-        "proven_main_commit": "8386f18c3e98fa51c0fa715f601a752e58600f34",
-        "evidence": "Managed Maya reused existing PID 10632 on port 7001, forced a fresh unsaved scene, hot-reloaded current paint_influence code, and returned a successful marker containing SKINNING_PAINT_INFLUENCE_SMOKE_OK; maya_quit=false.",
-        "managed_pid": 10632,
-        "managed_port": 7001,
-        "session": "existing",
-        "new_scene_forced": true,
-        "scene_saved": false,
-        "maya_quit": false,
-        "stable_backup": "backup/2026-09-13-1715-SkinningPaintInfluenceManagedLivePASS-8386f18",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.paint_influence_smoke",
-        "callable": "run_paint_influence_smoke",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-paint-influence-ui-managed-live-049c",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-ui-parity",
-        "depends_on": [
-          "aimayatool-goal003-paint-influence-managed-live-retry2-049g"
-        ],
-        "result": "INCONCLUSIVE",
-        "classification": "managed_live_stale_skinning_ui_module_cache",
-        "proven_main_commit": "3d6a5fdb7206ac81983b5d75957ba8812fb10dac",
-        "evidence": "Managed Maya reused existing PID 10632 and stayed healthy, while authoritative main contained all five paint-influence buttons. ui_parity_smoke retained the older aimayatool.tools.skinning module object in the long-lived process, so build_ui omitted the newly added controls.",
-        "missing_controls": [
-          "Switch Unlocked Joint",
-          "Unlock Child",
-          "Unlock Parent",
-          "Unlock Selected Influences",
-          "Unlock Top 2 Influences"
-        ],
-        "managed_pid": 10632,
-        "managed_port": 7001,
-        "maya_quit": false,
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.ui_parity_smoke",
-        "callable": "run_skinning_ui_parity_smoke",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-skinning-ui-hot-reload-verify-049h",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-ui-parity",
-        "purpose": "Verify the UI parity smoke reloads the current Skinning UI module before constructing controls in a persistent Maya session.",
-        "depends_on": [
-          "aimayatool-goal003-paint-influence-ui-managed-live-049c"
-        ],
-        "implementation_commit": "10c3b0cef1cbc30b2494745a60c268e3f1573b0a",
-        "result": "PASS",
-        "classification": "skinning_ui_hot_reload_python_verification_pass",
-        "proven_main_commit": "f66f58492f2bf73de0f415f2c790e515437cf0a3",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 3d6a5fdb7206ac81983b5d75957ba8812fb10dac to f66f58492f2bf73de0f415f2c790e515437cf0a3; py_compile passed with exit_code=0 for ui_parity_smoke.py; importing aimayatool.tools.skinning passed with exit_code=0.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "files": [
-          "aimayatool/tools/skinning/ui_parity_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-skinning-ui-managed-live-retry-049i",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-ui-parity",
-        "purpose": "Retry Skinning UI parity in the same managed Maya session after explicitly reloading the current Skinning UI module.",
-        "depends_on": [
-          "aimayatool-goal003-skinning-ui-hot-reload-verify-049h"
-        ],
-        "retry_of": "aimayatool-goal003-paint-influence-ui-managed-live-049c",
-        "result": "PASS",
-        "classification": "skinning_ui_managed_live_hot_reload_pass",
-        "proven_main_commit": "ef25c4a9a485c8f05115f95082f6355884397b4b",
-        "evidence": "Managed Maya 2024 reused existing PID 10632 on port 7001, forced a fresh unsaved scene, reloaded current aimayatool.tools.skinning before build_ui, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK; maya_quit=false.",
-        "managed_pid": 10632,
-        "managed_port": 7001,
-        "session": "existing",
-        "new_scene_forced": true,
-        "scene_saved": false,
-        "maya_quit": false,
-        "stable_backup": "backup/2026-09-13-SkinningUIParityManagedLivePASS-ef25c4a",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.ui_parity_smoke",
-        "callable": "run_skinning_ui_parity_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal003-residual-paint-verify-050a",
       "status": "pending",
       "architect_ack": true,
@@ -234,9 +15,12 @@
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
         "purpose": "Verify residual legacy Paint Skin parity for pick-value and add-sign switching plus UI exposure.",
-        "depends_on": [
-          "aimayatool-goal003-skinning-ui-managed-live-retry-049i"
-        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal003-skinning-ui-managed-live-retry-049i",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
         "implementation_commits": [
           "a2055411048f9590b013214e58413194e7cd2ee9",
           "e2f391f1a9438dd2bdd6d123bf03edec27a6d2a9",
@@ -375,7 +159,7 @@
     {
       "task_id": "aimayatool-goal003-residual-paint-ui-managed-live-050c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-ui-parity",
@@ -391,7 +175,18 @@
           "Return maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_residual_paint_ui_managed_live_pass",
+        "proven_main_commit": "5f07d8d0aa811b1f78c0c131be7a36cdbd703382",
+        "evidence": "Managed Maya 2024 reused existing PID 10632 on port 7001, forced a fresh unsaved scene, validated Skinning UI parity including Pick Paint Value and Switch Add Sign, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK; maya_quit=false.",
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "session": "existing",
+        "new_scene_forced": true,
+        "scene_saved": false,
+        "maya_quit": false,
+        "stable_backup": "backup/2026-09-13-1736-ResidualPaintUIManagedLivePASS-5f07d8d"
       },
       "action": {
         "type": "maya",
@@ -431,7 +226,8 @@
         "expected_window": "",
         "startup_timeout": 180,
         "operation_timeout": 180
-      }
+      },
+      "bridge_completed": true
     }
   ]
 }
