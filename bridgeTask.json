@@ -53,18 +53,15 @@
     {
       "task_id": "aimayatool-scene-post-assessment-deterministic-015b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "scene-legacy-adapters-assessment",
         "depends_on": "aimayatool-scene-legacy-adapters-assessment-015a",
         "purpose": "Verify the accepted ScenePattern/build/display-layer stack remains deterministic after deciding not to add unsupported legacy adapters.",
-        "acceptance": [
-          "Fast-forward AIMayaTool main.",
-          "Compile current Scene pattern, operations, display-layer, build-action modules and focused tests.",
-          "Import Python-safe Scene modules outside Maya.",
-          "Run all focused Scene deterministic tests and require PASS."
-        ]
+        "result": "PASS",
+        "proven_main_commit": "fc048d0a73c73b8d54ca1fd777428840511aeef7",
+        "evidence": "ff-only pull advanced D:/AIMayaTool from eb1502dc41ff77b7ff03c92b4a096ad94bc30dde to fc048d0a73c73b8d54ca1fd777428840511aeef7. py_compile passed for the current Scene pattern, operations, display-layer, build-action modules and focused tests; all 5 Python-safe Scene imports passed; focused unittest ran 8 tests in 0.004s and returned OK."
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -76,7 +73,8 @@
         "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.scene.display_layers", "aimayatool.tools.scene.build_actions"],
         "tests": ["tests.test_scene_pattern_operations", "tests.test_scene_display_layers", "tests.test_scene_build_actions"],
         "timeout": 180
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-scene-post-assessment-ui-regression-015c",
