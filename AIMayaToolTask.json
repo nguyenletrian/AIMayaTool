@@ -228,6 +228,196 @@
         "operation_timeout": 180
       },
       "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-influence-sync-cleanup-verify-051a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-core-parity",
+        "purpose": "Verify source-to-target missing-influence sync and unused-influence cleanup implementation plus UI exposure.",
+        "depends_on": [
+          "aimayatool-goal003-residual-paint-ui-managed-live-050c"
+        ],
+        "implementation_commits": [
+          "7a4dadc28fd85ba7ad0e1953f2bc9ddde0b987fa",
+          "17bc543570c74af5e975b98bd6a03c9c85a1ca04",
+          "a5b77f2619340464933f01fe893c08947f7e0326",
+          "fbc3b847892d9c69567950c91ee8d080051db94b"
+        ],
+        "acceptance": [
+          "Fast-forward D:/AIMayaTool main.",
+          "py_compile influences.py, influence_cleanup_smoke.py, __init__.py and ui_parity_smoke.py successfully.",
+          "Import aimayatool.tools.skinning outside Maya successfully.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/influences.py",
+          "aimayatool/tools/skinning/influence_cleanup_smoke.py",
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/skinning/ui_parity_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning"
+        ],
+        "tests": [],
+        "timeout": 240
+      }
+    },
+    {
+      "task_id": "aimayatool-goal003-influence-sync-cleanup-managed-live-051b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-core-parity",
+        "purpose": "Validate missing-influence sync and unused-influence cleanup against real Maya skinClusters.",
+        "depends_on": [
+          "aimayatool-goal003-influence-sync-cleanup-verify-051a"
+        ],
+        "acceptance": [
+          "Reuse healthy managed Maya 2024 session when available.",
+          "Force a fresh unsaved scene and do not save.",
+          "Run aimayatool.tools.skinning.influence_cleanup_smoke.run_influence_cleanup_smoke.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_CLEANUP_SMOKE_OK for PASS.",
+          "Return maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.influence_cleanup_smoke",
+        "callable": "run_influence_cleanup_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 180
+      }
+    },
+    {
+      "task_id": "aimayatool-goal003-influence-sync-cleanup-ui-managed-live-051c",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-ui-parity",
+        "purpose": "Validate Skinning UI parity after exposing influence sync and unused-influence cleanup.",
+        "depends_on": [
+          "aimayatool-goal003-influence-sync-cleanup-managed-live-051b"
+        ],
+        "acceptance": [
+          "Reuse healthy managed Maya 2024 session when available.",
+          "Force a fresh unsaved scene and do not save.",
+          "Run aimayatool.tools.skinning.ui_parity_smoke.run_skinning_ui_parity_smoke.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK for PASS.",
+          "Return maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.ui_parity_smoke",
+        "callable": "run_skinning_ui_parity_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 180
+      }
     }
   ]
 }
