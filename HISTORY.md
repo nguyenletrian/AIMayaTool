@@ -51,6 +51,13 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - The first live attempt was blocked by a transient Autodesk license checkout failure before AIMayaTool code executed; retry passed without code changes.
 - UI regression validation then passed in Maya 2024: `bootstrap.install_and_launch` still created `AIMayaToolWindow` with the new Skinning controls, and Maya closed cleanly without saving a user scene.
 
+## 2026-09-13 — Skinning mirror and utility slices accepted
+
+- Added explicit mirror-skin APIs matching the proven legacy `closestJoint`/`oneToOne` behavior and validated asymmetric left/right weight transfer in Maya 2024.
+- Added Skinning utility APIs for lock/unlock influences, prune, clear-with-redistribution, and affected-vertex discovery with thin selection wrappers and compact UI controls.
+- Live Maya 2024 utility validation returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_UTILITIES_SMOKE_OK`; UI regression passed after restarting Maya following a transient Autodesk license checkout failure, with no product code change required.
+- The accepted utilities UI retry checkpoint is AIMayaTool commit `5385c1475c6674c31c09aa3910a3cfc579981064`.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
