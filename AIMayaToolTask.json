@@ -3,8 +3,8 @@
   "history_checkpoint_blob": "eb31c39369ac27a8878789ae6bae130fcb07beb3",
   "force_restart": {
     "enabled": true,
-    "request_id": "aimayatool-load-aibridge-9ed6c682-036a",
-    "reason": "reload_updated_aibridge_runtime_before_maya_retry"
+    "request_id": "aimayatool-load-aibridge-36c560ab-036c",
+    "reason": "reload_windows_managed_maya_cleanup_fix_before_retry"
   },
   "tasks": [
     {
@@ -77,7 +77,7 @@
         "result": "INCONCLUSIVE",
         "classification": "aibridge_windows_process_probe_cleanup_failure",
         "proven_aibridge_commit": "9ed6c682ae739ed457e31a1e51b2000e130d951e",
-        "evidence": "The route failed in AIBridge runtime cleanup with Routing failed: <built-in function kill> returned a result with an exception set. No AIMayaTool product result was produced. Root cause review found Windows process_alive() still called os.kill(pid, 0). AIBridge main now replaces that Windows probe with a Win32 process-handle check in commit 36c560abc91d622ac3c683a36f9f91fa478989a9."
+        "evidence": "The route failed in AIBridge runtime cleanup with Routing failed: <built-in function kill> returned a result with an exception set. No AIMayaTool product result was produced. AIBridge main fixes the Windows process probe in commit 36c560abc91d622ac3c683a36f9f91fa478989a9."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -89,17 +89,45 @@
     {
       "task_id": "aibridge-runtime-windows-cleanup-fix-sync-036c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
         "purpose": "Fast-forward D:/AIBrigde to the Windows managed-Maya process probe fix before restarting the worker and retrying Maya.",
+        "result": "PASS",
+        "proven_main_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
+        "evidence": "git:pull on D:/AIBrigde main reported before=after=36c560abc91d622ac3c683a36f9f91fa478989a9, changed=false, output=Already up to date. The runtime checkout is ready for one new managed-worker restart."
+      },
+      "action": {"type": "git", "target": "pull"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
+      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"strategy": "ff-only", "remote": "origin"},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-retry-036d",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "purpose": "Retry the bounded first post-transfer loop-group diagnostic only after the managed worker reloads AIBridge commit 36c560abc91d622ac3c683a36f9f91fa478989a9 or later.",
         "acceptance": [
-          "Fast-forward D:/AIBrigde main from origin using git:pull only; do not modify source files locally.",
-          "Resulting HEAD must include AIBridge commit 36c560abc91d622ac3c683a36f9f91fa478989a9 or later.",
-          "Return exact before/after commit and changed state. Do not restart inside this task; Architect will issue one new force_restart request only after the pull is proven."
+          "Run only after force_restart request aimayatool-load-aibridge-36c560ab-036c causes a managed-worker relaunch.",
+          "Use startup_timeout=90 seconds and operation_timeout=45 seconds.",
+          "If an existing managed Maya is stale or hung, use the Windows-safe managed-session cleanup path before returning runtime failure.",
+          "Force a fresh unsaved scene; do not save or quit Maya.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_POST_TRANSFER_LOOP_GROUP_SMOKE_OK."
         ],
         "archived_prerequisite": {
+          "task_id": "aibridge-runtime-windows-cleanup-fix-sync-036c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9"
+        },
+        "archived_retry_source": {
           "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-retry-036b",
           "result": "INCONCLUSIVE",
           "architect_ack": true,
@@ -107,11 +135,23 @@
           "classification": "aibridge_windows_process_probe_cleanup_failure"
         }
       },
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"}
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_loop_group_smoke",
+        "callable": "run_skirt_parent_post_transfer_loop_group_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 45,
+        "startup_timeout": 90,
+        "operation_timeout": 45,
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]
+      }
     }
   ]
 }
