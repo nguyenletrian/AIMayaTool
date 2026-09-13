@@ -40,7 +40,7 @@ def _apply_active_influence_distance_gradient_legacy(skin_cluster, components, a
 
 
 def apply_active_influence_distance_gradient(skin_cluster, components, active_influence, influence_group, distances, sampler=None, normalize=True):
-    """Set one active influence from inverse-distance profile values over an explicit influence group."""
+    """Set one active influence from inverse-distance profile values, batching mesh vertices when possible."""
     cmds = _cmds()
     components, influence_group, distances = _validate_inputs(
         cmds, skin_cluster, components, active_influence, influence_group, distances
@@ -48,9 +48,14 @@ def apply_active_influence_distance_gradient(skin_cluster, components, active_in
     if not components:
         return []
     values = sample_distance_profile(distances, sampler=sampler)
-    return _apply_active_influence_distance_gradient_legacy(
-        skin_cluster, components, active_influence, influence_group, values, normalize=normalize
-    )
+    try:
+        return _apply_active_influence_distance_gradient_batched_validated(
+            skin_cluster, components, active_influence, influence_group, values, normalize=normalize
+        )
+    except (TypeError, ValueError):
+        return _apply_active_influence_distance_gradient_legacy(
+            skin_cluster, components, active_influence, influence_group, values, normalize=normalize
+        )
 
 
 def _batched_vertex_component(components):
@@ -101,30 +106,23 @@ def _influence_index(skin_fn, influence):
     return skin_fn.indexForInfluenceObject(selection.getDagPath(0))
 
 
-def apply_active_influence_distance_gradient_batched(skin_cluster, components, active_influence, influence_group, distances, sampler=None, normalize=True):
-    """API 2.0 batch candidate preserving legacy caller-facing changed-component reporting."""
+def _apply_active_influence_distance_gradient_batched_validated(skin_cluster, components, active_influence, influence_group, profile_values, normalize=True):
     import maya.api.OpenMaya as om
 
-    cmds = _cmds()
-    components, influence_group, distances = _validate_inputs(
-        cmds, skin_cluster, components, active_influence, influence_group, distances
-    )
-    if not components:
-        return []
-    profile_values = sample_distance_profile(distances, sampler=sampler)
     dag_path, component_object, flat, report_components = _batched_vertex_component(components)
     if not flat:
         return []
     skin_fn = _skin_fn(skin_cluster)
     group_indices = [_influence_index(skin_fn, influence) for influence in influence_group]
     active_index = _influence_index(skin_fn, active_influence)
+    active_group_index = group_indices.index(active_index)
     per_influence = [skin_fn.getWeights(dag_path, component_object, index) for index in group_indices]
     target_values = []
     changed = []
     for component_index, (component, profile_value) in enumerate(zip(report_components, profile_values)):
         total = sum(weights[component_index] for weights in per_influence)
         if total <= 1e-12:
-            target_values.append(per_influence[group_indices.index(active_index)][component_index])
+            target_values.append(per_influence[active_group_index][component_index])
             continue
         target_values.append(total * profile_value)
         changed.append(component)
@@ -137,3 +135,17 @@ def apply_active_influence_distance_gradient_batched(skin_cluster, components, a
         returnOldWeights=False,
     )
     return changed
+
+
+def apply_active_influence_distance_gradient_batched(skin_cluster, components, active_influence, influence_group, distances, sampler=None, normalize=True):
+    """API 2.0 batch variant preserving legacy caller-facing changed-component reporting."""
+    cmds = _cmds()
+    components, influence_group, distances = _validate_inputs(
+        cmds, skin_cluster, components, active_influence, influence_group, distances
+    )
+    if not components:
+        return []
+    profile_values = sample_distance_profile(distances, sampler=sampler)
+    return _apply_active_influence_distance_gradient_batched_validated(
+        skin_cluster, components, active_influence, influence_group, profile_values, normalize=normalize
+    )
