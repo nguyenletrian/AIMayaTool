@@ -1,49 +1,30 @@
 {
   "version": 1,
   "history_checkpoint_blob": "802273f83c71e04ec51c129ca4af5e2524ecc179",
-  "force_restart": {"enabled": true, "request_id": "aimayatool-load-aibridge-36c560ab-036c", "reason": "reload_windows_managed_maya_cleanup_fix_before_retry"},
+  "force_restart": {
+    "enabled": true,
+    "request_id": "aimayatool-load-aibridge-36c560ab-036c",
+    "reason": "reload_windows_managed_maya_cleanup_fix_before_retry"
+  },
   "tasks": [
-    {
-      "task_id": "aimayatool-goal002-closure-classification-sync-037j",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-002", "milestone_id": "parity-matrix", "purpose": "Synchronize Goal 002 closure classifications.", "result": "PASS", "classification": "goal002_closure_classification_synced", "evidence": "Bridge fast-forwarded local AIMayaTool main to 0a356517a88d7ded32c7e168fe3f77fdaac65ccb; Goal 002 acceptance satisfied.", "archived_prerequisite": {"task_id": "aimayatool-goal002-migration-plan-sync-037i", "result": "PASS", "architect_ack": true, "bridge_completed": true}},
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-activation-sync-037k",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-core-parity", "purpose": "Synchronize Goal 003 activation.", "depends_on": ["aimayatool-goal002-closure-classification-sync-037j"], "result": "PASS", "classification": "goal003_activation_synced", "evidence": "Bridge fast-forwarded local AIMayaTool main to dc7f8cdd07022943d98e8b7262757e5ec197853c."},
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-skin-io-parity-sync-037l",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-core-parity", "purpose": "Synchronize the first Goal 003 Skin IO parity implementation before Maya validation.", "depends_on": ["aimayatool-goal003-activation-sync-037k"], "artifact_commit": "b4e45271e82ceb399e26465950f5bc56b2010a17", "result": "PASS", "classification": "goal003_skin_io_parity_synced", "evidence": "Bridge fast-forwarded local AIMayaTool main to 4bd5f9ab2fdcf482d7617b2935bfd2a7274d487a."},
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"},
-      "bridge_completed": true
-    },
     {
       "task_id": "aimayatool-goal003-skin-io-parity-maya-smoke-037m",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-core-parity", "purpose": "Validate Skin IO parity in Maya.", "depends_on": ["aimayatool-goal003-skin-io-parity-sync-037l"], "result": "FAIL", "classification": "skin_io_smoke_invalid_name_identity_assertion", "evidence": "Maya reached the replace-existing check and raised before the success marker. Architect diagnosis: preserve_existing=False deletes and recreates the skinCluster, but Maya may reuse the saved skinCluster name, so comparing returned names falsely reports no rebuild. Validation must compare Maya object UUIDs instead. Exit 3221227010 occurred after the exception and is not the known success-marker shutdown anomaly.", "fix_commit": "83c037903529b5989218393f0a2694a798986a6a"},
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-core-parity",
+        "result": "FAIL",
+        "classification": "skin_io_smoke_invalid_name_identity_assertion",
+        "evidence": "Maya reached the replace-existing check and raised before the success marker. preserve_existing=False deletes and recreates the skinCluster, but Maya may reuse the saved skinCluster name, so comparing returned names falsely reported no rebuild.",
+        "fix_commit": "83c037903529b5989218393f0a2694a798986a6a",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal003-skin-io-parity-sync-037l",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
+      },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -55,7 +36,16 @@
       "task_id": "aimayatool-goal003-skin-io-parity-maya-smoke-retry-037n",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-core-parity", "purpose": "Retry Skin IO parity validation using UUID-based rebuild identity after 037m used an invalid name inequality assertion.", "depends_on": ["aimayatool-goal003-skin-io-parity-maya-smoke-037m"], "retry_of": "aimayatool-goal003-skin-io-parity-maya-smoke-037m", "fix_commit": "83c037903529b5989218393f0a2694a798986a6a", "result": "PASS", "classification": "goal003_skin_io_parity_maya_accepted_with_known_shutdown_anomaly", "evidence": "Maya 2024 returned AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIN_IO_PARITY_SMOKE_OK after validating UUID-based rebuild identity plus preserve-existing, batch and quick-folder behavior. Process exit 3221227010 occurred only after the success marker and is accepted as the known Maya Windows shutdown anomaly.", "proven_main_commit": "519c861c6108d2ce80d5fb281b7158d57eec3096"},
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-core-parity",
+        "depends_on": ["aimayatool-goal003-skin-io-parity-maya-smoke-037m"],
+        "retry_of": "aimayatool-goal003-skin-io-parity-maya-smoke-037m",
+        "result": "PASS",
+        "classification": "goal003_skin_io_parity_maya_accepted_with_known_shutdown_anomaly",
+        "evidence": "Maya 2024 returned AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIN_IO_PARITY_SMOKE_OK. Exit 3221227010 occurred only after the success marker and is accepted as the known Maya Windows shutdown anomaly.",
+        "proven_main_commit": "519c861c6108d2ce80d5fb281b7158d57eec3096"
+      },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -67,7 +57,15 @@
       "task_id": "aimayatool-goal003-paint-state-adapter-sync-037o",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-weight-tools", "purpose": "Synchronize the first paint-state adapter slice after Skin IO parity was accepted in Maya.", "depends_on": ["aimayatool-goal003-skin-io-parity-maya-smoke-retry-037n"], "artifact_commit": "51d576105494fd953ee657ebdaedb9b561e08112", "changed_files": ["aimayatool/tools/skinning/paint_state.py"], "scope": "Host adapter only: detect/require Paint Skin Weights context and read/write opacity/value. Brush operations remain a separate follow-up slice.", "result": "PASS", "classification": "goal003_paint_state_adapter_synced", "evidence": "Bridge fast-forwarded local AIMayaTool main from 519c861c6108d2ce80d5fb281b7158d57eec3096 to d598af30e2c4503083f94e2854170cf87c372549 successfully, including paint_state.py."},
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "depends_on": ["aimayatool-goal003-skin-io-parity-maya-smoke-retry-037n"],
+        "artifact_commit": "51d576105494fd953ee657ebdaedb9b561e08112",
+        "result": "PASS",
+        "classification": "goal003_paint_state_adapter_synced",
+        "evidence": "Bridge fast-forwarded local AIMayaTool main from 519c861c6108d2ce80d5fb281b7158d57eec3096 to d598af30e2c4503083f94e2854170cf87c372549 successfully, including paint_state.py."
+      },
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
@@ -78,13 +76,61 @@
     {
       "task_id": "aimayatool-goal003-paint-state-adapter-maya-smoke-037p",
       "status": "pending",
-      "architect_ack": false,
-      "metadata": {"goal_id": "aimayatool-003", "milestone_id": "skinning-weight-tools", "purpose": "Validate the Paint Skin Weights context adapter in Maya before implementing brush-weight operations.", "depends_on": ["aimayatool-goal003-paint-state-adapter-sync-037o"], "smoke_commit": "189473a4f874528697c617fb6ab4b59cd965d4d8", "acceptance": ["Fast-forward main before validation.", "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.", "Invoke aimayatool.tools.skinning.paint_state_smoke.run_paint_state_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_STATE_ADAPTER_SMOKE_OK for PASS.", "Prove Paint Skin context detection, require guard, opacity round trip, brush value round trip, snapshot, and invalid-opacity rejection.", "If PASS, begin brush-weight editing as a separate API slice rather than adding brush operations to paint_state.py."]},
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "depends_on": ["aimayatool-goal003-paint-state-adapter-sync-037o"],
+        "result": "FAIL",
+        "classification": "paint_state_context_detection_too_narrow",
+        "evidence": "Maya raised 'paint context detection failed' before the success marker. Adapter relied only on contextInfo(context, c=True) == 'artAttrSkin'. A context created directly with cmds.artAttrSkinPaintCtx is authoritative evidence that detection must first query cmds.artAttrSkinPaintCtx(context, exists=True), with contextInfo class names only as fallback.",
+        "fix_commit": "2ba000635784bef9af03ecb86249864f455c3647"
+      },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_state_smoke", "callable": "run_paint_state_smoke", "expected_window": "", "timeout": 45, "startup_timeout": 90, "operation_timeout": 45, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]}
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_state_smoke", "callable": "run_paint_state_smoke", "expected_window": "", "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-paint-state-adapter-maya-smoke-retry-037q",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "purpose": "Retry Paint Skin Weights adapter validation after hardening context detection to use artAttrSkinPaintCtx existence first and contextInfo only as fallback.",
+        "depends_on": ["aimayatool-goal003-paint-state-adapter-maya-smoke-037p"],
+        "retry_of": "aimayatool-goal003-paint-state-adapter-maya-smoke-037p",
+        "fix_commit": "2ba000635784bef9af03ecb86249864f455c3647",
+        "acceptance": [
+          "Fast-forward main before validation.",
+          "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.",
+          "Invoke aimayatool.tools.skinning.paint_state_smoke.run_paint_state_smoke.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_STATE_ADAPTER_SMOKE_OK for PASS.",
+          "Prove context detection, opacity/value round trip, snapshot and invalid-opacity rejection.",
+          "If PASS, accept the paint-state adapter and begin brush-weight editing."
+        ]
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.paint_state_smoke",
+        "callable": "run_paint_state_smoke",
+        "expected_window": "",
+        "timeout": 45,
+        "startup_timeout": 90,
+        "operation_timeout": 45,
+        "preconditions": [
+          {"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}
+        ]
+      }
     }
   ]
 }
