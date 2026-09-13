@@ -29,17 +29,28 @@ def _face_indices(faces):
     return sorted(set(indices))
 
 
-def _remove_non_mesh_children(transform):
-    for child in cmds.listRelatives(transform, children=True, fullPath=True) or []:
-        if cmds.nodeType(child) != 'mesh':
-            cmds.delete(child)
+def _axis_index(axis):
+    axis = str(axis).lower()
+    if axis not in ('x', 'y', 'z'):
+        raise ValueError('Axis must be x, y, or z: %s' % axis)
+    return ('x', 'y', 'z').index(axis)
+
+
+def _region_axis_direction(faces, axis):
+    index = _axis_index(axis)
+    bounds = cmds.exactWorldBoundingBox(faces)
+    center = (bounds[index] + bounds[index + 3]) * 0.5
+    return 0 if center < 0.0 else 1
 
 
 def extract_faces(faces, name=None):
-    """Duplicate one mesh, discard duplicated child hierarchy, and keep only explicit source faces."""
+    """Duplicate one mesh and keep only explicit source faces and mesh shapes."""
     source_mesh, faces = _face_components(faces)
     duplicate = cmds.duplicate(source_mesh, returnRootsOnly=True, name=name)[0] if name else cmds.duplicate(source_mesh, returnRootsOnly=True)[0]
-    _remove_non_mesh_children(duplicate)
+    children = cmds.listRelatives(duplicate, children=True, fullPath=True) or []
+    extra_children = [child for child in children if cmds.nodeType(child) != 'mesh']
+    if extra_children:
+        cmds.delete(extra_children)
     face_count = cmds.polyEvaluate(duplicate, face=True)
     keep = set(_face_indices(faces))
     remove = ['%s.f[%d]' % (duplicate, index) for index in range(face_count) if index not in keep]
@@ -93,8 +104,40 @@ def create_proxy(faces, name=None, copy_skin_weights=True):
     return {'source_mesh': source_mesh, 'proxy_mesh': proxy, 'skin_cluster': target_skin}
 
 
+def create_mirrored_proxy(faces, axis='x', name=None, copy_skin_weights=True):
+    """Extract explicit faces, mirror them across the world axis, then transfer source skin."""
+    source_mesh, faces = _face_components(faces)
+    axis_index = _axis_index(axis)
+    direction = _region_axis_direction(faces, axis)
+    proxy = extract_faces(faces, name=name)
+    cmds.polyMirrorFace(
+        proxy,
+        cutMesh=1,
+        axis=axis_index,
+        axisDirection=direction,
+        mergeMode=0,
+        mergeThresholdType=0,
+    )
+    cmds.delete(proxy, constructionHistory=True)
+    target_skin = copy_skin(source_mesh, proxy, surface_association='closestComponent') if copy_skin_weights else None
+    return {
+        'source_mesh': source_mesh,
+        'proxy_mesh': proxy,
+        'skin_cluster': target_skin,
+        'axis': str(axis).lower(),
+        'axis_direction': direction,
+    }
+
+
 def create_proxy_from_selection(name=None, copy_skin_weights=True):
     faces = cmds.filterExpand(cmds.ls(selection=True, flatten=True, long=True) or [], selectionMask=34) or []
     if not faces:
         raise RuntimeError('Select one or more polygon faces from a single mesh')
     return create_proxy(faces, name=name, copy_skin_weights=copy_skin_weights)
+
+
+def create_mirrored_proxy_from_selection(axis='x', name=None, copy_skin_weights=True):
+    faces = cmds.filterExpand(cmds.ls(selection=True, flatten=True, long=True) or [], selectionMask=34) or []
+    if not faces:
+        raise RuntimeError('Select one or more polygon faces from a single mesh')
+    return create_mirrored_proxy(faces, axis=axis, name=name, copy_skin_weights=copy_skin_weights)
