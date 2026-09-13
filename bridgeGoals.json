@@ -46,7 +46,8 @@
         {"milestone_id":"advanced-skirt-parent-transfer","title":"Explicit parent-to-skirt influence transfer phase","status":"completed"},
         {"milestone_id":"advanced-skirt-parent-smoothing-plan","title":"Explicit adjacent-joint smoothing propagation plan","status":"completed"},
         {"milestone_id":"advanced-skirt-parent-smoothing-apply","title":"Explicit adjacent-joint gradient and ratio propagation executor","status":"completed"},
-        {"milestone_id":"advanced-skirt-parent-workflow","title":"Composed end-to-end SkirtParent workflow executor","status":"in_progress"}
+        {"milestone_id":"advanced-skirt-parent-workflow","title":"Composed end-to-end SkirtParent workflow executor","status":"completed"},
+        {"milestone_id":"advanced-skirt-parent-ui-assessment","title":"Assess thin interactive/UI exposure for the accepted SkirtParent workflow","status":"in_progress"}
       ]
     }
   ]
