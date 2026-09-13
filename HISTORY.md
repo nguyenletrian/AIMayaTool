@@ -114,6 +114,13 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Managed Maya UI regression reused the existing Maya 2024 session and returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow` with a fresh unsaved scene, no save, and no Maya quit.
 - Created immutable stable checkpoint `backup/2026-09-13-0900-SceneLegacyAssessment-fc048d0` pointing exactly to the proven main commit.
 
+## 2026-09-13 — Explicit influence-weight transfer accepted
+
+- Added a focused Skinning primitive that transfers the selected source influence weight into an explicitly selected target influence on explicit components, plus a thin selection wrapper/UI action.
+- Corrected the Skinning package boundary so Python-only imports remain usable outside Maya; deterministic verification then passed compile, non-Maya import, and focused tests 3/3 at proven code state `753786ea6fb2055e5892ee68a11047d45af9f91e`.
+- Managed Maya 2024 functional validation reused the existing session and returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_TRANSFER_SMOKE_OK`, proving the real skinCluster source-to-target transfer in a fresh unsaved scene.
+- Final UI regression reused the managed Maya session and returned `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow`, with no scene save and no Maya quit.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
