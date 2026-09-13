@@ -142,6 +142,13 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Full managed Maya 2024 validation passed with `AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_WORKFLOW_SMOKE_OK`, proving planner, four parent transfers, production smoothing-plan construction, smoothing apply, zero-pair-safe ratio propagation, and final transferred-weight checks in a fresh unsaved scene.
 - The accepted full-workflow checkpoint is AIMayaTool main `8b8b0d6400ee26440b16558f0dd950100076b07a`; the smoothing zero-pair guard was introduced at `2d6d4307937c5c9cdc4214e141e62679d10016b7` and the live-smoke dependency reload fix at `ddf9ce291134d2614c5af333fbaf03be8d98761a`.
 
+## 2026-09-13 — SkirtParent interactive UI accepted
+
+- Added the thin selection adapter and Skinning UI exposure for the accepted SkirtParent workflow while keeping domain execution outside the UI layer.
+- Managed Maya 2024 interactive validation passed for the selection adapter, preserving parent-first joint ordering, skirt-joint inputs, one-mesh root-loop edges, skinCluster discovery, and end-to-end SkirtParent execution.
+- Final standard UI regression through `bootstrap.install_and_launch` emitted `AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow` at main `6952e625d3ec6cf5049d499ea2466dbdad7c0acf`.
+- Windows exit `3221227010` occurred only after the success marker and remains the known accepted Maya shutdown anomaly, not a product failure.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
