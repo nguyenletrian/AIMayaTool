@@ -8,32 +8,12 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-proxy-skin-extraction-maya-smoke-037z",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-advanced-tools",
-        "result": "INCONCLUSIVE",
-        "classification": "maya_ui_smoke_runtime_timeout_no_product_exception",
-        "evidence": "Maya UI smoke timed out after 90 seconds with empty output and no product exception."
-      },
-      "action": {"type": "maya", "target": "ui_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_smoke", "callable": "run_proxy_skin_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal003-proxy-skin-extraction-maya-fresh-retry-038a",
       "status": "pending",
       "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
-        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-maya-smoke-037z"],
-        "retry_of": "aimayatool-goal003-proxy-skin-extraction-maya-smoke-037z",
         "result": "FAIL",
         "classification": "proxy_smoke_invalid_influence_name_identity_assertion",
         "smoke_fix_commit": "aa01f762253c822e6ecd0b84df909785803ba0af"
@@ -52,11 +32,9 @@
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
-        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-maya-fresh-retry-038a"],
-        "retry_of": "aimayatool-goal003-proxy-skin-extraction-maya-fresh-retry-038a",
         "result": "FAIL",
         "classification": "proxy_binding_influence_set_incomplete",
-        "evidence": "Fresh Maya 2024 failed the UUID-based influence identity assertion, proving the proxy target skinCluster did not contain the same influence objects as the source. This is a product binding defect rather than a naming-format smoke defect.",
+        "evidence": "Fresh Maya 2024 failed the UUID-based influence identity assertion, proving raw naming format was not the issue.",
         "fix_commit": "c604d5a625081cb046fe7062a78846cc5e64430f"
       },
       "action": {"type": "maya", "target": "ui_smoke"},
@@ -69,22 +47,41 @@
     {
       "task_id": "aimayatool-goal003-proxy-skin-extraction-maya-explicit-influences-retry-038c",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-maya-identity-retry-038b"],
+        "retry_of": "aimayatool-goal003-proxy-skin-extraction-maya-identity-retry-038b",
+        "result": "FAIL",
+        "classification": "proxy_binding_uuid_mismatch_persists_after_explicit_bind",
+        "evidence": "Fresh Maya 2024 still failed proxy influence UUID identity after removing toSelectedBones. The attempted explicit-bind fix did not resolve the defect, so no further product mutation should occur until focused runtime evidence identifies the source/target influence difference.",
+        "fix_commit": "c604d5a625081cb046fe7062a78846cc5e64430f"
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_smoke", "callable": "run_proxy_skin_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-proxy-skin-bind-diagnostic-038d",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
-        "purpose": "Retry proxy extraction after removing selection-dependent toSelectedBones binding and binding the proxy directly to the complete explicit source influence list.",
-        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-maya-identity-retry-038b"],
-        "retry_of": "aimayatool-goal003-proxy-skin-extraction-maya-identity-retry-038b",
-        "fix_commit": "c604d5a625081cb046fe7062a78846cc5e64430f",
+        "purpose": "Collect focused Maya runtime evidence for source/requested/target proxy influence identities before making another product fix.",
+        "depends_on": ["aimayatool-goal003-proxy-skin-extraction-maya-explicit-influences-retry-038c"],
+        "diagnostic_commit": "3848441580d0ed44fe2b9b3a86ca4a39536867fd",
         "acceptance": [
           "Fast-forward main before validation.",
-          "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.",
-          "Invoke aimayatool.tools.skinning.proxy_skin_smoke.run_proxy_skin_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_EXTRACTION_SMOKE_OK for PASS.",
-          "Prove target skinCluster influence UUID set exactly matches the source influence UUID set.",
-          "Prove transferred proxy weights remain normalized and unskinned-source behavior remains unchanged.",
-          "If PASS, accept proxy extraction and continue to axis-mirror proxy behavior."
+          "Run in a fresh unsaved Maya 2024 scene.",
+          "Invoke aimayatool.tools.skinning.proxy_skin_diagnostic_smoke.run_proxy_skin_diagnostic_smoke.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_BIND_DIAGNOSTIC_OK for a completed diagnostic run.",
+          "Capture the AIBRIDGE_PROXY_BIND_DIAGNOSTIC JSON line containing source influence names/long paths/UUIDs, requested influence identities, target influence identities, and selection state.",
+          "Do not classify proxy extraction PASS from this task alone; use the emitted diagnostic payload to determine the next product fix or smoke correction."
         ]
       },
       "action": {"type": "maya", "target": "ui_smoke"},
@@ -95,8 +92,8 @@
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.proxy_skin_smoke",
-        "callable": "run_proxy_skin_smoke",
+        "module": "aimayatool.tools.skinning.proxy_skin_diagnostic_smoke",
+        "callable": "run_proxy_skin_diagnostic_smoke",
         "expected_window": "",
         "timeout": 90,
         "startup_timeout": 120,
