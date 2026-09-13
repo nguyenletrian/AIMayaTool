@@ -45,7 +45,6 @@
         "purpose": "Verify the remaining Skinning parity UI exposure for component-weight copy, proxy clipboard copy/paste, and closest-face matching.",
         "depends_on": ["aimayatool-goal003-skinning-regression-maya-047c"],
         "implementation_commits": ["c783c62628ce003a3aff26d6646c81ecb490d9e1", "558ef375edd9caeb202ebbf1efed466e6264654a", "a0564c1033d267bf2ca7e057c2f39a00ecda10dc"],
-        "acceptance": ["Fast-forward D:/AIMayaTool main.", "py_compile proxy_clipboard.py, __init__.py, and ui_parity_smoke.py successfully.", "Import aimayatool.tools.skinning outside Maya successfully.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_remaining_ui_python_verification_pass",
@@ -68,7 +67,6 @@
         "milestone_id": "skinning-ui-parity",
         "purpose": "Validate the remaining Skinning UI parity controls in a reusable managed Maya 2024 session and keep Maya alive for later tasks.",
         "depends_on": ["aimayatool-goal003-skinning-remaining-ui-verify-048a"],
-        "acceptance": ["Fast-forward D:/AIMayaTool main before validation.", "Reuse a healthy compatible managed Maya 2024 session when available; launch only when reuse is unavailable.", "Force a fresh unsaved scene for task isolation without quitting Maya after success.", "Run aimayatool.tools.skinning.ui_parity_smoke.run_skinning_ui_parity_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK for PASS.", "Return maya_quit=false on normal success so the managed host remains reusable.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_remaining_ui_managed_live_pass",
@@ -96,7 +94,6 @@
         "purpose": "Verify the new proxy clipboard end-to-end Maya smoke before live execution.",
         "depends_on": ["aimayatool-goal003-skinning-remaining-ui-managed-live-048b"],
         "implementation_commit": "c7675c7cd98fa012a2ac720f3ecc4d696e556ddd",
-        "acceptance": ["Fast-forward D:/AIMayaTool main.", "py_compile aimayatool/tools/skinning/proxy_clipboard_smoke.py successfully.", "Import aimayatool.tools.skinning outside Maya successfully.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_proxy_clipboard_python_verification_pass",
@@ -119,7 +116,6 @@
         "milestone_id": "skinning-weight-tools",
         "purpose": "Exercise proxy clipboard copy/paste end-to-end in the reusable managed Maya 2024 session.",
         "depends_on": ["aimayatool-goal003-proxy-clipboard-verify-048c"],
-        "acceptance": ["Reuse the healthy managed Maya 2024 session on normal execution; launch only if reuse is unavailable.", "Force a fresh unsaved scene without quitting Maya after success.", "Run aimayatool.tools.skinning.proxy_clipboard_smoke.run_proxy_clipboard_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_CLIPBOARD_SMOKE_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_proxy_clipboard_managed_live_pass",
@@ -136,6 +132,61 @@
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_clipboard_smoke", "callable": "run_proxy_clipboard_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180},
       "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-paint-influence-verify-049a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "purpose": "Verify completed paint-influence parity primitives and UI exposure before Maya execution.",
+        "depends_on": ["aimayatool-goal003-proxy-clipboard-managed-live-048d"],
+        "implementation_commits": ["aba78c339dc2bbfc1d8984186871fed01eb5468f", "8b081d01e708a7d594fb36bf9e0e27924bae582b", "d0facb506a44b807ed0c5ecb983b734de9ac8815", "cc17f6c3cccc101122c34d0a61b245414e2109e0"],
+        "acceptance": ["Fast-forward D:/AIMayaTool main.", "py_compile paint_influence.py, paint_influence_smoke.py, __init__.py, and ui_parity_smoke.py successfully.", "Import aimayatool.tools.skinning outside Maya successfully.", "Do not invoke Codex."],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/paint_influence.py", "aimayatool/tools/skinning/paint_influence_smoke.py", "aimayatool/tools/skinning/__init__.py", "aimayatool/tools/skinning/ui_parity_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+    },
+    {
+      "task_id": "aimayatool-goal003-paint-influence-managed-live-049b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "purpose": "Validate deterministic paint-influence lock/isolate/top-two/parent-child/switch workflows in the reusable Maya 2024 session.",
+        "depends_on": ["aimayatool-goal003-paint-influence-verify-049a"],
+        "acceptance": ["Reuse a healthy compatible managed Maya 2024 session when available; launch only when reuse is unavailable.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.paint_influence_smoke.run_paint_influence_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_INFLUENCE_SMOKE_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_influence_smoke", "callable": "run_paint_influence_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180}
+    },
+    {
+      "task_id": "aimayatool-goal003-paint-influence-ui-managed-live-049c",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-ui-parity",
+        "purpose": "Re-run Skinning UI parity after paint-influence navigation controls were added.",
+        "depends_on": ["aimayatool-goal003-paint-influence-managed-live-049b"],
+        "acceptance": ["Reuse the healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene without quitting Maya after success.", "Run aimayatool.tools.skinning.ui_parity_smoke.run_skinning_ui_parity_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.ui_parity_smoke", "callable": "run_skinning_ui_parity_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 180}
     }
   ]
 }
