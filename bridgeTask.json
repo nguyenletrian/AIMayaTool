@@ -3,40 +3,16 @@
   "history_checkpoint_blob": "643d9025d055ab9cb8f75b51457a91a84a758a45",
   "tasks": [
     {
-      "task_id": "aimayatool-weight-profile-maya-smoke-018b-r4",
+      "task_id": "aimayatool-weight-profile-maya-smoke-018b-r5",
       "status": "pending",
       "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-weight-profile",
-        "result": "FAIL_STALE_MAYA_MODULE",
-        "evidence": "Managed Maya reused the existing session and returned an outgoingTangentType error even though current main weight_profile.py contains no keyTangent command path. Traceback line mapping mismatched current source; smoke was repaired to reload weight_profile from disk.",
-        "repair_commit": "4fc698d803f2986a889b6cfc6837870b6c116829"
+        "result": "PASS",
+        "proven_main_commit": "61ad1463239988d086b148e3a3ca00f5b5120057",
+        "evidence": "Managed Maya 2024 reused session port 7001, forced a fresh unsaved scene, reloaded weight_profile from disk, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_WEIGHT_PROFILE_SMOKE_OK; Maya remained running."
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.weight_profile_smoke", "callable": "run_weight_profile_smoke", "expected_window": "", "live_port": 7001, "timeout": 180},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-weight-profile-deterministic-018a-r5",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "advanced-weight-profile", "result": "PASS", "proven_main_commit": "80d77d5344a7eed7c6167562cb9505d9017c28f3", "evidence": "py_compile passed; non-Maya import passed; focused tests passed 6/6 after freshness barrier."},
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"files": ["aimayatool/tools/skinning/weight_profile.py", "aimayatool/tools/skinning/weight_profile_smoke.py", "tests/test_skinning_weight_profile.py"], "imports": ["aimayatool.tools.skinning.weight_profile"], "tests": ["tests.test_skinning_weight_profile"], "timeout": 180},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-weight-profile-maya-smoke-018b-r5",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "advanced-weight-profile", "archived_prerequisite": {"task_id": "aimayatool-weight-profile-deterministic-018a-r5", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "80d77d5344a7eed7c6167562cb9505d9017c28f3"}, "result": "PASS", "proven_main_commit": "61ad1463239988d086b148e3a3ca00f5b5120057", "evidence": "Managed Maya 2024 reused session port 7001, forced a fresh unsaved scene, reloaded weight_profile from disk, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_WEIGHT_PROFILE_SMOKE_OK; Maya remained running."},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
@@ -48,19 +24,31 @@
       "task_id": "aimayatool-copy-influence-ratios-deterministic-019a",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "advanced-copy-influence-ratios", "purpose": "Verify explicit source-to-target influence-ratio copy primitive.", "acceptance": ["Fast-forward main and include commit 567b743fcda7dfc3d4f0c99ccf10039f83b3d8df or later.", "Compile ratio_weights.py, ratio_weights_smoke.py, and focused tests.", "Import ratio_weights outside Maya.", "Run tests.test_skinning_ratio_weights and require all 5 tests to pass."], "result": "PASS", "proven_main_commit": "9266dca228f66667b93ceb46ab17b5853b0151b3", "evidence": "py_compile passed for ratio_weights.py, ratio_weights_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_ratio_weights passed 5/5."},
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-copy-influence-ratios",
+        "result": "PASS",
+        "proven_main_commit": "9266dca228f66667b93ceb46ab17b5853b0151b3",
+        "evidence": "py_compile passed for ratio_weights.py, ratio_weights_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_ratio_weights passed 5/5."
+      },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/ratio_weights.py", "aimayatool/tools/skinning/ratio_weights_smoke.py", "tests/test_skinning_ratio_weights.py"], "imports": ["aimayatool.tools.skinning.ratio_weights"], "tests": ["tests.test_skinning_ratio_weights"], "timeout": 180},
+      "payload": {"files": ["aimayatool/tools/skinning/ratio_weights.py", "aimayatool/tools/skinning/ratio_weights_smoke.py", "tests/test_skinning_ratio_weights.py"], "imports": ["aimayatool.tools.skinning.ratio_weights"], "tests": ["tests.test_skinning_ratio_weights"], "timeout": 180},
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-copy-influence-ratios-maya-smoke-019b",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "advanced-copy-influence-ratios", "purpose": "Validate ratio copy on a real Maya skinCluster.", "acceptance": ["Reuse healthy Maya 2024 session where possible.", "Force fresh unsaved scene; do not save or quit Maya.", "Run current ratio_weights_smoke after syncing 567b743fcda7dfc3d4f0c99ccf10039f83b3d8df or later.", "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_RATIO_WEIGHTS_SMOKE_OK."], "archived_prerequisite": {"task_id": "aimayatool-copy-influence-ratios-deterministic-019a", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "9266dca228f66667b93ceb46ab17b5853b0151b3"}, "result": "FAIL_STALE_MAYA_MODULE", "evidence": "Managed Maya 2024 reused session port 7001 and failed while importing ratio_weights_smoke because the already-loaded child module aimayatool.tools.skinning.ratio_weights did not yet expose copy_influence_ratios. Current main does expose that function; the smoke is repaired to invalidate caches and reload ratio_weights from disk before resolving callables.", "repair_commit": "2b17a8e49b580fc41bb4030d2e6ae2a48a08967d"},
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-copy-influence-ratios",
+        "result": "FAIL_STALE_MAYA_MODULE",
+        "evidence": "Managed Maya reused session port 7001 and failed while importing ratio_weights_smoke because the already-loaded child module ratio_weights did not yet expose copy_influence_ratios. Current main does expose the function; smoke was repaired to invalidate caches and reload ratio_weights from disk before resolving callables.",
+        "repair_commit": "2b17a8e49b580fc41bb4030d2e6ae2a48a08967d"
+      },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
@@ -71,19 +59,40 @@
     {
       "task_id": "aimayatool-copy-influence-ratios-deterministic-019a-r1",
       "status": "pending",
-      "architect_ack": false,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "advanced-copy-influence-ratios", "archived_prerequisite": {"task_id": "aimayatool-copy-influence-ratios-maya-smoke-019b", "result": "FAIL_STALE_MAYA_MODULE", "architect_ack": true, "bridge_completed": true}, "purpose": "Verify the ratio-weights smoke freshness barrier that reloads ratio_weights from disk before validation.", "acceptance": ["Fast-forward main and include commit 2b17a8e49b580fc41bb4030d2e6ae2a48a08967d or later.", "Compile ratio_weights.py, ratio_weights_smoke.py, and focused tests.", "Import aimayatool.tools.skinning.ratio_weights outside Maya.", "Run tests.test_skinning_ratio_weights and require all 5 tests to pass."]},
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-copy-influence-ratios",
+        "archived_prerequisite": {"task_id": "aimayatool-copy-influence-ratios-maya-smoke-019b", "result": "FAIL_STALE_MAYA_MODULE", "architect_ack": true, "bridge_completed": true},
+        "purpose": "Verify the ratio-weights smoke freshness barrier that reloads ratio_weights from disk before validation.",
+        "result": "PASS",
+        "proven_main_commit": "a5b8691e4f7083cbcc6f0b63f0f657f92fef8359",
+        "evidence": "py_compile passed for ratio_weights.py, ratio_weights_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_ratio_weights passed 5/5 after the child-module freshness barrier."
+      },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/ratio_weights.py", "aimayatool/tools/skinning/ratio_weights_smoke.py", "tests/test_skinning_ratio_weights.py"], "imports": ["aimayatool.tools.skinning.ratio_weights"], "tests": ["tests.test_skinning_ratio_weights"], "timeout": 180}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/ratio_weights.py", "aimayatool/tools/skinning/ratio_weights_smoke.py", "tests/test_skinning_ratio_weights.py"], "imports": ["aimayatool.tools.skinning.ratio_weights"], "tests": ["tests.test_skinning_ratio_weights"], "timeout": 180},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-copy-influence-ratios-maya-smoke-019b-r1",
       "status": "pending",
       "architect_ack": false,
-      "metadata": {"goal_id": "aimayatool-foundation-001", "milestone_id": "advanced-copy-influence-ratios", "depends_on": "aimayatool-copy-influence-ratios-deterministic-019a-r1", "archived_retry_source": {"task_id": "aimayatool-copy-influence-ratios-maya-smoke-019b", "result": "FAIL_STALE_MAYA_MODULE", "architect_ack": true, "bridge_completed": true}, "purpose": "Retry managed Maya ratio-copy validation with an explicit child-module reload freshness barrier.", "acceptance": ["Reuse a healthy managed Maya 2024 session where possible.", "Force a fresh unsaved scene and do not save or quit Maya.", "Run ratio_weights_smoke after syncing commit 2b17a8e49b580fc41bb4030d2e6ae2a48a08967d or later; the smoke must reload ratio_weights from disk before resolving callables.", "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_RATIO_WEIGHTS_SMOKE_OK."]},
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-copy-influence-ratios",
+        "archived_prerequisite": {"task_id": "aimayatool-copy-influence-ratios-deterministic-019a-r1", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "a5b8691e4f7083cbcc6f0b63f0f657f92fef8359"},
+        "archived_retry_source": {"task_id": "aimayatool-copy-influence-ratios-maya-smoke-019b", "result": "FAIL_STALE_MAYA_MODULE", "architect_ack": true, "bridge_completed": true},
+        "purpose": "Retry managed Maya ratio-copy validation with an explicit child-module reload freshness barrier.",
+        "acceptance": [
+          "Reuse a healthy managed Maya 2024 session where possible.",
+          "Force a fresh unsaved scene and do not save or quit Maya.",
+          "Run ratio_weights_smoke after syncing commit 2b17a8e49b580fc41bb4030d2e6ae2a48a08967d or later; the smoke must reload ratio_weights from disk before resolving callables.",
+          "Return AIBRIDGE_UI_SMOKE_OK:SKINNING_RATIO_WEIGHTS_SMOKE_OK."
+        ]
+      },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
