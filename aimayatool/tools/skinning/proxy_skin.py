@@ -29,10 +29,17 @@ def _face_indices(faces):
     return sorted(set(indices))
 
 
+def _remove_non_mesh_children(transform):
+    for child in cmds.listRelatives(transform, children=True, fullPath=True) or []:
+        if cmds.nodeType(child) != 'mesh':
+            cmds.delete(child)
+
+
 def extract_faces(faces, name=None):
-    """Duplicate one mesh and keep only explicit source faces."""
+    """Duplicate one mesh, discard duplicated child hierarchy, and keep only explicit source faces."""
     source_mesh, faces = _face_components(faces)
     duplicate = cmds.duplicate(source_mesh, returnRootsOnly=True, name=name)[0] if name else cmds.duplicate(source_mesh, returnRootsOnly=True)[0]
+    _remove_non_mesh_children(duplicate)
     face_count = cmds.polyEvaluate(duplicate, face=True)
     keep = set(_face_indices(faces))
     remove = ['%s.f[%d]' % (duplicate, index) for index in range(face_count) if index not in keep]
