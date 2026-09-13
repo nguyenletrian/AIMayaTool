@@ -8,26 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-skirt-parent-post-transfer-cmds-probe-maya-diagnostic-036h",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-workflow",
-        "result": "FAIL",
-        "classification": "reproducible_transfer_side_scene_invalidity_maya_crash",
-        "proven_main_commit": "d694f7e0fd4c0b45318cae0a5a9268a3dc77ee09",
-        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "Fresh managed Maya 2024 PID 11416 exited even though the only post-transfer scene touch was cmds.objExists(mesh). Health probe was refused with WinError 10061 and cleanup confirmed managed_pid_already_exited."
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_cmds_probe_smoke", "callable": "run_skirt_parent_post_transfer_cmds_probe_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-skirt-parent-first-transfer-cmds-probe-maya-diagnostic-036i",
       "status": "pending",
       "architect_ack": true,
@@ -38,7 +18,7 @@
         "classification": "reproducible_first_transfer_assignment_maya_crash",
         "proven_main_commit": "994fc05ae3abea289b3a1f70e0cd784f65eddf98",
         "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
-        "evidence": "Fresh managed Maya 2024 PID 13640 exited when the normal four-assignment skirt-parent plan was reduced to assignments[:1] and only that first parent-to-skirt transfer was applied. The operation exceeded 45 seconds, the active health probe was refused with WinError 10061, and cleanup confirmed managed_pid_already_exited. This rules out accumulation across multiple assignments and isolates the blocker to the first transfer_influence_weight path or its immediate scene state."
+        "evidence": "Fresh managed Maya 2024 PID 13640 exited when only assignment 0 was applied. Health probe was refused with WinError 10061 and cleanup confirmed managed_pid_already_exited."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -50,27 +30,48 @@
     {
       "task_id": "aimayatool-skirt-parent-first-transfer-query-maya-diagnostic-036j",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "result": "FAIL",
+        "classification": "reproducible_first_transfer_read_only_skinpercent_query_maya_crash",
+        "proven_main_commit": "e45599da6a24dc62b1c4f497d50027eb39a5d046",
+        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
+        "evidence": "Fresh managed Maya 2024 PID 17652 exited even though the diagnostic performed no transfer mutation. After building the normal fixture and plan, it queried source and target weights for only the first component of assignment 0 with cmds.skinPercent(query=True), then attempted only cmds.objExists(mesh). The operation exceeded 45 seconds, health probe was refused with WinError 10061, and cleanup confirmed managed_pid_already_exited. This moves the blocker from weight mutation into the read-only skinPercent query path; source and target queries must be isolated separately."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_first_transfer_query_smoke", "callable": "run_skirt_parent_first_transfer_query_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-first-transfer-source-query-maya-diagnostic-036k",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Isolate the first transfer assignment into read-only skinPercent queries only. Build the same skirt-parent fixture and plan, take the first unique component from assignment 0, query source and target weights, perform no weight mutation, then probe the mesh with cmds.objExists.",
+        "purpose": "Isolate the first read-only skinPercent operation to source influence only. Build the same fixture and plan, take the first unique component of assignment 0, query only the parent/source weight, perform no target query and no weight mutation, then probe mesh existence.",
         "acceptance": [
-          "Fast-forward AIMayaTool main and include diagnostic smoke commit 58d920964df68ed4aeccb79f9b45d7920511245e or later.",
+          "Fast-forward AIMayaTool main and include diagnostic smoke commit e8a0ae1755bea9f9ef6f7ed0d4f7fb0bf46d7036 or later.",
           "Use a fresh healthy managed Maya 2024 session with startup_timeout=90 and operation_timeout=45.",
           "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run run_skirt_parent_first_transfer_query_smoke. It must not call transfer_influence_weight or write any post-plan weights.",
-          "After planning, select only the first unique component of assignment 0 and call cmds.skinPercent(query=True, transform=parent) and cmds.skinPercent(query=True, transform=target_joint).",
-          "Then only call cmds.objExists(mesh) and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_FIRST_TRANSFER_QUERY_SMOKE_OK.",
-          "If this passes, the first write call cmds.skinPercent(transformValue=...) becomes the primary mutation suspect. If Maya exits, split the two read-only skinPercent queries separately."
+          "Run run_skirt_parent_first_transfer_source_query_smoke.",
+          "After planning, select only the first unique component of assignment 0 and call exactly one post-plan skinPercent query: cmds.skinPercent(skin_cluster, component, query=True, transform=parent).",
+          "Do not query the target influence and do not mutate any weights after planning.",
+          "Then only call cmds.objExists(mesh) and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_FIRST_TRANSFER_SOURCE_QUERY_SMOKE_OK.",
+          "If Maya exits, the first source-weight read itself is sufficient to reproduce the crash. If it passes, queue a target-only query diagnostic next."
         ],
         "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-first-transfer-cmds-probe-maya-diagnostic-036i",
+          "task_id": "aimayatool-skirt-parent-first-transfer-query-maya-diagnostic-036j",
           "result": "FAIL",
-          "classification": "reproducible_first_transfer_assignment_maya_crash",
+          "classification": "reproducible_first_transfer_read_only_skinpercent_query_maya_crash",
           "architect_ack": true,
           "bridge_completed": true,
-          "proven_main_commit": "994fc05ae3abea289b3a1f70e0cd784f65eddf98"
+          "proven_main_commit": "e45599da6a24dc62b1c4f497d50027eb39a5d046"
         }
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
@@ -81,8 +82,8 @@
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.skirt_parent_first_transfer_query_smoke",
-        "callable": "run_skirt_parent_first_transfer_query_smoke",
+        "module": "aimayatool.tools.skinning.skirt_parent_first_transfer_source_query_smoke",
+        "callable": "run_skirt_parent_first_transfer_source_query_smoke",
         "expected_window": "",
         "live_port": 7001,
         "timeout": 45,
