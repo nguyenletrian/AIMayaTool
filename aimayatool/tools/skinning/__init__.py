@@ -1,17 +1,13 @@
 from __future__ import absolute_import
 
-import maya.cmds as cmds
 
-from . import copy_weights
-from . import influence_transfer
-from . import influences
-from . import max_influences
-from . import mirror_skin
-from . import skin_io
-from . import utilities
+def _cmds():
+    import maya.cmds as cmds
+    return cmds
 
 
 def _run(label, fn):
+    cmds = _cmds()
     try:
         changed = fn()
         if isinstance(changed, (list, tuple)):
@@ -24,6 +20,15 @@ def _run(label, fn):
 
 
 def build_ui():
+    cmds = _cmds()
+    from . import copy_weights
+    from . import influence_transfer
+    from . import influences
+    from . import max_influences
+    from . import mirror_skin
+    from . import skin_io
+    from . import utilities
+
     cmds.text(label='Influence management', align='left')
     cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
     cmds.button(label='Add Selected Influences', command=lambda *_: _run('Added', influences.add_from_selection))
