@@ -223,7 +223,7 @@
     {
       "task_id": "aimayatool-goal003-influence-sync-cleanup-managed-live-retry-051e",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-core-parity",
@@ -232,6 +232,139 @@
           "aimayatool-goal003-influence-cleanup-fixture-verify-051d"
         ],
         "retry_of": "aimayatool-goal003-influence-sync-cleanup-managed-live-051b",
+        "acceptance": [
+          "Reuse healthy managed Maya 2024 session when available.",
+          "Force a fresh unsaved scene and do not save.",
+          "Run aimayatool.tools.skinning.influence_cleanup_smoke.run_influence_cleanup_smoke.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_INFLUENCE_CLEANUP_SMOKE_OK for PASS.",
+          "Return maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "INCONCLUSIVE",
+        "classification": "validation_fixture_bound_influence_not_globally_unused",
+        "proven_main_commit": "789023caa445ecb71e9b2dc156562f20094b4889",
+        "evidence": "Managed Maya reused PID 10632 and remove_unused returned []. The fixture bound joint_unused when creating the target skinCluster, so Maya may assign it weight on vertices other than the single vertex explicitly zeroed. The test therefore did not establish that joint_unused was globally unused. No product defect proven.",
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "session": "existing",
+        "new_scene_forced": true,
+        "scene_saved": false,
+        "maya_quit": false
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.influence_cleanup_smoke",
+        "callable": "run_influence_cleanup_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 180
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-influence-cleanup-deterministic-fixture-verify-051f",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-core-parity",
+        "purpose": "Verify second fixture correction creates the target skin with only the used joint, then adds the intended unused influence explicitly at zero weight across the mesh.",
+        "depends_on": [
+          "aimayatool-goal003-influence-sync-cleanup-managed-live-retry-051e"
+        ],
+        "implementation_commit": "6dc6774d82def0eae0da2d67cc116e43be248f98",
+        "acceptance": [
+          "Fast-forward D:/AIMayaTool main.",
+          "py_compile aimayatool/tools/skinning/influence_cleanup_smoke.py successfully.",
+          "Import aimayatool.tools.skinning outside Maya successfully.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/influence_cleanup_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning"
+        ],
+        "tests": [],
+        "timeout": 240
+      }
+    },
+    {
+      "task_id": "aimayatool-goal003-influence-sync-cleanup-managed-live-retry2-051g",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-core-parity",
+        "purpose": "Retry influence sync and unused-influence cleanup with a deterministic globally-unused influence fixture.",
+        "depends_on": [
+          "aimayatool-goal003-influence-cleanup-deterministic-fixture-verify-051f"
+        ],
+        "retry_of": "aimayatool-goal003-influence-sync-cleanup-managed-live-retry-051e",
         "acceptance": [
           "Reuse healthy managed Maya 2024 session when available.",
           "Force a fresh unsaved scene and do not save.",
@@ -291,7 +424,7 @@
         "milestone_id": "skinning-ui-parity",
         "purpose": "Validate Skinning UI parity after exposing influence sync and unused-influence cleanup.",
         "depends_on": [
-          "aimayatool-goal003-influence-sync-cleanup-managed-live-retry-051e"
+          "aimayatool-goal003-influence-sync-cleanup-managed-live-retry2-051g"
         ],
         "acceptance": [
           "Reuse healthy managed Maya 2024 session when available.",
