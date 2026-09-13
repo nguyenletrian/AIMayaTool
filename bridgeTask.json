@@ -126,7 +126,7 @@
     {
       "task_id": "aimayatool-ratio-weighting-deterministic-017b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-ratio-weighting",
@@ -143,7 +143,10 @@
           "Compile ratio_weights.py, ratio_weights_smoke.py, and focused tests.",
           "Import aimayatool.tools.skinning.ratio_weights outside Maya without requiring maya.cmds.",
           "Run tests.test_skinning_ratio_weights and require all focused tests to pass."
-        ]
+        ],
+        "result": "PASS",
+        "proven_main_commit": "c97034c089ccbefce54e42ecae32566020287bd1",
+        "evidence": "py_compile passed for ratio_weights.py, ratio_weights_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_ratio_weights passed 3/3."
       },
       "action": {
         "type": "verification",
@@ -187,7 +190,8 @@
           "tests.test_skinning_ratio_weights"
         ],
         "timeout": 180
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-ratio-weighting-maya-smoke-017c",
