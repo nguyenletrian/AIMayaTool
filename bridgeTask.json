@@ -98,7 +98,7 @@
     {
       "task_id": "aimayatool-skirt-parent-transfer-deterministic-031a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-transfer",
@@ -115,7 +115,10 @@
           "Compile skirt_parent_transfer.py, skirt_parent_transfer_smoke.py, influence_transfer.py, and tests/test_skinning_skirt_parent_transfer.py.",
           "Import aimayatool.tools.skinning.skirt_parent_transfer outside Maya.",
           "Run tests.test_skinning_skirt_parent_transfer and require all 4 tests to pass, including strip flattening/deduplication, explicit parent-to-target routing, empty-strip behavior, and validation failures."
-        ]
+        ],
+        "result": "PASS",
+        "proven_main_commit": "1c4014abbf58e90b86bee60ebb42bd2628f580e8",
+        "evidence": "After ff-only sync from d691a399622fbd72b41036fc5506800e98bcb5e8 to 1c4014abbf58e90b86bee60ebb42bd2628f580e8, py_compile passed for skirt_parent_transfer.py, skirt_parent_transfer_smoke.py, influence_transfer.py, and the focused test; non-Maya import passed; tests.test_skinning_skirt_parent_transfer passed 4/4."
       },
       "action": {
         "type": "verification",
@@ -160,6 +163,69 @@
           "tests.test_skinning_skirt_parent_transfer"
         ],
         "timeout": 180
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-transfer-maya-smoke-031b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-transfer",
+        "purpose": "Validate the explicit parent-to-skirt influence transfer phase on a real Maya skinCluster before adjacent-joint smoothing is introduced.",
+        "acceptance": [
+          "Fast-forward main and include commit 28bc19e081b59bb4fc8dc6683ab80cb63f4d1022 or later.",
+          "Reuse a healthy managed Maya 2024 session where possible.",
+          "Force a fresh unsaved scene and do not save or quit Maya.",
+          "Run skirt_parent_transfer_smoke and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_TRANSFER_SMOKE_OK."
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-skirt-parent-transfer-deterministic-031a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "1c4014abbf58e90b86bee60ebb42bd2628f580e8"
+        }
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.skirt_parent_transfer_smoke",
+        "callable": "run_skirt_parent_transfer_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 180,
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ]
       }
     }
   ]
