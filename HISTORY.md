@@ -167,6 +167,13 @@ Detailed task execution, transient failures, ACK state, and runtime evidence rem
 - Skinning UI callbacks now surface operation-specific errors while preserving traceback visibility for technical diagnosis; managed Maya returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_ACTIONABLE_ERROR_FEEDBACK_OK` with a fresh unsaved scene.
 - `skinning-api2-performance`, `skinning-batch-preview`, and `skinning-undo-errors` are complete. Goal 004 remains active with `skinning-ux-polish` as the remaining milestone.
 
+## 2026-09-13 — Skinning 2.0 UX polish and Goal 004 closed
+
+- Added explicit Preview/Execute affordances for Copy Skin and Skin Data so users can inspect intended multi-target behavior before mutation; managed Maya proved Copy Skin preview remains non-mutating and clearly reports whether each target will create or reuse a skinCluster.
+- Added non-mutating Skin Data export/import previews with live UI exposure. Live validation exposed and then fixed a real short-name versus long-DAG-path manifest-key mismatch; Skin IO now canonicalizes mesh keys while retaining fallback lookup for older manifest keys.
+- Final managed Maya 2024 UX validation reused PID 10632, forced a fresh unsaved scene, returned `AIBRIDGE_UI_SMOKE_OK:SKINNING_UX_SKIN_IO_PREVIEW_OK targets=2`, saved nothing, and left Maya running.
+- All four Goal 004 milestones are complete. `aimayatool-004` is closed and `aimayatool-005` Setup complete migration becomes the earliest active goal.
+
 ## Recording rule
 
 Add an entry here when one of these happens:
