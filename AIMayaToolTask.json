@@ -8,192 +8,22 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-skirt-parent-ui-regression-bootstrap-retry-036w",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-ui",
-        "purpose": "Retry the final AIMayaTool UI regression using the repository's real standard bootstrap entrypoint after 036v used a nonexistent module.",
-        "result": "PASS",
-        "classification": "skirt_parent_ui_regression_accepted_with_known_shutdown_anomaly",
-        "proven_main_commit": "6952e625d3ec6cf5049d499ea2466dbdad7c0acf",
-        "evidence": "Maya 2024 UI smoke invoked bootstrap.install_and_launch and emitted AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow. Process exit 3221227010 occurred only after the success marker and is the known Maya Windows shutdown anomaly explicitly allowed by this task's acceptance criteria.",
-        "archived_retry_source": {
-          "task_id": "aimayatool-skirt-parent-ui-regression-maya-smoke-036v",
-          "result": "FAIL",
-          "classification": "architect_task_payload_invalid_module",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-interactive-ui-maya-smoke-036u",
-          "result": "PASS",
-          "classification": "skirt_parent_interactive_selection_adapter_healthy",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "15b43c29446f119383d7389624941d1071c50641"
-        }
-      },
-      "action": {
-        "type": "maya",
-        "target": "ui_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "bootstrap",
-        "callable": "install_and_launch",
-        "expected_window": "AIMayaToolWindow",
-        "timeout": 45,
-        "startup_timeout": 90,
-        "operation_timeout": 45,
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ]
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-skirt-parent-ui-closeout-036x",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-ui",
-        "purpose": "Record the accepted interactive SkirtParent UI workflow as durable history and close its milestone after the final standard UI regression passed.",
-        "result": "PASS",
-        "classification": "architect_direct_closeout_after_route_missing",
-        "evidence": "Bridge returned ROUTE_MISSING for the unsupported implementation:repository route before any repository mutation. Architect then completed the bounded closeout directly through the GitHub connector: HISTORY.md recorded the accepted SkirtParent interactive UI workflow, bridgeGoals.json marked advanced-skirt-parent-ui completed, and the umbrella foundation goal was marked completed after all listed milestones were complete.",
-        "route_failure": "No route handler registered for implementation:repository",
-        "history_commit": "6d94ba504b669749211c96804b77ab2441b67717",
-        "goal_completion_commit": "ac30bfb71eaedc6bf4e47afb03f404b7cbd7e5e4",
-        "files_changed": [
-          "HISTORY.md",
-          "bridgeGoals.json"
-        ],
-        "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-ui-regression-bootstrap-retry-036w",
-          "result": "PASS",
-          "classification": "skirt_parent_ui_regression_accepted_with_known_shutdown_anomaly",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "6952e625d3ec6cf5049d499ea2466dbdad7c0acf"
-        }
-      },
-      "action": {
-        "type": "implementation",
-        "target": "repository"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "HISTORY.md",
-          "bridgeGoals.json"
-        ],
-        "timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-current-product-inventory-review-037a",
       "status": "pending",
       "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-002",
         "milestone_id": "current-product-inventory",
-        "purpose": "Independently inventory the current AIMayaTool product surface before parity reconciliation. This is read-only review/assessment evidence; Architect will combine it with the authoritative MayaScriptNew inventory and implement follow-up slices.",
+        "purpose": "Independently inventory the current AIMayaTool product surface before parity reconciliation.",
         "result": "FAIL",
         "classification": "architect_task_permission_mismatch",
-        "evidence": "Bridge rejected the git_pull precondition before Codex review because the task had permissions.edit=false while git_pull requires permissions.edit=true. No review or product mutation occurred."
+        "evidence": "Bridge rejected the git_pull precondition before Codex review because permissions.edit was false. No review or product mutation occurred."
       },
-      "action": {
-        "type": "review",
-        "target": "codex"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "instructions": "Review current AIMayaTool only. Inventory all user-facing and reusable Skinning, Setup, and Scene capabilities currently present in registry, tools, maya adapters, UI sections, smoke/tests, and durable history. Identify duplicate/dead/temporary adapters and important architecture boundaries. Do not implement or edit. Return a structured capability inventory with file/symbol evidence suitable for Architect to reconcile against MayaScriptNew.",
-        "acceptance": [
-          "Current Skinning capabilities enumerated with file/symbol evidence.",
-          "Current Setup capabilities enumerated with file/symbol evidence.",
-          "Current Scene capabilities enumerated with file/symbol evidence.",
-          "Temporary adapters, dead/duplicate surfaces, and validation coverage gaps called out.",
-          "No repository mutation."
-        ],
-        "timeout": 600
-      },
+      "action": {"type": "review", "target": "codex"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"timeout": 600},
       "bridge_completed": true
     },
     {
@@ -207,51 +37,31 @@
         "retry_of": "aimayatool-current-product-inventory-review-037a",
         "result": "FAIL",
         "classification": "codex_auth_refresh_token_revoked",
-        "evidence": "git_pull precondition succeeded and advanced local AIMayaTool main to 8387fc41a0d08cf4abd79ac97a846d8cbc45a153. Codex then exited 1 before review because its ChatGPT OAuth refresh token was revoked/invalidated (401 token_revoked). No Codex review or project code mutation occurred.",
-        "fallback": "Architect will continue Goal 002 directly from GitHub repository evidence; do not retry Codex until authentication is restored."
+        "evidence": "git_pull succeeded to 8387fc41a0d08cf4abd79ac97a846d8cbc45a153, then Codex exited before review because OAuth refresh token was revoked (401 token_revoked). No product code mutation occurred.",
+        "fallback": "Architect continues Goal 002 directly from repository evidence; do not retry Codex until authentication is restored."
       },
-      "action": {
-        "type": "review",
-        "target": "codex"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "instructions": "Review current AIMayaTool only after the bounded fast-forward pull. Inventory all user-facing and reusable Skinning, Setup, and Scene capabilities currently present in registry, tools, maya adapters, UI sections, smoke/tests, and durable history. Identify duplicate/dead/temporary adapters and important architecture boundaries. Do not implement, edit project files, commit, or push; permissions.edit=true exists only because the git_pull precondition requires it.",
-        "acceptance": [
-          "Fast-forward pull precondition succeeds or repository is already current.",
-          "Current Skinning capabilities enumerated with file/symbol evidence.",
-          "Current Setup capabilities enumerated with file/symbol evidence.",
-          "Current Scene capabilities enumerated with file/symbol evidence.",
-          "Temporary adapters, dead/duplicate surfaces, and validation coverage gaps called out.",
-          "Codex review itself performs no repository mutation."
-        ],
-        "timeout": 600
-      },
+      "action": {"type": "review", "target": "codex"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"timeout": 600},
       "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal002-inventory-sync-037c",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-002",
+        "milestone_id": "legacy-repository-inventory",
+        "purpose": "Synchronize the worker to the latest authoritative Goal 002 state after Architect began direct repository inventory while Codex authentication is unavailable.",
+        "evidence_basis": "Architect confirmed MayaScriptNew exposes dedicated Skinning, Setup and Scene UI surfaces plus large legacy helper modules, while AIMayaTool has the three target domains registered. This bounded sync keeps the worker current without retrying the known-broken Codex route."
+      },
+      "action": {"type": "git", "target": "pull"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"strategy": "ff-only", "remote": "origin"}
     }
   ]
 }
