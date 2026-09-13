@@ -24,7 +24,8 @@
         {"milestone_id": "scene-pattern-operations", "title": "Deterministic ScenePattern create/load/edit operations", "status": "completed"},
         {"milestone_id": "scene-display-layers", "title": "Reusable Scene display-layer helpers", "status": "completed"},
         {"milestone_id": "scene-build-actions", "title": "Reusable Scene setup/build actions", "status": "completed"},
-        {"milestone_id": "scene-legacy-adapters-assessment", "title": "Assess legacy Scene JSON adapters only where required", "status": "in_progress"}
+        {"milestone_id": "scene-legacy-adapters-assessment", "title": "Assess legacy Scene JSON adapters only where required", "status": "completed"},
+        {"milestone_id": "advanced-helpers-assessment", "title": "Assess next advanced helper migration slice", "status": "in_progress"}
       ]
     }
   ]
