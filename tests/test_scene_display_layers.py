@@ -18,7 +18,8 @@ class FakeCmds(object):
 
     def editDisplayLayerMembers(self, layer, members=None, noRecurse=True, query=False, fullNames=True):
         if query:
-            return sorted(self.layers.get(layer, set()))
+            values = sorted(self.layers.get(layer, set()))
+            return ["|" + item for item in values] if fullNames else values
         values = [members] if isinstance(members, str) else list(members or [])
         for item in values:
             for existing in self.layers.values():
@@ -42,11 +43,12 @@ class SceneDisplayLayerTests(unittest.TestCase):
     def test_ensure_and_membership(self):
         layer = display_layers.ensure_display_layer("testLayer", ["cube"])
         self.assertEqual(layer, "testLayer")
-        self.assertEqual(display_layers.members(layer), ["cube"])
+        self.assertEqual(display_layers.members(layer), ["|cube"])
+        self.assertEqual(display_layers.members(layer, full_names=False), ["cube"])
         display_layers.add_members(layer, ["sphere"])
-        self.assertEqual(display_layers.members(layer), ["cube", "sphere"])
+        self.assertEqual(display_layers.members(layer), ["|cube", "|sphere"])
         display_layers.remove_members(layer, ["sphere"])
-        self.assertEqual(display_layers.members(layer), ["cube"])
+        self.assertEqual(display_layers.members(layer), ["|cube"])
 
     def test_visibility_and_display_type(self):
         display_layers.ensure_display_layer("testLayer")
