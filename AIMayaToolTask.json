@@ -8,26 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-skirt-parent-transfer-smoothing-plan-maya-diagnostic-035f",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Probe post-transfer smoothing-plan construction using explicit cached mesh_fn and selector overrides.",
-        "result": "INCONCLUSIVE",
-        "classification": "diagnostic_override_timeout",
-        "proven_main_commit": "42d1db48853b815a9b81941fb78092a9df8929f1",
-        "evidence": "Managed Maya 2024 reused the existing session on port 7001 and timed out after 120 seconds. This diagnostic forwarded cached mesh_fn and selector overrides unlike production, so it is retained only as interaction evidence."
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_transfer_smoothing_plan_smoke", "callable": "run_skirt_parent_transfer_smoothing_plan_smoke", "expected_window": "", "live_port": 7001, "timeout": 120},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-skirt-parent-production-smoothing-plan-maya-diagnostic-035g",
       "status": "pending",
       "architect_ack": true,
@@ -58,7 +38,7 @@
         "result": "INCONCLUSIVE",
         "classification": "maya_session_startup_unavailable_on_stale_runtime",
         "proven_main_commit": "10d0226bc3b7a86efefee5a6073cefd25bf91925",
-        "evidence": "The managed-live route never executed AIMayaTool product code. After ff-only sync to 10d0226bc3b7a86efefee5a6073cefd25bf91925 it returned MAYA_LIVE_SESSION_UNAVAILABLE because managed Maya did not become ready after 120 seconds. The 120-second startup wait proves the active Bridge process had not yet reloaded the newer split-timeout runtime."
+        "evidence": "The managed-live route never executed AIMayaTool product code. It returned MAYA_LIVE_SESSION_UNAVAILABLE because managed Maya did not become ready after 120 seconds on the stale runtime."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -74,10 +54,10 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Fast-forward the local AIBrigde runtime checkout before restarting the managed worker so Maya hang cleanup and split startup/operation timeouts are loaded by the next process.",
+        "purpose": "Fast-forward the local AIBrigde runtime checkout before restarting the managed worker.",
         "result": "PASS",
         "proven_main_commit": "9ed6c682ae739ed457e31a1e51b2000e130d951e",
-        "evidence": "git:pull on D:/AIBrigde main reported before=after=9ed6c682ae739ed457e31a1e51b2000e130d951e, changed=false, output=Already up to date. The local runtime checkout is ready for a one-time managed-worker restart."
+        "evidence": "git:pull on D:/AIBrigde main reported before=after=9ed6c682ae739ed457e31a1e51b2000e130d951e, changed=false, output=Already up to date."
       },
       "action": {"type": "git", "target": "pull"},
       "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
@@ -89,50 +69,49 @@
     {
       "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-retry-036b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Retry the first post-transfer default API loop-group diagnostic only after the managed AIBrigde worker reloads runtime commit 9ed6c682ae739ed457e31a1e51b2000e130d951e or later.",
-        "acceptance": [
-          "This task must run only after the out-of-band force_restart request aimayatool-load-aibridge-9ed6c682-036a has caused the managed worker to relaunch.",
-          "Use startup_timeout=90 seconds and operation_timeout=45 seconds from the reloaded managed-live runtime.",
-          "If Maya cannot become healthy, apply the managed-session cleanup contract before returning runtime failure.",
-          "Force a fresh unsaved scene; do not save or quit Maya.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_POST_TRANSFER_LOOP_GROUP_SMOKE_OK."
-        ],
-        "archived_prerequisite": {
-          "task_id": "aibridge-runtime-self-update-for-aimayatool-036a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "9ed6c682ae739ed457e31a1e51b2000e130d951e"
-        },
-        "archived_retry_source": {
-          "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-diagnostic-035h",
-          "result": "INCONCLUSIVE",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "10d0226bc3b7a86efefee5a6073cefd25bf91925"
-        }
+        "purpose": "Retry the first post-transfer default API loop-group diagnostic after reloading the split-timeout managed-live runtime.",
+        "result": "INCONCLUSIVE",
+        "classification": "aibridge_windows_process_probe_cleanup_failure",
+        "proven_aibridge_commit": "9ed6c682ae739ed457e31a1e51b2000e130d951e",
+        "evidence": "The route failed in AIBridge runtime cleanup with Routing failed: <built-in function kill> returned a result with an exception set. No AIMayaTool product result was produced. Root cause review found Windows process_alive() still called os.kill(pid, 0). AIBridge main now replaces that Windows probe with a Win32 process-handle check in commit 36c560abc91d622ac3c683a36f9f91fa478989a9."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_loop_group_smoke",
-        "callable": "run_skirt_parent_post_transfer_loop_group_smoke",
-        "expected_window": "",
-        "live_port": 7001,
-        "timeout": 45,
-        "startup_timeout": 90,
-        "operation_timeout": 45,
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]
-      }
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_loop_group_smoke", "callable": "run_skirt_parent_post_transfer_loop_group_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aibridge-runtime-windows-cleanup-fix-sync-036c",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "purpose": "Fast-forward D:/AIBrigde to the Windows managed-Maya process probe fix before restarting the worker and retrying Maya.",
+        "acceptance": [
+          "Fast-forward D:/AIBrigde main from origin using git:pull only; do not modify source files locally.",
+          "Resulting HEAD must include AIBridge commit 36c560abc91d622ac3c683a36f9f91fa478989a9 or later.",
+          "Return exact before/after commit and changed state. Do not restart inside this task; Architect will issue one new force_restart request only after the pull is proven."
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-retry-036b",
+          "result": "INCONCLUSIVE",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "aibridge_windows_process_probe_cleanup_failure"
+        }
+      },
+      "action": {"type": "git", "target": "pull"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
+      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"strategy": "ff-only", "remote": "origin"}
     }
   ]
 }
