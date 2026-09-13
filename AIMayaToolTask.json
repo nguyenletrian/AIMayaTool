@@ -8,74 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-final-regression-managed-live-052b",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-maya-validation",
-        "purpose": "Run final consolidated Skinning migration regression in reusable Maya 2024 before closing Goal 003.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal003-final-regression-verify-052a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_goal003_final_consolidated_managed_live_pass",
-        "proven_main_commit": "6462ecf81c5e47f13837ff200b51139b155e5e26",
-        "evidence": "Managed Maya 2024 reused existing PID 10632 on port 7001, forced a fresh unsaved scene, ran the final consolidated Skinning regression including the influence sync/cleanup slice, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_CONSOLIDATED_REGRESSION_OK; scene_saved=false and maya_quit=false.",
-        "managed_pid": 10632,
-        "managed_port": 7001,
-        "session": "existing",
-        "new_scene_forced": true,
-        "scene_saved": false,
-        "maya_quit": false,
-        "stable_backup": "backup/2026-09-13-1757-SkinningGoal003FinalPASS-6462ecf"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.regression_smoke",
-        "callable": "run_skinning_regression_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal004-performance-baseline-verify-053a",
       "status": "pending",
       "architect_ack": true,
@@ -83,126 +15,50 @@
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Verify the first Skinning 2.0 performance-baseline smoke before collecting owner-machine Maya timing evidence.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal003-final-regression-managed-live-052b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
+        "archived_prerequisite": {"task_id":"aimayatool-goal003-final-regression-managed-live-052b","result":"PASS","architect_ack":true,"bridge_completed":true},
         "implementation_commit": "eb1cf21021e7e83e7edd9bdd6f4494d98c5c426b",
-        "acceptance": [
-          "Fast-forward D:/AIMayaTool main.",
-          "py_compile aimayatool/tools/skinning/performance_baseline_smoke.py successfully.",
-          "Import aimayatool.tools.skinning outside Maya successfully.",
-          "Do not invoke Codex."
-        ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_performance_baseline_python_verification_pass",
         "proven_main_commit": "6b5486d4463fb4a8f5404853a911bdab159567b1",
         "evidence": "Bridge fast-forwarded D:/AIMayaTool from 6462ecf81c5e47f13837ff200b51139b155e5e26 to 6b5486d4463fb4a8f5404853a911bdab159567b1; py_compile passed with exit_code=0 for performance_baseline_smoke.py and importing aimayatool.tools.skinning passed with exit_code=0."
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/performance_baseline_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
+      "action": {"type":"verification","target":"python"},
+      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
+      "permissions": {"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},
+      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
+      "payload": {"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/skinning/performance_baseline_smoke.py"],"imports":["aimayatool.tools.skinning"],"tests":[],"timeout":240},
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal004-performance-baseline-managed-live-053b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Measure the current component-wise ratio-weighting baseline in reusable Maya 2024 before optimizing any hot path.",
-        "depends_on": [
-          "aimayatool-goal004-performance-baseline-verify-053a"
-        ],
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.performance_baseline_smoke.run_skinning_performance_baseline_smoke.",
-          "Require result prefix AIBRIDGE_UI_SMOKE_OK:SKINNING_PERFORMANCE_BASELINE_OK and preserve the reported vertex count and elapsed seconds as baseline evidence.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "depends_on": ["aimayatool-goal004-performance-baseline-verify-053a"],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_ratio_weighting_baseline_managed_live_pass",
+        "proven_main_commit": "e35fb0afbb841b7681eabface2417f530702e6fb",
+        "evidence": "Managed Maya 2024 reused existing PID 10632 on port 7001, forced a fresh unsaved scene, and measured the current component-wise ratio-weighting path at 441 vertices in 0.069922 seconds; marker AIBRIDGE_UI_SMOKE_OK:SKINNING_PERFORMANCE_BASELINE_OK vertices=441 elapsed=0.069922; scene_saved=false and maya_quit=false.",
+        "baseline_vertices": 441,
+        "baseline_elapsed_seconds": 0.069922,
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "session": "existing",
+        "new_scene_forced": true,
+        "scene_saved": false,
+        "maya_quit": false
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.performance_baseline_smoke",
-        "callable": "run_skinning_performance_baseline_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      }
+      "action": {"type":"maya","target":"managed_live_smoke"},
+      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
+      "permissions": {"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},
+      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
+      "payload": {"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"isolated_scene":true,"save_scene":false,"maya_version":"2024","module":"aimayatool.tools.skinning.performance_baseline_smoke","callable":"run_skinning_performance_baseline_smoke","expected_window":"","startup_timeout":180,"operation_timeout":300},
+      "bridge_completed": true
     }
   ]
 }
