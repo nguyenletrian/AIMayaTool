@@ -3,78 +3,10 @@
   "history_checkpoint_blob": "802273f83c71e04ec51c129ca4af5e2524ecc179",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-skinning-ux-polish-071",
+    "request_id": "aimayatool-skinning-ux-polish-072",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
-    {
-      "task_id": "aimayatool-goal004-skinning-ux-copy-preview-callable-result-managed-live-070",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-004",
-        "milestone_id": "skinning-ux-polish",
-        "purpose": "Prove the Copy Skin UX smoke callable itself returns its specific success marker after cache reload, without expected-window result masking.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal004-skinning-ux-copy-preview-cachefix-managed-live-069b",
-          "result": "INCONCLUSIVE",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_ux_copy_preview_managed_live_pass",
-        "proven_main_commit": "df7a3d5916afed9ee1b9acdeadff196403735430",
-        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene and returned SKINNING_UX_COPY_PREVIEW_OK targets=2. Copy Skin preview remained non-mutating, explained create/reuse skinCluster behavior, and the Preview/Execute UI controls were present. scene_saved=false and maya_quit=false.",
-        "managed_pid": 10632,
-        "managed_port": 7001,
-        "session": "existing",
-        "new_scene_forced": true,
-        "scene_saved": false,
-        "maya_quit": false,
-        "bridge_completed": true
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.ux_preview_smoke",
-        "callable": "run_ux_preview_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "bridge_completed": true
-    },
     {
       "task_id": "aimayatool-goal004-skinning-ux-skin-io-preview-verify-071a",
       "status": "pending",
@@ -147,13 +79,142 @@
     {
       "task_id": "aimayatool-goal004-skinning-ux-skin-io-preview-managed-live-071b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-ux-polish",
         "purpose": "Prove Skin Data export/import previews are non-mutating and their Preview controls appear in the live Skinning UI.",
         "depends_on": [
           "aimayatool-goal004-skinning-ux-skin-io-preview-verify-071a"
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "FAIL",
+        "classification": "skin_io_manifest_mesh_key_short_long_mismatch",
+        "proven_main_commit": "2c6caf510bedd51247746220d9915e7dacb2e259",
+        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene. Fixture export using short mesh names succeeded, but preview_import_selected resolved the selected meshes as long DAG paths and could not find the manifest entry for |AIMayaToolSkinIOPreviewMeshA. This exposed inconsistent manifest keys for short versus long mesh names. scene_saved=false and maya_quit=false.",
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "session": "existing",
+        "new_scene_forced": true,
+        "scene_saved": false,
+        "maya_quit": false,
+        "bridge_completed": true
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.skin_io_preview_ux_smoke",
+        "callable": "run_skin_io_preview_ux_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal004-skinning-ux-skin-io-canonical-key-verify-072a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-ux-polish",
+        "purpose": "Verify Skin IO canonicalizes short and long DAG mesh names to the same manifest key while retaining fallback lookup for legacy keys.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal004-skinning-ux-skin-io-preview-managed-live-071b",
+          "result": "FAIL",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commit": "a50a9211501849211454c193e36b34fabf7f4878",
+        "acceptance": [
+          "Fast-forward main.",
+          "py_compile aimayatool/tools/skinning/skin_io.py and skin_io_preview_ux_smoke.py.",
+          "Import aimayatool.tools.skinning successfully.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/skin_io.py",
+          "aimayatool/tools/skinning/skin_io_preview_ux_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning"
+        ],
+        "tests": [],
+        "timeout": 240
+      }
+    },
+    {
+      "task_id": "aimayatool-goal004-skinning-ux-skin-io-canonical-key-managed-live-072b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-ux-polish",
+        "purpose": "Retry live Skin Data preview UX after canonicalizing manifest mesh keys across short and long DAG names.",
+        "depends_on": [
+          "aimayatool-goal004-skinning-ux-skin-io-canonical-key-verify-072a"
         ],
         "acceptance": [
           "Reuse healthy managed Maya 2024 session when available.",
