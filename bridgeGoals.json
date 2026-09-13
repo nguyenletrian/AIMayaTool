@@ -43,7 +43,8 @@
         {"milestone_id":"advanced-joint-regions","title":"Circular joint ordering and local radius selection","status":"completed"},
         {"milestone_id":"advanced-loop-groups","title":"Perpendicular edge-loop vertex strip grouping","status":"completed"},
         {"milestone_id":"advanced-skirt-parent-plan","title":"Composed non-mutating skirt-parent region plan","status":"completed"},
-        {"milestone_id":"advanced-skirt-parent-transfer","title":"Explicit parent-to-skirt influence transfer phase","status":"in_progress"}
+        {"milestone_id":"advanced-skirt-parent-transfer","title":"Explicit parent-to-skirt influence transfer phase","status":"completed"},
+        {"milestone_id":"advanced-skirt-parent-smoothing-plan","title":"Explicit adjacent-joint smoothing propagation plan","status":"in_progress"}
       ]
     }
   ]
