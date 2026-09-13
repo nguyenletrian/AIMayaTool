@@ -73,7 +73,7 @@
           "Fast-forward main and include diagnostic smoke commit 72f0dba18f804ac714bb447108fb17bfb97e870c or later.",
           "Start from a healthy managed Maya 2024 session. If the previous timeout left the listener/process unresponsive, terminate the stale managed Maya process before attempting this diagnostic; do not reuse a confirmed hung session.",
           "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run skirt_parent_post_transfer_loop_group_smoke and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_POST_TRANSFER_LOOP_GROUP_SMOKE_OK. If this times out on a healthy session, classify the first default API loop-group call after transfer as the blocker; if it passes, continue with bounded span-by-span isolation."
+          "Run skirt_parent_post_transfer_loop_group_smoke and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_POST_TRANSFER_LOOP_GROUP_SMOKE_OK. Bound the smoke operation to 45 seconds; Maya launch/recovery may use up to 90 seconds. If this times out on a healthy session, classify the first default API loop-group call after transfer as the blocker; if it passes, continue with bounded span-by-span isolation."
         ],
         "archived_prerequisite": {
           "task_id": "aimayatool-skirt-parent-production-smoothing-plan-maya-diagnostic-035g",
@@ -87,7 +87,7 @@
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_loop_group_smoke", "callable": "run_skirt_parent_post_transfer_loop_group_smoke", "expected_window": "", "live_port": 7001, "timeout": 120, "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}]}
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_loop_group_smoke", "callable": "run_skirt_parent_post_transfer_loop_group_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45, "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}]}
     }
   ]
 }
