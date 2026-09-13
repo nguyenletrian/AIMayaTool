@@ -71,43 +71,62 @@
     {
       "task_id": "aimayatool-goal003-proxy-skin-clipboard-maya-smoke-038l",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-advanced-tools",
-        "purpose": "Validate the modern explicit proxy snapshot/paste workflow in Maya for whole-mesh and selected-component targets without module-global clipboard state.",
+        "result": "FAIL",
+        "classification": "maya_2024_copy_skin_weights_selected_components_flag_unavailable",
+        "evidence": "Maya 2024 executed proxy_skin_clipboard_smoke and failed in paste_proxy_snapshot because cmds.copySkinWeights rejected selectedComponents with TypeError: Invalid flag 'selectedComponents'. No success marker was produced; exit 3221227010 occurred after the product exception and does not override the failure.",
         "depends_on": ["aimayatool-goal003-proxy-skin-clipboard-sync-038k"],
         "artifact_commit": "4cc1829ef3be2793dc5063f935061adab965e241",
-        "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7",
-        "acceptance": [
-          "Fast-forward main before validation.",
-          "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.",
-          "Invoke aimayatool.tools.skinning.proxy_skin_clipboard_smoke.run_proxy_skin_clipboard_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_CLIPBOARD_SMOKE_OK for PASS.",
-          "Validate explicit capture snapshot data is sufficient to paste weights without relying on module-global session state.",
-          "Validate whole-mesh paste creates or updates a target skinCluster with the source influence UUID set and normalized weights.",
-          "Validate selected-component paste affects only the requested target components while preserving unrelated target components.",
-          "Validate the caller's Maya selection is restored after paste.",
-          "If the success marker appears, accept PASS even if exit 3221227010 occurs only afterward as the known Maya Windows shutdown anomaly.",
-          "If PASS, continue immediately to closest-face matching as a shared geometry primitive plus Skinning adapter."
-        ]
+        "smoke_commit": "5debdd81a08596430b6f60e9e5ab7e85825167a7"
       },
       "action": {"type": "maya", "target": "ui_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke",
-        "callable": "run_proxy_skin_clipboard_smoke",
-        "expected_window": "",
-        "timeout": 90,
-        "startup_timeout": 120,
-        "operation_timeout": 90,
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]
-      }
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke", "callable": "run_proxy_skin_clipboard_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-proxy-skin-clipboard-compat-sync-038m",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "purpose": "Fast-forward the Maya worker to the Maya 2024.0-compatible proxy clipboard fallback and strengthened component-scope smoke.",
+        "depends_on": ["aimayatool-goal003-proxy-skin-clipboard-maya-smoke-038l"],
+        "implementation_commit": "a231959c09dba4ea149f1cbe010bc9d24f0cc1bf",
+        "smoke_commit": "3610c67f00d6e3156ad50bf8021717690398a6ad",
+        "acceptance": ["Fast-forward local main to current origin/main without merge commits.", "Confirm both compatibility implementation and strengthened smoke are present."]
+      },
+      "action": {"type": "git", "target": "pull"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"strategy": "ff-only", "remote": "origin"}
+    },
+    {
+      "task_id": "aimayatool-goal003-proxy-skin-clipboard-compat-maya-smoke-038n",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-advanced-tools",
+        "purpose": "Retry explicit proxy clipboard validation on Maya 2024 using the compatibility path when selectedComponents is unavailable.",
+        "depends_on": ["aimayatool-goal003-proxy-skin-clipboard-compat-sync-038m"],
+        "retry_of": "aimayatool-goal003-proxy-skin-clipboard-maya-smoke-038l",
+        "implementation_commit": "a231959c09dba4ea149f1cbe010bc9d24f0cc1bf",
+        "smoke_commit": "3610c67f00d6e3156ad50bf8021717690398a6ad",
+        "acceptance": ["Run in a fresh unsaved Maya 2024 scene and do not save the user scene.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PROXY_SKIN_CLIPBOARD_SMOKE_OK for PASS.", "Accept either native selectedComponents transfer on supported builds or legacy:closestSelectedVertex compatibility mode on Maya 2024.0.", "Validate whole-mesh transfer remains normalized with exact influence identity.", "Validate component paste changes only requested target vertices and preserves unrelated target vertices.", "Validate the caller's selection is restored.", "If PASS, continue immediately to closest-face matching as a shared geometry primitive plus Skinning adapter."]
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.proxy_skin_clipboard_smoke", "callable": "run_proxy_skin_clipboard_smoke", "expected_window": "", "timeout": 90, "startup_timeout": 120, "operation_timeout": 90, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]}
     }
   ]
 }
