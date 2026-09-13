@@ -3,58 +3,19 @@
   "history_checkpoint_blob": "98769cea5b52fa18da9ab92ab99dce6af61966be",
   "tasks": [
     {
-      "task_id": "aimayatool-scene-display-layers-deterministic-013a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "scene-display-layers",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-scene-pattern-operations-ui-regression-012c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "stable_checkpoint": "backup/2026-09-13-0852-ScenePatternOperations-e3c792e"
-        },
-        "purpose": "Deterministically verify reusable display-layer helpers and Python-only Scene imports.",
-        "result": "PASS",
-        "proven_main_commit": "8e5ac2f7ef75750a9e877c228652cfeecd0b5542",
-        "evidence": "ff-only pull advanced D:/AIMayaTool to 8e5ac2f7ef75750a9e877c228652cfeecd0b5542; py_compile passed; import of aimayatool.tools.scene.display_layers passed; focused unittest ran 2 tests and returned OK."
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-scene-display-layers-maya-smoke-013b",
       "status": "pending",
       "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "scene-display-layers",
-        "depends_on": "aimayatool-scene-display-layers-deterministic-013a",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-scene-display-layers-deterministic-013a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "8e5ac2f7ef75750a9e877c228652cfeecd0b5542"
+        },
         "purpose": "Validate display-layer creation, membership, visibility, and displayType in managed Maya 2024.",
         "result": "FAIL_SMOKE_EXPECTATION_SHORT_NAME",
         "diagnosis": "Maya returned full DAG paths because members() defaults full_names=True; the smoke compared against short transform names. Membership succeeded and the smoke expectation was corrected.",
@@ -141,15 +102,9 @@
         "milestone_id": "scene-display-layers",
         "depends_on": "aimayatool-scene-display-layers-name-contract-verify-013br1",
         "purpose": "Retry deterministic verification with the correct Maya/Python boundary.",
-        "acceptance": [
-          "Fast-forward AIMayaTool main to include commit 80d2df9d7179118fa5b30a57fc22572db62e9688 or later.",
-          "Compile display_layer_smoke.py, display_layers.py, and tests/test_scene_display_layers.py.",
-          "Import aimayatool.tools.scene.display_layers outside Maya successfully; do not import the Maya-only smoke module under normal Python.",
-          "Run tests.test_scene_display_layers and require all focused tests to pass."
-        ],
         "result": "PASS",
         "proven_main_commit": "d60cde8f0b0aef7afad242a2e6b9795fa29f7f8e",
-        "evidence": "ff-only pull advanced D:/AIMayaTool from bb55e2437324f4cc50169ed0c2ce6620ee69e059 to d60cde8f0b0aef7afad242a2e6b9795fa29f7f8e. py_compile passed for display_layer_smoke.py, display_layers.py, and tests/test_scene_display_layers.py; import of aimayatool.tools.scene.display_layers passed; focused unittest ran 2 tests in 0.001s and returned OK."
+        "evidence": "py_compile passed for display_layer_smoke.py, display_layers.py, and tests/test_scene_display_layers.py; import of aimayatool.tools.scene.display_layers passed; focused unittest ran 2 tests in 0.001s and returned OK."
       },
       "action": {
         "type": "verification",
@@ -173,25 +128,6 @@
         "via": "web"
       },
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/display_layer_smoke.py",
-          "aimayatool/tools/scene/display_layers.py",
-          "tests/test_scene_display_layers.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.display_layers"
-        ],
-        "tests": [
-          "tests.test_scene_display_layers"
-        ],
         "timeout": 180
       },
       "bridge_completed": true
@@ -199,19 +135,16 @@
     {
       "task_id": "aimayatool-scene-display-layers-maya-smoke-013br",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "scene-display-layers",
         "depends_on": "aimayatool-scene-display-layers-name-contract-verify-013br2",
         "retry_of": "aimayatool-scene-display-layers-maya-smoke-013b",
         "purpose": "Retry display-layer Maya validation with corrected DAG-path expectations.",
-        "acceptance": [
-          "Reuse the healthy managed Maya session.",
-          "Force a fresh unsaved scene; do not save or quit Maya.",
-          "Reload current display_layer_smoke from disk before execution.",
-          "Return AIBRIDGE_UI_SMOKE_OK:SCENE_DISPLAY_LAYER_SMOKE_OK."
-        ]
+        "result": "PASS",
+        "proven_main_commit": "d60cde8f0b0aef7afad242a2e6b9795fa29f7f8e",
+        "evidence": "maya:managed_live_smoke reused the existing Maya 2024 session on 127.0.0.1:7001, forced a fresh scene, did not save or quit Maya, reloaded the current display_layer_smoke module, and returned AIBRIDGE_UI_SMOKE_OK:SCENE_DISPLAY_LAYER_SMOKE_OK."
       },
       "action": {
         "type": "maya",
@@ -243,7 +176,8 @@
         "expected_window": "",
         "live_port": 7001,
         "timeout": 180
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-scene-display-layers-ui-regression-013c",
