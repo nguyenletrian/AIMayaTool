@@ -9,9 +9,20 @@
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-weight-profile",
-        "archived_prerequisite": {"task_id": "aimayatool-ratio-weighting-maya-smoke-017c", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "c97034c089ccbefce54e42ecae32566020287bd1"},
+        "archived_prerequisite": {
+          "task_id": "aimayatool-ratio-weighting-maya-smoke-017c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "c97034c089ccbefce54e42ecae32566020287bd1"
+        },
         "purpose": "Deterministically verify the reusable normalized animCurve-backed skin-weight profile primitive before Maya validation.",
-        "acceptance": ["Fast-forward AIMayaTool main before verification.", "Compile weight_profile.py, weight_profile_smoke.py, and focused tests.", "Import aimayatool.tools.skinning.weight_profile outside Maya without requiring maya.cmds.", "Run tests.test_skinning_weight_profile and require all focused tests to pass."],
+        "acceptance": [
+          "Fast-forward AIMayaTool main before verification.",
+          "Compile weight_profile.py, weight_profile_smoke.py, and focused tests.",
+          "Import aimayatool.tools.skinning.weight_profile outside Maya without requiring maya.cmds.",
+          "Run tests.test_skinning_weight_profile and require all focused tests to pass."
+        ],
         "result": "PASS",
         "proven_main_commit": "00bfa963a498ba6371e0917b0c63f3e4cdb0f34d",
         "evidence": "py_compile passed for weight_profile.py, weight_profile_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_weight_profile passed 3/3."
@@ -90,19 +101,23 @@
     {
       "task_id": "aimayatool-weight-profile-deterministic-018a-r2",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-weight-profile",
         "retry_of": "aimayatool-weight-profile-deterministic-018a-r1",
         "purpose": "Verify the documented Maya keyTangent long-flag repair before another live Maya attempt.",
-        "acceptance": ["Fast-forward AIMayaTool main and include commit 4712b773fe203b5dc73a91be6866786831d9d1a7 or later.", "Compile weight_profile.py, weight_profile_smoke.py, and focused tests.", "Import aimayatool.tools.skinning.weight_profile outside Maya without requiring maya.cmds.", "Run tests.test_skinning_weight_profile and require all focused tests to pass with outTangentType/inTangentType coverage." ]
+        "acceptance": ["Fast-forward AIMayaTool main and include commit 4712b773fe203b5dc73a91be6866786831d9d1a7 or later.", "Compile weight_profile.py, weight_profile_smoke.py, and focused tests.", "Import aimayatool.tools.skinning.weight_profile outside Maya without requiring maya.cmds.", "Run tests.test_skinning_weight_profile and require all focused tests to pass with outTangentType/inTangentType coverage."],
+        "result": "PASS",
+        "proven_main_commit": "0413d1fbd3038314f0f83085f8e3d66b593d10db",
+        "evidence": "py_compile passed for weight_profile.py, weight_profile_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_weight_profile passed 4/4 with documented long tangent flag coverage."
       },
       "action": {"type": "verification", "target": "python"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/weight_profile.py", "aimayatool/tools/skinning/weight_profile_smoke.py", "tests/test_skinning_weight_profile.py"], "imports": ["aimayatool.tools.skinning.weight_profile"], "tests": ["tests.test_skinning_weight_profile"], "timeout": 180}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/weight_profile.py", "aimayatool/tools/skinning/weight_profile_smoke.py", "tests/test_skinning_weight_profile.py"], "imports": ["aimayatool.tools.skinning.weight_profile"], "tests": ["tests.test_skinning_weight_profile"], "timeout": 180},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-weight-profile-maya-smoke-018b-r2",
