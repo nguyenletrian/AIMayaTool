@@ -23,12 +23,13 @@ def closest_edge_to_point(mesh, edges, point, mesh_fn=None):
     om = _om()
     mesh_fn = mesh_fn or _mesh_fn(mesh)
     target = om.MVector(float(point[0]), float(point[1]), float(point[2]))
+    points = mesh_fn.getPoints(om.MSpace.kWorld)
     best_edge = None
     best_distance = float('inf')
     for edge in edges:
         v0, v1 = mesh_fn.getEdgeVertices(component_index(edge))
-        points = mesh_fn.getPoints(om.MSpace.kWorld)
-        center = (om.MVector(points[v0]) + om.MVector(points[v1])) * 0.5
+        p0, p1 = points[v0], points[v1]
+        center = om.MVector((p0.x + p1.x) * 0.5, (p0.y + p1.y) * 0.5, (p0.z + p1.z) * 0.5)
         delta = center - target
         distance = delta * delta
         if distance < best_distance:
