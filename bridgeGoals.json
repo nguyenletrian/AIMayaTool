@@ -40,7 +40,8 @@
         {"milestone_id": "advanced-topology-axis", "title": "Axis-aware connected-edge topology selection", "status": "completed"},
         {"milestone_id": "advanced-topology-loops", "title": "Joint-axis edge-loop discovery", "status": "completed"},
         {"milestone_id": "advanced-topology-region", "title": "Closest-edge and bounded topology region traversal", "status": "completed"},
-        {"milestone_id": "advanced-joint-regions", "title": "Circular joint ordering and local radius selection", "status": "in_progress"}
+        {"milestone_id": "advanced-joint-regions", "title": "Circular joint ordering and local radius selection", "status": "completed"},
+        {"milestone_id": "advanced-loop-groups", "title": "Perpendicular edge-loop vertex strip grouping", "status": "in_progress"}
       ]
     }
   ]
