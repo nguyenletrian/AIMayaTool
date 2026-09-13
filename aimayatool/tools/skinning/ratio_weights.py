@@ -67,9 +67,12 @@ def _batched_vertex_component(components):
     import maya.api.OpenMaya as om
 
     cmds = _cmds()
+    report_components = cmds.ls(list(components or []), flatten=True) or []
     flat = cmds.ls(list(components or []), flatten=True, long=True) or []
     if not flat:
-        return None, None, []
+        return None, None, [], []
+    if len(report_components) != len(flat):
+        raise ValueError("Could not preserve component reporting while batching ratio weighting")
     mesh = None
     indices = []
     for component in flat:
@@ -89,7 +92,7 @@ def _batched_vertex_component(components):
     component_fn = om.MFnSingleIndexedComponent()
     component_object = component_fn.create(om.MFn.kMeshVertComponent)
     component_fn.addElements(indices)
-    return dag_path, component_object, flat
+    return dag_path, component_object, flat, report_components
 
 
 def _skin_fn(skin_cluster):
@@ -112,7 +115,7 @@ def _influence_index(skin_fn, influence):
 def _apply_influence_ratios_batched_validated(skin_cluster, components, influences, normalized, normalize=True):
     import maya.api.OpenMaya as om
 
-    dag_path, component_object, flat = _batched_vertex_component(components)
+    dag_path, component_object, flat, report_components = _batched_vertex_component(components)
     if not flat:
         return []
     skin_fn = _skin_fn(skin_cluster)
@@ -120,7 +123,7 @@ def _apply_influence_ratios_batched_validated(skin_cluster, components, influenc
     per_influence = [skin_fn.getWeights(dag_path, component_object, index) for index in influence_indices]
     values = []
     changed = []
-    for component_index, component in enumerate(flat):
+    for component_index, component in enumerate(report_components):
         current = [weights[component_index] for weights in per_influence]
         total = sum(current)
         if total <= 1e-12:
