@@ -3,32 +3,10 @@
   "history_checkpoint_blob": "802273f83c71e04ec51c129ca4af5e2524ecc179",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-skinning-undo-errors-064",
+    "request_id": "aimayatool-skinning-undo-errors-065",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
-    {
-      "task_id": "aimayatool-goal004-skin-io-import-undo-integration-verify-063a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-004",
-        "milestone_id": "skinning-undo-errors",
-        "purpose": "Verify Skin IO multi-mesh import native undo candidate before live validation.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_io_import_undo_python_verification_pass",
-        "proven_main_commit": "3269c51bb71e7c00aa1f0fe26959a2f2ce6ff604",
-        "evidence": "py_compile passed for skin_io.py and skin_io_undo_smoke.py; importing aimayatool.tools.skinning passed.",
-        "bridge_completed": true
-      },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skin_io.py", "aimayatool/tools/skinning/skin_io_undo_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
-      "bridge_completed": true
-    },
     {
       "task_id": "aimayatool-goal004-skin-io-import-undo-integration-managed-live-063b",
       "status": "pending",
@@ -37,12 +15,11 @@
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-undo-errors",
         "purpose": "Determine whether a real two-mesh Skin IO import is fully reverted by one native Maya undo.",
-        "depends_on": ["aimayatool-goal004-skin-io-import-undo-integration-verify-063a"],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "FAIL",
         "classification": "skin_io_native_undo_does_not_restore_deformerweights",
         "proven_main_commit": "4f1f724f0f0186b44fb4e13bb2022ad3268c19c3",
-        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene. Skin IO import completed, but one cmds.undo() did not restore mesh A pre-import weights. This is product/runtime behavior, not stale cache. scene_saved=false and maya_quit=false.",
+        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene. Skin IO import completed, but one cmds.undo() did not restore mesh A pre-import weights. scene_saved=false and maya_quit=false.",
         "managed_pid": 10632,
         "managed_port": 7001,
         "session": "existing",
@@ -65,14 +42,12 @@
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-undo-errors",
-        "purpose": "Verify the explicit Skin IO snapshot/restore rollback strategy that replaces unreliable native undo for deformerWeights imports.",
-        "archived_prerequisite": {"task_id": "aimayatool-goal004-skin-io-import-undo-integration-managed-live-063b", "result": "FAIL", "architect_ack": true, "bridge_completed": true},
-        "implementation_commit": "d7b171aad2a6136d57055f6cc4f8fc30fb239e7a",
+        "purpose": "Verify explicit Skin IO snapshot/restore rollback strategy.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_io_explicit_rollback_python_verification_pass",
         "proven_main_commit": "0182e8c640486a267e661f9944b87ade56405bbe",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 4f1f724f0f0186b44fb4e13bb2022ad3268c19c3 to 0182e8c640486a267e661f9944b87ade56405bbe; py_compile passed with exit_code=0 for skin_io_rollback_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0.",
+        "evidence": "py_compile passed for skin_io_rollback_smoke.py and importing aimayatool.tools.skinning passed.",
         "bridge_completed": true
       },
       "action": {"type": "verification", "target": "python"},
@@ -85,20 +60,69 @@
     {
       "task_id": "aimayatool-goal004-skin-io-explicit-rollback-managed-live-064b",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-undo-errors",
+        "purpose": "Prove explicit snapshot/restore returns both Skin IO targets to exact pre-import weights in Maya.",
+        "depends_on": ["aimayatool-goal004-skin-io-explicit-rollback-verify-064a"],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_io_explicit_rollback_managed_live_pass",
+        "proven_main_commit": "2935e4c0449fa57730d57a5edc5079c87527f475",
+        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene and returned SKINNING_IO_EXPLICIT_ROLLBACK_OK targets=2; explicit snapshot/restore returned both meshes to their pre-import weights. scene_saved=false and maya_quit=false.",
+        "targets": 2,
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "session": "existing",
+        "new_scene_forced": true,
+        "scene_saved": false,
+        "maya_quit": false,
+        "bridge_completed": true
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_io_rollback_smoke", "callable": "run_skin_io_rollback_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal004-skin-io-transactional-import-verify-065a",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-undo-errors",
-        "purpose": "Prove explicit snapshot/restore returns both Skin IO targets to their exact pre-import weights in Maya.",
-        "depends_on": ["aimayatool-goal004-skin-io-explicit-rollback-verify-064a"],
-        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.skin_io_rollback_smoke.run_skin_io_rollback_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_IO_EXPLICIT_ROLLBACK_OK targets=2 for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
+        "purpose": "Verify production Skin IO transactional import snapshots existing state, rolls back on the first failure, and cleans newly-created skinClusters.",
+        "archived_prerequisite": {"task_id": "aimayatool-goal004-skin-io-explicit-rollback-managed-live-064b", "result": "PASS", "architect_ack": true, "bridge_completed": true},
+        "implementation_commits": ["b8a4efb2130b4dd72f496680e0a005967505eb6a", "f11c4ec206e86dd321d71175f71d12bc4b9b4513"],
+        "acceptance": ["Fast-forward main.", "py_compile skin_io.py and skin_io_transaction_smoke.py.", "Import aimayatool.tools.skinning successfully.", "Do not invoke Codex."],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/skin_io.py", "aimayatool/tools/skinning/skin_io_transaction_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+    },
+    {
+      "task_id": "aimayatool-goal004-skin-io-transactional-import-managed-live-065b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-undo-errors",
+        "purpose": "Prove a three-target production Skin IO transaction restores existing weights and removes a newly-created skinCluster after an injected mid-batch failure.",
+        "depends_on": ["aimayatool-goal004-skin-io-transactional-import-verify-065a"],
+        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.skin_io_transaction_smoke.run_skin_io_transaction_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_IO_TRANSACTION_ROLLBACK_OK targets=3 failed=1 for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_io_rollback_smoke", "callable": "run_skin_io_rollback_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_io_transaction_smoke", "callable": "run_skin_io_transaction_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300}
     }
   ]
 }
