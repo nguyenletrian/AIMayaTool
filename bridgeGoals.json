@@ -48,7 +48,7 @@
         {"milestone_id":"advanced-skirt-parent-smoothing-apply","title":"Explicit adjacent-joint gradient and ratio propagation executor","status":"completed"},
         {"milestone_id":"advanced-skirt-parent-workflow","title":"Composed end-to-end SkirtParent workflow executor","status":"completed"},
         {"milestone_id":"advanced-skirt-parent-ui-assessment","title":"Assess thin interactive/UI exposure for the accepted SkirtParent workflow","status":"completed"},
-        {"milestone_id":"advanced-skirt-parent-ui","title":"Thin selection adapter and Skinning UI exposure for SkirtParent","status":"in_progress"}
+        {"milestone_id":"advanced-skirt-parent-ui","title":"Thin selection adapter and Skinning UI exposure for SkirtParent","status":"completed"}
       ]
     }
   ]
