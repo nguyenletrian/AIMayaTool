@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import importlib
 import maya.cmds as cmds
 
 from aimayatool.tools import skinning
@@ -35,6 +36,11 @@ _EXPECTED_BUTTONS = {
 
 
 def run_skinning_ui_parity_smoke():
+    # Managed-live Maya intentionally persists between tasks, so reload the UI
+    # module after a git pull before constructing controls from current code.
+    importlib.invalidate_caches()
+    importlib.reload(skinning)
+
     cmds.file(new=True, force=True)
     if cmds.window(_WINDOW, exists=True):
         cmds.deleteUI(_WINDOW)
