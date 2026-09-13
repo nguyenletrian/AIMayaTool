@@ -3,294 +3,19 @@
   "history_checkpoint_blob": "98769cea5b52fa18da9ab92ab99dce6af61966be",
   "tasks": [
     {
-      "task_id": "aimayatool-scene-pattern-operations-deterministic-012a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "scene-pattern-operations",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-scene-pattern-ui-regression-011c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "stable_checkpoint": "backup/2026-09-13-0830-ScenePatternFirstSlice-2553758"
-        },
-        "purpose": "Deterministically verify ScenePattern create/edit/save/load operations and Python-only Scene package import.",
-        "acceptance": [
-          "Fast-forward AIMayaTool main to include commit 81ddaf26d1e441fe2e90fa3c4cd53eb77238cb31 or later.",
-          "Compile operations.py, patterns.py, smoke.py, scene __init__.py, and tests/test_scene_pattern_operations.py.",
-          "Import aimayatool.tools.scene outside Maya successfully; scene package must not require maya.cmds until build_ui is invoked.",
-          "Run tests.test_scene_pattern_operations and require all focused tests to pass."
-        ],
-        "result": "PASS",
-        "proven_main_commit": "e3c792e676217510086213516838d815b6b00953",
-        "evidence": "ff-only pull advanced D:/AIMayaTool from 255375819c7dea39672b260b514f8bea669e83de to e3c792e676217510086213516838d815b6b00953. py_compile passed for operations.py, patterns.py, smoke.py, scene __init__.py, and tests/test_scene_pattern_operations.py; imports of aimayatool.tools.scene and aimayatool.tools.scene.operations passed outside Maya; focused unittest ran 3 tests in 0.003s and returned OK."
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/operations.py",
-          "aimayatool/tools/scene/patterns.py",
-          "aimayatool/tools/scene/smoke.py",
-          "aimayatool/tools/scene/__init__.py",
-          "tests/test_scene_pattern_operations.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene",
-          "aimayatool.tools.scene.operations"
-        ],
-        "tests": [
-          "tests.test_scene_pattern_operations"
-        ],
-        "timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-scene-pattern-operations-maya-smoke-012b",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "scene-pattern-operations",
-        "depends_on": "aimayatool-scene-pattern-operations-deterministic-012a",
-        "purpose": "Validate ScenePattern create/edit/save/load round-trip inside managed Maya 2024.",
-        "acceptance": [
-          "Reuse the managed Maya 2024 session when healthy or launch one automatically.",
-          "Force a new unsaved scene before validation and never save or quit Maya.",
-          "Run aimayatool.tools.scene.smoke.run_scene_pattern_smoke.",
-          "Return AIBRIDGE_UI_SMOKE_OK:SCENE_PATTERN_OPERATIONS_SMOKE_OK."
-        ],
-        "result": "BLOCKED_STALE_MAYA_MODULE_CACHE",
-        "diagnosis": "Managed Maya reused an existing session and returned the previous SCENE_PATTERN_SMOKE_OK marker even though current main smoke.py returns SCENE_PATTERN_OPERATIONS_SMOKE_OK. The reusable live route imported an already-cached target module without reloading it; this is runtime freshness evidence, not a product pass.",
-        "evidence": "session=existing on 127.0.0.1:7001; new_scene_forced=true; scene_saved=false; maya_quit=false; actual marker AIBRIDGE_UI_SMOKE_OK:SCENE_PATTERN_SMOKE_OK did not satisfy the required operations marker."
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.scene.smoke",
-        "callable": "run_scene_pattern_smoke",
-        "expected_window": "",
-        "live_port": 7001,
-        "timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-aibridge-maya-live-reload-verify-012br1",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "scene-pattern-operations",
-        "depends_on": "aimayatool-scene-pattern-operations-maya-smoke-012b",
-        "purpose": "Verify reusable Maya live smoke refreshes the requested target module before execution.",
-        "acceptance": [
-          "Fast-forward D:/AIBrigde main to include commit 221f1601954ba9bfed70d4e29d0496b2c7b74f55 or later.",
-          "Compile aibridge/maya_ui_smoke_capability.py and tests/test_maya_live_smoke_capability.py.",
-          "Run tests.test_maya_live_smoke_capability.",
-          "Prove generated live probe invalidates import caches and reloads the requested module while preserving new-scene/no-save/no-quit behavior."
-        ],
-        "result": "PASS",
-        "proven_main_commit": "221f1601954ba9bfed70d4e29d0496b2c7b74f55",
-        "evidence": "D:/AIBrigde was already at 221f1601954ba9bfed70d4e29d0496b2c7b74f55. py_compile passed for maya_ui_smoke_capability.py and test_maya_live_smoke_capability.py; import passed; focused unittest ran 6 tests in 0.005s and returned OK."
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIBrigde.git",
-        "branch": "main",
-        "workdir": "D:/AIBrigde"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aibridge/maya_ui_smoke_capability.py",
-          "tests/test_maya_live_smoke_capability.py"
-        ],
-        "imports": [
-          "aibridge.maya_ui_smoke_capability"
-        ],
-        "tests": [
-          "tests.test_maya_live_smoke_capability"
-        ],
-        "timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-aibridge-maya-live-reload-restart-012br2",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "scene-pattern-operations",
-        "depends_on": "aimayatool-aibridge-maya-live-reload-verify-012br1",
-        "purpose": "Restart AIBrigde so managed live smoke uses the verified module-refresh probe.",
-        "acceptance": [
-          "Restart only after 012br1 passes.",
-          "Do not retry Maya operations on stale Bridge runtime code."
-        ],
-        "result": "PASS_RESTART_REQUESTED",
-        "evidence": "bridge:restart returned success=true with restart_requested=true after the verified module-refresh runtime task was acknowledged."
-      },
-      "action": {
-        "type": "bridge",
-        "target": "restart"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIBrigde.git",
-        "branch": "main",
-        "workdir": "D:/AIBrigde"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": false,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {},
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-scene-pattern-operations-maya-smoke-012br",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "scene-pattern-operations",
-        "depends_on": "aimayatool-aibridge-maya-live-reload-restart-012br2",
-        "retry_of": "aimayatool-scene-pattern-operations-maya-smoke-012b",
-        "purpose": "Retry ScenePattern operations in the reusable Maya session after target-module refresh support is loaded.",
-        "acceptance": [
-          "Reuse the healthy managed Maya session where possible.",
-          "Force a new unsaved scene; do not save or quit Maya.",
-          "Reload current aimayatool.tools.scene.smoke from disk before execution.",
-          "Return AIBRIDGE_UI_SMOKE_OK:SCENE_PATTERN_OPERATIONS_SMOKE_OK."
-        ],
-        "result": "PASS",
-        "proven_main_commit": "e3c792e676217510086213516838d815b6b00953",
-        "evidence": "maya:managed_live_smoke reused the existing Maya 2024 session on 127.0.0.1:7001, refreshed aimayatool.tools.scene.smoke from disk, forced a new scene, did not save or quit Maya, and returned AIBRIDGE_UI_SMOKE_OK:SCENE_PATTERN_OPERATIONS_SMOKE_OK."
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.scene.smoke",
-        "callable": "run_scene_pattern_smoke",
-        "expected_window": "",
-        "live_port": 7001,
-        "timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-scene-pattern-operations-ui-regression-012c",
       "status": "pending",
       "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "scene-pattern-operations",
-        "depends_on": "aimayatool-scene-pattern-operations-maya-smoke-012br",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-scene-pattern-operations-maya-smoke-012br",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "e3c792e676217510086213516838d815b6b00953"
+        },
         "purpose": "Verify the new ScenePattern operations and lazy Maya import do not regress AIMayaTool launch.",
         "acceptance": [
           "Reuse the healthy managed Maya session where possible.",
@@ -339,7 +64,7 @@
     {
       "task_id": "aimayatool-scene-display-layers-deterministic-013a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "scene-display-layers",
@@ -356,7 +81,10 @@
           "Compile display_layers.py, display_layer_smoke.py, scene __init__.py, and tests/test_scene_display_layers.py.",
           "Import aimayatool.tools.scene.display_layers outside Maya successfully.",
           "Run tests.test_scene_display_layers and require all focused tests to pass."
-        ]
+        ],
+        "result": "PASS",
+        "proven_main_commit": "8e5ac2f7ef75750a9e877c228652cfeecd0b5542",
+        "evidence": "ff-only pull advanced D:/AIMayaTool from e3c792e676217510086213516838d815b6b00953 to 8e5ac2f7ef75750a9e877c228652cfeecd0b5542. py_compile passed for display_layers.py, display_layer_smoke.py, scene __init__.py, and tests/test_scene_display_layers.py; import of aimayatool.tools.scene.display_layers passed; focused unittest ran 2 tests in 0.001s and returned OK."
       },
       "action": {
         "type": "verification",
@@ -401,7 +129,8 @@
           "tests.test_scene_display_layers"
         ],
         "timeout": 180
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-scene-display-layers-maya-smoke-013b",
