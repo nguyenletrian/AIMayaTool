@@ -8,6 +8,8 @@ from aimayatool.tools import skinning
 
 _WINDOW = 'AIMayaToolSkinningUIParitySmokeWindow'
 _EXPECTED_BUTTONS = {
+    'Add Missing Influences From Source',
+    'Remove Unused Influences',
     'Replace 0',
     'Replace 1',
     'Add -0.1',
