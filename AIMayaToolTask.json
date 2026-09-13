@@ -1,6 +1,11 @@
 {
   "version": 1,
   "history_checkpoint_blob": "eb31c39369ac27a8878789ae6bae130fcb07beb3",
+  "force_restart": {
+    "enabled": true,
+    "request_id": "aimayatool-load-aibridge-9ed6c682-036a",
+    "reason": "reload_updated_aibridge_runtime_before_maya_retry"
+  },
   "tasks": [
     {
       "task_id": "aimayatool-skirt-parent-transfer-smoothing-plan-maya-diagnostic-035f",
@@ -65,17 +70,45 @@
     {
       "task_id": "aibridge-runtime-self-update-for-aimayatool-036a",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "purpose": "Fast-forward the local AIBrigde runtime checkout before restarting the managed worker so Maya hang cleanup and split startup/operation timeouts are loaded by the next process.",
+        "result": "PASS",
+        "proven_main_commit": "9ed6c682ae739ed457e31a1e51b2000e130d951e",
+        "evidence": "git:pull on D:/AIBrigde main reported before=after=9ed6c682ae739ed457e31a1e51b2000e130d951e, changed=false, output=Already up to date. The local runtime checkout is ready for a one-time managed-worker restart."
+      },
+      "action": {"type": "git", "target": "pull"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
+      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"strategy": "ff-only", "remote": "origin"},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-retry-036b",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Fast-forward the local AIBrigde runtime checkout before restarting the managed worker so Maya hang cleanup, project-specific TaskSource resolution, and split startup/operation timeouts are actually loaded by the next process.",
+        "purpose": "Retry the first post-transfer default API loop-group diagnostic only after the managed AIBrigde worker reloads runtime commit 9ed6c682ae739ed457e31a1e51b2000e130d951e or later.",
         "acceptance": [
-          "Fast-forward D:/AIBrigde main from origin using git:pull only; do not modify source files locally.",
-          "The resulting HEAD must include AIBrigde commits 9d7169a9d9cadf538954545f2c2886d63c3db043 and 9ed6c682ae739ed457e31a1e51b2000e130d951e or later.",
-          "Return the exact before/after commit and whether the checkout changed. Do not restart inside this task; Architect will issue one out-of-band force_restart only after this pull is proven."
+          "This task must run only after the out-of-band force_restart request aimayatool-load-aibridge-9ed6c682-036a has caused the managed worker to relaunch.",
+          "Use startup_timeout=90 seconds and operation_timeout=45 seconds from the reloaded managed-live runtime.",
+          "If Maya cannot become healthy, apply the managed-session cleanup contract before returning runtime failure.",
+          "Force a fresh unsaved scene; do not save or quit Maya.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_POST_TRANSFER_LOOP_GROUP_SMOKE_OK."
         ],
         "archived_prerequisite": {
+          "task_id": "aibridge-runtime-self-update-for-aimayatool-036a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "9ed6c682ae739ed457e31a1e51b2000e130d951e"
+        },
+        "archived_retry_source": {
           "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-diagnostic-035h",
           "result": "INCONCLUSIVE",
           "architect_ack": true,
@@ -83,11 +116,23 @@
           "proven_main_commit": "10d0226bc3b7a86efefee5a6073cefd25bf91925"
         }
       },
-      "action": {"type": "git", "target": "pull"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
-      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"strategy": "ff-only", "remote": "origin"}
+      "payload": {
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_loop_group_smoke",
+        "callable": "run_skirt_parent_post_transfer_loop_group_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "timeout": 45,
+        "startup_timeout": 90,
+        "operation_timeout": 45,
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]
+      }
     }
   ]
 }
