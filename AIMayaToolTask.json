@@ -96,21 +96,42 @@
     {
       "task_id": "aimayatool-goal003-paint-state-adapter-maya-smoke-retry-037q",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-003",
+        "milestone_id": "skinning-weight-tools",
+        "purpose": "Retry Paint Skin Weights adapter validation after hardening context detection.",
+        "depends_on": ["aimayatool-goal003-paint-state-adapter-maya-smoke-037p"],
+        "retry_of": "aimayatool-goal003-paint-state-adapter-maya-smoke-037p",
+        "fix_commit": "2ba000635784bef9af03ecb86249864f455c3647",
+        "result": "INCONCLUSIVE",
+        "classification": "maya_ui_smoke_runtime_timeout_no_product_exception",
+        "evidence": "Bridge fast-forwarded local main from 0985fa2fa03daacd75fab5a0329bcfa23b6aada7 to 808ea206a885b9384879c447c55156670dd555a6, then Maya UI smoke timed out after 45 seconds with empty output and no traceback, exception, or success marker. Under GUIDE runtime-loss rules this does not prove a paint-state product failure; bounded fresh-session retry is required."
+      },
+      "action": {"type": "maya", "target": "ui_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.paint_state_smoke", "callable": "run_paint_state_smoke", "expected_window": "", "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal003-paint-state-adapter-maya-smoke-fresh-retry-037r",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-weight-tools",
-        "purpose": "Retry Paint Skin Weights adapter validation after hardening context detection to use artAttrSkinPaintCtx existence first and contextInfo only as fallback.",
-        "depends_on": ["aimayatool-goal003-paint-state-adapter-maya-smoke-037p"],
-        "retry_of": "aimayatool-goal003-paint-state-adapter-maya-smoke-037p",
-        "fix_commit": "2ba000635784bef9af03ecb86249864f455c3647",
+        "purpose": "Bounded fresh-session retry of Paint Skin Weights adapter validation after 037q produced only an empty runtime timeout.",
+        "depends_on": ["aimayatool-goal003-paint-state-adapter-maya-smoke-retry-037q"],
+        "retry_of": "aimayatool-goal003-paint-state-adapter-maya-smoke-retry-037q",
         "acceptance": [
           "Fast-forward main before validation.",
-          "Run in a fresh unsaved Maya 2024 scene and do not save the user scene.",
+          "Launch a fresh Maya 2024 process with a fresh unsaved scene and do not save the user scene.",
           "Invoke aimayatool.tools.skinning.paint_state_smoke.run_paint_state_smoke.",
           "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_PAINT_STATE_ADAPTER_SMOKE_OK for PASS.",
-          "Prove context detection, opacity/value round trip, snapshot and invalid-opacity rejection.",
-          "If PASS, accept the paint-state adapter and begin brush-weight editing."
+          "Use the wider bounded timeout only to distinguish a transient Maya startup/runtime stall from product behavior.",
+          "If PASS, accept the paint-state adapter and begin brush-weight editing. If a product traceback occurs, diagnose it before any further retry."
         ]
       },
       "action": {"type": "maya", "target": "ui_smoke"},
@@ -124,9 +145,9 @@
         "module": "aimayatool.tools.skinning.paint_state_smoke",
         "callable": "run_paint_state_smoke",
         "expected_window": "",
-        "timeout": 45,
-        "startup_timeout": 90,
-        "operation_timeout": 45,
+        "timeout": 90,
+        "startup_timeout": 120,
+        "operation_timeout": 90,
         "preconditions": [
           {"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}
         ]
