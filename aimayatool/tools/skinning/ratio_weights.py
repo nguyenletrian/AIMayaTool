@@ -116,12 +116,13 @@ def apply_influence_ratios_batched(skin_cluster, components, influences, ratios)
     skin_fn = _skin_fn(skin_cluster)
     influence_indices = [_influence_index(skin_fn, influence) for influence in influences]
     per_influence = [skin_fn.getWeights(dag_path, component_object, index) for index in influence_indices]
-    values = om.MDoubleArray()
+    values = []
     changed = []
     for component_index, component in enumerate(flat):
-        total = sum(weights[component_index] for weights in per_influence)
+        current = [weights[component_index] for weights in per_influence]
+        total = sum(current)
         if total <= 1e-12:
-            values.extend([weights[component_index] for weights in per_influence])
+            values.extend(current)
             continue
         values.extend([total * ratio for ratio in normalized])
         changed.append(component)
@@ -130,7 +131,7 @@ def apply_influence_ratios_batched(skin_cluster, components, influences, ratios)
         dag_path,
         component_object,
         om.MIntArray(influence_indices),
-        values,
+        om.MDoubleArray(values),
         normalize=False,
         returnOldWeights=False,
     )
