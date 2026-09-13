@@ -19,7 +19,7 @@
         {"milestone_id":"maya-runtime-routes","title":"Reusable Maya execution routes","status":"completed"},
         {"milestone_id":"foundation-live-validation","title":"Bootstrap and UI shell Maya validation","status":"completed"},
         {"milestone_id":"skinning-first-slice","title":"Skinning primitive migration","status":"completed"},
-        {"milestone_id":"setup-first-slice","title":"Setup control and transform primitives","status":"in_progress"}
+        {"milestone_id":"setup-first-slice","title":"Setup control and transform primitives","status":"completed"}
       ]
     }
   ]
