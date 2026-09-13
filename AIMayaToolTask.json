@@ -3,25 +3,6 @@
   "history_checkpoint_blob": "eb31c39369ac27a8878789ae6bae130fcb07beb3",
   "tasks": [
     {
-      "task_id": "aimayatool-skirt-parent-transfer-composition-maya-diagnostic-035e",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-foundation-001",
-        "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Run the exact reduced full-workflow fixture through planner plus parent-to-skirt transfer only.",
-        "result": "PASS",
-        "proven_main_commit": "427ed517de713f4fde702bbaac708bb4c745fb27",
-        "evidence": "Managed Maya 2024 launched a fresh session (pid 17020) on port 7001 after ff-only sync to 427ed517de713f4fde702bbaac708bb4c745fb27, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_TRANSFER_WORKFLOW_SMOKE_OK with scene_saved=false and maya_quit=false."
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_transfer_workflow_smoke", "callable": "run_skirt_parent_transfer_workflow_smoke", "expected_window": "", "live_port": 7001, "timeout": 120, "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]},
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-skirt-parent-transfer-smoothing-plan-maya-diagnostic-035f",
       "status": "pending",
       "architect_ack": true,
@@ -32,13 +13,13 @@
         "result": "INCONCLUSIVE",
         "classification": "diagnostic_override_timeout",
         "proven_main_commit": "42d1db48853b815a9b81941fb78092a9df8929f1",
-        "evidence": "Managed Maya 2024 reused the existing session on port 7001 after ff-only sync to 42d1db48853b815a9b81941fb78092a9df8929f1, forced a fresh unsaved scene, and timed out after 120 seconds. This diagnostic forwarded cached mesh_fn and selector overrides unlike production, so it is retained only as interaction evidence."
+        "evidence": "Managed Maya 2024 reused the existing session on port 7001 and timed out after 120 seconds. This diagnostic forwarded cached mesh_fn and selector overrides unlike production, so it is retained only as interaction evidence."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_transfer_smoothing_plan_smoke", "callable": "run_skirt_parent_transfer_smoothing_plan_smoke", "expected_window": "", "live_port": 7001, "timeout": 120, "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}]},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_transfer_smoothing_plan_smoke", "callable": "run_skirt_parent_transfer_smoothing_plan_smoke", "expected_window": "", "live_port": 7001, "timeout": 120},
       "bridge_completed": true
     },
     {
@@ -52,42 +33,61 @@
         "result": "INCONCLUSIVE",
         "classification": "production_smoothing_plan_post_transfer_timeout",
         "proven_main_commit": "6ae4b8eb628c1db14d92fbb674255a07bcb32a15",
-        "evidence": "Managed Maya 2024 reused the existing session on port 7001 after ff-only sync from 42d1db48853b815a9b81941fb78092a9df8929f1 to 6ae4b8eb628c1db14d92fbb674255a07bcb32a15, forced a fresh unsaved scene, and timed out after 120 seconds with scene_saved=false and maya_quit=false. This diagnostic matches the production smoothing-plan call after a proven parent-transfer phase, so the current blocker is inside or below post-transfer smoothing-plan topology grouping. Timeout alone does not prove Maya crashed."
+        "evidence": "Managed Maya 2024 reused the existing session on port 7001 and timed out after 120 seconds. The production-exact post-transfer smoothing-plan path is therefore still unresolved; timeout alone does not prove Maya crashed."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_transfer_smoothing_plan_production_smoke", "callable": "run_skirt_parent_transfer_smoothing_plan_production_smoke", "expected_window": "", "live_port": 7001, "timeout": 120, "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}]},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_transfer_smoothing_plan_production_smoke", "callable": "run_skirt_parent_transfer_smoothing_plan_production_smoke", "expected_window": "", "live_port": 7001, "timeout": 120},
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-diagnostic-035h",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "After the proven planner+transfer phase, run only the first smoothing span through group_vertices_by_perpendicular_loops using its default bounded API topology path, isolating whether a single post-transfer loop-group call is the production blocker.",
-        "acceptance": [
-          "Fast-forward main and include diagnostic smoke commit 72f0dba18f804ac714bb447108fb17bfb97e870c or later.",
-          "Start from a healthy managed Maya 2024 session. If the previous timeout left the listener/process unresponsive, terminate the stale managed Maya process before attempting this diagnostic; do not reuse a confirmed hung session.",
-          "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run skirt_parent_post_transfer_loop_group_smoke and require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_POST_TRANSFER_LOOP_GROUP_SMOKE_OK. Bound the smoke operation to 45 seconds; Maya launch/recovery may use up to 90 seconds. If this times out on a healthy session, classify the first default API loop-group call after transfer as the blocker; if it passes, continue with bounded span-by-span isolation."
-        ],
-        "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-production-smoothing-plan-maya-diagnostic-035g",
-          "result": "INCONCLUSIVE",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "6ae4b8eb628c1db14d92fbb674255a07bcb32a15"
-        }
+        "purpose": "After the proven planner+transfer phase, run only the first smoothing span through group_vertices_by_perpendicular_loops using the default bounded API topology path.",
+        "result": "INCONCLUSIVE",
+        "classification": "maya_session_startup_unavailable_on_stale_runtime",
+        "proven_main_commit": "10d0226bc3b7a86efefee5a6073cefd25bf91925",
+        "evidence": "The managed-live route never executed AIMayaTool product code. After ff-only sync to 10d0226bc3b7a86efefee5a6073cefd25bf91925 it returned MAYA_LIVE_SESSION_UNAVAILABLE because managed Maya did not become ready after 120 seconds. The 120-second startup wait proves the active Bridge process had not yet reloaded the newer split-timeout runtime."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_loop_group_smoke", "callable": "run_skirt_parent_post_transfer_loop_group_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45, "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}]}
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_post_transfer_loop_group_smoke", "callable": "run_skirt_parent_post_transfer_loop_group_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aibridge-runtime-self-update-for-aimayatool-036a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "purpose": "Fast-forward the local AIBrigde runtime checkout before restarting the managed worker so Maya hang cleanup, project-specific TaskSource resolution, and split startup/operation timeouts are actually loaded by the next process.",
+        "acceptance": [
+          "Fast-forward D:/AIBrigde main from origin using git:pull only; do not modify source files locally.",
+          "The resulting HEAD must include AIBrigde commits 9d7169a9d9cadf538954545f2c2886d63c3db043 and 9ed6c682ae739ed457e31a1e51b2000e130d951e or later.",
+          "Return the exact before/after commit and whether the checkout changed. Do not restart inside this task; Architect will issue one out-of-band force_restart only after this pull is proven."
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-skirt-parent-post-transfer-first-loop-group-maya-diagnostic-035h",
+          "result": "INCONCLUSIVE",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "10d0226bc3b7a86efefee5a6073cefd25bf91925"
+        }
+      },
+      "action": {"type": "git", "target": "pull"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIBrigde.git", "branch": "main", "workdir": "D:/AIBrigde"},
+      "permissions": {"read": true, "edit": true, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"strategy": "ff-only", "remote": "origin"}
     }
   ]
 }
