@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import importlib
 import os
 import shutil
 import tempfile
@@ -15,6 +16,8 @@ def _weight(skin_cluster, component, influence):
 
 
 def run_skin_io_batch_smoke():
+    importlib.invalidate_caches()
+    importlib.reload(skin_io)
     cmds.file(new=True, force=True)
     root = tempfile.mkdtemp(prefix='aimayatool_skin_io_')
     progress = []
