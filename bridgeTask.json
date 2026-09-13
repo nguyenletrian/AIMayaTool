@@ -6,7 +6,13 @@
       "task_id": "aimayatool-copy-influence-ratios-deterministic-019a",
       "status": "pending",
       "architect_ack": true,
-      "metadata": {"goal_id":"aimayatool-foundation-001","milestone_id":"advanced-copy-influence-ratios","result":"PASS","proven_main_commit":"9266dca228f66667b93ceb46ab17b5853b0151b3","evidence":"py_compile passed for ratio_weights.py, ratio_weights_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_ratio_weights passed 5/5."},
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-copy-influence-ratios",
+        "result": "PASS",
+        "proven_main_commit": "9266dca228f66667b93ceb46ab17b5853b0151b3",
+        "evidence": "py_compile passed for ratio_weights.py, ratio_weights_smoke.py, and focused tests; non-Maya import passed; tests.test_skinning_ratio_weights passed 5/5."
+      },
       "action": {"type":"verification","target":"python"},
       "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
       "permissions": {"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},
@@ -77,19 +83,29 @@
     {
       "task_id": "aimayatool-gradient-weights-deterministic-021a",
       "status": "pending",
-      "architect_ack": false,
-      "metadata": {"goal_id":"aimayatool-foundation-001","milestone_id":"advanced-gradient-weighting","archived_prerequisite":{"task_id":"aimayatool-gradient-profile-maya-smoke-020b","result":"PASS","architect_ack":true,"bridge_completed":true,"proven_main_commit":"eb18db8816a82015779accd683bea8e08a67e9b5"},"purpose":"Verify explicit active-influence distance gradient weighting composed from the accepted profile primitive.","acceptance":["Fast-forward main and include commit 05152372a70fffa76bceacef6cc2e85dd5818cd4 or later.","Compile gradient_weights.py, gradient_weights_smoke.py, gradient_profile.py, and focused tests.","Import aimayatool.tools.skinning.gradient_weights outside Maya.","Run tests.test_skinning_gradient_weights and require all 4 tests to pass."]},
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-gradient-weighting",
+        "archived_prerequisite": {"task_id":"aimayatool-gradient-profile-maya-smoke-020b","result":"PASS","architect_ack":true,"bridge_completed":true,"proven_main_commit":"eb18db8816a82015779accd683bea8e08a67e9b5"},
+        "purpose": "Verify explicit active-influence distance gradient weighting composed from the accepted profile primitive.",
+        "acceptance": ["Fast-forward main and include commit 05152372a70fffa76bceacef6cc2e85dd5818cd4 or later.","Compile gradient_weights.py, gradient_weights_smoke.py, gradient_profile.py, and focused tests.","Import aimayatool.tools.skinning.gradient_weights outside Maya.","Run tests.test_skinning_gradient_weights and require all 4 tests to pass."],
+        "result": "PASS",
+        "proven_main_commit": "e3fea2a3a1d24547e4ac699e9deee36a1c396aeb",
+        "evidence": "py_compile passed for gradient_weights.py, gradient_weights_smoke.py, gradient_profile.py, and focused tests; non-Maya import passed; tests.test_skinning_gradient_weights passed 4/4."
+      },
       "action": {"type":"verification","target":"python"},
       "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
       "permissions": {"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},
       "return_route": {"type":"provider","target":"OpenAI","via":"web"},
-      "payload": {"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/skinning/gradient_weights.py","aimayatool/tools/skinning/gradient_weights_smoke.py","aimayatool/tools/skinning/gradient_profile.py","tests/test_skinning_gradient_weights.py"],"imports":["aimayatool.tools.skinning.gradient_weights"],"tests":["tests.test_skinning_gradient_weights"],"timeout":180}
+      "payload": {"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/skinning/gradient_weights.py","aimayatool/tools/skinning/gradient_weights_smoke.py","aimayatool/tools/skinning/gradient_profile.py","tests/test_skinning_gradient_weights.py"],"imports":["aimayatool.tools.skinning.gradient_weights"],"tests":["tests.test_skinning_gradient_weights"],"timeout":180},
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-gradient-weights-maya-smoke-021b",
       "status": "pending",
       "architect_ack": false,
-      "metadata": {"goal_id":"aimayatool-foundation-001","milestone_id":"advanced-gradient-weighting","depends_on":"aimayatool-gradient-weights-deterministic-021a","purpose":"Validate active-influence distance gradient weighting on a real Maya skinCluster with the accepted animCurve-backed profile.","acceptance":["Reuse a healthy managed Maya 2024 session where possible.","Force a fresh unsaved scene and do not save or quit Maya.","Run gradient_weights_smoke after syncing commit 05152372a70fffa76bceacef6cc2e85dd5818cd4 or later.","Return AIBRIDGE_UI_SMOKE_OK:SKINNING_GRADIENT_WEIGHTS_SMOKE_OK."]},
+      "metadata": {"goal_id":"aimayatool-foundation-001","milestone_id":"advanced-gradient-weighting","purpose":"Validate active-influence distance gradient weighting on a real Maya skinCluster with the accepted animCurve-backed profile.","acceptance":["Reuse a healthy managed Maya 2024 session where possible.","Force a fresh unsaved scene and do not save or quit Maya.","Run gradient_weights_smoke after syncing commit 05152372a70fffa76bceacef6cc2e85dd5818cd4 or later.","Return AIBRIDGE_UI_SMOKE_OK:SKINNING_GRADIENT_WEIGHTS_SMOKE_OK."],"archived_prerequisite":{"task_id":"aimayatool-gradient-weights-deterministic-021a","result":"PASS","architect_ack":true,"bridge_completed":true,"proven_main_commit":"e3fea2a3a1d24547e4ac699e9deee36a1c396aeb"}},
       "action": {"type":"maya","target":"managed_live_smoke"},
       "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
       "permissions": {"read":true,"edit":false,"run_tests":true,"commit":false,"push":false},
