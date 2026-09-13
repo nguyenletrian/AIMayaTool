@@ -28,8 +28,8 @@ Design AIMayaTool's AIBrigde integration as a reusable project-profile pattern f
 Use these sources for different kinds of truth:
 - `HISTORY.md`: accepted architecture/product milestones, stable checkpoints, reusable capability introductions, and owner-visible workflows proven in Maya;
 - `bridgeGoals.json`: active goal/milestone state;
-- `bridgeTask.json`: detailed task execution, retries, failures, ACK state, and runtime evidence;
-- Git history: exact code changes and commit identity.
+- `bridgeTask.json`: bounded recent task execution/ACK/runtime evidence;
+- Git history: exact code changes, older TaskSource history, and commit identity.
 
 Update `HISTORY.md` when a durable conclusion is reached, not for every transient task result. When a migration slice is accepted, record the relevant proven commit/checkpoint and the validation tier that passed.
 
@@ -218,17 +218,29 @@ Repository evidence is current truth. Architect may autonomously perform low-ris
 ### Mandatory TaskSource serialization contract
 All Architect writes to `bridgeTask.json` are machine-structured operations. Hand-written, manually concatenated, partially copied, or text-patched JSON is forbidden.
 
-For every TaskSource publish, ACK, recovery, or metadata mutation, Architect must follow this exact safety pattern:
+For every TaskSource publish, ACK, recovery, retention, or metadata mutation, Architect must follow this exact safety pattern:
 1. fetch the current authoritative `bridgeTask.json` and its current blob SHA from `main`;
 2. parse the full document with a JSON parser before any mutation;
 3. mutate only the parsed object/list structure in memory;
 4. validate required root/task fields, task-id uniqueness, and dependency references;
-5. serialize with a JSON serializer, never by constructing JSON punctuation manually;
+5. serialize with a JSON serializer using human-readable pretty-printed/indented JSON; compact one-line TaskSource serialization is forbidden;
 6. parse the serialized result again before any remote write;
 7. if any parse/schema/dependency validation fails, do not write the TaskSource;
 8. write only against the fetched current blob SHA;
 9. re-fetch the written file and parse it again before considering the mutation complete;
-10. preserve all existing task history unless an explicit recovery operation is required and the preserved history is proven from a valid Git blob.
+10. preserve recent task evidence according to the bounded retention rule below and rely on Git history/HISTORY.md for older durable evidence.
+
+#### Bounded TaskSource retention
+`bridgeTask.json` must contain at most the 10 newest task records, preserving their chronological order. Apply this retention rule whenever Architect publishes, ACKs, recovers, or otherwise rewrites TaskSource.
+
+Before removing an older task:
+- ensure it is already `architect_ack: true` and `bridge_completed: true`; never evict active, unACKed, or incomplete work merely to satisfy the limit;
+- check whether any retained task has `depends_on` or `retry_of` pointing to the task being removed;
+- if a retained completed task still references an evicted prerequisite/retry source, replace that live dependency reference with compact `archived_prerequisite` or equivalent archival metadata containing enough task id/result/ACK/completion evidence to prove the dependency had already resolved;
+- never create a dangling dependency by trimming;
+- older detailed TaskSource state remains recoverable from Git history; accepted product/milestone conclusions belong in `HISTORY.md`.
+
+If more than 10 records are temporarily required because active/unACKed/dependency-critical tasks cannot safely be evicted, correctness wins over the numeric limit; retain the necessary records until they become safely archivable, then trim back to 10 on the next valid mutation.
 
 A missing brace, quote, comma, malformed object boundary, duplicate key/id, unresolved dependency, or any other invalid TaskSource structure is a release-blocking defect. Architect must repair it immediately and must not publish new work on top of malformed TaskSource state.
 
