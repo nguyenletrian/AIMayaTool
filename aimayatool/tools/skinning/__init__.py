@@ -42,6 +42,10 @@ def build_ui():
     cmds.button(label='Add Selected Influences', command=lambda *_: _run('Added', influences.add_from_selection))
     cmds.button(label='Remove Selected Influences', command=lambda *_: _run('Removed', influences.remove_from_selection))
     cmds.setParent('..')
+    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
+    cmds.button(label='Add Missing Influences From Source', command=lambda *_: _run('Synced influences', influences.add_missing_from_selection))
+    cmds.button(label='Remove Unused Influences', command=lambda *_: _run('Removed unused', influences.remove_unused_from_selection))
+    cmds.setParent('..')
 
     cmds.separator(height=8, style='none')
     cmds.text(label='Max influences (uses skinCluster setting)', align='left')
