@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import maya.cmds as cmds
 
 
-_SKIN_CONTEXT_CLASS = 'artAttrSkin'
+_SKIN_CONTEXT_CLASSES = ('artAttrSkin', 'artAttrSkinPaintCtx')
 
 
 def current_context():
@@ -15,7 +15,12 @@ def is_skin_paint_context(context=None):
     if not context:
         return False
     try:
-        return cmds.contextInfo(context, c=True) == _SKIN_CONTEXT_CLASS
+        if cmds.artAttrSkinPaintCtx(context, exists=True):
+            return True
+    except RuntimeError:
+        pass
+    try:
+        return cmds.contextInfo(context, c=True) in _SKIN_CONTEXT_CLASSES
     except RuntimeError:
         return False
 
