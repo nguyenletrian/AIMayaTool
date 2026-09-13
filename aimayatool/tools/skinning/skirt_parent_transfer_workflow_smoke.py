@@ -14,13 +14,13 @@ def run_skirt_parent_transfer_workflow_smoke():
     mesh = cmds.polyCylinder(name='AIMayaToolSkirtTransferWorkflowMesh', radius=2.0, height=3.0, subdivisionsX=8, subdivisionsY=2, subdivisionsZ=1)[0]
     selection = om.MSelectionList()
     selection.add(mesh)
-    mesh_fn = om.MFnMesh(selection.getDagPath(0))
-    points = mesh_fn.getPoints(om.MSpace.kWorld)
+    pre_skin_mesh_fn = om.MFnMesh(selection.getDagPath(0))
+    points = pre_skin_mesh_fn.getPoints(om.MSpace.kWorld)
     max_y = max(point.y for point in points)
     max_radius = max(math.sqrt(point.x * point.x + point.z * point.z) for point in points if abs(point.y - max_y) < 1e-5)
     root_loop = []
-    for edge_id in range(mesh_fn.numEdges):
-        v0, v1 = mesh_fn.getEdgeVertices(edge_id)
+    for edge_id in range(pre_skin_mesh_fn.numEdges):
+        v0, v1 = pre_skin_mesh_fn.getEdgeVertices(edge_id)
         radius0 = math.sqrt(points[v0].x * points[v0].x + points[v0].z * points[v0].z)
         radius1 = math.sqrt(points[v1].x * points[v1].x + points[v1].z * points[v1].z)
         if (abs(points[v0].y - max_y) < 1e-5 and abs(points[v1].y - max_y) < 1e-5 and
@@ -40,6 +40,10 @@ def run_skirt_parent_transfer_workflow_smoke():
     skin_cluster = cmds.skinCluster([parent] + joints, mesh, toSelectedBones=True, normalizeWeights=1, maximumInfluences=5)[0]
     all_vertices = cmds.ls(mesh + '.vtx[*]', flatten=True) or []
     cmds.skinPercent(skin_cluster, all_vertices, transformValue=[(parent, 1.0)] + [(joint, 0.0) for joint in joints], normalize=True)
+
+    post_skin_selection = om.MSelectionList()
+    post_skin_selection.add(mesh)
+    mesh_fn = om.MFnMesh(post_skin_selection.getDagPath(0))
 
     def loop_selector(node, **kwargs):
         pair = kwargs.get('edgeRingPath') or kwargs.get('edgeLoopPath')
