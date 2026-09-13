@@ -8,238 +8,19 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal003-residual-paint-verify-050a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-weight-tools",
-        "purpose": "Verify residual legacy Paint Skin parity for pick-value and add-sign switching plus UI exposure.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal003-skinning-ui-managed-live-retry-049i",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "a2055411048f9590b013214e58413194e7cd2ee9",
-          "e2f391f1a9438dd2bdd6d123bf03edec27a6d2a9",
-          "52aae0f398af592a2d891fac84d9bbc2fea63887",
-          "6a67b9743b987e6cf9fc75979f0d9c1a03792e3a"
-        ],
-        "acceptance": [
-          "Fast-forward D:/AIMayaTool main.",
-          "py_compile brush_weight.py, brush_weight_smoke.py, __init__.py, and ui_parity_smoke.py successfully.",
-          "Import aimayatool.tools.skinning outside Maya successfully.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_residual_paint_python_verification_pass",
-        "proven_main_commit": "a68a624d98573560332c7cb1f1220ebbb02659e7",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from ef25c4a9a485c8f05115f95082f6355884397b4b to a68a624d98573560332c7cb1f1220ebbb02659e7; py_compile passed with exit_code=0 for brush_weight.py, brush_weight_smoke.py, __init__.py, and ui_parity_smoke.py; importing aimayatool.tools.skinning passed with exit_code=0."
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/brush_weight.py",
-          "aimayatool/tools/skinning/brush_weight_smoke.py",
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/skinning/ui_parity_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-residual-paint-managed-live-050b",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-weight-tools",
-        "purpose": "Validate residual Paint Skin pick-value and sign-switch behavior in reusable Maya 2024.",
-        "depends_on": [
-          "aimayatool-goal003-residual-paint-verify-050a"
-        ],
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.brush_weight_smoke.run_brush_weight_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_BRUSH_WEIGHT_SMOKE_OK for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_residual_paint_managed_live_pass",
-        "proven_main_commit": "c8ba2b62cf8e93bc4c20ba197738adbb152ba93e",
-        "evidence": "Managed Maya 2024 reused existing PID 10632 on port 7001, forced a fresh unsaved scene, validated residual Paint Skin brush behavior, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_BRUSH_WEIGHT_SMOKE_OK; maya_quit=false.",
-        "managed_pid": 10632,
-        "managed_port": 7001,
-        "session": "existing",
-        "new_scene_forced": true,
-        "scene_saved": false,
-        "maya_quit": false,
-        "stable_backup": "backup/2026-09-13-1732-ResidualPaintManagedLivePASS-c8ba2b6"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.brush_weight_smoke",
-        "callable": "run_brush_weight_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal003-residual-paint-ui-managed-live-050c",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-003",
-        "milestone_id": "skinning-ui-parity",
-        "purpose": "Validate Skinning UI parity after exposing residual Paint Skin actions.",
-        "depends_on": [
-          "aimayatool-goal003-residual-paint-managed-live-050b"
-        ],
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.skinning.ui_parity_smoke.run_skinning_ui_parity_smoke.",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_residual_paint_ui_managed_live_pass",
-        "proven_main_commit": "5f07d8d0aa811b1f78c0c131be7a36cdbd703382",
-        "evidence": "Managed Maya 2024 reused existing PID 10632 on port 7001, forced a fresh unsaved scene, validated Skinning UI parity including Pick Paint Value and Switch Add Sign, and returned AIBRIDGE_UI_SMOKE_OK:SKINNING_UI_PARITY_SMOKE_OK; maya_quit=false.",
-        "managed_pid": 10632,
-        "managed_port": 7001,
-        "session": "existing",
-        "new_scene_forced": true,
-        "scene_saved": false,
-        "maya_quit": false,
-        "stable_backup": "backup/2026-09-13-1736-ResidualPaintUIManagedLivePASS-5f07d8d"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.ui_parity_smoke",
-        "callable": "run_skinning_ui_parity_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 180
-      },
-      "bridge_completed": true
-    },
-    {
       "task_id": "aimayatool-goal003-influence-sync-cleanup-verify-051a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-003",
         "milestone_id": "skinning-core-parity",
         "purpose": "Verify source-to-target missing-influence sync and unused-influence cleanup implementation plus UI exposure.",
-        "depends_on": [
-          "aimayatool-goal003-residual-paint-ui-managed-live-050c"
-        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal003-residual-paint-ui-managed-live-050c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
         "implementation_commits": [
           "7a4dadc28fd85ba7ad0e1953f2bc9ddde0b987fa",
           "17bc543570c74af5e975b98bd6a03c9c85a1ca04",
@@ -252,7 +33,11 @@
           "Import aimayatool.tools.skinning outside Maya successfully.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_influence_sync_cleanup_python_verification_pass",
+        "proven_main_commit": "df1a3f7ed46ffdc8259b8a3a410a513b4c82efd3",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 5f07d8d0aa811b1f78c0c131be7a36cdbd703382 to df1a3f7ed46ffdc8259b8a3a410a513b4c82efd3; py_compile passed with exit_code=0 for influences.py, influence_cleanup_smoke.py, __init__.py, and ui_parity_smoke.py; importing aimayatool.tools.skinning passed with exit_code=0."
       },
       "action": {
         "type": "verification",
@@ -295,7 +80,8 @@
         ],
         "tests": [],
         "timeout": 240
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal003-influence-sync-cleanup-managed-live-051b",
