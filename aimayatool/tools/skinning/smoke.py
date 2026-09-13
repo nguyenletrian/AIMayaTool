@@ -7,6 +7,7 @@ from aimayatool.tools.skinning import copy_weights
 from aimayatool.tools.skinning import influences
 from aimayatool.tools.skinning import max_influences
 from aimayatool.tools.skinning import mirror_skin
+from aimayatool.tools.skinning import utilities
 
 
 def run_smoke():
@@ -125,9 +126,6 @@ def run_mirror_skin_smoke():
     if pair_error > 1e-5:
         raise RuntimeError('mirror smoke could not resolve an exact symmetric vertex pair: left=%s right=%s' % (left_position, right_position))
 
-    # closestJoint mirrors influence identity as well as vertex position. Author an
-    # asymmetric source signature and a deliberately different destination so a
-    # successful mirror is observable: 0.8 L + 0.2 R becomes 0.2 L + 0.8 R.
     source_values = [(joint_left, 0.8), (joint_right, 0.2)]
     destination_values = [(joint_left, 1.0), (joint_right, 0.0)]
     expected_left = 0.2
@@ -152,3 +150,42 @@ def run_mirror_skin_smoke():
             actual_right = cmds.skinPercent(skin_cluster, right_vertex, query=True, transform=joint_right)
             raise RuntimeError('mirror skin destination mismatch: left=%s right=%s expected=(%s, %s)' % (actual_left, actual_right, expected_left, expected_right))
     return 'SKINNING_MIRROR_SKIN_SMOKE_OK'
+
+
+def run_skin_utilities_smoke():
+    cmds.file(new=True, force=True)
+    mesh = cmds.polyPlane(name='AIMayaToolSkinUtilitiesMesh', subdivisionsX=1, subdivisionsY=1)[0]
+    joint_a = cmds.joint(name='AIMayaToolSkinUtilitiesJointA', position=(-1, 0, 0))
+    cmds.select(clear=True)
+    joint_b = cmds.joint(name='AIMayaToolSkinUtilitiesJointB', position=(1, 0, 0))
+    skin_cluster = cmds.skinCluster([joint_a, joint_b], mesh, toSelectedBones=True, normalizeWeights=1, name='AIMayaToolSkinUtilitiesCluster')[0]
+    vertex = mesh + '.vtx[0]'
+
+    utilities.lock_all(mesh)
+    if any(int(cmds.getAttr(joint + '.liw')) != 1 for joint in (joint_a, joint_b)):
+        raise RuntimeError('lock-all utility failed')
+    utilities.unlock_all(mesh)
+    if any(int(cmds.getAttr(joint + '.liw')) != 0 for joint in (joint_a, joint_b)):
+        raise RuntimeError('unlock-all utility failed')
+
+    cmds.skinPercent(skin_cluster, vertex, transformValue=[(joint_a, 0.99), (joint_b, 0.01)], normalize=True)
+    utilities.prune(mesh, threshold=0.05, components=[vertex])
+    pruned_b = float(cmds.skinPercent(skin_cluster, vertex, query=True, transform=joint_b) or 0.0)
+    if pruned_b > 1e-6:
+        raise RuntimeError('prune utility left small weight: %s' % pruned_b)
+
+    cmds.skinPercent(skin_cluster, vertex, transformValue=[(joint_a, 0.6), (joint_b, 0.4)], normalize=True)
+    changed = utilities.clear_influence([vertex], joint_a)
+    if changed != [vertex]:
+        raise RuntimeError('clear utility did not report target vertex')
+    cleared_a = float(cmds.skinPercent(skin_cluster, vertex, query=True, transform=joint_a) or 0.0)
+    kept_b = float(cmds.skinPercent(skin_cluster, vertex, query=True, transform=joint_b) or 0.0)
+    if cleared_a > 1e-6 or abs(kept_b - 1.0) > 1e-6:
+        raise RuntimeError('clear utility failed redistribution: A=%s B=%s' % (cleared_a, kept_b))
+
+    affected = utilities.affected_vertices(mesh, [joint_b], threshold=0.5)
+    if vertex not in affected:
+        raise RuntimeError('affected-vertices utility did not include weighted vertex')
+    if vertex in utilities.affected_vertices(mesh, [joint_a], threshold=0.0001):
+        raise RuntimeError('affected-vertices utility included cleared influence')
+    return 'SKINNING_UTILITIES_SMOKE_OK'
