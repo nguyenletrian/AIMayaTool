@@ -3,142 +3,10 @@
   "history_checkpoint_blob": "802273f83c71e04ec51c129ca4af5e2524ecc179",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-skinning-ux-polish-068",
+    "request_id": "aimayatool-skinning-ux-polish-069",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
-    {
-      "task_id": "aimayatool-goal004-skinning-actionable-error-feedback-verify-067a",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-004",
-        "milestone_id": "skinning-undo-errors",
-        "purpose": "Verify Skinning UI callbacks surface operation-specific error text while preserving traceback visibility for unexpected failures.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal004-skin-io-transaction-rollback-scope-managed-live-066b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "bd00a112e42aceae69552f0f2e8040f93b75fd74",
-          "b863176c4f309d2c131820cdf873ebfb9b7abf70"
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_actionable_error_feedback_python_verification_pass",
-        "proven_main_commit": "b1df42796f7274a4a385aebe97b32264807ebf2c",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 4aa730772c4748394908f9a98f100da9f569f99f to b1df42796f7274a4a385aebe97b32264807ebf2c; py_compile passed with exit_code=0 for aimayatool/tools/skinning/__init__.py and error_feedback_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0.",
-        "bridge_completed": true
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/skinning/error_feedback_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal004-skinning-actionable-error-feedback-managed-live-067b",
-      "status": "pending",
-      "architect_ack": true,
-      "metadata": {
-        "goal_id": "aimayatool-004",
-        "milestone_id": "skinning-undo-errors",
-        "purpose": "Prove operation-specific Skinning error feedback and traceback surfacing in the managed Maya runtime without scene mutation.",
-        "depends_on": [
-          "aimayatool-goal004-skinning-actionable-error-feedback-verify-067a"
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "skinning_actionable_error_feedback_managed_live_pass",
-        "proven_main_commit": "3f336fa9d145571966266fe21faf59ee2fb1cc35",
-        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene and returned SKINNING_ACTIONABLE_ERROR_FEEDBACK_OK. Operation-specific error feedback and traceback surfacing were proven without scene save; maya_quit=false.",
-        "managed_pid": 10632,
-        "managed_port": 7001,
-        "session": "existing",
-        "new_scene_forced": true,
-        "scene_saved": false,
-        "maya_quit": false,
-        "bridge_completed": true
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.skinning.error_feedback_smoke",
-        "callable": "run_error_feedback_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "bridge_completed": true
-    },
     {
       "task_id": "aimayatool-goal004-skinning-ux-copy-preview-verify-068a",
       "status": "pending",
@@ -209,13 +77,141 @@
     {
       "task_id": "aimayatool-goal004-skinning-ux-copy-preview-managed-live-068b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-ux-polish",
         "purpose": "Prove Copy Skin preview remains non-mutating and the Preview/Execute controls are visible in the live AIMayaTool Skinning UI.",
         "depends_on": [
           "aimayatool-goal004-skinning-ux-copy-preview-verify-068a"
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "FAIL",
+        "classification": "skinning_ux_preview_smoke_stale_ui_module_cache",
+        "proven_main_commit": "ad966ba121f29502e124761cf1fe1b6bcc86bd69",
+        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene. Copy Skin preview behavior reached the UI check, but the harness could not find the new Preview/Execute buttons because the reused session still held a cached aimayatool.tools.skinning UI module. scene_saved=false and maya_quit=false.",
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "session": "existing",
+        "new_scene_forced": true,
+        "scene_saved": false,
+        "maya_quit": false,
+        "bridge_completed": true
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.ux_preview_smoke",
+        "callable": "run_ux_preview_smoke",
+        "expected_window": "AIMayaToolWindow",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal004-skinning-ux-copy-preview-cachefix-verify-069a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-ux-polish",
+        "purpose": "Verify the UX preview smoke reloads the Skinning UI module before launching AIMayaTool in a reused managed Maya session.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal004-skinning-ux-copy-preview-managed-live-068b",
+          "result": "FAIL",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commit": "03fb46ee99dfd7bcbb6a61c1075c60accb496db1",
+        "acceptance": [
+          "Fast-forward main.",
+          "py_compile aimayatool/tools/skinning/ux_preview_smoke.py.",
+          "Import aimayatool.tools.skinning successfully.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/ux_preview_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning"
+        ],
+        "tests": [],
+        "timeout": 240
+      }
+    },
+    {
+      "task_id": "aimayatool-goal004-skinning-ux-copy-preview-cachefix-managed-live-069b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-ux-polish",
+        "purpose": "Retry live Copy Skin UX validation after reloading the cached Skinning UI module before launch.",
+        "depends_on": [
+          "aimayatool-goal004-skinning-ux-copy-preview-cachefix-verify-069a"
         ],
         "acceptance": [
           "Reuse healthy managed Maya 2024 session when available.",
