@@ -50,28 +50,46 @@
     {
       "task_id": "aimayatool-skirt-parent-stub-selector-source-query-maya-diagnostic-036m",
       "status": "pending",
+      "architect_ack": true,
+      "metadata": {
+        "goal_id": "aimayatool-foundation-001",
+        "milestone_id": "advanced-skirt-parent-workflow",
+        "result": "INCONCLUSIVE",
+        "classification": "stale_existing_managed_maya_runtime_contamination",
+        "proven_main_commit": "4dc496cd922e83b4fccd8f9e3a01ca469c8262d7",
+        "proven_aibridge_commit": "36c560abc91d622ac3c683a36f9f91fa478989a9",
+        "evidence": "The diagnostic reused session='existing' on managed PID 616 left alive from the preceding successful 036l run instead of launching a fresh Maya. The 45-second operation timed out before the active health probe executed; cleanup then terminated PID 616 and its child process tree successfully, while port_released remained false. This does not satisfy the fresh-session product-crash contract and cannot classify the stub-selector planner path."
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skirt_parent_stub_selector_source_query_smoke", "callable": "run_skirt_parent_stub_selector_source_query_smoke", "expected_window": "", "live_port": 7001, "timeout": 45, "startup_timeout": 90, "operation_timeout": 45},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-skirt-parent-stub-selector-source-query-fresh-retry-036n",
+      "status": "pending",
       "architect_ack": false,
       "metadata": {
         "goal_id": "aimayatool-foundation-001",
         "milestone_id": "advanced-skirt-parent-workflow",
-        "purpose": "Determine whether the planner crash state comes from cmds.polySelect-based selector/group traversal or from the remaining non-mutating planner core. Build the same fixture and run build_skirt_parent_plan with a pure-Python selector stub and group_builder stub, then query the source weight on the first assignment component.",
+        "purpose": "Retry the exact stub-selector planner diagnostic after cleanup of the stale existing Maya session. The result is admissible only from a newly launched healthy managed Maya 2024 process, so selector-stub planner behavior is not confused with stale runtime state.",
         "acceptance": [
-          "Fast-forward AIMayaTool main and include diagnostic smoke commit 5c56fec1d68a2670ef23bf8214f6dc311ad7f099 or later.",
-          "Use a fresh healthy managed Maya 2024 session with startup_timeout=90 and operation_timeout=45.",
-          "Force a fresh unsaved scene and do not save or quit Maya.",
-          "Run run_skirt_parent_stub_selector_source_query_smoke.",
-          "The planner must receive mesh_fn from before skinCluster creation, a selector stub that returns only the requested endpoint edge ids, and a group_builder stub that returns affected vertices without any cmds.polySelect call.",
-          "After planning, query only the parent/source weight on the first component of assignment 0, then only call cmds.objExists(mesh).",
-          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_STUB_SELECTOR_SOURCE_QUERY_SMOKE_OK.",
-          "If this passes, the polySelect-based selector/group traversal path is required for the crash and must be isolated next. If Maya exits, continue isolating planner core substeps because polySelect has been excluded."
+          "Fast-forward AIMayaTool main and include smoke commit 5c56fec1d68a2670ef23bf8214f6dc311ad7f099 or later.",
+          "Launch a fresh managed Maya 2024 process for this run; do not reuse an existing managed session. Record session='launched' with a new managed PID different from 616.",
+          "Use startup_timeout=90 and operation_timeout=45, force a fresh unsaved scene, and do not save or quit Maya.",
+          "Run run_skirt_parent_stub_selector_source_query_smoke unchanged. The planner must use the pure-Python selector/group-builder stubs and must not call cmds.polySelect.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_SKIRT_PARENT_STUB_SELECTOR_SOURCE_QUERY_SMOKE_OK for PASS.",
+          "If a genuinely fresh launched session exits or becomes unresponsive, preserve evidence and classify the planner core path as reproducible. If the run passes, isolate the real cmds.polySelect selector/group traversal next."
         ],
         "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-preplan-source-query-maya-diagnostic-036l",
-          "result": "PASS",
-          "classification": "preplan_fixture_and_skincluster_query_healthy",
+          "task_id": "aimayatool-skirt-parent-stub-selector-source-query-maya-diagnostic-036m",
+          "result": "INCONCLUSIVE",
+          "classification": "stale_existing_managed_maya_runtime_contamination",
           "architect_ack": true,
           "bridge_completed": true,
-          "proven_main_commit": "85ba9ed5d373d03b8a0c35c356ccb5b7ce095f9c"
+          "proven_main_commit": "4dc496cd922e83b4fccd8f9e3a01ca469c8262d7"
         }
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
@@ -89,7 +107,8 @@
         "timeout": 45,
         "startup_timeout": 90,
         "operation_timeout": 45,
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}]
+        "require_fresh_session": true,
+        "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}]
       }
     }
   ]
