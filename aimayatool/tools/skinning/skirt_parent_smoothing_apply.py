@@ -29,6 +29,11 @@ def _targets(source, values):
     return result
 
 
+def _combined_influence_weight(skin_cluster, component, influences):
+    cmds = _cmds()
+    return sum(cmds.skinPercent(skin_cluster, component, query=True, transform=influence) for influence in influences)
+
+
 def apply_smoothing_plan(skin_cluster, smoothing_plan, sampler=None, normalize=True, distance_provider=None, gradient_applier=None, ratio_copier=None):
     """Apply legacy-compatible adjacent-joint smoothing from an explicit smoothing plan."""
     if not skin_cluster:
@@ -56,6 +61,8 @@ def apply_smoothing_plan(skin_cluster, smoothing_plan, sampler=None, normalize=T
         for source_vertex in root_vertices:
             targets = _targets(source_vertex, strips.get(source_vertex, []))
             if not targets:
+                continue
+            if _combined_influence_weight(skin_cluster, source_vertex, influences) <= 1e-12:
                 continue
             ratio_copier(skin_cluster, source_vertex, targets, influences, normalize=normalize)
             propagated[source_vertex] = targets
