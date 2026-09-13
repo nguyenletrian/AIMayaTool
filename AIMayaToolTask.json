@@ -3,7 +3,7 @@
   "history_checkpoint_blob": "802273f83c71e04ec51c129ca4af5e2524ecc179",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-skinning-undo-errors-066",
+    "request_id": "aimayatool-skinning-undo-errors-067",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
@@ -114,20 +114,70 @@
     {
       "task_id": "aimayatool-goal004-skin-io-transaction-rollback-scope-managed-live-066b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-undo-errors",
         "purpose": "Retry the three-target transaction failure smoke after scoping rollback to successfully-applied targets only.",
         "depends_on": ["aimayatool-goal004-skin-io-transaction-rollback-scope-verify-066a"],
-        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.skin_io_transaction_smoke.run_skin_io_transaction_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_IO_TRANSACTION_ROLLBACK_OK targets=3 failed=1 for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_io_transaction_rollback_scope_managed_live_pass",
+        "proven_main_commit": "4aa730772c4748394908f9a98f100da9f569f99f",
+        "evidence": "Managed Maya 2024 reused PID 10632 on port 7001 with a fresh unsaved scene and returned SKINNING_IO_TRANSACTION_ROLLBACK_OK targets=3 failed=1. Existing mesh A weights were restored, the newly-created mesh B skinCluster was removed, and untouched failed mesh C was not re-entered through rollback. scene_saved=false and maya_quit=false.",
+        "targets": 3,
+        "failed": 1,
+        "managed_pid": 10632,
+        "managed_port": 7001,
+        "session": "existing",
+        "new_scene_forced": true,
+        "scene_saved": false,
+        "maya_quit": false,
+        "bridge_completed": true
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_io_transaction_smoke", "callable": "run_skin_io_transaction_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal004-skinning-actionable-error-feedback-verify-067a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-undo-errors",
+        "purpose": "Verify Skinning UI callbacks surface operation-specific error text while preserving traceback visibility for unexpected failures.",
+        "archived_prerequisite": {"task_id": "aimayatool-goal004-skin-io-transaction-rollback-scope-managed-live-066b", "result": "PASS", "architect_ack": true, "bridge_completed": true},
+        "implementation_commits": ["bd00a112e42aceae69552f0f2e8040f93b75fd74", "b863176c4f309d2c131820cdf873ebfb9b7abf70"],
+        "acceptance": ["Fast-forward main.", "py_compile aimayatool/tools/skinning/__init__.py and error_feedback_smoke.py.", "Import aimayatool.tools.skinning successfully.", "Do not invoke Codex."],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      },
+      "action": {"type": "verification", "target": "python"},
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/__init__.py", "aimayatool/tools/skinning/error_feedback_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+    },
+    {
+      "task_id": "aimayatool-goal004-skinning-actionable-error-feedback-managed-live-067b",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-004",
+        "milestone_id": "skinning-undo-errors",
+        "purpose": "Prove operation-specific Skinning error feedback and traceback surfacing in the managed Maya runtime without scene mutation.",
+        "depends_on": ["aimayatool-goal004-skinning-actionable-error-feedback-verify-067a"],
+        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.error_feedback_smoke.run_error_feedback_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_ACTIONABLE_ERROR_FEEDBACK_OK for PASS.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.skin_io_transaction_smoke", "callable": "run_skin_io_transaction_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.error_feedback_smoke", "callable": "run_error_feedback_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300}
     }
   ]
 }
