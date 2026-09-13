@@ -19,62 +19,14 @@
         "classification": "skirt_parent_ui_regression_accepted_with_known_shutdown_anomaly",
         "proven_main_commit": "6952e625d3ec6cf5049d499ea2466dbdad7c0acf",
         "evidence": "Maya 2024 UI smoke invoked bootstrap.install_and_launch and emitted AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow. Process exit 3221227010 occurred only after the success marker and is the known Maya Windows shutdown anomaly explicitly allowed by this task's acceptance criteria.",
-        "archived_retry_source": {
-          "task_id": "aimayatool-skirt-parent-ui-regression-maya-smoke-036v",
-          "result": "FAIL",
-          "classification": "architect_task_payload_invalid_module",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-interactive-ui-maya-smoke-036u",
-          "result": "PASS",
-          "classification": "skirt_parent_interactive_selection_adapter_healthy",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "15b43c29446f119383d7389624941d1071c50641"
-        }
+        "archived_retry_source": {"task_id":"aimayatool-skirt-parent-ui-regression-maya-smoke-036v","result":"FAIL","classification":"architect_task_payload_invalid_module","architect_ack":true,"bridge_completed":true},
+        "archived_prerequisite": {"task_id":"aimayatool-skirt-parent-interactive-ui-maya-smoke-036u","result":"PASS","classification":"skirt_parent_interactive_selection_adapter_healthy","architect_ack":true,"bridge_completed":true,"proven_main_commit":"15b43c29446f119383d7389624941d1071c50641"}
       },
-      "action": {
-        "type": "maya",
-        "target": "ui_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "bootstrap",
-        "callable": "install_and_launch",
-        "expected_window": "AIMayaToolWindow",
-        "timeout": 45,
-        "startup_timeout": 90,
-        "operation_timeout": 45,
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ]
-      },
+      "action": {"type":"maya","target":"ui_smoke"},
+      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
+      "permissions": {"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},
+      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
+      "payload": {"isolated_scene":true,"save_scene":false,"maya_version":"2024","module":"bootstrap","callable":"install_and_launch","expected_window":"AIMayaToolWindow","timeout":45,"startup_timeout":90,"operation_timeout":45,"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}]},
       "bridge_completed": true
     },
     {
@@ -91,56 +43,35 @@
         "route_failure": "No route handler registered for implementation:repository",
         "history_commit": "6d94ba504b669749211c96804b77ab2441b67717",
         "goal_completion_commit": "ac30bfb71eaedc6bf4e47afb03f404b7cbd7e5e4",
-        "files_changed": [
-          "HISTORY.md",
-          "bridgeGoals.json"
-        ],
-        "archived_prerequisite": {
-          "task_id": "aimayatool-skirt-parent-ui-regression-bootstrap-retry-036w",
-          "result": "PASS",
-          "classification": "skirt_parent_ui_regression_accepted_with_known_shutdown_anomaly",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "6952e625d3ec6cf5049d499ea2466dbdad7c0acf"
-        }
+        "files_changed": ["HISTORY.md","bridgeGoals.json"],
+        "archived_prerequisite": {"task_id":"aimayatool-skirt-parent-ui-regression-bootstrap-retry-036w","result":"PASS","classification":"skirt_parent_ui_regression_accepted_with_known_shutdown_anomaly","architect_ack":true,"bridge_completed":true,"proven_main_commit":"6952e625d3ec6cf5049d499ea2466dbdad7c0acf"}
       },
-      "action": {
-        "type": "implementation",
-        "target": "repository"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "HISTORY.md",
-          "bridgeGoals.json"
-        ],
-        "timeout": 180
-      },
+      "action": {"type":"implementation","target":"repository"},
+      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
+      "permissions": {"read":true,"edit":true,"run_tests":true,"commit":true,"push":true},
+      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
+      "payload": {"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["HISTORY.md","bridgeGoals.json"],"timeout":180},
       "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-current-product-inventory-review-037a",
+      "status": "pending",
+      "architect_ack": false,
+      "metadata": {
+        "goal_id": "aimayatool-002",
+        "milestone_id": "current-product-inventory",
+        "purpose": "Independently inventory the current AIMayaTool product surface before parity reconciliation. This is read-only review/assessment evidence; Architect will combine it with the authoritative MayaScriptNew inventory and implement follow-up slices."
+      },
+      "action": {"type":"review","target":"codex"},
+      "project": {"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},
+      "permissions": {"read":true,"edit":false,"run_tests":true,"commit":false,"push":false},
+      "return_route": {"type":"provider","target":"OpenAI","via":"web"},
+      "payload": {
+        "preconditions": [{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],
+        "instructions": "Review current AIMayaTool only. Inventory all user-facing and reusable Skinning, Setup, and Scene capabilities currently present in registry, tools, maya adapters, UI sections, smoke/tests, and durable history. Identify duplicate/dead/temporary adapters and important architecture boundaries. Do not implement or edit. Return a structured capability inventory with file/symbol evidence suitable for Architect to reconcile against MayaScriptNew.",
+        "acceptance": ["Current Skinning capabilities enumerated with file/symbol evidence.","Current Setup capabilities enumerated with file/symbol evidence.","Current Scene capabilities enumerated with file/symbol evidence.","Temporary adapters, dead/duplicate surfaces, and validation coverage gaps called out.","No repository mutation."],
+        "timeout": 600
+      }
     }
   ]
 }
