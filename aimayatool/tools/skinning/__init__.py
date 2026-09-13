@@ -66,7 +66,11 @@ def build_ui():
 
     cmds.separator(height=8, style='none')
     cmds.text(label='Skin transfer', align='left')
-    cmds.button(label='Copy Skin Weights (Source -> Targets)', command=lambda *_: _run('Copied skin', copy_weights.copy_from_selection))
+    cmds.text(label='Select source mesh first, then one or more targets.', align='left')
+    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2, columnWidth2=(190, 190))
+    cmds.button(label='Preview Copy Skin', command=lambda *_: _run('Copy skin preview', copy_weights.preview_from_selection))
+    cmds.button(label='Copy Skin Weights', command=lambda *_: _run('Copied skin', copy_weights.copy_from_selection))
+    cmds.setParent('..')
     cmds.button(label='Transfer Influence Weight (Source -> Target)', command=lambda *_: _run('Transferred', influence_transfer.transfer_from_selection))
     cmds.button(label='Copy Component Weights', command=lambda *_: _run('Copied component weights', component_weights.copy_weights_from_selection))
 
