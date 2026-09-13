@@ -28,11 +28,46 @@
         "proven_main_commit": "d2d2a59a4e48883011aadeac5de4bc01d86b19b0",
         "evidence": "Bridge fast-forwarded D:/AIMayaTool from 83a10c7b66711db3f91fa39770a8580ff099ae9c to d2d2a59a4e48883011aadeac5de4bc01d86b19b0; py_compile passed with exit_code=0 for gradient_weights.py and gradient_performance_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
       },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/gradient_weights.py", "aimayatool/tools/skinning/gradient_performance_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240},
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/gradient_weights.py",
+          "aimayatool/tools/skinning/gradient_performance_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning"
+        ],
+        "tests": [],
+        "timeout": 240
+      },
       "bridge_completed": true
     },
     {
@@ -43,7 +78,9 @@
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Measure the current per-component gradient-weighting hot path on a deterministic 441-vertex fixture before considering API 2.0 batching.",
-        "depends_on": ["aimayatool-goal004-gradient-performance-baseline-verify-056a"],
+        "depends_on": [
+          "aimayatool-goal004-gradient-performance-baseline-verify-056a"
+        ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "skinning_gradient_performance_baseline_managed_live_pass",
@@ -58,31 +95,115 @@
         "scene_saved": false,
         "maya_quit": false
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.gradient_performance_smoke", "callable": "run_gradient_performance_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.gradient_performance_smoke",
+        "callable": "run_gradient_performance_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
       "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal004-gradient-api2-candidate-verify-057a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Verify the API 2.0 batched gradient-weighting candidate and A/B comparison smoke before live measurement.",
-        "depends_on": ["aimayatool-goal004-gradient-performance-baseline-managed-live-056b"],
-        "implementation_commits": ["356eb4c0968bbfcdc2c08c7bf4a8a9d068a8b263", "fbff0df6fe3c34529e8854c66ce2041f921e2760"],
-        "acceptance": ["Fast-forward main.", "py_compile gradient_weights.py and gradient_performance_compare_smoke.py.", "Import aimayatool.tools.skinning successfully.", "Do not invoke Codex."],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "depends_on": [
+          "aimayatool-goal004-gradient-performance-baseline-managed-live-056b"
+        ],
+        "implementation_commits": [
+          "356eb4c0968bbfcdc2c08c7bf4a8a9d068a8b263",
+          "fbff0df6fe3c34529e8854c66ce2041f921e2760"
+        ],
+        "acceptance": [
+          "Fast-forward main.",
+          "py_compile gradient_weights.py and gradient_performance_compare_smoke.py.",
+          "Import aimayatool.tools.skinning successfully.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "skinning_gradient_api2_candidate_python_verification_pass",
+        "proven_main_commit": "683085af904f1fa2c82c53da56b0a39ad150802e",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool from 40b6f1f26d1d23ba9c367a402f33c832722db271 to 683085af904f1fa2c82c53da56b0a39ad150802e; py_compile passed with exit_code=0 for gradient_weights.py and gradient_performance_compare_smoke.py, and importing aimayatool.tools.skinning passed with exit_code=0."
       },
-      "action": {"type": "verification", "target": "python"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/skinning/gradient_weights.py", "aimayatool/tools/skinning/gradient_performance_compare_smoke.py"], "imports": ["aimayatool.tools.skinning"], "tests": [], "timeout": 240}
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/skinning/gradient_weights.py",
+          "aimayatool/tools/skinning/gradient_performance_compare_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning"
+        ],
+        "tests": [],
+        "timeout": 240
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal004-gradient-api2-ab-managed-live-057b",
@@ -92,15 +213,59 @@
         "goal_id": "aimayatool-004",
         "milestone_id": "skinning-api2-performance",
         "purpose": "Compare legacy gradient weighting against the API 2.0 batched candidate on identical 441-vertex fixtures and verify semantic parity.",
-        "depends_on": ["aimayatool-goal004-gradient-api2-candidate-verify-057a"],
-        "acceptance": ["Reuse healthy managed Maya 2024 session when available.", "Force a fresh unsaved scene and do not save.", "Run aimayatool.tools.skinning.gradient_performance_compare_smoke.run_gradient_performance_compare_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_GRADIENT_PERFORMANCE_COMPARE_OK.", "Capture legacy elapsed, batched elapsed, speedup and semantic parity evidence.", "Return maya_quit=false on normal success.", "Do not invoke Codex."],
+        "depends_on": [
+          "aimayatool-goal004-gradient-api2-candidate-verify-057a"
+        ],
+        "acceptance": [
+          "Reuse healthy managed Maya 2024 session when available.",
+          "Force a fresh unsaved scene and do not save.",
+          "Run aimayatool.tools.skinning.gradient_performance_compare_smoke.run_gradient_performance_compare_smoke.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SKINNING_GRADIENT_PERFORMANCE_COMPARE_OK.",
+          "Capture legacy elapsed, batched elapsed, speedup and semantic parity evidence.",
+          "Return maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.skinning.gradient_performance_compare_smoke", "callable": "run_gradient_performance_compare_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300}
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.skinning.gradient_performance_compare_smoke",
+        "callable": "run_gradient_performance_compare_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      }
     }
   ]
 }
