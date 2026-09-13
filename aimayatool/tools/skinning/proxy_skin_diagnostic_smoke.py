@@ -39,5 +39,6 @@ def run_proxy_skin_diagnostic_smoke():
         'target_influences': _identity(target_influences),
         'source_selection': cmds.ls(selection=True, long=True) or [],
     }
-    print('AIBRIDGE_PROXY_BIND_DIAGNOSTIC:' + json.dumps(payload, sort_keys=True))
-    return 'SKINNING_PROXY_BIND_DIAGNOSTIC_OK'
+    encoded = json.dumps(payload, sort_keys=True)
+    print('AIBRIDGE_PROXY_BIND_DIAGNOSTIC:' + encoded)
+    return 'SKINNING_PROXY_BIND_DIAGNOSTIC_OK|' + encoded
