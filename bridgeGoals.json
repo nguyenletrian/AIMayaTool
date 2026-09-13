@@ -33,7 +33,8 @@
         {"milestone_id":"advanced-copy-influence-ratios","title":"Explicit source-to-target influence-ratio copy","status":"completed"},
         {"milestone_id":"advanced-gradient-weighting-assessment","title":"Assess active-influence distance gradient weighting","status":"completed"},
         {"milestone_id":"advanced-gradient-profile","title":"Reusable inverse-distance gradient profile mapping","status":"completed"},
-        {"milestone_id":"advanced-gradient-weighting","title":"Explicit active-influence distance gradient weighting","status":"in_progress"}
+        {"milestone_id":"advanced-gradient-weighting","title":"Explicit active-influence distance gradient weighting","status":"completed"},
+        {"milestone_id":"advanced-skinning-regression","title":"Consolidated advanced Skinning primitive regression","status":"in_progress"}
       ]
     }
   ]
