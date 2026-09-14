@@ -22,9 +22,95 @@
       }
     },
     {
-      "task_id": "aimayatool-goal005-setup-rivet-verify-097a",
+      "task_id": "aimayatool-goal005-setup-rivet-managed-live-retry-097f",
       "status": "pending",
       "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.rivet_smoke",
+        "callable": "run_setup_rivet_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-secondary",
+        "purpose": "Re-run Rivet in real Maya with full-matrix maintain-offset validation.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "FAIL",
+        "classification": "setup_rivet_mmatrix_indexing_smoke_failure",
+        "proven_main_commit": "16fbef1b5a36bd81241197ef51b6771bf2f22a52",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, scene_saved=false and maya_quit=false. Smoke reached _matrix_error then failed with TypeError: 'float' object is not subscriptable because maya.api.OpenMaya.MMatrix in this runtime exposes flat element indexing while the smoke used a[row][col]. Product Rivet behavior was not evaluated past this helper failure.",
+        "diagnosis": "Smoke implementation defect only: use flat MMatrix indexing m[index] across 16 elements. No evidence requiring a rivet.py production change.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-rivet-matrix-smoke-verify-097e",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_rivet_matrix_smoke_python_verification_pass",
+          "proven_main_commit": "07c13b37ea772a3e00f34b2aaa20d83a833f97b9"
+        },
+        "archived_retry_chain": [
+          {
+            "task_id": "aimayatool-goal005-setup-rivet-managed-live-097b",
+            "result": "FAIL",
+            "classification": "setup_rivet_smoke_assertion_mismatch"
+          },
+          {
+            "task_id": "aimayatool-goal005-setup-rivet-smoke-fix-verify-097c",
+            "result": "PASS",
+            "classification": "setup_rivet_smoke_fix_python_verification_pass"
+          },
+          {
+            "task_id": "aimayatool-goal005-setup-rivet-managed-live-retry-097d",
+            "result": "FAIL",
+            "classification": "setup_rivet_smoke_rotation_oracle_mismatch"
+          },
+          {
+            "task_id": "aimayatool-goal005-setup-rivet-matrix-smoke-verify-097e",
+            "result": "PASS",
+            "classification": "setup_rivet_matrix_smoke_python_verification_pass"
+          }
+        ]
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-rivet-mmatrix-fix-verify-097g",
+      "status": "pending",
+      "architect_ack": false,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -47,230 +133,45 @@
         "via": "web"
       },
       "payload": {
-        "preconditions": [{
-          "type": "git_pull",
-          "strategy": "ff-only",
-          "remote": "origin",
-          "branch": "main"
-        }],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "files": [
-          "aimayatool/tools/setup/rivet.py",
           "aimayatool/tools/setup/rivet_smoke.py",
           "tests/test_setup_rivet.py"
         ],
-        "imports": ["aimayatool.tools.setup.rivet"],
-        "tests": ["tests.test_setup_rivet"],
+        "tests": [
+          "tests.test_setup_rivet"
+        ],
         "timeout": 180
       },
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-rope-roll-managed-live-096b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_rope_roll_managed_live_pass",
-          "proven_main_commit": "d37827f25fad67b74bad2da6b0cbcd228d2027a6"
-        },
-        "legacy_evidence": "MayaScriptNew/UIs/ScenePattern/Scene_Pattern_Rivet.py builds a facet from three-or-more mesh vertices, derives center/orientation through curveFromMeshEdge + loft + pointOnSurfaceInfo, drives a locator, optionally matches a copy-transform, constrains a child through a rivet offset, copies source skinning to the facet, and optionally parents rivet nodes under a container.",
-        "implementation_commits": [
-          "6d5666fa44cc77ee826c69352c4dbf90cea3ba10",
-          "1beada1ca9c1a37661a487c876a89560ae9ff97d",
-          "b66b22dc54ca56ad8b84b315cfb9d0bcad59d4bb"
+        "depends_on": [
+          "aimayatool-goal005-setup-rivet-managed-live-retry-097f"
         ],
-        "purpose": "Verify the explicit reusable mesh-rivet primitive with no ScenePattern/UI globals: validated one-mesh vertex inputs, facet surface-follow network, optional matched copy-transform, child offset/constraint, parent container, and explicit optional source-skin transfer.",
+        "retry_of": "aimayatool-goal005-setup-rivet-managed-live-retry-097f",
+        "fix_commit": "2e45135fb28f0fc9b83c35a45be7fab9e7fc8015",
+        "purpose": "Verify the Maya MMatrix smoke helper uses the runtime-supported flat 16-element indexing without changing the accepted Rivet primitive.",
         "acceptance": [
-          "Fast-forward main including all three rivet commits.",
-          "Compile rivet.py, rivet_smoke.py and tests/test_setup_rivet.py.",
-          "Import aimayatool.tools.setup.rivet under normal Python without Maya installed.",
-          "All tests in tests.test_setup_rivet pass.",
-          "Rivet resolves the polygon mesh shape before using worldMesh and keeps bind_to_source explicit/optional.",
-          "No eager Maya import is introduced.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_rivet_python_verification_pass",
-        "proven_main_commit": "62b3f214f1794899b17deb2891299a41ee656d7d",
-        "evidence": "After ff-only sync from d37827f25fad67b74bad2da6b0cbcd228d2027a6 to 62b3f214f1794899b17deb2891299a41ee656d7d, py_compile passed for rivet.py, rivet_smoke.py and tests/test_setup_rivet.py; non-Maya import passed; tests.test_setup_rivet passed 2/2."
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-rivet-managed-live-097b",
-      "status": "pending",
-      "architect_ack": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.rivet_smoke",
-        "callable": "run_setup_rivet_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-secondary",
-        "depends_on": ["aimayatool-goal005-setup-rivet-verify-097a"],
-        "purpose": "Validate in real Maya that the rivet locator follows facet deformation and a driven child follows the locator through the generated rivet offset/constraint.",
-        "acceptance": [
-          "Run only after 097a passes.",
-          "Reuse healthy managed Maya 2024 when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Require result SETUP_RIVET_SMOKE_OK:2 for PASS.",
-          "Smoke must prove locator motion after facet deformation and child world-position follow, not only node existence.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "FAIL",
-        "classification": "setup_rivet_smoke_assertion_mismatch",
-        "proven_main_commit": "fc06ad6eea070222c8e656d4e92fa10768d81906",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, and reached product code. Locator deformation-follow passed, then the smoke raised 'Rivet child did not follow locator.' The implementation and legacy Scene_Pattern_Rivet.py both parentConstraint locator -> child offset with maintainOffset=True; the failing equality assertion incorrectly required child world position to equal locator world position instead of preserving the initial offset while matching locator motion delta.",
-        "diagnosis": "Smoke-oracle defect, not rivet primitive defect. Legacy behavior explicitly uses parentConstraint(loc, offset, mo=True)."
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-rivet-smoke-fix-verify-097c",
-      "status": "pending",
-      "architect_ack": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/setup/rivet_smoke.py", "tests/test_setup_rivet.py"],
-        "tests": ["tests.test_setup_rivet"],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-secondary",
-        "retry_of": "aimayatool-goal005-setup-rivet-managed-live-097b",
-        "purpose": "Verify the corrected Rivet smoke oracle after aligning it with legacy maintainOffset=True semantics.",
-        "fix_commit": "88216d83e346499801510fb2fd6a55150aec4e90",
-        "acceptance": [
-          "Fast-forward main through smoke fix commit 88216d83e346499801510fb2fd6a55150aec4e90.",
+          "Fast-forward main through fix commit 2e45135fb28f0fc9b83c35a45be7fab9e7fc8015.",
           "Compile aimayatool/tools/setup/rivet_smoke.py and tests/test_setup_rivet.py.",
           "Run tests.test_setup_rivet and require all tests pass.",
-          "The smoke must compare child motion delta with locator motion delta and verify the initial child-locator offset remains stable.",
-          "Do not change the accepted rivet primitive solely to make the old equality assertion pass.",
+          "_matrix_error must compare the 16 MMatrix scalar elements without row/column subscripting.",
+          "Do not modify rivet.py solely for this smoke helper failure.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_rivet_smoke_fix_python_verification_pass",
-        "proven_main_commit": "cde567d3e66d1a9a1ae3c026111fa4721e341c03",
-        "evidence": "After ff-only sync from fc06ad6eea070222c8e656d4e92fa10768d81906 to cde567d3e66d1a9a1ae3c026111fa4721e341c03, py_compile passed for rivet_smoke.py and tests/test_setup_rivet.py; tests.test_setup_rivet passed 2/2."
-      },
-      "bridge_completed": true
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     },
     {
-      "task_id": "aimayatool-goal005-setup-rivet-managed-live-retry-097d",
-      "status": "pending",
-      "architect_ack": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.rivet_smoke",
-        "callable": "run_setup_rivet_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-secondary",
-        "depends_on": ["aimayatool-goal005-setup-rivet-smoke-fix-verify-097c"],
-        "retry_of": "aimayatool-goal005-setup-rivet-managed-live-097b",
-        "purpose": "Re-run Rivet in real Maya with the corrected maintain-offset smoke oracle.",
-        "acceptance": [
-          "Run only after 097c passes.",
-          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
-          "Require result SETUP_RIVET_SMOKE_OK:2 for PASS.",
-          "Prove locator motion after facet deformation, matching child/locator motion deltas, and preserved child-locator maintain-offset relationship.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "FAIL",
-        "classification": "setup_rivet_smoke_rotation_oracle_mismatch",
-        "proven_main_commit": "aad3a199a7fcdaa048a6a04492e6c26652ac0173",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, scene_saved=false and maya_quit=false. Locator deformation-follow assertion passed, then the smoke raised 'Rivet child did not follow locator delta.' Because the rivet locator also rotates from facet normal/tangent, a parentConstraint with maintainOffset=True can rotate the child's translational offset; therefore child world-translation delta is not required to equal locator world-translation delta.",
-        "diagnosis": "Second smoke-oracle defect: translation-delta equality is invalid when the constrained locator rotates. Validate full transform relationship instead of translation delta."
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-rivet-matrix-smoke-verify-097e",
-      "status": "pending",
-      "architect_ack": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/setup/rivet_smoke.py", "tests/test_setup_rivet.py"],
-        "tests": ["tests.test_setup_rivet"],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-secondary",
-        "retry_of": "aimayatool-goal005-setup-rivet-managed-live-retry-097d",
-        "fix_commit": "752751d1300b041bfd461d605a354c3f0e67c5db",
-        "purpose": "Verify the Rivet smoke now evaluates the maintain-offset relationship with full world matrices so locator rotation does not invalidate a correct child constraint.",
-        "acceptance": [
-          "Fast-forward main through fix commit 752751d1300b041bfd461d605a354c3f0e67c5db.",
-          "Compile aimayatool/tools/setup/rivet_smoke.py and tests/test_setup_rivet.py.",
-          "Run tests.test_setup_rivet and require all tests pass.",
-          "Smoke must validate full locator/offset/child transform changes and preserved relative matrix, not translation-delta equality.",
-          "Do not change the accepted rivet primitive solely to satisfy the obsolete delta oracle.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_rivet_matrix_smoke_python_verification_pass",
-        "proven_main_commit": "07c13b37ea772a3e00f34b2aaa20d83a833f97b9",
-        "evidence": "After ff-only sync from aad3a199a7fcdaa048a6a04492e6c26652ac0173 to 07c13b37ea772a3e00f34b2aaa20d83a833f97b9, py_compile passed for rivet_smoke.py and tests/test_setup_rivet.py; tests.test_setup_rivet passed 2/2."
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-rivet-managed-live-retry-097f",
+      "task_id": "aimayatool-goal005-setup-rivet-managed-live-retry-097h",
       "status": "pending",
       "architect_ack": false,
       "project": {
@@ -278,11 +179,31 @@
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
@@ -295,11 +216,13 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "depends_on": ["aimayatool-goal005-setup-rivet-matrix-smoke-verify-097e"],
-        "retry_of": "aimayatool-goal005-setup-rivet-managed-live-retry-097d",
-        "purpose": "Re-run Rivet in real Maya with full-matrix maintain-offset validation.",
+        "depends_on": [
+          "aimayatool-goal005-setup-rivet-mmatrix-fix-verify-097g"
+        ],
+        "retry_of": "aimayatool-goal005-setup-rivet-managed-live-retry-097f",
+        "purpose": "Re-run Rivet in real Maya after correcting MMatrix element access in the full-matrix smoke.",
         "acceptance": [
-          "Run only after 097e passes.",
+          "Run only after 097g passes.",
           "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
           "Require result SETUP_RIVET_SMOKE_OK:2 for PASS.",
           "Prove locator transform changes after facet deformation, child offset follows, child follows the offset, and locator-to-offset relative matrix is preserved within tolerance.",
