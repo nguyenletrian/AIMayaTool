@@ -24,24 +24,48 @@
     {
       "task_id": "aimayatool-goal005-setup-rivet-verify-097a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "files": [
           "aimayatool/tools/setup/rivet.py",
           "aimayatool/tools/setup/rivet_smoke.py",
           "tests/test_setup_rivet.py"
         ],
-        "imports": ["aimayatool.tools.setup.rivet"],
-        "tests": ["tests.test_setup_rivet"],
+        "imports": [
+          "aimayatool.tools.setup.rivet"
+        ],
+        "tests": [
+          "tests.test_setup_rivet"
+        ],
         "timeout": 180
       },
       "metadata": {
@@ -71,8 +95,13 @@
           "No eager Maya import is introduced.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_rivet_python_verification_pass",
+        "proven_main_commit": "62b3f214f1794899b17deb2891299a41ee656d7d",
+        "evidence": "After ff-only sync from d37827f25fad67b74bad2da6b0cbcd228d2027a6 to 62b3f214f1794899b17deb2891299a41ee656d7d, py_compile passed for rivet.py, rivet_smoke.py and tests/test_setup_rivet.py; non-Maya import passed; tests.test_setup_rivet passed 2/2."
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal005-setup-rivet-managed-live-097b",
@@ -83,11 +112,31 @@
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
@@ -100,7 +149,9 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "depends_on": ["aimayatool-goal005-setup-rivet-verify-097a"],
+        "depends_on": [
+          "aimayatool-goal005-setup-rivet-verify-097a"
+        ],
         "purpose": "Validate in real Maya that the rivet locator follows facet deformation and a driven child follows the locator through the generated rivet offset/constraint.",
         "acceptance": [
           "Run only after 097a passes.",
