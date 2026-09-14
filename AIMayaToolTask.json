@@ -8,96 +8,10 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-secondary-joints-between-managed-live-113g",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.secondary_smoke", "callable": "run_setup_joints_between_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-secondary",
-        "depends_on": [],
-        "result": "PASS",
-        "classification": "setup_secondary_joints_between_managed_live_pass",
-        "proven_main_commit": "4eb7da99261db82b1071ebb0ab12a4b3ac282d3a",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_JOINTS_BETWEEN_SMOKE_OK:2, scene_saved=false and maya_quit=false.",
-        "archived_prerequisite": {"task_id": "aimayatool-goal005-setup-secondary-object-on-curve-managed-live-113f", "result": "PASS", "architect_ack": true, "bridge_completed": true, "classification": "setup_secondary_object_on_curve_managed_live_pass", "proven_main_commit": "a8ec9eccc97a54eb5d7a1d9c32c5247caf4c5b50"},
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-ui-core-verify-114a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/ui_parity_smoke.py"], "imports": ["aimayatool.tools.setup"], "tests": [], "timeout": 180},
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-secondary-joints-between-managed-live-113g"],
-        "result": "PASS",
-        "classification": "setup_ui_core_python_verification_pass",
-        "proven_main_commit": "9b17fbb87f83cb2c5db8f643d316dd2ba92e4691",
-        "evidence": "After ff-only sync to 9b17fbb87f83cb2c5db8f643d316dd2ba92e4691, py_compile passed for aimayatool/tools/setup/__init__.py and ui_parity_smoke.py; non-Maya import of aimayatool.tools.setup passed.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-ui-core-managed-live-114b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.ui_parity_smoke", "callable": "run_setup_ui_core_parity_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-ui-core-verify-114a"],
-        "result": "FAIL",
-        "classification": "setup_ui_core_smoke_harness_invalid_lsui_flag",
-        "proven_main_commit": "2664b88a0de200f8778d7a06f7b8fd64addbf364",
-        "evidence": "Managed Maya 2024 reused PID 15000 on port 7001 with a fresh unsaved scene, but the smoke harness failed before UI parity evaluation because maya.cmds.lsUI does not accept the buttons=True flag in Maya 2024. scene_saved=false and maya_quit=false. Product Setup UI behavior was not disproven.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-ui-core-smoke-fix-verify-114c",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/ui_parity_smoke.py"], "imports": [], "tests": [], "timeout": 180},
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-ui-core-managed-live-114b"],
-        "purpose": "Verify the Maya-2024-compatible Setup UI parity smoke harness fix after replacing invalid lsUI(buttons=True) enumeration.",
-        "acceptance": ["Fast-forward main.", "Compile aimayatool/tools/setup/ui_parity_smoke.py.", "Do not import the Maya-only smoke in normal Python.", "Do not invoke Codex."],
-        "result": "PASS",
-        "classification": "setup_ui_core_smoke_fix_python_verification_pass",
-        "proven_main_commit": "77ed20effbecb054d7b27b94b6963b810ed520ba",
-        "evidence": "After ff-only sync to 77ed20effbecb054d7b27b94b6963b810ed520ba, py_compile passed for aimayatool/tools/setup/ui_parity_smoke.py. The Maya-only smoke was not imported in normal Python.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
       "task_id": "aimayatool-goal005-setup-ui-core-managed-live-retry-114d",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -106,9 +20,12 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-ui-core-smoke-fix-verify-114c"],
-        "purpose": "Retry Setup core UI parity validation in real Maya after the smoke harness compatibility fix.",
-        "acceptance": ["Run only after aimayatool-goal005-setup-ui-core-smoke-fix-verify-114c passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_UI_CORE_PARITY_OK:17 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."],
+        "depends_on": [],
+        "result": "PASS",
+        "classification": "setup_ui_core_managed_live_retry_pass",
+        "proven_main_commit": "ae4055c417e6cc26f806f8ac68d993e9833ea411",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:17, scene_saved=false and maya_quit=false.",
+        "archived_prerequisite": {"task_id": "aimayatool-goal005-setup-ui-core-smoke-fix-verify-114c", "result": "PASS", "architect_ack": true, "bridge_completed": true, "classification": "setup_ui_core_smoke_fix_python_verification_pass", "proven_main_commit": "77ed20effbecb054d7b27b94b6963b810ed520ba"},
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
