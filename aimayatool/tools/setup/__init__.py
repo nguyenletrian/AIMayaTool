@@ -128,6 +128,42 @@ def _copy_attribute_selected():
     return attributes.copy_attribute_value(nodes[0], nodes[1:], attribute)
 
 
+def _spline_ik_selected():
+    from . import secondary
+    nodes = _require_selection(2, "Select two or more transform references in chain order.")
+    result = secondary.create_spline_ik_chain(nodes)
+    _cmds().select(result["joints"], replace=True)
+    return result
+
+
+def _object_on_curve_selected():
+    from . import secondary
+    cmds = _cmds()
+    selection = cmds.ls(selection=True, long=True) or []
+    if len(selection) < 2:
+        raise ValueError("Select the curve first, then one or more transforms to attach.")
+    curve = selection[0]
+    objects = [node for node in selection[1:] if cmds.nodeType(node) == "transform"]
+    if not objects:
+        raise ValueError("Select one or more transform objects after the curve.")
+    return secondary.attach_objects_to_curve(curve, objects)
+
+
+def _joints_between_selected():
+    from . import secondary
+    cmds = _cmds()
+    nodes = _require_selection(2, "Select start transform first, then end transform.")
+    if cmds.promptDialog(title="Joints Between", message="Interior joint count:", text="3", button=["Create", "Cancel"], defaultButton="Create", cancelButton="Cancel", dismissString="Cancel") != "Create":
+        return []
+    try:
+        count = int(cmds.promptDialog(query=True, text=True).strip())
+    except ValueError:
+        raise ValueError("Interior joint count must be an integer.")
+    result = secondary.create_joints_between(nodes[0], nodes[1], count)
+    cmds.select(result, replace=True)
+    return result
+
+
 def build_ui():
     cmds = _cmds()
 
@@ -170,4 +206,13 @@ def build_ui():
     cmds.rowLayout(numberOfColumns=2, adjustableColumn=2)
     cmds.button(label="Create Space Switch", command=lambda *_: _run("Space switch", _space_switch_selected))
     cmds.button(label="Copy Attribute...", command=lambda *_: _run("Attribute copy", _copy_attribute_selected))
+    cmds.setParent("..")
+
+    cmds.separator(height=8, style="none")
+    cmds.text(label="Secondary rigs", align="left")
+    cmds.text(label="Selection order is explicit; advanced Fold/Rope setups remain configurable APIs until their UI contracts are finalized.", align="left")
+    cmds.rowLayout(numberOfColumns=3, adjustableColumn=3)
+    cmds.button(label="Spline IK Chain", command=lambda *_: _run("Spline IK", _spline_ik_selected))
+    cmds.button(label="Object on Curve", command=lambda *_: _run("Object on curve", _object_on_curve_selected))
+    cmds.button(label="Joints Between...", command=lambda *_: _run("Joints between", _joints_between_selected))
     cmds.setParent("..")
