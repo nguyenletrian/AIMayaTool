@@ -8,7 +8,7 @@ from aimayatool.tools.setup import secondary
 
 class FakeCmds(object):
     def __init__(self):
-        self.nodes = {"driver", "end", "start", "orientRef", "obj1", "obj2", "dst1", "dst2", "constraints"}
+        self.nodes = {"driver", "end", "start", "orientRef", "obj1", "obj2", "dst1", "dst2", "constraints", "ref1", "ref2", "ref3"}
         self.calls = []
         self.constraint_index = 0
     def objExists(self, name): return name in self.nodes
@@ -44,6 +44,25 @@ class FakeCmds(object):
     def setAttr(self, plug, value): self.calls.append(("setAttr", plug, value))
     def setDrivenKeyframe(self, plug, currentDriver=None): self.calls.append(("setDrivenKeyframe", plug, currentDriver))
     def parent(self, child, parent): self.calls.append(("parent", child, parent)); return [child]
+    def xform(self, node, **kwargs):
+        self.calls.append(("xform", node, kwargs))
+        return {"ref1": [0, 0, 0], "ref2": [5, 1, 0], "ref3": [10, 0, 0]}[node]
+    def select(self, **kwargs): self.calls.append(("select", kwargs))
+    def joint(self, *args, **kwargs):
+        if kwargs.get("edit"):
+            self.calls.append(("joint_edit", args, kwargs)); return args[0] if args else None
+        name = kwargs["name"]
+        self.nodes.add(name)
+        self.calls.append(("joint", kwargs))
+        return name
+    def curve(self, **kwargs):
+        self.nodes.add(kwargs["name"])
+        self.calls.append(("curve", kwargs))
+        return kwargs["name"]
+    def ikHandle(self, **kwargs):
+        self.nodes.add(kwargs["name"])
+        self.calls.append(("ikHandle", kwargs))
+        return [kwargs["name"], kwargs["name"] + "Effector"]
 
 
 class SetupSecondaryTests(unittest.TestCase):
@@ -86,6 +105,21 @@ class SetupSecondaryTests(unittest.TestCase):
         self.assertIn(("connectAttr", "driver.rope", "driver_rope_Offset.input1D[0]", True), connects)
         self.assertIn(("connectAttr", "obj1_RopeDestinationReverse.outputX", "pt1.destW2", True), connects)
         self.assertIn(("connectAttr", "obj1_RopeCondition.outColorR", "oc2.orientRefW0", True), connects)
+
+    def test_spline_ik_requires_two_references(self):
+        fake = FakeCmds()
+        with mock.patch.object(secondary, "_cmds", return_value=fake):
+            with self.assertRaises(ValueError): secondary.create_spline_ik_chain(["ref1"])
+
+    def test_spline_ik_builds_joint_curve_and_handle(self):
+        fake = FakeCmds()
+        with mock.patch.object(secondary, "_cmds", return_value=fake):
+            result = secondary.create_spline_ik_chain(["ref1", "ref2", "ref3"], name_prefix="tail")
+        self.assertEqual(("tail_SplineJnt_01", "tail_SplineJnt_02", "tail_SplineJnt_03"), result["joints"])
+        self.assertEqual("tail_SplineCurve", result["curve"])
+        self.assertEqual("tail_SplineIKHandle", result["handle"])
+        self.assertIn(("curve", {"degree": 2, "point": [[0, 0, 0], [5, 1, 0], [10, 0, 0]], "name": "tail_SplineCurve"}), fake.calls)
+        self.assertIn(("ikHandle", {"startJoint": "tail_SplineJnt_01", "endEffector": "tail_SplineJnt_03", "solver": "ikSplineSolver", "curve": "tail_SplineCurve", "createCurve": False, "parentCurve": False, "name": "tail_SplineIKHandle"}), fake.calls)
 
 
 if __name__ == "__main__": unittest.main()
