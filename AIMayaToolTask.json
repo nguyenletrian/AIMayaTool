@@ -24,7 +24,8 @@
     {
       "task_id": "aimayatool-goal005-setup-match-joint-chain-verify-078a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -92,7 +93,11 @@
           "No eager maya.cmds import is introduced in transforms.py.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_match_joint_chain_python_verification_pass",
+        "proven_main_commit": "d48ee61aef8153201173ec4dc639ab2c7c26cf6b",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to d48ee61aef8153201173ec4dc639ab2c7c26cf6b; py_compile passed for transforms.py, smoke.py and tests/test_setup_transforms.py; normal-Python import passed; all 6 focused tests passed."
       }
     },
     {
@@ -141,9 +146,13 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "depends_on": [
-          "aimayatool-goal005-setup-match-joint-chain-verify-078a"
-        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-match-joint-chain-verify-078a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_match_joint_chain_python_verification_pass"
+        },
         "purpose": "Validate MatchJoint parity against real Maya DAG behavior: destination chain rebuild, endpoint preservation, stale intermediate removal, source-position matching and explicit mapping count.",
         "acceptance": [
           "Run only after 078a passes.",
