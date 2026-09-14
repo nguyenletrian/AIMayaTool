@@ -3,56 +3,379 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-110",
+    "request_id": "aimayatool-setup-migration-111",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-constraint-primitives-verify-109a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/constraints.py", "aimayatool/tools/setup/constraint_smoke.py"], "imports": ["aimayatool.tools.setup.constraints"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-constraints-spaces", "result": "PASS", "classification": "setup_constraint_primitives_python_verification_pass", "proven_main_commit": "1cdb8a7fb928ed07dd3d1fa61b1ef6cf682eba39", "evidence": "py_compile passed for constraints.py and constraint_smoke.py and non-Maya import of aimayatool.tools.setup.constraints passed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-constraint-primitives-managed-live-109b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.constraint_smoke", "callable": "run_setup_constraint_primitives_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-constraints-spaces", "depends_on": ["aimayatool-goal005-setup-constraint-primitives-verify-109a"], "result": "PASS", "classification": "setup_constraint_primitives_managed_live_pass", "proven_main_commit": "f2e18c6cc0a21630684f87eaebcf29d35b68be47", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:4 with scene_saved=false and maya_quit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-space-switch-verify-110a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/spaces.py", "aimayatool/tools/setup/space_smoke.py", "tests/test_setup_spaces.py"], "imports": ["aimayatool.tools.setup.spaces"], "tests": ["tests.test_setup_spaces"], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-constraints-spaces", "depends_on": ["aimayatool-goal005-setup-constraint-primitives-managed-live-109b"], "result": "PASS", "classification": "setup_space_switch_python_verification_pass", "proven_main_commit": "448bce672ffccb86b42a2503222c55d92655bfc0", "evidence": "After ff-only sync to 448bce672ffccb86b42a2503222c55d92655bfc0, py_compile passed for spaces.py, space_smoke.py and tests/test_setup_spaces.py; non-Maya import of aimayatool.tools.setup.spaces passed; tests.test_setup_spaces passed 3/3.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
       "task_id": "aimayatool-goal005-setup-space-switch-managed-live-110b",
       "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.space_smoke",
+        "callable": "run_setup_space_switch_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-constraints-spaces",
+        "depends_on": [
+          "aimayatool-goal005-setup-space-switch-verify-110a"
+        ],
+        "result": "PASS",
+        "classification": "setup_space_switch_managed_live_pass",
+        "proven_main_commit": "015e913b4fcaa151fdfdbe269cefc4f925d9c652",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_SPACE_SWITCH_SMOKE_OK:2, scene_saved=false and maya_quit=false.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-space-switch-verify-110a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_space_switch_python_verification_pass",
+          "proven_main_commit": "448bce672ffccb86b42a2503222c55d92655bfc0"
+        },
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ikfk-verify-111a",
+      "status": "pending",
       "architect_ack": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.space_smoke", "callable": "run_setup_space_switch_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-constraints-spaces", "depends_on": ["aimayatool-goal005-setup-space-switch-verify-110a"], "purpose": "Revalidate enum space selection and optional inverse slide fallback in real Maya on current main.", "acceptance": ["Run only after 110a passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_SPACE_SWITCH_SMOKE_OK:2 for PASS.", "Prove enum index 0/1 selects the expected parent spaces and spaceBlend=0 drives the inverse root fallback.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/ikfk.py",
+          "aimayatool/tools/setup/ikfk_smoke.py",
+          "tests/test_setup_ikfk.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.ikfk"
+        ],
+        "tests": [
+          "tests.test_setup_ikfk"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ikfk",
+        "depends_on": [
+          "aimayatool-goal005-setup-space-switch-managed-live-110b"
+        ],
+        "purpose": "Reconfirm the existing IK/FK composition and snap APIs against current main before Maya revalidation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile ikfk.py, ikfk_smoke.py and tests/test_setup_ikfk.py.",
+          "Import aimayatool.tools.setup.ikfk outside Maya without eager Maya import.",
+          "Run tests.test_setup_ikfk and require all tests pass.",
+          "Confirm IK/FK blend, RP IK, switch/proxy visibility and snap-offset APIs remain covered.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ikfk-blend-managed-live-111b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.ikfk_smoke",
+        "callable": "run_setup_ikfk_blend_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ikfk",
+        "depends_on": [
+          "aimayatool-goal005-setup-ikfk-verify-111a"
+        ],
+        "purpose": "Revalidate Setup IK/FK blend behavior in real Maya on current main.",
+        "acceptance": [
+          "Run only after aimayatool-goal005-setup-ikfk-verify-111a passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_IKFK_BLEND_SMOKE_OK:2 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ikfk-rp-ik-managed-live-111c",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.ikfk_smoke",
+        "callable": "run_setup_rp_ik_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ikfk",
+        "depends_on": [
+          "aimayatool-goal005-setup-ikfk-blend-managed-live-111b"
+        ],
+        "purpose": "Revalidate Setup IK/FK rp-ik behavior in real Maya on current main.",
+        "acceptance": [
+          "Run only after aimayatool-goal005-setup-ikfk-blend-managed-live-111b passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_RP_IK_SMOKE_OK:1 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ikfk-switch-managed-live-111d",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.ikfk_smoke",
+        "callable": "run_setup_ikfk_switch_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ikfk",
+        "depends_on": [
+          "aimayatool-goal005-setup-ikfk-rp-ik-managed-live-111c"
+        ],
+        "purpose": "Revalidate Setup IK/FK switch behavior in real Maya on current main.",
+        "acceptance": [
+          "Run only after aimayatool-goal005-setup-ikfk-rp-ik-managed-live-111c passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_IKFK_SWITCH_SMOKE_OK:2 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ikfk-snap-managed-live-111e",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.ikfk_smoke",
+        "callable": "run_setup_ikfk_snap_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ikfk",
+        "depends_on": [
+          "aimayatool-goal005-setup-ikfk-switch-managed-live-111d"
+        ],
+        "purpose": "Revalidate Setup IK/FK snap behavior in real Maya on current main.",
+        "acceptance": [
+          "Run only after aimayatool-goal005-setup-ikfk-switch-managed-live-111d passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_IKFK_SNAP_SMOKE_OK:2 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     }
   ]
 }
