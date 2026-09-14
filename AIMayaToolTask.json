@@ -4,34 +4,34 @@
   "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
     {
-      "task_id": "aimayatool-goal006-setup-sdk-safety-managed-live-129b-r1",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.sdk_safety_smoke", "callable": "run_setup_sdk_safety_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": [], "retry_of": "aimayatool-goal006-setup-sdk-safety-managed-live-129b", "result": "PASS", "classification": "setup_sdk_safety_managed_live_pass", "proven_main_commit": "b14bac1b7194e0203afc763a1fdb5d15d82679f9", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_SDK_SAFETY_OK:7, scene_saved=false and maya_quit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal006-setup-spline-safety-verify-130a",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/spline_composition.py", "aimayatool/tools/setup/spline_safety_smoke.py"], "imports": ["aimayatool.tools.setup.spline_composition"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-sdk-safety-managed-live-129b-r1"], "purpose": "Verify spline composition preflight hardening compiles and remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile spline_composition.py and spline_safety_smoke.py.", "Import aimayatool.tools.setup.spline_composition outside Maya.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_spline_safety_python_verification_pass", "proven_main_commit": "99f6711cbb118f142c06e41e55108a43fd3eeab7", "evidence": "Bridge fast-forwarded local main from b14bac1b7194e0203afc763a1fdb5d15d82679f9 to 99f6711cbb118f142c06e41e55108a43fd3eeab7; py_compile passed for spline_composition.py and spline_safety_smoke.py; import of aimayatool.tools.setup.spline_composition passed outside Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
       "task_id": "aimayatool-goal006-setup-spline-safety-managed-live-130b",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.spline_safety_smoke", "callable": "run_setup_spline_safety_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-spline-safety-verify-130a"], "purpose": "Prove invalid spline compositions fail before attributes/constraints/blend nodes are created while valid global/local composition still evaluates correctly.", "acceptance": ["Run only after 130a passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_SPLINE_SAFETY_OK:7 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": [], "result": "PASS", "classification": "setup_spline_safety_managed_live_pass", "proven_main_commit": "f766f48754c02b708f39c40405ea8fae22fbb2c8", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, fast-forwarded local main from 99f6711cbb118f142c06e41e55108a43fd3eeab7 to f766f48754c02b708f39c40405ea8fae22fbb2c8, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_SPLINE_SAFETY_OK:7, scene_saved=false and maya_quit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-constraint-axis-safety-verify-131a",
+      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/constraints.py", "aimayatool/tools/setup/constraint_safety_smoke.py"], "imports": ["aimayatool.tools.setup.constraints"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-spline-safety-managed-live-130b"], "purpose": "Verify unsupported aim axes are resolved before offset-group mutation and the expanded constraint safety smoke remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile constraints.py and constraint_safety_smoke.py.", "Import aimayatool.tools.setup.constraints outside Maya.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-constraint-axis-safety-managed-live-131b",
+      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.constraint_safety_smoke", "callable": "run_setup_constraint_safety_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-constraint-axis-safety-verify-131a"], "purpose": "Prove unsupported aim axes fail before creating offset groups or constraints while prior constraint-safety cases and valid composition still pass.", "acceptance": ["Run only after 131a passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_CONSTRAINT_SAFETY_OK:8 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
