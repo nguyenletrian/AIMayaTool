@@ -141,3 +141,36 @@ def create_joint_hierarchy_from_transforms(root, suffix="_JNT", name_prefix=None
             joint = cmds.parent(joint, mapping[parent_source], absolute=True)[0]
         mapping[source] = joint; created.append(joint)
     return {"root": root, "sources": tuple(sources), "joints": tuple(created), "mapping": mapping}
+
+
+def insert_offset_group(node, name=None, suffix="_fixOffset"):
+    """Insert a matched transform group directly above a node while preserving world pose."""
+    cmds = _cmds(); _require_node(cmds, node, "Offset node")
+    node = _long_name(cmds, node)
+    parents = cmds.listRelatives(node, parent=True, fullPath=True) or []
+    parent = parents[0] if parents else None
+    group_name = name or (_short_name(node) + suffix)
+    group = cmds.createNode("transform", name=group_name)
+    cmds.matchTransform(group, node, position=True, rotation=True, scale=True)
+    if parent:
+        group = cmds.parent(group, parent, absolute=True)[0]
+    node = cmds.parent(node, group, absolute=True)[0]
+    return {"node": node, "group": group, "parent": parent}
+
+
+def remove_offset_group(group):
+    """Remove an explicit offset group and reparent its children while preserving world pose."""
+    cmds = _cmds(); _require_node(cmds, group, "Offset group")
+    group = _long_name(cmds, group)
+    parents = cmds.listRelatives(group, parent=True, fullPath=True) or []
+    parent = parents[0] if parents else None
+    children = cmds.listRelatives(group, children=True, fullPath=True, type="transform") or []
+    restored = []
+    for child in children:
+        if parent:
+            child = cmds.parent(child, parent, absolute=True)[0]
+        else:
+            child = cmds.parent(child, world=True, absolute=True)[0]
+        restored.append(child)
+    cmds.delete(group)
+    return {"group": group, "parent": parent, "children": tuple(restored)}
