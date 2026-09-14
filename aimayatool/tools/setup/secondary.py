@@ -144,3 +144,25 @@ def attach_objects_to_curve(curve, objects, name_prefix=None):
         cmds.connectAttr(localize + ".output", obj + ".translate", force=True)
         point_nodes.append(point); matrix_nodes.append(localize); parameters.append(parameter)
     return {"curve": curve, "curve_shape": curve_shape, "objects": tuple(objects), "parameters": tuple(parameters), "point_nodes": tuple(point_nodes), "matrix_nodes": tuple(matrix_nodes)}
+
+
+def create_joints_between(start, end, count, name_prefix=None, parent_chain=True, orient=True):
+    """Create evenly spaced joints strictly between two reference nodes.
+
+    This is the deterministic primitive behind legacy makeJointBetween: endpoints remain
+    untouched, only the requested interior joints are created, and naming/parenting are
+    explicit instead of UI-field/selection driven.
+    """
+    cmds = _cmds(); _require_node(cmds, start, "Start reference"); _require_node(cmds, end, "End reference")
+    count = int(count)
+    if count < 1: raise ValueError("Joint-between count must be at least 1.")
+    start_pos = cmds.xform(start, query=True, worldSpace=True, translation=True); end_pos = cmds.xform(end, query=True, worldSpace=True, translation=True)
+    prefix = name_prefix or "{0}_{1}".format(str(start).split("|")[-1], str(end).split("|")[-1]); joints = []
+    for index in range(1, count + 1):
+        t = float(index) / float(count + 1); position = [start_pos[axis] + (end_pos[axis] - start_pos[axis]) * t for axis in range(3)]
+        cmds.select(clear=True); joints.append(cmds.joint(position=position, name="{0}_BetweenJnt_{1:02d}".format(prefix, index)))
+    if parent_chain and len(joints) > 1:
+        for index in range(1, len(joints)): cmds.parent(joints[index], joints[index - 1])
+    if orient and parent_chain and len(joints) > 1:
+        cmds.joint(joints[0], edit=True, orientJoint="xyz", secondaryAxisOrient="yup", children=True, zeroScaleOrient=True); cmds.joint(joints[-1], edit=True, orientJoint="none", children=True, zeroScaleOrient=True)
+    return {"start": start, "end": end, "count": count, "joints": tuple(joints), "parent_chain": bool(parent_chain), "oriented": bool(orient and parent_chain and len(joints) > 1)}
