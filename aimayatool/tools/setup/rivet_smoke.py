@@ -12,7 +12,7 @@ def _world_matrix(node):
 
 
 def _matrix_error(a, b):
-    return max(abs(a[row][col] - b[row][col]) for row in range(4) for col in range(4))
+    return max(abs(a[index] - b[index]) for index in range(16))
 
 
 def run_setup_rivet_smoke():
