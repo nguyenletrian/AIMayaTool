@@ -10,7 +10,7 @@ _EXPECTED_BUTTONS = (
     "Replace Shape...", "Zero Group", "Freeze TRS", "Reset TR", "Create Joints",
     "Parent Constraint", "Point Constraint", "Orient Constraint", "Aim Constraint",
     "Create Space Switch", "Copy Attribute...", "Create RP IK", "Create IK/FK Blend...", "Snap IK/FK...", "Wire IK/FK Switch...",
-    "Spline IK Chain", "Object on Curve", "Joints Between...",
+    "Spline IK Chain", "Object on Curve", "Joints Between...", "Fold Rig...", "Rope Straight...", "Rope Roll...",
 )
 
 
