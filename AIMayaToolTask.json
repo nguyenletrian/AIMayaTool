@@ -15,13 +15,13 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-sdk-safety-managed-live-129b-r1",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.sdk_safety_smoke", "callable": "run_setup_sdk_safety_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-sdk-safety-managed-live-129b"], "retry_of": "aimayatool-goal006-setup-sdk-safety-managed-live-129b", "purpose": "Re-run SDK safety after correcting the smoke to assert SDK-group channels and propagated world transforms rather than child local channels.", "acceptance": ["Fast-forward main including the corrected sdk_safety_smoke.py.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_SDK_SAFETY_OK:7 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-sdk-safety-managed-live-129b"], "retry_of": "aimayatool-goal006-setup-sdk-safety-managed-live-129b", "purpose": "Re-run SDK safety after correcting the smoke to assert SDK-group channels and propagated world transforms rather than child local channels.", "acceptance": ["Fast-forward main including the corrected sdk_safety_smoke.py.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_SDK_SAFETY_OK:7 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_sdk_safety_managed_live_pass", "proven_main_commit": "b14bac1b7194e0203afc763a1fdb5d15d82679f9", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, fast-forwarded local main from 1ed993970c54204d971b9c8424b8f15d400f606b to b14bac1b7194e0203afc763a1fdb5d15d82679f9, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_SDK_SAFETY_OK:7, scene_saved=false and maya_quit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
