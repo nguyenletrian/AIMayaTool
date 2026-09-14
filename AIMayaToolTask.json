@@ -8,243 +8,111 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-constraint-primitives-managed-live-081b",
+      "task_id": "aimayatool-goal005-setup-space-switch-managed-live-retry-082d",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-constraints-spaces",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-constraint-primitives-verify-081a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_constraint_primitives_python_verification_pass"
-        },
         "result": "PASS",
-        "classification": "setup_constraint_primitives_managed_live_pass",
-        "proven_main_commit": "c407ae3af3e17a25dc55dfec277064c01818912b",
-        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:3, scene_saved=false and maya_quit=false."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-space-switch-verify-082a",
-      "status": "pending",
-      "architect_ack": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/spaces.py",
-          "aimayatool/tools/setup/space_smoke.py",
-          "tests/test_setup_spaces.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup.spaces"
-        ],
-        "tests": [
-          "tests.test_setup_spaces"
-        ],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-constraints-spaces",
+        "classification": "setup_space_switch_managed_live_retry_pass",
+        "proven_main_commit": "ae3a10914ab0af48f8ddf8d92b4aca094038713b",
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SETUP_SPACE_SWITCH_SMOKE_OK:2 with scene_saved=false and maya_quit=false.",
         "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-constraint-primitives-managed-live-081b",
+          "task_id": "aimayatool-goal005-setup-space-switch-smoke-fix-verify-082c",
           "result": "PASS",
           "architect_ack": true,
           "bridge_completed": true,
-          "classification": "setup_constraint_primitives_managed_live_pass"
+          "classification": "setup_space_switch_smoke_fix_python_verification_pass",
+          "proven_main_commit": "dccee6c7aa84eb42b650435c11d67ea013bd15d6"
         },
-        "implementation_commits": [
-          "b8dca27bc11a2d84498e6f269f3ce2407e4b1376",
-          "29139ceea995e7c131d6b75b70383570faf19e3d",
-          "3f855a3804a0bc6c35a12aabb97537aaa8e6374f"
-        ],
-        "purpose": "Verify composable enum-driven Space Switch parity extracted from the legacy Scene_Pattern_SpaceSwitch workflow: explicit child/parents, configurable labels, optional Default space, condition-driven parentConstraint weights and optional slide fallback blend.",
-        "acceptance": [
-          "Fast-forward main including the three space-switch implementation/test/smoke commits.",
-          "spaces.py, space_smoke.py and tests/test_setup_spaces.py compile.",
-          "Import aimayatool.tools.setup.spaces succeeds under normal Python without Maya installed.",
-          "All tests in tests.test_setup_spaces pass.",
-          "No eager maya.cmds import is introduced in spaces.py.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_space_switch_python_verification_pass",
-        "proven_main_commit": "35deed87779101764b69afd973393339b70b65a7",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 35deed87779101764b69afd973393339b70b65a7; py_compile passed for spaces.py, space_smoke.py and tests/test_setup_spaces.py; normal-Python import passed; all 3 focused tests passed."
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-space-switch-managed-live-082b",
-      "status": "pending",
-      "architect_ack": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.space_smoke",
-        "callable": "run_setup_space_switch_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-constraints-spaces",
-        "purpose": "Validate the enum-driven Space Switch composition in real Maya: parentConstraint targets, enum/slide attributes, condition weights and slide fallback network.",
-        "acceptance": [
-          "Run only after 082a passes.",
-          "Reuse a healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.setup.space_smoke.run_setup_space_switch_smoke.",
-          "Require result SETUP_SPACE_SWITCH_SMOKE_OK:2 for PASS.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-space-switch-verify-082a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_space_switch_python_verification_pass"
-        },
-        "result": "FAIL",
-        "classification": "setup_space_switch_live_validation_expectation_mismatch",
-        "proven_main_commit": "cfcde27485b1949ee7444d4dbfcc6ca1bb7539e7",
-        "evidence": "Managed Maya 2024 reused PID 15000 and returned AIBRIDGE_UI_SMOKE_ERROR because space_smoke.py assumed exactly two parentConstraint weight aliases after adding the slide fallback; Maya may reuse/extend the existing constraint with the root fallback target. Product/runtime remained healthy, scene_saved=false and maya_quit=false."
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-space-switch-smoke-fix-verify-082c",
-      "status": "pending",
-      "architect_ack": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/space_smoke.py"
-        ],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-constraints-spaces",
-        "archived_prerequisite": {
+        "archived_retry_source": {
           "task_id": "aimayatool-goal005-setup-space-switch-managed-live-082b",
           "result": "FAIL",
           "architect_ack": true,
           "bridge_completed": true,
-          "classification": "setup_space_switch_live_validation_expectation_mismatch"
-        },
-        "implementation_commit": "94d7beb6fd52f3775cd266015c3cef555a0db8ac",
-        "purpose": "Verify the corrected Space Switch live smoke no longer assumes an exact parentConstraint target count and instead validates required named space/fallback targets.",
-        "acceptance": [
-          "Fast-forward main including 94d7beb6fd52f3775cd266015c3cef555a0db8ac.",
-          "space_smoke.py compiles.",
-          "Do not import Maya-host smoke under normal Python.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_space_switch_smoke_fix_python_verification_pass",
-        "proven_main_commit": "dccee6c7aa84eb42b650435c11d67ea013bd15d6",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from cfcde27485b1949ee7444d4dbfcc6ca1bb7539e7 to dccee6c7aa84eb42b650435c11d67ea013bd15d6; py_compile passed for aimayatool/tools/setup/space_smoke.py with exit_code=0."
-      },
-      "bridge_completed": true
+          "classification": "setup_space_switch_live_validation_expectation_mismatch",
+          "proven_main_commit": "cfcde27485b1949ee7444d4dbfcc6ca1bb7539e7"
+        }
+      }
     },
     {
-      "task_id": "aimayatool-goal005-setup-space-switch-managed-live-retry-082d",
+      "task_id": "aimayatool-goal005-setup-point-constraint-verify-083a",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/constraints.py",
+          "aimayatool/tools/setup/constraint_smoke.py",
+          "tests/test_setup_constraints.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.constraints"
+        ],
+        "tests": [
+          "tests.test_setup_constraints"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-constraints-spaces",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-space-switch-managed-live-retry-082d",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_space_switch_managed_live_retry_pass",
+          "proven_main_commit": "ae3a10914ab0af48f8ddf8d92b4aca094038713b"
+        },
+        "implementation_commits": [
+          "8f2b3ed1418e2779ba2603aa70b96dd5b2c7cefd",
+          "5d7b73d68309ba832e9d91209c202284d6fe2b99",
+          "8bacaccfb6c48f347656b7deeee080b6e5197511"
+        ],
+        "purpose": "Close the explicit pointConstraint parity gap so Setup constraint primitives cover parent, point, orient and aim as required by MIGRATION.md.",
+        "acceptance": [
+          "Fast-forward main including the point-constraint implementation/test/smoke commits.",
+          "Compile constraints.py, constraint_smoke.py and tests/test_setup_constraints.py.",
+          "Import aimayatool.tools.setup.constraints under normal Python without Maya installed.",
+          "All tests in tests.test_setup_constraints pass, including explicit pointConstraint flags.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-point-constraint-managed-live-083b",
       "status": "pending",
       "architect_ack": false,
       "project": {
@@ -280,8 +148,8 @@
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.setup.space_smoke",
-        "callable": "run_setup_space_switch_smoke",
+        "module": "aimayatool.tools.setup.constraint_smoke",
+        "callable": "run_setup_constraint_primitives_smoke",
         "expected_window": "",
         "startup_timeout": 180,
         "operation_timeout": 300
@@ -290,15 +158,14 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-constraints-spaces",
         "depends_on": [
-          "aimayatool-goal005-setup-space-switch-smoke-fix-verify-082c"
+          "aimayatool-goal005-setup-point-constraint-verify-083a"
         ],
-        "retry_of": "aimayatool-goal005-setup-space-switch-managed-live-082b",
-        "purpose": "Retry the same bounded Space Switch live validation with Maya-compatible named-target assertions after correcting the smoke expectation mismatch.",
+        "purpose": "Validate all four accepted Setup constraint primitives in real Maya after adding pointConstraint parity.",
         "acceptance": [
-          "Run only after 082c passes.",
-          "Reuse healthy managed Maya 2024 when available.",
+          "Run only after 083a passes.",
+          "Reuse a healthy managed Maya 2024 session when available.",
           "Force a fresh unsaved scene and do not save.",
-          "Require result SETUP_SPACE_SWITCH_SMOKE_OK:2 for PASS.",
+          "Require result SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:4 for PASS.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
