@@ -7,7 +7,7 @@ class SetupNamingTests(unittest.TestCase):
     def test_sanitize_legacy_name_replaces_legacy_fbx_tokens_and_punctuation(self):
         self.assertEqual(
             naming.sanitize_legacy_name("ArmFBXASC046End.FBXASC032[01]FBXASC045JNT"),
-            "Arm_End__01__JNT",
+            "Arm_End___01__JNT",
         )
 
     def test_sanitize_legacy_name_preserves_other_characters(self):
