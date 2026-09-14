@@ -8,112 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-ui-ikfk-switch-managed-live-118b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.ui_parity_smoke",
-        "callable": "run_setup_ui_core_parity_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-ui-parity",
-        "depends_on": [],
-        "result": "PASS",
-        "classification": "setup_ui_ikfk_switch_managed_live_pass",
-        "proven_main_commit": "7e7525185b39ad780f5154f5282713d7872f34c1",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:23, scene_saved=false and maya_quit=false.",
-        "archived_prerequisite": {"task_id": "aimayatool-goal005-setup-ui-ikfk-switch-verify-118a", "result": "PASS", "architect_ack": true, "bridge_completed": true, "classification": "setup_ui_ikfk_switch_python_verification_pass", "proven_main_commit": "76ceb9555f8bc958c35c78b15f4305ec65eb31f7"},
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-ui-ikfk-blend-verify-119a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/ui_parity_smoke.py"],
-        "imports": ["aimayatool.tools.setup"],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-ui-ikfk-switch-managed-live-118b"],
-        "purpose": "Verify the Setup IK/FK blend UI parity slice exposes the already-proven three-chain blend workflow with explicit bind/FK/IK selection grouping and prompted switch/count configuration.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile aimayatool/tools/setup/__init__.py and aimayatool/tools/setup/ui_parity_smoke.py.",
-          "Import aimayatool.tools.setup outside Maya without eager Maya imports.",
-          "Do not import the Maya-only ui_parity_smoke module in normal Python.",
-          "Do not invoke Codex."
-        ],
-        "result": "PASS",
-        "classification": "setup_ui_ikfk_blend_python_verification_pass",
-        "proven_main_commit": "2def7bb8eb348d1be8a1d34f538dd034bd791713",
-        "evidence": "After ff-only sync to 2def7bb8eb348d1be8a1d34f538dd034bd791713, py_compile passed for aimayatool/tools/setup/__init__.py and aimayatool/tools/setup/ui_parity_smoke.py; non-Maya import of aimayatool.tools.setup passed.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-ui-ikfk-blend-managed-live-119b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.ui_parity_smoke",
-        "callable": "run_setup_ui_core_parity_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-ui-ikfk-blend-verify-119a"],
-        "purpose": "Validate the expanded Setup UI exposes the 23 accepted actions plus Create IK/FK Blend in real Maya.",
-        "acceptance": [
-          "Run only after aimayatool-goal005-setup-ui-ikfk-blend-verify-119a passes.",
-          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
-          "Require result SETUP_UI_CORE_PARITY_OK:24 for PASS.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "result": "PASS",
-        "classification": "setup_ui_ikfk_blend_managed_live_pass",
-        "proven_main_commit": "718a6507a08ce32660e506915191b69c2d6cae21",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:24, scene_saved=false and maya_quit=false.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
       "task_id": "aimayatool-goal005-setup-ui-fold-rope-verify-120a",
       "status": "pending",
       "architect_ack": true,
@@ -132,15 +26,7 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-ui-ikfk-blend-managed-live-119b"],
-        "purpose": "Verify the thin Setup UI exposure for the already-migrated Fold Rig, Rope Straight and Rope Roll APIs, using explicit ordered selection groups plus prompted count, driver attribute and rope offset configuration.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile aimayatool/tools/setup/__init__.py and aimayatool/tools/setup/ui_parity_smoke.py.",
-          "Import aimayatool.tools.setup outside Maya without eager Maya imports.",
-          "Preserve existing Setup UI actions and avoid importing the Maya-only ui_parity_smoke module in normal Python.",
-          "Do not invoke Codex."
-        ],
+        "depends_on": [],
         "result": "PASS",
         "classification": "setup_ui_fold_rope_python_verification_pass",
         "proven_main_commit": "e77b6e96bac439c44b8ec49669439a1d20393cf4",
@@ -172,18 +58,76 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-ui-parity",
         "depends_on": ["aimayatool-goal005-setup-ui-fold-rope-verify-120a"],
-        "purpose": "Validate in managed Maya 2024 that the Setup UI now exposes the accepted 24 actions plus Fold Rig, Rope Straight and Rope Roll without regressing the existing workspace.",
-        "acceptance": [
-          "Run only after aimayatool-goal005-setup-ui-fold-rope-verify-120a passes.",
-          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
-          "Require result SETUP_UI_CORE_PARITY_OK:27 for PASS.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
         "result": "PASS",
         "classification": "setup_ui_fold_rope_managed_live_pass",
         "proven_main_commit": "8aa4065496ee416699d7b864e2267689d42e2a52",
         "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, fast-forwarded local main from e77b6e96bac439c44b8ec49669439a1d20393cf4 to 8aa4065496ee416699d7b864e2267689d42e2a52, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:27, scene_saved=false and maya_quit=false.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-naming-namespace-verify-121a",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/setup/naming.py", "aimayatool/tools/setup/naming_smoke.py", "tests/test_setup_naming.py"],
+        "imports": ["aimayatool.tools.setup.naming"],
+        "tests": ["tests/test_setup_naming.py"],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": ["aimayatool-goal005-setup-ui-fold-rope-managed-live-120b"],
+        "purpose": "Verify explicit reusable Setup naming and namespace primitives replacing legacy hidden-selection naming helpers: legacy FBX token sanitization, stored-name snapshot/restore, namespace creation/move/removal, and UUID-safe DAG rename resolution.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile aimayatool/tools/setup/naming.py, aimayatool/tools/setup/naming_smoke.py and tests/test_setup_naming.py.",
+          "Import aimayatool.tools.setup.naming outside Maya without eager Maya imports.",
+          "Run tests/test_setup_naming.py successfully.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-naming-namespace-managed-live-121b",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.naming_smoke",
+        "callable": "run_setup_naming_namespace_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": ["aimayatool-goal005-setup-naming-namespace-verify-121a"],
+        "purpose": "Validate in managed Maya 2024 that hierarchy name sanitize/restore and explicit namespace move/merge preserve real DAG nodes and return non-stale paths after ancestor renames.",
+        "acceptance": [
+          "Run only after aimayatool-goal005-setup-naming-namespace-verify-121a passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_NAMING_NAMESPACE_SMOKE_OK:4 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
