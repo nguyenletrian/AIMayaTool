@@ -3,38 +3,10 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-096",
+    "request_id": "aimayatool-setup-migration-097",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
-    {
-      "task_id": "aimayatool-goal005-setup-spline-composition-managed-live-095b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-secondary",
-        "result": "PASS",
-        "classification": "setup_spline_composition_managed_live_pass",
-        "proven_main_commit": "7815caa305c7d3a511b52282a9a1d513a43eb9c4",
-        "evidence": "Managed Maya 2024 reused PID 15000, fresh unsaved scene, SETUP_SPLINE_COMPOSITION_SMOKE_OK:4, scene_saved=false, maya_quit=false; local/global orientation, global translation follow and SplineControls visibility/follow/proxy behavior proven."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-rope-roll-verify-096a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-secondary",
-        "result": "PASS",
-        "classification": "setup_rope_roll_python_verification_pass",
-        "proven_main_commit": "f3bf7e9db6e79ea30ee85e67024cfe6b4325d9ac",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool to f3bf7e9db6e79ea30ee85e67024cfe6b4325d9ac; py_compile passed for secondary.py, secondary_smoke.py and tests/test_setup_secondary.py; normal-Python import passed; all 8 setup-secondary tests passed."
-      }
-    },
     {
       "task_id": "aimayatool-goal005-setup-rope-roll-managed-live-096b",
       "status": "pending",
@@ -46,15 +18,100 @@
         "result": "PASS",
         "classification": "setup_rope_roll_managed_live_pass",
         "proven_main_commit": "d37827f25fad67b74bad2da6b0cbcd228d2027a6",
-        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_ROPE_ROLL_SMOKE_OK:3, scene_saved=false and maya_quit=false; smoke proves driver states 0=(4,8), 1=(6,9), 2=(2,9).",
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_ROPE_ROLL_SMOKE_OK:3, scene_saved=false and maya_quit=false; smoke proves driver states 0=(4,8), 1=(6,9), 2=(2,9)."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-rivet-verify-097a",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": [
+          "aimayatool/tools/setup/rivet.py",
+          "aimayatool/tools/setup/rivet_smoke.py",
+          "tests/test_setup_rivet.py"
+        ],
+        "imports": ["aimayatool.tools.setup.rivet"],
+        "tests": ["tests.test_setup_rivet"],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-secondary",
         "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-rope-roll-verify-096a",
+          "task_id": "aimayatool-goal005-setup-rope-roll-managed-live-096b",
           "result": "PASS",
           "architect_ack": true,
           "bridge_completed": true,
-          "classification": "setup_rope_roll_python_verification_pass",
-          "proven_main_commit": "f3bf7e9db6e79ea30ee85e67024cfe6b4325d9ac"
-        }
+          "classification": "setup_rope_roll_managed_live_pass",
+          "proven_main_commit": "d37827f25fad67b74bad2da6b0cbcd228d2027a6"
+        },
+        "legacy_evidence": "MayaScriptNew/UIs/ScenePattern/Scene_Pattern_Rivet.py builds a facet from three-or-more mesh vertices, derives center/orientation through curveFromMeshEdge + loft + pointOnSurfaceInfo, drives a locator, optionally matches a copy-transform, constrains a child through a rivet offset, copies source skinning to the facet, and optionally parents rivet nodes under a container.",
+        "implementation_commits": [
+          "6d5666fa44cc77ee826c69352c4dbf90cea3ba10",
+          "1beada1ca9c1a37661a487c876a89560ae9ff97d",
+          "b66b22dc54ca56ad8b84b315cfb9d0bcad59d4bb"
+        ],
+        "purpose": "Verify the explicit reusable mesh-rivet primitive with no ScenePattern/UI globals: validated one-mesh vertex inputs, facet surface-follow network, optional matched copy-transform, child offset/constraint, parent container, and explicit optional source-skin transfer.",
+        "acceptance": [
+          "Fast-forward main including all three rivet commits.",
+          "Compile rivet.py, rivet_smoke.py and tests/test_setup_rivet.py.",
+          "Import aimayatool.tools.setup.rivet under normal Python without Maya installed.",
+          "All tests in tests.test_setup_rivet pass.",
+          "Rivet resolves the polygon mesh shape before using worldMesh and keeps bind_to_source explicit/optional.",
+          "No eager Maya import is introduced.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-rivet-managed-live-097b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.rivet_smoke",
+        "callable": "run_setup_rivet_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-secondary",
+        "depends_on": ["aimayatool-goal005-setup-rivet-verify-097a"],
+        "purpose": "Validate in real Maya that the rivet locator follows facet deformation and a driven child follows the locator through the generated rivet offset/constraint.",
+        "acceptance": [
+          "Run only after 097a passes.",
+          "Reuse healthy managed Maya 2024 when available.",
+          "Force a fresh unsaved scene and do not save.",
+          "Require result SETUP_RIVET_SMOKE_OK:2 for PASS.",
+          "Smoke must prove locator motion after facet deformation and child world-position follow, not only node existence.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
   ]
