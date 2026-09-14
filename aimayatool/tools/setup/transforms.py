@@ -123,3 +123,21 @@ def create_joints_at_references(references, suffix="_JNT", match_rotation=True):
     for reference in references:
         result.append(create_joint_at_reference(reference, name=_short_name(reference) + suffix, match_rotation=match_rotation))
     return tuple(result)
+
+
+def create_joint_hierarchy_from_transforms(root, suffix="_JNT", name_prefix=None, match_rotation=True):
+    """Create a joint hierarchy matching an explicit transform DAG hierarchy."""
+    cmds = _cmds(); _require_node(cmds, root, "Hierarchy root")
+    root = _long_name(cmds, root)
+    descendants = cmds.listRelatives(root, allDescendents=True, fullPath=True, type="transform") or []
+    sources = [root] + list(reversed(descendants))
+    source_set = set(sources); mapping = {}; created = []
+    for source in sources:
+        base = _short_name(source); joint_name = "{0}{1}{2}".format(name_prefix or "", base, suffix)
+        joint = create_joint_at_reference(source, name=joint_name, match_rotation=match_rotation)
+        parents = cmds.listRelatives(source, parent=True, fullPath=True) or []
+        parent_source = parents[0] if parents and parents[0] in source_set else None
+        if parent_source:
+            joint = cmds.parent(joint, mapping[parent_source], absolute=True)[0]
+        mapping[source] = joint; created.append(joint)
+    return {"root": root, "sources": tuple(sources), "joints": tuple(created), "mapping": mapping}
