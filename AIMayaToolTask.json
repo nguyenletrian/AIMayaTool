@@ -4,16 +4,6 @@
   "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-complete-regression-managed-live-124b",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.regression_smoke", "callable": "run_setup_complete_migration_regression", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-maya-validation", "depends_on": [], "result": "PASS", "classification": "setup_complete_migration_managed_live_pass", "proven_main_commit": "d7e4d49ffde61835333d2f85daef0723e0a4c865", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001 and returned AIBRIDGE_UI_SMOKE_OK:SETUP_COMPLETE_MIGRATION_REGRESSION_OK:33 with scene_saved=false and maya_quit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
       "task_id": "aimayatool-goal006-setup-composition-baseline-verify-125a",
       "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -41,17 +31,37 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/constraints.py", "aimayatool/tools/setup/constraint_safety_smoke.py"], "imports": ["aimayatool.tools.setup.constraints"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-composition-baseline-managed-live-125b"], "purpose": "Verify Setup 2.0 constraint preflight hardening compiles and the public constraints module remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile constraints.py and constraint_safety_smoke.py.", "Import aimayatool.tools.setup.constraints outside Maya.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_constraint_safety_python_verification_pass", "proven_main_commit": "b6fef1ec87eaf4cf816297a56834b19e4172b25a", "evidence": "Bridge fast-forwarded local main from 1e00ca4e0be3c5db84a7f037371a3567a3a434e0 to b6fef1ec87eaf4cf816297a56834b19e4172b25a; py_compile passed for constraints.py and constraint_safety_smoke.py; import of aimayatool.tools.setup.constraints passed outside Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-composition-baseline-managed-live-125b"], "result": "PASS", "classification": "setup_constraint_safety_python_verification_pass", "proven_main_commit": "b6fef1ec87eaf4cf816297a56834b19e4172b25a", "evidence": "Bridge compiled constraints.py and constraint_safety_smoke.py and imported aimayatool.tools.setup.constraints outside Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal006-setup-constraint-safety-managed-live-126b",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.constraint_safety_smoke", "callable": "run_setup_constraint_safety_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-constraint-safety-verify-126a"], "purpose": "Prove invalid constraint compositions fail before creating partial rig nodes while valid multi-driver composition still works.", "acceptance": ["Run only after 126a passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_CONSTRAINT_SAFETY_OK:7 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-constraint-safety-verify-126a"], "result": "PASS", "classification": "setup_constraint_safety_managed_live_pass", "proven_main_commit": "2007dc930ac940686e5a186516983f4f56ee3990", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, fast-forwarded local main from b6fef1ec87eaf4cf816297a56834b19e4172b25a to 2007dc930ac940686e5a186516983f4f56ee3990, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_CONSTRAINT_SAFETY_OK:7, scene_saved=false and maya_quit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-space-safety-verify-127a",
+      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/spaces.py", "aimayatool/tools/setup/space_safety_smoke.py"], "imports": ["aimayatool.tools.setup.spaces"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-constraint-safety-managed-live-126b"], "purpose": "Verify Setup 2.0 space-switch preflight hardening compiles and remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile spaces.py and space_safety_smoke.py.", "Import aimayatool.tools.setup.spaces outside Maya.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-space-safety-managed-live-127b",
+      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.space_safety_smoke", "callable": "run_setup_space_safety_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-space-safety-verify-127a"], "purpose": "Prove invalid space-switch compositions fail before creating partial rig nodes while valid enum/slide composition remains functional.", "acceptance": ["Run only after 127a passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_SPACE_SAFETY_OK:7 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
