@@ -40,8 +40,26 @@ def ensure_sdk_group(node, suffix="_SDKGrp"):
     return controls.create_zero_group(node, suffix=suffix)[0]
 
 
-def apply_driven_key_map(driver_attr, key_data, use_sdk_groups=True, sdk_suffix="_SDKGrp", tangent="linear"):
-    """Apply explicit serialized driven-key data."""
+def _ensure_proxy_attr(cmds, group, child_plug, attr):
+    """Ensure a double proxy channel exists on group and drives child_plug."""
+    group_plug = group + "." + attr
+    if not cmds.objExists(group_plug):
+        cmds.addAttr(group, longName=attr, attributeType="double", keyable=True)
+    incoming = cmds.listConnections(child_plug, source=True, destination=False, plugs=True) or []
+    if group_plug not in incoming:
+        cmds.connectAttr(group_plug, child_plug, force=True)
+    return group_plug
+
+
+def apply_driven_key_map(driver_attr, key_data, use_sdk_groups=True, sdk_suffix="_SDKGrp", tangent="linear", proxy_custom_attrs=True):
+    """Apply explicit serialized driven-key data.
+
+    Transform channels are keyed on a reusable SDK offset group. When
+    ``proxy_custom_attrs`` is enabled, non-transform numeric channels are also
+    represented by same-named double attrs on that SDK group and connected to
+    the original driven plug before keys are created. This preserves useful
+    legacy Drivenkey behavior without UI/global-state coupling.
+    """
     cmds = _cmds()
     _require_attr(cmds, driver_attr, "Driver attribute")
     key_data = list(key_data or [])
@@ -62,12 +80,15 @@ def apply_driven_key_map(driver_attr, key_data, use_sdk_groups=True, sdk_suffix=
             target_attr = driven_attr
             if use_sdk_groups:
                 node, attr = _split_plug(driven_attr)
-                if _is_transform_channel(attr):
-                    group = sdk_groups.get(node)
+                group = sdk_groups.get(node)
+                if _is_transform_channel(attr) or proxy_custom_attrs:
                     if group is None:
                         group = ensure_sdk_group(node, suffix=sdk_suffix)
                         sdk_groups[node] = group
-                    target_attr = group + "." + attr
+                    if _is_transform_channel(attr):
+                        target_attr = group + "." + attr
+                    else:
+                        target_attr = _ensure_proxy_attr(cmds, group, driven_attr, attr)
             cmds.setDrivenKeyframe(target_attr, currentDriver=driver_attr, driverValue=driver_value, value=float(value))
             cmds.keyTangent(target_attr, itt=tangent, ott=tangent)
             keyed_plugs.append(target_attr)
