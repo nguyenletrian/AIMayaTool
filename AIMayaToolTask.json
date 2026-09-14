@@ -3,12 +3,12 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-082-retry",
+    "request_id": "aimayatool-setup-migration-083",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-space-switch-managed-live-retry-082d",
+      "task_id": "aimayatool-goal005-setup-point-constraint-verify-083a",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
@@ -16,77 +16,9 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-constraints-spaces",
         "result": "PASS",
-        "classification": "setup_space_switch_managed_live_retry_pass",
-        "proven_main_commit": "ae3a10914ab0af48f8ddf8d92b4aca094038713b",
-        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SETUP_SPACE_SWITCH_SMOKE_OK:2 with scene_saved=false and maya_quit=false.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-space-switch-smoke-fix-verify-082c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_space_switch_smoke_fix_python_verification_pass",
-          "proven_main_commit": "dccee6c7aa84eb42b650435c11d67ea013bd15d6"
-        },
-        "archived_retry_source": {
-          "task_id": "aimayatool-goal005-setup-space-switch-managed-live-082b",
-          "result": "FAIL",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_space_switch_live_validation_expectation_mismatch",
-          "proven_main_commit": "cfcde27485b1949ee7444d4dbfcc6ca1bb7539e7"
-        }
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-point-constraint-verify-083a",
-      "status": "pending",
-      "architect_ack": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/constraints.py",
-          "aimayatool/tools/setup/constraint_smoke.py",
-          "tests/test_setup_constraints.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup.constraints"
-        ],
-        "tests": [
-          "tests.test_setup_constraints"
-        ],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-constraints-spaces",
+        "classification": "setup_point_constraint_python_verification_pass",
+        "proven_main_commit": "84474023d49a9b41e4778070efc1082c097aef45",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 84474023d49a9b41e4778070efc1082c097aef45; py_compile passed for constraints.py, constraint_smoke.py and tests/test_setup_constraints.py; normal-Python import passed; all 5 focused tests passed.",
         "archived_prerequisite": {
           "task_id": "aimayatool-goal005-setup-space-switch-managed-live-retry-082d",
           "result": "PASS",
@@ -94,21 +26,7 @@
           "bridge_completed": true,
           "classification": "setup_space_switch_managed_live_retry_pass",
           "proven_main_commit": "ae3a10914ab0af48f8ddf8d92b4aca094038713b"
-        },
-        "implementation_commits": [
-          "8f2b3ed1418e2779ba2603aa70b96dd5b2c7cefd",
-          "5d7b73d68309ba832e9d91209c202284d6fe2b99",
-          "8bacaccfb6c48f347656b7deeee080b6e5197511"
-        ],
-        "purpose": "Close the explicit pointConstraint parity gap so Setup constraint primitives cover parent, point, orient and aim as required by MIGRATION.md.",
-        "acceptance": [
-          "Fast-forward main including the point-constraint implementation/test/smoke commits.",
-          "Compile constraints.py, constraint_smoke.py and tests/test_setup_constraints.py.",
-          "Import aimayatool.tools.setup.constraints under normal Python without Maya installed.",
-          "All tests in tests.test_setup_constraints pass, including explicit pointConstraint flags.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        }
       }
     },
     {
@@ -160,9 +78,16 @@
         "depends_on": [
           "aimayatool-goal005-setup-point-constraint-verify-083a"
         ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-point-constraint-verify-083a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_point_constraint_python_verification_pass",
+          "proven_main_commit": "84474023d49a9b41e4778070efc1082c097aef45"
+        },
         "purpose": "Validate all four accepted Setup constraint primitives in real Maya after adding pointConstraint parity.",
         "acceptance": [
-          "Run only after 083a passes.",
           "Reuse a healthy managed Maya 2024 session when available.",
           "Force a fresh unsaved scene and do not save.",
           "Require result SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:4 for PASS.",
