@@ -47,11 +47,6 @@ def _require_disjoint(named_groups):
 
 
 def create_ikfk_blend(bind_joints, fk_joints, ik_joints, switch_attr, reverse_name=None):
-    """Blend FK and IK joint chains onto a bind chain using one 0..1 switch.
-
-    switch_attr value 0 selects FK and value 1 selects IK. The function is
-    naming-agnostic and only requires three equal-length node sequences.
-    """
     cmds = _cmds()
     bind_joints = list(bind_joints or [])
     fk_joints = list(fk_joints or [])
@@ -66,7 +61,6 @@ def create_ikfk_blend(bind_joints, fk_joints, ik_joints, switch_attr, reverse_na
     for node in bind_joints: _require_node(cmds, node, "Bind joint")
     for node in fk_joints: _require_node(cmds, node, "FK joint")
     for node in ik_joints: _require_node(cmds, node, "IK joint")
-
     reverse_name = reverse_name or switch_attr.replace(".", "_") + "_Reverse"
     reverse = cmds.createNode("reverse", name=reverse_name)
     cmds.connectAttr(switch_attr, reverse + ".inputX", force=True)
@@ -83,13 +77,6 @@ def create_ikfk_blend(bind_joints, fk_joints, ik_joints, switch_attr, reverse_na
 
 
 def create_rp_ik(ik_joints, ik_control, pole_control, handle_name=None, orient_end=True, maintain_offset=True):
-    """Create a reusable rotate-plane IK setup for an explicit joint chain.
-
-    The IK handle is parented under ``ik_control`` and constrained by
-    ``pole_control``. When ``orient_end`` is True the IK control also drives the
-    end-joint orientation. This intentionally excludes control creation, shape
-    choice and character naming so callers can compose those separately.
-    """
     cmds = _cmds()
     ik_joints = list(ik_joints or [])
     if len(ik_joints) < 2:
@@ -102,7 +89,6 @@ def create_rp_ik(ik_joints, ik_control, pole_control, handle_name=None, orient_e
     for node in ik_joints: _require_node(cmds, node, "IK joint")
     _require_node(cmds, ik_control, "IK control")
     _require_node(cmds, pole_control, "Pole control")
-
     handle_name = handle_name or ik_joints[0] + "_IKHandle"
     handle, effector = cmds.ikHandle(sj=ik_joints[0], ee=ik_joints[-1], sol="ikRPsolver", n=handle_name)
     cmds.parent(handle, ik_control)
@@ -110,22 +96,10 @@ def create_rp_ik(ik_joints, ik_control, pole_control, handle_name=None, orient_e
     orient_constraint = None
     if orient_end:
         orient_constraint = cmds.orientConstraint(ik_control, ik_joints[-1], mo=bool(maintain_offset))[0]
-    return {
-        "handle": handle,
-        "effector": effector,
-        "pole_constraint": pole_constraint,
-        "orient_constraint": orient_constraint,
-        "ik_joints": tuple(ik_joints),
-    }
+    return {"handle": handle, "effector": effector, "pole_constraint": pole_constraint, "orient_constraint": orient_constraint, "ik_joints": tuple(ik_joints)}
 
 
 def wire_ikfk_switch(switch_attr, fk_nodes, ik_nodes, proxy_nodes=None, reverse_node=None, proxy_attr_name=None):
-    """Wire IK/FK visibility and optional proxy switch attributes.
-
-    ``switch_attr`` value 0 shows FK nodes and hides IK nodes; value 1 does the
-    opposite. Existing proxy attributes are left untouched so this helper can be
-    safely composed with controls that already expose the switch.
-    """
     cmds = _cmds()
     fk_nodes = list(fk_nodes or [])
     ik_nodes = list(ik_nodes or [])
@@ -140,7 +114,6 @@ def wire_ikfk_switch(switch_attr, fk_nodes, ik_nodes, proxy_nodes=None, reverse_
     for node in fk_nodes: _require_node(cmds, node, "FK visibility node")
     for node in ik_nodes: _require_node(cmds, node, "IK visibility node")
     for node in proxy_nodes: _require_node(cmds, node, "Proxy control")
-
     reverse = reverse_node
     if reverse:
         _require_node(cmds, reverse, "IK/FK reverse node")
@@ -151,7 +124,6 @@ def wire_ikfk_switch(switch_attr, fk_nodes, ik_nodes, proxy_nodes=None, reverse_
         cmds.connectAttr(reverse + ".outputX", node + ".visibility", force=True)
     for node in ik_nodes:
         cmds.connectAttr(switch_attr, node + ".visibility", force=True)
-
     attr_name = proxy_attr_name or switch_attr.rsplit(".", 1)[1]
     proxies = []
     for node in proxy_nodes:
@@ -163,7 +135,6 @@ def wire_ikfk_switch(switch_attr, fk_nodes, ik_nodes, proxy_nodes=None, reverse_
 
 
 def capture_ikfk_snap_offsets(sources, targets):
-    """Capture source-to-target world-matrix offsets for later IK/FK snapping."""
     cmds = _cmds()
     om = _om()
     sources = list(sources or [])
@@ -172,6 +143,7 @@ def capture_ikfk_snap_offsets(sources, targets):
         raise ValueError("Snap sources and targets must be non-empty and equal length.")
     _require_unique(sources, "Snap sources")
     _require_unique(targets, "Snap targets")
+    offsets = []
     for source, target in zip(sources, targets):
         if source == target:
             raise ValueError("Snap source and target must be different nodes: {0}".format(source))
@@ -184,12 +156,6 @@ def capture_ikfk_snap_offsets(sources, targets):
 
 
 def snap_ikfk(sources, targets, switch_attr, switch_value, offsets=None, key=False, key_attrs=None):
-    """Snap controls from explicit target matrices and then activate IK/FK state.
-
-    Offsets are matrices captured by :func:`capture_ikfk_snap_offsets`. When no
-    offsets are supplied, each source matches its target exactly. Optional keying
-    is explicit; no scriptJob, UI window, or hidden network-node state is used.
-    """
     cmds = _cmds()
     om = _om()
     sources = list(sources or [])
@@ -206,13 +172,11 @@ def snap_ikfk(sources, targets, switch_attr, switch_value, offsets=None, key=Fal
         _require_node(cmds, target, "Snap target")
     if offsets is not None and len(offsets) != len(sources):
         raise ValueError("Snap offsets must match source/target count.")
-
     matrices = []
     for index, target in enumerate(targets):
         target_mtx = om.MMatrix(cmds.getAttr(target + ".worldMatrix[0]"))
         offset_mtx = om.MMatrix() if offsets is None else om.MMatrix(offsets[index])
         matrices.append(offset_mtx * target_mtx)
-
     cmds.setAttr(switch_attr, switch_value)
     if key:
         cmds.setKeyframe(switch_attr)
