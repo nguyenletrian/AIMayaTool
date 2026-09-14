@@ -3,35 +3,28 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-077",
+    "request_id": "aimayatool-setup-migration-078",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-control-shape-managed-live-fresh-076e",
+      "task_id": "aimayatool-goal005-setup-transform-primitives-managed-live-077b",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-control-shape-freshness-verify-076d",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_control_shape_freshness_compile_pass"
-        },
         "result": "PASS",
-        "classification": "setup_control_shape_catalog_managed_live_pass",
-        "proven_main_commit": "71183cc53033802e59fa70b56f850f4b39bcb3b3",
-        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, reloaded current Setup controls dependency, created cube, sphere, diamond, locator and eye controls successfully, and returned AIBRIDGE_UI_SMOKE_OK:SETUP_CONTROL_SHAPE_CATALOG_SMOKE_OK:5 with scene_saved=false and maya_quit=false."
+        "classification": "setup_transform_primitives_managed_live_pass",
+        "proven_main_commit": "ae6a88dcdc47556d8c13e01c25f4c6b5c9d5800b",
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_TRANSFORM_PRIMITIVES_SMOKE_OK:3, scene_saved=false and maya_quit=false."
       }
     },
     {
-      "task_id": "aimayatool-goal005-setup-transform-primitives-verify-077a",
+      "task_id": "aimayatool-goal005-setup-match-joint-chain-verify-078a",
       "status": "pending",
-      "architect_ack": true,
+      "architect_ack": false,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -79,36 +72,31 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
         "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-control-shape-managed-live-fresh-076e",
+          "task_id": "aimayatool-goal005-setup-transform-primitives-managed-live-077b",
           "result": "PASS",
           "architect_ack": true,
           "bridge_completed": true,
-          "classification": "setup_control_shape_catalog_managed_live_pass"
+          "classification": "setup_transform_primitives_managed_live_pass"
         },
         "implementation_commits": [
-          "e0b78df57d0e5768f6c326a7704d2677434f008c",
-          "9a8d88c2fc9554c9922d45e35caf73ed3f1e39c9",
-          "37dd38aca05aadbd7c8922709f87b718b4eb5ddf"
+          "5571f5baedc99dbe6dd0c5f1504758dd05f41bb9",
+          "fdb5bba2c404704c7828edf06eaa4b45c172a93c",
+          "71117cee5647a5563f34218b34bcd79b1cbde2e2"
         ],
-        "purpose": "Verify composable Setup transform primitives extracted ahead of legacy MatchJoint composition: immutable world-matrix query, explicit channel matching, and inclusive validated hierarchy traversal.",
+        "purpose": "Verify composable MatchJoint parity built on accepted Setup transform primitives: preserve endpoints, rebuild destination intermediate joints to source-chain length, support configurable naming, and return explicit destination-source mappings.",
         "acceptance": [
-          "Fast-forward main including transform implementation and tests.",
+          "Fast-forward main including the joint-chain composition, focused tests and Maya smoke.",
           "transforms.py, smoke.py and tests/test_setup_transforms.py compile.",
           "Import aimayatool.tools.setup.transforms succeeds under normal Python without Maya installed.",
-          "All tests in tests.test_setup_transforms pass.",
+          "All tests in tests.test_setup_transforms pass, including deterministic intermediate-joint naming coverage.",
           "No eager maya.cmds import is introduced in transforms.py.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_transform_primitives_python_verification_pass",
-        "proven_main_commit": "2cd0a2890d44b505997d3357472a214582906ca0",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 2cd0a2890d44b505997d3357472a214582906ca0; py_compile passed for transforms.py, smoke.py and tests/test_setup_transforms.py; normal-Python import of aimayatool.tools.setup.transforms passed; all 4 focused unit tests passed."
-      },
-      "bridge_completed": true
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     },
     {
-      "task_id": "aimayatool-goal005-setup-transform-primitives-managed-live-077b",
+      "task_id": "aimayatool-goal005-setup-match-joint-chain-managed-live-078b",
       "status": "pending",
       "architect_ack": false,
       "project": {
@@ -145,7 +133,7 @@
         "save_scene": false,
         "maya_version": "2024",
         "module": "aimayatool.tools.setup.smoke",
-        "callable": "run_setup_transform_primitives_smoke",
+        "callable": "run_setup_match_joint_chain_smoke",
         "expected_window": "",
         "startup_timeout": 180,
         "operation_timeout": 300
@@ -153,24 +141,20 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "purpose": "Validate transform matching and joint hierarchy traversal against real Maya DAG behavior before composing higher-level MatchJoint parity.",
+        "depends_on": [
+          "aimayatool-goal005-setup-match-joint-chain-verify-078a"
+        ],
+        "purpose": "Validate MatchJoint parity against real Maya DAG behavior: destination chain rebuild, endpoint preservation, stale intermediate removal, source-position matching and explicit mapping count.",
         "acceptance": [
-          "Run only after 077a passes.",
+          "Run only after 078a passes.",
           "Reuse a healthy managed Maya 2024 session when available.",
           "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.setup.smoke.run_setup_transform_primitives_smoke.",
-          "Require result SETUP_TRANSFORM_PRIMITIVES_SMOKE_OK:3 for PASS.",
+          "Run aimayatool.tools.setup.smoke.run_setup_match_joint_chain_smoke.",
+          "Require result SETUP_MATCH_JOINT_CHAIN_SMOKE_OK:4 for PASS.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-transform-primitives-verify-077a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_transform_primitives_python_verification_pass"
-        }
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
   ]
