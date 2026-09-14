@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 import importlib
 import maya.cmds as cmds
-from . import __init__ as setup_module
+import aimayatool.tools.setup as setup_module
 
 
 _EXPECTED_BUTTONS = (
