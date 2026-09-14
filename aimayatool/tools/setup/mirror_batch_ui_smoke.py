@@ -2,9 +2,11 @@ from __future__ import absolute_import
 
 
 def run_setup_mirror_batch_ui_smoke():
+    import importlib
     import maya.cmds as cmds
     from . import naming_ui
 
+    naming_ui = importlib.reload(naming_ui)
     window = cmds.window()
     column = cmds.columnLayout(parent=window)
     cmds.setParent(column)
