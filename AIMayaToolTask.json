@@ -4,26 +4,6 @@
   "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-naming-ui-adapter-managed-live-122b",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.naming_ui_smoke", "callable": "run_setup_naming_ui_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-ui-parity", "depends_on": [], "result": "PASS", "classification": "setup_naming_ui_adapter_managed_live_pass", "proven_main_commit": "18d35b8177d588511f04aa7e6ddb4f545836f70b", "evidence": "Managed Maya 2024 returned AIBRIDGE_UI_SMOKE_OK:SETUP_NAMING_UI_ADAPTER_OK:6 in a fresh unsaved scene with scene_saved=false and maya_quit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-ui-naming-integrated-verify-123a",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/naming_ui.py", "aimayatool/tools/setup/ui_parity_smoke.py"], "imports": ["aimayatool.tools.setup", "aimayatool.tools.setup.naming_ui"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-ui-parity", "depends_on": ["aimayatool-goal005-setup-naming-ui-adapter-managed-live-122b"], "result": "PASS", "classification": "setup_ui_naming_integrated_python_verification_pass", "proven_main_commit": "616cc7b63274fffe4c23dfce85de649953c14239", "evidence": "Bridge compiled Setup integration files and imported aimayatool.tools.setup plus naming_ui successfully.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
       "task_id": "aimayatool-goal005-setup-ui-naming-integrated-managed-live-123b",
       "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -31,17 +11,27 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.ui_parity_smoke", "callable": "run_setup_ui_core_parity_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-ui-parity", "depends_on": ["aimayatool-goal005-setup-ui-naming-integrated-verify-123a"], "result": "PASS", "classification": "setup_ui_naming_integrated_managed_live_pass", "proven_main_commit": "8ea19df8390f6aaa284442075614b35b0a3d35a1", "evidence": "Managed Maya 2024 reused PID 15000 on port 7001, fast-forwarded local main from 616cc7b63274fffe4c23dfce85de649953c14239 to 8ea19df8390f6aaa284442075614b35b0a3d35a1, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:33, scene_saved=false and maya_quit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-ui-parity", "depends_on": [], "result": "PASS", "classification": "setup_ui_naming_integrated_managed_live_pass", "proven_main_commit": "8ea19df8390f6aaa284442075614b35b0a3d35a1", "evidence": "Managed Maya 2024 reused PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:33, scene_saved=false and maya_quit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal005-setup-complete-regression-verify-124a",
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/regression_smoke.py"], "imports": ["aimayatool.tools.setup.regression_smoke"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-maya-validation", "depends_on": ["aimayatool-goal005-setup-ui-naming-integrated-managed-live-123b"], "result": "FAIL", "classification": "pre_fix_eager_maya_import_verification_failure", "proven_main_commit": "68148772bfa500c18f2d01a476ee58d806a4f5ad", "evidence": "Bridge fast-forwarded local main from 8ea19df8390f6aaa284442075614b35b0a3d35a1 to 68148772bfa500c18f2d01a476ee58d806a4f5ad. py_compile passed for regression_smoke.py, but import failed because that pre-fix revision still imported setup.smoke at module scope and setup.smoke imports maya.cmds. Architect had already corrected this by moving all Maya smoke imports behind lazy importlib calls in later main commit 140e3d5550b52345c2dcb70a369c6e2c914b7716. This failure is valid evidence against the pre-fix revision, not against the corrected gate.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-complete-regression-verify-124a-r1",
       "status": "pending", "architect_ack": false, "bridge_completed": false,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/regression_smoke.py"], "imports": ["aimayatool.tools.setup.regression_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-maya-validation", "depends_on": ["aimayatool-goal005-setup-ui-naming-integrated-managed-live-123b"], "purpose": "Verify the consolidated Setup complete-migration regression gate compiles and imports before managed Maya execution.", "acceptance": ["Fast-forward main.", "Compile aimayatool/tools/setup/regression_smoke.py.", "Import aimayatool.tools.setup.regression_smoke successfully.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-maya-validation", "depends_on": ["aimayatool-goal005-setup-ui-naming-integrated-managed-live-123b"], "retry_of": "aimayatool-goal005-setup-complete-regression-verify-124a", "purpose": "Re-run the Setup complete-regression Python gate on the lazy-import-safe regression_smoke.py revision.", "acceptance": ["Fast-forward main to include commit 140e3d5550b52345c2dcb70a369c6e2c914b7716 or later.", "Compile aimayatool/tools/setup/regression_smoke.py.", "Import aimayatool.tools.setup.regression_smoke successfully outside Maya; no maya module may be required at module import time.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal005-setup-complete-regression-managed-live-124b",
@@ -51,7 +41,7 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.regression_smoke", "callable": "run_setup_complete_migration_regression", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-maya-validation", "depends_on": ["aimayatool-goal005-setup-complete-regression-verify-124a"], "purpose": "Run the consolidated Setup complete migration regression across retained controls/transforms, constraints, spaces, IK/FK, SDK, secondary/spline, plane/rivet, naming and 33-action UI parity.", "acceptance": ["Run only after 124a passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_COMPLETE_MIGRATION_REGRESSION_OK:33 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-maya-validation", "depends_on": ["aimayatool-goal005-setup-complete-regression-verify-124a-r1"], "purpose": "Run the consolidated Setup complete migration regression across retained controls/transforms, constraints, spaces, IK/FK, SDK, secondary/spline, plane/rivet, naming and 33-action UI parity.", "acceptance": ["Run only after 124a-r1 passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_COMPLETE_MIGRATION_REGRESSION_OK:33 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
