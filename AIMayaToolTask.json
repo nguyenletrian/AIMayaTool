@@ -8,7 +8,7 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-animation-backup-verify-140a",
+      "task_id": "aimayatool-goal007-scene-pattern-animation-backup-direct-key-query-verify-140c",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
@@ -58,14 +58,14 @@
         "depends_on": [],
         "archived_prerequisite": [
           {
-            "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-worldup-graph-retry-managed-live-139h",
-            "result": "PASS",
+            "task_id": "aimayatool-goal007-scene-pattern-animation-backup-managed-live-140b",
+            "result": "FAIL",
             "architect_ack": true,
             "bridge_completed": true,
-            "proven_main_commit": "7b81e553f19ac44ccc02e91857abb2b0417cdf0c"
+            "proven_main_commit": "3c993ef4747bde30e51c4b73575bcb70ba1b9e48"
           }
         ],
-        "purpose": "Verify the migrated ScenePattern Animation Backup explicit JSON export/import workflow before Maya execution.",
+        "purpose": "Verify the Animation Backup collector fix that queries keyframe times/values directly on each keyable plug instead of relying on a generic animCurve connection type filter.",
         "acceptance": [
           "Fast-forward main.",
           "Compile animation_backup.py and animation_backup_smoke.py.",
@@ -73,17 +73,16 @@
           "Do not execute Maya smoke in this Python-only task.",
           "Do not invoke Codex."
         ],
-        "implementation_commit": "09572c9e39ad67cac1cd3a6124e5ac456fe9772d",
-        "source_evidence": "Legacy Scene_Pattern_AnimationBackup.py serializes keyable animCurve times/values per object/attribute to JSON and restores them by clearing existing keys and setting serialized keys; missing objects/attrs are skipped.",
+        "implementation_commit": "d7184a1b9335c66f6a7952bb686617f7d3a26878",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
-        "classification": "scene_animation_backup_python_verification_pass",
-        "proven_main_commit": "f55e7a6a59266839af045de6d515d02f4e3adcb2",
-        "evidence": "Bridge fast-forwarded main from 7b81e553f19ac44ccc02e91857abb2b0417cdf0c to f55e7a6a59266839af045de6d515d02f4e3adcb2; py_compile passed for animation_backup.py and animation_backup_smoke.py, and import of aimayatool.tools.scene.animation_backup passed outside Maya."
+        "classification": "scene_animation_backup_direct_key_query_python_verification_pass",
+        "proven_main_commit": "9fb970e2d8267d16eeefa46570ccba9b90265702",
+        "evidence": "Bridge fast-forwarded main from 3c993ef4747bde30e51c4b73575bcb70ba1b9e48 to 9fb970e2d8267d16eeefa46570ccba9b90265702; py_compile passed for animation_backup.py and animation_backup_smoke.py, and import of aimayatool.tools.scene.animation_backup passed outside Maya."
       }
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-animation-backup-managed-live-140b",
+      "task_id": "aimayatool-goal007-scene-pattern-animation-backup-direct-key-query-retry-managed-live-140d",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
@@ -131,31 +130,40 @@
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-animation-backup-verify-140a"
+          "aimayatool-goal007-scene-pattern-animation-backup-direct-key-query-verify-140c"
         ],
-        "purpose": "Validate ScenePattern Animation Backup parity in Maya 2024 with deterministic key export, JSON persistence and key restoration.",
+        "archived_prerequisite": [
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-animation-backup-managed-live-140b",
+            "result": "FAIL",
+            "architect_ack": true,
+            "bridge_completed": true,
+            "proven_main_commit": "3c993ef4747bde30e51c4b73575bcb70ba1b9e48"
+          }
+        ],
+        "purpose": "Retry Animation Backup Maya parity validation after switching export collection to direct plug keyframe queries.",
         "acceptance": [
-          "Run only after 140a passes.",
+          "Run only after 140c passes.",
           "Force a fresh unsaved scene and do not save.",
           "Require AIBRIDGE_UI_SMOKE_OK:SCENE_ANIMATION_BACKUP_OK:1 for PASS.",
-          "Verify two tx keys export to JSON, replacement keys are cleared, serialized keys are restored, and missing object export is skipped.",
+          "Verify two translateX keys export to JSON, replacement keys are cleared, serialized keys are restored, and missing object export is skipped.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
-        "implementation_commit": "09572c9e39ad67cac1cd3a6124e5ac456fe9772d",
+        "implementation_commit": "d7184a1b9335c66f6a7952bb686617f7d3a26878",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "FAIL",
-        "classification": "scene_animation_backup_animcurve_type_filter_product_bug",
-        "proven_main_commit": "3c993ef4747bde30e51c4b73575bcb70ba1b9e48",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001 and forced a fresh unsaved scene. Smoke failed at export because the collector returned no preserved tx keys. Root cause inspection found collect_animation_data filtered listConnections with type='animCurve', which can miss concrete Maya animCurve subtypes created by setKeyframe. Maya remained healthy; scene_saved=false and maya_quit=false.",
-        "recovery_commit": "d7184a1b9335c66f6a7952bb686617f7d3a26878"
+        "classification": "scene_animation_backup_smoke_canonical_attribute_false_negative",
+        "proven_main_commit": "bf9692faefc4e3ba505dab2991da2f0b7ebe4593",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001 and forced a fresh unsaved scene. The same export assertion failed, but repository inspection showed the smoke was hard-coded to data[node]['tx'] while collect_animation_data serializes the canonical attribute names returned by cmds.listAttr(keyable=True), such as translateX. Maya remained healthy with scene_saved=false and maya_quit=false.",
+        "recovery_commit": "548aaad0194eb1a9bed1bdad722df3682000f74a"
       }
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-animation-backup-direct-key-query-verify-140c",
+      "task_id": "aimayatool-goal007-scene-pattern-animation-backup-canonical-attr-smoke-verify-140e",
       "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "architect_ack": false,
+      "bridge_completed": false,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -200,9 +208,9 @@
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-animation-backup-managed-live-140b"
+          "aimayatool-goal007-scene-pattern-animation-backup-direct-key-query-retry-managed-live-140d"
         ],
-        "purpose": "Verify the Animation Backup collector fix that queries keyframe times/values directly on each keyable plug instead of relying on a generic animCurve connection type filter.",
+        "purpose": "Verify the Animation Backup smoke correction that validates the canonical attribute name emitted by cmds.listAttr instead of assuming the short alias tx.",
         "acceptance": [
           "Fast-forward main.",
           "Compile animation_backup.py and animation_backup_smoke.py.",
@@ -210,16 +218,12 @@
           "Do not execute Maya smoke in this Python-only task.",
           "Do not invoke Codex."
         ],
-        "implementation_commit": "d7184a1b9335c66f6a7952bb686617f7d3a26878",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "scene_animation_backup_direct_key_query_python_verification_pass",
-        "proven_main_commit": "9fb970e2d8267d16eeefa46570ccba9b90265702",
-        "evidence": "Bridge fast-forwarded main from 3c993ef4747bde30e51c4b73575bcb70ba1b9e48 to 9fb970e2d8267d16eeefa46570ccba9b90265702; py_compile passed for animation_backup.py and animation_backup_smoke.py, and import of aimayatool.tools.scene.animation_backup passed outside Maya."
+        "implementation_commit": "548aaad0194eb1a9bed1bdad722df3682000f74a",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-animation-backup-direct-key-query-retry-managed-live-140d",
+      "task_id": "aimayatool-goal007-scene-pattern-animation-backup-canonical-attr-retry-managed-live-140f",
       "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
@@ -267,19 +271,19 @@
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-animation-backup-direct-key-query-verify-140c"
+          "aimayatool-goal007-scene-pattern-animation-backup-canonical-attr-smoke-verify-140e"
         ],
-        "retry_of": "aimayatool-goal007-scene-pattern-animation-backup-managed-live-140b",
-        "purpose": "Retry Animation Backup Maya parity validation after switching export collection to direct plug keyframe queries.",
+        "retry_of": "aimayatool-goal007-scene-pattern-animation-backup-direct-key-query-retry-managed-live-140d",
+        "purpose": "Retry Animation Backup Maya parity validation with smoke assertions aligned to Maya's canonical keyable attribute names.",
         "acceptance": [
-          "Run only after 140c passes.",
+          "Run only after 140e passes.",
           "Force a fresh unsaved scene and do not save.",
           "Require AIBRIDGE_UI_SMOKE_OK:SCENE_ANIMATION_BACKUP_OK:1 for PASS.",
-          "Verify two tx keys export to JSON, replacement keys are cleared, serialized keys are restored, and missing object export is skipped.",
+          "Verify the serialized canonical translate attribute preserves two keys, replacement keys are cleared, serialized keys are restored, and missing object export is skipped.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
-        "implementation_commit": "d7184a1b9335c66f6a7952bb686617f7d3a26878",
+        "implementation_commit": "548aaad0194eb1a9bed1bdad722df3682000f74a",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
