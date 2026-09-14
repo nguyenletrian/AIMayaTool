@@ -29,6 +29,13 @@ def _is_transform_channel(attr):
     return str(attr).lower() in _TRANSFORM_CHANNELS
 
 
+def _as_float(value, label):
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        raise ValueError("{0} must be numeric: {1}".format(label, value))
+
+
 def ensure_sdk_group(node, suffix="_SDKGrp"):
     """Return a reusable SDK offset group above node, creating it when needed."""
     cmds = _cmds()
@@ -51,6 +58,27 @@ def _ensure_proxy_attr(cmds, group, child_plug, attr):
     return group_plug
 
 
+def _preflight_driven_key_map(cmds, driver_attr, key_data):
+    normalized = []
+    for index, key in enumerate(key_data):
+        if not isinstance(key, dict):
+            raise ValueError("Driven-key entry {0} must be a mapping.".format(index))
+        if "driver_value" not in key:
+            raise ValueError("Each driven-key entry requires driver_value.")
+        driven_values = dict(key.get("driven_values") or {})
+        if not driven_values:
+            raise ValueError("Each driven-key entry requires driven_values.")
+        driver_value = _as_float(key["driver_value"], "driver_value")
+        values = {}
+        for driven_attr, value in driven_values.items():
+            _require_attr(cmds, driven_attr, "Driven attribute")
+            if driven_attr == driver_attr:
+                raise ValueError("Driver attribute cannot also be driven: {0}".format(driver_attr))
+            values[driven_attr] = _as_float(value, "Driven value for {0}".format(driven_attr))
+        normalized.append((driver_value, values))
+    return normalized
+
+
 def apply_driven_key_map(driver_attr, key_data, use_sdk_groups=True, sdk_suffix="_SDKGrp", tangent="linear", proxy_custom_attrs=True):
     """Apply explicit serialized driven-key data.
 
@@ -65,18 +93,12 @@ def apply_driven_key_map(driver_attr, key_data, use_sdk_groups=True, sdk_suffix=
     key_data = list(key_data or [])
     if not key_data:
         raise ValueError("At least one driven-key entry is required.")
+    normalized = _preflight_driven_key_map(cmds, driver_attr, key_data)
 
     sdk_groups = {}
     keyed_plugs = []
-    for key in key_data:
-        if "driver_value" not in key:
-            raise ValueError("Each driven-key entry requires driver_value.")
-        driven_values = dict(key.get("driven_values") or {})
-        if not driven_values:
-            raise ValueError("Each driven-key entry requires driven_values.")
-        driver_value = float(key["driver_value"])
+    for driver_value, driven_values in normalized:
         for driven_attr, value in driven_values.items():
-            _require_attr(cmds, driven_attr, "Driven attribute")
             target_attr = driven_attr
             if use_sdk_groups:
                 node, attr = _split_plug(driven_attr)
@@ -89,10 +111,36 @@ def apply_driven_key_map(driver_attr, key_data, use_sdk_groups=True, sdk_suffix=
                         target_attr = group + "." + attr
                     else:
                         target_attr = _ensure_proxy_attr(cmds, group, driven_attr, attr)
-            cmds.setDrivenKeyframe(target_attr, currentDriver=driver_attr, driverValue=driver_value, value=float(value))
+            cmds.setDrivenKeyframe(target_attr, currentDriver=driver_attr, driverValue=driver_value, value=value)
             cmds.keyTangent(target_attr, itt=tangent, ott=tangent)
             keyed_plugs.append(target_attr)
     return {"driver_attr": driver_attr, "sdk_groups": dict(sdk_groups), "keyed_plugs": tuple(keyed_plugs)}
+
+
+def _preflight_modulo_slots(cmds, driver_attr, raw):
+    slots = {}
+    source_keys = {}
+    for key, values in raw.items():
+        try:
+            slot = int(key)
+        except (TypeError, ValueError):
+            raise ValueError("Modulo slot must be an integer: {0}".format(key))
+        if slot < 0 or str(slot) != str(key).strip():
+            raise ValueError("Modulo slot must be a non-negative integer: {0}".format(key))
+        if slot in slots:
+            raise ValueError("Modulo slot normalizes to duplicate index {0}: {1}, {2}".format(slot, source_keys[slot], key))
+        values = dict(values or {})
+        if not values:
+            raise ValueError("Modulo slot {0} has no driven values.".format(slot))
+        normalized_values = {}
+        for driven_attr, value in values.items():
+            _require_attr(cmds, driven_attr, "Driven attribute")
+            if driven_attr == driver_attr:
+                raise ValueError("Driver attribute cannot also be driven: {0}".format(driver_attr))
+            normalized_values[driven_attr] = _as_float(value, "Modulo driven value for {0}".format(driven_attr))
+        slots[slot] = normalized_values
+        source_keys[slot] = key
+    return slots
 
 
 def apply_modulo_map(driver_attr, slot_data, modulus=None, use_sdk_groups=True, sdk_suffix="_Modulo_Grp", expression_name=None):
@@ -107,21 +155,13 @@ def apply_modulo_map(driver_attr, slot_data, modulus=None, use_sdk_groups=True, 
     raw = dict(slot_data or {})
     if not raw:
         raise ValueError("At least one modulo slot is required.")
-    slots = {}
-    for key, values in raw.items():
-        try:
-            slot = int(key)
-        except (TypeError, ValueError):
-            raise ValueError("Modulo slot must be an integer: {0}".format(key))
-        if slot < 0 or str(slot) != str(key).strip():
-            raise ValueError("Modulo slot must be a non-negative integer: {0}".format(key))
-        values = dict(values or {})
-        if not values:
-            raise ValueError("Modulo slot {0} has no driven values.".format(slot))
-        slots[slot] = values
+    slots = _preflight_modulo_slots(cmds, driver_attr, raw)
     if modulus is None:
         modulus = max(slots) + 1
-    modulus = int(modulus)
+    try:
+        modulus = int(modulus)
+    except (TypeError, ValueError):
+        raise ValueError("modulus must be an integer: {0}".format(modulus))
     if modulus <= max(slots):
         raise ValueError("modulus must be greater than the highest slot index.")
 
@@ -130,7 +170,6 @@ def apply_modulo_map(driver_attr, slot_data, modulus=None, use_sdk_groups=True, 
     for slot in sorted(slots):
         resolved[slot] = []
         for driven_attr, value in slots[slot].items():
-            _require_attr(cmds, driven_attr, "Driven attribute")
             target_attr = driven_attr
             if use_sdk_groups:
                 node, attr = _split_plug(driven_attr)
@@ -140,7 +179,7 @@ def apply_modulo_map(driver_attr, slot_data, modulus=None, use_sdk_groups=True, 
                         group = ensure_sdk_group(node, suffix=sdk_suffix)
                         sdk_groups[node] = group
                     target_attr = group + "." + attr
-            resolved[slot].append((target_attr, float(value)))
+            resolved[slot].append((target_attr, value))
 
     lines = ["float $val = {0};".format(driver_attr), "int $r = abs((int)$val % {0});".format(modulus)]
     for index, slot in enumerate(sorted(resolved)):
