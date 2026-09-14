@@ -15,13 +15,13 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-constraint-axis-safety-verify-131a",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/constraints.py", "aimayatool/tools/setup/constraint_safety_smoke.py"], "imports": ["aimayatool.tools.setup.constraints"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-spline-safety-managed-live-130b"], "purpose": "Verify unsupported aim axes are resolved before offset-group mutation and the expanded constraint safety smoke remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile constraints.py and constraint_safety_smoke.py.", "Import aimayatool.tools.setup.constraints outside Maya.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-spline-safety-managed-live-130b"], "purpose": "Verify unsupported aim axes are resolved before offset-group mutation and the expanded constraint safety smoke remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile constraints.py and constraint_safety_smoke.py.", "Import aimayatool.tools.setup.constraints outside Maya.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_constraint_axis_safety_python_verification_pass", "proven_main_commit": "ca07aff781016e737aef94731806597f93f65e69", "evidence": "Bridge fast-forwarded local main from f766f48754c02b708f39c40405ea8fae22fbb2c8 to ca07aff781016e737aef94731806597f93f65e69; py_compile passed for constraints.py and constraint_safety_smoke.py; import of aimayatool.tools.setup.constraints passed outside Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal006-setup-constraint-axis-safety-managed-live-131b",
