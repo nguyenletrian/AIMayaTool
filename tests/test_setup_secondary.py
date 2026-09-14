@@ -34,7 +34,7 @@ class FakeCmds(object):
     def parent(self, child, parent): self.calls.append(("parent", child, parent)); return [child]
     def xform(self, node, **kwargs):
         self.calls.append(("xform", node, kwargs))
-        return {"ref1":[0,0,0],"ref2":[5,1,0],"ref3":[10,0,0],"obj1":[1,2,3],"obj2":[4,5,6]}[node]
+        return {"ref1":[0,0,0],"ref2":[5,1,0],"ref3":[10,0,0],"obj1":[1,2,3],"obj2":[4,5,6],"start":[0,0,0],"end":[9,3,0]}[node]
     def select(self, **kwargs): self.calls.append(("select", kwargs))
     def joint(self, *args, **kwargs):
         if kwargs.get("edit"): self.calls.append(("joint_edit", args, kwargs)); return args[0] if args else None
@@ -82,5 +82,15 @@ class SetupSecondaryTests(unittest.TestCase):
         self.assertIn(("connectAttr","curveShape.worldSpace[0]","follow_Point_01.inputCurve",True),fake.calls)
         self.assertIn(("connectAttr","obj1.parentInverseMatrix[0]","follow_Localize_01.inMatrix",True),fake.calls)
         self.assertIn(("connectAttr","follow_Localize_01.output","obj1.translate",True),fake.calls)
+    def test_joints_between_rejects_zero_count(self):
+        with mock.patch.object(secondary,"_cmds",return_value=FakeCmds()):
+            with self.assertRaises(ValueError): secondary.create_joints_between("start","end",0)
+    def test_joints_between_creates_even_interior_chain(self):
+        fake=FakeCmds()
+        with mock.patch.object(secondary,"_cmds",return_value=fake): result=secondary.create_joints_between("start","end",2,name_prefix="mid")
+        self.assertEqual(("mid_BetweenJnt_01","mid_BetweenJnt_02"),result["joints"])
+        joint_calls=[call for call in fake.calls if call[0]=="joint" and "position" in call[1]]
+        self.assertEqual([3.0,1.0,0.0],joint_calls[0][1]["position"]); self.assertEqual([6.0,2.0,0.0],joint_calls[1][1]["position"])
+        self.assertIn(("parent","mid_BetweenJnt_02","mid_BetweenJnt_01"),fake.calls)
 
 if __name__ == "__main__": unittest.main()
