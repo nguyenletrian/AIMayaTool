@@ -12,58 +12,295 @@
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.transforms_smoke", "callable": "run_setup_freeze_reset_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "result": "PASS", "classification": "setup_freeze_reset_managed_live_pass", "proven_main_commit": "6138f97011a2a8a8416dcccd0e80189f434c3dd6", "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_FREEZE_RESET_SMOKE_OK:2, scene_saved=false and maya_quit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.transforms_smoke",
+        "callable": "run_setup_freeze_reset_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "result": "PASS",
+        "classification": "setup_freeze_reset_managed_live_pass",
+        "proven_main_commit": "6138f97011a2a8a8416dcccd0e80189f434c3dd6",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_FREEZE_RESET_SMOKE_OK:2, scene_saved=false and maya_quit=false.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-attribute-copy-verify-108a",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/attributes.py", "aimayatool/tools/setup/attributes_smoke.py", "tests/test_setup_attributes.py"], "imports": ["aimayatool.tools.setup.attributes"], "tests": ["tests.test_setup_attributes"], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "result": "PASS", "classification": "setup_attribute_copy_python_verification_pass", "proven_main_commit": "4761769dfa9bf600ba85d4c275a95a0eb64c6a11", "evidence": "After ff-only sync from 6138f97011a2a8a8416dcccd0e80189f434c3dd6 to 4761769dfa9bf600ba85d4c275a95a0eb64c6a11, py_compile passed for attributes.py, attributes_smoke.py and tests/test_setup_attributes.py; non-Maya import passed; tests.test_setup_attributes passed 3/3.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/attributes.py",
+          "aimayatool/tools/setup/attributes_smoke.py",
+          "tests/test_setup_attributes.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.attributes"
+        ],
+        "tests": [
+          "tests.test_setup_attributes"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "result": "PASS",
+        "classification": "setup_attribute_copy_python_verification_pass",
+        "proven_main_commit": "4761769dfa9bf600ba85d4c275a95a0eb64c6a11",
+        "evidence": "After ff-only sync from 6138f97011a2a8a8416dcccd0e80189f434c3dd6 to 4761769dfa9bf600ba85d4c275a95a0eb64c6a11, py_compile passed for attributes.py, attributes_smoke.py and tests/test_setup_attributes.py; non-Maya import passed; tests.test_setup_attributes passed 3/3.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-attribute-copy-managed-live-108b",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.attributes_smoke", "callable": "run_setup_attribute_copy_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "depends_on": ["aimayatool-goal005-setup-attribute-copy-verify-108a"], "result": "PASS", "classification": "setup_attribute_copy_managed_live_pass", "proven_main_commit": "03e57415816e4be819aebcf6f3b81810a57ac624", "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_ATTRIBUTE_COPY_SMOKE_OK:2, scene_saved=false and maya_quit=false. Smoke proved source tx=7.5 copied to two explicit target transforms.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.attributes_smoke",
+        "callable": "run_setup_attribute_copy_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": [
+          "aimayatool-goal005-setup-attribute-copy-verify-108a"
+        ],
+        "result": "PASS",
+        "classification": "setup_attribute_copy_managed_live_pass",
+        "proven_main_commit": "03e57415816e4be819aebcf6f3b81810a57ac624",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_ATTRIBUTE_COPY_SMOKE_OK:2, scene_saved=false and maya_quit=false. Smoke proved source tx=7.5 copied to two explicit target transforms.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-constraint-primitives-verify-109a",
       "status": "pending",
-      "architect_ack": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/constraints.py", "aimayatool/tools/setup/constraint_smoke.py"], "imports": ["aimayatool.tools.setup.constraints"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-constraints-spaces", "depends_on": ["aimayatool-goal005-setup-attribute-copy-managed-live-108b"], "purpose": "Reconfirm current explicit constraint primitives before extending space-switch parity.", "acceptance": ["Fast-forward main.", "Compile constraints.py and constraint_smoke.py.", "Import aimayatool.tools.setup.constraints outside Maya without eager Maya import.", "Confirm parent, point, orient and aim constraint APIs remain explicit and importable.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/constraints.py",
+          "aimayatool/tools/setup/constraint_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.constraints"
+        ],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-constraints-spaces",
+        "depends_on": [
+          "aimayatool-goal005-setup-attribute-copy-managed-live-108b"
+        ],
+        "purpose": "Reconfirm current explicit constraint primitives before extending space-switch parity.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile constraints.py and constraint_smoke.py.",
+          "Import aimayatool.tools.setup.constraints outside Maya without eager Maya import.",
+          "Confirm parent, point, orient and aim constraint APIs remain explicit and importable.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_constraint_primitives_python_verification_pass",
+        "proven_main_commit": "1cdb8a7fb928ed07dd3d1fa61b1ef6cf682eba39",
+        "evidence": "After ff-only sync from 03e57415816e4be819aebcf6f3b81810a57ac624 to 1cdb8a7fb928ed07dd3d1fa61b1ef6cf682eba39, py_compile passed for constraints.py and constraint_smoke.py and non-Maya import of aimayatool.tools.setup.constraints passed."
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-constraint-primitives-managed-live-109b",
       "status": "pending",
       "architect_ack": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.constraint_smoke", "callable": "run_setup_constraint_primitives_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-constraints-spaces", "depends_on": ["aimayatool-goal005-setup-constraint-primitives-verify-109a"], "purpose": "Validate parent/point/orient/aim constraint primitives in real Maya before space-switch migration.", "acceptance": ["Run only after 109a passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:4 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.constraint_smoke",
+        "callable": "run_setup_constraint_primitives_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-constraints-spaces",
+        "depends_on": [
+          "aimayatool-goal005-setup-constraint-primitives-verify-109a"
+        ],
+        "purpose": "Validate parent/point/orient/aim constraint primitives in real Maya before space-switch migration.",
+        "acceptance": [
+          "Run only after 109a passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:4 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     }
   ]
 }
