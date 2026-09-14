@@ -29,6 +29,20 @@ def _leaf_without_namespace(node):
     return _short_name(node).rsplit(":", 1)[-1]
 
 
+def _uuid(cmds, node):
+    values = cmds.ls(node, uuid=True) or []
+    if not values:
+        raise ValueError("Unable to resolve UUID for node: {0}".format(node))
+    return values[0]
+
+
+def _from_uuid(cmds, uuid):
+    values = cmds.ls(uuid, long=True) or []
+    if not values:
+        raise ValueError("Unable to resolve node UUID: {0}".format(uuid))
+    return values[0]
+
+
 def _validate_attribute_name(attribute):
     attribute = (attribute or "").strip()
     if not attribute or "." in attribute:
@@ -68,17 +82,14 @@ def move_nodes_to_namespace(nodes, namespace):
     cmds = _cmds(); namespace = ensure_namespace(namespace); nodes = list(nodes or [])
     if not nodes:
         raise ValueError("At least one node is required.")
-    long_nodes = []
-    for node in nodes:
+    records = []
+    for index, node in enumerate(nodes):
         _require_node(cmds, node)
-        long_nodes.append(_long_name(cmds, node))
-    # Rename deepest nodes first so ancestor path changes do not invalidate descendants.
-    result = []
-    for node in sorted(long_nodes, key=lambda value: value.count("|"), reverse=True):
-        renamed = cmds.rename(node, "{0}:{1}".format(namespace, _leaf_without_namespace(node)))
-        result.append(_long_name(cmds, renamed))
-    result.reverse()
-    return tuple(result)
+        long_node = _long_name(cmds, node)
+        records.append((index, long_node, _uuid(cmds, long_node)))
+    for _, node, _ in sorted(records, key=lambda item: item[1].count("|"), reverse=True):
+        cmds.rename(node, "{0}:{1}".format(namespace, _leaf_without_namespace(node)))
+    return tuple(_from_uuid(cmds, uuid) for _, _, uuid in sorted(records))
 
 
 def remove_namespace(namespace, merge_to_root=True):
@@ -124,15 +135,11 @@ def sanitize_hierarchy_names(root, storage_attribute="realName"):
     cmds = _cmds(); storage_attribute = _validate_attribute_name(storage_attribute)
     nodes = hierarchy_nodes(root, node_type="joint")
     snapshot_names(nodes, attribute=storage_attribute)
-    renamed = []
-    # Descendant-first rename prevents stale DAG paths while parents are renamed.
-    for node in sorted(nodes, key=lambda value: value.count("|"), reverse=True):
-        safe_name = sanitize_legacy_name(_short_name(node))
-        renamed_node = cmds.rename(node, safe_name)
-        renamed.append(_long_name(cmds, renamed_node))
-    renamed.reverse()
-    root_candidates = [node for node in renamed if node.count("|") == min(item.count("|") for item in renamed)]
-    return {"root": root_candidates[0], "nodes": tuple(renamed), "attribute": storage_attribute}
+    records = [(index, node, _uuid(cmds, node)) for index, node in enumerate(nodes)]
+    for _, node, _ in sorted(records, key=lambda item: item[1].count("|"), reverse=True):
+        cmds.rename(node, sanitize_legacy_name(_short_name(node)))
+    resolved = tuple(_from_uuid(cmds, uuid) for _, _, uuid in sorted(records))
+    return {"root": resolved[0], "nodes": resolved, "attribute": storage_attribute}
 
 
 def restore_names(nodes, attribute="nameTemp", remove_attribute=False):
@@ -140,23 +147,22 @@ def restore_names(nodes, attribute="nameTemp", remove_attribute=False):
     cmds = _cmds(); nodes = list(nodes or []); attribute = _validate_attribute_name(attribute)
     if not nodes:
         raise ValueError("At least one node is required.")
-    long_nodes = []
-    for node in nodes:
+    records = []
+    for index, node in enumerate(nodes):
         _require_node(cmds, node)
-        long_nodes.append(_long_name(cmds, node))
-    restored = []
-    for node in sorted(long_nodes, key=lambda value: value.count("|"), reverse=True):
-        if not cmds.attributeQuery(attribute, node=node, exists=True):
-            raise ValueError("Stored name attribute is missing on {0}: {1}".format(node, attribute))
-        original = cmds.getAttr("{0}.{1}".format(node, attribute))
+        node = _long_name(cmds, node)
+        records.append((index, node, _uuid(cmds, node)))
+    for _, node, uuid in sorted(records, key=lambda item: item[1].count("|"), reverse=True):
+        current = _from_uuid(cmds, uuid)
+        if not cmds.attributeQuery(attribute, node=current, exists=True):
+            raise ValueError("Stored name attribute is missing on {0}: {1}".format(current, attribute))
+        original = cmds.getAttr("{0}.{1}".format(current, attribute))
         if not original:
-            raise ValueError("Stored name is empty on {0}: {1}".format(node, attribute))
-        renamed = cmds.rename(node, original)
+            raise ValueError("Stored name is empty on {0}: {1}".format(current, attribute))
+        renamed = cmds.rename(current, original)
         if remove_attribute:
             cmds.deleteAttr("{0}.{1}".format(renamed, attribute))
-        restored.append(_long_name(cmds, renamed))
-    restored.reverse()
-    return tuple(restored)
+    return tuple(_from_uuid(cmds, uuid) for _, _, uuid in sorted(records))
 
 
 def restore_hierarchy_names(root, attribute="realName", remove_attribute=False):
