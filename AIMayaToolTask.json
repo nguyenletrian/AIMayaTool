@@ -41,181 +41,107 @@
       "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "permissions": {"read": true,"edit": true,"run_tests": true,"commit": false,"push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
         "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.ui_parity_smoke",
-        "callable": "run_setup_ui_core_parity_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
+        "isolated_scene": true,"save_scene": false,"maya_version": "2024",
+        "module": "aimayatool.tools.setup.ui_parity_smoke","callable": "run_setup_ui_core_parity_smoke","expected_window": "","startup_timeout": 180,"operation_timeout": 300
       },
       "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-ui-fold-rope-verify-120a"],
-        "result": "PASS",
-        "classification": "setup_ui_fold_rope_managed_live_pass",
-        "proven_main_commit": "8aa4065496ee416699d7b864e2267689d42e2a52",
+        "goal_id": "aimayatool-005","milestone_id": "setup-ui-parity","depends_on": ["aimayatool-goal005-setup-ui-fold-rope-verify-120a"],
+        "result": "PASS","classification": "setup_ui_fold_rope_managed_live_pass","proven_main_commit": "8aa4065496ee416699d7b864e2267689d42e2a52",
         "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, fast-forwarded local main from e77b6e96bac439c44b8ec49669439a1d20393cf4 to 8aa4065496ee416699d7b864e2267689d42e2a52, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:27, scene_saved=false and maya_quit=false.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
     {
       "task_id": "aimayatool-goal005-setup-naming-namespace-verify-121a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/setup/naming.py", "aimayatool/tools/setup/naming_smoke.py", "tests/test_setup_naming.py"],
-        "imports": ["aimayatool.tools.setup.naming"],
-        "tests": ["tests/test_setup_naming.py"],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "depends_on": ["aimayatool-goal005-setup-ui-fold-rope-managed-live-120b"],
-        "purpose": "Verify explicit reusable Setup naming and namespace primitives replacing legacy hidden-selection naming helpers: legacy FBX token sanitization, stored-name snapshot/restore, namespace creation/move/removal, and UUID-safe DAG rename resolution.",
-        "result": "FAIL",
-        "classification": "invalid_python_verification_unittest_target",
-        "evidence": "Bridge rejected the verification request before code execution: Invalid Python verification request: Invalid unittest target: tests/test_setup_naming.py. This is a task-schema/harness failure, not evidence of a naming implementation failure.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "status": "pending","architect_ack": true,"bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git","branch": "main","workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification","target": "python"},
+      "permissions": {"read": true,"edit": true,"run_tests": true,"commit": false,"push": false},
+      "return_route": {"type": "provider","target": "OpenAI","via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull","strategy": "ff-only","remote": "origin","branch": "main"}],"files": ["aimayatool/tools/setup/naming.py","aimayatool/tools/setup/naming_smoke.py","tests/test_setup_naming.py"],"imports": ["aimayatool.tools.setup.naming"],"tests": ["tests/test_setup_naming.py"],"timeout": 180},
+      "metadata": {"goal_id": "aimayatool-005","milestone_id": "setup-controls-transforms","depends_on": ["aimayatool-goal005-setup-ui-fold-rope-managed-live-120b"],"result": "FAIL","classification": "invalid_python_verification_unittest_target","evidence": "Bridge rejected the verification request before code execution: Invalid Python verification request: Invalid unittest target: tests/test_setup_naming.py. This is a task-schema/harness failure, not evidence of a naming implementation failure.","owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal005-setup-naming-namespace-verify-121a-r1",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/setup/naming.py", "aimayatool/tools/setup/naming_smoke.py", "tests/__init__.py", "tests/test_setup_naming.py"],
-        "imports": ["aimayatool.tools.setup.naming", "tests.test_setup_naming"],
-        "tests": ["tests.test_setup_naming"],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "depends_on": ["aimayatool-goal005-setup-ui-fold-rope-managed-live-120b"],
-        "retry_of": "aimayatool-goal005-setup-naming-namespace-verify-121a",
-        "result": "FAIL",
-        "classification": "python_unittest_no_tests_discovered",
-        "proven_main_commit": "a25697246cb2d491ba9e0d81df47694da8eb6b00",
-        "evidence": "Bridge fast-forwarded local main to a25697246cb2d491ba9e0d81df47694da8eb6b00; py_compile passed for naming.py, naming_smoke.py, tests/__init__.py and tests/test_setup_naming.py; imports passed; unittest target tests.test_setup_naming executed but discovered 0 tests because the module used pytest-style top-level functions.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "status": "pending","architect_ack": true,"bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git","branch": "main","workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification","target": "python"},
+      "permissions": {"read": true,"edit": true,"run_tests": true,"commit": false,"push": false},
+      "return_route": {"type": "provider","target": "OpenAI","via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull","strategy": "ff-only","remote": "origin","branch": "main"}],"files": ["aimayatool/tools/setup/naming.py","aimayatool/tools/setup/naming_smoke.py","tests/__init__.py","tests/test_setup_naming.py"],"imports": ["aimayatool.tools.setup.naming","tests.test_setup_naming"],"tests": ["tests.test_setup_naming"],"timeout": 180},
+      "metadata": {"goal_id": "aimayatool-005","milestone_id": "setup-controls-transforms","depends_on": ["aimayatool-goal005-setup-ui-fold-rope-managed-live-120b"],"retry_of": "aimayatool-goal005-setup-naming-namespace-verify-121a","result": "FAIL","classification": "python_unittest_no_tests_discovered","proven_main_commit": "a25697246cb2d491ba9e0d81df47694da8eb6b00","evidence": "Bridge fast-forwarded local main to a25697246cb2d491ba9e0d81df47694da8eb6b00; py_compile passed for naming.py, naming_smoke.py, tests/__init__.py and tests/test_setup_naming.py; imports passed; unittest target tests.test_setup_naming executed but discovered 0 tests because the module used pytest-style top-level functions.","owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal005-setup-naming-namespace-verify-121a-r2",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/setup/naming.py", "aimayatool/tools/setup/naming_smoke.py", "tests/__init__.py", "tests/test_setup_naming.py"],
-        "imports": ["aimayatool.tools.setup.naming", "tests.test_setup_naming"],
-        "tests": ["tests.test_setup_naming"],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "depends_on": ["aimayatool-goal005-setup-ui-fold-rope-managed-live-120b"],
-        "retry_of": "aimayatool-goal005-setup-naming-namespace-verify-121a-r1",
-        "result": "FAIL",
-        "classification": "false_negative_legacy_sanitizer_expectation",
-        "proven_main_commit": "ac97beeee3832a4fe8e435ec4ec59ffbc56f3429",
-        "evidence": "Bridge compiled and imported all naming verification targets and discovered 3 unittest cases. One assertion failed because the test expected Arm_End__01__JNT while the implementation returned Arm_End___01__JNT. Re-reading legacy NLTA_General.correctCharacter confirms legacy parity replaces each FBX token/punctuation independently, so the triple underscore is correct; the failing expectation was Architect-authored test error, not an implementation defect.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "status": "pending","architect_ack": true,"bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git","branch": "main","workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification","target": "python"},
+      "permissions": {"read": true,"edit": true,"run_tests": true,"commit": false,"push": false},
+      "return_route": {"type": "provider","target": "OpenAI","via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull","strategy": "ff-only","remote": "origin","branch": "main"}],"files": ["aimayatool/tools/setup/naming.py","aimayatool/tools/setup/naming_smoke.py","tests/__init__.py","tests/test_setup_naming.py"],"imports": ["aimayatool.tools.setup.naming","tests.test_setup_naming"],"tests": ["tests.test_setup_naming"],"timeout": 180},
+      "metadata": {"goal_id": "aimayatool-005","milestone_id": "setup-controls-transforms","depends_on": ["aimayatool-goal005-setup-ui-fold-rope-managed-live-120b"],"retry_of": "aimayatool-goal005-setup-naming-namespace-verify-121a-r1","result": "FAIL","classification": "false_negative_legacy_sanitizer_expectation","proven_main_commit": "ac97beeee3832a4fe8e435ec4ec59ffbc56f3429","evidence": "Bridge compiled and imported all naming verification targets and discovered 3 unittest cases. One assertion failed because the test expected Arm_End__01__JNT while the implementation returned Arm_End___01__JNT. Re-reading legacy NLTA_General.correctCharacter confirms legacy parity replaces each FBX token/punctuation independently, so the triple underscore is correct; the failing expectation was Architect-authored test error, not an implementation defect.","owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal005-setup-naming-namespace-verify-121a-r3",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "status": "pending","architect_ack": true,"bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git","branch": "main","workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification","target": "python"},
+      "permissions": {"read": true,"edit": true,"run_tests": true,"commit": false,"push": false},
+      "return_route": {"type": "provider","target": "OpenAI","via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull","strategy": "ff-only","remote": "origin","branch": "main"}],"files": ["aimayatool/tools/setup/naming.py","aimayatool/tools/setup/naming_smoke.py","tests/__init__.py","tests/test_setup_naming.py"],"imports": ["aimayatool.tools.setup.naming","tests.test_setup_naming"],"tests": ["tests.test_setup_naming"],"timeout": 180},
+      "metadata": {"goal_id": "aimayatool-005","milestone_id": "setup-controls-transforms","depends_on": ["aimayatool-goal005-setup-ui-fold-rope-managed-live-120b"],"retry_of": "aimayatool-goal005-setup-naming-namespace-verify-121a-r2","result": "PASS","classification": "setup_naming_namespace_python_verification_pass","proven_main_commit": "fd20a8ee40e500140a2ceb65026b0e39ef7ab1e2","evidence": "Bridge fast-forwarded local main from ac97beeee3832a4fe8e435ec4ec59ffbc56f3429 to fd20a8ee40e500140a2ceb65026b0e39ef7ab1e2; py_compile passed for aimayatool/tools/setup/naming.py, aimayatool/tools/setup/naming_smoke.py, tests/__init__.py and tests/test_setup_naming.py; imports of aimayatool.tools.setup.naming and tests.test_setup_naming passed; unittest target tests.test_setup_naming ran 3 tests and all passed.","owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-naming-namespace-managed-live-121b",
+      "status": "pending","architect_ack": true,"bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git","branch": "main","workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya","target": "managed_live_smoke"},
+      "permissions": {"read": true,"edit": true,"run_tests": true,"commit": false,"push": false},
+      "return_route": {"type": "provider","target": "OpenAI","via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull","strategy": "ff-only","remote": "origin","branch": "main"}],"isolated_scene": true,"save_scene": false,"maya_version": "2024","module": "aimayatool.tools.setup.naming_smoke","callable": "run_setup_naming_namespace_smoke","expected_window": "","startup_timeout": 180,"operation_timeout": 300},
+      "metadata": {"goal_id": "aimayatool-005","milestone_id": "setup-controls-transforms","depends_on": ["aimayatool-goal005-setup-naming-namespace-verify-121a-r3"],"result": "PASS","classification": "setup_naming_namespace_managed_live_pass","proven_main_commit": "9360f619f286ddd191034f311bffd4aaab8ad05e","evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, fast-forwarded local main from fd20a8ee40e500140a2ceb65026b0e39ef7ab1e2 to 9360f619f286ddd191034f311bffd4aaab8ad05e, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_NAMING_NAMESPACE_SMOKE_OK:4, scene_saved=false and maya_quit=false.","owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-naming-ui-adapter-verify-122a",
+      "status": "pending","architect_ack": false,"bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git","branch": "main","workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification","target": "python"},
+      "permissions": {"read": true,"edit": true,"run_tests": true,"commit": false,"push": false},
+      "return_route": {"type": "provider","target": "OpenAI","via": "web"},
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/setup/naming.py", "aimayatool/tools/setup/naming_smoke.py", "tests/__init__.py", "tests/test_setup_naming.py"],
-        "imports": ["aimayatool.tools.setup.naming", "tests.test_setup_naming"],
-        "tests": ["tests.test_setup_naming"],
+        "preconditions": [{"type": "git_pull","strategy": "ff-only","remote": "origin","branch": "main"}],
+        "files": ["aimayatool/tools/setup/naming_ui.py","aimayatool/tools/setup/naming_ui_smoke.py"],
+        "imports": ["aimayatool.tools.setup.naming_ui"],
+        "tests": [],
         "timeout": 180
       },
       "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "depends_on": ["aimayatool-goal005-setup-ui-fold-rope-managed-live-120b"],
-        "retry_of": "aimayatool-goal005-setup-naming-namespace-verify-121a-r2",
-        "purpose": "Re-run the naming/namespace Python gate after correcting the sanitizer test expectation to match the actual legacy correctCharacter replacement semantics.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile all naming verification targets.",
-          "Import aimayatool.tools.setup.naming and tests.test_setup_naming outside Maya.",
-          "Run unittest target tests.test_setup_naming and require all discovered tests to pass.",
-          "Do not invoke Codex."
-        ],
-        "result": "PASS",
-        "classification": "setup_naming_namespace_python_verification_pass",
-        "proven_main_commit": "fd20a8ee40e500140a2ceb65026b0e39ef7ab1e2",
-        "evidence": "Bridge fast-forwarded local main from ac97beeee3832a4fe8e435ec4ec59ffbc56f3429 to fd20a8ee40e500140a2ceb65026b0e39ef7ab1e2; py_compile passed for aimayatool/tools/setup/naming.py, aimayatool/tools/setup/naming_smoke.py, tests/__init__.py and tests/test_setup_naming.py; imports of aimayatool.tools.setup.naming and tests.test_setup_naming passed; unittest target tests.test_setup_naming ran 3 tests and all passed.",
+        "goal_id": "aimayatool-005","milestone_id": "setup-ui-parity","depends_on": ["aimayatool-goal005-setup-naming-namespace-managed-live-121b"],
+        "purpose": "Verify the thin Setup naming/namespace UI adapter for legacy-equivalent clean/restore joint names, temp-name save/restore, and explicit namespace move/remove actions before integrating it into the consolidated Setup UI.",
+        "acceptance": ["Fast-forward main.","Compile naming_ui.py and naming_ui_smoke.py.","Import aimayatool.tools.setup.naming_ui outside Maya without eager Maya imports.","Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
     {
-      "task_id": "aimayatool-goal005-setup-naming-namespace-managed-live-121b",
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "task_id": "aimayatool-goal005-setup-naming-ui-adapter-managed-live-122b",
+      "status": "pending","architect_ack": false,"bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git","branch": "main","workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya","target": "managed_live_smoke"},
+      "permissions": {"read": true,"edit": true,"run_tests": true,"commit": false,"push": false},
+      "return_route": {"type": "provider","target": "OpenAI","via": "web"},
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.naming_smoke",
-        "callable": "run_setup_naming_namespace_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
+        "preconditions": [{"type": "git_pull","strategy": "ff-only","remote": "origin","branch": "main"}],
+        "isolated_scene": true,"save_scene": false,"maya_version": "2024",
+        "module": "aimayatool.tools.setup.naming_ui_smoke","callable": "run_setup_naming_ui_smoke","expected_window": "","startup_timeout": 180,"operation_timeout": 300
       },
       "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "depends_on": ["aimayatool-goal005-setup-naming-namespace-verify-121a-r3"],
-        "purpose": "Validate in managed Maya 2024 that hierarchy name sanitize/restore and explicit namespace move/merge preserve real DAG nodes and return non-stale paths after ancestor renames.",
-        "acceptance": [
-          "Run only after aimayatool-goal005-setup-naming-namespace-verify-121a-r3 passes.",
-          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
-          "Require result SETUP_NAMING_NAMESPACE_SMOKE_OK:4 for PASS.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
+        "goal_id": "aimayatool-005","milestone_id": "setup-ui-parity","depends_on": ["aimayatool-goal005-setup-naming-ui-adapter-verify-122a"],
+        "purpose": "Validate in managed Maya 2024 that the isolated naming/namespace adapter builds all six intended actions before it is wired into the consolidated Setup UI.",
+        "acceptance": ["Run only after aimayatool-goal005-setup-naming-ui-adapter-verify-122a passes.","Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.","Require result SETUP_NAMING_UI_ADAPTER_OK:6 for PASS.","Return scene_saved=false and maya_quit=false on normal success.","Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
