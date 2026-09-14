@@ -229,8 +229,8 @@
     {
       "task_id": "aimayatool-goal007-scene-pattern-animation-backup-canonical-attr-retry-managed-live-140f",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -288,6 +288,138 @@
           "Do not invoke Codex."
         ],
         "implementation_commit": "548aaad0194eb1a9bed1bdad722df3682000f74a",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "scene_animation_backup_maya_live_parity_pass",
+        "proven_main_commit": "aaf1ba83c836e14fee9708c0c558cc24a96c5bf8",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SCENE_ANIMATION_BACKUP_OK:1. Export/import keyframe parity passed with canonical Maya attribute naming; scene_saved=false and maya_quit=false."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-clear-offset-verify-141a",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/clear_offset.py",
+          "aimayatool/tools/scene/clear_offset_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.clear_offset"
+        ],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-animation-backup-canonical-attr-retry-managed-live-140f"
+        ],
+        "purpose": "Verify the migrated ScenePattern Clear Offset wrapper that reuses the accepted setup create_zero_group primitive.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile clear_offset.py and clear_offset_smoke.py.",
+          "Import aimayatool.tools.scene.clear_offset outside Maya successfully.",
+          "Do not execute Maya smoke in this Python-only task.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "44426fef87bf260f3b9fa55879497dd0ff405937",
+        "source_evidence": "Legacy Scene_Pattern_ClearOffset.py creates <object>_ClearOffsetGrp matched to each existing object, inserts it under the original parent and reparents the object beneath it. AIMayaTool reuses setup.controls.create_zero_group instead of duplicating constraint/group logic.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-clear-offset-managed-live-141b",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.scene.clear_offset_smoke",
+        "callable": "run_scene_clear_offset_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-clear-offset-verify-141a"
+        ],
+        "purpose": "Validate ScenePattern Clear Offset parity in Maya 2024 using the reusable zero-group primitive.",
+        "acceptance": [
+          "Run only after 141a passes.",
+          "Force a fresh unsaved scene and do not save.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SCENE_CLEAR_OFFSET_OK:1 for PASS.",
+          "Verify _ClearOffsetGrp insertion preserves original parent and object world transform, and missing objects are skipped deterministically.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "44426fef87bf260f3b9fa55879497dd0ff405937",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
