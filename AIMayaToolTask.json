@@ -3,56 +3,264 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-104",
+    "request_id": "aimayatool-setup-migration-105",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
-    {
-      "task_id": "aimayatool-goal005-setup-transform-hierarchy-verify-103a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/transforms.py", "aimayatool/tools/setup/transforms_smoke.py", "tests/test_setup_transform_hierarchy.py"], "imports": ["aimayatool.tools.setup.transforms"], "tests": ["tests.test_setup_transform_hierarchy"], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "result": "PASS", "classification": "setup_transform_hierarchy_python_verification_pass", "proven_main_commit": "1ce986a189cfd483f4186455caa47561a97b4d11", "evidence": "After ff-only sync from 79a67f533a2300b1651173149fe653e9624e5792 to 1ce986a189cfd483f4186455caa47561a97b4d11, py_compile passed for transforms.py, transforms_smoke.py and tests/test_setup_transform_hierarchy.py; non-Maya import aimayatool.tools.setup.transforms passed; tests.test_setup_transform_hierarchy passed 3/3.", "archived_prerequisite": {"task_id": "aimayatool-goal005-setup-joint-creation-managed-live-102b", "result": "PASS", "architect_ack": true, "bridge_completed": true, "classification": "setup_joint_creation_managed_live_pass", "proven_main_commit": "79a67f533a2300b1651173149fe653e9624e5792"}, "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-transform-hierarchy-managed-live-103b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.transforms_smoke", "callable": "run_setup_transform_hierarchy_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "depends_on": ["aimayatool-goal005-setup-transform-hierarchy-verify-103a"], "result": "PASS", "classification": "setup_transform_hierarchy_managed_live_pass", "proven_main_commit": "d360570a3620dc522710305272169b2f89e21fec", "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_TRANSFORM_HIERARCHY_SMOKE_OK:3, scene_saved=false and maya_quit=false. Smoke proved exactly three joints with expected names/order, root-mid-end parenting, and matching world translation/rotation for all three source transforms.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
     {
       "task_id": "aimayatool-goal005-setup-offset-group-verify-104a",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/transforms.py", "aimayatool/tools/setup/transforms_smoke.py", "tests/test_setup_offset_group.py"], "imports": ["aimayatool.tools.setup.transforms"], "tests": ["tests.test_setup_offset_group"], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "depends_on": ["aimayatool-goal005-setup-transform-hierarchy-managed-live-103b"], "legacy_evidence": "MayaScriptNew clearOffset creates a matched _fixOffset group between a selected node and its parent; restoreClearOffset reparents the child to the original parent and deletes the temporary group.", "implementation_commits": ["26e9458328c7aa1aa2ee94a907a00f24fde5d600", "2e81db98341d01efbd26f11c12bf8155111b70ad", "bd560fea7b4169004363156b855ba47bc14dcc42"], "purpose": "Verify explicit offset-group insertion/removal primitives that preserve world pose and avoid selection/global wildcard behavior.", "acceptance": ["Fast-forward main through offset-group implementation commits.", "Compile transforms.py, transforms_smoke.py and tests/test_setup_offset_group.py.", "Import aimayatool.tools.setup.transforms outside Maya without eager Maya import.", "Run tests.test_setup_offset_group and require all tests pass.", "Insertion must create a matched transform group directly above the explicit node and preserve the original parent relationship; removal must reparent explicit transform children back to the original parent or world and delete only the explicit group.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "setup_offset_group_python_verification_pass", "proven_main_commit": "df36fe246f4dce17152c886707b5221a76fb72fb", "evidence": "After ff-only sync from d360570a3620dc522710305272169b2f89e21fec to df36fe246f4dce17152c886707b5221a76fb72fb, py_compile passed for transforms.py, transforms_smoke.py and tests/test_setup_offset_group.py; non-Maya import aimayatool.tools.setup.transforms passed; tests.test_setup_offset_group passed 3/3."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/transforms.py",
+          "aimayatool/tools/setup/transforms_smoke.py",
+          "tests/test_setup_offset_group.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.transforms"
+        ],
+        "tests": [
+          "tests.test_setup_offset_group"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "result": "PASS",
+        "classification": "setup_offset_group_python_verification_pass",
+        "proven_main_commit": "df36fe246f4dce17152c886707b5221a76fb72fb",
+        "evidence": "After ff-only sync from d360570a3620dc522710305272169b2f89e21fec to df36fe246f4dce17152c886707b5221a76fb72fb, py_compile passed for transforms.py, transforms_smoke.py and tests/test_setup_offset_group.py; non-Maya import aimayatool.tools.setup.transforms passed; tests.test_setup_offset_group passed 3/3.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-transform-hierarchy-managed-live-103b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_transform_hierarchy_managed_live_pass",
+          "proven_main_commit": "d360570a3620dc522710305272169b2f89e21fec"
+        },
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-offset-group-managed-live-104b",
       "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.transforms_smoke",
+        "callable": "run_setup_offset_group_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": [
+          "aimayatool-goal005-setup-offset-group-verify-104a"
+        ],
+        "result": "PASS",
+        "classification": "setup_offset_group_managed_live_pass",
+        "proven_main_commit": "316bca937004579b2357efe6b6762900cca2ecb9",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_OFFSET_GROUP_SMOKE_OK:1, scene_saved=false and maya_quit=false. Smoke proved the offset group was inserted between parent/control without changing world translation/rotation, then removal restored the control to its original parent with the same world pose and deleted the explicit group.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-transform-snapshot-verify-105a",
+      "status": "pending",
       "architect_ack": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.transforms_smoke", "callable": "run_setup_offset_group_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "depends_on": ["aimayatool-goal005-setup-offset-group-verify-104a"], "purpose": "Validate offset-group insertion/removal in real Maya under a transformed parent while preserving child world translation/rotation.", "acceptance": ["Run only after 104a passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_OFFSET_GROUP_SMOKE_OK:1 for PASS.", "Prove the offset group is inserted between parent and control, insertion preserves world translation/rotation, removal restores the control to its original parent with the same world pose, and the offset group is deleted.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/transforms.py",
+          "aimayatool/tools/setup/transforms_smoke.py",
+          "tests/test_setup_transform_snapshot.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.transforms"
+        ],
+        "tests": [
+          "tests.test_setup_transform_snapshot"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": [
+          "aimayatool-goal005-setup-offset-group-managed-live-104b"
+        ],
+        "legacy_evidence": "MayaScriptNew CopyTransform/PastTransform capture selected objects' world translation/rotation into a module-global session and later apply those values by positional order to another selection.",
+        "implementation_commits": [
+          "0595dcb76addce1184474d4b51f339f4e64eab2d",
+          "34b35fcb683d63534032109aaf4bbc76e3658a70",
+          "dd5255d813f49ebb6185770e9ee376ee06ca82e7"
+        ],
+        "purpose": "Verify explicit transform snapshot capture/apply primitives that preserve positional ordering without module-global session state.",
+        "acceptance": [
+          "Fast-forward main through transform-snapshot implementation commits.",
+          "Compile transforms.py, transforms_smoke.py and tests/test_setup_transform_snapshot.py.",
+          "Import aimayatool.tools.setup.transforms outside Maya without eager Maya import.",
+          "Run tests.test_setup_transform_snapshot and require all tests pass.",
+          "Capture must return world translation/rotation in input order; apply must target explicit nodes in positional order, support channel gating, reject count mismatch, and avoid global mutable clipboard state.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-transform-snapshot-managed-live-105b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.transforms_smoke",
+        "callable": "run_setup_transform_snapshot_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": [
+          "aimayatool-goal005-setup-transform-snapshot-verify-105a"
+        ],
+        "purpose": "Validate explicit transform snapshot copy/paste behavior in real Maya across two source/target transforms.",
+        "acceptance": [
+          "Run only after 105a passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_TRANSFORM_SNAPSHOT_SMOKE_OK:2 for PASS.",
+          "Prove two captured source world translations/rotations are applied to two explicit targets in positional order.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     }
   ]
 }
