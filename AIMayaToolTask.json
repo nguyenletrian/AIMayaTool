@@ -31,7 +31,8 @@
     {
       "task_id": "aimayatool-goal005-setup-control-shape-freshness-verify-076d",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -88,7 +89,11 @@
           "Do not mutate Maya in this task.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_control_shape_freshness_compile_pass",
+        "proven_main_commit": "bffbb9cc2612be841317b158de28e8f8a188bd42",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to bffbb9cc2612be841317b158de28e8f8a188bd42 and py_compile passed for aimayatool/tools/setup/smoke.py."
       }
     },
     {
@@ -137,12 +142,15 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "depends_on": [
-          "aimayatool-goal005-setup-control-shape-freshness-verify-076d"
-        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-control-shape-freshness-verify-076d",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_control_shape_freshness_compile_pass"
+        },
         "purpose": "Retry the control-shape catalog in managed Maya after explicitly refreshing the controls dependency in the smoke harness so the persistent session executes current repository code.",
         "acceptance": [
-          "Run only after 076d passes.",
           "Reuse the managed Maya 2024 session if healthy; smoke harness must reload current controls.py before use.",
           "Force a fresh unsaved scene and do not save.",
           "Require result SETUP_CONTROL_SHAPE_CATALOG_SMOKE_OK:5 for PASS.",
