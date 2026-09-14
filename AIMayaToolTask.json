@@ -8,7 +8,7 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal006-setup-ux-polish-mirror-preview-managed-live-137c",
+      "task_id": "aimayatool-goal006-setup-ux-polish-mirror-preview-reload-managed-live-137e",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
@@ -57,133 +57,9 @@
         "depends_on": [],
         "archived_prerequisite": [
           {
-            "task_id": "aimayatool-goal006-setup-ux-polish-mirror-preview-verify-137b",
+            "task_id": "aimayatool-goal006-setup-ux-polish-mirror-preview-reload-verify-137d",
             "result": "PASS"
           }
-        ],
-        "purpose": "Validate Setup mirror preview UX in Maya without mutating counterpart transforms.",
-        "acceptance": [
-          "Require SETUP_MIRROR_PREVIEW_UI_OK:3 for PASS.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "FAIL",
-        "classification": "setup_mirror_preview_managed_session_stale_naming_module_cache",
-        "proven_main_commit": "bcb35b71ba4731795d08a0d7cbb1613d8ed60a95",
-        "evidence": "Initial reused-session failure returned 2 ready before naming and naming_ui reload was added.",
-        "recovery_commit": "87098919964f3bdd3f2d16ea6522ed04023ce98c"
-      }
-    },
-    {
-      "task_id": "aimayatool-goal006-setup-ux-polish-mirror-preview-reload-verify-137d",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/mirror_preview_ui_smoke.py"
-        ],
-        "imports": [],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-ux-polish",
-        "depends_on": [
-          "aimayatool-goal006-setup-ux-polish-mirror-preview-managed-live-137c"
-        ],
-        "purpose": "Compile the mirror preview smoke after explicitly reloading naming and naming_ui for reused managed Maya sessions.",
-        "acceptance": [
-          "Compile mirror_preview_ui_smoke.py.",
-          "Do not invoke Codex."
-        ],
-        "implementation_commit": "87098919964f3bdd3f2d16ea6522ed04023ce98c",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_mirror_preview_reload_python_verification_pass",
-        "proven_main_commit": "b72c6125d2a28ec644c2724a05964f576615aa7c",
-        "evidence": "Bridge fast-forwarded local main to b72c6125d2a28ec644c2724a05964f576615aa7c; py_compile passed for mirror_preview_ui_smoke.py."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal006-setup-ux-polish-mirror-preview-reload-managed-live-137e",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.mirror_preview_ui_smoke",
-        "callable": "run_setup_mirror_preview_ui_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-ux-polish",
-        "depends_on": [
-          "aimayatool-goal006-setup-ux-polish-mirror-preview-reload-verify-137d"
         ],
         "purpose": "Retry Setup mirror preview live validation after explicitly reloading current naming and naming_ui modules.",
         "acceptance": [
@@ -273,8 +149,8 @@
     {
       "task_id": "aimayatool-goal006-setup-ux-polish-mirror-root-path-fix-managed-live-137g",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -322,13 +198,85 @@
         ],
         "purpose": "Validate corrected root DAG path handling and non-mutating mirror preview UX in managed Maya.",
         "acceptance": [
-          "Run only after 137f passes.",
           "Force a fresh unsaved scene and do not save.",
           "Require SETUP_MIRROR_PREVIEW_UI_OK:3 for PASS.",
           "Preview must report one ready and one unmapped source.",
           "Preview must not mutate the ready counterpart transform.",
           "Preview X/Y/Z and Mirror X/Y/Z buttons must all exist.",
           "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_mirror_root_path_fix_managed_live_pass",
+        "proven_main_commit": "1f8bf9308016b7f799dd83e863434a60e324f6fa",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, fast-forwarded local main from 968a759b4f5917c4a44c41d30e4e25a9f66a60f1 to 1f8bf9308016b7f799dd83e863434a60e324f6fa, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_MIRROR_PREVIEW_UI_OK:3, scene_saved=false and maya_quit=false.",
+        "goal_ready": true
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-parity-baseline-138a",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/patterns.py",
+          "aimayatool/tools/scene/operations.py",
+          "aimayatool/tools/scene/smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.smoke"
+        ],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [],
+        "archived_prerequisite": [
+          {
+            "goal_id": "aimayatool-006",
+            "result": "COMPLETED",
+            "evidence_task": "aimayatool-goal006-setup-ux-polish-mirror-root-path-fix-managed-live-137g"
+          }
+        ],
+        "purpose": "Establish the deterministic ScenePattern baseline at the start of Scene complete migration before selecting the next parity slice.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile patterns.py, operations.py and smoke.py.",
+          "Import aimayatool.tools.scene.smoke outside Maya; it must remain host-independent.",
+          "Do not mutate product files beyond the ff-only git pull precondition.",
           "Do not invoke Codex."
         ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
