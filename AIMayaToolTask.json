@@ -79,8 +79,8 @@
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-ui-managed-live-retry-135h",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -130,6 +130,132 @@
         "acceptance": [
           "Run only after 135g passes.",
           "Force a fresh unsaved scene and do not save.",
+          "Require SETUP_MIRROR_BATCH_UI_OK:4 for PASS.",
+          "Verify Mirror X/Y/Z controls exist and the selection adapter mirrors the selected source to its counterpart.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "FAIL",
+        "classification": "setup_mirror_batch_ui_managed_session_stale_module_cache",
+        "proven_main_commit": "7887fb6b9a2def22ba048be2a93c7d5c11b3b7bc",
+        "evidence": "Managed Maya 2024 reused PID 15000 on port 7001 and forced a fresh unsaved scene. The hardened lsUI smoke discovered exactly the six pre-mirror naming buttons (Clean Joint Names, Restore Joint Names, Save Name Temp, Restore Name Temp, Move to Namespace..., Remove Namespace...) but none of the three Mirror buttons that are present in current main naming_ui.py. This proves the reused Maya process held a stale imported naming_ui module rather than a product UI omission.",
+        "recovery_commit": "69a11cff1b29a5590cd2da68990bf4e9b717f1a2"
+      }
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-mirror-batch-ui-smoke-reload-verify-135i",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/mirror_batch_ui_smoke.py"
+        ],
+        "imports": [],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-006",
+        "milestone_id": "setup-mirror-batch",
+        "depends_on": [
+          "aimayatool-goal006-setup-mirror-batch-ui-managed-live-retry-135h"
+        ],
+        "purpose": "Compile the Maya UI smoke after adding explicit reload of naming_ui for reused managed Maya sessions.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile aimayatool/tools/setup/mirror_batch_ui_smoke.py.",
+          "Do not import the Maya-only smoke outside Maya.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-mirror-batch-ui-managed-live-reload-135j",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.mirror_batch_ui_smoke",
+        "callable": "run_setup_mirror_batch_ui_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-006",
+        "milestone_id": "setup-mirror-batch",
+        "depends_on": [
+          "aimayatool-goal006-setup-mirror-batch-ui-smoke-reload-verify-135i"
+        ],
+        "purpose": "Validate mirror-batch UI and selection adapter in reused managed Maya after explicitly reloading naming_ui from current main.",
+        "acceptance": [
+          "Run only after 135i passes.",
+          "Force a fresh unsaved scene and do not save.",
+          "Explicitly reload naming_ui from the synced repository before building UI.",
           "Require SETUP_MIRROR_BATCH_UI_OK:4 for PASS.",
           "Verify Mirror X/Y/Z controls exist and the selection adapter mirrors the selected source to its counterpart.",
           "Return scene_saved=false and maya_quit=false on normal success.",
