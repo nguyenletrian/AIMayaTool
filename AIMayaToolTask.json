@@ -77,7 +77,8 @@
     {
       "task_id": "aimayatool-goal005-setup-ui-ikfk-blend-managed-live-119b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -105,6 +106,10 @@
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
+        "result": "PASS",
+        "classification": "setup_ui_ikfk_blend_managed_live_pass",
+        "proven_main_commit": "718a6507a08ce32660e506915191b69c2d6cae21",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:24, scene_saved=false and maya_quit=false.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
