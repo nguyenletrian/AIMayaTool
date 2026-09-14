@@ -5,7 +5,7 @@ from . import controls, presets
 
 def create_controls_from_preset(nodes, preset, suffix=None):
     """Preflight a control-preset batch, then create matched controls in Maya."""
-    request = presets.preflight_control_batch(nodes, preset)
+    request = presets.preflight_control_batch_request(nodes, preset)
     preset_data = request["preset"]
     if suffix is None:
         suffix = preset_data["suffix"]
