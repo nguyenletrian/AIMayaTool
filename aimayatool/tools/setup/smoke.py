@@ -88,3 +88,35 @@ def run_setup_transform_primitives_smoke():
         raise RuntimeError("Joint hierarchy traversal returned an unexpected chain.")
 
     return "SETUP_TRANSFORM_PRIMITIVES_SMOKE_OK:3"
+
+
+def run_setup_match_joint_chain_smoke():
+    transforms = _transforms()
+    cmds.file(new=True, force=True)
+
+    src_root = cmds.createNode("joint", name="srcRoot_JNT")
+    src_mid_a = cmds.createNode("joint", name="srcMidA_JNT", parent=src_root)
+    src_mid_b = cmds.createNode("joint", name="srcMidB_JNT", parent=src_mid_a)
+    src_end = cmds.createNode("joint", name="srcEnd_JNT", parent=src_mid_b)
+    for node, position in ((src_root, (0.0, 0.0, 0.0)), (src_mid_a, (2.0, 1.0, 0.0)), (src_mid_b, (4.0, 2.0, 0.0)), (src_end, (6.0, 2.0, 1.0))):
+        cmds.xform(node, worldSpace=True, translation=position)
+
+    dst_root = cmds.createNode("joint", name="dstRoot_JNT")
+    dst_old_mid = cmds.createNode("joint", name="dstOldMid_JNT", parent=dst_root)
+    dst_end = cmds.createNode("joint", name="dstEnd_JNT", parent=dst_old_mid)
+    mappings = transforms.match_joint_chain(src_root, src_end, dst_root, dst_end, name_prefix="matched_JNT_")
+
+    if len(mappings) != 4:
+        raise RuntimeError("Expected four destination-source joint mappings.")
+    destination_chain = transforms.hierarchy_between(mappings[0][0], mappings[-1][0], node_type="joint")
+    if len(destination_chain) != 4:
+        raise RuntimeError("Destination joint chain was not rebuilt to source length.")
+    if cmds.objExists("dstOldMid_JNT"):
+        raise RuntimeError("Legacy destination intermediate joint was not removed.")
+    for destination, source in mappings:
+        dst_pos = cmds.xform(destination, query=True, worldSpace=True, translation=True)
+        src_pos = cmds.xform(source, query=True, worldSpace=True, translation=True)
+        if any(abs(a - b) > 1e-5 for a, b in zip(dst_pos, src_pos)):
+            raise RuntimeError("Destination/source joint positions differ after chain match.")
+
+    return "SETUP_MATCH_JOINT_CHAIN_SMOKE_OK:4"
