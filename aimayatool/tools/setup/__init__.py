@@ -230,6 +230,34 @@ def _wire_ikfk_switch_selected():
     return ikfk.wire_ikfk_switch(switch_attr, fk_nodes, ik_nodes, proxy_nodes=proxy_nodes)
 
 
+def _blend_ikfk_selected():
+    from . import ikfk
+    cmds = _cmds()
+    nodes = cmds.ls(selection=True, long=True) or []
+    if len(nodes) < 3:
+        raise ValueError("Select bind joints, then FK joints, then IK joints; all three chains must be equal length.")
+    if cmds.promptDialog(title="Create IK/FK Blend", message="Switch attribute (node.attr):", button=["Next", "Cancel"], defaultButton="Next", cancelButton="Cancel", dismissString="Cancel") != "Next":
+        return None
+    switch_attr = cmds.promptDialog(query=True, text=True).strip()
+    if not switch_attr:
+        raise ValueError("Switch attribute is required.")
+    default_count = str(len(nodes) // 3) if len(nodes) % 3 == 0 else "1"
+    if cmds.promptDialog(title="Create IK/FK Blend", message="Joints per chain:", text=default_count, button=["Create", "Cancel"], defaultButton="Create", cancelButton="Cancel", dismissString="Cancel") != "Create":
+        return None
+    try:
+        count = int(cmds.promptDialog(query=True, text=True).strip())
+    except ValueError:
+        raise ValueError("Joints per chain must be an integer.")
+    if count < 1 or len(nodes) != count * 3:
+        raise ValueError("Selection must contain exactly three equal chains: bind, FK, IK.")
+    if any(cmds.nodeType(node) != "joint" for node in nodes):
+        raise ValueError("All IK/FK blend selections must be joints.")
+    bind_joints = nodes[:count]
+    fk_joints = nodes[count:count * 2]
+    ik_joints = nodes[count * 2:]
+    return ikfk.create_ikfk_blend(bind_joints, fk_joints, ik_joints, switch_attr)
+
+
 def build_ui():
     cmds = _cmds()
 
@@ -276,9 +304,12 @@ def build_ui():
 
     cmds.separator(height=8, style="none")
     cmds.text(label="IK/FK", align="left")
-    cmds.text(label="RP IK: joints then IK/pole controls. Snap: alternating source/target. Switch: FK nodes, IK nodes, optional proxies.", align="left")
-    cmds.rowLayout(numberOfColumns=3, adjustableColumn=3)
+    cmds.text(label="RP IK: joints then controls. Blend: bind/FK/IK chains. Snap: alternating pairs. Switch: FK/IK nodes then proxies.", align="left")
+    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2)
     cmds.button(label="Create RP IK", command=lambda *_: _run("RP IK", _rp_ik_selected))
+    cmds.button(label="Create IK/FK Blend...", command=lambda *_: _run("IK/FK blend", _blend_ikfk_selected))
+    cmds.setParent("..")
+    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2)
     cmds.button(label="Snap IK/FK...", command=lambda *_: _run("IK/FK snap", _snap_ikfk_selected))
     cmds.button(label="Wire IK/FK Switch...", command=lambda *_: _run("IK/FK switch", _wire_ikfk_switch_selected))
     cmds.setParent("..")
