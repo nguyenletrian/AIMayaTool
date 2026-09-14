@@ -89,3 +89,18 @@ def run_setup_match_hierarchy_smoke():
         source_m = cmds.xform(source, query=True, worldSpace=True, matrix=True); target_m = cmds.xform(target, query=True, worldSpace=True, matrix=True)
         if max(abs(source_m[i] - target_m[i]) for i in range(16)) > 1e-4: raise RuntimeError("Hierarchy world matrix mismatch: {0}".format(target))
     return "SETUP_MATCH_HIERARCHY_SMOKE_OK:3"
+
+
+def run_setup_freeze_reset_smoke():
+    transforms = _transforms(); cmds.file(new=True, force=True)
+    freeze_node = cmds.createNode("transform", name="freezeNode")
+    cmds.setAttr(freeze_node + ".scale", 2.0, 3.0, 4.0, type="double3")
+    transforms.freeze_transforms([freeze_node], translate=False, rotate=False, scale=True)
+    frozen_scale = cmds.getAttr(freeze_node + ".scale")[0]
+    if max(abs(frozen_scale[i] - 1.0) for i in range(3)) > 1e-6: raise RuntimeError("Freeze scale did not reset channels: {0}".format(frozen_scale))
+    reset_node = cmds.createNode("transform", name="resetNode")
+    cmds.setAttr(reset_node + ".translate", 3.0, -2.0, 5.0, type="double3"); cmds.setAttr(reset_node + ".rotate", 10.0, 20.0, 30.0, type="double3"); cmds.setAttr(reset_node + ".scale", 2.0, 2.5, 3.0, type="double3")
+    transforms.reset_transforms([reset_node], translate=True, rotate=True, scale=True)
+    t = cmds.getAttr(reset_node + ".translate")[0]; r = cmds.getAttr(reset_node + ".rotate")[0]; s = cmds.getAttr(reset_node + ".scale")[0]
+    if max(abs(t[i]) for i in range(3)) > 1e-6 or max(abs(r[i]) for i in range(3)) > 1e-6 or max(abs(s[i] - 1.0) for i in range(3)) > 1e-6: raise RuntimeError("Reset transform channels mismatch: {0} {1} {2}".format(t, r, s))
+    return "SETUP_FREEZE_RESET_SMOKE_OK:2"
