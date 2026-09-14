@@ -47,25 +47,19 @@
         "via": "web"
       },
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
+        "preconditions": [{
+          "type": "git_pull",
+          "strategy": "ff-only",
+          "remote": "origin",
+          "branch": "main"
+        }],
         "files": [
           "aimayatool/tools/setup/rivet.py",
           "aimayatool/tools/setup/rivet_smoke.py",
           "tests/test_setup_rivet.py"
         ],
-        "imports": [
-          "aimayatool.tools.setup.rivet"
-        ],
-        "tests": [
-          "tests.test_setup_rivet"
-        ],
+        "imports": ["aimayatool.tools.setup.rivet"],
+        "tests": ["tests.test_setup_rivet"],
         "timeout": 180
       },
       "metadata": {
@@ -112,31 +106,11 @@
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
@@ -149,9 +123,7 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "depends_on": [
-          "aimayatool-goal005-setup-rivet-verify-097a"
-        ],
+        "depends_on": ["aimayatool-goal005-setup-rivet-verify-097a"],
         "purpose": "Validate in real Maya that the rivet locator follows facet deformation and a driven child follows the locator through the generated rivet offset/constraint.",
         "acceptance": [
           "Run only after 097a passes.",
@@ -180,38 +152,13 @@
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/rivet_smoke.py",
-          "tests/test_setup_rivet.py"
-        ],
-        "tests": [
-          "tests.test_setup_rivet"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/setup/rivet_smoke.py", "tests/test_setup_rivet.py"],
+        "tests": ["tests.test_setup_rivet"],
         "timeout": 180
       },
       "metadata": {
@@ -245,31 +192,11 @@
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
@@ -282,9 +209,7 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "depends_on": [
-          "aimayatool-goal005-setup-rivet-smoke-fix-verify-097c"
-        ],
+        "depends_on": ["aimayatool-goal005-setup-rivet-smoke-fix-verify-097c"],
         "retry_of": "aimayatool-goal005-setup-rivet-managed-live-097b",
         "purpose": "Re-run Rivet in real Maya with the corrected maintain-offset smoke oracle.",
         "acceptance": [
@@ -307,44 +232,19 @@
     {
       "task_id": "aimayatool-goal005-setup-rivet-matrix-smoke-verify-097e",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/rivet_smoke.py",
-          "tests/test_setup_rivet.py"
-        ],
-        "tests": [
-          "tests.test_setup_rivet"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/setup/rivet_smoke.py", "tests/test_setup_rivet.py"],
+        "tests": ["tests.test_setup_rivet"],
         "timeout": 180
       },
       "metadata": {
@@ -361,8 +261,13 @@
           "Do not change the accepted rivet primitive solely to satisfy the obsolete delta oracle.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_rivet_matrix_smoke_python_verification_pass",
+        "proven_main_commit": "07c13b37ea772a3e00f34b2aaa20d83a833f97b9",
+        "evidence": "After ff-only sync from aad3a199a7fcdaa048a6a04492e6c26652ac0173 to 07c13b37ea772a3e00f34b2aaa20d83a833f97b9, py_compile passed for rivet_smoke.py and tests/test_setup_rivet.py; tests.test_setup_rivet passed 2/2."
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal005-setup-rivet-managed-live-retry-097f",
@@ -373,31 +278,11 @@
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
@@ -410,9 +295,7 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "depends_on": [
-          "aimayatool-goal005-setup-rivet-matrix-smoke-verify-097e"
-        ],
+        "depends_on": ["aimayatool-goal005-setup-rivet-matrix-smoke-verify-097e"],
         "retry_of": "aimayatool-goal005-setup-rivet-managed-live-retry-097d",
         "purpose": "Re-run Rivet in real Maya with full-matrix maintain-offset validation.",
         "acceptance": [
