@@ -8,131 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal006-setup-presets-validation-execution-managed-live-136e",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.preset_execution_smoke",
-        "callable": "run_setup_preset_execution_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-presets-validation",
-        "depends_on": [],
-        "purpose": "Validate that preflighted control presets create matched controls in Maya and reject duplicate-source batches before any scene mutation.",
-        "acceptance": [
-          "Require SETUP_PRESET_EXECUTION_OK:5 for PASS.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_preset_execution_managed_live_pass",
-        "proven_main_commit": "b13e0ca513ab22c4c511f985824ddb60232a2a8f",
-        "evidence": "Managed Maya 2024 reused PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_PRESET_EXECUTION_OK:5, scene_saved=false and maya_quit=false."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal006-setup-presets-validation-scene-preflight-verify-136f",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/preset_execution.py",
-          "aimayatool/tools/setup/preset_scene_preflight_smoke.py"
-        ],
-        "imports": [],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-presets-validation",
-        "depends_on": [
-          "aimayatool-goal006-setup-presets-validation-execution-managed-live-136e"
-        ],
-        "purpose": "Compile scene-aware preset preflight that rejects missing source nodes and existing output control names before mutation.",
-        "acceptance": [
-          "Compile preset_execution.py and preset_scene_preflight_smoke.py.",
-          "Do not invoke Codex."
-        ],
-        "implementation_commits": [
-          "b85a96cc793708a39752d2e198f3c195fe80a86a",
-          "41d4445a0879906bcbdf32a3d2afe57019659ea2"
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_preset_scene_preflight_python_verification_pass",
-        "proven_main_commit": "717b8b4d3e97a0c0794798f60a1f76d08b1fc51e",
-        "evidence": "Bridge fast-forwarded local main from b13e0ca513ab22c4c511f985824ddb60232a2a8f to 717b8b4d3e97a0c0794798f60a1f76d08b1fc51e; py_compile passed for preset_execution.py and preset_scene_preflight_smoke.py."
-      }
-    },
-    {
       "task_id": "aimayatool-goal006-setup-presets-validation-scene-preflight-managed-live-136g",
       "status": "pending",
       "architect_ack": true,
@@ -179,9 +54,7 @@
       "metadata": {
         "goal_id": "aimayatool-006",
         "milestone_id": "setup-presets-validation",
-        "depends_on": [
-          "aimayatool-goal006-setup-presets-validation-scene-preflight-verify-136f"
-        ],
+        "depends_on": [],
         "purpose": "Validate scene-aware preset preflight in Maya.",
         "acceptance": [
           "Require SETUP_PRESET_SCENE_PREFLIGHT_OK:4 for PASS.",
@@ -191,7 +64,7 @@
         "result": "FAIL",
         "classification": "setup_preset_scene_preflight_managed_session_stale_module_cache",
         "proven_main_commit": "698accdd3debf6d7c05cb065c391eec9e122cb0d",
-        "evidence": "Managed Maya reused PID 15000 and forced a fresh unsaved scene, but traceback from preset_execution.py matched the pre-scene-preflight implementation and fell through to controls.create_control for missing node 'does_not_exist'. Current main preset_execution.py already calls _preflight_scene before controls.create_controls_for_nodes, proving the reused Maya process held a stale preset_execution module rather than current product logic failing.",
+        "evidence": "Managed Maya reused PID 15000 and forced a fresh unsaved scene, but traceback matched the pre-scene-preflight preset_execution implementation. Current main already called _preflight_scene before controls mutation, proving stale module cache in the reused session.",
         "recovery_commit": "e0de9fdaf427b1f7c37dad0ddc17472ae39ea453"
       }
     },
@@ -240,12 +113,9 @@
       "metadata": {
         "goal_id": "aimayatool-006",
         "milestone_id": "setup-presets-validation",
-        "depends_on": [
-          "aimayatool-goal006-setup-presets-validation-scene-preflight-managed-live-136g"
-        ],
+        "depends_on": [],
         "purpose": "Compile the Maya scene-preflight smoke after adding explicit preset_execution reload for reused managed sessions.",
         "acceptance": [
-          "Fast-forward main.",
           "Compile preset_scene_preflight_smoke.py.",
           "Do not import the Maya-only smoke outside Maya.",
           "Do not invoke Codex."
@@ -255,14 +125,14 @@
         "result": "PASS",
         "classification": "setup_preset_scene_preflight_reload_python_verification_pass",
         "proven_main_commit": "f5f6bdc7a2f16f0154ff63edff05af99cd8b6670",
-        "evidence": "Bridge fast-forwarded local main from 698accdd3debf6d7c05cb065c391eec9e122cb0d to f5f6bdc7a2f16f0154ff63edff05af99cd8b6670; py_compile passed for aimayatool/tools/setup/preset_scene_preflight_smoke.py after adding explicit preset_execution reload."
+        "evidence": "Bridge fast-forwarded local main to f5f6bdc7a2f16f0154ff63edff05af99cd8b6670; py_compile passed for preset_scene_preflight_smoke.py after explicit preset_execution reload was added."
       }
     },
     {
       "task_id": "aimayatool-goal006-setup-presets-validation-scene-preflight-reload-managed-live-136i",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -310,12 +180,83 @@
         ],
         "purpose": "Retry scene-aware preset preflight in reused managed Maya after explicitly reloading preset_execution from current main.",
         "acceptance": [
-          "Run only after 136h passes.",
           "Force a fresh unsaved scene and do not save.",
           "Explicitly reload preset_execution before validation.",
           "Require SETUP_PRESET_SCENE_PREFLIGHT_OK:4 for PASS.",
           "Verify missing source and existing output collision are rejected without mutation, then valid request succeeds.",
           "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_preset_scene_preflight_managed_live_pass",
+        "proven_main_commit": "b5429d0ee8294a9e91ddb3f2d7aa16a9022f649a",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, fast-forwarded local main from f5f6bdc7a2f16f0154ff63edff05af99cd8b6670 to b5429d0ee8294a9e91ddb3f2d7aa16a9022f649a, forced a fresh unsaved scene, explicitly reloaded preset_execution, returned AIBRIDGE_UI_SMOKE_OK:SETUP_PRESET_SCENE_PREFLIGHT_OK:4, scene_saved=false and maya_quit=false.",
+        "milestone_ready": true
+      }
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-ux-polish-assessment-137a",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/setup/naming_ui.py",
+          "aimayatool/tools/setup/ui_parity_smoke.py"
+        ],
+        "imports": [],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-006",
+        "milestone_id": "setup-ux-polish",
+        "depends_on": [
+          "aimayatool-goal006-setup-presets-validation-scene-preflight-reload-managed-live-136i"
+        ],
+        "archived_prerequisite": [
+          {
+            "milestone_id": "setup-presets-validation",
+            "result": "READY_TO_COMPLETE",
+            "evidence_task": "aimayatool-goal006-setup-presets-validation-scene-preflight-reload-managed-live-136i"
+          }
+        ],
+        "purpose": "Establish the current Setup UI baseline before implementing production-focused UX polish, using the central Setup UI surface, naming UI and existing UI parity smoke as bounded evidence.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile aimayatool/tools/setup/__init__.py, naming_ui.py and ui_parity_smoke.py.",
+          "Do not mutate product files beyond the ff-only git pull precondition.",
           "Do not invoke Codex."
         ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
