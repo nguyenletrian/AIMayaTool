@@ -40,3 +40,22 @@ def run_setup_controls_smoke():
         raise RuntimeError("Zero-grouped control local translate/rotate are not zero.")
 
     return "SETUP_CONTROLS_SMOKE_OK"
+
+
+def run_setup_control_shape_catalog_smoke():
+    cmds.file(new=True, force=True)
+    shapes = ("cube", "sphere", "diamond", "locator", "eye")
+    created = []
+    for index, shape in enumerate(shapes):
+        control = create_control("setupShape_{0}_CTRL".format(shape), shape=shape, size=1.0)
+        cmds.setAttr(control + ".translateX", float(index) * 3.0)
+        curve_shapes = cmds.listRelatives(control, shapes=True, type="nurbsCurve") or []
+        if len(curve_shapes) != 1:
+            raise RuntimeError("Shape {0} did not create exactly one nurbsCurve.".format(shape))
+        cvs = cmds.ls(curve_shapes[0] + ".cv[*]", flatten=True) or []
+        if not cvs:
+            raise RuntimeError("Shape {0} created no curve CVs.".format(shape))
+        created.append(control)
+    if len(created) != len(shapes):
+        raise RuntimeError("Control shape catalog smoke did not create all requested controls.")
+    return "SETUP_CONTROL_SHAPE_CATALOG_SMOKE_OK:{0}".format(len(created))
