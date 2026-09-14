@@ -46,14 +46,14 @@
     {
       "task_id": "aimayatool-goal006-setup-presets-validation-scene-preflight-verify-136f",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/preset_execution.py", "aimayatool/tools/setup/preset_scene_preflight_smoke.py"], "imports": [], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-presets-validation", "depends_on": ["aimayatool-goal006-setup-presets-validation-execution-managed-live-136e"], "purpose": "Compile scene-aware preset preflight that rejects missing source nodes and existing output control names before mutation.", "acceptance": ["Fast-forward main.", "Compile preset_execution.py and preset_scene_preflight_smoke.py.", "Do not import the Maya-only smoke outside Maya.", "Do not invoke Codex."], "implementation_commits": ["b85a96cc793708a39752d2e198f3c195fe80a86a", "41d4445a0879906bcbdf32a3d2afe57019659ea2"], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-presets-validation", "depends_on": ["aimayatool-goal006-setup-presets-validation-execution-managed-live-136e"], "purpose": "Compile scene-aware preset preflight that rejects missing source nodes and existing output control names before mutation.", "acceptance": ["Fast-forward main.", "Compile preset_execution.py and preset_scene_preflight_smoke.py.", "Do not import the Maya-only smoke outside Maya.", "Do not invoke Codex."], "implementation_commits": ["b85a96cc793708a39752d2e198f3c195fe80a86a", "41d4445a0879906bcbdf32a3d2afe57019659ea2"], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "setup_preset_scene_preflight_python_verification_pass", "proven_main_commit": "717b8b4d3e97a0c0794798f60a1f76d08b1fc51e", "evidence": "Bridge fast-forwarded local main from b13e0ca513ab22c4c511f985824ddb60232a2a8f to 717b8b4d3e97a0c0794798f60a1f76d08b1fc51e; py_compile passed for aimayatool/tools/setup/preset_execution.py and preset_scene_preflight_smoke.py."}
     },
     {
       "task_id": "aimayatool-goal006-setup-presets-validation-scene-preflight-managed-live-136g",
