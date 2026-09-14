@@ -190,3 +190,42 @@ def create_rope_straight(objects, start_target, end_target, destinations, orient
         "orient_constraints": tuple(orient_constraints),
         "utility_nodes": tuple(nodes),
     }
+
+
+def create_spline_ik_chain(reference_nodes, name_prefix=None):
+    """Create the reusable joint-chain/curve/ikSpline foundation of SplineRig.
+
+    Reference transforms define the world-space joint positions. The helper
+    creates and orients a joint chain, a degree-limited curve through the same
+    positions, and an ikSplineSolver handle using that curve. Control creation,
+    curve skinning, global-orientation blending and visibility are intentionally
+    separate composition layers.
+    """
+    cmds = _cmds()
+    references = list(reference_nodes or [])
+    if len(references) < 2:
+        raise ValueError("Spline IK requires at least two reference nodes.")
+    for node in references:
+        _require_node(cmds, node, "Spline reference")
+    prefix = name_prefix or references[0]
+    positions = [cmds.xform(node, query=True, worldSpace=True, translation=True) for node in references]
+    joints = []
+    for index, position in enumerate(positions, start=1):
+        cmds.select(clear=True)
+        joint = cmds.joint(position=position, name="{0}_SplineJnt_{1:02d}".format(prefix, index))
+        joints.append(joint)
+    for index in range(1, len(joints)):
+        cmds.parent(joints[index], joints[index - 1])
+    cmds.joint(joints[0], edit=True, orientJoint="xyz", secondaryAxisOrient="yup", children=True, zeroScaleOrient=True)
+    cmds.joint(joints[-1], edit=True, orientJoint="none")
+    degree = min(3, len(positions) - 1)
+    curve = cmds.curve(degree=degree, point=positions, name=prefix + "_SplineCurve")
+    cmds.setAttr(curve + ".inheritsTransform", 0)
+    handle, effector = cmds.ikHandle(startJoint=joints[0], endEffector=joints[-1], solver="ikSplineSolver", curve=curve, createCurve=False, parentCurve=False, name=prefix + "_SplineIKHandle")
+    return {
+        "references": tuple(references),
+        "joints": tuple(joints),
+        "curve": curve,
+        "handle": handle,
+        "effector": effector,
+    }
