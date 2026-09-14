@@ -81,6 +81,27 @@ def _scaled_points(shape, size):
     return [(x * size, y * size, z * size) for x, y, z in _SHAPES[shape]]
 
 
+def _remap_shape_plug(plug, old_shape, new_shape):
+    prefix = old_shape + "."
+    if plug.startswith(prefix):
+        return new_shape + plug[len(old_shape):]
+    return plug
+
+
+def _curve_shape(cmds, node):
+    if not node or not cmds.objExists(node):
+        raise ValueError("Control does not exist: {0}".format(node))
+    if cmds.nodeType(node) == "nurbsCurve":
+        parents = cmds.listRelatives(node, parent=True, fullPath=True) or []
+        if not parents:
+            raise ValueError("Curve shape has no transform parent: {0}".format(node))
+        return parents[0], cmds.ls(node, long=True)[0]
+    shapes = cmds.listRelatives(node, shapes=True, type="nurbsCurve", fullPath=True) or []
+    if not shapes:
+        raise ValueError("Control has no nurbsCurve shape: {0}".format(node))
+    return cmds.ls(node, long=True)[0], shapes[0]
+
+
 def create_control(name, shape="circle", size=1.0, match=None, parent=None):
     """Create a degree-1 curve control with optional world-space matching."""
     cmds = _cmds()
@@ -97,6 +118,37 @@ def create_control(name, shape="circle", size=1.0, match=None, parent=None):
             raise ValueError("Parent does not exist: {0}".format(parent))
         cmds.parent(control, parent)
     return control
+
+
+def replace_control_shape(node, shape="circle", size=1.0):
+    """Replace one control curve shape while preserving its transform, shape name and plug connections."""
+    cmds = _cmds()
+    points = _scaled_points(shape, size)
+    transform, old_shape = _curve_shape(cmds, node)
+    old_short = old_shape.split("|")[-1]
+    incoming = cmds.listConnections(old_shape, source=True, destination=False, plugs=True, connections=True) or []
+    outgoing = cmds.listConnections(old_shape, source=False, destination=True, plugs=True, connections=True) or []
+    cmds.delete(old_shape)
+
+    temp = cmds.curve(name=transform.split("|")[-1] + "_shapeTmp", degree=1, point=points)
+    temp_shape = (cmds.listRelatives(temp, shapes=True, type="nurbsCurve", fullPath=True) or [None])[0]
+    if not temp_shape:
+        cmds.delete(temp)
+        raise RuntimeError("Temporary control curve did not produce a nurbsCurve shape.")
+    parented = cmds.parent(temp_shape, transform, shape=True, relative=True)[0]
+    cmds.delete(temp)
+    new_shape = cmds.rename(parented, old_short)
+    new_shape = cmds.ls(new_shape, long=True)[0]
+
+    for index in range(0, len(incoming), 2):
+        destination = _remap_shape_plug(incoming[index], old_shape, new_shape)
+        source = incoming[index + 1]
+        cmds.connectAttr(source, destination, force=True)
+    for index in range(0, len(outgoing), 2):
+        source = _remap_shape_plug(outgoing[index], old_shape, new_shape)
+        destination = outgoing[index + 1]
+        cmds.connectAttr(source, destination, force=True)
+    return transform, new_shape
 
 
 def create_zero_group(node, suffix="_ZERO"):
