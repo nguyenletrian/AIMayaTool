@@ -3,141 +3,10 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-100",
+    "request_id": "aimayatool-setup-migration-102",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
-    {
-      "task_id": "aimayatool-goal005-setup-joints-between-verify-099a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/secondary.py",
-          "aimayatool/tools/setup/secondary_smoke.py",
-          "tests/test_setup_secondary.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup.secondary"
-        ],
-        "tests": [
-          "tests.test_setup_secondary"
-        ],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-secondary",
-        "legacy_evidence": "MayaScriptNew UIs/Setup.py makeJointBetween creates a requested number of evenly distributed interior joints between two selected objects, parents them into a chain, orients the chain xyz/yup, then removes temporary endpoint joints.",
-        "implementation_commits": [
-          "d78346c3d499d4649d2dc6dd513ce32b8b84e12d",
-          "2ec5a5c4dd45bea29c46014449e85757a3a57e6b",
-          "843388d1893f57dd17553fc3fdaedfe6b6eea0de"
-        ],
-        "purpose": "Verify deterministic create_joints_between primitive with explicit endpoints/count, even interior spacing, optional chain parenting/orientation, and no selection/UI-field dependency.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_joints_between_python_verification_pass",
-        "proven_main_commit": "27151ea44e20c04aa1d324bb5201b12815e8f34c",
-        "evidence": "After ff-only sync from 4734b4a3945925781e2239694affc6f1c81f9818 to 27151ea44e20c04aa1d324bb5201b12815e8f34c, py_compile passed for secondary.py, secondary_smoke.py and tests/test_setup_secondary.py; non-Maya import aimayatool.tools.setup.secondary passed; tests.test_setup_secondary passed 12/12.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-object-on-curve-managed-live-098b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_object_on_curve_managed_live_pass",
-          "proven_main_commit": "4734b4a3945925781e2239694affc6f1c81f9818"
-        }
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-joints-between-managed-live-099b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.secondary_smoke",
-        "callable": "run_setup_joints_between_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-secondary",
-        "depends_on": [
-          "aimayatool-goal005-setup-joints-between-verify-099a"
-        ],
-        "purpose": "Validate joints-between behavior in real Maya using two transformed references and a two-joint interior chain.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_joints_between_managed_live_pass",
-        "proven_main_commit": "7ec61b0b07a29cf5ee90b194d893ffbf0fe53719",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_JOINTS_BETWEEN_SMOKE_OK:2, scene_saved=false and maya_quit=false. Smoke proved exactly two interior joints at world positions (3,1,0) and (6,2,0) between endpoints (0,0,0) and (9,3,0), with the second joint parented under the first."
-      }
-    },
     {
       "task_id": "aimayatool-goal005-setup-plane-projection-verify-100a",
       "status": "pending",
@@ -189,35 +58,18 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "depends_on": [
-          "aimayatool-goal005-setup-joints-between-managed-live-099b"
-        ],
-        "legacy_evidence": "MayaScriptNew UIs/Setup.py PointOnPlane defines a live plane from three selected transforms using world decompose nodes, subtract vectors, normalized cross product and dot-product projection, then drives a projected transform.",
-        "implementation_commits": [
-          "05fed4a4e83d1c899f39ee6829bc27eab7ebfe31",
-          "e96d7aaecbb43c6ab2d3d2ca19939790857298ad",
-          "4828d9b32f07561949b883057f4422555bf9ffe9"
-        ],
-        "purpose": "Verify the reusable explicit plane-projection DG primitive with three references, explicit control/output, and parent-space-correct projected translation.",
-        "acceptance": [
-          "Fast-forward main through the plane-projection implementation commits.",
-          "Compile plane_projection.py, plane_projection_smoke.py and tests/test_setup_plane_projection.py.",
-          "Import aimayatool.tools.setup.plane_projection outside Maya without eager Maya import.",
-          "Run tests.test_setup_plane_projection and require all tests pass.",
-          "Primitive must require exactly three references, construct cross/dot projection nodes from world matrices, and localize the final world point through projected.parentInverseMatrix[0].",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "setup_plane_projection_python_verification_pass",
         "proven_main_commit": "20fee7a444c6adeb6f905db81c12ae59a976af3b",
-        "evidence": "After ff-only sync from 7ec61b0b07a29cf5ee90b194d893ffbf0fe53719 to 20fee7a444c6adeb6f905db81c12ae59a976af3b, py_compile passed for plane_projection.py, plane_projection_smoke.py and tests/test_setup_plane_projection.py; non-Maya import aimayatool.tools.setup.plane_projection passed; tests.test_setup_plane_projection passed 3/3."
+        "evidence": "ff-only sync; py_compile passed for three plane-projection files; non-Maya import passed; tests.test_setup_plane_projection passed 3/3.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
     {
       "task_id": "aimayatool-goal005-setup-plane-projection-managed-live-100b",
       "status": "pending",
       "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -263,27 +115,18 @@
         "depends_on": [
           "aimayatool-goal005-setup-plane-projection-verify-100a"
         ],
-        "purpose": "Validate plane projection in real Maya, including parented output, moving control, and moving plane references.",
-        "acceptance": [
-          "Run only after 100a passes.",
-          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
-          "Require result SETUP_PLANE_PROJECTION_SMOKE_OK:3 for PASS.",
-          "Prove a control at (3,7,4) projects to (3,0,4), moving it to (6,-5,2) projects to (6,0,2), and translating all three plane references to Y=2 updates projection to (6,2,2), including when the projected output is parented.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "setup_plane_projection_managed_live_pass",
         "proven_main_commit": "82d5e6637e643504f9c34a8694a4fae91751d890",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_PLANE_PROJECTION_SMOKE_OK:3, scene_saved=false and maya_quit=false. Smoke proved parent-space-correct projection at (3,0,4), then (6,0,2) after moving the control, then (6,2,2) after translating all three plane references to Y=2."
-      },
-      "bridge_completed": true
+        "evidence": "Managed Maya 2024 reused PID 15000 in a fresh unsaved scene; marker AIBRIDGE_UI_SMOKE_OK:SETUP_PLANE_PROJECTION_SMOKE_OK:3; scene_saved=false; maya_quit=false.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-secondary-parity-assessment-101a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -327,15 +170,140 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
+        "result": "FAIL",
+        "classification": "unsupported_assessment_repository_route",
+        "evidence": "Bridge returned success=false with summary 'No route handler registered for assessment:repository'. No assessment logic or product code ran.",
+        "diagnosis": "Workflow route mismatch only; not an AIMayaTool product failure. Architect completed the bounded repository assessment directly from current repo/reference evidence and will use supported verification/maya routes for subsequent work.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-joint-creation-verify-102a",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/transforms.py",
+          "aimayatool/tools/setup/transforms_smoke.py",
+          "tests/test_setup_joint_creation.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.transforms"
+        ],
+        "tests": [
+          "tests.test_setup_joint_creation"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
         "depends_on": [
           "aimayatool-goal005-setup-plane-projection-managed-live-100b"
         ],
-        "purpose": "Audit the remaining legacy Setup secondary/spline/rope helpers after accepted Fold, RopeStraight, RopeRoll, SplineIK, Rivet, ObjectOnCurve, JointsBetween and PlaneProjection slices; classify each remaining candidate as migrated, superseded, duplicate/internal-only, character-specific, intentionally retireable, or next reusable migration slice.",
+        "legacy_evidence": "Current MayaScriptNew UIs/Setup.py CreateJoint/CreateJoints create joints at selected transform/component references. The reusable transform-reference behavior is useful, while selection/component convenience belongs in thin adapters.",
+        "implementation_commits": [
+          "a80e865dbe6fcd99e7114d00d8933dbad88cf641",
+          "c537423338e7a0552e7472c0e7848001607b6a50",
+          "bbe51d065bd2d5b44f13205e937c7395dd5115a5"
+        ],
+        "purpose": "Verify explicit transform-reference joint creation primitives with deterministic naming/order and no selection dependency.",
         "acceptance": [
-          "Read current AIMayaTool setup modules/tests plus legacy MayaScriptNew UIs/Setup.py and any directly referenced Setup helper modules needed to understand remaining secondary behavior.",
-          "Do not modify product code or TaskSource during the assessment task.",
-          "Produce a concise candidate table with legacy symbol/workflow, current AIMayaTool status, usefulness classification, hidden assumptions/dependencies, and recommended next action.",
-          "Recommend exactly one next bounded migration slice when evidence is clear; otherwise identify the smallest follow-up assessment needed.",
+          "Fast-forward main through joint-creation implementation commits.",
+          "Compile transforms.py, transforms_smoke.py and tests/test_setup_joint_creation.py.",
+          "Import aimayatool.tools.setup.transforms outside Maya without eager Maya import.",
+          "Run tests.test_setup_joint_creation and require all tests pass.",
+          "Create one unparented joint per explicit transform reference, preserve input order, match world position/rotation when requested, and reject missing references.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-joint-creation-managed-live-102b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.transforms_smoke",
+        "callable": "run_setup_joint_creation_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": [
+          "aimayatool-goal005-setup-joint-creation-verify-102a"
+        ],
+        "purpose": "Validate transform-reference joint creation in real Maya for two references with distinct world translations/rotations.",
+        "acceptance": [
+          "Run only after 102a passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_JOINT_CREATION_SMOKE_OK:2 for PASS.",
+          "Prove exactly two unparented joints are created in input order with expected names and matching world translation/rotation.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
