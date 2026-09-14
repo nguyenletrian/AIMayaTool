@@ -15,13 +15,13 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-sdk-safety-verify-129a",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/sdk.py", "aimayatool/tools/setup/sdk_safety_smoke.py"], "imports": ["aimayatool.tools.setup.sdk"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-ikfk-safety-managed-live-128b"], "purpose": "Verify driven-key and modulo composition preflight hardening compiles and remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile sdk.py and sdk_safety_smoke.py.", "Import aimayatool.tools.setup.sdk outside Maya.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-ikfk-safety-managed-live-128b"], "purpose": "Verify driven-key and modulo composition preflight hardening compiles and remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile sdk.py and sdk_safety_smoke.py.", "Import aimayatool.tools.setup.sdk outside Maya.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_sdk_safety_python_verification_pass", "proven_main_commit": "50574da7f98fc21137d97413c043561236e096eb", "evidence": "Bridge fast-forwarded local main from 69d9d8aef45a6fb8a51556fec4cb261881ddc944 to 50574da7f98fc21137d97413c043561236e096eb; py_compile passed for sdk.py and sdk_safety_smoke.py; import of aimayatool.tools.setup.sdk passed outside Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal006-setup-sdk-safety-managed-live-129b",
