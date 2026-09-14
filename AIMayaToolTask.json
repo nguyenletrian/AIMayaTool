@@ -8,7 +8,7 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-global-executor-retry-managed-live-138k",
+      "task_id": "aimayatool-goal007-scene-pattern-global-executor-connectioninfo-retry-managed-live-138m",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
@@ -58,34 +58,47 @@
         "depends_on": [],
         "archived_prerequisite": [
           {
-            "task_id": "aimayatool-goal007-scene-pattern-global-executor-smoke-fix-verify-138j",
-            "result": "PASS"
+            "task_id": "aimayatool-goal007-scene-pattern-global-executor-connectioninfo-verify-138l",
+            "result": "PASS",
+            "architect_ack": true,
+            "bridge_completed": true
+          },
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-global-executor-retry-managed-live-138k",
+            "result": "FAIL",
+            "architect_ack": true,
+            "bridge_completed": true
           }
         ],
-        "retry_of": "aimayatool-goal007-scene-pattern-global-executor-managed-live-138i",
-        "purpose": "Retry Global ScenePattern Maya parity validation with compound rotation wiring checked through Maya's per-axis connections.",
+        "archived_retry_source": {
+          "task_id": "aimayatool-goal007-scene-pattern-global-executor-retry-managed-live-138k",
+          "result": "FAIL",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Retry Global ScenePattern Maya parity validation using direct compound source queries for the blend rotation wiring.",
         "acceptance": [
-          "Run only after 138j passes.",
+          "Run only after 138l passes.",
           "Force a fresh unsaved scene and do not save.",
           "Require AIBRIDGE_UI_SMOKE_OK:SCENE_GLOBAL_PATTERN_EXECUTOR_OK:1 for PASS.",
-          "Verify slider, offset insertion, parent/orient blend rotation wiring and missing-child skip.",
+          "Verify slider, offset insertion, direct compound blendColors.output -> offset.rotate wiring and missing-child skip.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
-        "implementation_commit": "19460a14a0fd38ca178defc0d6530d642e98f3f4",
+        "implementation_commit": "a7fa8afb010d5b79e3a52e0fe42776f406f4de58",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "FAIL",
-        "classification": "scene_global_executor_smoke_child_axis_query_false_negative",
-        "proven_main_commit": "dc5bf4887c2e3c1981de89cba3a13a21b1ef9062",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, and failed only because cmds.isConnected(blendColors.outputR, offset.rotateX) returned false for a compound-to-compound connection created by cmds.connectAttr(blendColors.output, offset.rotate). Maya remained healthy; scene_saved=false and maya_quit=false.",
-        "recovery_commit": "a7fa8afb010d5b79e3a52e0fe42776f406f4de58"
+        "classification": "scene_global_executor_smoke_unitconversion_intermediate",
+        "proven_main_commit": "afaa1910f5a5194554a05b6eedd6d03e0b93d862",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, and reached the rotation-wiring assertion. Maya reported unitConversion3.output as the direct source of offset.rotate, proving an automatic Maya unitConversion node exists between blendColors.output and the rotate destination. scene_saved=false and maya_quit=false.",
+        "recovery_commit": "d99986a7b8720203ac124c3e8eb77dfc584708e8"
       }
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-global-executor-connectioninfo-verify-138l",
+      "task_id": "aimayatool-goal007-scene-pattern-global-executor-upstream-trace-verify-138n",
       "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "architect_ack": false,
+      "bridge_completed": false,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -130,9 +143,9 @@
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-global-executor-retry-managed-live-138k"
+          "aimayatool-goal007-scene-pattern-global-executor-connectioninfo-retry-managed-live-138m"
         ],
-        "purpose": "Verify the second Global executor smoke correction using Maya connectionInfo on compound destination plugs.",
+        "purpose": "Verify the Global executor smoke correction that traces upstream through Maya unitConversion nodes before comparing the true rotation source.",
         "acceptance": [
           "Fast-forward main.",
           "Compile global_executor.py and global_executor_smoke.py.",
@@ -140,16 +153,12 @@
           "Do not execute the Maya smoke in this Python-only task.",
           "Do not invoke Codex."
         ],
-        "implementation_commit": "a7fa8afb010d5b79e3a52e0fe42776f406f4de58",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "scene_global_executor_connectioninfo_python_verification_pass",
-        "proven_main_commit": "e4ae8d19695543ccbbcb43273ad2366430190a86",
-        "evidence": "Bridge fast-forwarded local main from dc5bf4887c2e3c1981de89cba3a13a21b1ef9062 to e4ae8d19695543ccbbcb43273ad2366430190a86; py_compile passed for global_executor.py and global_executor_smoke.py, and import of aimayatool.tools.scene.global_executor passed outside Maya."
+        "implementation_commit": "d99986a7b8720203ac124c3e8eb77dfc584708e8",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-global-executor-connectioninfo-retry-managed-live-138m",
+      "task_id": "aimayatool-goal007-scene-pattern-global-executor-upstream-trace-retry-managed-live-138o",
       "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
@@ -197,19 +206,19 @@
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-global-executor-connectioninfo-verify-138l"
+          "aimayatool-goal007-scene-pattern-global-executor-upstream-trace-verify-138n"
         ],
-        "retry_of": "aimayatool-goal007-scene-pattern-global-executor-retry-managed-live-138k",
-        "purpose": "Retry Global ScenePattern Maya parity validation using direct compound source queries for the blend rotation wiring.",
+        "retry_of": "aimayatool-goal007-scene-pattern-global-executor-connectioninfo-retry-managed-live-138m",
+        "purpose": "Retry Global ScenePattern Maya parity validation while accepting Maya-inserted unitConversion nodes only when their upstream source resolves to blendColors.output.",
         "acceptance": [
-          "Run only after 138l passes.",
+          "Run only after 138n passes.",
           "Force a fresh unsaved scene and do not save.",
           "Require AIBRIDGE_UI_SMOKE_OK:SCENE_GLOBAL_PATTERN_EXECUTOR_OK:1 for PASS.",
-          "Verify slider, offset insertion, direct compound blendColors.output -> offset.rotate wiring and missing-child skip.",
+          "Verify slider, offset insertion, rotation source traced through unitConversion back to blendColors.output, and missing-child skip.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
-        "implementation_commit": "a7fa8afb010d5b79e3a52e0fe42776f406f4de58",
+        "implementation_commit": "d99986a7b8720203ac124c3e8eb77dfc584708e8",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
