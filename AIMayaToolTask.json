@@ -67,7 +67,8 @@
     {
       "task_id": "aimayatool-goal005-setup-ui-secondary-managed-live-115b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -95,6 +96,10 @@
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
+        "result": "PASS",
+        "classification": "setup_ui_secondary_managed_live_pass",
+        "proven_main_commit": "04cc0f92774dd4356d2a3e1ce32e3a81702f088d",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:20, scene_saved=false and maya_quit=false.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
