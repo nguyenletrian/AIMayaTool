@@ -8,20 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-rope-roll-managed-live-096b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-secondary",
-        "result": "PASS",
-        "classification": "setup_rope_roll_managed_live_pass",
-        "proven_main_commit": "d37827f25fad67b74bad2da6b0cbcd228d2027a6",
-        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_ROPE_ROLL_SMOKE_OK:3, scene_saved=false and maya_quit=false; smoke proves driver states 0=(4,8), 1=(6,9), 2=(2,9)."
-      }
-    },
-    {
       "task_id": "aimayatool-goal005-setup-rivet-managed-live-retry-097f",
       "status": "pending",
       "architect_ack": true,
@@ -75,14 +61,6 @@
         "proven_main_commit": "16fbef1b5a36bd81241197ef51b6771bf2f22a52",
         "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, scene_saved=false and maya_quit=false. Smoke reached _matrix_error then failed with TypeError: 'float' object is not subscriptable because maya.api.OpenMaya.MMatrix in this runtime exposes flat element indexing while the smoke used a[row][col]. Product Rivet behavior was not evaluated past this helper failure.",
         "diagnosis": "Smoke implementation defect only: use flat MMatrix indexing m[index] across 16 elements. No evidence requiring a rivet.py production change.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-rivet-matrix-smoke-verify-097e",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_rivet_matrix_smoke_python_verification_pass",
-          "proven_main_commit": "07c13b37ea772a3e00f34b2aaa20d83a833f97b9"
-        },
         "archived_retry_chain": [
           {
             "task_id": "aimayatool-goal005-setup-rivet-managed-live-097b",
@@ -160,14 +138,6 @@
         "retry_of": "aimayatool-goal005-setup-rivet-managed-live-retry-097f",
         "fix_commit": "2e45135fb28f0fc9b83c35a45be7fab9e7fc8015",
         "purpose": "Verify the Maya MMatrix smoke helper uses the runtime-supported flat 16-element indexing without changing the accepted Rivet primitive.",
-        "acceptance": [
-          "Fast-forward main through fix commit 2e45135fb28f0fc9b83c35a45be7fab9e7fc8015.",
-          "Compile aimayatool/tools/setup/rivet_smoke.py and tests/test_setup_rivet.py.",
-          "Run tests.test_setup_rivet and require all tests pass.",
-          "_matrix_error must compare the 16 MMatrix scalar elements without row/column subscripting.",
-          "Do not modify rivet.py solely for this smoke helper failure.",
-          "Do not invoke Codex."
-        ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "setup_rivet_mmatrix_fix_python_verification_pass",
@@ -178,7 +148,8 @@
     {
       "task_id": "aimayatool-goal005-setup-rivet-managed-live-retry-097h",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -226,11 +197,139 @@
         ],
         "retry_of": "aimayatool-goal005-setup-rivet-managed-live-retry-097f",
         "purpose": "Re-run Rivet in real Maya after correcting MMatrix element access in the full-matrix smoke.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_rivet_managed_live_pass",
+        "proven_main_commit": "338293d1d75b31ffbf04cf92eac46769d7233c61",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_RIVET_SMOKE_OK:2, scene_saved=false and maya_quit=false. Full-matrix smoke proved locator transform follows facet deformation, child offset follows locator, child follows its zeroed offset, and locator-to-offset maintain-offset relationship remains stable."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-object-on-curve-verify-098a",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/secondary.py",
+          "aimayatool/tools/setup/secondary_smoke.py",
+          "tests/test_setup_secondary.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.secondary"
+        ],
+        "tests": [
+          "tests.test_setup_secondary"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-secondary",
+        "depends_on": [
+          "aimayatool-goal005-setup-rivet-managed-live-retry-097h"
+        ],
+        "legacy_evidence": "MayaScriptNew UIs/Setup.py objectOnCurve samples each selected object's nearest curve parameter once via nearestPointOnCurve, then creates pointOnCurveInfo nodes that drive object translation.",
+        "implementation_commits": [
+          "f43df28d24b2b1627ab701d64b7f961f51dec295",
+          "11cf35482f4ad17a0651670e450e74341949cca0",
+          "95f2052a72834a779469a29a8fc27ee482e39b4f"
+        ],
+        "purpose": "Verify explicit object-on-curve secondary primitive with no selection/UI globals and parent-space-correct translation localization.",
         "acceptance": [
-          "Run only after 097g passes.",
+          "Fast-forward main through object-on-curve implementation commits.",
+          "Compile secondary.py, secondary_smoke.py and tests/test_setup_secondary.py.",
+          "Import aimayatool.tools.setup.secondary outside Maya without eager Maya import.",
+          "Run tests.test_setup_secondary and require all tests pass.",
+          "Primitive must capture nearest parameters once, use curve worldSpace, localize through each object's parentInverseMatrix, and return created nodes/parameters.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-object-on-curve-managed-live-098b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.secondary_smoke",
+        "callable": "run_setup_object_on_curve_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-secondary",
+        "depends_on": [
+          "aimayatool-goal005-setup-object-on-curve-verify-098a"
+        ],
+        "purpose": "Validate object-on-curve behavior in real Maya, including a parented target and live following after curve transform.",
+        "acceptance": [
+          "Run only after 098a passes.",
           "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
-          "Require result SETUP_RIVET_SMOKE_OK:2 for PASS.",
-          "Prove locator transform changes after facet deformation, child offset follows, child follows the offset, and locator-to-offset relative matrix is preserved within tolerance.",
+          "Require result SETUP_OBJECT_ON_CURVE_SMOKE_OK:2 for PASS.",
+          "Prove both unparented and parented objects snap to their sampled nearest curve points and continue following when the curve transform moves.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
