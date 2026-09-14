@@ -15,13 +15,13 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-spline-safety-verify-130a",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/spline_composition.py", "aimayatool/tools/setup/spline_safety_smoke.py"], "imports": ["aimayatool.tools.setup.spline_composition"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-sdk-safety-managed-live-129b-r1"], "purpose": "Verify spline composition preflight hardening compiles and remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile spline_composition.py and spline_safety_smoke.py.", "Import aimayatool.tools.setup.spline_composition outside Maya.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-sdk-safety-managed-live-129b-r1"], "purpose": "Verify spline composition preflight hardening compiles and remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile spline_composition.py and spline_safety_smoke.py.", "Import aimayatool.tools.setup.spline_composition outside Maya.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_spline_safety_python_verification_pass", "proven_main_commit": "99f6711cbb118f142c06e41e55108a43fd3eeab7", "evidence": "Bridge fast-forwarded local main from b14bac1b7194e0203afc763a1fdb5d15d82679f9 to 99f6711cbb118f142c06e41e55108a43fd3eeab7; py_compile passed for spline_composition.py and spline_safety_smoke.py; import of aimayatool.tools.setup.spline_composition passed outside Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal006-setup-spline-safety-managed-live-130b",
