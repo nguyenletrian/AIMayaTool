@@ -179,6 +179,26 @@ def _rp_ik_selected():
     return result
 
 
+def _snap_ikfk_selected():
+    from . import ikfk
+    cmds = _cmds()
+    nodes = cmds.ls(selection=True, long=True, type="transform") or []
+    if len(nodes) < 2 or len(nodes) % 2:
+        raise ValueError("Select alternating source/target transform pairs: source, target, source, target...")
+    if cmds.promptDialog(title="Snap IK/FK", message="Switch attribute (node.attr):", button=["Next", "Cancel"], defaultButton="Next", cancelButton="Cancel", dismissString="Cancel") != "Next":
+        return None
+    switch_attr = cmds.promptDialog(query=True, text=True).strip()
+    if not switch_attr:
+        raise ValueError("Switch attribute is required.")
+    if cmds.promptDialog(title="Snap IK/FK", message="Switch value:", text="1", button=["Snap", "Cancel"], defaultButton="Snap", cancelButton="Cancel", dismissString="Cancel") != "Snap":
+        return None
+    try:
+        switch_value = float(cmds.promptDialog(query=True, text=True).strip())
+    except ValueError:
+        raise ValueError("Switch value must be numeric.")
+    return ikfk.snap_ikfk(nodes[0::2], nodes[1::2], switch_attr, switch_value)
+
+
 def build_ui():
     cmds = _cmds()
 
@@ -225,8 +245,11 @@ def build_ui():
 
     cmds.separator(height=8, style="none")
     cmds.text(label="IK/FK", align="left")
-    cmds.text(label="RP IK selection: joints in chain order, then IK control, then pole control.", align="left")
+    cmds.text(label="RP IK: joints in chain order, then IK control, then pole control. Snap: alternating source/target pairs.", align="left")
+    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2)
     cmds.button(label="Create RP IK", command=lambda *_: _run("RP IK", _rp_ik_selected))
+    cmds.button(label="Snap IK/FK...", command=lambda *_: _run("IK/FK snap", _snap_ikfk_selected))
+    cmds.setParent("..")
 
     cmds.separator(height=8, style="none")
     cmds.text(label="Secondary rigs", align="left")
