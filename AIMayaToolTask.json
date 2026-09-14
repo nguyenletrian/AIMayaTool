@@ -112,6 +112,72 @@
         "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:24, scene_saved=false and maya_quit=false.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ui-fold-rope-verify-120a",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/ui_parity_smoke.py"],
+        "imports": ["aimayatool.tools.setup"],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ui-parity",
+        "depends_on": ["aimayatool-goal005-setup-ui-ikfk-blend-managed-live-119b"],
+        "purpose": "Verify the thin Setup UI exposure for the already-migrated Fold Rig, Rope Straight and Rope Roll APIs, using explicit ordered selection groups plus prompted count, driver attribute and rope offset configuration.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile aimayatool/tools/setup/__init__.py and aimayatool/tools/setup/ui_parity_smoke.py.",
+          "Import aimayatool.tools.setup outside Maya without eager Maya imports.",
+          "Preserve existing Setup UI actions and avoid importing the Maya-only ui_parity_smoke module in normal Python.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ui-fold-rope-managed-live-120b",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.ui_parity_smoke",
+        "callable": "run_setup_ui_core_parity_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ui-parity",
+        "depends_on": ["aimayatool-goal005-setup-ui-fold-rope-verify-120a"],
+        "purpose": "Validate in managed Maya 2024 that the Setup UI now exposes the accepted 24 actions plus Fold Rig, Rope Straight and Rope Roll without regressing the existing workspace.",
+        "acceptance": [
+          "Run only after aimayatool-goal005-setup-ui-fold-rope-verify-120a passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_UI_CORE_PARITY_OK:27 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     }
   ]
 }
