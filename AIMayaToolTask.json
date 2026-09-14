@@ -32,7 +32,8 @@
     {
       "task_id": "aimayatool-goal005-setup-ikfk-snap-verify-090a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -101,7 +102,11 @@
           "No eager Maya import is introduced in ikfk.py.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_ikfk_snap_python_verification_pass",
+        "proven_main_commit": "abaebf0945b328981266abf52b98faef4892fc5a",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to abaebf0945b328981266abf52b98faef4892fc5a; py_compile passed for ikfk.py, ikfk_smoke.py and tests/test_setup_ikfk.py; normal-Python import passed; all 8 focused IK/FK tests passed."
       }
     },
     {
@@ -153,9 +158,16 @@
         "depends_on": [
           "aimayatool-goal005-setup-ikfk-snap-verify-090a"
         ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-ikfk-snap-verify-090a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_ikfk_snap_python_verification_pass",
+          "proven_main_commit": "abaebf0945b328981266abf52b98faef4892fc5a"
+        },
         "purpose": "Validate IK/FK matrix-offset snap parity in real Maya without scriptJob or hidden persistent state.",
         "acceptance": [
-          "Run only after 090a passes.",
           "Reuse healthy managed Maya 2024 when available.",
           "Force a fresh unsaved scene and do not save.",
           "Require result SETUP_IKFK_SNAP_SMOKE_OK:2 for PASS.",
