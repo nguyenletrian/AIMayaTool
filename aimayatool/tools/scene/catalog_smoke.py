@@ -34,3 +34,6 @@ def run_scene_pattern_catalog_smoke():
     if removed is None or catalog.get("a") is not None:
         raise AssertionError("Catalog remove failed.")
     return "SCENE_PATTERN_CATALOG_SMOKE_OK:6"
+
+
+SMOKE_RESULT = run_scene_pattern_catalog_smoke()
