@@ -56,3 +56,18 @@ def run_setup_object_on_curve_smoke():
     apos2=cmds.xform(a,query=True,worldSpace=True,translation=True); bpos2=cmds.xform(b,query=True,worldSpace=True,translation=True)
     if abs(apos2[1]-5)>1e-3 or abs(bpos2[1]-5)>1e-3: raise RuntimeError("Attached objects did not follow curve transform.")
     return "SETUP_OBJECT_ON_CURVE_SMOKE_OK:2"
+
+def run_setup_joints_between_smoke():
+    secondary=_secondary(); cmds.file(new=True,force=True)
+    start=cmds.createNode("transform",name="betweenStart"); end=cmds.createNode("transform",name="betweenEnd")
+    cmds.xform(start,worldSpace=True,translation=(0,0,0)); cmds.xform(end,worldSpace=True,translation=(9,3,0))
+    result=secondary.create_joints_between(start,end,2,name_prefix="betweenTest")
+    if len(result["joints"])!=2: raise RuntimeError("Joint-between count mismatch.")
+    expected=((3,1,0),(6,2,0))
+    for joint,pos in zip(result["joints"],expected):
+        if not cmds.objExists(joint): raise RuntimeError("Joint-between node missing: {0}".format(joint))
+        actual=cmds.xform(joint,query=True,worldSpace=True,translation=True)
+        if max(abs(actual[i]-pos[i]) for i in range(3))>1e-4: raise RuntimeError("Joint-between spacing mismatch: {0}".format(joint))
+    parent=cmds.listRelatives(result["joints"][1],parent=True,fullPath=False) or []
+    if parent!=[result["joints"][0]]: raise RuntimeError("Joint-between hierarchy mismatch.")
+    return "SETUP_JOINTS_BETWEEN_SMOKE_OK:2"
