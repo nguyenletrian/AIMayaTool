@@ -15,13 +15,13 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-naming-verify-133a",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/naming.py", "aimayatool/tools/setup/mirror_batch_smoke.py"], "imports": ["aimayatool.tools.setup.naming"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-mirror-batch", "depends_on": ["aimayatool-goal006-setup-composition-regression-managed-live-132b"], "purpose": "Verify legacy-compatible mirror naming plus safe DAG-aware batch counterpart planning compiles and remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile naming.py and mirror_batch_smoke.py.", "Import aimayatool.tools.setup.naming outside Maya.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-mirror-batch", "depends_on": ["aimayatool-goal006-setup-composition-regression-managed-live-132b"], "purpose": "Verify legacy-compatible mirror naming plus safe DAG-aware batch counterpart planning compiles and remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile naming.py and mirror_batch_smoke.py.", "Import aimayatool.tools.setup.naming outside Maya.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_mirror_batch_naming_python_verification_pass", "proven_main_commit": "e98a1bcc6972f5fb5a883bbbb00188cbb7e824a0", "evidence": "Bridge fast-forwarded local main from 6a994267a7ed8633fa9d911c996604a208ccdd74 to e98a1bcc6972f5fb5a883bbbb00188cbb7e824a0; py_compile passed for naming.py and mirror_batch_smoke.py; import of aimayatool.tools.setup.naming passed outside Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-naming-managed-live-133b",
