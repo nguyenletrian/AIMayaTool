@@ -2,8 +2,11 @@ from __future__ import absolute_import
 
 
 def run_setup_preset_scene_preflight_smoke():
+    import importlib
     import maya.cmds as cmds
     from . import preset_execution
+
+    preset_execution = importlib.reload(preset_execution)
 
     source = cmds.createNode("transform", name="spine_M")
     preset = {"name": "fk", "shape": "circle", "size": 1.0, "suffix": "_CTRL"}
