@@ -8,30 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-parity-baseline-138a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/smoke.py"], "imports": ["aimayatool.tools.scene.smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "purpose": "Establish deterministic ScenePattern baseline.", "acceptance": ["Compile baseline ScenePattern modules.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_pattern_parity_baseline_python_pass", "proven_main_commit": "062c6401d1c1ea12c38a8f50dc18d7dbcd050fec"}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-catalog-verify-138b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_smoke.py"], "imports": ["aimayatool.tools.scene.catalog_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-parity-baseline-138a"], "purpose": "Verify deterministic ordered ScenePattern catalog state.", "acceptance": ["Compile and import catalog smoke.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_pattern_catalog_python_verification_pass", "proven_main_commit": "1684e3bc64bee3cfe8588f25a630cab014ee0df0"}
-    },
-    {
       "task_id": "aimayatool-goal007-scene-pattern-catalog-io-verify-138c",
       "status": "pending",
       "architect_ack": true,
@@ -41,7 +17,7 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py", "aimayatool/tools/scene/catalog_io_smoke.py"], "imports": ["aimayatool.tools.scene.catalog_io_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-catalog-verify-138b"], "purpose": "Verify host-independent catalog persistence.", "acceptance": ["Compile and import catalog IO smoke.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_pattern_catalog_io_python_verification_pass", "proven_main_commit": "eac50ad422ee1accd3079a57910ea21824b06581"}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": [{"task_id": "aimayatool-goal007-scene-pattern-catalog-verify-138b", "result": "PASS"}], "purpose": "Verify host-independent catalog persistence.", "acceptance": ["Compile and import catalog IO smoke.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_pattern_catalog_io_python_verification_pass", "proven_main_commit": "eac50ad422ee1accd3079a57910ea21824b06581"}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-execution-plan-verify-138d",
@@ -53,7 +29,7 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/execution_plan.py", "aimayatool/tools/scene/execution_plan_smoke.py"], "imports": ["aimayatool.tools.scene.execution_plan_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-catalog-io-verify-138c"], "purpose": "Verify host-independent ScenePattern execution planning.", "acceptance": ["Compile and import execution-plan smoke.", "Do not import legacy Scene modules or Maya.", "Do not invoke Codex."], "implementation_commits": ["453737c1a3f04d4d7f2172b3f089bd01c01c6d44", "74ea9b718e371ad5c187439390c8f4771740ef03"], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_pattern_execution_plan_python_verification_pass", "proven_main_commit": "f752dae85e52ab4d19aadcbc5f2d87cf4a69dc4c", "evidence": "Bridge fast-forwarded main to f752dae85e52ab4d19aadcbc5f2d87cf4a69dc4c; py_compile passed catalog.py, execution_plan.py and execution_plan_smoke.py; import of aimayatool.tools.scene.execution_plan_smoke passed."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-catalog-io-verify-138c"], "purpose": "Verify host-independent ScenePattern execution planning.", "acceptance": ["Compile and import execution-plan smoke.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_pattern_execution_plan_python_verification_pass", "proven_main_commit": "f752dae85e52ab4d19aadcbc5f2d87cf4a69dc4c"}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-descriptor-verify-138e",
@@ -65,10 +41,22 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/pattern_descriptor.py", "aimayatool/tools/scene/pattern_descriptor_smoke.py"], "imports": ["aimayatool.tools.scene.pattern_descriptor_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-execution-plan-verify-138d"], "purpose": "Verify pure normalization and validation for legacy ScenePattern item descriptors before any host executor consumes them.", "acceptance": ["Compile pattern_descriptor.py and pattern_descriptor_smoke.py.", "Import pattern_descriptor_smoke and require its import-time smoke to pass.", "Do not import Maya or legacy Scene modules.", "Do not invoke Codex."], "implementation_commits": ["37bd91be6d0b13368d5a05bf9ead49af954f750a", "0d8d7b238f869223c5efce77aabeefb8307740fb"], "legacy_evidence": "MayaScriptNew Scene_Pattern_Global stores parent, child, attrSlide, defaultValue and maintain as loosely typed UI values before Run mutates Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_pattern_descriptor_python_verification_pass", "proven_main_commit": "900ea13de8f950c3403ac5dee4910383708e8d6b", "evidence": "Bridge fast-forwarded local main from f752dae85e52ab4d19aadcbc5f2d87cf4a69dc4c to 900ea13de8f950c3403ac5dee4910383708e8d6b; py_compile passed pattern_descriptor.py and pattern_descriptor_smoke.py, and import of aimayatool.tools.scene.pattern_descriptor_smoke passed."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-execution-plan-verify-138d"], "purpose": "Verify pure normalization and validation for legacy ScenePattern item descriptors.", "acceptance": ["Compile and import descriptor smoke.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_pattern_descriptor_python_verification_pass", "proven_main_commit": "900ea13de8f950c3403ac5dee4910383708e8d6b"}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-global-plan-verify-138f",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/pattern_descriptor.py", "aimayatool/tools/scene/global_plan.py", "aimayatool/tools/scene/global_plan_smoke.py"], "imports": ["aimayatool.tools.scene.global_plan_smoke"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-descriptor-verify-138e"], "purpose": "Verify a host-independent Global ScenePattern operation plan before introducing any Maya executor.", "acceptance": ["Compile pattern_descriptor.py, global_plan.py and global_plan_smoke.py.", "Import global_plan_smoke and require its import-time smoke to pass.", "Do not import Maya or legacy Scene modules.", "Do not invoke Codex."], "implementation_commits": ["bdea9570f0d159df0fed7e898791e637331f6bb5", "a3a2f783a4b6063a1d240e1ac90fc37f1892fe73"], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "FAIL", "classification": "scene_global_plan_descriptor_api_mismatch", "proven_main_commit": "f3f929051be09823b62ade6cf7a947162d1b1d37", "evidence": "py_compile passed all three files, but import of aimayatool.tools.scene.global_plan_smoke failed because global_plan.py imported nonexistent normalize_global_pattern_descriptor; inspection also found normalized keys should be attr_slide and maintain rather than attr_name and maintain_offset.", "recovery_commit": "30f75d719c0e478fef879628c6107180744a8449"}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-global-plan-retry-verify-138g",
       "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
@@ -77,7 +65,7 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/pattern_descriptor.py", "aimayatool/tools/scene/global_plan.py", "aimayatool/tools/scene/global_plan_smoke.py"], "imports": ["aimayatool.tools.scene.global_plan_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-descriptor-verify-138e"], "purpose": "Verify a host-independent Global ScenePattern operation plan before introducing any Maya executor.", "acceptance": ["Fast-forward main.", "Compile pattern_descriptor.py, global_plan.py and global_plan_smoke.py.", "Import global_plan_smoke and require its import-time smoke to pass.", "Plan must produce one deterministic explicit global_parent_blend operation per normalized child.", "Empty child input must produce an empty operation plan.", "Do not import Maya or legacy Scene modules.", "Do not invoke Codex."], "implementation_commits": ["bdea9570f0d159df0fed7e898791e637331f6bb5", "a3a2f783a4b6063a1d240e1ac90fc37f1892fe73"], "legacy_evidence": "MayaScriptNew Scene_Pattern_Global.Run loops over child controls and performs the same conceptual parent/orient blend setup directly in Maya; this slice isolates the operation intent as validated data first.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-global-plan-verify-138f"], "purpose": "Retry deterministic Global ScenePattern plan verification after aligning global_plan.py with the accepted descriptor API.", "acceptance": ["Fast-forward main.", "Compile pattern_descriptor.py, global_plan.py and global_plan_smoke.py.", "Import global_plan_smoke successfully.", "Require the plan to map attr_slide to attr_name and maintain to maintain_offset while preserving one operation per child.", "Do not import Maya or legacy Scene modules.", "Do not invoke Codex."], "implementation_commit": "30f75d719c0e478fef879628c6107180744a8449", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
