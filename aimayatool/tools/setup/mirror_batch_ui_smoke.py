@@ -7,6 +7,7 @@ def run_setup_mirror_batch_ui_smoke():
 
     window = cmds.window()
     column = cmds.columnLayout(parent=window)
+    cmds.setParent(column)
     naming_ui.build_ui()
     descendants = cmds.layout(column, query=True, childArray=True) or []
     labels = []
