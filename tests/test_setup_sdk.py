@@ -14,6 +14,7 @@ class FakeCmds(object):
     def listRelatives(self, *args, **kwargs): return []
     def setDrivenKeyframe(self, *args, **kwargs): self.calls.append(("sdk", args, kwargs))
     def keyTangent(self, *args, **kwargs): self.calls.append(("tangent", args, kwargs))
+    def expression(self, **kwargs): self.calls.append(("expression", kwargs)); return kwargs.get("name", "expression1")
 
 
 class SetupSDKTests(unittest.TestCase):
@@ -43,6 +44,23 @@ class SetupSDKTests(unittest.TestCase):
         self.assertEqual(("sdkGroup.tx", "sdkGroup.ty"), result["keyed_plugs"])
         tangent_calls = [call for call in fake.calls if call[0] == "tangent"]
         self.assertTrue(all(call[2]["itt"] == "linear" and call[2]["ott"] == "linear" for call in tangent_calls))
+
+    def test_modulo_map_builds_explicit_expression_and_reuses_group(self):
+        fake = FakeCmds()
+        slots = {0: {"driven.tx": 1}, 1: {"driven.tx": 5, "driven.ty": 2}}
+        with mock.patch.object(sdk, "_cmds", return_value=fake), mock.patch.object(sdk, "ensure_sdk_group", return_value="sdkGroup") as ensure:
+            result = sdk.apply_modulo_map("driver.ctrl", slots, expression_name="moduloExpr")
+        self.assertEqual(1, ensure.call_count)
+        self.assertEqual(2, result["modulus"])
+        self.assertIn("int $r = abs((int)$val % 2);", result["script"])
+        self.assertIn("sdkGroup.tx = 5.0;", result["script"])
+        self.assertIn("sdkGroup.ty = 2.0;", result["script"])
+        self.assertEqual("moduloExpr", result["expression"])
+
+    def test_modulo_requires_modulus_above_highest_slot(self):
+        fake = FakeCmds()
+        with mock.patch.object(sdk, "_cmds", return_value=fake):
+            with self.assertRaises(ValueError): sdk.apply_modulo_map("driver.ctrl", {2: {"driven.tx": 1}}, modulus=2, use_sdk_groups=False)
 
 
 if __name__ == "__main__": unittest.main()
