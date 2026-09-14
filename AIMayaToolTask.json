@@ -112,52 +112,15 @@
     {
       "task_id": "aimayatool-goal005-setup-ikfk-snap-managed-live-090b",
       "status": "pending",
-      "architect_ack": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.ikfk_smoke",
-        "callable": "run_setup_ikfk_snap_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
+      "architect_ack": true,
+      "bridge_completed": true,
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-ikfk",
-        "depends_on": [
-          "aimayatool-goal005-setup-ikfk-snap-verify-090a"
-        ],
+        "result": "PASS",
+        "classification": "setup_ikfk_snap_managed_live_pass",
+        "proven_main_commit": "13e53480b060cc7cfaa663c48094bc7a833ed7da",
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_IKFK_SNAP_SMOKE_OK:2, scene_saved=false and maya_quit=false.",
         "archived_prerequisite": {
           "task_id": "aimayatool-goal005-setup-ikfk-snap-verify-090a",
           "result": "PASS",
@@ -166,15 +129,10 @@
           "classification": "setup_ikfk_snap_python_verification_pass",
           "proven_main_commit": "abaebf0945b328981266abf52b98faef4892fc5a"
         },
-        "purpose": "Validate IK/FK matrix-offset snap parity in real Maya without scriptJob or hidden persistent state.",
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Require result SETUP_IKFK_SNAP_SMOKE_OK:2 for PASS.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "milestone_completion": {
+          "milestone_id": "setup-ikfk",
+          "basis": "Reusable IK/FK blend, RP IK composition, visibility/proxy switch wiring, and matrix-offset snap with optional keying are all deterministic, composable, lazy-Maya, Python-verified and managed-Maya-verified. Legacy DefaultSwitchIKFK delegates to an external SnapIKFK dependency; NewSwitchIKFK and WithAddKeys stateful scriptJob/network-node behavior is intentionally superseded by explicit APIs."
+        }
       }
     }
   ]
