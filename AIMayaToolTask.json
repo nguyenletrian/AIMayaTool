@@ -8,72 +8,40 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-ui-secondary-managed-live-115b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.ui_parity_smoke", "callable": "run_setup_ui_core_parity_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-ui-parity",
-        "depends_on": [],
-        "result": "PASS",
-        "classification": "setup_ui_secondary_managed_live_pass",
-        "proven_main_commit": "04cc0f92774dd4356d2a3e1ce32e3a81702f088d",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:20, scene_saved=false and maya_quit=false.",
-        "archived_prerequisite": {"task_id": "aimayatool-goal005-setup-ui-secondary-verify-115a", "result": "PASS", "architect_ack": true, "bridge_completed": true, "classification": "setup_ui_secondary_python_verification_pass", "proven_main_commit": "74b8cfa3f4ffb1690df6f2d589bd41ef2f2b1f7a"},
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-ui-rpik-verify-116a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/ui_parity_smoke.py"],
-        "imports": ["aimayatool.tools.setup"],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-ui-secondary-managed-live-115b"],
-        "purpose": "Verify the Setup RP IK UI parity slice exposes the already-proven reusable RP IK workflow through an explicit selection contract.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile aimayatool/tools/setup/__init__.py and aimayatool/tools/setup/ui_parity_smoke.py.",
-          "Import aimayatool.tools.setup outside Maya without eager Maya imports.",
-          "Do not import the Maya-only ui_parity_smoke module in normal Python.",
-          "Do not invoke Codex."
-        ],
-        "result": "PASS",
-        "classification": "setup_ui_rpik_python_verification_pass",
-        "proven_main_commit": "2eb835d3492227be6b450fc4a51334295db4c32b",
-        "evidence": "After ff-only sync to 2eb835d3492227be6b450fc4a51334295db4c32b, py_compile passed for aimayatool/tools/setup/__init__.py and aimayatool/tools/setup/ui_parity_smoke.py; non-Maya import of aimayatool.tools.setup passed.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
       "task_id": "aimayatool-goal005-setup-ui-rpik-managed-live-116b",
       "status": "pending",
-      "architect_ack": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
@@ -86,15 +54,19 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-ui-rpik-verify-116a"],
-        "purpose": "Validate the expanded Setup UI exposes the 20 accepted actions plus Create RP IK in real Maya.",
-        "acceptance": [
-          "Run only after aimayatool-goal005-setup-ui-rpik-verify-116a passes.",
-          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
-          "Require result SETUP_UI_CORE_PARITY_OK:21 for PASS.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
+        "depends_on": [],
+        "result": "PASS",
+        "classification": "setup_ui_rpik_managed_live_pass",
+        "proven_main_commit": "7721870ff06225513a2473f43d04768d44feb702",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:21, scene_saved=false and maya_quit=false.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-ui-rpik-verify-116a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_ui_rpik_python_verification_pass",
+          "proven_main_commit": "2eb835d3492227be6b450fc4a51334295db4c32b"
+        },
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
