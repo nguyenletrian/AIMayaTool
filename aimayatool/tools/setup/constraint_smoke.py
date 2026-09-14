@@ -24,6 +24,11 @@ def run_setup_constraint_primitives_smoke():
     if not cmds.objExists(orient["constraint"]) or not orient["offset_group"]:
         raise RuntimeError("Orient constraint primitive did not create expected nodes.")
 
+    point_driven = cmds.createNode("transform", name="pointDriven")
+    point = constraints.create_point_constraint(driver, point_driven, maintain_offset=False, use_offset_group=True)
+    if not cmds.objExists(point["constraint"]) or not point["offset_group"]:
+        raise RuntimeError("Point constraint primitive did not create expected nodes.")
+
     aim_driven = cmds.createNode("transform", name="aimDriven")
     aim = constraints.create_aim_constraint(driver, aim_driven, up, aim_axis="x", up_axis="y", maintain_offset=False, use_offset_group=True)
     if not cmds.objExists(aim["constraint"]) or not aim["offset_group"]:
@@ -36,4 +41,4 @@ def run_setup_constraint_primitives_smoke():
     if len(targets) != 2:
         raise RuntimeError("Parent constraint did not preserve both drivers.")
 
-    return "SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:3"
+    return "SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:4"
