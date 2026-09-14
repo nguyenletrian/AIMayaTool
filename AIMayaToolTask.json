@@ -71,7 +71,7 @@
     {
       "task_id": "aimayatool-goal005-setup-control-shape-catalog-verify-076a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -132,6 +132,136 @@
           "Import aimayatool.tools.setup.controls succeeds under normal Python.",
           "All tests in tests.test_setup_control_shapes pass.",
           "Legacy cube resolves as a compatibility alias of box; sphere, diamond, locator and eye are available.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_control_shape_catalog_python_verification_pass",
+        "proven_main_commit": "4591ca865927ebe33d620247fb7fe681581c7d6d",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 4591ca865927ebe33d620247fb7fe681581c7d6d; controls.py and tests/test_setup_control_shapes.py compiled; aimayatool.tools.setup.controls imported under normal Python; all 4 focused control-shape catalog tests passed."
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-control-shape-smoke-compile-076b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/smoke.py"
+        ],
+        "imports": [],
+        "tests": [],
+        "timeout": 120
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-control-shape-catalog-verify-076a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_control_shape_catalog_python_verification_pass"
+        },
+        "implementation_commit": "0017dce654cdbea81955a4b8852f14b0ddfee60a",
+        "purpose": "Compile-gate the host-specific Maya smoke callable that validates actual creation of the newly migrated control-shape catalog before live execution.",
+        "acceptance": [
+          "Fast-forward main including smoke implementation commit 0017dce654cdbea81955a4b8852f14b0ddfee60a.",
+          "aimayatool/tools/setup/smoke.py compiles successfully.",
+          "Do not import the host-only smoke module under normal Python.",
+          "Do not launch or mutate Maya in this verification task.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-control-shape-managed-live-076c",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.smoke",
+        "callable": "run_setup_control_shape_catalog_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": [
+          "aimayatool-goal005-setup-control-shape-smoke-compile-076b"
+        ],
+        "purpose": "Create cube, sphere, diamond, locator and eye controls in managed Maya and verify each produces a usable nurbsCurve before accepting this control-shape catalog slice.",
+        "acceptance": [
+          "Reuse a healthy managed Maya 2024 session when available.",
+          "Fast-forward main after dependency 076b passes.",
+          "Force a fresh unsaved scene and do not save.",
+          "Run aimayatool.tools.setup.smoke.run_setup_control_shape_catalog_smoke.",
+          "Require result SETUP_CONTROL_SHAPE_CATALOG_SMOKE_OK:5 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
