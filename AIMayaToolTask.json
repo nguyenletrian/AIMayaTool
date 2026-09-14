@@ -8,145 +8,30 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-package-boundary-verify-074a",
+      "task_id": "aimayatool-goal005-setup-control-shape-managed-live-076c",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "result": "FAIL",
-        "classification": "setup_controls_module_eager_maya_import_blocks_python_verification",
-        "proven_main_commit": "94e02b34efc564c155558cc723939a0b2efe5a88"
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-controls-lazy-host-verify-075a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "result": "PASS",
-        "classification": "setup_controls_lazy_host_python_verification_pass",
-        "proven_main_commit": "d17e044d5e4c20763266caecd2f99b5fc099deab"
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-controls-baseline-managed-live-075b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "result": "FAIL",
-        "classification": "setup_smoke_callable_contract_mismatch",
-        "proven_main_commit": "3b2211f240f4ccd61cfd7fe48586a9c8f7f3ccca"
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-controls-baseline-managed-live-corrected-075c",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "purpose": "Retry the existing Setup controls live smoke using the actual canonical smoke callable exposed by the current module.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-controls-baseline-managed-live-075b",
-          "result": "FAIL",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_smoke_callable_contract_mismatch"
-        },
-        "result": "PASS",
-        "classification": "setup_controls_managed_live_smoke_pass",
-        "proven_main_commit": "8e238e88f4c41bde9e8c758af7a8d4aadbb35e77",
-        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_CONTROLS_SMOKE_OK, scene_saved=false and maya_quit=false."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-control-shape-catalog-verify-076a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/controls.py",
-          "tests/test_setup_control_shapes.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup.controls"
-        ],
-        "tests": [
-          "tests.test_setup_control_shapes"
-        ],
-        "timeout": 180
-      },
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
         "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-controls-baseline-managed-live-corrected-075c",
+          "task_id": "aimayatool-goal005-setup-control-shape-smoke-compile-076b",
           "result": "PASS",
           "architect_ack": true,
           "bridge_completed": true,
-          "classification": "setup_controls_managed_live_smoke_pass"
+          "classification": "setup_control_shape_smoke_compile_pass"
         },
-        "implementation_commit": "880b28703ed2f148c055ba789d99bd733f4c8015",
-        "purpose": "Verify the first legacy-backed expansion of the Setup control-shape catalog using shapes evidenced directly in MayaScriptNew NLTA_Control: cube alias, sphere, diamond, locator and eye, while preserving lazy Maya imports.",
-        "acceptance": [
-          "Fast-forward main including control catalog commits 0a16513539d0e85f81a4550f0b5749e4e970955f and 880b28703ed2f148c055ba789d99bd733f4c8015.",
-          "controls.py and tests/test_setup_control_shapes.py compile.",
-          "Import aimayatool.tools.setup.controls succeeds under normal Python.",
-          "All tests in tests.test_setup_control_shapes pass.",
-          "Legacy cube resolves as a compatibility alias of box; sphere, diamond, locator and eye are available.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_control_shape_catalog_python_verification_pass",
-        "proven_main_commit": "4591ca865927ebe33d620247fb7fe681581c7d6d",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 4591ca865927ebe33d620247fb7fe681581c7d6d; controls.py and tests/test_setup_control_shapes.py compiled; aimayatool.tools.setup.controls imported under normal Python; all 4 focused control-shape catalog tests passed."
+        "result": "FAIL",
+        "classification": "managed_maya_stale_dependency_module_cache",
+        "proven_main_commit": "73d1e39b67919c88b11021792d372f98460cd0dc",
+        "evidence": "Managed Maya 2024 reused PID 15000 and failed while creating legacy alias shape cube with ValueError Unsupported control shape: cube. Remote controls.py already resolved cube through _canonical_shape before _SHAPES lookup, while AIBridge managed-live reloads only the requested smoke module. smoke.py had imported create_control directly from controls earlier in the persistent Maya session, so the live smoke called a stale dependency binding rather than current repository code. scene_saved=false and maya_quit=false."
       }
     },
     {
-      "task_id": "aimayatool-goal005-setup-control-shape-smoke-compile-076b",
+      "task_id": "aimayatool-goal005-setup-control-shape-freshness-verify-076d",
       "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "architect_ack": false,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -188,30 +73,26 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
         "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-control-shape-catalog-verify-076a",
-          "result": "PASS",
+          "task_id": "aimayatool-goal005-setup-control-shape-managed-live-076c",
+          "result": "FAIL",
           "architect_ack": true,
           "bridge_completed": true,
-          "classification": "setup_control_shape_catalog_python_verification_pass"
+          "classification": "managed_maya_stale_dependency_module_cache"
         },
-        "implementation_commit": "0017dce654cdbea81955a4b8852f14b0ddfee60a",
-        "purpose": "Compile-gate the host-specific Maya smoke callable that validates actual creation of the newly migrated control-shape catalog before live execution.",
+        "implementation_commit": "081aec57dda2067d8d4a9d94aa7e94ca2425f3a6",
+        "purpose": "Compile-gate the smoke-harness freshness fix that reloads the Setup controls dependency inside the persistent managed Maya session before invoking control APIs.",
         "acceptance": [
-          "Fast-forward main including smoke implementation commit 0017dce654cdbea81955a4b8852f14b0ddfee60a.",
+          "Fast-forward main including 081aec57dda2067d8d4a9d94aa7e94ca2425f3a6.",
           "aimayatool/tools/setup/smoke.py compiles successfully.",
           "Do not import the host-only smoke module under normal Python.",
-          "Do not launch or mutate Maya in this verification task.",
+          "Do not mutate Maya in this task.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_control_shape_smoke_compile_pass",
-        "proven_main_commit": "8d17371e9b007776673562ffffbbf92331f4f2cc",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 8d17371e9b007776673562ffffbbf92331f4f2cc and py_compile passed for aimayatool/tools/setup/smoke.py."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
     {
-      "task_id": "aimayatool-goal005-setup-control-shape-managed-live-076c",
+      "task_id": "aimayatool-goal005-setup-control-shape-managed-live-fresh-076e",
       "status": "pending",
       "architect_ack": false,
       "project": {
@@ -256,19 +137,14 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-control-shape-smoke-compile-076b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_control_shape_smoke_compile_pass"
-        },
-        "purpose": "Create cube, sphere, diamond, locator and eye controls in managed Maya and verify each produces a usable nurbsCurve before accepting this control-shape catalog slice.",
+        "depends_on": [
+          "aimayatool-goal005-setup-control-shape-freshness-verify-076d"
+        ],
+        "purpose": "Retry the control-shape catalog in managed Maya after explicitly refreshing the controls dependency in the smoke harness so the persistent session executes current repository code.",
         "acceptance": [
-          "Reuse a healthy managed Maya 2024 session when available.",
-          "Fast-forward main after dependency 076b passes.",
+          "Run only after 076d passes.",
+          "Reuse the managed Maya 2024 session if healthy; smoke harness must reload current controls.py before use.",
           "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.setup.smoke.run_setup_control_shape_catalog_smoke.",
           "Require result SETUP_CONTROL_SHAPE_CATALOG_SMOKE_OK:5 for PASS.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
