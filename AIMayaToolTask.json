@@ -8,18 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal006-setup-presets-validation-assessment-retry-136b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/constraints.py", "aimayatool/tools/setup/controls.py", "aimayatool/tools/setup/ikfk.py", "aimayatool/tools/setup/naming.py"], "imports": ["aimayatool.tools.setup.naming"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-presets-validation", "depends_on": [], "purpose": "Retry the bounded Setup presets/preflight baseline assessment with permission sufficient for the ff-only git_pull precondition.", "acceptance": ["Fast-forward main.", "Compile the listed Setup modules.", "Import aimayatool.tools.setup.naming outside Maya.", "Do not mutate repository files beyond the ff-only git pull precondition.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "setup_presets_validation_baseline_python_pass", "proven_main_commit": "22e75f6a9ea99e62ac1e921a640fc2141178d9c8", "evidence": "Bridge fast-forwarded local main from e3c92519e57ce6fbf187e5ac6bfa2f77f52849f2 to 22e75f6a9ea99e62ac1e921a640fc2141178d9c8; py_compile passed for setup __init__.py, constraints.py, controls.py, ikfk.py and naming.py; import of aimayatool.tools.setup.naming passed outside Maya.", "archived_prerequisite": [{"task_id": "aimayatool-goal006-setup-presets-validation-assessment-136a", "result": "PRECONDITION_REJECTED", "classification": "verification_git_pull_requires_edit_permission"}]}
-    },
-    {
       "task_id": "aimayatool-goal006-setup-presets-validation-control-preflight-verify-136c",
       "status": "pending",
       "architect_ack": true,
@@ -29,7 +17,7 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/presets.py", "aimayatool/tools/setup/presets_smoke.py"], "imports": ["aimayatool.tools.setup.presets_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-presets-validation", "depends_on": ["aimayatool-goal006-setup-presets-validation-assessment-retry-136b"], "purpose": "Verify the first reusable Setup preset/preflight slice: pure-Python control presets plus batch-request validation before any Maya mutation.", "acceptance": ["Fast-forward main.", "Compile presets.py and presets_smoke.py.", "Import aimayatool.tools.setup.presets_smoke outside Maya.", "No Maya import or scene mutation is permitted.", "Do not invoke Codex."], "implementation_commits": ["18e870ab2f78074be3c7be1d2a47407edbe5ac72", "9b59536ab68719c9a9046752a12a8e0f098b497b"], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "setup_control_preset_preflight_python_pass", "proven_main_commit": "1874b41ba8f62529406ea260858e05fd8174186a", "evidence": "Bridge fast-forwarded local main from 22e75f6a9ea99e62ac1e921a640fc2141178d9c8 to 1874b41ba8f62529406ea260858e05fd8174186a; py_compile passed for presets.py and presets_smoke.py; import of aimayatool.tools.setup.presets_smoke passed outside Maya and executed deterministic preset/preflight assertions."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-presets-validation", "depends_on": [], "purpose": "Verify the first reusable Setup preset/preflight slice: pure-Python control presets plus batch-request validation before any Maya mutation.", "acceptance": ["Fast-forward main.", "Compile presets.py and presets_smoke.py.", "Import aimayatool.tools.setup.presets_smoke outside Maya.", "No Maya import or scene mutation is permitted.", "Do not invoke Codex."], "implementation_commits": ["18e870ab2f78074be3c7be1d2a47407edbe5ac72", "9b59536ab68719c9a9046752a12a8e0f098b497b"], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "setup_control_preset_preflight_python_pass", "proven_main_commit": "1874b41ba8f62529406ea260858e05fd8174186a", "evidence": "Bridge fast-forwarded local main from 22e75f6a9ea99e62ac1e921a640fc2141178d9c8 to 1874b41ba8f62529406ea260858e05fd8174186a; py_compile passed for presets.py and presets_smoke.py; import of aimayatool.tools.setup.presets_smoke passed outside Maya and executed deterministic preset/preflight assertions.", "archived_prerequisite": [{"task_id": "aimayatool-goal006-setup-presets-validation-assessment-retry-136b", "result": "PASS", "classification": "setup_presets_validation_baseline_python_pass", "proven_main_commit": "22e75f6a9ea99e62ac1e921a640fc2141178d9c8"}]}
     },
     {
       "task_id": "aimayatool-goal006-setup-presets-validation-execution-verify-136d",
@@ -46,14 +34,38 @@
     {
       "task_id": "aimayatool-goal006-setup-presets-validation-execution-managed-live-136e",
       "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.preset_execution_smoke", "callable": "run_setup_preset_execution_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-presets-validation", "depends_on": ["aimayatool-goal006-setup-presets-validation-execution-verify-136d"], "purpose": "Validate that preflighted control presets create matched controls in Maya and reject duplicate-source batches before any scene mutation.", "acceptance": ["Run only after 136d passes.", "Force a fresh unsaved scene and do not save.", "Require SETUP_PRESET_EXECUTION_OK:5 for PASS.", "Verify FK preset creates two matched nurbsCurve controls with expected names.", "Verify duplicate-source preflight rejects before creating any extra transform.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "setup_preset_execution_managed_live_pass", "proven_main_commit": "b13e0ca513ab22c4c511f985824ddb60232a2a8f", "evidence": "Managed Maya 2024 reused PID 15000 on port 7001, fast-forwarded local main from 6da8c636abfa778a09e67f992b92c7c78d8a1c72 to b13e0ca513ab22c4c511f985824ddb60232a2a8f, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_PRESET_EXECUTION_OK:5, scene_saved=false and maya_quit=false."}
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-presets-validation-scene-preflight-verify-136f",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/preset_execution.py", "aimayatool/tools/setup/preset_scene_preflight_smoke.py"], "imports": [], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-presets-validation", "depends_on": ["aimayatool-goal006-setup-presets-validation-execution-managed-live-136e"], "purpose": "Compile scene-aware preset preflight that rejects missing source nodes and existing output control names before mutation.", "acceptance": ["Fast-forward main.", "Compile preset_execution.py and preset_scene_preflight_smoke.py.", "Do not import the Maya-only smoke outside Maya.", "Do not invoke Codex."], "implementation_commits": ["b85a96cc793708a39752d2e198f3c195fe80a86a", "41d4445a0879906bcbdf32a3d2afe57019659ea2"], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-presets-validation-scene-preflight-managed-live-136g",
+      "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.preset_execution_smoke", "callable": "run_setup_preset_execution_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-presets-validation", "depends_on": ["aimayatool-goal006-setup-presets-validation-execution-verify-136d"], "purpose": "Validate that preflighted control presets create matched controls in Maya and reject duplicate-source batches before any scene mutation.", "acceptance": ["Run only after 136d passes.", "Force a fresh unsaved scene and do not save.", "Require SETUP_PRESET_EXECUTION_OK:5 for PASS.", "Verify FK preset creates two matched nurbsCurve controls with expected names.", "Verify duplicate-source preflight rejects before creating any extra transform.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.preset_scene_preflight_smoke", "callable": "run_setup_preset_scene_preflight_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-presets-validation", "depends_on": ["aimayatool-goal006-setup-presets-validation-scene-preflight-verify-136f"], "purpose": "Validate scene-aware preset preflight in Maya before considering the presets-validation milestone complete.", "acceptance": ["Run only after 136f passes.", "Force a fresh unsaved scene and do not save.", "Require SETUP_PRESET_SCENE_PREFLIGHT_OK:4 for PASS.", "Verify missing source nodes are rejected without scene mutation.", "Verify existing output control names are rejected without scene mutation.", "Verify the same request succeeds after the collision is removed and creates a nurbsCurve control.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
