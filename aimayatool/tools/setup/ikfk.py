@@ -78,3 +78,42 @@ def create_rp_ik(ik_joints, ik_control, pole_control, handle_name=None, orient_e
         "orient_constraint": orient_constraint,
         "ik_joints": tuple(ik_joints),
     }
+
+
+def wire_ikfk_switch(switch_attr, fk_nodes, ik_nodes, proxy_nodes=None, reverse_node=None, proxy_attr_name=None):
+    """Wire IK/FK visibility and optional proxy switch attributes.
+
+    ``switch_attr`` value 0 shows FK nodes and hides IK nodes; value 1 does the
+    opposite. Existing proxy attributes are left untouched so this helper can be
+    safely composed with controls that already expose the switch.
+    """
+    cmds = _cmds()
+    fk_nodes = list(fk_nodes or [])
+    ik_nodes = list(ik_nodes or [])
+    proxy_nodes = list(proxy_nodes or [])
+    if not fk_nodes or not ik_nodes:
+        raise ValueError("At least one FK node and one IK node are required.")
+    _require_attr(cmds, switch_attr, "IK/FK switch attribute")
+    for node in fk_nodes: _require_node(cmds, node, "FK visibility node")
+    for node in ik_nodes: _require_node(cmds, node, "IK visibility node")
+    for node in proxy_nodes: _require_node(cmds, node, "Proxy control")
+
+    reverse = reverse_node
+    if reverse:
+        _require_node(cmds, reverse, "IK/FK reverse node")
+    else:
+        reverse = cmds.createNode("reverse", name=switch_attr.replace(".", "_") + "_VisibilityReverse")
+        cmds.connectAttr(switch_attr, reverse + ".inputX", force=True)
+    for node in fk_nodes:
+        cmds.connectAttr(reverse + ".outputX", node + ".visibility", force=True)
+    for node in ik_nodes:
+        cmds.connectAttr(switch_attr, node + ".visibility", force=True)
+
+    attr_name = proxy_attr_name or switch_attr.rsplit(".", 1)[1]
+    proxies = []
+    for node in proxy_nodes:
+        proxy_plug = node + "." + attr_name
+        if not cmds.objExists(proxy_plug):
+            cmds.addAttr(node, longName=attr_name, proxy=switch_attr)
+        proxies.append(proxy_plug)
+    return {"switch_attr": switch_attr, "reverse": reverse, "fk_nodes": tuple(fk_nodes), "ik_nodes": tuple(ik_nodes), "proxy_attrs": tuple(proxies)}
