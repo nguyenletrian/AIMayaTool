@@ -47,6 +47,29 @@ def match_world_transform(target, source, translate=True, rotate=True, scale=Fal
     return target
 
 
+def _transform_hierarchy(cmds, root):
+    _require_node(cmds, root, "Hierarchy root")
+    root = _long_name(cmds, root)
+    descendants = cmds.listRelatives(root, allDescendents=True, fullPath=True, type="transform") or []
+    return tuple([root] + list(reversed(descendants)))
+
+
+def match_transform_hierarchy(source_root, destination_roots, translate=True, rotate=True, scale=True):
+    """Match one transform hierarchy onto explicit destination hierarchies by DAG order."""
+    cmds = _cmds(); destinations = list(destination_roots or [])
+    if not destinations: raise ValueError("At least one destination hierarchy is required.")
+    if not any((translate, rotate, scale)): raise ValueError("At least one transform channel must be enabled.")
+    source_nodes = _transform_hierarchy(cmds, source_root); results = []
+    for destination_root in destinations:
+        destination_nodes = _transform_hierarchy(cmds, destination_root)
+        if len(destination_nodes) != len(source_nodes):
+            raise ValueError("Hierarchy node count mismatch: {0} source nodes, {1} destination nodes.".format(len(source_nodes), len(destination_nodes)))
+        for source, destination in zip(source_nodes, destination_nodes):
+            cmds.matchTransform(destination, source, position=bool(translate), rotation=bool(rotate), scale=bool(scale))
+        results.append({"root": destination_nodes[0], "nodes": destination_nodes})
+    return {"source_root": source_nodes[0], "source_nodes": source_nodes, "destinations": tuple(results)}
+
+
 def capture_transform_snapshot(nodes):
     """Capture explicit world translation/rotation values without global session state."""
     cmds = _cmds(); nodes = list(nodes or [])
