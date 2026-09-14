@@ -3,80 +3,429 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-106-retry",
-    "reason": "healthy_managed_maya_session_reusable_after_product_fix"
+    "request_id": "aimayatool-setup-migration-107",
+    "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
-    {
-      "task_id": "aimayatool-goal005-setup-transform-snapshot-verify-105a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/transforms.py", "aimayatool/tools/setup/transforms_smoke.py", "tests/test_setup_transform_snapshot.py"], "imports": ["aimayatool.tools.setup.transforms"], "tests": ["tests.test_setup_transform_snapshot"], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "result": "PASS", "classification": "setup_transform_snapshot_python_verification_pass", "proven_main_commit": "a04fc3cb9f707f8fb3e3e7b7eb6c46d6aaee607b", "evidence": "After ff-only sync from 316bca937004579b2357efe6b6762900cca2ecb9 to a04fc3cb9f707f8fb3e3e7b7eb6c46d6aaee607b, py_compile passed for transforms.py, transforms_smoke.py and tests/test_setup_transform_snapshot.py; non-Maya import passed; tests.test_setup_transform_snapshot passed 3/3.", "archived_prerequisite": {"task_id": "aimayatool-goal005-setup-offset-group-managed-live-104b", "result": "PASS", "architect_ack": true, "bridge_completed": true, "classification": "setup_offset_group_managed_live_pass", "proven_main_commit": "316bca937004579b2357efe6b6762900cca2ecb9"}, "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-transform-snapshot-managed-live-105b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.transforms_smoke", "callable": "run_setup_transform_snapshot_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "depends_on": ["aimayatool-goal005-setup-transform-snapshot-verify-105a"], "result": "PASS", "classification": "setup_transform_snapshot_managed_live_pass", "proven_main_commit": "5be7f26a4b536b2acae54f1e261cc7784457c27c", "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_TRANSFORM_SNAPSHOT_SMOKE_OK:2, scene_saved=false and maya_quit=false. Smoke proved two captured source world translations/rotations were applied to two explicit targets in positional order.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
     {
       "task_id": "aimayatool-goal005-setup-match-hierarchy-verify-106a",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/transforms.py", "aimayatool/tools/setup/transforms_smoke.py", "tests/test_setup_match_hierarchy.py"], "imports": ["aimayatool.tools.setup.transforms"], "tests": ["tests.test_setup_match_hierarchy"], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "depends_on": ["aimayatool-goal005-setup-transform-snapshot-managed-live-105b"], "legacy_evidence": "MayaScriptNew matchHierachy walks a source transform hierarchy and one or more destination hierarchies in DAG order, matching corresponding transforms; legacy code silently swallows topology mismatches and freezes transforms around each match.", "implementation_commits": ["7e80aeb9dc1ce718a9dae0a07820fe21770ab109", "3bf812cb2af774dba76e703e8c9624e6ec0f377b", "30f0a434029ebd00f6f8f4a4a2240d727afd9bb8"], "purpose": "Verify an explicit composable hierarchy-matching primitive with topology validation and configurable transform channels, replacing selection dependence and silent exception swallowing.", "acceptance": ["Fast-forward main through hierarchy-match implementation commits.", "Compile transforms.py, transforms_smoke.py and tests/test_setup_match_hierarchy.py.", "Import aimayatool.tools.setup.transforms outside Maya without eager Maya import.", "Run tests.test_setup_match_hierarchy and require all tests pass.", "Match source and destination transform hierarchies in DAG order; reject node-count mismatch instead of silently skipping; support explicit translate/rotate/scale channel gating.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "setup_match_hierarchy_python_verification_pass", "proven_main_commit": "a0832a1567eff07187629eb738cf17d0941a7ac3", "evidence": "After ff-only sync from 5be7f26a4b536b2acae54f1e261cc7784457c27c to a0832a1567eff07187629eb738cf17d0941a7ac3, py_compile passed for transforms.py, transforms_smoke.py and tests/test_setup_match_hierarchy.py; non-Maya import aimayatool.tools.setup.transforms passed; tests.test_setup_match_hierarchy passed 3/3."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/transforms.py",
+          "aimayatool/tools/setup/transforms_smoke.py",
+          "tests/test_setup_match_hierarchy.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.transforms"
+        ],
+        "tests": [
+          "tests.test_setup_match_hierarchy"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "legacy_evidence": "MayaScriptNew matchHierachy walks a source transform hierarchy and one or more destination hierarchies in DAG order, matching corresponding transforms; legacy code silently swallows topology mismatches and freezes transforms around each match.",
+        "implementation_commits": [
+          "7e80aeb9dc1ce718a9dae0a07820fe21770ab109",
+          "3bf812cb2af774dba76e703e8c9624e6ec0f377b",
+          "30f0a434029ebd00f6f8f4a4a2240d727afd9bb8"
+        ],
+        "purpose": "Verify an explicit composable hierarchy-matching primitive with topology validation and configurable transform channels, replacing selection dependence and silent exception swallowing.",
+        "acceptance": [
+          "Fast-forward main through hierarchy-match implementation commits.",
+          "Compile transforms.py, transforms_smoke.py and tests/test_setup_match_hierarchy.py.",
+          "Import aimayatool.tools.setup.transforms outside Maya without eager Maya import.",
+          "Run tests.test_setup_match_hierarchy and require all tests pass.",
+          "Match source and destination transform hierarchies in DAG order; reject node-count mismatch instead of silently skipping; support explicit translate/rotate/scale channel gating.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_match_hierarchy_python_verification_pass",
+        "proven_main_commit": "a0832a1567eff07187629eb738cf17d0941a7ac3",
+        "evidence": "After ff-only sync from 5be7f26a4b536b2acae54f1e261cc7784457c27c to a0832a1567eff07187629eb738cf17d0941a7ac3, py_compile passed for transforms.py, transforms_smoke.py and tests/test_setup_match_hierarchy.py; non-Maya import aimayatool.tools.setup.transforms passed; tests.test_setup_match_hierarchy passed 3/3.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-transform-snapshot-managed-live-105b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_transform_snapshot_managed_live_pass",
+          "proven_main_commit": "5be7f26a4b536b2acae54f1e261cc7784457c27c"
+        }
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-match-hierarchy-managed-live-106b",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.transforms_smoke", "callable": "run_setup_match_hierarchy_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "depends_on": ["aimayatool-goal005-setup-match-hierarchy-verify-106a"], "purpose": "Validate explicit hierarchy matching in real Maya on two equal three-transform hierarchies.", "acceptance": ["Run only after 106a passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_MATCH_HIERARCHY_SMOKE_OK:3 for PASS.", "Prove root/mid/end destination world matrices match corresponding source nodes after hierarchy matching.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "FAIL", "classification": "setup_match_hierarchy_world_matrix_product_failure", "proven_main_commit": "0395659cc1c65756ce8656d8deddf7a223a78a0e", "evidence": "Managed Maya 2024 reused healthy PID 15000 in a fresh unsaved scene. Product smoke raised RuntimeError: Hierarchy world matrix mismatch: matchDstMid. scene_saved=false and maya_quit=false. This is a conclusive AIMayaTool hierarchy-matching defect under transformed/scaled parent hierarchy, not runtime loss."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.transforms_smoke",
+        "callable": "run_setup_match_hierarchy_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": [
+          "aimayatool-goal005-setup-match-hierarchy-verify-106a"
+        ],
+        "purpose": "Validate explicit hierarchy matching in real Maya on two equal three-transform hierarchies.",
+        "acceptance": [
+          "Run only after 106a passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_MATCH_HIERARCHY_SMOKE_OK:3 for PASS.",
+          "Prove root/mid/end destination world matrices match corresponding source nodes after hierarchy matching.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "FAIL",
+        "classification": "setup_match_hierarchy_world_matrix_product_failure",
+        "proven_main_commit": "0395659cc1c65756ce8656d8deddf7a223a78a0e",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 in a fresh unsaved scene. Product smoke raised RuntimeError: Hierarchy world matrix mismatch: matchDstMid. scene_saved=false and maya_quit=false. This is a conclusive AIMayaTool hierarchy-matching defect under transformed/scaled parent hierarchy, not runtime loss."
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-match-hierarchy-fix-verify-106c",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/transforms.py", "tests/test_setup_match_hierarchy.py"], "imports": ["aimayatool.tools.setup.transforms"], "tests": ["tests.test_setup_match_hierarchy"], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "depends_on": ["aimayatool-goal005-setup-match-hierarchy-managed-live-106b"], "retry_of": "aimayatool-goal005-setup-match-hierarchy-managed-live-106b", "implementation_commits": ["db33d9d4c94e01ba0a9451e4c16a4e8c7351fb86", "563044105547cd1f0bb0171099ab9938fa2f32e3"], "purpose": "Verify hierarchy full-TRS fix: full channel matching copies source world matrix to destination, while partial channel requests continue using matchTransform.", "acceptance": ["Fast-forward main through fix commits.", "Compile transforms.py and tests/test_setup_match_hierarchy.py.", "Import aimayatool.tools.setup.transforms outside Maya.", "Run tests.test_setup_match_hierarchy and require all tests pass.", "Full translate+rotate+scale path must use world matrices in DAG order; partial-channel path must preserve explicit matchTransform flags; topology mismatch validation remains intact.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "setup_match_hierarchy_fix_python_verification_pass", "proven_main_commit": "b45e2e299752f9e2d9f2d6ef4f0bd3063dab4579", "evidence": "After ff-only sync from 0395659cc1c65756ce8656d8deddf7a223a78a0e to b45e2e299752f9e2d9f2d6ef4f0bd3063dab4579, py_compile passed for transforms.py and tests/test_setup_match_hierarchy.py; non-Maya import aimayatool.tools.setup.transforms passed; tests.test_setup_match_hierarchy passed 4/4."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/transforms.py",
+          "tests/test_setup_match_hierarchy.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.transforms"
+        ],
+        "tests": [
+          "tests.test_setup_match_hierarchy"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": [
+          "aimayatool-goal005-setup-match-hierarchy-managed-live-106b"
+        ],
+        "retry_of": "aimayatool-goal005-setup-match-hierarchy-managed-live-106b",
+        "implementation_commits": [
+          "db33d9d4c94e01ba0a9451e4c16a4e8c7351fb86",
+          "563044105547cd1f0bb0171099ab9938fa2f32e3"
+        ],
+        "purpose": "Verify hierarchy full-TRS fix: full channel matching copies source world matrix to destination, while partial channel requests continue using matchTransform.",
+        "acceptance": [
+          "Fast-forward main through fix commits.",
+          "Compile transforms.py and tests/test_setup_match_hierarchy.py.",
+          "Import aimayatool.tools.setup.transforms outside Maya.",
+          "Run tests.test_setup_match_hierarchy and require all tests pass.",
+          "Full translate+rotate+scale path must use world matrices in DAG order; partial-channel path must preserve explicit matchTransform flags; topology mismatch validation remains intact.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_match_hierarchy_fix_python_verification_pass",
+        "proven_main_commit": "b45e2e299752f9e2d9f2d6ef4f0bd3063dab4579",
+        "evidence": "After ff-only sync from 0395659cc1c65756ce8656d8deddf7a223a78a0e to b45e2e299752f9e2d9f2d6ef4f0bd3063dab4579, py_compile passed for transforms.py and tests/test_setup_match_hierarchy.py; non-Maya import aimayatool.tools.setup.transforms passed; tests.test_setup_match_hierarchy passed 4/4."
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-match-hierarchy-fix-managed-live-106d",
       "status": "pending",
+      "architect_ack": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.transforms_smoke",
+        "callable": "run_setup_match_hierarchy_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": [
+          "aimayatool-goal005-setup-match-hierarchy-fix-verify-106c"
+        ],
+        "retry_of": "aimayatool-goal005-setup-match-hierarchy-managed-live-106b",
+        "purpose": "Retry the exact hierarchy managed-live smoke after the world-matrix full-TRS fix.",
+        "acceptance": [
+          "Run only after 106c passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_MATCH_HIERARCHY_SMOKE_OK:3 for PASS.",
+          "Prove root/mid/end destination world matrices match source under transformed/scaled parent hierarchy after the fix.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_match_hierarchy_fix_managed_live_pass",
+        "proven_main_commit": "455db0553ecd1faf9c949cded5e4483fb77c45d6",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_MATCH_HIERARCHY_SMOKE_OK:3, scene_saved=false and maya_quit=false. The exact smoke that previously failed at matchDstMid now proved root/mid/end destination world matrices match source under transformed/scaled parent hierarchy after the world-matrix fix."
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-freeze-reset-verify-107a",
+      "status": "pending",
       "architect_ack": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.transforms_smoke", "callable": "run_setup_match_hierarchy_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "depends_on": ["aimayatool-goal005-setup-match-hierarchy-fix-verify-106c"], "retry_of": "aimayatool-goal005-setup-match-hierarchy-managed-live-106b", "purpose": "Retry the exact hierarchy managed-live smoke after the world-matrix full-TRS fix.", "acceptance": ["Run only after 106c passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_MATCH_HIERARCHY_SMOKE_OK:3 for PASS.", "Prove root/mid/end destination world matrices match source under transformed/scaled parent hierarchy after the fix.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/transforms.py",
+          "aimayatool/tools/setup/transforms_smoke.py",
+          "tests/test_setup_freeze_reset.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.transforms"
+        ],
+        "tests": [
+          "tests.test_setup_freeze_reset"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": [
+          "aimayatool-goal005-setup-match-hierarchy-fix-managed-live-106d"
+        ],
+        "legacy_evidence": "MayaScriptNew freeze applies makeIdentity to translate/rotate/scale, freezeScale applies makeIdentity to scale only, and reset zeros translate/rotate on selected transforms.",
+        "implementation_commits": [
+          "7e8544ed7af630ce4c9692c5c18d9ff40b3812cb",
+          "3a45d1e41ed8b619cb3c04ec6c56c70e052aee6d",
+          "73b3f44f035d9005c085875ada75d96389814a1d"
+        ],
+        "purpose": "Verify explicit freeze/reset transform primitives with configurable channels and no selection dependency.",
+        "acceptance": [
+          "Fast-forward main through freeze/reset implementation commits.",
+          "Compile transforms.py, transforms_smoke.py and tests/test_setup_freeze_reset.py.",
+          "Import aimayatool.tools.setup.transforms outside Maya without eager Maya import.",
+          "Run tests.test_setup_freeze_reset and require all tests pass.",
+          "freeze_transforms must call makeIdentity only for enabled channels; reset_transforms must reset enabled translate/rotate channels to 0 and scale to 1; reject empty inputs or all channels disabled.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-freeze-reset-managed-live-107b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.transforms_smoke",
+        "callable": "run_setup_freeze_reset_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "depends_on": [
+          "aimayatool-goal005-setup-freeze-reset-verify-107a"
+        ],
+        "purpose": "Validate explicit freeze-scale and full reset behavior in real Maya.",
+        "acceptance": [
+          "Run only after 107a passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_FREEZE_RESET_SMOKE_OK:2 for PASS.",
+          "Prove scale-only freeze resets scale channels to 1 and explicit reset returns translate/rotate to 0 and scale to 1.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     }
   ]
 }
