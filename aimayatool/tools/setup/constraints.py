@@ -114,12 +114,14 @@ def create_aim_constraint(driver, driven, world_up_object, aim_axis="x", up_axis
     for node, label in ((driver, "Driver"), (driven, "Driven"), (world_up_object, "World-up object")):
         _require_node(cmds, node, label)
     _validate_distinct_nodes(cmds, [driver], driven)
+    aim_vector = axis_vector(aim_axis)
+    up_vector = axis_vector(up_axis)
     if _axis_family(aim_axis) == _axis_family(up_axis):
         raise ValueError("Aim axis and up axis must use different axis families: {0}, {1}".format(aim_axis, up_axis))
     if container:
         _require_node(cmds, container, "Constraint container")
     target, offset_group = _constraint_target(driven, use_offset_group, offset_suffix)
-    constraint = cmds.aimConstraint(driver, target, aimVector=axis_vector(aim_axis), upVector=axis_vector(up_axis), worldUpType="object", worldUpObject=world_up_object, mo=bool(maintain_offset))[0]
+    constraint = cmds.aimConstraint(driver, target, aimVector=aim_vector, upVector=up_vector, worldUpType="object", worldUpObject=world_up_object, mo=bool(maintain_offset))[0]
     if container:
         cmds.parent(constraint, container)
     return {"constraint": constraint, "target": target, "offset_group": offset_group}
