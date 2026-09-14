@@ -45,13 +45,13 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-space-safety-verify-127a",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/spaces.py", "aimayatool/tools/setup/space_safety_smoke.py"], "imports": ["aimayatool.tools.setup.spaces"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-constraint-safety-managed-live-126b"], "purpose": "Verify Setup 2.0 space-switch preflight hardening compiles and remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile spaces.py and space_safety_smoke.py.", "Import aimayatool.tools.setup.spaces outside Maya.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-constraint-safety-managed-live-126b"], "purpose": "Verify Setup 2.0 space-switch preflight hardening compiles and remains import-safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile spaces.py and space_safety_smoke.py.", "Import aimayatool.tools.setup.spaces outside Maya.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_space_safety_python_verification_pass", "proven_main_commit": "609930dda9716a89b444410a3a7b7ca821462d31", "evidence": "Bridge fast-forwarded local main from 2007dc930ac940686e5a186516983f4f56ee3990 to 609930dda9716a89b444410a3a7b7ca821462d31; py_compile passed for aimayatool/tools/setup/spaces.py and aimayatool/tools/setup/space_safety_smoke.py; import of aimayatool.tools.setup.spaces passed outside Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal006-setup-space-safety-managed-live-127b",
