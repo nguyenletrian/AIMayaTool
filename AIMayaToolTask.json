@@ -46,14 +46,14 @@
     {
       "task_id": "aimayatool-goal005-setup-ui-naming-integrated-verify-123a",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/naming_ui.py", "aimayatool/tools/setup/ui_parity_smoke.py"], "imports": ["aimayatool.tools.setup", "aimayatool.tools.setup.naming_ui"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-ui-parity", "depends_on": ["aimayatool-goal005-setup-naming-ui-adapter-managed-live-122b"], "purpose": "Verify consolidated Setup UI integration of the six proven naming/namespace actions and the updated 33-button parity contract.", "acceptance": ["Fast-forward main.", "Compile setup/__init__.py, naming_ui.py and ui_parity_smoke.py.", "Import aimayatool.tools.setup and aimayatool.tools.setup.naming_ui outside Maya.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-ui-parity", "depends_on": ["aimayatool-goal005-setup-naming-ui-adapter-managed-live-122b"], "purpose": "Verify consolidated Setup UI integration of the six proven naming/namespace actions and the updated 33-button parity contract.", "acceptance": ["Fast-forward main.", "Compile setup/__init__.py, naming_ui.py and ui_parity_smoke.py.", "Import aimayatool.tools.setup and aimayatool.tools.setup.naming_ui outside Maya.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_ui_naming_integrated_python_verification_pass", "proven_main_commit": "616cc7b63274fffe4c23dfce85de649953c14239", "evidence": "Bridge fast-forwarded local main from 18d35b8177d588511f04aa7e6ddb4f545836f70b to 616cc7b63274fffe4c23dfce85de649953c14239; py_compile passed for aimayatool/tools/setup/__init__.py, aimayatool/tools/setup/naming_ui.py and aimayatool/tools/setup/ui_parity_smoke.py; imports of aimayatool.tools.setup and aimayatool.tools.setup.naming_ui passed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal005-setup-ui-naming-integrated-managed-live-123b",
