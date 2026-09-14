@@ -61,6 +61,15 @@ def _mirror_selected(axis):
     return _naming().execute_mirror_transform_batch(_selected_transforms(), axis=axis)
 
 
+def _preview_mirror_selected(axis):
+    plan = _naming().resolve_mirror_pairs(_selected_transforms(), require_existing=False)
+    counts = {"ready": 0, "missing": 0, "unmapped": 0}
+    for item in plan:
+        status = item.get("status", "unmapped")
+        counts[status] = counts.get(status, 0) + 1
+    return "{0} ready, {1} missing, {2} unmapped".format(counts.get("ready", 0), counts.get("missing", 0), counts.get("unmapped", 0))
+
+
 def _prompt_namespace(title, action):
     cmds = _cmds()
     if cmds.promptDialog(title=title, message="Namespace:", text="TempNameSpace", button=[action, "Cancel"], defaultButton=action, cancelButton="Cancel", dismissString="Cancel") != action:
@@ -120,7 +129,11 @@ def build_ui():
 
     cmds.separator(height=8, style="none")
     cmds.text(label="Mirror batch", align="left")
-    cmds.text(label="Select source transforms; counterparts are resolved by mirror naming before any target is changed.", align="left")
+    cmds.text(label="Preview resolves counterparts without changing the scene. Mirror executes only after all targets pass domain preflight.", align="left")
+    cmds.rowLayout(numberOfColumns=3, adjustableColumn=3)
+    for label, axis in (("Preview X", "x"), ("Preview Y", "y"), ("Preview Z", "z")):
+        cmds.button(label=label, command=lambda *_, a=axis: _run("Mirror " + a.upper() + " preview", lambda: _preview_mirror_selected(a)))
+    cmds.setParent("..")
     cmds.rowLayout(numberOfColumns=3, adjustableColumn=3)
     for label, axis in (("Mirror X", "x"), ("Mirror Y", "y"), ("Mirror Z", "z")):
         cmds.button(label=label, command=lambda *_, a=axis: _run("Mirror " + a.upper(), lambda: _mirror_selected(a)))
