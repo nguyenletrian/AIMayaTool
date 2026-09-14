@@ -101,3 +101,46 @@ def create_spline_ik_chain(reference_nodes, name_prefix=None):
     degree = min(3, len(positions) - 1); curve = cmds.curve(degree=degree, point=positions, name=prefix + "_SplineCurve"); cmds.setAttr(curve + ".inheritsTransform", 0)
     handle, effector = cmds.ikHandle(startJoint=joints[0], endEffector=joints[-1], solver="ikSplineSolver", curve=curve, createCurve=False, parentCurve=False, name=prefix + "_SplineIKHandle")
     return {"references": tuple(references), "joints": tuple(joints), "curve": curve, "handle": handle, "effector": effector}
+
+
+def _curve_shape(cmds, curve):
+    _require_node(cmds, curve, "Curve")
+    if cmds.nodeType(curve) == "nurbsCurve":
+        return curve
+    shapes = cmds.listRelatives(curve, shapes=True, noIntermediate=True, type="nurbsCurve") or []
+    if not shapes:
+        raise ValueError("Curve has no nurbsCurve shape: {0}".format(curve))
+    return shapes[0]
+
+
+def attach_objects_to_curve(curve, objects, name_prefix=None):
+    """Attach object translations to their nearest parameters on a NURBS curve.
+
+    Parameters are sampled once from each object's current world position, matching the
+    useful behavior of legacy objectOnCurve while avoiding selection/UI globals. World
+    curve positions are converted through each object's parentInverseMatrix so parented
+    objects remain correct instead of inheriting the legacy world/local-space assumption.
+    """
+    cmds = _cmds(); objects = list(objects or [])
+    if not objects:
+        raise ValueError("Object-on-curve requires at least one object.")
+    curve_shape = _curve_shape(cmds, curve)
+    for obj in objects: _require_node(cmds, obj, "Curve-follow object")
+    prefix = name_prefix or str(curve).split("|")[-1]
+    point_nodes = []; matrix_nodes = []; parameters = []
+    for index, obj in enumerate(objects, start=1):
+        nearest = cmds.createNode("nearestPointOnCurve", name="{0}_Nearest_{1:02d}".format(prefix, index))
+        cmds.connectAttr(curve_shape + ".worldSpace[0]", nearest + ".inputCurve", force=True)
+        position = cmds.xform(obj, query=True, worldSpace=True, translation=True)
+        cmds.setAttr(nearest + ".inPosition", position[0], position[1], position[2], type="double3")
+        parameter = cmds.getAttr(nearest + ".parameter")
+        cmds.delete(nearest)
+        point = cmds.createNode("pointOnCurveInfo", name="{0}_Point_{1:02d}".format(prefix, index))
+        localize = cmds.createNode("pointMatrixMult", name="{0}_Localize_{1:02d}".format(prefix, index))
+        cmds.connectAttr(curve_shape + ".worldSpace[0]", point + ".inputCurve", force=True)
+        cmds.setAttr(point + ".parameter", parameter)
+        cmds.connectAttr(point + ".position", localize + ".inPoint", force=True)
+        cmds.connectAttr(obj + ".parentInverseMatrix[0]", localize + ".inMatrix", force=True)
+        cmds.connectAttr(localize + ".output", obj + ".translate", force=True)
+        point_nodes.append(point); matrix_nodes.append(localize); parameters.append(parameter)
+    return {"curve": curve, "curve_shape": curve_shape, "objects": tuple(objects), "parameters": tuple(parameters), "point_nodes": tuple(point_nodes), "matrix_nodes": tuple(matrix_nodes)}
