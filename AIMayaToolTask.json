@@ -8,131 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal006-setup-ux-polish-assessment-137a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/setup/naming_ui.py",
-          "aimayatool/tools/setup/ui_parity_smoke.py"
-        ],
-        "imports": [],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-ux-polish",
-        "depends_on": [],
-        "purpose": "Establish the current Setup UI baseline before implementing production-focused UX polish.",
-        "acceptance": [
-          "Compile setup __init__.py, naming_ui.py and ui_parity_smoke.py.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_ux_polish_baseline_python_pass",
-        "proven_main_commit": "604eac9a3bdc61b710955f45cfdcf5803e755d2f",
-        "evidence": "Bridge fast-forwarded local main to 604eac9a3bdc61b710955f45cfdcf5803e755d2f; py_compile passed for setup __init__.py, naming_ui.py and ui_parity_smoke.py."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal006-setup-ux-polish-mirror-preview-verify-137b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/naming_ui.py",
-          "aimayatool/tools/setup/mirror_preview_ui_smoke.py"
-        ],
-        "imports": [],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-ux-polish",
-        "depends_on": [
-          "aimayatool-goal006-setup-ux-polish-assessment-137a"
-        ],
-        "purpose": "Compile the non-mutating mirror preview UI adapter and its Maya smoke before live validation.",
-        "acceptance": [
-          "Compile naming_ui.py and mirror_preview_ui_smoke.py.",
-          "Do not invoke Codex."
-        ],
-        "implementation_commits": [
-          "6c0f075eecff8efc37aae7402a27d0034349d812",
-          "70bc6c57dd4ca3af8fa2d3313825a53ed71cb8d8"
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_ux_mirror_preview_python_verification_pass",
-        "proven_main_commit": "baee226da71aada4d9b2acd374daea3924885c81",
-        "evidence": "Bridge fast-forwarded local main to baee226da71aada4d9b2acd374daea3924885c81; py_compile passed for naming_ui.py and mirror_preview_ui_smoke.py."
-      }
-    },
-    {
       "task_id": "aimayatool-goal006-setup-ux-polish-mirror-preview-managed-live-137c",
       "status": "pending",
       "architect_ack": true,
@@ -179,8 +54,12 @@
       "metadata": {
         "goal_id": "aimayatool-006",
         "milestone_id": "setup-ux-polish",
-        "depends_on": [
-          "aimayatool-goal006-setup-ux-polish-mirror-preview-verify-137b"
+        "depends_on": [],
+        "archived_prerequisite": [
+          {
+            "task_id": "aimayatool-goal006-setup-ux-polish-mirror-preview-verify-137b",
+            "result": "PASS"
+          }
         ],
         "purpose": "Validate Setup mirror preview UX in Maya without mutating counterpart transforms.",
         "acceptance": [
@@ -315,7 +194,7 @@
         "result": "FAIL",
         "classification": "setup_mirror_preview_root_dag_path_preservation_defect",
         "proven_main_commit": "295f3ad783181cba907715e0e6b99d485239592c",
-        "evidence": "After explicit reload of both naming and naming_ui in reused Maya PID 15000, preview still returned '2 ready, 0 missing, 0 unmapped'. Root cause: mirror_name('|spine_CTRL') dropped the leading root DAG separator and returned 'spine_CTRL'; resolve_mirror_pairs then saw that short name as an existing node and falsely classified the source as its own ready counterpart. This is a current product defect, not stale module cache.",
+        "evidence": "After explicit reload of naming and naming_ui, preview still returned 2 ready. Root cause was mirror_name dropping the leading root DAG separator for root-level long names.",
         "recovery_commits": [
           "67e377656f3348e9461c46f93dd1bdb9f7b28228",
           "c89e24b8242261609eb115819507a9a54f77ccae"
@@ -325,8 +204,8 @@
     {
       "task_id": "aimayatool-goal006-setup-ux-polish-mirror-root-path-fix-verify-137f",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -376,16 +255,19 @@
         ],
         "purpose": "Verify the root-DAG-path mirror-name fix deterministically before retrying Maya mirror preview UX.",
         "acceptance": [
-          "Fast-forward main.",
           "Compile naming.py, mirror_name_path_smoke.py and mirror_preview_ui_smoke.py.",
-          "Import mirror_name_path_smoke outside Maya and require all root/nested DAG and namespace assertions to pass.",
+          "Import mirror_name_path_smoke outside Maya and require root/nested DAG and namespace assertions to pass.",
           "Do not invoke Codex."
         ],
         "implementation_commits": [
           "67e377656f3348e9461c46f93dd1bdb9f7b28228",
           "c89e24b8242261609eb115819507a9a54f77ccae"
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_mirror_root_path_fix_python_verification_pass",
+        "proven_main_commit": "968a759b4f5917c4a44c41d30e4e25a9f66a60f1",
+        "evidence": "Bridge fast-forwarded local main from 295f3ad783181cba907715e0e6b99d485239592c to 968a759b4f5917c4a44c41d30e4e25a9f66a60f1; py_compile passed for naming.py, mirror_name_path_smoke.py and mirror_preview_ui_smoke.py, and import of aimayatool.tools.setup.mirror_name_path_smoke passed."
       }
     },
     {
