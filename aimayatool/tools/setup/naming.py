@@ -73,6 +73,23 @@ def _validate_namespace(namespace):
     return namespace
 
 
+def _matrix_multiply(left, right):
+    return tuple(sum(left[row * 4 + k] * right[k * 4 + col] for k in range(4)) for row in range(4) for col in range(4))
+
+
+def mirror_world_matrix(matrix, axis="x"):
+    """Reflect one Maya world matrix across a world axis plane without Maya state."""
+    values = tuple(float(value) for value in matrix)
+    if len(values) != 16:
+        raise ValueError("World matrix must contain exactly 16 values.")
+    axis = str(axis).lower()
+    if axis not in ("x", "y", "z"):
+        raise ValueError("Mirror axis must be x, y or z: {0}".format(axis))
+    diagonal = [-1.0 if axis == current else 1.0 for current in ("x", "y", "z")] + [1.0]
+    reflection = tuple(diagonal[row] if row == col else 0.0 for row in range(4) for col in range(4))
+    return _matrix_multiply(_matrix_multiply(reflection, values), reflection)
+
+
 def sanitize_legacy_name(name):
     """Return the legacy-compatible safe name token used for imported FBX-style names."""
     if name is None:
@@ -84,12 +101,7 @@ def sanitize_legacy_name(name):
 
 
 def mirror_name(name):
-    """Return the opposite-side name while preserving DAG path and namespace context.
-
-    The token rules intentionally preserve MayaScriptNew GetMirrorName parity, but
-    only the leaf name is inspected so parent paths and namespaces are never
-    accidentally rewritten.
-    """
+    """Return the opposite-side name while preserving DAG path and namespace context."""
     if name is None:
         raise ValueError("Name is required.")
     value = str(name)
@@ -110,11 +122,7 @@ def mirror_name(name):
 
 
 def resolve_mirror_pairs(nodes, require_existing=True):
-    """Build a non-mutating source/target mirror plan for explicit DAG nodes.
-
-    Counterparts are resolved in the same DAG parent and namespace. This avoids
-    ambiguous global short-name lookups when rigs contain repeated leaf names.
-    """
+    """Build a non-mutating source/target mirror plan for explicit DAG nodes."""
     cmds = _cmds(); nodes = list(nodes or [])
     if not nodes:
         raise ValueError("At least one node is required.")
@@ -143,6 +151,38 @@ def resolve_mirror_pairs(nodes, require_existing=True):
         if len(matches) != 1:
             raise ValueError("Mirror counterpart is ambiguous: {0}".format(mirrored_path))
         result.append({"source": source, "target": matches[0], "mirror_name": mirrored_path, "status": "ready"})
+    return tuple(result)
+
+
+def execute_mirror_transform_batch(nodes, axis="x"):
+    """Mirror explicit source transforms to their counterparts as one guarded batch.
+
+    All pairs, target writability and source matrices are resolved before any scene
+    mutation. Source matrices are snapshotted first so targets that are also later
+    sources cannot cascade already-mirrored values through the batch.
+    """
+    cmds = _cmds(); axis = str(axis).lower()
+    if axis not in ("x", "y", "z"):
+        raise ValueError("Mirror axis must be x, y or z: {0}".format(axis))
+    plan = resolve_mirror_pairs(nodes, require_existing=True)
+    targets = set(); prepared = []
+    for item in plan:
+        source, target = item["source"], item["target"]
+        if source == target:
+            raise ValueError("Mirror source and target must be different: {0}".format(source))
+        if target in targets:
+            raise ValueError("Duplicate mirror target is not allowed: {0}".format(target))
+        targets.add(target)
+        for attr in ("tx", "ty", "tz", "rx", "ry", "rz", "sx", "sy", "sz"):
+            plug = target + "." + attr
+            if cmds.objExists(plug) and cmds.getAttr(plug, lock=True):
+                raise ValueError("Mirror target transform channel is locked: {0}".format(plug))
+        matrix = tuple(cmds.xform(source, query=True, worldSpace=True, matrix=True))
+        prepared.append((item, mirror_world_matrix(matrix, axis=axis)))
+    result = []
+    for item, matrix in prepared:
+        cmds.xform(item["target"], worldSpace=True, matrix=matrix)
+        result.append({"source": item["source"], "target": item["target"], "axis": axis})
     return tuple(result)
 
 
