@@ -24,24 +24,49 @@
     {
       "task_id": "aimayatool-goal005-setup-spline-composition-verify-095a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "files": [
           "aimayatool/tools/setup/spline_composition.py",
           "aimayatool/tools/setup/spline_composition_smoke.py",
           "tests/test_setup_spline_composition.py"
         ],
-        "imports": ["aimayatool.tools.setup.spline_composition"],
-        "tests": ["tests.test_setup_spline_composition"],
+        "imports": [
+          "aimayatool.tools.setup.spline_composition"
+        ],
+        "tests": [
+          "tests.test_setup_spline_composition"
+        ],
         "timeout": 180
       },
       "metadata": {
@@ -70,7 +95,11 @@
           "No eager Maya import is introduced.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_spline_composition_python_verification_pass",
+        "proven_main_commit": "95426466335366152f1b2831d70ebb77bf6e348f",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 95426466335366152f1b2831d70ebb77bf6e348f; py_compile passed for spline_composition.py, spline_composition_smoke.py and tests/test_setup_spline_composition.py; normal-Python import passed; all 2 focused spline composition tests passed."
       }
     },
     {
@@ -82,11 +111,31 @@
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
@@ -99,10 +148,19 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "depends_on": ["aimayatool-goal005-setup-spline-composition-verify-095a"],
+        "depends_on": [
+          "aimayatool-goal005-setup-spline-composition-verify-095a"
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-spline-composition-verify-095a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_spline_composition_python_verification_pass",
+          "proven_main_commit": "95426466335366152f1b2831d70ebb77bf6e348f"
+        },
         "purpose": "Validate the SplineRig composition layer in real Maya across local/global orientation states plus visibility, follow-weight and proxy behavior.",
         "acceptance": [
-          "Run only after 095a passes.",
           "Reuse healthy managed Maya 2024 when available.",
           "Force a fresh unsaved scene and do not save.",
           "Require result SETUP_SPLINE_COMPOSITION_SMOKE_OK:4 for PASS.",
