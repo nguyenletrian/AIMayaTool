@@ -31,7 +31,7 @@
     {
       "task_id": "aimayatool-goal005-setup-controls-transforms-regression-verify-080a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -100,8 +100,13 @@
           "Do not import host-only smoke modules under normal Python.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_controls_transforms_regression_python_verification_pass",
+        "proven_main_commit": "d1ad9c9770ade9164ecd124263515d494943fbfb",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to d1ad9c9770ade9164ecd124263515d494943fbfb; py_compile passed for all 6 listed Setup modules/tests; normal-Python imports of controls and transforms passed; 11 focused tests passed."
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal005-setup-controls-transforms-regression-managed-live-080b",
@@ -149,9 +154,6 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "depends_on": [
-          "aimayatool-goal005-setup-controls-transforms-regression-verify-080a"
-        ],
         "purpose": "Run one consolidated managed-Maya acceptance regression for the controls/transforms milestone before marking it complete and advancing to constraints/spaces.",
         "acceptance": [
           "Run only after 080a passes.",
@@ -161,7 +163,14 @@
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-controls-transforms-regression-verify-080a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_controls_transforms_regression_python_verification_pass"
+        }
       }
     }
   ]
