@@ -40,9 +40,11 @@ def run_scene_aim_constraint_smoke():
     targets = cmds.aimConstraint(item["constraint"], query=True, targetList=True) or []
     if target not in targets:
         raise AssertionError("Aim target was not preserved.")
-    world_up = cmds.aimConstraint(item["constraint"], query=True, worldUpObject=True)
-    if world_up != reference:
-        raise AssertionError("Object world-up reference was not preserved.")
+
+    world_up_source = cmds.connectionInfo(item["constraint"] + ".worldUpMatrix", sourceFromDestination=True)
+    expected_world_up = reference + ".worldMatrix[0]"
+    if world_up_source != expected_world_up:
+        raise AssertionError("Object world-up reference was not preserved: {0}".format(world_up_source))
 
     skipped = execute_aim_constraint_plan(({
         "operation": "aim_constraint",
