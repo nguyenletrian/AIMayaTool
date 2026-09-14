@@ -3,7 +3,7 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-080",
+    "request_id": "aimayatool-setup-migration-081",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
@@ -111,7 +111,7 @@
     {
       "task_id": "aimayatool-goal005-setup-controls-transforms-regression-managed-live-080b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -170,7 +170,148 @@
           "architect_ack": true,
           "bridge_completed": true,
           "classification": "setup_controls_transforms_regression_python_verification_pass"
-        }
+        },
+        "result": "PASS",
+        "classification": "setup_controls_transforms_regression_managed_live_pass",
+        "proven_main_commit": "809cb545219db104407eaa3430ba792c25d6454c",
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_CONTROLS_TRANSFORMS_REGRESSION_OK:5, scene_saved=false and maya_quit=false."
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-constraint-primitives-verify-081a",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/constraints.py",
+          "aimayatool/tools/setup/constraint_smoke.py",
+          "tests/test_setup_constraints.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.constraints"
+        ],
+        "tests": [
+          "tests.test_setup_constraints"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-constraints-spaces",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-controls-transforms-regression-managed-live-080b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_controls_transforms_regression_managed_live_pass"
+        },
+        "implementation_commits": [
+          "25cc19dd6a922c5e7689095b9ddce736ba5d18bd",
+          "b4ca3952fe38ef61f5aa7e55fc83c34fffb80aac",
+          "f3aae1ae73e356efcc9c5e026a9f04dc381f1fae"
+        ],
+        "purpose": "Verify the first Setup constraints/spaces slice extracted from legacy OrientConstraint, AimConstraint and SpaceSwitch dependencies: explicit parent/orient/aim constraint primitives, signed axis mapping, optional zeroed offset groups and object-up aim configuration.",
+        "acceptance": [
+          "Fast-forward main including the three implementation commits.",
+          "constraints.py, constraint_smoke.py and tests/test_setup_constraints.py compile.",
+          "Import aimayatool.tools.setup.constraints succeeds under normal Python without Maya installed.",
+          "All tests in tests.test_setup_constraints pass.",
+          "No eager maya.cmds import is introduced in constraints.py.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-constraint-primitives-managed-live-081b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.constraint_smoke",
+        "callable": "run_setup_constraint_primitives_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-constraints-spaces",
+        "depends_on": [
+          "aimayatool-goal005-setup-constraint-primitives-verify-081a"
+        ],
+        "purpose": "Validate the first composable parent/orient/aim constraint primitives against real Maya DAG and constraint behavior before composing enum-driven space switching.",
+        "acceptance": [
+          "Run only after 081a passes.",
+          "Reuse a healthy managed Maya 2024 session when available.",
+          "Force a fresh unsaved scene and do not save.",
+          "Run aimayatool.tools.setup.constraint_smoke.run_setup_constraint_primitives_smoke.",
+          "Require result SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:3 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
   ]
