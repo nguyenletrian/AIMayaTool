@@ -73,26 +73,19 @@ def hierarchy_between(parent, child, node_type=None):
 
 
 def match_joint_chain(source_begin, source_end, destination_begin, destination_end, name_prefix=None):
-    """Rebuild destination intermediate joints to match a source joint chain.
-
-    Endpoints are preserved, intermediate destination joints are replaced, and the
-    returned tuple maps destination joints to their corresponding source joints.
-    """
+    """Rebuild destination intermediate joints to match a source joint chain."""
     cmds = _cmds()
     source_chain = hierarchy_between(source_begin, source_end, node_type="joint")
     destination_chain = hierarchy_between(destination_begin, destination_end, node_type="joint")
     destination_begin = destination_chain[0]
     destination_end = destination_chain[-1]
-
     match_world_transform(destination_begin, source_chain[0], translate=True, rotate=False, scale=False)
     match_world_transform(destination_end, source_chain[-1], translate=True, rotate=False, scale=False)
-
     if len(destination_chain) > 2:
         destination_end = cmds.parent(destination_end, destination_begin, absolute=True)[0]
         cmds.delete(destination_chain[1])
         destination_begin = _long_name(cmds, destination_begin)
         destination_end = _long_name(cmds, destination_end)
-
     mappings = [(destination_begin, source_chain[0])]
     parent_joint = destination_begin
     names = _intermediate_joint_names(source_chain, name_prefix=name_prefix)
@@ -103,10 +96,30 @@ def match_joint_chain(source_begin, source_end, destination_begin, destination_e
         joint = cmds.parent(joint, parent_joint, absolute=True)[0]
         parent_joint = _long_name(cmds, joint)
         mappings.append((parent_joint, source_joint))
-
     if source_chain[1:-1]:
         destination_end = cmds.parent(destination_end, parent_joint, absolute=True)[0]
     destination_end = _long_name(cmds, destination_end)
     match_world_transform(destination_end, source_chain[-1], translate=True, rotate=False, scale=False)
     mappings.append((destination_end, source_chain[-1]))
     return tuple(mappings)
+
+
+def create_joint_at_reference(reference, name=None, match_rotation=True):
+    """Create one joint at an explicit transform reference without selection dependency."""
+    cmds = _cmds(); _require_node(cmds, reference, "Joint reference")
+    joint_name = name or (_short_name(reference) + "_JNT")
+    cmds.select(clear=True)
+    joint = cmds.createNode("joint", name=joint_name)
+    cmds.matchTransform(joint, reference, position=True, rotation=bool(match_rotation), scale=False)
+    return joint
+
+
+def create_joints_at_references(references, suffix="_JNT", match_rotation=True):
+    """Create one unparented joint per explicit reference and return them in input order."""
+    cmds = _cmds(); references = list(references or [])
+    if not references: raise ValueError("At least one joint reference is required.")
+    for reference in references: _require_node(cmds, reference, "Joint reference")
+    result = []
+    for reference in references:
+        result.append(create_joint_at_reference(reference, name=_short_name(reference) + suffix, match_rotation=match_rotation))
+    return tuple(result)
