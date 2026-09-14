@@ -3,7 +3,7 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-082",
+    "request_id": "aimayatool-setup-migration-082-retry",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
@@ -110,7 +110,7 @@
     {
       "task_id": "aimayatool-goal005-setup-space-switch-managed-live-082b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -170,7 +170,134 @@
           "architect_ack": true,
           "bridge_completed": true,
           "classification": "setup_space_switch_python_verification_pass"
-        }
+        },
+        "result": "FAIL",
+        "classification": "setup_space_switch_live_validation_expectation_mismatch",
+        "proven_main_commit": "cfcde27485b1949ee7444d4dbfcc6ca1bb7539e7",
+        "evidence": "Managed Maya 2024 reused PID 15000 and returned AIBRIDGE_UI_SMOKE_ERROR because space_smoke.py assumed exactly two parentConstraint weight aliases after adding the slide fallback; Maya may reuse/extend the existing constraint with the root fallback target. Product/runtime remained healthy, scene_saved=false and maya_quit=false."
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-space-switch-smoke-fix-verify-082c",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/space_smoke.py"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-constraints-spaces",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-space-switch-managed-live-082b",
+          "result": "FAIL",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_space_switch_live_validation_expectation_mismatch"
+        },
+        "implementation_commit": "94d7beb6fd52f3775cd266015c3cef555a0db8ac",
+        "purpose": "Verify the corrected Space Switch live smoke no longer assumes an exact parentConstraint target count and instead validates required named space/fallback targets.",
+        "acceptance": [
+          "Fast-forward main including 94d7beb6fd52f3775cd266015c3cef555a0db8ac.",
+          "space_smoke.py compiles.",
+          "Do not import Maya-host smoke under normal Python.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-space-switch-managed-live-retry-082d",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.space_smoke",
+        "callable": "run_setup_space_switch_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-constraints-spaces",
+        "depends_on": [
+          "aimayatool-goal005-setup-space-switch-smoke-fix-verify-082c"
+        ],
+        "retry_of": "aimayatool-goal005-setup-space-switch-managed-live-082b",
+        "purpose": "Retry the same bounded Space Switch live validation with Maya-compatible named-target assertions after correcting the smoke expectation mismatch.",
+        "acceptance": [
+          "Run only after 082c passes.",
+          "Reuse healthy managed Maya 2024 when available.",
+          "Force a fresh unsaved scene and do not save.",
+          "Require result SETUP_SPACE_SWITCH_SMOKE_OK:2 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
   ]
