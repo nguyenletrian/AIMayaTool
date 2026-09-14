@@ -62,3 +62,17 @@ def run_setup_offset_group_smoke():
     if max(abs(before_t[i] - final_t[i]) for i in range(3)) > 1e-4 or max(abs(before_r[i] - final_r[i]) for i in range(3)) > 1e-3: raise RuntimeError("Offset removal changed world pose.")
     if cmds.objExists(group): raise RuntimeError("Offset group still exists after removal.")
     return "SETUP_OFFSET_GROUP_SMOKE_OK:1"
+
+
+def run_setup_transform_snapshot_smoke():
+    transforms = _transforms(); cmds.file(new=True, force=True)
+    src_a = cmds.createNode("transform", name="snapshotSrcA"); src_b = cmds.createNode("transform", name="snapshotSrcB")
+    dst_a = cmds.createNode("transform", name="snapshotDstA"); dst_b = cmds.createNode("transform", name="snapshotDstB")
+    cmds.xform(src_a, worldSpace=True, translation=(1, 2, 3), rotation=(10, 20, 30)); cmds.xform(src_b, worldSpace=True, translation=(-4, 5, 6), rotation=(0, 45, 0))
+    snapshot = transforms.capture_transform_snapshot([src_a, src_b]); transforms.apply_transform_snapshot([dst_a, dst_b], snapshot)
+    for source, target in ((src_a, dst_a), (src_b, dst_b)):
+        source_t = cmds.xform(source, query=True, worldSpace=True, translation=True); target_t = cmds.xform(target, query=True, worldSpace=True, translation=True)
+        source_r = cmds.xform(source, query=True, worldSpace=True, rotation=True); target_r = cmds.xform(target, query=True, worldSpace=True, rotation=True)
+        if max(abs(source_t[i] - target_t[i]) for i in range(3)) > 1e-4: raise RuntimeError("Snapshot translation mismatch: {0}".format(target))
+        if max(abs(source_r[i] - target_r[i]) for i in range(3)) > 1e-3: raise RuntimeError("Snapshot rotation mismatch: {0}".format(target))
+    return "SETUP_TRANSFORM_SNAPSHOT_SMOKE_OK:2"
