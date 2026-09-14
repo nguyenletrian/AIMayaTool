@@ -42,9 +42,13 @@ def run_scene_global_pattern_executor_smoke():
     blender_source = cmds.listConnections(item["blend"] + ".blender", source=True, destination=False, plugs=True) or []
     if child + ".Global" not in blender_source:
         raise AssertionError("Child Global attribute is not driving blendColors.blender.")
-    rotate_source = cmds.listConnections(offset + ".rotate", source=True, destination=False, plugs=True) or []
-    if item["blend"] + ".output" not in rotate_source:
-        raise AssertionError("blendColors.output is not driving the offset rotation.")
+
+    axis_pairs = (("R", "X"), ("G", "Y"), ("B", "Z"))
+    for source_axis, target_axis in axis_pairs:
+        source = item["blend"] + ".output" + source_axis
+        target = offset + ".rotate" + target_axis
+        if not cmds.isConnected(source, target):
+            raise AssertionError("blendColors output is not driving offset rotation: {0} -> {1}".format(source, target))
 
     skipped = execute_global_pattern_plan(({
         "operation": "global_parent_blend",
