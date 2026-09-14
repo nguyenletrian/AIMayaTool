@@ -1,7 +1,21 @@
 from __future__ import absolute_import
 
+import re
+
 
 _LEGACY_NAME_REPLACEMENTS = ("FBXASC046", "FBXASC045", "FBXASC032", "[", "]", ".")
+_MIRROR_SWAP = {
+    "L": "R", "R": "L", "l": "r", "r": "l",
+    "Left": "Right", "Right": "Left", "left": "right", "right": "left", "LEFT": "RIGHT", "RIGHT": "LEFT",
+    "Lf": "Rt", "Rt": "Lf", "lf": "rt", "rt": "lf", "LF": "RT", "RT": "LF",
+}
+_MIRROR_PATTERNS = (
+    r"(?<=_)(L|R|l|r)(?=_)", r"(?<=_)(L|R|l|r)$", r"^(L|R|l|r)(?=_)",
+    r"(?<=_)(Left|Right|left|right|LEFT|RIGHT)(?=_)", r"(?<=_)(Left|Right|left|right|LEFT|RIGHT)$", r"^(Left|Right|left|right|LEFT|RIGHT)(?=_)",
+    r"(?<=_)(Lf|Rt|lf|rt|LF|RT)(?=_)", r"(?<=_)(Lf|Rt|lf|rt|LF|RT)$", r"^(Lf|Rt|lf|rt|LF|RT)(?=_)",
+    r"(?<=Rig)(L|R|l|r)", r"(?<=Rig)(Left|Right|left|right|LEFT|RIGHT)", r"(?<=Rig)(Lf|Rt|lf|rt|LF|RT)",
+    r"^(Left|Right|left|right|LEFT|RIGHT)", r"^(L|R|l|r)(?=[A-Z])", r"^(Lf|Rt|lf|rt|LF|RT)(?=[A-Z])",
+)
 
 
 def _cmds():
@@ -67,6 +81,69 @@ def sanitize_legacy_name(name):
     for token in _LEGACY_NAME_REPLACEMENTS:
         result = result.replace(token, "_")
     return result
+
+
+def mirror_name(name):
+    """Return the opposite-side name while preserving DAG path and namespace context.
+
+    The token rules intentionally preserve MayaScriptNew GetMirrorName parity, but
+    only the leaf name is inspected so parent paths and namespaces are never
+    accidentally rewritten.
+    """
+    if name is None:
+        raise ValueError("Name is required.")
+    value = str(name)
+    if not value:
+        raise ValueError("Name must be non-empty.")
+    path_prefix, leaf = value.rsplit("|", 1) if "|" in value else ("", value)
+    namespace, base = leaf.rsplit(":", 1) if ":" in leaf else ("", leaf)
+    mirrored = base
+    for pattern in _MIRROR_PATTERNS:
+        match = re.search(pattern, base)
+        if match:
+            token = match.group(1)
+            start, end = match.span(1)
+            mirrored = base[:start] + _MIRROR_SWAP[token] + base[end:]
+            break
+    leaf_result = (namespace + ":" if namespace else "") + mirrored
+    return (path_prefix + "|" if path_prefix else "") + leaf_result
+
+
+def resolve_mirror_pairs(nodes, require_existing=True):
+    """Build a non-mutating source/target mirror plan for explicit DAG nodes.
+
+    Counterparts are resolved in the same DAG parent and namespace. This avoids
+    ambiguous global short-name lookups when rigs contain repeated leaf names.
+    """
+    cmds = _cmds(); nodes = list(nodes or [])
+    if not nodes:
+        raise ValueError("At least one node is required.")
+    canonical = []
+    seen = set()
+    for node in nodes:
+        _require_node(cmds, node, "Mirror source")
+        source = _long_name(cmds, node)
+        if source in seen:
+            raise ValueError("Duplicate mirror source is not allowed: {0}".format(node))
+        seen.add(source); canonical.append(source)
+    result = []
+    for source in canonical:
+        mirrored_path = mirror_name(source)
+        if mirrored_path == source:
+            if require_existing:
+                raise ValueError("Mirror naming pattern was not found: {0}".format(source))
+            result.append({"source": source, "target": None, "mirror_name": mirrored_path, "status": "unmapped"})
+            continue
+        matches = cmds.ls(mirrored_path, long=True) or []
+        if not matches:
+            if require_existing:
+                raise ValueError("Mirror counterpart does not exist: {0}".format(mirrored_path))
+            result.append({"source": source, "target": None, "mirror_name": mirrored_path, "status": "missing"})
+            continue
+        if len(matches) != 1:
+            raise ValueError("Mirror counterpart is ambiguous: {0}".format(mirrored_path))
+        result.append({"source": source, "target": matches[0], "mirror_name": mirrored_path, "status": "ready"})
+    return tuple(result)
 
 
 def ensure_namespace(namespace):
