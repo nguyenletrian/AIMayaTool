@@ -46,3 +46,35 @@ def create_ikfk_blend(bind_joints, fk_joints, ik_joints, switch_attr, reverse_na
         cmds.connectAttr(switch_attr, constraint + "." + aliases[1], force=True)
         constraints.append(constraint)
     return {"switch_attr": switch_attr, "reverse": reverse, "constraints": tuple(constraints)}
+
+
+def create_rp_ik(ik_joints, ik_control, pole_control, handle_name=None, orient_end=True, maintain_offset=True):
+    """Create a reusable rotate-plane IK setup for an explicit joint chain.
+
+    The IK handle is parented under ``ik_control`` and constrained by
+    ``pole_control``. When ``orient_end`` is True the IK control also drives the
+    end-joint orientation. This intentionally excludes control creation, shape
+    choice and character naming so callers can compose those separately.
+    """
+    cmds = _cmds()
+    ik_joints = list(ik_joints or [])
+    if len(ik_joints) < 2:
+        raise ValueError("RP IK requires at least two joints.")
+    for node in ik_joints: _require_node(cmds, node, "IK joint")
+    _require_node(cmds, ik_control, "IK control")
+    _require_node(cmds, pole_control, "Pole control")
+
+    handle_name = handle_name or ik_joints[0] + "_IKHandle"
+    handle, effector = cmds.ikHandle(sj=ik_joints[0], ee=ik_joints[-1], sol="ikRPsolver", n=handle_name)
+    cmds.parent(handle, ik_control)
+    pole_constraint = cmds.poleVectorConstraint(pole_control, handle)[0]
+    orient_constraint = None
+    if orient_end:
+        orient_constraint = cmds.orientConstraint(ik_control, ik_joints[-1], mo=bool(maintain_offset))[0]
+    return {
+        "handle": handle,
+        "effector": effector,
+        "pole_constraint": pole_constraint,
+        "orient_constraint": orient_constraint,
+        "ik_joints": tuple(ik_joints),
+    }
