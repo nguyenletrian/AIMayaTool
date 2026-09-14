@@ -8,76 +8,275 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-clear-offset-verify-141a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/clear_offset.py", "aimayatool/tools/scene/clear_offset_smoke.py"], "imports": ["aimayatool.tools.scene.clear_offset"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": [{"task_id": "aimayatool-goal007-scene-pattern-animation-backup-canonical-attr-retry-managed-live-140f", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "aaf1ba83c836e14fee9708c0c558cc24a96c5bf8"}], "purpose": "Verify the migrated ScenePattern Clear Offset wrapper that reuses the accepted setup create_zero_group primitive.", "acceptance": ["Fast-forward main.", "Compile clear_offset.py and clear_offset_smoke.py.", "Import aimayatool.tools.scene.clear_offset outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "44426fef87bf260f3b9fa55879497dd0ff405937", "source_evidence": "Legacy Scene_Pattern_ClearOffset.py creates <object>_ClearOffsetGrp matched to each existing object, inserts it under the original parent and reparents the object beneath it. AIMayaTool reuses setup.controls.create_zero_group instead of duplicating constraint/group logic.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_clear_offset_python_verification_pass", "proven_main_commit": "7476207e3c2bdbb14d5e7853acc411412ce6c33d", "evidence": "Bridge fast-forwarded main from aaf1ba83c836e14fee9708c0c558cc24a96c5bf8 to 7476207e3c2bdbb14d5e7853acc411412ce6c33d; py_compile passed for clear_offset.py and clear_offset_smoke.py, and import of aimayatool.tools.scene.clear_offset passed outside Maya."}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-clear-offset-managed-live-141b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.clear_offset_smoke", "callable": "run_scene_clear_offset_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-clear-offset-verify-141a"], "purpose": "Validate ScenePattern Clear Offset parity in Maya 2024 using the reusable zero-group primitive.", "acceptance": ["Run only after 141a passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_CLEAR_OFFSET_OK:1 for PASS.", "Verify _ClearOffsetGrp insertion preserves original parent and object world transform, and missing objects are skipped deterministically.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "44426fef87bf260f3b9fa55879497dd0ff405937", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_clear_offset_maya_live_parity_pass", "proven_main_commit": "c83d4a1c35beb9abb2026788bcc38215d2c19247", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SCENE_CLEAR_OFFSET_OK:1. _ClearOffsetGrp insertion preserved hierarchy and world transform, missing objects were skipped deterministically, scene_saved=false and maya_quit=false."}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-verify-142a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/bs_sequence.py", "aimayatool/tools/scene/bs_sequence_smoke.py"], "imports": ["aimayatool.tools.scene.bs_sequence"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-clear-offset-managed-live-141b"], "purpose": "Verify the migrated ScenePattern BS Sequence From Object Keys workflow before Maya execution.", "acceptance": ["Fast-forward main.", "Compile bs_sequence.py and bs_sequence_smoke.py.", "Import aimayatool.tools.scene.bs_sequence outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "b800a2f9e9e3379d6946df13f0348e6e95c7ef4c", "source_evidence": "Legacy Scene_Pattern_BSSequenceFromObjKeys.py collects non-zero transform keyframes from objectAnimation, duplicates meshAnimation at each key, groups snapshots, creates a blendShape, creates 0..10 driver/proxy attributes plus ShowBS, and authors driven keys across blend weights.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_bs_sequence_python_verification_pass", "proven_main_commit": "3795f9e0f6f550f9d4d020def5beb8b4549e106a", "evidence": "Bridge fast-forwarded main from c83d4a1c35beb9abb2026788bcc38215d2c19247 to 3795f9e0f6f550f9d4d020def5beb8b4549e106a; py_compile passed for bs_sequence.py and bs_sequence_smoke.py, and import of aimayatool.tools.scene.bs_sequence passed outside Maya."}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-live-142b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.bs_sequence_smoke", "callable": "run_scene_bs_sequence_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-bs-sequence-verify-142a"], "purpose": "Validate ScenePattern BS Sequence From Object Keys parity in Maya 2024.", "acceptance": ["Run only after 142a passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_BS_SEQUENCE_OK:2 for PASS.", "Verify non-zero transform key collection, snapshot mesh generation, BS group parenting, blendShape creation, driver/proxy/joint attributes, driven-key inputs, ShowBS visibility connection, frame restoration, and deterministic missing-animation skip.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "b800a2f9e9e3379d6946df13f0348e6e95c7ef4c", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_bs_sequence_maya_live_parity_pass", "proven_main_commit": "2bc3c01e0a60b2d1d066042bf68c6e3c7ef40dbd", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SCENE_BS_SEQUENCE_OK:2. Snapshot generation, BS group/blendShape, driver/proxy/joint attributes, driven keys, ShowBS visibility, frame restoration, and missing-animation skip passed; scene_saved=false and maya_quit=false."}
-    },
-    {
       "task_id": "aimayatool-goal007-scene-pattern-create-attribute-verify-143a",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/create_attribute.py", "aimayatool/tools/scene/create_attribute_smoke.py"], "imports": ["aimayatool.tools.scene.create_attribute"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-bs-sequence-managed-live-142b"], "purpose": "Verify the migrated ScenePattern Create Attribute workflow before Maya execution.", "acceptance": ["Fast-forward main.", "Compile create_attribute.py and create_attribute_smoke.py.", "Import aimayatool.tools.scene.create_attribute outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "42ceb47c7863a5ede9e36cd3101ae3d0bf248d48", "source_evidence": "Legacy Scene_Pattern_CreateAttribute.py creates typed custom attributes across explicit object lists with enum/default/min/max/keyable/lock/channelBox settings while skipping missing objects and existing attributes. AIMayaTool applies post-create lock/channelBox state to every created object rather than only the final object.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_create_attribute_python_verification_pass", "proven_main_commit": "cd72b663821ae64a16894a600473fdf7ba0494a7", "evidence": "Bridge fast-forwarded main from 2bc3c01e0a60b2d1d066042bf68c6e3c7ef40dbd to cd72b663821ae64a16894a600473fdf7ba0494a7; py_compile passed for create_attribute.py and create_attribute_smoke.py, and import of aimayatool.tools.scene.create_attribute passed outside Maya."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/create_attribute.py",
+          "aimayatool/tools/scene/create_attribute_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.create_attribute"
+        ],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [],
+        "purpose": "Verify the migrated ScenePattern Create Attribute workflow before Maya execution.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile create_attribute.py and create_attribute_smoke.py.",
+          "Import aimayatool.tools.scene.create_attribute outside Maya successfully.",
+          "Do not execute Maya smoke in this Python-only task.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "42ceb47c7863a5ede9e36cd3101ae3d0bf248d48",
+        "source_evidence": "Legacy Scene_Pattern_CreateAttribute.py creates typed custom attributes across explicit object lists with enum/default/min/max/keyable/lock/channelBox settings while skipping missing objects and existing attributes. AIMayaTool applies post-create lock/channelBox state to every created object rather than only the final object.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "scene_create_attribute_python_verification_pass",
+        "proven_main_commit": "cd72b663821ae64a16894a600473fdf7ba0494a7",
+        "evidence": "Bridge fast-forwarded main from 2bc3c01e0a60b2d1d066042bf68c6e3c7ef40dbd to cd72b663821ae64a16894a600473fdf7ba0494a7; py_compile passed for create_attribute.py and create_attribute_smoke.py, and import of aimayatool.tools.scene.create_attribute passed outside Maya.",
+        "archived_prerequisite": [
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-live-142b",
+            "result": "PASS",
+            "architect_ack": true,
+            "bridge_completed": true,
+            "proven_main_commit": "2bc3c01e0a60b2d1d066042bf68c6e3c7ef40dbd"
+          }
+        ]
+      }
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-create-attribute-managed-live-143b",
       "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.scene.create_attribute_smoke",
+        "callable": "run_scene_create_attribute_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-create-attribute-verify-143a"
+        ],
+        "purpose": "Validate ScenePattern Create Attribute parity and corrected per-object state application in Maya 2024.",
+        "acceptance": [
+          "Run only after 143a passes.",
+          "Force a fresh unsaved scene and do not save.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SCENE_CREATE_ATTRIBUTE_OK:2 for PASS.",
+          "Verify two objects receive the requested double attribute with default/min/max, lock/keyable/channelBox state; missing objects and existing attrs are skipped deterministically; enum creation preserves enum labels.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "42ceb47c7863a5ede9e36cd3101ae3d0bf248d48",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "scene_create_attribute_maya_live_parity_pass",
+        "proven_main_commit": "ed80b4ff963eea81d7e2baae6fe4343872a9284e",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SCENE_CREATE_ATTRIBUTE_OK:2. Double attributes were created with requested default/min/max and per-object lock/keyable/channelBox state, enum labels were preserved, missing objects and existing attributes were skipped deterministically; scene_saved=false and maya_quit=false."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-create-curve-verify-144a",
+      "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.create_attribute_smoke", "callable": "run_scene_create_attribute_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-create-attribute-verify-143a"], "purpose": "Validate ScenePattern Create Attribute parity and corrected per-object state application in Maya 2024.", "acceptance": ["Run only after 143a passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_CREATE_ATTRIBUTE_OK:2 for PASS.", "Verify two objects receive the requested double attribute with default/min/max, lock/keyable/channelBox state; missing objects and existing attrs are skipped deterministically; enum creation preserves enum labels.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "42ceb47c7863a5ede9e36cd3101ae3d0bf248d48", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/create_curve.py",
+          "aimayatool/tools/scene/create_curve_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.create_curve"
+        ],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-create-attribute-managed-live-143b"
+        ],
+        "purpose": "Verify the migrated ScenePattern Create Curve workflow before Maya execution.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile create_curve.py and create_curve_smoke.py.",
+          "Import aimayatool.tools.scene.create_curve outside Maya successfully.",
+          "Do not execute Maya smoke in this Python-only task.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "ae678a5735242b9aab335a1f54e338405cfc79cd",
+        "source_evidence": "Legacy Scene_Pattern_CreateCurve.py parses XYZ point lines, creates a degree<=3 curve, hides it, optionally parents it, then rebuilds a duplicate. Its rebuild UI value is read but ignored in favor of hard-coded spans=100; AIMayaTool preserves the workflow while honoring explicit rebuild_spans.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-create-curve-managed-live-144b",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.scene.create_curve_smoke",
+        "callable": "run_scene_create_curve_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-create-curve-verify-144a"
+        ],
+        "purpose": "Validate ScenePattern Create Curve parity and explicit rebuild span handling in Maya 2024.",
+        "acceptance": [
+          "Run only after 144a passes.",
+          "Force a fresh unsaved scene and do not save.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SCENE_CREATE_CURVE_OK:2 for PASS.",
+          "Verify point parsing, degree selection, hidden state, parent preservation, explicit rebuild spans, no-rebuild path, and deterministic invalid-point skip.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "ae678a5735242b9aab335a1f54e338405cfc79cd",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     }
   ]
 }
