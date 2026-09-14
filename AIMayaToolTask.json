@@ -32,7 +32,8 @@
     {
       "task_id": "aimayatool-goal005-setup-ui-rpik-verify-116a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -56,6 +57,10 @@
           "Do not import the Maya-only ui_parity_smoke module in normal Python.",
           "Do not invoke Codex."
         ],
+        "result": "PASS",
+        "classification": "setup_ui_rpik_python_verification_pass",
+        "proven_main_commit": "2eb835d3492227be6b450fc4a51334295db4c32b",
+        "evidence": "After ff-only sync to 2eb835d3492227be6b450fc4a51334295db4c32b, py_compile passed for aimayatool/tools/setup/__init__.py and aimayatool/tools/setup/ui_parity_smoke.py; non-Maya import of aimayatool.tools.setup passed.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
