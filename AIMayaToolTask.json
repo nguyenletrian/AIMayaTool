@@ -12,242 +12,60 @@
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.mirror_batch_smoke",
-        "callable": "run_setup_mirror_batch_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-mirror-batch",
-        "depends_on": [],
-        "result": "PASS",
-        "classification": "setup_mirror_batch_naming_managed_live_pass",
-        "proven_main_commit": "b2b1df2af98ef1170fd9e33a0a14bffa794f3c9c",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, fast-forwarded local main from e98a1bcc6972f5fb5a883bbbb00188cbb7e824a0 to b2b1df2af98ef1170fd9e33a0a14bffa794f3c9c, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_MIRROR_BATCH_OK:8, scene_saved=false and maya_quit=false.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.mirror_batch_smoke", "callable": "run_setup_mirror_batch_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-mirror-batch", "depends_on": [], "result": "PASS", "classification": "setup_mirror_batch_naming_managed_live_pass", "proven_main_commit": "b2b1df2af98ef1170fd9e33a0a14bffa794f3c9c", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, fast-forwarded local main from e98a1bcc6972f5fb5a883bbbb00188cbb7e824a0 to b2b1df2af98ef1170fd9e33a0a14bffa794f3c9c, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_MIRROR_BATCH_OK:8, scene_saved=false and maya_quit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-execution-verify-134a",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/naming.py",
-          "aimayatool/tools/setup/mirror_batch_execution_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup.naming"
-        ],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-mirror-batch",
-        "depends_on": [
-          "aimayatool-goal006-setup-mirror-batch-naming-managed-live-133b"
-        ],
-        "purpose": "Verify guarded mirror-transform batch execution compiles and the pure matrix helper/import surface remains safe outside Maya.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile naming.py and mirror_batch_execution_smoke.py.",
-          "Import aimayatool.tools.setup.naming outside Maya.",
-          "Do not invoke Codex."
-        ],
-        "result": "PASS",
-        "classification": "setup_mirror_batch_execution_python_verification_pass",
-        "proven_main_commit": "a19c1d54cada8897533b06532ed5580dc0f09ae2",
-        "evidence": "Bridge fast-forwarded local main from b2b1df2af98ef1170fd9e33a0a14bffa794f3c9c to a19c1d54cada8897533b06532ed5580dc0f09ae2; py_compile passed for naming.py and mirror_batch_execution_smoke.py; import of aimayatool.tools.setup.naming passed outside Maya.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/naming.py", "aimayatool/tools/setup/mirror_batch_execution_smoke.py"], "imports": ["aimayatool.tools.setup.naming"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-mirror-batch", "depends_on": ["aimayatool-goal006-setup-mirror-batch-naming-managed-live-133b"], "purpose": "Verify guarded mirror-transform batch execution compiles and the pure matrix helper/import surface remains safe outside Maya.", "acceptance": ["Fast-forward main.", "Compile naming.py and mirror_batch_execution_smoke.py.", "Import aimayatool.tools.setup.naming outside Maya.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_mirror_batch_execution_python_verification_pass", "proven_main_commit": "a19c1d54cada8897533b06532ed5580dc0f09ae2", "evidence": "Bridge fast-forwarded local main from b2b1df2af98ef1170fd9e33a0a14bffa794f3c9c to a19c1d54cada8897533b06532ed5580dc0f09ae2; py_compile passed for naming.py and mirror_batch_execution_smoke.py; import of aimayatool.tools.setup.naming passed outside Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-execution-managed-live-134b",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.mirror_batch_execution_smoke",
-        "callable": "run_setup_mirror_batch_execution_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-mirror-batch",
-        "depends_on": [
-          "aimayatool-goal006-setup-mirror-batch-execution-verify-134a"
-        ],
-        "purpose": "Prove mirror batch execution snapshots all sources and preflights missing/locked later targets before any mutation while valid pairs mirror correctly.",
-        "acceptance": [
-          "Run only after 134a passes.",
-          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
-          "Require result SETUP_MIRROR_BATCH_EXECUTION_OK:7 for PASS.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "result": "PASS",
-        "classification": "setup_mirror_batch_execution_managed_live_pass",
-        "proven_main_commit": "866cd3235b531d9fd02c9a01b5c9abfa1bed6574",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001 after ff-only sync to 866cd3235b531d9fd02c9a01b5c9abfa1bed6574, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_MIRROR_BATCH_EXECUTION_OK:7, scene_saved=false and maya_quit=false.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.mirror_batch_execution_smoke", "callable": "run_setup_mirror_batch_execution_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-mirror-batch", "depends_on": ["aimayatool-goal006-setup-mirror-batch-execution-verify-134a"], "purpose": "Prove mirror batch execution snapshots all sources and preflights missing/locked later targets before any mutation while valid pairs mirror correctly.", "acceptance": ["Run only after 134a passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_MIRROR_BATCH_EXECUTION_OK:7 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_mirror_batch_execution_managed_live_pass", "proven_main_commit": "866cd3235b531d9fd02c9a01b5c9abfa1bed6574", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001 after ff-only sync to 866cd3235b531d9fd02c9a01b5c9abfa1bed6574, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_MIRROR_BATCH_EXECUTION_OK:7, scene_saved=false and maya_quit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-ui-implementation-135a",
       "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "implementation", "target": "repository"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": true, "push": true},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/__init__.py"], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-mirror-batch", "depends_on": ["aimayatool-goal006-setup-mirror-batch-execution-managed-live-134b"], "purpose": "Expose the validated mirror-transform batch API through a thin selection adapter and compact Setup UI controls without duplicating mirror logic in the UI layer.", "acceptance": ["Add a thin selection-driven adapter in aimayatool.tools.setup that calls naming.execute_mirror_transform_batch on explicit selected transforms.", "Expose compact X/Y/Z mirror batch actions in the Setup UI, preserving the existing _run error/status presentation pattern.", "Do not duplicate mirror-name resolution or matrix logic in the UI layer.", "Keep behavior selection-driven only at the adapter boundary; the domain API remains explicit-input.", "Compile changed Python before commit and do not invoke Codex."], "result": "ROUTE_MISSING", "classification": "implementation_repository_route_missing_recovered_directly", "evidence": "Bridge returned success=false with summary 'No route handler registered for implementation:repository'. No AIMayaTool product code ran. Architect recovered by implementing the same bounded UI slice directly through the GitHub repository connector at commit 7876fe175b3364b76b9fbfe2d8779f422032beb5.", "recovery_commit": "7876fe175b3364b76b9fbfe2d8779f422032beb5", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-mirror-batch-ui-verify-135b",
+      "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "implementation",
-        "target": "repository"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/__init__.py"
-        ],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-mirror-batch",
-        "depends_on": [
-          "aimayatool-goal006-setup-mirror-batch-execution-managed-live-134b"
-        ],
-        "purpose": "Expose the validated mirror-transform batch API through a thin selection adapter and compact Setup UI controls without duplicating mirror logic in the UI layer.",
-        "acceptance": [
-          "Add a thin selection-driven adapter in aimayatool.tools.setup that calls naming.execute_mirror_transform_batch on explicit selected transforms.",
-          "Expose compact X/Y/Z mirror batch actions in the Setup UI, preserving the existing _run error/status presentation pattern.",
-          "Do not duplicate mirror-name resolution or matrix logic in the UI layer.",
-          "Keep behavior selection-driven only at the adapter boundary; the domain API remains explicit-input.",
-          "Compile changed Python before commit and do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/naming_ui.py"], "imports": [], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-mirror-batch", "depends_on": ["aimayatool-goal006-setup-mirror-batch-ui-implementation-135a"], "purpose": "Verify the recovered mirror-batch UI adapter compiles after direct repository implementation.", "acceptance": ["Fast-forward main.", "Compile aimayatool/tools/setup/naming_ui.py.", "Do not import the Maya UI module outside Maya.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
