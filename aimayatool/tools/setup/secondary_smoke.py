@@ -39,3 +39,20 @@ def run_setup_spline_ik_chain_smoke():
         if not node or not cmds.objExists(node): raise RuntimeError("Spline IK node missing: {0}".format(node))
     if cmds.nodeType(result["handle"])!="ikHandle": raise RuntimeError("Spline IK handle type mismatch.")
     return "SETUP_SPLINE_IK_CHAIN_SMOKE_OK:3"
+
+def run_setup_object_on_curve_smoke():
+    secondary=_secondary(); cmds.file(new=True,force=True)
+    curve=cmds.curve(degree=1,point=[(0,0,0),(10,0,0)],name="followCurve")
+    parent=cmds.createNode("transform",name="followParent"); cmds.setAttr(parent+".translateX",3)
+    a=cmds.createNode("transform",name="followA"); b=cmds.createNode("transform",name="followB"); cmds.parent(b,parent)
+    cmds.xform(a,worldSpace=True,translation=(2,1,0)); cmds.xform(b,worldSpace=True,translation=(8,-1,0))
+    result=secondary.attach_objects_to_curve(curve,[a,b],name_prefix="follow")
+    if len(result["point_nodes"])!=2 or len(result["matrix_nodes"])!=2: raise RuntimeError("Object-on-curve nodes missing.")
+    cmds.dgdirty(allPlugs=True)
+    apos=cmds.xform(a,query=True,worldSpace=True,translation=True); bpos=cmds.xform(b,query=True,worldSpace=True,translation=True)
+    if abs(apos[0]-2)>1e-3 or abs(apos[1])>1e-3: raise RuntimeError("Object A did not snap to nearest curve point.")
+    if abs(bpos[0]-8)>1e-3 or abs(bpos[1])>1e-3: raise RuntimeError("Parented object B did not preserve correct world curve position.")
+    cmds.xform(curve,worldSpace=True,translation=(0,5,0)); cmds.dgdirty(allPlugs=True)
+    apos2=cmds.xform(a,query=True,worldSpace=True,translation=True); bpos2=cmds.xform(b,query=True,worldSpace=True,translation=True)
+    if abs(apos2[1]-5)>1e-3 or abs(bpos2[1]-5)>1e-3: raise RuntimeError("Attached objects did not follow curve transform.")
+    return "SETUP_OBJECT_ON_CURVE_SMOKE_OK:2"
