@@ -151,8 +151,8 @@
     {
       "task_id": "aimayatool-goal005-setup-naming-namespace-verify-121a-r3",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -177,6 +177,10 @@
           "Run unittest target tests.test_setup_naming and require all discovered tests to pass.",
           "Do not invoke Codex."
         ],
+        "result": "PASS",
+        "classification": "setup_naming_namespace_python_verification_pass",
+        "proven_main_commit": "fd20a8ee40e500140a2ceb65026b0e39ef7ab1e2",
+        "evidence": "Bridge fast-forwarded local main from ac97beeee3832a4fe8e435ec4ec59ffbc56f3429 to fd20a8ee40e500140a2ceb65026b0e39ef7ab1e2; py_compile passed for aimayatool/tools/setup/naming.py, aimayatool/tools/setup/naming_smoke.py, tests/__init__.py and tests/test_setup_naming.py; imports of aimayatool.tools.setup.naming and tests.test_setup_naming passed; unittest target tests.test_setup_naming ran 3 tests and all passed.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
