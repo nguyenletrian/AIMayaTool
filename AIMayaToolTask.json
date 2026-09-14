@@ -106,7 +106,7 @@
     {
       "task_id": "aimayatool-goal005-setup-rivet-managed-live-097b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -159,6 +159,134 @@
           "Force a fresh unsaved scene and do not save.",
           "Require result SETUP_RIVET_SMOKE_OK:2 for PASS.",
           "Smoke must prove locator motion after facet deformation and child world-position follow, not only node existence.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "FAIL",
+        "classification": "setup_rivet_smoke_assertion_mismatch",
+        "proven_main_commit": "fc06ad6eea070222c8e656d4e92fa10768d81906",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, and reached product code. Locator deformation-follow passed, then the smoke raised 'Rivet child did not follow locator.' The implementation and legacy Scene_Pattern_Rivet.py both parentConstraint locator -> child offset with maintainOffset=True; the failing equality assertion incorrectly required child world position to equal locator world position instead of preserving the initial offset while matching locator motion delta.",
+        "diagnosis": "Smoke-oracle defect, not rivet primitive defect. Legacy behavior explicitly uses parentConstraint(loc, offset, mo=True)."
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-rivet-smoke-fix-verify-097c",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/rivet_smoke.py",
+          "tests/test_setup_rivet.py"
+        ],
+        "tests": [
+          "tests.test_setup_rivet"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-secondary",
+        "retry_of": "aimayatool-goal005-setup-rivet-managed-live-097b",
+        "purpose": "Verify the corrected Rivet smoke oracle after aligning it with legacy maintainOffset=True semantics.",
+        "fix_commit": "88216d83e346499801510fb2fd6a55150aec4e90",
+        "acceptance": [
+          "Fast-forward main through smoke fix commit 88216d83e346499801510fb2fd6a55150aec4e90.",
+          "Compile aimayatool/tools/setup/rivet_smoke.py and tests/test_setup_rivet.py.",
+          "Run tests.test_setup_rivet and require all tests pass.",
+          "The smoke must compare child motion delta with locator motion delta and verify the initial child-locator offset remains stable.",
+          "Do not change the accepted rivet primitive solely to make the old equality assertion pass.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-rivet-managed-live-retry-097d",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.rivet_smoke",
+        "callable": "run_setup_rivet_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-secondary",
+        "depends_on": [
+          "aimayatool-goal005-setup-rivet-smoke-fix-verify-097c"
+        ],
+        "retry_of": "aimayatool-goal005-setup-rivet-managed-live-097b",
+        "purpose": "Re-run Rivet in real Maya with the corrected maintain-offset smoke oracle.",
+        "acceptance": [
+          "Run only after 097c passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_RIVET_SMOKE_OK:2 for PASS.",
+          "Prove locator motion after facet deformation, matching child/locator motion deltas, and preserved child-locator maintain-offset relationship.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
