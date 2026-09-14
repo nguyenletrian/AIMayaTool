@@ -8,11 +8,12 @@ from aimayatool.tools.setup import ikfk
 
 class FakeCmds(object):
     def __init__(self):
-        self.nodes = {"settings.ikfk", "bind1", "bind2", "fk1", "fk2", "ik1", "ik2", "ik3", "ikCtrl", "poleCtrl"}
+        self.nodes = {"settings.ikfk", "bind1", "bind2", "fk1", "fk2", "ik1", "ik2", "ik3", "ikCtrl", "poleCtrl", "fkCtrl", "fkOffset", "ikOffset", "poleOffset"}
         self.calls = []
     def objExists(self, name): return name in self.nodes
-    def createNode(self, node_type, name=None): self.calls.append(("createNode", node_type, name)); return name or "reverse1"
+    def createNode(self, node_type, name=None): self.calls.append(("createNode", node_type, name)); self.nodes.add(name or "reverse1"); return name or "reverse1"
     def connectAttr(self, src, dst, force=False): self.calls.append(("connectAttr", src, dst, force))
+    def addAttr(self, node, **kwargs): self.calls.append(("addAttr", node, kwargs)); self.nodes.add(node + "." + kwargs["longName"])
     def parentConstraint(self, *args, **kwargs):
         if kwargs.get("query") and kwargs.get("weightAliasList"):
             return ["fkW0", "ikW1"]
@@ -59,6 +60,22 @@ class SetupIKFKTests(unittest.TestCase):
         fake = FakeCmds()
         with mock.patch.object(ikfk, "_cmds", return_value=fake):
             with self.assertRaises(ValueError): ikfk.create_rp_ik(["ik1"], "ikCtrl", "poleCtrl")
+
+    def test_wire_ikfk_switch_connects_visibility_and_adds_proxy(self):
+        fake = FakeCmds()
+        with mock.patch.object(ikfk, "_cmds", return_value=fake):
+            result = ikfk.wire_ikfk_switch("settings.ikfk", ["fkOffset"], ["ikOffset", "poleOffset"], proxy_nodes=["fkCtrl"], reverse_node="fk1", proxy_attr_name="SwitchIKFK")
+        self.assertEqual("fk1", result["reverse"])
+        self.assertEqual(("fkCtrl.SwitchIKFK",), result["proxy_attrs"])
+        self.assertIn(("connectAttr", "fk1.outputX", "fkOffset.visibility", True), fake.calls)
+        self.assertIn(("connectAttr", "settings.ikfk", "ikOffset.visibility", True), fake.calls)
+        self.assertIn(("connectAttr", "settings.ikfk", "poleOffset.visibility", True), fake.calls)
+        self.assertIn(("addAttr", "fkCtrl", {"longName": "SwitchIKFK", "proxy": "settings.ikfk"}), fake.calls)
+
+    def test_wire_ikfk_switch_requires_both_visibility_sets(self):
+        fake = FakeCmds()
+        with mock.patch.object(ikfk, "_cmds", return_value=fake):
+            with self.assertRaises(ValueError): ikfk.wire_ikfk_switch("settings.ikfk", [], ["ikOffset"])
 
 
 if __name__ == "__main__": unittest.main()
