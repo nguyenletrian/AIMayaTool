@@ -47,6 +47,33 @@ def match_world_transform(target, source, translate=True, rotate=True, scale=Fal
     return target
 
 
+def freeze_transforms(nodes, translate=True, rotate=True, scale=True):
+    """Freeze enabled transform channels on explicit nodes."""
+    cmds = _cmds(); nodes = list(nodes or [])
+    if not nodes: raise ValueError("At least one transform is required.")
+    if not any((translate, rotate, scale)): raise ValueError("At least one transform channel must be enabled.")
+    for node in nodes:
+        _require_node(cmds, node, "Freeze node")
+        cmds.makeIdentity(node, apply=True, t=bool(translate), r=bool(rotate), s=bool(scale), n=0)
+    return tuple(nodes)
+
+
+def reset_transforms(nodes, translate=True, rotate=True, scale=False):
+    """Reset enabled local transform channels on explicit nodes."""
+    cmds = _cmds(); nodes = list(nodes or [])
+    if not nodes: raise ValueError("At least one transform is required.")
+    if not any((translate, rotate, scale)): raise ValueError("At least one transform channel must be enabled.")
+    for node in nodes:
+        _require_node(cmds, node, "Reset node")
+        if translate:
+            for axis in "XYZ": cmds.setAttr("{0}.translate{1}".format(node, axis), 0)
+        if rotate:
+            for axis in "XYZ": cmds.setAttr("{0}.rotate{1}".format(node, axis), 0)
+        if scale:
+            for axis in "XYZ": cmds.setAttr("{0}.scale{1}".format(node, axis), 1)
+    return tuple(nodes)
+
+
 def _transform_hierarchy(cmds, root):
     _require_node(cmds, root, "Hierarchy root")
     root = _long_name(cmds, root)
