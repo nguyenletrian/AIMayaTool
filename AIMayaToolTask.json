@@ -1,11 +1,17 @@
 {
   "version": 1,
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
-  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
+  "force_restart": {
+    "enabled": false,
+    "request_id": "aimayatool-setup-migration-119",
+    "reason": "healthy_managed_maya_session_reusable"
+  },
   "tasks": [
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-naming-managed-live-133b",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -15,7 +21,9 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-execution-verify-134a",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -25,7 +33,9 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-execution-managed-live-134b",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -35,7 +45,9 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-ui-implementation-135a",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "implementation", "target": "repository"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": true, "push": true},
@@ -45,7 +57,9 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-ui-verify-135b",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -55,7 +69,9 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-ui-smoke-verify-135c",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -65,7 +81,9 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-ui-managed-live-135d",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -75,17 +93,21 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-ui-smoke-reverify-135e",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/mirror_batch_ui_smoke.py"], "imports": [], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-mirror-batch", "depends_on": ["aimayatool-goal006-setup-mirror-batch-ui-managed-live-135d"], "purpose": "Recompile the corrected Maya-only UI smoke after fixing its explicit parent context.", "acceptance": ["Fast-forward main.", "Compile aimayatool/tools/setup/mirror_batch_ui_smoke.py.", "Do not import the Maya-only smoke outside Maya.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-mirror-batch", "depends_on": ["aimayatool-goal006-setup-mirror-batch-ui-managed-live-135d"], "purpose": "Recompile the corrected Maya-only UI smoke after fixing its explicit parent context.", "acceptance": ["Fast-forward main.", "Compile aimayatool/tools/setup/mirror_batch_ui_smoke.py.", "Do not import the Maya-only smoke outside Maya.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "setup_mirror_batch_ui_smoke_reverification_pass", "proven_main_commit": "aded65c703b3698eb71bd25fc965b4a6e7cd7fce", "evidence": "Bridge fast-forwarded local main from 96ad63db2fdc03f77039b29db64929590b40a85f to aded65c703b3698eb71bd25fc965b4a6e7cd7fce; py_compile passed for aimayatool/tools/setup/mirror_batch_ui_smoke.py after the explicit parent-context fix."}
     },
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-ui-managed-live-retry-135f",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
