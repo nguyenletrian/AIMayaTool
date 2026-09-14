@@ -6,8 +6,12 @@ from aimayatool.tools.setup import secondary
 
 class FakeCmds(object):
     def __init__(self):
-        self.nodes = {"driver", "end", "start", "orientRef", "obj1", "obj2", "dst1", "dst2", "constraints", "ref1", "ref2", "ref3"}; self.calls = []; self.constraint_index = 0
+        self.nodes = {"driver", "end", "start", "orientRef", "obj1", "obj2", "dst1", "dst2", "constraints", "ref1", "ref2", "ref3", "curve", "curveShape"}; self.calls = []; self.constraint_index = 0
     def objExists(self, name): return name in self.nodes
+    def nodeType(self, node): return "nurbsCurve" if node == "curveShape" else "transform"
+    def listRelatives(self, node, **kwargs):
+        if kwargs.get("shapes") and node == "curve": return ["curveShape"]
+        return []
     def addAttr(self, node, **kwargs): self.calls.append(("addAttr", node, kwargs)); self.nodes.add(node + "." + kwargs["longName"])
     def createNode(self, node_type, name=None): self.calls.append(("createNode", node_type, name)); self.nodes.add(name); return name
     def connectAttr(self, src, dst, force=False): self.calls.append(("connectAttr", src, dst, force))
@@ -20,10 +24,17 @@ class FakeCmds(object):
     def orientConstraint(self, *args, **kwargs):
         if kwargs.get("query") and kwargs.get("weightAliasList"): return ["orientRefW0", "destW1"]
         self.constraint_index += 1; name = "oc{0}".format(self.constraint_index); self.calls.append(("orientConstraint", args, kwargs, name)); return [name]
-    def setAttr(self, plug, value): self.calls.append(("setAttr", plug, value))
+    def setAttr(self, plug, *values, **kwargs): self.calls.append(("setAttr", plug, values, kwargs))
+    def getAttr(self, plug):
+        if plug.endswith("_Nearest_01.parameter"): return 0.25
+        if plug.endswith("_Nearest_02.parameter"): return 0.75
+        raise KeyError(plug)
+    def delete(self, node): self.calls.append(("delete", node))
     def setDrivenKeyframe(self, plug, currentDriver=None): self.calls.append(("setDrivenKeyframe", plug, currentDriver))
     def parent(self, child, parent): self.calls.append(("parent", child, parent)); return [child]
-    def xform(self, node, **kwargs): self.calls.append(("xform", node, kwargs)); return {"ref1":[0,0,0],"ref2":[5,1,0],"ref3":[10,0,0]}[node]
+    def xform(self, node, **kwargs):
+        self.calls.append(("xform", node, kwargs))
+        return {"ref1":[0,0,0],"ref2":[5,1,0],"ref3":[10,0,0],"obj1":[1,2,3],"obj2":[4,5,6]}[node]
     def select(self, **kwargs): self.calls.append(("select", kwargs))
     def joint(self, *args, **kwargs):
         if kwargs.get("edit"): self.calls.append(("joint_edit", args, kwargs)); return args[0] if args else None
@@ -38,7 +49,7 @@ class SetupSecondaryTests(unittest.TestCase):
     def test_fold_creates_driver_constraints_and_expected_key_states(self):
         fake=FakeCmds()
         with mock.patch.object(secondary,"_cmds",return_value=fake): result=secondary.create_fold_rig(["obj1","obj2"],"end",["dst1","dst2"],"driver.fold",constraint_parent="constraints")
-        self.assertEqual(("pc1","pc2"),result["constraints"]); self.assertIn(("setAttr","driver.fold",2),fake.calls)
+        self.assertEqual(("pc1","pc2"),result["constraints"]); self.assertTrue(any(call[0]=="setAttr" and call[1]=="driver.fold" and call[2][0]==2 for call in fake.calls))
     def test_rope_straight_requires_equal_non_empty_lists(self):
         with mock.patch.object(secondary,"_cmds",return_value=FakeCmds()):
             with self.assertRaises(ValueError): secondary.create_rope_straight(["obj1"],"start","end",["dst1","dst2"],"orientRef","driver.rope")
@@ -60,5 +71,16 @@ class SetupSecondaryTests(unittest.TestCase):
         fake=FakeCmds()
         with mock.patch.object(secondary,"_cmds",return_value=fake): result=secondary.create_spline_ik_chain(["ref1","ref2","ref3"],name_prefix="tail")
         self.assertEqual(("tail_SplineJnt_01","tail_SplineJnt_02","tail_SplineJnt_03"),result["joints"]); self.assertEqual("tail_SplineCurve",result["curve"]); self.assertEqual("tail_SplineIKHandle",result["handle"])
+    def test_object_on_curve_requires_objects(self):
+        with mock.patch.object(secondary,"_cmds",return_value=FakeCmds()):
+            with self.assertRaises(ValueError): secondary.attach_objects_to_curve("curve",[])
+    def test_object_on_curve_captures_parameters_and_parent_space(self):
+        fake=FakeCmds()
+        with mock.patch.object(secondary,"_cmds",return_value=fake): result=secondary.attach_objects_to_curve("curve",["obj1","obj2"],name_prefix="follow")
+        self.assertEqual((0.25,0.75),result["parameters"])
+        self.assertEqual(("follow_Point_01","follow_Point_02"),result["point_nodes"])
+        self.assertIn(("connectAttr","curveShape.worldSpace[0]","follow_Point_01.inputCurve",True),fake.calls)
+        self.assertIn(("connectAttr","obj1.parentInverseMatrix[0]","follow_Localize_01.inMatrix",True),fake.calls)
+        self.assertIn(("connectAttr","follow_Localize_01.output","obj1.translate",True),fake.calls)
 
 if __name__ == "__main__": unittest.main()
