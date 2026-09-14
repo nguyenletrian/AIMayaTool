@@ -3,7 +3,7 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-114-retry",
+    "request_id": "aimayatool-setup-migration-115",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
@@ -26,6 +26,70 @@
         "proven_main_commit": "ae4055c417e6cc26f806f8ac68d993e9833ea411",
         "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:17, scene_saved=false and maya_quit=false.",
         "archived_prerequisite": {"task_id": "aimayatool-goal005-setup-ui-core-smoke-fix-verify-114c", "result": "PASS", "architect_ack": true, "bridge_completed": true, "classification": "setup_ui_core_smoke_fix_python_verification_pass", "proven_main_commit": "77ed20effbecb054d7b27b94b6963b810ed520ba"},
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ui-secondary-verify-115a",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/ui_parity_smoke.py"],
+        "imports": ["aimayatool.tools.setup"],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ui-parity",
+        "depends_on": ["aimayatool-goal005-setup-ui-core-managed-live-retry-114d"],
+        "purpose": "Verify the Setup secondary UI parity slice exposing Spline IK Chain, Object on Curve and Joints Between through thin selection-driven callbacks.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile aimayatool/tools/setup/__init__.py and aimayatool/tools/setup/ui_parity_smoke.py.",
+          "Import aimayatool.tools.setup outside Maya without eager Maya imports.",
+          "Do not import the Maya-only ui_parity_smoke module in normal Python.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ui-secondary-managed-live-115b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.ui_parity_smoke",
+        "callable": "run_setup_ui_core_parity_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ui-parity",
+        "depends_on": ["aimayatool-goal005-setup-ui-secondary-verify-115a"],
+        "purpose": "Validate the expanded Setup UI exposes the 17 accepted core actions plus the three secondary workflows in real Maya.",
+        "acceptance": [
+          "Run only after aimayatool-goal005-setup-ui-secondary-verify-115a passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_UI_CORE_PARITY_OK:20 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
