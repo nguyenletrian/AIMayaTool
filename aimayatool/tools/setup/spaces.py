@@ -17,10 +17,44 @@ def _short_name(node):
     return node.rsplit("|", 1)[-1]
 
 
+def _long_name(cmds, node):
+    names = cmds.ls(node, long=True) or []
+    return names[0] if names else node
+
+
 def _weight_map(cmds, constraint):
     targets = cmds.parentConstraint(constraint, q=True, targetList=True) or []
     weights = cmds.parentConstraint(constraint, q=True, weightAliasList=True) or []
     return dict((_short_name(target), weight) for target, weight in zip(targets, weights))
+
+
+def _validate_existing_attribute(cmds, node, attr_name, expected_type):
+    if not cmds.attributeQuery(attr_name, node=node, exists=True):
+        return
+    actual_type = cmds.getAttr(node + "." + attr_name, type=True)
+    if actual_type != expected_type:
+        raise ValueError("Existing attribute {0}.{1} must be type {2}, got {3}.".format(node, attr_name, expected_type, actual_type))
+
+
+def _validate_space_inputs(cmds, child, parents, labels, attr_name, slide_attr):
+    if not attr_name or not str(attr_name).strip():
+        raise ValueError("Space attribute name is required.")
+    child_long = _long_name(cmds, child)
+    parent_longs = [_long_name(cmds, parent) for parent in parents]
+    if child_long in parent_longs:
+        raise ValueError("Child cannot also be a space parent: {0}".format(child))
+    if len(set(parent_longs)) != len(parent_longs):
+        raise ValueError("Space parents must be unique.")
+    clean_labels = [str(label).strip() for label in labels]
+    if any(not label for label in clean_labels):
+        raise ValueError("Space labels cannot be empty.")
+    if len(set(clean_labels)) != len(clean_labels):
+        raise ValueError("Space labels must be unique.")
+    if slide_attr and str(slide_attr).strip() == str(attr_name).strip():
+        raise ValueError("slide_attr must differ from attr_name.")
+    _validate_existing_attribute(cmds, child, attr_name, "enum")
+    if slide_attr:
+        _validate_existing_attribute(cmds, child, slide_attr, "double")
 
 
 def create_space_switch(child, parents, attr_name="space", labels=None, maintain_offset=True, slide_attr=None, slide_default=1.0, offset_suffix="_SpaceSwitchOffset"):
@@ -40,6 +74,7 @@ def create_space_switch(child, parents, attr_name="space", labels=None, maintain
     labels = list(labels or [_short_name(parent) for parent in parents])
     if len(labels) != len(parents):
         raise ValueError("labels must match parents length.")
+    _validate_space_inputs(cmds, child, parents, labels, attr_name, slide_attr)
 
     offset, _ = controls.create_zero_group(child, suffix=offset_suffix)
     root_parent = (cmds.listRelatives(offset, parent=True, fullPath=True) or [None])[0]
