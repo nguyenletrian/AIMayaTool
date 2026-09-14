@@ -31,7 +31,8 @@
     {
       "task_id": "aimayatool-goal005-setup-control-shape-replace-verify-079a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -99,7 +100,11 @@
           "No eager maya.cmds import is introduced in controls.py.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_control_shape_replace_python_verification_pass",
+        "proven_main_commit": "884a29165c9660910193946c3f086a6868160e8f",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 884a29165c9660910193946c3f086a6868160e8f; py_compile passed for controls.py, smoke.py and tests/test_setup_control_shapes.py; normal-Python import passed; all 5 focused tests passed."
       }
     },
     {
@@ -148,9 +153,13 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "depends_on": [
-          "aimayatool-goal005-setup-control-shape-replace-verify-079a"
-        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-control-shape-replace-verify-079a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_control_shape_replace_python_verification_pass"
+        },
         "purpose": "Validate control-shape replacement against real Maya DAG/connection behavior: transform and shape name stay stable, requested curve points are installed, and incoming/outgoing shape connections are restored.",
         "acceptance": [
           "Run only after 079a passes.",
