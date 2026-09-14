@@ -107,7 +107,8 @@ def mirror_name(name):
     value = str(name)
     if not value:
         raise ValueError("Name must be non-empty.")
-    path_prefix, leaf = value.rsplit("|", 1) if "|" in value else ("", value)
+    has_dag_separator = "|" in value
+    path_prefix, leaf = value.rsplit("|", 1) if has_dag_separator else ("", value)
     namespace, base = leaf.rsplit(":", 1) if ":" in leaf else ("", leaf)
     mirrored = base
     for pattern in _MIRROR_PATTERNS:
@@ -118,7 +119,7 @@ def mirror_name(name):
             mirrored = base[:start] + _MIRROR_SWAP[token] + base[end:]
             break
     leaf_result = (namespace + ":" if namespace else "") + mirrored
-    return (path_prefix + "|" if path_prefix else "") + leaf_result
+    return (path_prefix + "|" if has_dag_separator else "") + leaf_result
 
 
 def resolve_mirror_pairs(nodes, require_existing=True):
