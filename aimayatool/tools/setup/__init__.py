@@ -164,6 +164,21 @@ def _joints_between_selected():
     return result
 
 
+def _rp_ik_selected():
+    from . import ikfk
+    cmds = _cmds()
+    nodes = cmds.ls(selection=True, long=True) or []
+    if len(nodes) < 4:
+        raise ValueError("Select IK joints in chain order, then IK control, then pole control.")
+    ik_control, pole_control = nodes[-2], nodes[-1]
+    ik_joints = nodes[:-2]
+    if len(ik_joints) < 2 or any(cmds.nodeType(node) != "joint" for node in ik_joints):
+        raise ValueError("All selections before the final two controls must be joints in IK chain order.")
+    result = ikfk.create_rp_ik(ik_joints, ik_control, pole_control)
+    cmds.select(ik_control, pole_control, replace=True)
+    return result
+
+
 def build_ui():
     cmds = _cmds()
 
@@ -207,6 +222,11 @@ def build_ui():
     cmds.button(label="Create Space Switch", command=lambda *_: _run("Space switch", _space_switch_selected))
     cmds.button(label="Copy Attribute...", command=lambda *_: _run("Attribute copy", _copy_attribute_selected))
     cmds.setParent("..")
+
+    cmds.separator(height=8, style="none")
+    cmds.text(label="IK/FK", align="left")
+    cmds.text(label="RP IK selection: joints in chain order, then IK control, then pole control.", align="left")
+    cmds.button(label="Create RP IK", command=lambda *_: _run("RP IK", _rp_ik_selected))
 
     cmds.separator(height=8, style="none")
     cmds.text(label="Secondary rigs", align="left")
