@@ -37,6 +37,38 @@ def run_setup_sdk_smoke():
     return "SETUP_SDK_SMOKE_OK:1"
 
 
+def run_setup_sdk_proxy_attr_smoke():
+    sdk = _sdk()
+    cmds.file(new=True, force=True)
+    driver = cmds.createNode("transform", name="sdkProxyDriver")
+    driven = cmds.createNode("transform", name="sdkProxyDriven")
+    cmds.addAttr(driver, longName="drive", attributeType="double", keyable=True)
+    cmds.addAttr(driven, longName="custom", attributeType="double", keyable=True)
+    result = sdk.apply_driven_key_map(
+        driver + ".drive",
+        [
+            {"driver_value": 0.0, "driven_values": {driven + ".custom": 1.0}},
+            {"driver_value": 10.0, "driven_values": {driven + ".custom": 7.0}},
+        ],
+        use_sdk_groups=True,
+        proxy_custom_attrs=True,
+    )
+    group = result["sdk_groups"].get(driven)
+    if not group or not cmds.objExists(group + ".custom"):
+        raise RuntimeError("SDK proxy custom attribute was not created.")
+    incoming = cmds.listConnections(driven + ".custom", source=True, destination=False, plugs=True) or []
+    if group + ".custom" not in incoming:
+        raise RuntimeError("SDK proxy custom attribute was not connected to driven plug.")
+    curves = cmds.listConnections(group + ".custom", source=True, destination=False, type="animCurve") or []
+    if not curves:
+        raise RuntimeError("Driven-key animCurve was not created on SDK proxy attribute.")
+    cmds.setAttr(driver + ".drive", 10.0)
+    value = cmds.getAttr(driven + ".custom")
+    if abs(value - 7.0) > 1e-5:
+        raise RuntimeError("SDK proxy custom attribute evaluation mismatch: {0}".format(value))
+    return "SETUP_SDK_PROXY_ATTR_SMOKE_OK:1"
+
+
 def run_setup_modulo_sdk_smoke():
     sdk = _sdk()
     cmds.file(new=True, force=True)
