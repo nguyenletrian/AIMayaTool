@@ -25,13 +25,13 @@
     },
     {
       "task_id": "aimayatool-goal005-setup-complete-regression-verify-124a-r1",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/regression_smoke.py"], "imports": ["aimayatool.tools.setup.regression_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-maya-validation", "depends_on": ["aimayatool-goal005-setup-ui-naming-integrated-managed-live-123b"], "retry_of": "aimayatool-goal005-setup-complete-regression-verify-124a", "purpose": "Re-run the Setup complete-regression Python gate on the lazy-import-safe regression_smoke.py revision.", "acceptance": ["Fast-forward main to include commit 140e3d5550b52345c2dcb70a369c6e2c914b7716 or later.", "Compile aimayatool/tools/setup/regression_smoke.py.", "Import aimayatool.tools.setup.regression_smoke successfully outside Maya; no maya module may be required at module import time.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-maya-validation", "depends_on": ["aimayatool-goal005-setup-ui-naming-integrated-managed-live-123b"], "retry_of": "aimayatool-goal005-setup-complete-regression-verify-124a", "purpose": "Re-run the Setup complete-regression Python gate on the lazy-import-safe regression_smoke.py revision.", "acceptance": ["Fast-forward main to include commit 140e3d5550b52345c2dcb70a369c6e2c914b7716 or later.", "Compile aimayatool/tools/setup/regression_smoke.py.", "Import aimayatool.tools.setup.regression_smoke successfully outside Maya; no maya module may be required at module import time.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_complete_regression_python_verification_pass", "proven_main_commit": "7b98089692aac28fc9ec7a8af4b2008e9ff0f452", "evidence": "Bridge fast-forwarded local main from 68148772bfa500c18f2d01a476ee58d806a4f5ad to 7b98089692aac28fc9ec7a8af4b2008e9ff0f452; py_compile passed for aimayatool/tools/setup/regression_smoke.py and import of aimayatool.tools.setup.regression_smoke passed outside Maya, confirming the lazy-import-safe gate no longer requires maya.cmds at module import time.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal005-setup-complete-regression-managed-live-124b",
