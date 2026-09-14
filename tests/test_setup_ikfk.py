@@ -6,14 +6,31 @@ from unittest import mock
 from aimayatool.tools.setup import ikfk
 
 
+class FakeMatrix(object):
+    def __init__(self, values=None):
+        self.values = tuple(values or (1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1))
+    def __mul__(self, other): return FakeMatrix(tuple(a + b for a, b in zip(self.values, other.values)))
+    def inverse(self): return FakeMatrix(tuple(-x for x in self.values))
+    def __iter__(self): return iter(self.values)
+
+
+class FakeOM(object):
+    MMatrix = FakeMatrix
+
+
 class FakeCmds(object):
     def __init__(self):
-        self.nodes = {"settings.ikfk", "bind1", "bind2", "fk1", "fk2", "ik1", "ik2", "ik3", "ikCtrl", "poleCtrl", "fkCtrl", "fkOffset", "ikOffset", "poleOffset"}
+        self.nodes = {"settings.ikfk", "bind1", "bind2", "fk1", "fk2", "ik1", "ik2", "ik3", "ikCtrl", "poleCtrl", "fkCtrl", "fkOffset", "ikOffset", "poleOffset", "source1", "target1"}
         self.calls = []
+        self.attrs = {"source1.worldMatrix[0]": tuple(range(16)), "target1.worldMatrix[0]": tuple(range(16, 32))}
     def objExists(self, name): return name in self.nodes
     def createNode(self, node_type, name=None): self.calls.append(("createNode", node_type, name)); self.nodes.add(name or "reverse1"); return name or "reverse1"
     def connectAttr(self, src, dst, force=False): self.calls.append(("connectAttr", src, dst, force))
     def addAttr(self, node, **kwargs): self.calls.append(("addAttr", node, kwargs)); self.nodes.add(node + "." + kwargs["longName"])
+    def getAttr(self, plug): return self.attrs[plug]
+    def setAttr(self, plug, value): self.calls.append(("setAttr", plug, value))
+    def xform(self, node, **kwargs): self.calls.append(("xform", node, kwargs))
+    def setKeyframe(self, node, **kwargs): self.calls.append(("setKeyframe", node, kwargs))
     def parentConstraint(self, *args, **kwargs):
         if kwargs.get("query") and kwargs.get("weightAliasList"):
             return ["fkW0", "ikW1"]
@@ -76,6 +93,24 @@ class SetupIKFKTests(unittest.TestCase):
         fake = FakeCmds()
         with mock.patch.object(ikfk, "_cmds", return_value=fake):
             with self.assertRaises(ValueError): ikfk.wire_ikfk_switch("settings.ikfk", [], ["ikOffset"])
+
+    def test_capture_snap_offsets_uses_source_times_target_inverse(self):
+        fake = FakeCmds()
+        with mock.patch.object(ikfk, "_cmds", return_value=fake), mock.patch.object(ikfk, "_om", return_value=FakeOM()):
+            offsets = ikfk.capture_ikfk_snap_offsets(["source1"], ["target1"])
+        self.assertEqual(tuple(a - b for a, b in zip(range(16), range(16, 32))), offsets[0])
+
+    def test_snap_ikfk_sets_switch_matches_matrix_and_keys_explicitly(self):
+        fake = FakeCmds()
+        offset = tuple([1] * 16)
+        with mock.patch.object(ikfk, "_cmds", return_value=fake), mock.patch.object(ikfk, "_om", return_value=FakeOM()):
+            result = ikfk.snap_ikfk(["source1"], ["target1"], "settings.ikfk", 1, offsets=[offset], key=True)
+        expected = list(tuple(a + 1 for a in range(16, 32)))
+        self.assertEqual(1, result["switch_value"])
+        self.assertIn(("setAttr", "settings.ikfk", 1), fake.calls)
+        self.assertIn(("xform", "source1", {"worldSpace": True, "matrix": expected}), fake.calls)
+        self.assertIn(("setKeyframe", "settings.ikfk", {}), fake.calls)
+        self.assertIn(("setKeyframe", "source1", {"attribute": ["tx", "ty", "tz", "rx", "ry", "rz"]}), fake.calls)
 
 
 if __name__ == "__main__": unittest.main()
