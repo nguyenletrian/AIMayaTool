@@ -3,6 +3,13 @@ from __future__ import absolute_import
 from . import controls
 
 
+_TRANSFORM_CHANNELS = {
+    "tx", "ty", "tz", "translate", "translatex", "translatey", "translatez",
+    "rx", "ry", "rz", "rotate", "rotatex", "rotatey", "rotatez",
+    "sx", "sy", "sz", "scale", "scalex", "scaley", "scalez",
+}
+
+
 def _cmds():
     import maya.cmds as cmds
     return cmds
@@ -16,6 +23,10 @@ def _require_attr(cmds, plug, label):
 def _split_plug(plug):
     node, attr = plug.rsplit(".", 1)
     return node, attr
+
+
+def _is_transform_channel(attr):
+    return str(attr).lower() in _TRANSFORM_CHANNELS
 
 
 def ensure_sdk_group(node, suffix="_SDKGrp"):
@@ -35,8 +46,9 @@ def apply_driven_key_map(driver_attr, key_data, use_sdk_groups=True, sdk_suffix=
     key_data is an iterable of dictionaries shaped as::
         {"driver_value": 0.0, "driven_values": {"node.attr": 1.0}}
 
-    When use_sdk_groups is True, transform-channel plugs are remapped to a reusable
-    SDK group above their node before keys are created.
+    When use_sdk_groups is True, transform-channel plugs (including Maya short
+    aliases such as tx/ry/sz) are remapped to a reusable SDK group above their
+    node before keys are created.
     """
     cmds = _cmds()
     _require_attr(cmds, driver_attr, "Driver attribute")
@@ -58,7 +70,7 @@ def apply_driven_key_map(driver_attr, key_data, use_sdk_groups=True, sdk_suffix=
             target_attr = driven_attr
             if use_sdk_groups:
                 node, attr = _split_plug(driven_attr)
-                if attr.startswith(("translate", "rotate", "scale")):
+                if _is_transform_channel(attr):
                     group = sdk_groups.get(node)
                     if group is None:
                         group = ensure_sdk_group(node, suffix=sdk_suffix)
