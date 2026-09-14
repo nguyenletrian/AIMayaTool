@@ -3,12 +3,12 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-086",
+    "request_id": "aimayatool-setup-migration-087",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-modulo-sdk-managed-live-085b",
+      "task_id": "aimayatool-goal005-setup-sdk-proxy-attrs-managed-live-086b",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
@@ -16,157 +16,9 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-sdk",
         "result": "PASS",
-        "classification": "setup_modulo_sdk_managed_live_pass",
-        "proven_main_commit": "689f79a41f2662c17700ae9d2e3559929dc225dd",
-        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_MODULO_SDK_SMOKE_OK:3, scene_saved=false and maya_quit=false.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-modulo-sdk-verify-085a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_modulo_sdk_python_verification_pass",
-          "proven_main_commit": "edfa94039414fed12faea500557437da29991ae4"
-        }
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-sdk-proxy-attrs-verify-086a",
-      "status": "pending",
-      "architect_ack": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/sdk.py",
-          "aimayatool/tools/setup/sdk_smoke.py",
-          "tests/test_setup_sdk.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup.sdk"
-        ],
-        "tests": [
-          "tests.test_setup_sdk"
-        ],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-sdk",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-modulo-sdk-managed-live-085b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_modulo_sdk_managed_live_pass",
-          "proven_main_commit": "689f79a41f2662c17700ae9d2e3559929dc225dd"
-        },
-        "implementation_commits": [
-          "e55c4375540380cae8276d443522e56a79633652",
-          "bbeef2dce44935fe530ffee68263ee803519349c",
-          "90da74c80e3cbf95cd1f44b7b59a243c24fa204e"
-        ],
-        "purpose": "Verify legacy Drivenkey custom-attribute parity: non-transform driven attrs can be proxied onto a reusable SDK group, connected to the original plug, and driven deterministically without legacy UI/global state.",
-        "acceptance": [
-          "Fast-forward main including the SDK proxy-attribute implementation/test/smoke commits.",
-          "Compile sdk.py, sdk_smoke.py and tests/test_setup_sdk.py.",
-          "Import aimayatool.tools.setup.sdk under normal Python without Maya installed.",
-          "All tests in tests.test_setup_sdk pass, including proxy custom-attribute creation and connection.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_sdk_proxy_attrs_python_verification_pass",
-        "proven_main_commit": "1fe92cd5cecb0a542e95e33cdb9d14a7054c98d7",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 1fe92cd5cecb0a542e95e33cdb9d14a7054c98d7; py_compile passed for sdk.py, sdk_smoke.py and tests/test_setup_sdk.py; normal-Python import passed; all 6 focused SDK tests passed."
-      },
-      "bridge_completed": true
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-sdk-proxy-attrs-managed-live-086b",
-      "status": "pending",
-      "architect_ack": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.sdk_smoke",
-        "callable": "run_setup_sdk_proxy_attr_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-sdk",
-        "depends_on": [
-          "aimayatool-goal005-setup-sdk-proxy-attrs-verify-086a"
-        ],
-        "purpose": "Validate SDK proxy custom-attribute parity in real Maya, including SDK-group attr creation, connection to the driven plug, animCurve creation and evaluated output.",
-        "acceptance": [
-          "Run only after 086a passes.",
-          "Reuse healthy managed Maya 2024 when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Require result SETUP_SDK_PROXY_ATTR_SMOKE_OK:1 for PASS.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "classification": "setup_sdk_proxy_attrs_managed_live_pass",
+        "proven_main_commit": "821913a0fbf661fdf0ba901a548b5f4baf919e75",
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_SDK_PROXY_ATTR_SMOKE_OK:1, scene_saved=false and maya_quit=false.",
         "archived_prerequisite": {
           "task_id": "aimayatool-goal005-setup-sdk-proxy-attrs-verify-086a",
           "result": "PASS",
@@ -175,6 +27,88 @@
           "classification": "setup_sdk_proxy_attrs_python_verification_pass",
           "proven_main_commit": "1fe92cd5cecb0a542e95e33cdb9d14a7054c98d7"
         }
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ikfk-blend-verify-087a",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/setup/ikfk.py", "aimayatool/tools/setup/ikfk_smoke.py", "tests/test_setup_ikfk.py"],
+        "imports": ["aimayatool.tools.setup.ikfk"],
+        "tests": ["tests.test_setup_ikfk"],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ikfk",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-sdk-proxy-attrs-managed-live-086b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_sdk_proxy_attrs_managed_live_pass",
+          "proven_main_commit": "821913a0fbf661fdf0ba901a548b5f4baf919e75"
+        },
+        "implementation_commits": ["ea13619545fb277dbf6fe46ff3124814d1069db8", "fdd5bc5de917e5f94f7f429b2ebbe013fc95d2e4", "8ef25804aa5ea8721630e466f7265b4191cc71a5"],
+        "purpose": "Verify the first reusable IK/FK primitive extracted from legacy CreateIK: equal-length bind/FK/IK chains blended by parentConstraint weights with one explicit 0..1 switch and reverse node.",
+        "acceptance": [
+          "Fast-forward main including all IK/FK blend implementation/test/smoke commits.",
+          "Compile ikfk.py, ikfk_smoke.py and tests/test_setup_ikfk.py.",
+          "Import aimayatool.tools.setup.ikfk under normal Python without Maya installed.",
+          "All tests in tests.test_setup_ikfk pass.",
+          "No eager maya.cmds import is introduced in ikfk.py.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ikfk-blend-managed-live-087b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.ikfk_smoke",
+        "callable": "run_setup_ikfk_blend_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ikfk",
+        "depends_on": ["aimayatool-goal005-setup-ikfk-blend-verify-087a"],
+        "purpose": "Validate IK/FK bind-chain blending in real Maya at both switch endpoints.",
+        "acceptance": [
+          "Run only after 087a passes.",
+          "Reuse healthy managed Maya 2024 when available.",
+          "Force a fresh unsaved scene and do not save.",
+          "Require result SETUP_IKFK_BLEND_SMOKE_OK:2 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
   ]
