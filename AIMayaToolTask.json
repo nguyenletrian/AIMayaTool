@@ -8,129 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal006-setup-presets-validation-scene-preflight-reload-verify-136h",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/preset_scene_preflight_smoke.py"
-        ],
-        "imports": [],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-presets-validation",
-        "depends_on": [],
-        "purpose": "Compile the Maya scene-preflight smoke after adding explicit preset_execution reload for reused managed sessions.",
-        "acceptance": [
-          "Compile preset_scene_preflight_smoke.py.",
-          "Do not import the Maya-only smoke outside Maya.",
-          "Do not invoke Codex."
-        ],
-        "implementation_commit": "e0de9fdaf427b1f7c37dad0ddc17472ae39ea453",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_preset_scene_preflight_reload_python_verification_pass",
-        "proven_main_commit": "f5f6bdc7a2f16f0154ff63edff05af99cd8b6670",
-        "evidence": "Bridge fast-forwarded local main to f5f6bdc7a2f16f0154ff63edff05af99cd8b6670; py_compile passed for preset_scene_preflight_smoke.py after explicit preset_execution reload was added."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal006-setup-presets-validation-scene-preflight-reload-managed-live-136i",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.preset_scene_preflight_smoke",
-        "callable": "run_setup_preset_scene_preflight_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-presets-validation",
-        "depends_on": [
-          "aimayatool-goal006-setup-presets-validation-scene-preflight-reload-verify-136h"
-        ],
-        "purpose": "Retry scene-aware preset preflight in reused managed Maya after explicitly reloading preset_execution from current main.",
-        "acceptance": [
-          "Require SETUP_PRESET_SCENE_PREFLIGHT_OK:4 for PASS.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_preset_scene_preflight_managed_live_pass",
-        "proven_main_commit": "b5429d0ee8294a9e91ddb3f2d7aa16a9022f649a",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, fast-forwarded local main to b5429d0ee8294a9e91ddb3f2d7aa16a9022f649a, forced a fresh unsaved scene, explicitly reloaded preset_execution, returned AIBRIDGE_UI_SMOKE_OK:SETUP_PRESET_SCENE_PREFLIGHT_OK:4, scene_saved=false and maya_quit=false.",
-        "milestone_ready": true
-      }
-    },
-    {
       "task_id": "aimayatool-goal006-setup-ux-polish-assessment-137a",
       "status": "pending",
       "architect_ack": true,
@@ -177,16 +54,7 @@
       "metadata": {
         "goal_id": "aimayatool-006",
         "milestone_id": "setup-ux-polish",
-        "depends_on": [
-          "aimayatool-goal006-setup-presets-validation-scene-preflight-reload-managed-live-136i"
-        ],
-        "archived_prerequisite": [
-          {
-            "milestone_id": "setup-presets-validation",
-            "result": "READY_TO_COMPLETE",
-            "evidence_task": "aimayatool-goal006-setup-presets-validation-scene-preflight-reload-managed-live-136i"
-          }
-        ],
+        "depends_on": [],
         "purpose": "Establish the current Setup UI baseline before implementing production-focused UX polish.",
         "acceptance": [
           "Compile setup __init__.py, naming_ui.py and ui_parity_smoke.py.",
@@ -196,7 +64,14 @@
         "result": "PASS",
         "classification": "setup_ux_polish_baseline_python_pass",
         "proven_main_commit": "604eac9a3bdc61b710955f45cfdcf5803e755d2f",
-        "evidence": "Bridge fast-forwarded local main from b5429d0ee8294a9e91ddb3f2d7aa16a9022f649a to 604eac9a3bdc61b710955f45cfdcf5803e755d2f; py_compile passed for setup __init__.py, naming_ui.py and ui_parity_smoke.py."
+        "evidence": "Bridge fast-forwarded local main to 604eac9a3bdc61b710955f45cfdcf5803e755d2f; py_compile passed for setup __init__.py, naming_ui.py and ui_parity_smoke.py.",
+        "archived_prerequisite": [
+          {
+            "milestone_id": "setup-presets-validation",
+            "result": "READY_TO_COMPLETE",
+            "evidence_task": "aimayatool-goal006-setup-presets-validation-scene-preflight-reload-managed-live-136i"
+          }
+        ]
       }
     },
     {
@@ -250,9 +125,7 @@
         ],
         "purpose": "Compile the non-mutating mirror preview UI adapter and its Maya smoke before live validation.",
         "acceptance": [
-          "Fast-forward main.",
           "Compile naming_ui.py and mirror_preview_ui_smoke.py.",
-          "Do not import the Maya-only smoke outside Maya.",
           "Do not invoke Codex."
         ],
         "implementation_commits": [
@@ -263,14 +136,14 @@
         "result": "PASS",
         "classification": "setup_ux_mirror_preview_python_verification_pass",
         "proven_main_commit": "baee226da71aada4d9b2acd374daea3924885c81",
-        "evidence": "Bridge fast-forwarded local main from 604eac9a3bdc61b710955f45cfdcf5803e755d2f to baee226da71aada4d9b2acd374daea3924885c81; py_compile passed for aimayatool/tools/setup/naming_ui.py and mirror_preview_ui_smoke.py."
+        "evidence": "Bridge fast-forwarded local main to baee226da71aada4d9b2acd374daea3924885c81; py_compile passed for naming_ui.py and mirror_preview_ui_smoke.py."
       }
     },
     {
       "task_id": "aimayatool-goal006-setup-ux-polish-mirror-preview-managed-live-137c",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -318,10 +191,132 @@
         ],
         "purpose": "Validate Setup mirror preview UX in Maya without mutating counterpart transforms.",
         "acceptance": [
-          "Run only after 137b passes.",
+          "Require SETUP_MIRROR_PREVIEW_UI_OK:3 for PASS.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "FAIL",
+        "classification": "setup_mirror_preview_managed_session_stale_naming_module_cache",
+        "proven_main_commit": "bcb35b71ba4731795d08a0d7cbb1613d8ed60a95",
+        "evidence": "Managed Maya reused PID 15000 on port 7001 and forced a fresh unsaved scene, but preview returned '2 ready, 0 missing, 0 unmapped'. Current main naming.py maps spine_CTRL to itself and resolve_mirror_pairs(..., require_existing=False) therefore classifies it as unmapped, so the result proves the reused session held stale naming module state rather than current mirror preview logic failing.",
+        "recovery_commit": "87098919964f3bdd3f2d16ea6522ed04023ce98c"
+      }
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-ux-polish-mirror-preview-reload-verify-137d",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/mirror_preview_ui_smoke.py"
+        ],
+        "imports": [],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-006",
+        "milestone_id": "setup-ux-polish",
+        "depends_on": [
+          "aimayatool-goal006-setup-ux-polish-mirror-preview-managed-live-137c"
+        ],
+        "purpose": "Compile the mirror preview smoke after explicitly reloading naming and naming_ui for reused managed Maya sessions.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile mirror_preview_ui_smoke.py.",
+          "Do not import the Maya-only smoke outside Maya.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "87098919964f3bdd3f2d16ea6522ed04023ce98c",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-ux-polish-mirror-preview-reload-managed-live-137e",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.mirror_preview_ui_smoke",
+        "callable": "run_setup_mirror_preview_ui_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-006",
+        "milestone_id": "setup-ux-polish",
+        "depends_on": [
+          "aimayatool-goal006-setup-ux-polish-mirror-preview-reload-verify-137d"
+        ],
+        "purpose": "Retry Setup mirror preview live validation after explicitly reloading current naming and naming_ui modules.",
+        "acceptance": [
+          "Run only after 137d passes.",
           "Force a fresh unsaved scene and do not save.",
           "Require SETUP_MIRROR_PREVIEW_UI_OK:3 for PASS.",
-          "Preview must report one ready and one unmapped source in the smoke fixture.",
+          "Preview must report one ready and one unmapped source.",
           "Preview must not mutate the ready counterpart transform.",
           "Preview X/Y/Z and Mirror X/Y/Z buttons must all exist.",
           "Return scene_saved=false and maya_quit=false on normal success.",
