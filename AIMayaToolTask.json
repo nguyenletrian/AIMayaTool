@@ -12,286 +12,72 @@
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "assessment",
-        "target": "repository"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": false,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "reference_repository": "https://github.com/nguyenletrian/MayaScriptNew.git",
-        "reference_paths": [
-          "UIs/ScenePattern/Scene_Pattern_AimConstraint.py"
-        ],
-        "target_paths": [
-          "aimayatool/tools/scene",
-          "PARITY.md"
-        ],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [],
-        "archived_prerequisite": [
-          {
-            "task_id": "aimayatool-goal007-scene-pattern-global-executor-upstream-trace-retry-managed-live-138o",
-            "result": "PASS",
-            "architect_ack": true,
-            "bridge_completed": true,
-            "proven_main_commit": "29ff439d82204539525d77e351301731b1408466"
-          }
-        ],
-        "purpose": "Assess the next missing ScenePattern parity slice, legacy Aim Constraint, and define the smallest deterministic descriptor/plan/executor migration path without copying legacy UI coupling.",
-        "acceptance": [
-          "Inspect legacy Scene_Pattern_AimConstraint.py and current AIMayaTool scene modules/parity evidence.",
-          "Confirm whether equivalent Aim Constraint ScenePattern behavior is already migrated, superseded, or missing.",
-          "If missing, report the exact legacy behavior contract: child offset group, target parent, object world-up reference, main/secondary axis mapping, maintain-offset behavior, and optional constraint-content parenting.",
-          "Identify reusable existing AIMayaTool setup/constraint primitives before proposing new code.",
-          "Return a bounded implementation plan and expected Python/Maya verification tiers.",
-          "Do not modify product code in this assessment task.",
-          "Do not invoke Codex."
-        ],
-        "source_evidence": "Legacy Scene_Pattern_AimConstraint.py creates <child>_AimGrp, applies aimConstraint(parent -> offset) with worldUpType=object, worldUpObject=reference, axis vectors from signed x/y/z labels, maintain flag, and optionally parents the constraint under constraintContent.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "FAIL",
-        "classification": "bridge_route_handler_missing_assessment_repository",
-        "evidence": "Bridge returned success=false before product inspection because no route handler is registered for assessment:repository. This is a worker route mismatch, not AIMayaTool product evidence."
-      }
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "assessment", "target": "repository"},
+      "permissions": {"read": true, "edit": false, "run_tests": false, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "reference_repository": "https://github.com/nguyenletrian/MayaScriptNew.git", "reference_paths": ["UIs/ScenePattern/Scene_Pattern_AimConstraint.py"], "target_paths": ["aimayatool/tools/scene", "PARITY.md"], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": [{"task_id": "aimayatool-goal007-scene-pattern-global-executor-upstream-trace-retry-managed-live-138o", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "29ff439d82204539525d77e351301731b1408466"}], "purpose": "Assess the next missing ScenePattern parity slice, legacy Aim Constraint, and define the smallest deterministic descriptor/plan/executor migration path without copying legacy UI coupling.", "acceptance": ["Inspect legacy Scene_Pattern_AimConstraint.py and current AIMayaTool scene modules/parity evidence.", "Confirm whether equivalent Aim Constraint ScenePattern behavior is already migrated, superseded, or missing.", "If missing, report the exact legacy behavior contract: child offset group, target parent, object world-up reference, main/secondary axis mapping, maintain-offset behavior, and optional constraint-content parenting.", "Identify reusable existing AIMayaTool setup/constraint primitives before proposing new code.", "Return a bounded implementation plan and expected Python/Maya verification tiers.", "Do not modify product code in this assessment task.", "Do not invoke Codex."], "source_evidence": "Legacy Scene_Pattern_AimConstraint.py creates <child>_AimGrp, applies aimConstraint(parent -> offset) with worldUpType=object, worldUpObject=reference, axis vectors from signed x/y/z labels, maintain flag, and optionally parents the constraint under constraintContent.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "FAIL", "classification": "bridge_route_handler_missing_assessment_repository", "evidence": "Bridge returned success=false before product inspection because no route handler is registered for assessment:repository. This is a worker route mismatch, not AIMayaTool product evidence."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-139b",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/__init__.py",
-          "PARITY.md"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-aimconstraint-assessment-139a"
-        ],
-        "retry_of": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-139a",
-        "purpose": "Recover the Aim Constraint parity assessment through the supported Python verification route after assessment:repository proved unsupported.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import only the listed current AIMayaTool scene package files needed to prove the route is operational.",
-          "Return Python verification evidence without modifying product code.",
-          "The Architect will combine this route evidence with repository/reference inspection already available to determine the Aim Constraint implementation slice.",
-          "Do not invoke Codex."
-        ],
-        "assessment_scope": {
-          "legacy_reference": "UIs/ScenePattern/Scene_Pattern_AimConstraint.py",
-          "legacy_contract": "Create <child>_AimGrp, aimConstraint parent -> offset with object world-up reference, signed main/secondary axis vectors, maintain-offset flag, and optional parenting of the constraint node under constraintContent.",
-          "target_search": "aimayatool/tools/scene plus reusable setup/constraint primitives"
-        },
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "FAIL",
-        "classification": "bridge_git_pull_requires_edit_permission",
-        "evidence": "Bridge rejected the verification task before git pull because the precondition requires permissions.edit=true. No product code or verification ran."
-      }
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "PARITY.md"], "imports": ["aimayatool.tools.scene"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-assessment-139a"], "retry_of": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-139a", "purpose": "Recover the Aim Constraint parity assessment through the supported Python verification route after assessment:repository proved unsupported.", "acceptance": ["Fast-forward main.", "Compile/import only the listed current AIMayaTool scene package files needed to prove the route is operational.", "Return Python verification evidence without modifying product code.", "The Architect will combine this route evidence with repository/reference inspection already available to determine the Aim Constraint implementation slice.", "Do not invoke Codex."], "assessment_scope": {"legacy_reference": "UIs/ScenePattern/Scene_Pattern_AimConstraint.py", "legacy_contract": "Create <child>_AimGrp, aimConstraint parent -> offset with object world-up reference, signed main/secondary axis vectors, maintain-offset flag, and optional parenting of the constraint node under constraintContent.", "target_search": "aimayatool/tools/scene plus reusable setup/constraint primitives"}, "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "FAIL", "classification": "bridge_git_pull_requires_edit_permission", "evidence": "Bridge rejected the verification task before git pull because the precondition requires permissions.edit=true. No product code or verification ran."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-retry-139c",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/__init__.py",
-          "PARITY.md"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-139b"
-        ],
-        "retry_of": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-139b",
-        "purpose": "Retry the supported Python-route Aim Constraint assessment probe with the edit permission required solely for the ff-only git pull precondition.",
-        "acceptance": [
-          "Fast-forward main successfully.",
-          "Compile the listed files and import aimayatool.tools.scene successfully.",
-          "Do not modify product code despite permissions.edit=true; edit permission exists only because the worker requires it for git_pull.",
-          "Return verification evidence for the Architect to combine with legacy/current repository inspection.",
-          "Do not invoke Codex."
-        ],
-        "assessment_scope": {
-          "legacy_reference": "UIs/ScenePattern/Scene_Pattern_AimConstraint.py",
-          "legacy_contract": "Create <child>_AimGrp, aimConstraint parent -> offset with object world-up reference, signed main/secondary axis vectors, maintain-offset flag, and optional parenting of the constraint node under constraintContent.",
-          "target_search": "aimayatool/tools/scene plus reusable setup/constraint primitives"
-        },
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "FAIL",
-        "classification": "bridge_python_verification_rejects_non_py_file",
-        "proven_main_commit": "0688682ff43b2a312efb797589930a2e14b65de9",
-        "evidence": "Bridge successfully fast-forwarded main to 0688682ff43b2a312efb797589930a2e14b65de9, then rejected the Python verification request because payload.files included PARITY.md; verification:python requires every verification file to be a relative .py path. No compile/import or product mutation ran."
-      }
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "PARITY.md"], "imports": ["aimayatool.tools.scene"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-139b"], "retry_of": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-139b", "purpose": "Retry the supported Python-route Aim Constraint assessment probe with the edit permission required solely for the ff-only git pull precondition.", "acceptance": ["Fast-forward main successfully.", "Compile the listed files and import aimayatool.tools.scene successfully.", "Do not modify product code despite permissions.edit=true; edit permission exists only because the worker requires it for git_pull.", "Return verification evidence for the Architect to combine with legacy/current repository inspection.", "Do not invoke Codex."], "assessment_scope": {"legacy_reference": "UIs/ScenePattern/Scene_Pattern_AimConstraint.py", "legacy_contract": "Create <child>_AimGrp, aimConstraint parent -> offset with object world-up reference, signed main/secondary axis vectors, maintain-offset flag, and optional parenting of the constraint node under constraintContent.", "target_search": "aimayatool/tools/scene plus reusable setup/constraint primitives"}, "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "FAIL", "classification": "bridge_python_verification_rejects_non_py_file", "proven_main_commit": "0688682ff43b2a312efb797589930a2e14b65de9", "evidence": "Bridge successfully fast-forwarded main to 0688682ff43b2a312efb797589930a2e14b65de9, then rejected the Python verification request because payload.files included PARITY.md; verification:python requires every verification file to be a relative .py path. No compile/import or product mutation ran."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-retry-139d",
       "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py"], "imports": ["aimayatool.tools.scene"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-retry-139c"], "retry_of": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-retry-139c", "purpose": "Complete the supported Python-route probe for the Aim Constraint parity assessment using only valid .py verification files.", "acceptance": ["Fast-forward main successfully.", "Compile aimayatool/tools/scene/__init__.py.", "Import aimayatool.tools.scene successfully outside Maya.", "Do not modify product code; permissions.edit=true exists only because git_pull requires it.", "Return verification evidence for the Architect to combine with current repository and legacy Aim Constraint evidence.", "Do not invoke Codex."], "assessment_scope": {"legacy_reference": "UIs/ScenePattern/Scene_Pattern_AimConstraint.py", "legacy_contract": "Create <child>_AimGrp, aimConstraint parent -> offset with object world-up reference, signed main/secondary axis vectors, maintain-offset flag, and optional parenting of the constraint node under constraintContent.", "target_search": "aimayatool/tools/scene plus reusable setup/constraint primitives"}, "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_aimconstraint_assessment_python_probe_pass", "proven_main_commit": "f368ebe3559d7d7c1190a5df7c2ff4fc6eabddad", "evidence": "Bridge fast-forwarded main to f368ebe3559d7d7c1190a5df7c2ff4fc6eabddad; py_compile passed for aimayatool/tools/scene/__init__.py and import of aimayatool.tools.scene passed outside Maya."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-implementation-verify-139e",
+      "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-retry-139c"
-        ],
-        "retry_of": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-retry-139c",
-        "purpose": "Complete the supported Python-route probe for the Aim Constraint parity assessment using only valid .py verification files.",
-        "acceptance": [
-          "Fast-forward main successfully.",
-          "Compile aimayatool/tools/scene/__init__.py.",
-          "Import aimayatool.tools.scene successfully outside Maya.",
-          "Do not modify product code; permissions.edit=true exists only because git_pull requires it.",
-          "Return verification evidence for the Architect to combine with current repository and legacy Aim Constraint evidence.",
-          "Do not invoke Codex."
-        ],
-        "assessment_scope": {
-          "legacy_reference": "UIs/ScenePattern/Scene_Pattern_AimConstraint.py",
-          "legacy_contract": "Create <child>_AimGrp, aimConstraint parent -> offset with object world-up reference, signed main/secondary axis vectors, maintain-offset flag, and optional parenting of the constraint node under constraintContent.",
-          "target_search": "aimayatool/tools/scene plus reusable setup/constraint primitives"
-        },
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/aim_constraint_smoke.py"], "imports": ["aimayatool.tools.scene.aim_constraint"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-retry-139d"], "purpose": "Verify the migrated ScenePattern Aim Constraint deterministic planner/executor and smoke module before Maya execution.", "acceptance": ["Fast-forward main.", "Compile aim_constraint.py and aim_constraint_smoke.py.", "Import aimayatool.tools.scene.aim_constraint outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "a0a31e848cdebd24c5851867bdb5b061de2c0d88", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-managed-live-139f",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.aim_constraint_smoke", "callable": "run_scene_aim_constraint_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-implementation-verify-139e"], "purpose": "Validate ScenePattern Aim Constraint parity in Maya 2024 with offset insertion, signed axis mapping, object world-up, maintain-offset behavior, optional constraint-content parenting and missing-child skip.", "acceptance": ["Run only after 139e passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1 for PASS.", "Verify <child>_AimGrp insertion, aimConstraint target, object world-up reference, optional constraintContent parenting, and deterministic missing-child skip.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "a0a31e848cdebd24c5851867bdb5b061de2c0d88", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
