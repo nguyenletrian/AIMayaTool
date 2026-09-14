@@ -47,6 +47,30 @@ def match_world_transform(target, source, translate=True, rotate=True, scale=Fal
     return target
 
 
+def capture_transform_snapshot(nodes):
+    """Capture explicit world translation/rotation values without global session state."""
+    cmds = _cmds(); nodes = list(nodes or [])
+    if not nodes: raise ValueError("At least one transform is required.")
+    result = []
+    for node in nodes:
+        _require_node(cmds, node, "Snapshot node")
+        result.append({"translation": tuple(cmds.xform(node, query=True, worldSpace=True, translation=True)), "rotation": tuple(cmds.xform(node, query=True, worldSpace=True, rotation=True))})
+    return tuple(result)
+
+
+def apply_transform_snapshot(nodes, snapshot, translate=True, rotate=True):
+    """Apply a captured transform snapshot to explicit nodes in positional order."""
+    cmds = _cmds(); nodes = list(nodes or []); snapshot = list(snapshot or [])
+    if len(nodes) != len(snapshot): raise ValueError("Transform snapshot count must match target count.")
+    if not nodes: raise ValueError("At least one target transform is required.")
+    if not (translate or rotate): raise ValueError("At least one transform channel must be enabled.")
+    for node, state in zip(nodes, snapshot):
+        _require_node(cmds, node, "Snapshot target")
+        if translate: cmds.xform(node, worldSpace=True, translation=state["translation"])
+        if rotate: cmds.xform(node, worldSpace=True, rotation=state["rotation"])
+    return tuple(nodes)
+
+
 def hierarchy_between(parent, child, node_type=None):
     """Return the inclusive DAG chain from parent to child, validating ancestry."""
     cmds = _cmds()
