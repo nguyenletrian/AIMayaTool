@@ -153,8 +153,8 @@
     {
       "task_id": "aimayatool-goal007-scene-pattern-create-curve-verify-144a",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -211,7 +211,11 @@
         ],
         "implementation_commit": "ae678a5735242b9aab335a1f54e338405cfc79cd",
         "source_evidence": "Legacy Scene_Pattern_CreateCurve.py parses XYZ point lines, creates a degree<=3 curve, hides it, optionally parents it, then rebuilds a duplicate. Its rebuild UI value is read but ignored in favor of hard-coded spans=100; AIMayaTool preserves the workflow while honoring explicit rebuild_spans.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "scene_create_curve_python_verification_pass",
+        "proven_main_commit": "c748a913cb9ff2bbfbc5574465566e0edcb0178e",
+        "evidence": "Bridge fast-forwarded main from ed80b4ff963eea81d7e2baae6fe4343872a9284e to c748a913cb9ff2bbfbc5574465566e0edcb0178e; py_compile passed for create_curve.py and create_curve_smoke.py, and import of aimayatool.tools.scene.create_curve passed outside Maya."
       }
     },
     {
