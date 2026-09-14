@@ -8,76 +8,276 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-implementation-verify-139e",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/aim_constraint_smoke.py"], "imports": ["aimayatool.tools.scene.aim_constraint"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": [{"task_id": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-retry-139d", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "f368ebe3559d7d7c1190a5df7c2ff4fc6eabddad"}], "purpose": "Verify the migrated ScenePattern Aim Constraint deterministic planner/executor and smoke module before Maya execution.", "acceptance": ["Fast-forward main.", "Compile aim_constraint.py and aim_constraint_smoke.py.", "Import aimayatool.tools.scene.aim_constraint outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "a0a31e848cdebd24c5851867bdb5b061de2c0d88", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_aimconstraint_python_verification_pass", "proven_main_commit": "d43cc02e3a3961e04e3fa95221467b229892930b", "evidence": "Bridge fast-forwarded main from f368ebe3559d7d7c1190a5df7c2ff4fc6eabddad to d43cc02e3a3961e04e3fa95221467b229892930b; py_compile passed for aim_constraint.py and aim_constraint_smoke.py, and import of aimayatool.tools.scene.aim_constraint passed outside Maya."}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-managed-live-139f",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.aim_constraint_smoke", "callable": "run_scene_aim_constraint_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-implementation-verify-139e"], "purpose": "Validate ScenePattern Aim Constraint parity in Maya 2024 with offset insertion, signed axis mapping, object world-up, maintain-offset behavior, optional constraint-content parenting and missing-child skip.", "acceptance": ["Run only after 139e passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1 for PASS.", "Verify <child>_AimGrp insertion, aimConstraint target, object world-up reference, optional constraintContent parenting, and deterministic missing-child skip.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "a0a31e848cdebd24c5851867bdb5b061de2c0d88", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "FAIL", "classification": "scene_aimconstraint_smoke_worldup_query_false_negative", "proven_main_commit": "a8f579c97908b09e41d6b4a7ce29474ffe97fcb8", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, and failed only at the smoke assertion querying worldUpObject. The executor had already created the aimConstraint successfully; Maya remained healthy with scene_saved=false and maya_quit=false. The smoke query did not preserve the reference in the expected return form.", "recovery_commit": "1853975a98a30a9a0b787774b3ad120c458a90e6"}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-worldup-graph-verify-139g",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/aim_constraint_smoke.py"], "imports": ["aimayatool.tools.scene.aim_constraint"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-managed-live-139f"], "purpose": "Verify the Aim Constraint smoke correction that checks the actual Maya worldUpMatrix graph connection rather than relying on the worldUpObject query return form.", "acceptance": ["Fast-forward main.", "Compile aim_constraint.py and aim_constraint_smoke.py.", "Import aimayatool.tools.scene.aim_constraint outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "1853975a98a30a9a0b787774b3ad120c458a90e6", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_aimconstraint_worldup_graph_python_verification_pass", "proven_main_commit": "74ba4e9ea62640ff540248dc2fa077a3125e4d62", "evidence": "Bridge fast-forwarded main from a8f579c97908b09e41d6b4a7ce29474ffe97fcb8 to 74ba4e9ea62640ff540248dc2fa077a3125e4d62; py_compile passed for aim_constraint.py and aim_constraint_smoke.py, and import of aimayatool.tools.scene.aim_constraint passed outside Maya."}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-worldup-graph-retry-managed-live-139h",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.aim_constraint_smoke", "callable": "run_scene_aim_constraint_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-worldup-graph-verify-139g"], "retry_of": "aimayatool-goal007-scene-pattern-aimconstraint-managed-live-139f", "purpose": "Retry Aim Constraint Maya parity validation using the direct worldUpMatrix graph connection as the object world-up evidence.", "acceptance": ["Run only after 139g passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1 for PASS.", "Verify offset insertion, aim target, reference.worldMatrix[0] -> aimConstraint.worldUpMatrix, optional constraintContent parenting and missing-child skip.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "1853975a98a30a9a0b787774b3ad120c458a90e6", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_aimconstraint_maya_live_parity_pass", "proven_main_commit": "7b81e553f19ac44ccc02e91857abb2b0417cdf0c", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1. The smoke verified the object world-up graph via reference.worldMatrix[0] -> aimConstraint.worldUpMatrix. scene_saved=false and maya_quit=false."}
-    },
-    {
       "task_id": "aimayatool-goal007-scene-pattern-animation-backup-verify-140a",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/animation_backup.py", "aimayatool/tools/scene/animation_backup_smoke.py"], "imports": ["aimayatool.tools.scene.animation_backup"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-worldup-graph-retry-managed-live-139h"], "purpose": "Verify the migrated ScenePattern Animation Backup explicit JSON export/import workflow before Maya execution.", "acceptance": ["Fast-forward main.", "Compile animation_backup.py and animation_backup_smoke.py.", "Import aimayatool.tools.scene.animation_backup outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "09572c9e39ad67cac1cd3a6124e5ac456fe9772d", "source_evidence": "Legacy Scene_Pattern_AnimationBackup.py serializes keyable animCurve times/values per object/attribute to JSON and restores them by clearing existing keys and setting serialized keys; missing objects/attrs are skipped.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_animation_backup_python_verification_pass", "proven_main_commit": "f55e7a6a59266839af045de6d515d02f4e3adcb2", "evidence": "Bridge fast-forwarded main from 7b81e553f19ac44ccc02e91857abb2b0417cdf0c to f55e7a6a59266839af045de6d515d02f4e3adcb2; py_compile passed for animation_backup.py and animation_backup_smoke.py, and import of aimayatool.tools.scene.animation_backup passed outside Maya."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/animation_backup.py",
+          "aimayatool/tools/scene/animation_backup_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.animation_backup"
+        ],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [],
+        "archived_prerequisite": [
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-worldup-graph-retry-managed-live-139h",
+            "result": "PASS",
+            "architect_ack": true,
+            "bridge_completed": true,
+            "proven_main_commit": "7b81e553f19ac44ccc02e91857abb2b0417cdf0c"
+          }
+        ],
+        "purpose": "Verify the migrated ScenePattern Animation Backup explicit JSON export/import workflow before Maya execution.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile animation_backup.py and animation_backup_smoke.py.",
+          "Import aimayatool.tools.scene.animation_backup outside Maya successfully.",
+          "Do not execute Maya smoke in this Python-only task.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "09572c9e39ad67cac1cd3a6124e5ac456fe9772d",
+        "source_evidence": "Legacy Scene_Pattern_AnimationBackup.py serializes keyable animCurve times/values per object/attribute to JSON and restores them by clearing existing keys and setting serialized keys; missing objects/attrs are skipped.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "scene_animation_backup_python_verification_pass",
+        "proven_main_commit": "f55e7a6a59266839af045de6d515d02f4e3adcb2",
+        "evidence": "Bridge fast-forwarded main from 7b81e553f19ac44ccc02e91857abb2b0417cdf0c to f55e7a6a59266839af045de6d515d02f4e3adcb2; py_compile passed for animation_backup.py and animation_backup_smoke.py, and import of aimayatool.tools.scene.animation_backup passed outside Maya."
+      }
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-animation-backup-managed-live-140b",
       "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.scene.animation_backup_smoke",
+        "callable": "run_scene_animation_backup_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-animation-backup-verify-140a"
+        ],
+        "purpose": "Validate ScenePattern Animation Backup parity in Maya 2024 with deterministic key export, JSON persistence and key restoration.",
+        "acceptance": [
+          "Run only after 140a passes.",
+          "Force a fresh unsaved scene and do not save.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SCENE_ANIMATION_BACKUP_OK:1 for PASS.",
+          "Verify two tx keys export to JSON, replacement keys are cleared, serialized keys are restored, and missing object export is skipped.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "09572c9e39ad67cac1cd3a6124e5ac456fe9772d",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "FAIL",
+        "classification": "scene_animation_backup_animcurve_type_filter_product_bug",
+        "proven_main_commit": "3c993ef4747bde30e51c4b73575bcb70ba1b9e48",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001 and forced a fresh unsaved scene. Smoke failed at export because the collector returned no preserved tx keys. Root cause inspection found collect_animation_data filtered listConnections with type='animCurve', which can miss concrete Maya animCurve subtypes created by setKeyframe. Maya remained healthy; scene_saved=false and maya_quit=false.",
+        "recovery_commit": "d7184a1b9335c66f6a7952bb686617f7d3a26878"
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-animation-backup-direct-key-query-verify-140c",
+      "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.animation_backup_smoke", "callable": "run_scene_animation_backup_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-animation-backup-verify-140a"], "purpose": "Validate ScenePattern Animation Backup parity in Maya 2024 with deterministic key export, JSON persistence and key restoration.", "acceptance": ["Run only after 140a passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_ANIMATION_BACKUP_OK:1 for PASS.", "Verify two tx keys export to JSON, replacement keys are cleared, serialized keys are restored, and missing object export is skipped.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "09572c9e39ad67cac1cd3a6124e5ac456fe9772d", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/animation_backup.py",
+          "aimayatool/tools/scene/animation_backup_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.animation_backup"
+        ],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-animation-backup-managed-live-140b"
+        ],
+        "purpose": "Verify the Animation Backup collector fix that queries keyframe times/values directly on each keyable plug instead of relying on a generic animCurve connection type filter.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile animation_backup.py and animation_backup_smoke.py.",
+          "Import aimayatool.tools.scene.animation_backup outside Maya successfully.",
+          "Do not execute Maya smoke in this Python-only task.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "d7184a1b9335c66f6a7952bb686617f7d3a26878",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-animation-backup-direct-key-query-retry-managed-live-140d",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.scene.animation_backup_smoke",
+        "callable": "run_scene_animation_backup_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-animation-backup-direct-key-query-verify-140c"
+        ],
+        "retry_of": "aimayatool-goal007-scene-pattern-animation-backup-managed-live-140b",
+        "purpose": "Retry Animation Backup Maya parity validation after switching export collection to direct plug keyframe queries.",
+        "acceptance": [
+          "Run only after 140c passes.",
+          "Force a fresh unsaved scene and do not save.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SCENE_ANIMATION_BACKUP_OK:1 for PASS.",
+          "Verify two tx keys export to JSON, replacement keys are cleared, serialized keys are restored, and missing object export is skipped.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "d7184a1b9335c66f6a7952bb686617f7d3a26878",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     }
   ]
 }
