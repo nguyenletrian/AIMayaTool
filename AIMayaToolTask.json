@@ -75,7 +75,7 @@
     {
       "task_id": "aimayatool-goal005-setup-controls-lazy-host-verify-075a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
@@ -94,7 +94,11 @@
           "Import aimayatool.tools.setup.controls successfully under normal Python without Maya installed.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_controls_lazy_host_python_verification_pass",
+        "proven_main_commit": "d17e044d5e4c20763266caecd2f99b5fc099deab",
+        "evidence": "Bridge reported Python verification success on main d17e044d5e4c20763266caecd2f99b5fc099deab: py_compile passed for aimayatool/tools/setup/__init__.py, controls.py and smoke.py; imports passed for aimayatool.tools.setup and aimayatool.tools.setup.controls under normal Python."
       },
       "action": {
         "type": "verification",
@@ -137,7 +141,8 @@
         ],
         "tests": [],
         "timeout": 240
-      }
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal005-setup-controls-baseline-managed-live-075b",
@@ -147,9 +152,6 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
         "purpose": "Re-prove existing Setup control creation, world-transform matching and zero-group behavior after completing the lazy-host package boundary fix.",
-        "depends_on": [
-          "aimayatool-goal005-setup-controls-lazy-host-verify-075a"
-        ],
         "acceptance": [
           "Reuse healthy managed Maya 2024 session when available.",
           "Force a fresh unsaved scene and do not save.",
@@ -158,7 +160,14 @@
           "Return maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-controls-lazy-host-verify-075a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_controls_lazy_host_python_verification_pass"
+        }
       },
       "action": {
         "type": "maya",
