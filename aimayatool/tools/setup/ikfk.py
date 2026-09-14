@@ -6,6 +6,11 @@ def _cmds():
     return cmds
 
 
+def _om():
+    import maya.api.OpenMaya as om
+    return om
+
+
 def _require_node(cmds, node, label):
     if not node or not cmds.objExists(node):
         raise ValueError("{0} does not exist: {1}".format(label, node))
@@ -117,3 +122,57 @@ def wire_ikfk_switch(switch_attr, fk_nodes, ik_nodes, proxy_nodes=None, reverse_
             cmds.addAttr(node, longName=attr_name, proxy=switch_attr)
         proxies.append(proxy_plug)
     return {"switch_attr": switch_attr, "reverse": reverse, "fk_nodes": tuple(fk_nodes), "ik_nodes": tuple(ik_nodes), "proxy_attrs": tuple(proxies)}
+
+
+def capture_ikfk_snap_offsets(sources, targets):
+    """Capture source-to-target world-matrix offsets for later IK/FK snapping."""
+    cmds = _cmds()
+    om = _om()
+    sources = list(sources or [])
+    targets = list(targets or [])
+    if not sources or len(sources) != len(targets):
+        raise ValueError("Snap sources and targets must be non-empty and equal length.")
+    offsets = []
+    for source, target in zip(sources, targets):
+        _require_node(cmds, source, "Snap source")
+        _require_node(cmds, target, "Snap target")
+        source_mtx = om.MMatrix(cmds.getAttr(source + ".worldMatrix[0]"))
+        target_mtx = om.MMatrix(cmds.getAttr(target + ".worldMatrix[0]"))
+        offsets.append(tuple(source_mtx * target_mtx.inverse()))
+    return tuple(offsets)
+
+
+def snap_ikfk(sources, targets, switch_attr, switch_value, offsets=None, key=False, key_attrs=None):
+    """Snap controls from explicit target matrices and then activate IK/FK state.
+
+    Offsets are matrices captured by :func:`capture_ikfk_snap_offsets`. When no
+    offsets are supplied, each source matches its target exactly. Optional keying
+    is explicit; no scriptJob, UI window, or hidden network-node state is used.
+    """
+    cmds = _cmds()
+    om = _om()
+    sources = list(sources or [])
+    targets = list(targets or [])
+    if not sources or len(sources) != len(targets):
+        raise ValueError("Snap sources and targets must be non-empty and equal length.")
+    _require_attr(cmds, switch_attr, "IK/FK switch attribute")
+    for node in sources: _require_node(cmds, node, "Snap source")
+    for node in targets: _require_node(cmds, node, "Snap target")
+    if offsets is not None and len(offsets) != len(sources):
+        raise ValueError("Snap offsets must match source/target count.")
+
+    matrices = []
+    for index, target in enumerate(targets):
+        target_mtx = om.MMatrix(cmds.getAttr(target + ".worldMatrix[0]"))
+        offset_mtx = om.MMatrix() if offsets is None else om.MMatrix(offsets[index])
+        matrices.append(offset_mtx * target_mtx)
+
+    cmds.setAttr(switch_attr, switch_value)
+    if key:
+        cmds.setKeyframe(switch_attr)
+    attrs = tuple(key_attrs or ("tx", "ty", "tz", "rx", "ry", "rz"))
+    for source, matrix in zip(sources, matrices):
+        cmds.xform(source, worldSpace=True, matrix=list(matrix))
+        if key:
+            cmds.setKeyframe(source, attribute=list(attrs))
+    return {"switch_attr": switch_attr, "switch_value": switch_value, "sources": tuple(sources), "targets": tuple(targets), "matrices": tuple(tuple(matrix) for matrix in matrices)}
