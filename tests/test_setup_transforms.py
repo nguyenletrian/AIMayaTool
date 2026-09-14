@@ -15,6 +15,9 @@ class FakeCmds(object):
     def objExists(self, node):
         return node in self.nodes
 
+    def ls(self, node, long=False):
+        return [node]
+
     def xform(self, node, query=False, worldSpace=False, matrix=False):
         return list(range(16))
 
@@ -52,6 +55,14 @@ class SetupTransformsTests(unittest.TestCase):
         with mock.patch.object(transforms, "_cmds", return_value=fake):
             result = transforms.hierarchy_between("|root", "|root|mid|end", node_type="joint")
         self.assertEqual(["|root", "|root|mid", "|root|mid|end"], result)
+
+    def test_intermediate_joint_names_default_to_source_names(self):
+        chain = ["|srcRoot", "|srcRoot|spineA", "|srcRoot|spineA|spineB", "|srcRoot|spineA|spineB|srcEnd"]
+        self.assertEqual(["spineA_copy", "spineB_copy"], transforms._intermediate_joint_names(chain))
+
+    def test_intermediate_joint_names_support_explicit_prefix(self):
+        chain = ["root", "midA", "midB", "end"]
+        self.assertEqual(["matched_1", "matched_2"], transforms._intermediate_joint_names(chain, name_prefix="matched_"))
 
 
 if __name__ == "__main__":
