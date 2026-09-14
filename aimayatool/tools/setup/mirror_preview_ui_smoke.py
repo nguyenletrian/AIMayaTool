@@ -2,10 +2,11 @@ from __future__ import absolute_import
 
 import importlib
 import maya.cmds as cmds
-from . import naming_ui
+from . import naming, naming_ui
 
 
 def run_setup_mirror_preview_ui_smoke():
+    importlib.reload(naming)
     ui = importlib.reload(naming_ui)
     left = cmds.createNode("transform", name="arm_L_CTRL")
     right = cmds.createNode("transform", name="arm_R_CTRL")
