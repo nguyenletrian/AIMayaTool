@@ -147,8 +147,8 @@
     {
       "task_id": "aimayatool-goal007-scene-pattern-catalog-verify-138b",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -197,7 +197,6 @@
         ],
         "purpose": "Verify the first ScenePattern parity slice: deterministic ordered catalog entries replacing legacy UI-owned add/remove/reorder/name state.",
         "acceptance": [
-          "Fast-forward main.",
           "Compile catalog.py and catalog_smoke.py.",
           "Import catalog_smoke and require its import-time smoke to complete without exception.",
           "Catalog must deterministically order entries, support non-mutating rename/reorder, round-trip serialization, duplicate rejection and remove.",
@@ -209,6 +208,78 @@
           "7a2e10f7ed84473f4038eb36f92321767ec642a0"
         ],
         "legacy_evidence": "MayaScriptNew UIs/Scene.py stores ordered ScenePattern items with id/moduleName/path/order/title/name and directly implements add/delete/reorder/name editing in UI state.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "scene_pattern_catalog_python_verification_pass",
+        "proven_main_commit": "1684e3bc64bee3cfe8588f25a630cab014ee0df0",
+        "evidence": "Bridge fast-forwarded local main from 062c6401d1c1ea12c38a8f50dc18d7dbcd050fec to 1684e3bc64bee3cfe8588f25a630cab014ee0df0; py_compile passed for catalog.py and catalog_smoke.py, and import of aimayatool.tools.scene.catalog_smoke passed."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-catalog-io-verify-138c",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/catalog.py",
+          "aimayatool/tools/scene/catalog_io.py",
+          "aimayatool/tools/scene/catalog_io_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.catalog_io_smoke"
+        ],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-catalog-verify-138b"
+        ],
+        "purpose": "Verify host-independent ScenePattern catalog persistence so ordered Scene state is no longer owned by legacy UI code.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile catalog.py, catalog_io.py and catalog_io_smoke.py.",
+          "Import catalog_io_smoke and require its import-time smoke to complete without exception.",
+          "Save/load must round-trip catalog data as UTF-8 JSON.",
+          "Existing files must be protected unless overwrite=True is explicit.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commits": [
+          "6c5f42e9d69111b529e86b321b9e16f71ce96ced",
+          "a7dfd5de6c3449d4473ffdff205c8be89e0bbdb4"
+        ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
