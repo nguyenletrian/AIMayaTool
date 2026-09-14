@@ -44,3 +44,35 @@ def run_setup_fold_rig_smoke():
     if abs(cmds.getAttr(obj1 + ".translateX") - 10.0) > 1e-4 or abs(cmds.getAttr(obj2 + ".translateX") - 20.0) > 1e-4:
         raise RuntimeError("Fold state mismatch at driver=2.")
     return "SETUP_FOLD_RIG_SMOKE_OK:3"
+
+
+def run_setup_rope_straight_smoke():
+    secondary = _secondary()
+    cmds.file(new=True, force=True)
+    driver = cmds.createNode("transform", name="ropeSettings")
+    start = _transform("ropeStart", 0)
+    end = _transform("ropeEnd", 12)
+    orient_ref = cmds.createNode("transform", name="ropeOrientRef")
+    dst1 = _transform("ropeDst1", 2)
+    dst2 = _transform("ropeDst2", 9)
+    obj1 = _transform("ropeObj1", -5)
+    obj2 = _transform("ropeObj2", -10)
+    result = secondary.create_rope_straight([obj1, obj2], start, end, [dst1, dst2], orient_ref, driver + ".rope")
+    if len(result["point_constraints"]) != 2 or len(result["orient_constraints"]) != 2 or not cmds.objExists(driver + ".rope"):
+        raise RuntimeError("RopeStraight nodes were not created as expected.")
+
+    cmds.setAttr(driver + ".rope", 0)
+    cmds.dgdirty(allPlugs=True)
+    if abs(cmds.getAttr(obj1 + ".translateX") - 2.0) > 1e-4 or abs(cmds.getAttr(obj2 + ".translateX") - 9.0) > 1e-4:
+        raise RuntimeError("RopeStraight destination-follow state mismatch at driver=0.")
+
+    cmds.setAttr(driver + ".rope", 1)
+    cmds.dgdirty(allPlugs=True)
+    if abs(cmds.getAttr(obj1 + ".translateX") - 6.0) > 1e-4 or abs(cmds.getAttr(obj2 + ".translateX") - 9.0) > 1e-4:
+        raise RuntimeError("RopeStraight progressive state mismatch at driver=1.")
+
+    cmds.setAttr(driver + ".rope", 2)
+    cmds.dgdirty(allPlugs=True)
+    if abs(cmds.getAttr(obj1 + ".translateX") - 4.0) > 1e-4 or abs(cmds.getAttr(obj2 + ".translateX") - 8.0) > 1e-4:
+        raise RuntimeError("RopeStraight straightened state mismatch at driver=2.")
+    return "SETUP_ROPE_STRAIGHT_SMOKE_OK:3"
