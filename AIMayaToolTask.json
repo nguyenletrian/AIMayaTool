@@ -26,76 +26,9 @@
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/spline_composition.py",
-          "aimayatool/tools/setup/spline_composition_smoke.py",
-          "tests/test_setup_spline_composition.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup.spline_composition"
-        ],
-        "tests": [
-          "tests.test_setup_spline_composition"
-        ],
-        "timeout": 180
-      },
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-spline-controls-managed-live-094b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_spline_controls_managed_live_pass",
-          "proven_main_commit": "f41d8a6d0046e150620adf78fe70bf9415192be5"
-        },
-        "implementation_commits": [
-          "d0eb423be5d0ff45a398db7fd6bfd6e64459e8fc",
-          "263c930c52e38a833df3f7ae280bd82955b9e3aa",
-          "aa513c66a280032d860e11ac58579210189332fe"
-        ],
-        "purpose": "Verify the explicit final SplineRig composition layer: Global 0/1 local-to-global orientation blend, global-parent translation follow, SplineControls visibility/follow weighting and proxy attributes without ScenePattern/UI state.",
-        "acceptance": [
-          "Fast-forward main including all spline composition implementation/test/smoke commits.",
-          "Compile spline_composition.py, spline_composition_smoke.py and tests/test_setup_spline_composition.py.",
-          "Import aimayatool.tools.setup.spline_composition under normal Python without Maya installed.",
-          "All tests in tests.test_setup_spline_composition pass.",
-          "The API keeps orientation and visibility masters explicit and supports separate controls as in the legacy SplineRig behavior.",
-          "No eager Maya import is introduced.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "setup_spline_composition_python_verification_pass",
         "proven_main_commit": "95426466335366152f1b2831d70ebb77bf6e348f",
@@ -105,52 +38,15 @@
     {
       "task_id": "aimayatool-goal005-setup-spline-composition-managed-live-095b",
       "status": "pending",
-      "architect_ack": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.spline_composition_smoke",
-        "callable": "run_setup_spline_composition_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
+      "architect_ack": true,
+      "bridge_completed": true,
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "depends_on": [
-          "aimayatool-goal005-setup-spline-composition-verify-095a"
-        ],
+        "result": "PASS",
+        "classification": "setup_spline_composition_managed_live_pass",
+        "proven_main_commit": "7815caa305c7d3a511b52282a9a1d513a43eb9c4",
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_SPLINE_COMPOSITION_SMOKE_OK:4, scene_saved=false and maya_quit=false; smoke acceptance proves local/global orientation, global translation follow, and SplineControls visibility/follow/proxy behavior.",
         "archived_prerequisite": {
           "task_id": "aimayatool-goal005-setup-spline-composition-verify-095a",
           "result": "PASS",
@@ -158,17 +54,7 @@
           "bridge_completed": true,
           "classification": "setup_spline_composition_python_verification_pass",
           "proven_main_commit": "95426466335366152f1b2831d70ebb77bf6e348f"
-        },
-        "purpose": "Validate the SplineRig composition layer in real Maya across local/global orientation states plus visibility, follow-weight and proxy behavior.",
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Require result SETUP_SPLINE_COMPOSITION_SMOKE_OK:4 for PASS.",
-          "Smoke must prove Global=0 local orientation, Global=1 global orientation, global translation follow, and SplineControls visibility/follow/proxy state changes.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        }
       }
     }
   ]
