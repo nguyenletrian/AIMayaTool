@@ -4,10 +4,15 @@ import importlib
 import maya.cmds as cmds
 
 from . import controls as controls_module
+from . import transforms as transforms_module
 
 
 def _controls():
     return importlib.reload(controls_module)
+
+
+def _transforms():
+    return importlib.reload(transforms_module)
 
 
 def _matrix_close(a, b, tolerance=1e-5):
@@ -61,3 +66,25 @@ def run_setup_control_shape_catalog_smoke():
         if not cvs:
             raise RuntimeError("Control shape {0} has no curve CVs.".format(shape))
     return "SETUP_CONTROL_SHAPE_CATALOG_SMOKE_OK:{0}".format(len(shape_names))
+
+
+def run_setup_transform_primitives_smoke():
+    transforms = _transforms()
+    cmds.file(new=True, force=True)
+
+    source = cmds.createNode("transform", name="setupTransformSource")
+    target = cmds.createNode("transform", name="setupTransformTarget")
+    cmds.setAttr(source + ".translate", 2.0, 3.0, 4.0, type="double3")
+    cmds.setAttr(source + ".rotate", 10.0, 20.0, 30.0, type="double3")
+    transforms.match_world_transform(target, source, translate=True, rotate=True, scale=False)
+    if not _matrix_close(transforms.world_matrix(target), transforms.world_matrix(source)):
+        raise RuntimeError("Matched transform world matrix differs from source.")
+
+    root = cmds.createNode("joint", name="setupRoot_JNT")
+    mid = cmds.createNode("joint", name="setupMid_JNT", parent=root)
+    end = cmds.createNode("joint", name="setupEnd_JNT", parent=mid)
+    chain = transforms.hierarchy_between(cmds.ls(root, long=True)[0], cmds.ls(end, long=True)[0], node_type="joint")
+    if len(chain) != 3 or not chain[1].endswith("setupMid_JNT"):
+        raise RuntimeError("Joint hierarchy traversal returned an unexpected chain.")
+
+    return "SETUP_TRANSFORM_PRIMITIVES_SMOKE_OK:3"
