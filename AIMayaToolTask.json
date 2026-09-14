@@ -17,11 +17,31 @@
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
@@ -53,22 +73,54 @@
     {
       "task_id": "aimayatool-goal005-setup-ui-core-verify-114a",
       "status": "pending",
-      "architect_ack": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/ui_parity_smoke.py"],
-        "imports": ["aimayatool.tools.setup"],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/setup/ui_parity_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup"
+        ],
         "tests": [],
         "timeout": 180
       },
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-secondary-joints-between-managed-live-113g"],
+        "depends_on": [
+          "aimayatool-goal005-setup-secondary-joints-between-managed-live-113g"
+        ],
         "purpose": "Verify the first Setup UI parity slice exposing already-proven controls, transforms, constraints, spaces and attribute workflows through thin callbacks.",
         "acceptance": [
           "Fast-forward main.",
@@ -77,6 +129,10 @@
           "Do not import the Maya-only ui_parity_smoke module in normal Python.",
           "Do not invoke Codex."
         ],
+        "result": "PASS",
+        "classification": "setup_ui_core_python_verification_pass",
+        "proven_main_commit": "9b17fbb87f83cb2c5db8f643d316dd2ba92e4691",
+        "evidence": "After ff-only sync to 9b17fbb87f83cb2c5db8f643d316dd2ba92e4691, py_compile passed for aimayatool/tools/setup/__init__.py and ui_parity_smoke.py; non-Maya import of aimayatool.tools.setup passed.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
@@ -84,12 +140,36 @@
       "task_id": "aimayatool-goal005-setup-ui-core-managed-live-114b",
       "status": "pending",
       "architect_ack": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
@@ -102,7 +182,9 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-ui-core-verify-114a"],
+        "depends_on": [
+          "aimayatool-goal005-setup-ui-core-verify-114a"
+        ],
         "purpose": "Validate that the first Setup UI parity slice exposes all 17 intended controls in real Maya.",
         "acceptance": [
           "Run only after aimayatool-goal005-setup-ui-core-verify-114a passes.",
