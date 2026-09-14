@@ -9,7 +9,7 @@ def _cmds():
 
 
 def collect_animation_data(objects):
-    """Collect animCurve key times/values for explicit objects and keyable attrs."""
+    """Collect animation key times/values for explicit objects and keyable attrs."""
     cmds = _cmds()
     data = {}
     for obj in tuple(objects or ()):
@@ -18,12 +18,8 @@ def collect_animation_data(objects):
         obj_data = {}
         for attr in cmds.listAttr(obj, keyable=True) or []:
             plug = "{0}.{1}".format(obj, attr)
-            curves = cmds.listConnections(plug, source=True, destination=False, type="animCurve") or []
-            if not curves:
-                continue
-            curve = curves[0]
-            times = cmds.keyframe(curve, query=True, timeChange=True) or []
-            values = cmds.keyframe(curve, query=True, valueChange=True) or []
+            times = cmds.keyframe(plug, query=True, timeChange=True) or []
+            values = cmds.keyframe(plug, query=True, valueChange=True) or []
             if times:
                 obj_data[attr] = {"times": list(times), "values": list(values)}
         if obj_data:
