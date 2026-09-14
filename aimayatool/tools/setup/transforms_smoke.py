@@ -76,3 +76,16 @@ def run_setup_transform_snapshot_smoke():
         if max(abs(source_t[i] - target_t[i]) for i in range(3)) > 1e-4: raise RuntimeError("Snapshot translation mismatch: {0}".format(target))
         if max(abs(source_r[i] - target_r[i]) for i in range(3)) > 1e-3: raise RuntimeError("Snapshot rotation mismatch: {0}".format(target))
     return "SETUP_TRANSFORM_SNAPSHOT_SMOKE_OK:2"
+
+
+def run_setup_match_hierarchy_smoke():
+    transforms = _transforms(); cmds.file(new=True, force=True)
+    src_root = cmds.createNode("transform", name="matchSrcRoot"); src_mid = cmds.createNode("transform", name="matchSrcMid", parent=src_root); src_end = cmds.createNode("transform", name="matchSrcEnd", parent=src_mid)
+    dst_root = cmds.createNode("transform", name="matchDstRoot"); dst_mid = cmds.createNode("transform", name="matchDstMid", parent=dst_root); dst_end = cmds.createNode("transform", name="matchDstEnd", parent=dst_mid)
+    cmds.xform(src_root, worldSpace=True, translation=(2, 3, 4), rotation=(10, 20, 30), scale=(1.2, 1.1, 0.9)); cmds.xform(src_mid, translation=(3, 1, -2), rotation=(5, 15, 25), scale=(1.0, 1.3, 1.0)); cmds.xform(src_end, translation=(4, -1, 2), rotation=(0, 35, 10), scale=(0.8, 1.0, 1.2))
+    transforms.match_transform_hierarchy(src_root, [dst_root])
+    src_nodes = [src_root, src_mid, src_end]; dst_nodes = [dst_root, dst_mid, dst_end]
+    for source, target in zip(src_nodes, dst_nodes):
+        source_m = cmds.xform(source, query=True, worldSpace=True, matrix=True); target_m = cmds.xform(target, query=True, worldSpace=True, matrix=True)
+        if max(abs(source_m[i] - target_m[i]) for i in range(16)) > 1e-4: raise RuntimeError("Hierarchy world matrix mismatch: {0}".format(target))
+    return "SETUP_MATCH_HIERARCHY_SMOKE_OK:3"
