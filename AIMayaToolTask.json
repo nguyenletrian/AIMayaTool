@@ -58,14 +58,26 @@
     {
       "task_id": "aimayatool-goal007-scene-pattern-descriptor-verify-138e",
       "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/pattern_descriptor.py", "aimayatool/tools/scene/pattern_descriptor_smoke.py"], "imports": ["aimayatool.tools.scene.pattern_descriptor_smoke"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-execution-plan-verify-138d"], "purpose": "Verify pure normalization and validation for legacy ScenePattern item descriptors before any host executor consumes them.", "acceptance": ["Compile pattern_descriptor.py and pattern_descriptor_smoke.py.", "Import pattern_descriptor_smoke and require its import-time smoke to pass.", "Do not import Maya or legacy Scene modules.", "Do not invoke Codex."], "implementation_commits": ["37bd91be6d0b13368d5a05bf9ead49af954f750a", "0d8d7b238f869223c5efce77aabeefb8307740fb"], "legacy_evidence": "MayaScriptNew Scene_Pattern_Global stores parent, child, attrSlide, defaultValue and maintain as loosely typed UI values before Run mutates Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_pattern_descriptor_python_verification_pass", "proven_main_commit": "900ea13de8f950c3403ac5dee4910383708e8d6b", "evidence": "Bridge fast-forwarded local main from f752dae85e52ab4d19aadcbc5f2d87cf4a69dc4c to 900ea13de8f950c3403ac5dee4910383708e8d6b; py_compile passed pattern_descriptor.py and pattern_descriptor_smoke.py, and import of aimayatool.tools.scene.pattern_descriptor_smoke passed."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-global-plan-verify-138f",
+      "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/pattern_descriptor.py", "aimayatool/tools/scene/pattern_descriptor_smoke.py"], "imports": ["aimayatool.tools.scene.pattern_descriptor_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-execution-plan-verify-138d"], "purpose": "Verify pure normalization and validation for legacy ScenePattern item descriptors before any host executor consumes them.", "acceptance": ["Fast-forward main.", "Compile pattern_descriptor.py and pattern_descriptor_smoke.py.", "Import pattern_descriptor_smoke and require its import-time smoke to pass.", "Normalize newline/list child values deterministically.", "Reject non-numeric defaultValue, non-boolean maintain, invalid child payloads and unknown fields.", "Do not import Maya or legacy Scene modules.", "Do not invoke Codex."], "implementation_commits": ["37bd91be6d0b13368d5a05bf9ead49af954f750a", "0d8d7b238f869223c5efce77aabeefb8307740fb"], "legacy_evidence": "MayaScriptNew Scene_Pattern_Global stores parent, child, attrSlide, defaultValue and maintain as loosely typed UI values before Run mutates Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/pattern_descriptor.py", "aimayatool/tools/scene/global_plan.py", "aimayatool/tools/scene/global_plan_smoke.py"], "imports": ["aimayatool.tools.scene.global_plan_smoke"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-descriptor-verify-138e"], "purpose": "Verify a host-independent Global ScenePattern operation plan before introducing any Maya executor.", "acceptance": ["Fast-forward main.", "Compile pattern_descriptor.py, global_plan.py and global_plan_smoke.py.", "Import global_plan_smoke and require its import-time smoke to pass.", "Plan must produce one deterministic explicit global_parent_blend operation per normalized child.", "Empty child input must produce an empty operation plan.", "Do not import Maya or legacy Scene modules.", "Do not invoke Codex."], "implementation_commits": ["bdea9570f0d159df0fed7e898791e637331f6bb5", "a3a2f783a4b6063a1d240e1ac90fc37f1892fe73"], "legacy_evidence": "MayaScriptNew Scene_Pattern_Global.Run loops over child controls and performs the same conceptual parent/orient blend setup directly in Maya; this slice isolates the operation intent as validated data first.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
