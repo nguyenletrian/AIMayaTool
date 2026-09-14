@@ -23,6 +23,10 @@ class SetupControlShapeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             controls._scaled_points("circle", 0.0)
 
+    def test_shape_plug_remap_only_changes_target_shape_prefix(self):
+        self.assertEqual("|ctrl|newShape.visibility", controls._remap_shape_plug("|ctrl|oldShape.visibility", "|ctrl|oldShape", "|ctrl|newShape"))
+        self.assertEqual("driver.output", controls._remap_shape_plug("driver.output", "|ctrl|oldShape", "|ctrl|newShape"))
+
 
 if __name__ == "__main__":
     unittest.main()
