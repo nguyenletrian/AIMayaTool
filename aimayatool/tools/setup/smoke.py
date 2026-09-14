@@ -68,6 +68,43 @@ def run_setup_control_shape_catalog_smoke():
     return "SETUP_CONTROL_SHAPE_CATALOG_SMOKE_OK:{0}".format(len(shape_names))
 
 
+def run_setup_control_shape_replace_smoke():
+    controls = _controls()
+    cmds.file(new=True, force=True)
+
+    control = controls.create_control("replaceShape_CTRL", shape="circle", size=1.0)
+    cmds.setAttr(control + ".translate", 3.0, 2.0, 1.0, type="double3")
+    before_matrix = cmds.xform(control, query=True, worldSpace=True, matrix=True)
+    old_shape = (cmds.listRelatives(control, shapes=True, type="nurbsCurve", fullPath=True) or [None])[0]
+    if not old_shape:
+        raise RuntimeError("Initial control shape was not created.")
+    old_short = old_shape.split("|")[-1]
+
+    driver = cmds.createNode("transform", name="replaceDriver")
+    target = cmds.createNode("transform", name="replaceTarget")
+    cmds.connectAttr(driver + ".visibility", old_shape + ".visibility", force=True)
+    cmds.connectAttr(old_shape + ".visibility", target + ".visibility", force=True)
+
+    transform, new_shape = controls.replace_control_shape(control, shape="eye", size=1.0)
+    if transform.split("|")[-1] != control.split("|")[-1]:
+        raise RuntimeError("Shape replacement changed the control transform.")
+    if new_shape.split("|")[-1] != old_short:
+        raise RuntimeError("Shape replacement did not preserve the curve shape name.")
+    after_matrix = cmds.xform(transform, query=True, worldSpace=True, matrix=True)
+    if not _matrix_close(before_matrix, after_matrix):
+        raise RuntimeError("Shape replacement changed the control world transform.")
+
+    cvs = cmds.ls(new_shape + ".cv[*]", flatten=True) or []
+    if len(cvs) != len(controls._scaled_points("eye", 1.0)):
+        raise RuntimeError("Replacement curve did not use the requested eye shape points.")
+    incoming = cmds.listConnections(new_shape + ".visibility", source=True, destination=False, plugs=True) or []
+    outgoing = cmds.listConnections(new_shape + ".visibility", source=False, destination=True, plugs=True) or []
+    if driver + ".visibility" not in incoming or target + ".visibility" not in outgoing:
+        raise RuntimeError("Shape replacement did not restore curve plug connections.")
+
+    return "SETUP_CONTROL_SHAPE_REPLACE_SMOKE_OK:1"
+
+
 def run_setup_transform_primitives_smoke():
     transforms = _transforms()
     cmds.file(new=True, force=True)
