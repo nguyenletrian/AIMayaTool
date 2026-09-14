@@ -116,8 +116,8 @@
     {
       "task_id": "aimayatool-goal005-setup-ui-fold-rope-verify-120a",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
@@ -141,6 +141,10 @@
           "Preserve existing Setup UI actions and avoid importing the Maya-only ui_parity_smoke module in normal Python.",
           "Do not invoke Codex."
         ],
+        "result": "PASS",
+        "classification": "setup_ui_fold_rope_python_verification_pass",
+        "proven_main_commit": "e77b6e96bac439c44b8ec49669439a1d20393cf4",
+        "evidence": "Bridge fast-forwarded local main from 718a6507a08ce32660e506915191b69c2d6cae21 to e77b6e96bac439c44b8ec49669439a1d20393cf4; py_compile passed for aimayatool/tools/setup/__init__.py and aimayatool/tools/setup/ui_parity_smoke.py; non-Maya import of aimayatool.tools.setup passed.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
