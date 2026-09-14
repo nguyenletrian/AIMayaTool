@@ -52,6 +52,19 @@ def create_parent_constraint(drivers, driven, maintain_offset=True, use_offset_g
     return {"constraint": constraint, "target": target, "offset_group": offset_group}
 
 
+def create_point_constraint(driver, driven, maintain_offset=True, use_offset_group=True, offset_suffix="_PointConstraintGrp", container=None):
+    """Create a point constraint, optionally on a zeroed offset group above the driven node."""
+    cmds = _cmds()
+    _require_node(cmds, driver, "Driver")
+    _require_node(cmds, driven, "Driven")
+    target, offset_group = _constraint_target(driven, use_offset_group, offset_suffix)
+    constraint = cmds.pointConstraint(driver, target, mo=bool(maintain_offset))[0]
+    if container:
+        _require_node(cmds, container, "Constraint container")
+        cmds.parent(constraint, container)
+    return {"constraint": constraint, "target": target, "offset_group": offset_group}
+
+
 def create_orient_constraint(driver, driven, maintain_offset=True, use_offset_group=True, offset_suffix="_OrientConstraintGrp", container=None):
     """Create an orient constraint, optionally on a zeroed offset group above the driven node."""
     cmds = _cmds()
