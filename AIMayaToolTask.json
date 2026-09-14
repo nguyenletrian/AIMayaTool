@@ -3,7 +3,7 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-084-retry",
+    "request_id": "aimayatool-setup-migration-085",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
@@ -115,7 +115,7 @@
     {
       "task_id": "aimayatool-goal005-setup-sdk-primitives-managed-live-retry-084d",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -174,6 +174,146 @@
           "Reuse a healthy managed Maya 2024 session when available.",
           "Force a fresh unsaved scene and do not save.",
           "Require result SETUP_SDK_SMOKE_OK:1 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_sdk_managed_live_retry_pass",
+        "proven_main_commit": "8aedf0913cce91469b01464227568da6c51d4e8a",
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_SDK_SMOKE_OK:1, scene_saved=false and maya_quit=false."
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-modulo-sdk-verify-085a",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/sdk.py",
+          "aimayatool/tools/setup/sdk_smoke.py",
+          "tests/test_setup_sdk.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.sdk"
+        ],
+        "tests": [
+          "tests.test_setup_sdk"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-sdk",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-sdk-primitives-managed-live-retry-084d",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_sdk_managed_live_retry_pass",
+          "proven_main_commit": "8aedf0913cce91469b01464227568da6c51d4e8a"
+        },
+        "implementation_commits": [
+          "59e3c47bd319e389b91a74b373716d9c9662eb4e",
+          "d6b188f8170f4dac14f9ed32888263c4673f7610",
+          "40c39f040911f04e094b5df15ff41a997cbf8eaa"
+        ],
+        "purpose": "Verify explicit Modulo SDK parity from the legacy Scene_Pattern_ModuloSDK workflows: integer driver reduced to a configurable modulus, slot-specific driven values, reusable offset groups, and one bounded Maya expression.",
+        "acceptance": [
+          "Fast-forward main including the modulo SDK implementation/test/smoke commits.",
+          "Compile sdk.py, sdk_smoke.py and tests/test_setup_sdk.py.",
+          "Import aimayatool.tools.setup.sdk under normal Python without Maya installed.",
+          "All tests in tests.test_setup_sdk pass, including modulo expression construction and modulus validation.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-modulo-sdk-managed-live-085b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.sdk_smoke",
+        "callable": "run_setup_modulo_sdk_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-sdk",
+        "depends_on": [
+          "aimayatool-goal005-setup-modulo-sdk-verify-085a"
+        ],
+        "purpose": "Validate Modulo SDK parity in real Maya, including expression creation, reusable modulo offset group, positive wrapping and negative-driver behavior.",
+        "acceptance": [
+          "Run only after 085a passes.",
+          "Reuse healthy managed Maya 2024 when available.",
+          "Force a fresh unsaved scene and do not save.",
+          "Require result SETUP_MODULO_SDK_SMOKE_OK:3 for PASS.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
