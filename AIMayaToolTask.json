@@ -17,11 +17,31 @@
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
@@ -37,12 +57,34 @@
         "milestone_id": "scene-pattern-parity",
         "depends_on": [],
         "archived_prerequisite": [
-          {"task_id": "aimayatool-goal007-scene-pattern-global-executor-connectioninfo-verify-138l", "result": "PASS", "architect_ack": true, "bridge_completed": true},
-          {"task_id": "aimayatool-goal007-scene-pattern-global-executor-retry-managed-live-138k", "result": "FAIL", "architect_ack": true, "bridge_completed": true}
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-global-executor-connectioninfo-verify-138l",
+            "result": "PASS",
+            "architect_ack": true,
+            "bridge_completed": true
+          },
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-global-executor-retry-managed-live-138k",
+            "result": "FAIL",
+            "architect_ack": true,
+            "bridge_completed": true
+          }
         ],
-        "archived_retry_source": {"task_id": "aimayatool-goal007-scene-pattern-global-executor-retry-managed-live-138k", "result": "FAIL", "architect_ack": true, "bridge_completed": true},
+        "archived_retry_source": {
+          "task_id": "aimayatool-goal007-scene-pattern-global-executor-retry-managed-live-138k",
+          "result": "FAIL",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
         "purpose": "Retry Global ScenePattern Maya parity validation using direct compound source queries for the blend rotation wiring.",
-        "acceptance": ["Run only after 138l passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_GLOBAL_PATTERN_EXECUTOR_OK:1 for PASS.", "Verify slider, offset insertion, direct compound blendColors.output -> offset.rotate wiring and missing-child skip.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."],
+        "acceptance": [
+          "Run only after 138l passes.",
+          "Force a fresh unsaved scene and do not save.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SCENE_GLOBAL_PATTERN_EXECUTOR_OK:1 for PASS.",
+          "Verify slider, offset insertion, direct compound blendColors.output -> offset.rotate wiring and missing-child skip.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
         "implementation_commit": "a7fa8afb010d5b79e3a52e0fe42776f406f4de58",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "FAIL",
@@ -57,23 +99,60 @@
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/scene/global_executor.py", "aimayatool/tools/scene/global_executor_smoke.py"],
-        "imports": ["aimayatool.tools.scene.global_executor"],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/global_executor.py",
+          "aimayatool/tools/scene/global_executor_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.global_executor"
+        ],
         "tests": [],
         "timeout": 180
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-global-executor-connectioninfo-retry-managed-live-138m"],
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-global-executor-connectioninfo-retry-managed-live-138m"
+        ],
         "purpose": "Verify the Global executor smoke correction that traces upstream through Maya unitConversion nodes before comparing the true rotation source.",
-        "acceptance": ["Fast-forward main.", "Compile global_executor.py and global_executor_smoke.py.", "Import global_executor outside Maya successfully.", "Do not execute the Maya smoke in this Python-only task.", "Do not invoke Codex."],
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile global_executor.py and global_executor_smoke.py.",
+          "Import global_executor outside Maya successfully.",
+          "Do not execute the Maya smoke in this Python-only task.",
+          "Do not invoke Codex."
+        ],
         "implementation_commit": "d99986a7b8720203ac124c3e8eb77dfc584708e8",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
@@ -87,12 +166,36 @@
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
@@ -106,10 +209,19 @@
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-global-executor-upstream-trace-verify-138n"],
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-global-executor-upstream-trace-verify-138n"
+        ],
         "retry_of": "aimayatool-goal007-scene-pattern-global-executor-connectioninfo-retry-managed-live-138m",
         "purpose": "Retry Global ScenePattern Maya parity validation while accepting Maya-inserted unitConversion nodes only when their upstream source resolves to blendColors.output.",
-        "acceptance": ["Run only after 138n passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_GLOBAL_PATTERN_EXECUTOR_OK:1 for PASS.", "Verify slider, offset insertion, rotation source traced through unitConversion back to blendColors.output, and missing-child skip.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."],
+        "acceptance": [
+          "Run only after 138n passes.",
+          "Force a fresh unsaved scene and do not save.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SCENE_GLOBAL_PATTERN_EXECUTOR_OK:1 for PASS.",
+          "Verify slider, offset insertion, rotation source traced through unitConversion back to blendColors.output, and missing-child skip.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
         "implementation_commit": "d99986a7b8720203ac124c3e8eb77dfc584708e8",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
@@ -121,23 +233,54 @@
     {
       "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-139a",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "assessment", "target": "repository"},
-      "permissions": {"read": true, "edit": false, "run_tests": false, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "assessment",
+        "target": "repository"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": false,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "reference_repository": "https://github.com/nguyenletrian/MayaScriptNew.git",
-        "reference_paths": ["UIs/ScenePattern/Scene_Pattern_AimConstraint.py"],
-        "target_paths": ["aimayatool/tools/scene", "PARITY.md"],
+        "reference_paths": [
+          "UIs/ScenePattern/Scene_Pattern_AimConstraint.py"
+        ],
+        "target_paths": [
+          "aimayatool/tools/scene",
+          "PARITY.md"
+        ],
         "timeout": 180
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-global-executor-upstream-trace-retry-managed-live-138o"],
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-global-executor-upstream-trace-retry-managed-live-138o"
+        ],
         "purpose": "Assess the next missing ScenePattern parity slice, legacy Aim Constraint, and define the smallest deterministic descriptor/plan/executor migration path without copying legacy UI coupling.",
         "acceptance": [
           "Inspect legacy Scene_Pattern_AimConstraint.py and current AIMayaTool scene modules/parity evidence.",
@@ -149,6 +292,77 @@
           "Do not invoke Codex."
         ],
         "source_evidence": "Legacy Scene_Pattern_AimConstraint.py creates <child>_AimGrp, applies aimConstraint(parent -> offset) with worldUpType=object, worldUpObject=reference, axis vectors from signed x/y/z labels, maintain flag, and optionally parents the constraint under constraintContent.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "FAIL",
+        "classification": "bridge_route_handler_missing_assessment_repository",
+        "evidence": "Bridge returned success=false before product inspection because no route handler is registered for assessment:repository. This is a worker route mismatch, not AIMayaTool product evidence."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-python-139b",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/__init__.py",
+          "PARITY.md"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-aimconstraint-assessment-139a"
+        ],
+        "retry_of": "aimayatool-goal007-scene-pattern-aimconstraint-assessment-139a",
+        "purpose": "Recover the Aim Constraint parity assessment through the supported Python verification route after assessment:repository proved unsupported.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import only the listed current AIMayaTool scene package files needed to prove the route is operational.",
+          "Return Python verification evidence without modifying product code.",
+          "The Architect will combine this route evidence with repository/reference inspection already available to determine the Aim Constraint implementation slice.",
+          "Do not invoke Codex."
+        ],
+        "assessment_scope": {
+          "legacy_reference": "UIs/ScenePattern/Scene_Pattern_AimConstraint.py",
+          "legacy_contract": "Create <child>_AimGrp, aimConstraint parent -> offset with object world-up reference, signed main/secondary axis vectors, maintain-offset flag, and optional parenting of the constraint node under constraintContent.",
+          "target_search": "aimayatool/tools/scene plus reusable setup/constraint primitives"
+        },
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
