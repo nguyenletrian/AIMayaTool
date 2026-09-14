@@ -21,6 +21,31 @@ def _require_attr(cmds, plug, label):
         raise ValueError("{0} does not exist: {1}".format(label, plug))
 
 
+def _require_unique(nodes, label):
+    seen = set()
+    duplicates = []
+    for node in nodes:
+        if node in seen and node not in duplicates:
+            duplicates.append(node)
+        seen.add(node)
+    if duplicates:
+        raise ValueError("{0} contains duplicate nodes: {1}".format(label, ", ".join(duplicates)))
+
+
+def _require_disjoint(named_groups):
+    owners = {}
+    overlaps = []
+    for label, nodes in named_groups:
+        for node in nodes:
+            previous = owners.get(node)
+            if previous is not None and previous != label:
+                overlaps.append("{0} ({1}/{2})".format(node, previous, label))
+            else:
+                owners[node] = label
+    if overlaps:
+        raise ValueError("IK/FK role groups must be disjoint: {0}".format(", ".join(overlaps)))
+
+
 def create_ikfk_blend(bind_joints, fk_joints, ik_joints, switch_attr, reverse_name=None):
     """Blend FK and IK joint chains onto a bind chain using one 0..1 switch.
 
@@ -33,6 +58,10 @@ def create_ikfk_blend(bind_joints, fk_joints, ik_joints, switch_attr, reverse_na
     ik_joints = list(ik_joints or [])
     if not bind_joints or len(bind_joints) != len(fk_joints) or len(bind_joints) != len(ik_joints):
         raise ValueError("Bind, FK and IK chains must be non-empty and equal length.")
+    _require_unique(bind_joints, "Bind chain")
+    _require_unique(fk_joints, "FK chain")
+    _require_unique(ik_joints, "IK chain")
+    _require_disjoint((("bind", bind_joints), ("fk", fk_joints), ("ik", ik_joints)))
     _require_attr(cmds, switch_attr, "IK/FK switch attribute")
     for node in bind_joints: _require_node(cmds, node, "Bind joint")
     for node in fk_joints: _require_node(cmds, node, "FK joint")
@@ -65,6 +94,11 @@ def create_rp_ik(ik_joints, ik_control, pole_control, handle_name=None, orient_e
     ik_joints = list(ik_joints or [])
     if len(ik_joints) < 2:
         raise ValueError("RP IK requires at least two joints.")
+    _require_unique(ik_joints, "RP IK chain")
+    if ik_control == pole_control:
+        raise ValueError("IK control and pole control must be different nodes.")
+    if ik_control in ik_joints or pole_control in ik_joints:
+        raise ValueError("IK and pole controls must be disjoint from the IK joint chain.")
     for node in ik_joints: _require_node(cmds, node, "IK joint")
     _require_node(cmds, ik_control, "IK control")
     _require_node(cmds, pole_control, "Pole control")
@@ -98,6 +132,10 @@ def wire_ikfk_switch(switch_attr, fk_nodes, ik_nodes, proxy_nodes=None, reverse_
     proxy_nodes = list(proxy_nodes or [])
     if not fk_nodes or not ik_nodes:
         raise ValueError("At least one FK node and one IK node are required.")
+    _require_unique(fk_nodes, "FK visibility nodes")
+    _require_unique(ik_nodes, "IK visibility nodes")
+    _require_unique(proxy_nodes, "Proxy controls")
+    _require_disjoint((("fk", fk_nodes), ("ik", ik_nodes)))
     _require_attr(cmds, switch_attr, "IK/FK switch attribute")
     for node in fk_nodes: _require_node(cmds, node, "FK visibility node")
     for node in ik_nodes: _require_node(cmds, node, "IK visibility node")
@@ -132,8 +170,11 @@ def capture_ikfk_snap_offsets(sources, targets):
     targets = list(targets or [])
     if not sources or len(sources) != len(targets):
         raise ValueError("Snap sources and targets must be non-empty and equal length.")
-    offsets = []
+    _require_unique(sources, "Snap sources")
+    _require_unique(targets, "Snap targets")
     for source, target in zip(sources, targets):
+        if source == target:
+            raise ValueError("Snap source and target must be different nodes: {0}".format(source))
         _require_node(cmds, source, "Snap source")
         _require_node(cmds, target, "Snap target")
         source_mtx = om.MMatrix(cmds.getAttr(source + ".worldMatrix[0]"))
@@ -155,9 +196,14 @@ def snap_ikfk(sources, targets, switch_attr, switch_value, offsets=None, key=Fal
     targets = list(targets or [])
     if not sources or len(sources) != len(targets):
         raise ValueError("Snap sources and targets must be non-empty and equal length.")
+    _require_unique(sources, "Snap sources")
+    _require_unique(targets, "Snap targets")
     _require_attr(cmds, switch_attr, "IK/FK switch attribute")
-    for node in sources: _require_node(cmds, node, "Snap source")
-    for node in targets: _require_node(cmds, node, "Snap target")
+    for source, target in zip(sources, targets):
+        if source == target:
+            raise ValueError("Snap source and target must be different nodes: {0}".format(source))
+        _require_node(cmds, source, "Snap source")
+        _require_node(cmds, target, "Snap target")
     if offsets is not None and len(offsets) != len(sources):
         raise ValueError("Snap offsets must match source/target count.")
 
