@@ -15,13 +15,13 @@
     },
     {
       "task_id": "aimayatool-goal006-setup-composition-regression-verify-132a",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/composition_regression_smoke.py", "aimayatool/tools/setup/constraints.py", "aimayatool/tools/setup/spaces.py", "aimayatool/tools/setup/ikfk.py", "aimayatool/tools/setup/sdk.py", "aimayatool/tools/setup/spline_composition.py"], "imports": ["aimayatool.tools.setup.composition_regression_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-constraint-axis-safety-managed-live-131b"], "purpose": "Verify the full Setup composition regression harness and all hardened composition modules compile and remain import-safe before the milestone-closing Maya run.", "acceptance": ["Fast-forward main.", "Compile composition_regression_smoke.py and the hardened constraint/space/IKFK/SDK/spline composition modules.", "Import aimayatool.tools.setup.composition_regression_smoke outside Maya.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-composition", "depends_on": ["aimayatool-goal006-setup-constraint-axis-safety-managed-live-131b"], "purpose": "Verify the full Setup composition regression harness and all hardened composition modules compile and remain import-safe before the milestone-closing Maya run.", "acceptance": ["Fast-forward main.", "Compile composition_regression_smoke.py and the hardened constraint/space/IKFK/SDK/spline composition modules.", "Import aimayatool.tools.setup.composition_regression_smoke outside Maya.", "Do not invoke Codex."], "result": "PASS", "classification": "setup_composition_regression_python_verification_pass", "proven_main_commit": "a7db77ab36bfc00b4360c0f7f50e9c37b0dc2ff8", "evidence": "Bridge fast-forwarded local main from 8e0e85b1488c024da8730dc8a601a2299ca3cc9b to a7db77ab36bfc00b4360c0f7f50e9c37b0dc2ff8; py_compile passed for composition_regression_smoke.py, constraints.py, spaces.py, ikfk.py, sdk.py and spline_composition.py; import of aimayatool.tools.setup.composition_regression_smoke passed outside Maya.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal006-setup-composition-regression-managed-live-132b",
