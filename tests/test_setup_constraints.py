@@ -12,6 +12,7 @@ class FakeCmds(object):
         self.calls = []
     def objExists(self, node): return node in self.nodes
     def parentConstraint(self, *args, **kwargs): self.calls.append(("parent", args, kwargs)); return ["parentConstraint1"]
+    def pointConstraint(self, *args, **kwargs): self.calls.append(("point", args, kwargs)); return ["pointConstraint1"]
     def orientConstraint(self, *args, **kwargs): self.calls.append(("orient", args, kwargs)); return ["orientConstraint1"]
     def aimConstraint(self, *args, **kwargs): self.calls.append(("aim", args, kwargs)); return ["aimConstraint1"]
     def setAttr(self, *args, **kwargs): self.calls.append(("setAttr", args, kwargs))
@@ -30,6 +31,15 @@ class SetupConstraintTests(unittest.TestCase):
             result = constraints.create_parent_constraint(["driver", "driverB"], "driven", maintain_offset=False)
         self.assertEqual("parentConstraint1", result["constraint"])
         self.assertEqual(("driver", "driverB", "driven"), fake.calls[0][1])
+        self.assertEqual(False, fake.calls[0][2]["mo"])
+
+    def test_point_constraint_explicit_flags(self):
+        fake = FakeCmds()
+        with mock.patch.object(constraints, "_cmds", return_value=fake):
+            result = constraints.create_point_constraint("driver", "driven", maintain_offset=False, use_offset_group=False)
+        self.assertEqual("pointConstraint1", result["constraint"])
+        self.assertEqual("driven", result["target"])
+        self.assertEqual(("driver", "driven"), fake.calls[0][1])
         self.assertEqual(False, fake.calls[0][2]["mo"])
 
     def test_orient_constraint_explicit_flags(self):
