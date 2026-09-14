@@ -258,6 +258,71 @@ def _blend_ikfk_selected():
     return ikfk.create_ikfk_blend(bind_joints, fk_joints, ik_joints, switch_attr)
 
 
+def _secondary_driver_attr(cmds, title, driver_node):
+    if cmds.promptDialog(title=title, message="Driver attribute name:", text="amount", button=["Next", "Cancel"], defaultButton="Next", cancelButton="Cancel", dismissString="Cancel") != "Next":
+        return None
+    attribute = cmds.promptDialog(query=True, text=True).strip()
+    if not attribute or "." in attribute:
+        raise ValueError("Driver attribute must be a non-empty attribute name, not a node.attr plug.")
+    return driver_node + "." + attribute
+
+
+def _secondary_count(cmds, title, total, fixed):
+    remaining = total - fixed
+    default_count = str(remaining // 2) if remaining > 0 and remaining % 2 == 0 else "1"
+    if cmds.promptDialog(title=title, message="Objects / destinations count:", text=default_count, button=["Next", "Cancel"], defaultButton="Next", cancelButton="Cancel", dismissString="Cancel") != "Next":
+        return None
+    try:
+        count = int(cmds.promptDialog(query=True, text=True).strip())
+    except ValueError:
+        raise ValueError("Objects / destinations count must be an integer.")
+    if count < 1 or total != fixed + count * 2:
+        raise ValueError("Selection count does not match the requested object/destination count.")
+    return count
+
+
+def _fold_rig_selected():
+    from . import secondary
+    cmds = _cmds()
+    nodes = cmds.ls(selection=True, long=True) or []
+    if len(nodes) < 4:
+        raise ValueError("Select end target, objects, matching destinations, then driver node.")
+    count = _secondary_count(cmds, "Create Fold Rig", len(nodes), 2)
+    if count is None:
+        return None
+    driver_attr = _secondary_driver_attr(cmds, "Create Fold Rig", nodes[-1])
+    if driver_attr is None:
+        return None
+    return secondary.create_fold_rig(nodes[1:1 + count], nodes[0], nodes[1 + count:1 + count * 2], driver_attr)
+
+
+def _rope_selected(roll=False):
+    from . import secondary
+    cmds = _cmds()
+    nodes = cmds.ls(selection=True, long=True) or []
+    title = "Create Rope Roll" if roll else "Create Rope Straight"
+    if len(nodes) < 6:
+        raise ValueError("Select start target, end target, objects, matching destinations, orient reference, then driver node.")
+    count = _secondary_count(cmds, title, len(nodes), 4)
+    if count is None:
+        return None
+    driver_attr = _secondary_driver_attr(cmds, title, nodes[-1])
+    if driver_attr is None:
+        return None
+    if cmds.promptDialog(title=title, message="Offset:", text="0", button=["Create", "Cancel"], defaultButton="Create", cancelButton="Cancel", dismissString="Cancel") != "Create":
+        return None
+    try:
+        offset = int(cmds.promptDialog(query=True, text=True).strip())
+    except ValueError:
+        raise ValueError("Offset must be an integer.")
+    if offset < 0 or offset > count:
+        raise ValueError("Offset must be between 0 and the object count.")
+    objects = nodes[2:2 + count]
+    destinations = nodes[2 + count:2 + count * 2]
+    fn = secondary.create_rope_roll if roll else secondary.create_rope_straight
+    return fn(objects, nodes[0], nodes[1], destinations, nodes[-2], driver_attr, offset=offset)
+
+
 def build_ui():
     cmds = _cmds()
 
@@ -316,9 +381,14 @@ def build_ui():
 
     cmds.separator(height=8, style="none")
     cmds.text(label="Secondary rigs", align="left")
-    cmds.text(label="Selection order is explicit; advanced Fold/Rope setups remain configurable APIs until their UI contracts are finalized.", align="left")
+    cmds.text(label="Selection order is explicit; Fold/Rope prompts split ordered object/destination groups and driver configuration.", align="left")
     cmds.rowLayout(numberOfColumns=3, adjustableColumn=3)
     cmds.button(label="Spline IK Chain", command=lambda *_: _run("Spline IK", _spline_ik_selected))
     cmds.button(label="Object on Curve", command=lambda *_: _run("Object on curve", _object_on_curve_selected))
     cmds.button(label="Joints Between...", command=lambda *_: _run("Joints between", _joints_between_selected))
+    cmds.setParent("..")
+    cmds.rowLayout(numberOfColumns=3, adjustableColumn=3)
+    cmds.button(label="Fold Rig...", command=lambda *_: _run("Fold rig", _fold_rig_selected))
+    cmds.button(label="Rope Straight...", command=lambda *_: _run("Rope straight", lambda: _rope_selected(False)))
+    cmds.button(label="Rope Roll...", command=lambda *_: _run("Rope roll", lambda: _rope_selected(True)))
     cmds.setParent("..")
