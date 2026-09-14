@@ -31,7 +31,7 @@
     {
       "task_id": "aimayatool-goal005-setup-transform-primitives-verify-077a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -99,8 +99,13 @@
           "No eager maya.cmds import is introduced in transforms.py.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_transform_primitives_python_verification_pass",
+        "proven_main_commit": "2cd0a2890d44b505997d3357472a214582906ca0",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 2cd0a2890d44b505997d3357472a214582906ca0; py_compile passed for transforms.py, smoke.py and tests/test_setup_transforms.py; normal-Python import of aimayatool.tools.setup.transforms passed; all 4 focused unit tests passed."
+      },
+      "bridge_completed": true
     },
     {
       "task_id": "aimayatool-goal005-setup-transform-primitives-managed-live-077b",
@@ -148,9 +153,6 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "depends_on": [
-          "aimayatool-goal005-setup-transform-primitives-verify-077a"
-        ],
         "purpose": "Validate transform matching and joint hierarchy traversal against real Maya DAG behavior before composing higher-level MatchJoint parity.",
         "acceptance": [
           "Run only after 077a passes.",
@@ -161,7 +163,14 @@
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-transform-primitives-verify-077a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_transform_primitives_python_verification_pass"
+        }
       }
     }
   ]
