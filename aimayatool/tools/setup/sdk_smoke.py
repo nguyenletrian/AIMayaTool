@@ -35,3 +35,36 @@ def run_setup_sdk_smoke():
     if abs(value - 5.0) > 1e-5:
         raise RuntimeError("Driven-key evaluation mismatch: {0}".format(value))
     return "SETUP_SDK_SMOKE_OK:1"
+
+
+def run_setup_modulo_sdk_smoke():
+    sdk = _sdk()
+    cmds.file(new=True, force=True)
+    driver = cmds.createNode("transform", name="moduloDriver")
+    driven = cmds.createNode("transform", name="moduloDriven")
+    cmds.addAttr(driver, longName="mode", attributeType="long", defaultValue=0, keyable=True)
+    result = sdk.apply_modulo_map(
+        driver + ".mode",
+        {
+            0: {driven + ".translateX": 1.0},
+            1: {driven + ".translateX": 5.0},
+            2: {driven + ".translateX": 9.0},
+        },
+        expression_name="moduloSDK_EXPR",
+    )
+    groups = list(result["sdk_groups"].values())
+    if len(groups) != 1 or not cmds.objExists(groups[0]):
+        raise RuntimeError("Modulo SDK group was not created or reused as expected.")
+    if not cmds.objExists(result["expression"]):
+        raise RuntimeError("Modulo SDK expression was not created.")
+    cmds.setAttr(driver + ".mode", 4)
+    cmds.dgdirty(allPlugs=True)
+    value = cmds.getAttr(groups[0] + ".translateX")
+    if abs(value - 5.0) > 1e-5:
+        raise RuntimeError("Modulo SDK evaluation mismatch: {0}".format(value))
+    cmds.setAttr(driver + ".mode", -2)
+    cmds.dgdirty(allPlugs=True)
+    value = cmds.getAttr(groups[0] + ".translateX")
+    if abs(value - 9.0) > 1e-5:
+        raise RuntimeError("Negative modulo SDK evaluation mismatch: {0}".format(value))
+    return "SETUP_MODULO_SDK_SMOKE_OK:3"
