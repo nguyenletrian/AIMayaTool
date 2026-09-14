@@ -12,149 +12,47 @@
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/setup/transforms.py", "aimayatool/tools/setup/transforms_smoke.py", "tests/test_setup_joint_creation.py"],
-        "imports": ["aimayatool.tools.setup.transforms"],
-        "tests": ["tests.test_setup_joint_creation"],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "result": "PASS",
-        "classification": "setup_joint_creation_python_verification_pass",
-        "proven_main_commit": "1e5c52f93dc5acf839d7c76e418f38fd087291cf",
-        "evidence": "After ff-only sync from 82d5e6637e643504f9c34a8694a4fae91751d890 to 1e5c52f93dc5acf839d7c76e418f38fd087291cf, py_compile passed for transforms.py, transforms_smoke.py and tests/test_setup_joint_creation.py; non-Maya import aimayatool.tools.setup.transforms passed; tests.test_setup_joint_creation passed 3/3.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-plane-projection-managed-live-100b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_plane_projection_managed_live_pass",
-          "proven_main_commit": "82d5e6637e643504f9c34a8694a4fae91751d890"
-        },
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/transforms.py", "aimayatool/tools/setup/transforms_smoke.py", "tests/test_setup_joint_creation.py"], "imports": ["aimayatool.tools.setup.transforms"], "tests": ["tests.test_setup_joint_creation"], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "result": "PASS", "classification": "setup_joint_creation_python_verification_pass", "proven_main_commit": "1e5c52f93dc5acf839d7c76e418f38fd087291cf", "evidence": "After ff-only sync from 82d5e6637e643504f9c34a8694a4fae91751d890 to 1e5c52f93dc5acf839d7c76e418f38fd087291cf, py_compile passed for transforms.py, transforms_smoke.py and tests/test_setup_joint_creation.py; non-Maya import aimayatool.tools.setup.transforms passed; tests.test_setup_joint_creation passed 3/3.", "archived_prerequisite": {"task_id": "aimayatool-goal005-setup-plane-projection-managed-live-100b", "result": "PASS", "architect_ack": true, "bridge_completed": true, "classification": "setup_plane_projection_managed_live_pass", "proven_main_commit": "82d5e6637e643504f9c34a8694a4fae91751d890"}, "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal005-setup-joint-creation-managed-live-102b",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.transforms_smoke",
-        "callable": "run_setup_joint_creation_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "depends_on": ["aimayatool-goal005-setup-joint-creation-verify-102a"],
-        "result": "PASS",
-        "classification": "setup_joint_creation_managed_live_pass",
-        "proven_main_commit": "79a67f533a2300b1651173149fe653e9624e5792",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_JOINT_CREATION_SMOKE_OK:2, scene_saved=false and maya_quit=false. Smoke proved exactly two unparented joints were created in input order with expected names and matching world translation/rotation.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.transforms_smoke", "callable": "run_setup_joint_creation_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "depends_on": ["aimayatool-goal005-setup-joint-creation-verify-102a"], "result": "PASS", "classification": "setup_joint_creation_managed_live_pass", "proven_main_commit": "79a67f533a2300b1651173149fe653e9624e5792", "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_JOINT_CREATION_SMOKE_OK:2, scene_saved=false and maya_quit=false. Smoke proved exactly two unparented joints were created in input order with expected names and matching world translation/rotation.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal005-setup-transform-hierarchy-verify-103a",
       "status": "pending",
-      "architect_ack": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/setup/transforms.py", "aimayatool/tools/setup/transforms_smoke.py", "tests/test_setup_transform_hierarchy.py"],
-        "imports": ["aimayatool.tools.setup.transforms"],
-        "tests": ["tests.test_setup_transform_hierarchy"],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "depends_on": ["aimayatool-goal005-setup-joint-creation-managed-live-102b"],
-        "legacy_evidence": "MayaScriptNew UIs/Setup.py HierarchyToJoints walks an explicit transform hierarchy, creates corresponding joints, matches each source world transform and reparents the created joints to mirror the source DAG.",
-        "implementation_commits": ["1524443e0aec4348d1de3ba7faf0297ea1ce4187", "e655916be201fa0fad3b92c3e41fdc82b82dad0b", "528ac57aedf9e1a8555852da1178efd845aca5f9"],
-        "purpose": "Verify explicit transform-hierarchy to joint-hierarchy conversion with deterministic naming and no selection or hard-coded namespace dependency.",
-        "acceptance": [
-          "Fast-forward main through transform-hierarchy implementation commits.",
-          "Compile transforms.py, transforms_smoke.py and tests/test_setup_transform_hierarchy.py.",
-          "Import aimayatool.tools.setup.transforms outside Maya without eager Maya import.",
-          "Run tests.test_setup_transform_hierarchy and require all tests pass.",
-          "Primitive must reject a missing root, preserve root-to-descendant order, create one joint per transform, mirror parent-child topology, and match world translation/rotation when requested.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/transforms.py", "aimayatool/tools/setup/transforms_smoke.py", "tests/test_setup_transform_hierarchy.py"], "imports": ["aimayatool.tools.setup.transforms"], "tests": ["tests.test_setup_transform_hierarchy"], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "depends_on": ["aimayatool-goal005-setup-joint-creation-managed-live-102b"], "legacy_evidence": "MayaScriptNew UIs/Setup.py HierarchyToJoints walks an explicit transform hierarchy, creates corresponding joints, matches each source world transform and reparents the created joints to mirror the source DAG.", "implementation_commits": ["1524443e0aec4348d1de3ba7faf0297ea1ce4187", "e655916be201fa0fad3b92c3e41fdc82b82dad0b", "528ac57aedf9e1a8555852da1178efd845aca5f9"], "purpose": "Verify explicit transform-hierarchy to joint-hierarchy conversion with deterministic naming and no selection or hard-coded namespace dependency.", "acceptance": ["Fast-forward main through transform-hierarchy implementation commits.", "Compile transforms.py, transforms_smoke.py and tests/test_setup_transform_hierarchy.py.", "Import aimayatool.tools.setup.transforms outside Maya without eager Maya import.", "Run tests.test_setup_transform_hierarchy and require all tests pass.", "Primitive must reject a missing root, preserve root-to-descendant order, create one joint per transform, mirror parent-child topology, and match world translation/rotation when requested.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "setup_transform_hierarchy_python_verification_pass", "proven_main_commit": "1ce986a189cfd483f4186455caa47561a97b4d11", "evidence": "After ff-only sync from 79a67f533a2300b1651173149fe653e9624e5792 to 1ce986a189cfd483f4186455caa47561a97b4d11, py_compile passed for transforms.py, transforms_smoke.py and tests/test_setup_transform_hierarchy.py; non-Maya import aimayatool.tools.setup.transforms passed; tests.test_setup_transform_hierarchy passed 3/3."}
     },
     {
       "task_id": "aimayatool-goal005-setup-transform-hierarchy-managed-live-103b",
       "status": "pending",
       "architect_ack": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "managed_live_smoke"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.transforms_smoke",
-        "callable": "run_setup_transform_hierarchy_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-controls-transforms",
-        "depends_on": ["aimayatool-goal005-setup-transform-hierarchy-verify-103a"],
-        "purpose": "Validate transform-hierarchy to joint-hierarchy conversion in real Maya for a three-node transformed DAG.",
-        "acceptance": [
-          "Run only after 103a passes.",
-          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
-          "Require result SETUP_TRANSFORM_HIERARCHY_SMOKE_OK:3 for PASS.",
-          "Prove exactly three joints are created with expected names/order, root-mid-end parenting, and matching world translation/rotation for all three source transforms.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.setup.transforms_smoke", "callable": "run_setup_transform_hierarchy_smoke", "expected_window": "", "startup_timeout": 180, "operation_timeout": 300},
+      "metadata": {"goal_id": "aimayatool-005", "milestone_id": "setup-controls-transforms", "depends_on": ["aimayatool-goal005-setup-transform-hierarchy-verify-103a"], "purpose": "Validate transform-hierarchy to joint-hierarchy conversion in real Maya for a three-node transformed DAG.", "acceptance": ["Run only after 103a passes.", "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.", "Require result SETUP_TRANSFORM_HIERARCHY_SMOKE_OK:3 for PASS.", "Prove exactly three joints are created with expected names/order, root-mid-end parenting, and matching world translation/rotation for all three source transforms.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
