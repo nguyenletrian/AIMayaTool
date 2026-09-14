@@ -8,73 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal006-setup-ux-polish-mirror-root-path-fix-managed-live-137g",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.mirror_preview_ui_smoke",
-        "callable": "run_setup_mirror_preview_ui_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-006",
-        "milestone_id": "setup-ux-polish",
-        "depends_on": [],
-        "archived_prerequisite": [
-          {
-            "task_id": "aimayatool-goal006-setup-ux-polish-mirror-root-path-fix-verify-137f",
-            "result": "PASS"
-          }
-        ],
-        "purpose": "Validate corrected root DAG path handling and non-mutating mirror preview UX in managed Maya.",
-        "acceptance": [
-          "Require SETUP_MIRROR_PREVIEW_UI_OK:3 for PASS.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_mirror_root_path_fix_managed_live_pass",
-        "proven_main_commit": "1f8bf9308016b7f799dd83e863434a60e324f6fa",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_MIRROR_PREVIEW_UI_OK:3, scene_saved=false and maya_quit=false.",
-        "goal_ready": true
-      }
-    },
-    {
       "task_id": "aimayatool-goal007-scene-pattern-parity-baseline-138a",
       "status": "pending",
       "architect_ack": true,
@@ -84,39 +17,13 @@
         "branch": "main",
         "workdir": "D:/AIMayaTool"
       },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/patterns.py",
-          "aimayatool/tools/scene/operations.py",
-          "aimayatool/tools/scene/smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.smoke"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/smoke.py"],
+        "imports": ["aimayatool.tools.scene.smoke"],
         "tests": [],
         "timeout": 180
       },
@@ -124,24 +31,14 @@
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [],
-        "archived_prerequisite": [
-          {
-            "goal_id": "aimayatool-006",
-            "result": "COMPLETED",
-            "evidence_task": "aimayatool-goal006-setup-ux-polish-mirror-root-path-fix-managed-live-137g"
-          }
-        ],
+        "archived_prerequisite": [{"goal_id": "aimayatool-006", "result": "COMPLETED", "evidence_task": "aimayatool-goal006-setup-ux-polish-mirror-root-path-fix-managed-live-137g"}],
         "purpose": "Establish the deterministic ScenePattern baseline at the start of Scene complete migration before selecting the next parity slice.",
-        "acceptance": [
-          "Compile patterns.py, operations.py and smoke.py.",
-          "Import aimayatool.tools.scene.smoke outside Maya.",
-          "Do not invoke Codex."
-        ],
+        "acceptance": ["Compile patterns.py, operations.py and smoke.py.", "Import aimayatool.tools.scene.smoke outside Maya.", "Do not invoke Codex."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "scene_pattern_parity_baseline_python_pass",
         "proven_main_commit": "062c6401d1c1ea12c38a8f50dc18d7dbcd050fec",
-        "evidence": "Bridge fast-forwarded local main from 1f8bf9308016b7f799dd83e863434a60e324f6fa to 062c6401d1c1ea12c38a8f50dc18d7dbcd050fec; py_compile passed for patterns.py, operations.py and smoke.py, and import of aimayatool.tools.scene.smoke passed."
+        "evidence": "Bridge fast-forwarded local main to 062c6401d1c1ea12c38a8f50dc18d7dbcd050fec; py_compile passed for patterns.py, operations.py and smoke.py, and import of aimayatool.tools.scene.smoke passed."
       }
     },
     {
@@ -149,137 +46,85 @@
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/catalog.py",
-          "aimayatool/tools/scene/catalog_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.catalog_smoke"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_smoke.py"],
+        "imports": ["aimayatool.tools.scene.catalog_smoke"],
         "tests": [],
         "timeout": 180
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-parity-baseline-138a"
-        ],
-        "purpose": "Verify the first ScenePattern parity slice: deterministic ordered catalog entries replacing legacy UI-owned add/remove/reorder/name state.",
-        "acceptance": [
-          "Compile catalog.py and catalog_smoke.py.",
-          "Import catalog_smoke and require its import-time smoke to complete without exception.",
-          "Catalog must deterministically order entries, support non-mutating rename/reorder, round-trip serialization, duplicate rejection and remove.",
-          "Do not invoke Codex."
-        ],
-        "implementation_commits": [
-          "caab3ca2f7dd048f0e5a23e9ce790cdba4551ce8",
-          "09e9f350273a4c6b474c6e095b63e95bc67e26e0",
-          "7a2e10f7ed84473f4038eb36f92321767ec642a0"
-        ],
-        "legacy_evidence": "MayaScriptNew UIs/Scene.py stores ordered ScenePattern items with id/moduleName/path/order/title/name and directly implements add/delete/reorder/name editing in UI state.",
+        "depends_on": ["aimayatool-goal007-scene-pattern-parity-baseline-138a"],
+        "purpose": "Verify deterministic ordered ScenePattern catalog state outside legacy UI code.",
+        "acceptance": ["Compile catalog.py and catalog_smoke.py.", "Import catalog_smoke and require its import-time smoke to complete without exception.", "Do not invoke Codex."],
+        "implementation_commits": ["caab3ca2f7dd048f0e5a23e9ce790cdba4551ce8", "09e9f350273a4c6b474c6e095b63e95bc67e26e0", "7a2e10f7ed84473f4038eb36f92321767ec642a0"],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "scene_pattern_catalog_python_verification_pass",
         "proven_main_commit": "1684e3bc64bee3cfe8588f25a630cab014ee0df0",
-        "evidence": "Bridge fast-forwarded local main from 062c6401d1c1ea12c38a8f50dc18d7dbcd050fec to 1684e3bc64bee3cfe8588f25a630cab014ee0df0; py_compile passed for catalog.py and catalog_smoke.py, and import of aimayatool.tools.scene.catalog_smoke passed."
+        "evidence": "Bridge py_compile passed catalog.py and catalog_smoke.py and import of aimayatool.tools.scene.catalog_smoke passed."
       }
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-catalog-io-verify-138c",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/catalog.py",
-          "aimayatool/tools/scene/catalog_io.py",
-          "aimayatool/tools/scene/catalog_io_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.catalog_io_smoke"
-        ],
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py", "aimayatool/tools/scene/catalog_io_smoke.py"],
+        "imports": ["aimayatool.tools.scene.catalog_io_smoke"],
         "tests": [],
         "timeout": 180
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-catalog-verify-138b"
-        ],
+        "depends_on": ["aimayatool-goal007-scene-pattern-catalog-verify-138b"],
         "purpose": "Verify host-independent ScenePattern catalog persistence so ordered Scene state is no longer owned by legacy UI code.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile catalog.py, catalog_io.py and catalog_io_smoke.py.",
-          "Import catalog_io_smoke and require its import-time smoke to complete without exception.",
-          "Save/load must round-trip catalog data as UTF-8 JSON.",
-          "Existing files must be protected unless overwrite=True is explicit.",
-          "Do not invoke Codex."
-        ],
-        "implementation_commits": [
-          "6c5f42e9d69111b529e86b321b9e16f71ce96ced",
-          "a7dfd5de6c3449d4473ffdff205c8be89e0bbdb4"
-        ],
+        "acceptance": ["Compile catalog.py, catalog_io.py and catalog_io_smoke.py.", "Import catalog_io_smoke and require its import-time smoke to complete without exception.", "Save/load must round-trip catalog data as UTF-8 JSON.", "Existing files must be protected unless overwrite=True is explicit.", "Do not invoke Codex."],
+        "implementation_commits": ["6c5f42e9d69111b529e86b321b9e16f71ce96ced", "a7dfd5de6c3449d4473ffdff205c8be89e0bbdb4"],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "scene_pattern_catalog_io_python_verification_pass",
+        "proven_main_commit": "eac50ad422ee1accd3079a57910ea21824b06581",
+        "evidence": "Bridge fast-forwarded local main from 1684e3bc64bee3cfe8588f25a630cab014ee0df0 to eac50ad422ee1accd3079a57910ea21824b06581; py_compile passed for catalog.py, catalog_io.py and catalog_io_smoke.py, and import of aimayatool.tools.scene.catalog_io_smoke passed."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-execution-plan-verify-138d",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/execution_plan.py", "aimayatool/tools/scene/execution_plan_smoke.py"],
+        "imports": ["aimayatool.tools.scene.execution_plan_smoke"],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": ["aimayatool-goal007-scene-pattern-catalog-io-verify-138c"],
+        "purpose": "Verify a host-independent ordered ScenePattern execution plan that replaces legacy UI-owned dynamic RunItem dispatch metadata without importing modules or mutating Maya.",
+        "acceptance": ["Fast-forward main.", "Compile catalog.py, execution_plan.py and execution_plan_smoke.py.", "Import execution_plan_smoke and require its import-time smoke to complete without exception.", "Plan must preserve deterministic catalog order and module/path identity, expose callable Run, and not mutate catalog state.", "Do not import legacy Scene modules or Maya.", "Do not invoke Codex."],
+        "implementation_commits": ["453737c1a3f04d4d7f2172b3f089bd01c01c6d44", "74ea9b718e371ad5c187439390c8f4771740ef03"],
+        "legacy_evidence": "MayaScriptNew UIs/Scene.py RunItem dynamically loads entry.moduleName and invokes module.Run(defaultSetting); execution planning is now separated from host dispatch.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
