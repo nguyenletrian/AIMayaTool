@@ -8,13 +8,19 @@ from aimayatool.tools.setup import sdk
 
 class FakeCmds(object):
     def __init__(self):
-        self.nodes = {"driver.ctrl", "driven.tx", "driven.ty", "driven", "sdkGroup.tx", "sdkGroup.ty"}
+        self.nodes = {"driver.ctrl", "driven.tx", "driven.ty", "driven.custom", "driven", "sdkGroup.tx", "sdkGroup.ty"}
         self.calls = []
     def objExists(self, name): return name in self.nodes
     def listRelatives(self, *args, **kwargs): return []
     def setDrivenKeyframe(self, *args, **kwargs): self.calls.append(("sdk", args, kwargs))
     def keyTangent(self, *args, **kwargs): self.calls.append(("tangent", args, kwargs))
     def expression(self, **kwargs): self.calls.append(("expression", kwargs)); return kwargs.get("name", "expression1")
+    def addAttr(self, node, **kwargs):
+        attr = kwargs.get("longName") or kwargs.get("ln")
+        self.nodes.add(node + "." + attr)
+        self.calls.append(("addAttr", (node,), kwargs))
+    def listConnections(self, *args, **kwargs): return []
+    def connectAttr(self, *args, **kwargs): self.calls.append(("connectAttr", args, kwargs))
 
 
 class SetupSDKTests(unittest.TestCase):
@@ -44,6 +50,17 @@ class SetupSDKTests(unittest.TestCase):
         self.assertEqual(("sdkGroup.tx", "sdkGroup.ty"), result["keyed_plugs"])
         tangent_calls = [call for call in fake.calls if call[0] == "tangent"]
         self.assertTrue(all(call[2]["itt"] == "linear" and call[2]["ott"] == "linear" for call in tangent_calls))
+
+    def test_custom_attr_is_proxied_to_sdk_group(self):
+        fake = FakeCmds()
+        data = [{"driver_value": 0, "driven_values": {"driven.custom": 2.5}}]
+        with mock.patch.object(sdk, "_cmds", return_value=fake), mock.patch.object(sdk, "ensure_sdk_group", return_value="sdkGroup"):
+            result = sdk.apply_driven_key_map("driver.ctrl", data)
+        self.assertIn("sdkGroup.custom", fake.nodes)
+        self.assertEqual(("sdkGroup.custom",), result["keyed_plugs"])
+        connect_calls = [call for call in fake.calls if call[0] == "connectAttr"]
+        self.assertEqual(("sdkGroup.custom", "driven.custom"), connect_calls[0][1])
+        self.assertTrue(connect_calls[0][2]["force"])
 
     def test_modulo_map_builds_explicit_expression_and_reuses_group(self):
         fake = FakeCmds()
