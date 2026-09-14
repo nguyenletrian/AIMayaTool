@@ -200,7 +200,7 @@
     {
       "task_id": "aimayatool-goal005-setup-freeze-reset-managed-live-107b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -255,8 +255,13 @@
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_freeze_reset_managed_live_pass",
+        "proven_main_commit": "6138f97011a2a8a8416dcccd0e80189f434c3dd6",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_FREEZE_RESET_SMOKE_OK:2, scene_saved=false and maya_quit=false. Smoke proved full freeze zeroed translate/rotate and normalized scale while preserving object appearance, and reset zeroed translate/rotate on an explicit second transform."
+      },
+      "bridge_completed": true
     }
   ]
 }
