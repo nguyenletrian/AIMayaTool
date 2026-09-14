@@ -3,141 +3,10 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-099",
+    "request_id": "aimayatool-setup-migration-100",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
-    {
-      "task_id": "aimayatool-goal005-setup-object-on-curve-verify-098a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/secondary.py",
-          "aimayatool/tools/setup/secondary_smoke.py",
-          "tests/test_setup_secondary.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup.secondary"
-        ],
-        "tests": [
-          "tests.test_setup_secondary"
-        ],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-secondary",
-        "legacy_evidence": "MayaScriptNew UIs/Setup.py objectOnCurve samples each selected object's nearest curve parameter once via nearestPointOnCurve, then creates pointOnCurveInfo nodes that drive object translation.",
-        "implementation_commits": [
-          "f43df28d24b2b1627ab701d64b7f961f51dec295",
-          "11cf35482f4ad17a0651670e450e74341949cca0",
-          "95f2052a72834a779469a29a8fc27ee482e39b4f"
-        ],
-        "purpose": "Verify explicit object-on-curve secondary primitive with no selection/UI globals and parent-space-correct translation localization.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_object_on_curve_python_verification_pass",
-        "proven_main_commit": "25e51f3ff8ad4e6bf6dc502a43832ea2a018ccce",
-        "evidence": "After ff-only sync from 338293d1d75b31ffbf04cf92eac46769d7233c61 to 25e51f3ff8ad4e6bf6dc502a43832ea2a018ccce, py_compile passed for secondary.py, secondary_smoke.py and tests/test_setup_secondary.py; non-Maya import aimayatool.tools.setup.secondary passed; tests.test_setup_secondary passed 10/10.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-rivet-managed-live-retry-097h",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_rivet_managed_live_pass",
-          "proven_main_commit": "338293d1d75b31ffbf04cf92eac46769d7233c61"
-        }
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-object-on-curve-managed-live-098b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.secondary_smoke",
-        "callable": "run_setup_object_on_curve_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-secondary",
-        "depends_on": [
-          "aimayatool-goal005-setup-object-on-curve-verify-098a"
-        ],
-        "purpose": "Validate object-on-curve behavior in real Maya, including a parented target and live following after curve transform.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_object_on_curve_managed_live_pass",
-        "proven_main_commit": "4734b4a3945925781e2239694affc6f1c81f9818",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_OBJECT_ON_CURVE_SMOKE_OK:2, scene_saved=false and maya_quit=false. Smoke proved both unparented and parented targets snap to sampled nearest curve points and continue following after the curve transform moves."
-      }
-    },
     {
       "task_id": "aimayatool-goal005-setup-joints-between-verify-099a",
       "status": "pending",
@@ -189,9 +58,6 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "depends_on": [
-          "aimayatool-goal005-setup-object-on-curve-managed-live-098b"
-        ],
         "legacy_evidence": "MayaScriptNew UIs/Setup.py makeJointBetween creates a requested number of evenly distributed interior joints between two selected objects, parents them into a chain, orients the chain xyz/yup, then removes temporary endpoint joints.",
         "implementation_commits": [
           "d78346c3d499d4649d2dc6dd513ce32b8b84e12d",
@@ -199,25 +65,26 @@
           "843388d1893f57dd17553fc3fdaedfe6b6eea0de"
         ],
         "purpose": "Verify deterministic create_joints_between primitive with explicit endpoints/count, even interior spacing, optional chain parenting/orientation, and no selection/UI-field dependency.",
-        "acceptance": [
-          "Fast-forward main through joints-between implementation commits.",
-          "Compile secondary.py, secondary_smoke.py and tests/test_setup_secondary.py.",
-          "Import aimayatool.tools.setup.secondary outside Maya without eager Maya import.",
-          "Run tests.test_setup_secondary and require all tests pass.",
-          "Primitive must reject count < 1, leave endpoint nodes untouched, create exactly count interior joints at equal fractions, and parent/orient only the created chain when requested.",
-          "Do not invoke Codex."
-        ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "setup_joints_between_python_verification_pass",
         "proven_main_commit": "27151ea44e20c04aa1d324bb5201b12815e8f34c",
-        "evidence": "After ff-only sync from 4734b4a3945925781e2239694affc6f1c81f9818 to 27151ea44e20c04aa1d324bb5201b12815e8f34c, py_compile passed for secondary.py, secondary_smoke.py and tests/test_setup_secondary.py; non-Maya import aimayatool.tools.setup.secondary passed; tests.test_setup_secondary passed 12/12."
+        "evidence": "After ff-only sync from 4734b4a3945925781e2239694affc6f1c81f9818 to 27151ea44e20c04aa1d324bb5201b12815e8f34c, py_compile passed for secondary.py, secondary_smoke.py and tests/test_setup_secondary.py; non-Maya import aimayatool.tools.setup.secondary passed; tests.test_setup_secondary passed 12/12.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-object-on-curve-managed-live-098b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_object_on_curve_managed_live_pass",
+          "proven_main_commit": "4734b4a3945925781e2239694affc6f1c81f9818"
+        }
       }
     },
     {
       "task_id": "aimayatool-goal005-setup-joints-between-managed-live-099b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -264,11 +131,139 @@
           "aimayatool-goal005-setup-joints-between-verify-099a"
         ],
         "purpose": "Validate joints-between behavior in real Maya using two transformed references and a two-joint interior chain.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_joints_between_managed_live_pass",
+        "proven_main_commit": "7ec61b0b07a29cf5ee90b194d893ffbf0fe53719",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_JOINTS_BETWEEN_SMOKE_OK:2, scene_saved=false and maya_quit=false. Smoke proved exactly two interior joints at world positions (3,1,0) and (6,2,0) between endpoints (0,0,0) and (9,3,0), with the second joint parented under the first."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-plane-projection-verify-100a",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/plane_projection.py",
+          "aimayatool/tools/setup/plane_projection_smoke.py",
+          "tests/test_setup_plane_projection.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.plane_projection"
+        ],
+        "tests": [
+          "tests.test_setup_plane_projection"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-secondary",
+        "depends_on": [
+          "aimayatool-goal005-setup-joints-between-managed-live-099b"
+        ],
+        "legacy_evidence": "MayaScriptNew UIs/Setup.py PointOnPlane defines a live plane from three selected transforms using world decompose nodes, subtract vectors, normalized cross product and dot-product projection, then drives a projected transform.",
+        "implementation_commits": [
+          "05fed4a4e83d1c899f39ee6829bc27eab7ebfe31",
+          "e96d7aaecbb43c6ab2d3d2ca19939790857298ad",
+          "4828d9b32f07561949b883057f4422555bf9ffe9"
+        ],
+        "purpose": "Verify the reusable explicit plane-projection DG primitive with three references, explicit control/output, and parent-space-correct projected translation.",
         "acceptance": [
-          "Run only after 099a passes.",
+          "Fast-forward main through the plane-projection implementation commits.",
+          "Compile plane_projection.py, plane_projection_smoke.py and tests/test_setup_plane_projection.py.",
+          "Import aimayatool.tools.setup.plane_projection outside Maya without eager Maya import.",
+          "Run tests.test_setup_plane_projection and require all tests pass.",
+          "Primitive must require exactly three references, construct cross/dot projection nodes from world matrices, and localize the final world point through projected.parentInverseMatrix[0].",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-plane-projection-managed-live-100b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.plane_projection_smoke",
+        "callable": "run_setup_plane_projection_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-secondary",
+        "depends_on": [
+          "aimayatool-goal005-setup-plane-projection-verify-100a"
+        ],
+        "purpose": "Validate plane projection in real Maya, including parented output, moving control, and moving plane references.",
+        "acceptance": [
+          "Run only after 100a passes.",
           "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
-          "Require result SETUP_JOINTS_BETWEEN_SMOKE_OK:2 for PASS.",
-          "Prove exactly two joints exist at world positions (3,1,0) and (6,2,0) between endpoints (0,0,0) and (9,3,0), with the second parented under the first.",
+          "Require result SETUP_PLANE_PROJECTION_SMOKE_OK:3 for PASS.",
+          "Prove a control at (3,7,4) projects to (3,0,4), moving it to (6,-5,2) projects to (6,0,2), and translating all three plane references to Y=2 updates projection to (6,2,2), including when the projected output is parented.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
