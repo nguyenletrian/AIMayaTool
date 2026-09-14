@@ -62,3 +62,28 @@ def run_setup_rp_ik_smoke():
     if abs(end_pos[0] - 8.0) > 1e-3 or abs(end_pos[1] - 4.0) > 1e-3:
         raise RuntimeError("RP IK end-joint did not follow IK control: {0}".format(end_pos))
     return "SETUP_RP_IK_SMOKE_OK:1"
+
+
+def run_setup_ikfk_switch_smoke():
+    ikfk = _ikfk()
+    cmds.file(new=True, force=True)
+    settings = cmds.createNode("transform", name="switchSettings")
+    cmds.addAttr(settings, longName="ikfk", attributeType="double", minValue=0, maxValue=1, defaultValue=0, keyable=True)
+    fk_ctrl = cmds.createNode("transform", name="switchFKCtrl")
+    fk_offset = cmds.createNode("transform", name="switchFKOffset")
+    ik_offset = cmds.createNode("transform", name="switchIKOffset")
+    pole_offset = cmds.createNode("transform", name="switchPoleOffset")
+    result = ikfk.wire_ikfk_switch(settings + ".ikfk", [fk_offset], [ik_offset, pole_offset], proxy_nodes=[fk_ctrl], proxy_attr_name="SwitchIKFK")
+    if not cmds.objExists(result["reverse"]) or not cmds.objExists(fk_ctrl + ".SwitchIKFK"):
+        raise RuntimeError("IK/FK switch wiring nodes or proxy attribute were not created.")
+    cmds.setAttr(settings + ".ikfk", 0)
+    cmds.dgdirty(allPlugs=True)
+    if cmds.getAttr(fk_offset + ".visibility") < 0.5 or cmds.getAttr(ik_offset + ".visibility") > 0.5:
+        raise RuntimeError("FK visibility state mismatch at switch=0.")
+    cmds.setAttr(fk_ctrl + ".SwitchIKFK", 1)
+    cmds.dgdirty(allPlugs=True)
+    if abs(cmds.getAttr(settings + ".ikfk") - 1.0) > 1e-5:
+        raise RuntimeError("Proxy switch attribute did not drive source switch.")
+    if cmds.getAttr(fk_offset + ".visibility") > 0.5 or cmds.getAttr(ik_offset + ".visibility") < 0.5 or cmds.getAttr(pole_offset + ".visibility") < 0.5:
+        raise RuntimeError("IK visibility state mismatch at switch=1.")
+    return "SETUP_IKFK_SWITCH_SMOKE_OK:2"
