@@ -8,7 +8,7 @@ from aimayatool.tools.setup import ikfk
 
 class FakeCmds(object):
     def __init__(self):
-        self.nodes = {"settings.ikfk", "bind1", "bind2", "fk1", "fk2", "ik1", "ik2"}
+        self.nodes = {"settings.ikfk", "bind1", "bind2", "fk1", "fk2", "ik1", "ik2", "ik3", "ikCtrl", "poleCtrl"}
         self.calls = []
     def objExists(self, name): return name in self.nodes
     def createNode(self, node_type, name=None): self.calls.append(("createNode", node_type, name)); return name or "reverse1"
@@ -19,6 +19,10 @@ class FakeCmds(object):
         name = "pc{0}".format(1 + len([x for x in self.calls if x[0] == "parentConstraint"]))
         self.calls.append(("parentConstraint", args, kwargs, name))
         return [name]
+    def ikHandle(self, **kwargs): self.calls.append(("ikHandle", kwargs)); return [kwargs.get("n", "ikHandle1"), "effector1"]
+    def parent(self, child, parent): self.calls.append(("parent", child, parent)); return [child]
+    def poleVectorConstraint(self, pole, handle): self.calls.append(("poleVectorConstraint", pole, handle)); return ["poleConstraint1"]
+    def orientConstraint(self, control, joint, mo=False): self.calls.append(("orientConstraint", control, joint, mo)); return ["orientConstraint1"]
 
 
 class SetupIKFKTests(unittest.TestCase):
@@ -37,6 +41,24 @@ class SetupIKFKTests(unittest.TestCase):
         self.assertIn(("connectAttr", "settings.ikfk", "ikfkReverse.inputX", True), connects)
         self.assertIn(("connectAttr", "ikfkReverse.outputX", "pc1.fkW0", True), connects)
         self.assertIn(("connectAttr", "settings.ikfk", "pc1.ikW1", True), connects)
+
+    def test_create_rp_ik_wires_handle_pole_and_end_orient(self):
+        fake = FakeCmds()
+        with mock.patch.object(ikfk, "_cmds", return_value=fake):
+            result = ikfk.create_rp_ik(["ik1", "ik2", "ik3"], "ikCtrl", "poleCtrl", handle_name="armIKHandle")
+        self.assertEqual("armIKHandle", result["handle"])
+        self.assertEqual("effector1", result["effector"])
+        self.assertEqual("poleConstraint1", result["pole_constraint"])
+        self.assertEqual("orientConstraint1", result["orient_constraint"])
+        self.assertIn(("ikHandle", {"sj": "ik1", "ee": "ik3", "sol": "ikRPsolver", "n": "armIKHandle"}), fake.calls)
+        self.assertIn(("parent", "armIKHandle", "ikCtrl"), fake.calls)
+        self.assertIn(("poleVectorConstraint", "poleCtrl", "armIKHandle"), fake.calls)
+        self.assertIn(("orientConstraint", "ikCtrl", "ik3", True), fake.calls)
+
+    def test_create_rp_ik_requires_two_joints(self):
+        fake = FakeCmds()
+        with mock.patch.object(ikfk, "_cmds", return_value=fake):
+            with self.assertRaises(ValueError): ikfk.create_rp_ik(["ik1"], "ikCtrl", "poleCtrl")
 
 
 if __name__ == "__main__": unittest.main()
