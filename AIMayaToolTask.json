@@ -11,79 +11,21 @@
       "task_id": "aimayatool-goal005-setup-rope-straight-managed-live-092b",
       "status": "pending",
       "architect_ack": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.secondary_smoke",
-        "callable": "run_setup_rope_straight_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
+      "bridge_completed": true,
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "depends_on": [
-          "aimayatool-goal005-setup-rope-straight-verify-092a"
-        ],
-        "purpose": "Validate RopeStraight progressive constraint evaluation in real Maya at driver states 0, 1 and 2.",
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Require result SETUP_ROPE_STRAIGHT_SMOKE_OK:3 for PASS.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-rope-straight-verify-092a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_rope_straight_python_verification_pass",
-          "proven_main_commit": "a787275d6eaec0b6f47f87b99a7c002da9fceab7"
-        },
         "result": "PASS",
         "classification": "setup_rope_straight_managed_live_pass",
         "proven_main_commit": "360fc6e94a96cdf0e7202c4482e635bb5f0aa07f",
         "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_ROPE_STRAIGHT_SMOKE_OK:3, scene_saved=false and maya_quit=false."
-      },
-      "bridge_completed": true
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-spline-ik-chain-verify-093a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -152,7 +94,11 @@
           "No eager Maya import is introduced in secondary.py.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_spline_ik_chain_python_verification_pass",
+        "proven_main_commit": "b44f3f84d478979345a555edeebb332cafcb0adc",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to b44f3f84d478979345a555edeebb332cafcb0adc; py_compile passed for secondary.py, secondary_smoke.py and tests/test_setup_secondary.py; normal-Python import passed; all 6 focused secondary-rig tests passed."
       }
     },
     {
@@ -204,9 +150,16 @@
         "depends_on": [
           "aimayatool-goal005-setup-spline-ik-chain-verify-093a"
         ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-spline-ik-chain-verify-093a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_spline_ik_chain_python_verification_pass",
+          "proven_main_commit": "b44f3f84d478979345a555edeebb332cafcb0adc"
+        },
         "purpose": "Validate the SplineRig joint-chain/curve/ikSpline foundation in real Maya before composing control-joint skinning and global-orientation layers.",
         "acceptance": [
-          "Run only after 093a passes.",
           "Reuse healthy managed Maya 2024 when available.",
           "Force a fresh unsaved scene and do not save.",
           "Require result SETUP_SPLINE_IK_CHAIN_SMOKE_OK:3 for PASS.",
