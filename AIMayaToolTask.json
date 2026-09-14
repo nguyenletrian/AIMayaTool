@@ -3,7 +3,7 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-075",
+    "request_id": "aimayatool-setup-migration-076",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
@@ -11,138 +11,27 @@
       "task_id": "aimayatool-goal005-setup-package-boundary-verify-074a",
       "status": "pending",
       "architect_ack": true,
+      "bridge_completed": true,
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "purpose": "Verify the Setup package no longer eagerly imports Maya at module-import time and remains compile/import safe under normal Python.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-controls-baseline-verify-073a",
-          "result": "FAIL",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commit": "8ceb4071902806fd8b3ce27a165eadbdeb68db3a",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "FAIL",
         "classification": "setup_controls_module_eager_maya_import_blocks_python_verification",
-        "proven_main_commit": "94e02b34efc564c155558cc723939a0b2efe5a88",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool from de362f28c495717508b57c1845427af0068588df to 94e02b34efc564c155558cc723939a0b2efe5a88. py_compile passed for setup/__init__.py, controls.py and smoke.py, but importing aimayatool.tools.setup still failed because setup/__init__.py imports controls.py and controls.py eagerly imported maya.cmds under normal Python.",
-        "bridge_completed": true
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/setup/controls.py",
-          "aimayatool/tools/setup/smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
-      "bridge_completed": true
+        "proven_main_commit": "94e02b34efc564c155558cc723939a0b2efe5a88"
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-controls-lazy-host-verify-075a",
       "status": "pending",
       "architect_ack": true,
+      "bridge_completed": true,
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "purpose": "Verify Setup controls.py resolves maya.cmds lazily so the Setup package imports under normal Python while host functions remain Maya-bound.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-package-boundary-verify-074a",
-          "result": "FAIL",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commit": "e2977b8c989ef29d2c745807acd32e6298e8a27c",
-        "acceptance": [
-          "Fast-forward main.",
-          "py_compile aimayatool/tools/setup/__init__.py, controls.py and smoke.py.",
-          "Import aimayatool.tools.setup successfully under normal Python without Maya installed.",
-          "Import aimayatool.tools.setup.controls successfully under normal Python without Maya installed.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "result": "PASS",
         "classification": "setup_controls_lazy_host_python_verification_pass",
-        "proven_main_commit": "d17e044d5e4c20763266caecd2f99b5fc099deab",
-        "evidence": "Bridge reported Python verification success on main d17e044d5e4c20763266caecd2f99b5fc099deab: py_compile passed for aimayatool/tools/setup/__init__.py, controls.py and smoke.py; imports passed for aimayatool.tools.setup and aimayatool.tools.setup.controls under normal Python."
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/setup/controls.py",
-          "aimayatool/tools/setup/smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup",
-          "aimayatool.tools.setup.controls"
-        ],
-        "tests": [],
-        "timeout": 240
-      },
-      "bridge_completed": true
+        "proven_main_commit": "d17e044d5e4c20763266caecd2f99b5fc099deab"
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-controls-baseline-managed-live-075b",
@@ -152,72 +41,16 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "purpose": "Re-prove existing Setup control creation, world-transform matching and zero-group behavior after completing the lazy-host package boundary fix.",
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.setup.smoke.run_setup_smoke.",
-          "Require the existing Setup controls success marker for PASS.",
-          "Return maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-controls-lazy-host-verify-075a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_controls_lazy_host_python_verification_pass"
-        },
         "result": "FAIL",
         "classification": "setup_smoke_callable_contract_mismatch",
-        "proven_main_commit": "3b2211f240f4ccd61cfd7fe48586a9c8f7f3ccca",
-        "evidence": "Managed Maya 2024 launched successfully in PID 15000, forced a fresh unsaved scene, kept scene_saved=false and maya_quit=false, but the task requested callable run_setup_smoke. Current aimayatool.tools.setup.smoke exposes run_setup_controls_smoke instead, so execution stopped with AttributeError before Setup control behavior ran."
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.smoke",
-        "callable": "run_setup_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
+        "proven_main_commit": "3b2211f240f4ccd61cfd7fe48586a9c8f7f3ccca"
       }
     },
     {
       "task_id": "aimayatool-goal005-setup-controls-baseline-managed-live-corrected-075c",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
@@ -229,24 +62,24 @@
           "bridge_completed": true,
           "classification": "setup_smoke_callable_contract_mismatch"
         },
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.setup.smoke.run_setup_controls_smoke.",
-          "Require result SETUP_CONTROLS_SMOKE_OK for PASS.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
+        "result": "PASS",
+        "classification": "setup_controls_managed_live_smoke_pass",
+        "proven_main_commit": "8e238e88f4c41bde9e8c758af7a8d4aadbb35e77",
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_CONTROLS_SMOKE_OK, scene_saved=false and maya_quit=false."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-control-shape-catalog-verify-076a",
+      "status": "pending",
+      "architect_ack": false,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
         "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
       },
       "permissions": {
         "read": true,
@@ -269,14 +102,39 @@
             "branch": "main"
           }
         ],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.smoke",
-        "callable": "run_setup_controls_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
+        "files": [
+          "aimayatool/tools/setup/controls.py",
+          "tests/test_setup_control_shapes.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.controls"
+        ],
+        "tests": [
+          "tests.test_setup_control_shapes"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-controls-transforms",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-controls-baseline-managed-live-corrected-075c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_controls_managed_live_smoke_pass"
+        },
+        "implementation_commit": "880b28703ed2f148c055ba789d99bd733f4c8015",
+        "purpose": "Verify the first legacy-backed expansion of the Setup control-shape catalog using shapes evidenced directly in MayaScriptNew NLTA_Control: cube alias, sphere, diamond, locator and eye, while preserving lazy Maya imports.",
+        "acceptance": [
+          "Fast-forward main including control catalog commits 0a16513539d0e85f81a4550f0b5749e4e970955f and 880b28703ed2f148c055ba789d99bd733f4c8015.",
+          "controls.py and tests/test_setup_control_shapes.py compile.",
+          "Import aimayatool.tools.setup.controls succeeds under normal Python.",
+          "All tests in tests.test_setup_control_shapes pass.",
+          "Legacy cube resolves as a compatibility alias of box; sphere, diamond, locator and eye are available.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
   ]
