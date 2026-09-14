@@ -1,6 +1,21 @@
 from __future__ import absolute_import
 
 
+def _upstream_source(cmds, destination, max_depth=8):
+    """Return the first non-unitConversion source driving destination."""
+    source = cmds.connectionInfo(destination, sourceFromDestination=True)
+    visited = set()
+    for _ in range(max_depth):
+        if not source:
+            return source
+        node = source.split(".", 1)[0]
+        if node in visited or not cmds.objExists(node) or cmds.nodeType(node) != "unitConversion":
+            return source
+        visited.add(node)
+        source = cmds.connectionInfo(node + ".input", sourceFromDestination=True)
+    return source
+
+
 def run_scene_global_pattern_executor_smoke():
     import maya.cmds as cmds
 
@@ -39,14 +54,14 @@ def run_scene_global_pattern_executor_smoke():
     if cmds.nodeType(item["orient_constraint"]) != "orientConstraint":
         raise AssertionError("Expected an orientConstraint node.")
 
-    blender_source = cmds.connectionInfo(item["blend"] + ".blender", sourceFromDestination=True)
+    blender_source = _upstream_source(cmds, item["blend"] + ".blender")
     if blender_source != child + ".Global":
         raise AssertionError("Child Global attribute is not driving blendColors.blender: {0}".format(blender_source))
 
-    rotate_source = cmds.connectionInfo(offset + ".rotate", sourceFromDestination=True)
+    rotate_source = _upstream_source(cmds, offset + ".rotate")
     expected_rotate_source = item["blend"] + ".output"
     if rotate_source != expected_rotate_source:
-        raise AssertionError("blendColors.output is not driving offset.rotate: {0}".format(rotate_source))
+        raise AssertionError("blendColors.output is not upstream of offset.rotate: {0}".format(rotate_source))
 
     skipped = execute_global_pattern_plan(({
         "operation": "global_parent_blend",
