@@ -3,77 +3,10 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-118",
+    "request_id": "aimayatool-setup-migration-119",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
-    {
-      "task_id": "aimayatool-goal005-setup-ui-ikfk-snap-managed-live-117b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.ui_parity_smoke",
-        "callable": "run_setup_ui_core_parity_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-ui-parity",
-        "depends_on": [],
-        "result": "PASS",
-        "classification": "setup_ui_ikfk_snap_managed_live_pass",
-        "proven_main_commit": "5fa2d1d35cb2d356a622e4d97cadfcf7158e7871",
-        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:22, scene_saved=false and maya_quit=false.",
-        "archived_prerequisite": {"task_id": "aimayatool-goal005-setup-ui-ikfk-snap-verify-117a", "result": "PASS", "architect_ack": true, "bridge_completed": true, "classification": "setup_ui_ikfk_snap_python_verification_pass", "proven_main_commit": "c5e2791662de5334773f155594614d836127033b"},
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal005-setup-ui-ikfk-switch-verify-118a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/ui_parity_smoke.py"],
-        "imports": ["aimayatool.tools.setup"],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-005",
-        "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-ui-ikfk-snap-managed-live-117b"],
-        "purpose": "Verify the Setup IK/FK switch UI parity slice exposes reusable visibility/proxy switch wiring with explicit selection grouping and prompted switch/count configuration.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile aimayatool/tools/setup/__init__.py and aimayatool/tools/setup/ui_parity_smoke.py.",
-          "Import aimayatool.tools.setup outside Maya without eager Maya imports.",
-          "Do not import the Maya-only ui_parity_smoke module in normal Python.",
-          "Do not invoke Codex."
-        ],
-        "result": "PASS",
-        "classification": "setup_ui_ikfk_switch_python_verification_pass",
-        "proven_main_commit": "76ceb9555f8bc958c35c78b15f4305ec65eb31f7",
-        "evidence": "After ff-only sync to 76ceb9555f8bc958c35c78b15f4305ec65eb31f7, py_compile passed for aimayatool/tools/setup/__init__.py and aimayatool/tools/setup/ui_parity_smoke.py; non-Maya import of aimayatool.tools.setup passed.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
     {
       "task_id": "aimayatool-goal005-setup-ui-ikfk-switch-managed-live-118b",
       "status": "pending",
@@ -97,19 +30,76 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-ui-parity",
-        "depends_on": ["aimayatool-goal005-setup-ui-ikfk-switch-verify-118a"],
-        "purpose": "Validate the expanded Setup UI exposes the 22 accepted actions plus Wire IK/FK Switch in real Maya.",
-        "acceptance": [
-          "Run only after aimayatool-goal005-setup-ui-ikfk-switch-verify-118a passes.",
-          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
-          "Require result SETUP_UI_CORE_PARITY_OK:23 for PASS.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
+        "depends_on": [],
         "result": "PASS",
         "classification": "setup_ui_ikfk_switch_managed_live_pass",
         "proven_main_commit": "7e7525185b39ad780f5154f5282713d7872f34c1",
         "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_UI_CORE_PARITY_OK:23, scene_saved=false and maya_quit=false.",
+        "archived_prerequisite": {"task_id": "aimayatool-goal005-setup-ui-ikfk-switch-verify-118a", "result": "PASS", "architect_ack": true, "bridge_completed": true, "classification": "setup_ui_ikfk_switch_python_verification_pass", "proven_main_commit": "76ceb9555f8bc958c35c78b15f4305ec65eb31f7"},
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ui-ikfk-blend-verify-119a",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/ui_parity_smoke.py"],
+        "imports": ["aimayatool.tools.setup"],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ui-parity",
+        "depends_on": ["aimayatool-goal005-setup-ui-ikfk-switch-managed-live-118b"],
+        "purpose": "Verify the Setup IK/FK blend UI parity slice exposes the already-proven three-chain blend workflow with explicit bind/FK/IK selection grouping and prompted switch/count configuration.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile aimayatool/tools/setup/__init__.py and aimayatool/tools/setup/ui_parity_smoke.py.",
+          "Import aimayatool.tools.setup outside Maya without eager Maya imports.",
+          "Do not import the Maya-only ui_parity_smoke module in normal Python.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-ui-ikfk-blend-managed-live-119b",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.setup.ui_parity_smoke",
+        "callable": "run_setup_ui_core_parity_smoke",
+        "expected_window": "",
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-ui-parity",
+        "depends_on": ["aimayatool-goal005-setup-ui-ikfk-blend-verify-119a"],
+        "purpose": "Validate the expanded Setup UI exposes the 23 accepted actions plus Create IK/FK Blend in real Maya.",
+        "acceptance": [
+          "Run only after aimayatool-goal005-setup-ui-ikfk-blend-verify-119a passes.",
+          "Reuse healthy managed Maya 2024 when available; force a fresh unsaved scene and do not save.",
+          "Require result SETUP_UI_CORE_PARITY_OK:24 for PASS.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
