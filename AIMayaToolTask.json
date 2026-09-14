@@ -3,12 +3,12 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-079",
+    "request_id": "aimayatool-setup-migration-080",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-match-joint-chain-managed-live-078b",
+      "task_id": "aimayatool-goal005-setup-control-shape-replace-managed-live-079b",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
@@ -16,23 +16,22 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
         "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-match-joint-chain-verify-078a",
+          "task_id": "aimayatool-goal005-setup-control-shape-replace-verify-079a",
           "result": "PASS",
           "architect_ack": true,
           "bridge_completed": true,
-          "classification": "setup_match_joint_chain_python_verification_pass"
+          "classification": "setup_control_shape_replace_python_verification_pass"
         },
         "result": "PASS",
-        "classification": "setup_match_joint_chain_managed_live_pass",
-        "proven_main_commit": "0fd68ef525648db8225fe0e6b71cec3362bec8cf",
-        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_MATCH_JOINT_CHAIN_SMOKE_OK:4, scene_saved=false and maya_quit=false."
+        "classification": "setup_control_shape_replace_managed_live_pass",
+        "proven_main_commit": "3bc9fda4e6ffe5494a933cd3e601282afcd4311a",
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_CONTROL_SHAPE_REPLACE_SMOKE_OK:1, scene_saved=false and maya_quit=false."
       }
     },
     {
-      "task_id": "aimayatool-goal005-setup-control-shape-replace-verify-079a",
+      "task_id": "aimayatool-goal005-setup-controls-transforms-regression-verify-080a",
       "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "architect_ack": false,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -65,14 +64,19 @@
         ],
         "files": [
           "aimayatool/tools/setup/controls.py",
+          "aimayatool/tools/setup/transforms.py",
           "aimayatool/tools/setup/smoke.py",
-          "tests/test_setup_control_shapes.py"
+          "aimayatool/tools/setup/regression_smoke.py",
+          "tests/test_setup_control_shapes.py",
+          "tests/test_setup_transforms.py"
         ],
         "imports": [
-          "aimayatool.tools.setup.controls"
+          "aimayatool.tools.setup.controls",
+          "aimayatool.tools.setup.transforms"
         ],
         "tests": [
-          "tests.test_setup_control_shapes"
+          "tests.test_setup_control_shapes",
+          "tests.test_setup_transforms"
         ],
         "timeout": 180
       },
@@ -80,35 +84,27 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
         "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-match-joint-chain-managed-live-078b",
+          "task_id": "aimayatool-goal005-setup-control-shape-replace-managed-live-079b",
           "result": "PASS",
           "architect_ack": true,
           "bridge_completed": true,
-          "classification": "setup_match_joint_chain_managed_live_pass"
+          "classification": "setup_control_shape_replace_managed_live_pass"
         },
-        "implementation_commits": [
-          "ad19535b1bbff9b1fea6b01fced813eb84c34c18",
-          "cd57025c436cdb8a933307c7e0ff4ac16a6c1c32",
-          "fdf576006fb1e16e59ffda7ca0ec39ae4cc62c4a"
-        ],
-        "purpose": "Verify control-shape replacement parity inspired by legacy ShapeChangeSingle: replace a nurbsCurve shape beneath an existing control while preserving the transform, original shape name and shape plug connections.",
+        "implementation_commit": "60b494525ea457d65fa76e81f0e1e64018a17ff7",
+        "purpose": "Compile and regress the complete accepted Setup controls/transforms slice before milestone closure: control creation/zeroing, shape catalog/replacement, transform matching/hierarchy traversal and MatchJoint chain composition.",
         "acceptance": [
-          "Fast-forward main including control-shape replacement implementation, focused tests and Maya smoke.",
-          "controls.py, smoke.py and tests/test_setup_control_shapes.py compile.",
-          "Import aimayatool.tools.setup.controls succeeds under normal Python without Maya installed.",
-          "All tests in tests.test_setup_control_shapes pass.",
-          "No eager maya.cmds import is introduced in controls.py.",
+          "Fast-forward main including 60b494525ea457d65fa76e81f0e1e64018a17ff7.",
+          "All listed Setup modules and focused tests compile.",
+          "Normal-Python imports of controls and transforms pass without Maya installed.",
+          "Both focused unittest modules pass.",
+          "Do not import host-only smoke modules under normal Python.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "setup_control_shape_replace_python_verification_pass",
-        "proven_main_commit": "884a29165c9660910193946c3f086a6868160e8f",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 884a29165c9660910193946c3f086a6868160e8f; py_compile passed for controls.py, smoke.py and tests/test_setup_control_shapes.py; normal-Python import passed; all 5 focused tests passed."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
     {
-      "task_id": "aimayatool-goal005-setup-control-shape-replace-managed-live-079b",
+      "task_id": "aimayatool-goal005-setup-controls-transforms-regression-managed-live-080b",
       "status": "pending",
       "architect_ack": false,
       "project": {
@@ -144,8 +140,8 @@
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.setup.smoke",
-        "callable": "run_setup_control_shape_replace_smoke",
+        "module": "aimayatool.tools.setup.regression_smoke",
+        "callable": "run_setup_controls_transforms_regression",
         "expected_window": "",
         "startup_timeout": 180,
         "operation_timeout": 300
@@ -153,20 +149,15 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-control-shape-replace-verify-079a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_control_shape_replace_python_verification_pass"
-        },
-        "purpose": "Validate control-shape replacement against real Maya DAG/connection behavior: transform and shape name stay stable, requested curve points are installed, and incoming/outgoing shape connections are restored.",
+        "depends_on": [
+          "aimayatool-goal005-setup-controls-transforms-regression-verify-080a"
+        ],
+        "purpose": "Run one consolidated managed-Maya acceptance regression for the controls/transforms milestone before marking it complete and advancing to constraints/spaces.",
         "acceptance": [
-          "Run only after 079a passes.",
+          "Run only after 080a passes.",
           "Reuse a healthy managed Maya 2024 session when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Run aimayatool.tools.setup.smoke.run_setup_control_shape_replace_smoke.",
-          "Require result SETUP_CONTROL_SHAPE_REPLACE_SMOKE_OK:1 for PASS.",
+          "Each constituent smoke runs in a fresh unsaved scene and no scene is saved.",
+          "Require result SETUP_CONTROLS_TRANSFORMS_REGRESSION_OK:5 for PASS.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
