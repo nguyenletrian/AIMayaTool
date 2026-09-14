@@ -3,7 +3,7 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-084",
+    "request_id": "aimayatool-setup-migration-084-retry",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
@@ -18,19 +18,25 @@
         "result": "PASS",
         "classification": "setup_constraint_primitives_complete_managed_live_pass",
         "proven_main_commit": "f0d9e61cc7a30e1bf8a3c651c760f93d1bbefd23",
-        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:4, scene_saved=false and maya_quit=false. Parent, point, orient and aim primitives are now live-proven.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-point-constraint-verify-083a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_point_constraint_python_verification_pass",
-          "proven_main_commit": "84474023d49a9b41e4778070efc1082c097aef45"
-        }
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:4, scene_saved=false and maya_quit=false. Parent, point, orient and aim primitives are live-proven."
       }
     },
     {
       "task_id": "aimayatool-goal005-setup-sdk-primitives-verify-084a",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-sdk-driven-keys",
+        "result": "FAIL",
+        "classification": "setup_sdk_python_verification_transform_alias_mismatch",
+        "proven_main_commit": "0fb45105ae1c5fdc15ad8c4355738808b9aec3f2",
+        "evidence": "Bridge fast-forwarded to 0fb45105ae1c5fdc15ad8c4355738808b9aec3f2; py_compile and normal-Python import passed, but tests.test_setup_sdk failed 1/3 because transform-channel detection recognized long names such as translateX but not common Maya short aliases such as tx/ty, so ensure_sdk_group was not called."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-sdk-primitives-verify-retry-084c",
       "status": "pending",
       "architect_ack": false,
       "project": {
@@ -79,25 +85,22 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-sdk-driven-keys",
+        "retry_of": "aimayatool-goal005-setup-sdk-primitives-verify-084a",
         "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-point-constraint-managed-live-083b",
-          "result": "PASS",
+          "task_id": "aimayatool-goal005-setup-sdk-primitives-verify-084a",
+          "result": "FAIL",
           "architect_ack": true,
           "bridge_completed": true,
-          "classification": "setup_constraint_primitives_complete_managed_live_pass",
-          "proven_main_commit": "f0d9e61cc7a30e1bf8a3c651c760f93d1bbefd23"
+          "classification": "setup_sdk_python_verification_transform_alias_mismatch",
+          "proven_main_commit": "0fb45105ae1c5fdc15ad8c4355738808b9aec3f2"
         },
-        "implementation_commits": [
-          "78195f86816617f01eb6e4077d0a36933fe8b1c1",
-          "182b9f5c3640e1120f046fdedd41c76c2f563c7f",
-          "94ea6fb2cb2f7c96b1a03f573ade0205b26214fd"
-        ],
-        "purpose": "Verify the first Setup SDK/driven-key primitive slice: explicit serialized key maps, reusable SDK offset groups for transform channels, deterministic setDrivenKeyframe calls and linear tangents, extracted from legacy Drivenkey behavior without legacy UI/global state.",
+        "implementation_commit": "fb1fb2cc516c128c2742eba83656e24e44a009a8",
+        "purpose": "Re-verify the SDK primitive after extending transform-channel detection to Maya short aliases tx/ty/tz, rx/ry/rz and sx/sy/sz as well as long channel names.",
         "acceptance": [
-          "Fast-forward main including all three SDK implementation/test/smoke commits.",
+          "Fast-forward main including fb1fb2cc516c128c2742eba83656e24e44a009a8.",
           "Compile sdk.py, sdk_smoke.py and tests/test_setup_sdk.py.",
           "Import aimayatool.tools.setup.sdk under normal Python without Maya installed.",
-          "All tests in tests.test_setup_sdk pass.",
+          "All tests in tests.test_setup_sdk pass, including reusable SDK-group remapping for short transform aliases.",
           "No eager maya.cmds import is introduced in sdk.py.",
           "Do not invoke Codex."
         ],
@@ -105,7 +108,7 @@
       }
     },
     {
-      "task_id": "aimayatool-goal005-setup-sdk-primitives-managed-live-084b",
+      "task_id": "aimayatool-goal005-setup-sdk-primitives-managed-live-retry-084d",
       "status": "pending",
       "architect_ack": false,
       "project": {
@@ -151,11 +154,11 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-sdk-driven-keys",
         "depends_on": [
-          "aimayatool-goal005-setup-sdk-primitives-verify-084a"
+          "aimayatool-goal005-setup-sdk-primitives-verify-retry-084c"
         ],
-        "purpose": "Validate the first Setup SDK/driven-key primitive slice in real Maya, including SDK-group creation/reuse, animCurve creation and evaluated driven output.",
+        "purpose": "Validate the corrected first Setup SDK/driven-key slice in real Maya, including SDK-group creation/reuse, animCurve creation, linear tangents and evaluated driven output.",
         "acceptance": [
-          "Run only after 084a passes.",
+          "Run only after 084c passes.",
           "Reuse a healthy managed Maya 2024 session when available.",
           "Force a fresh unsaved scene and do not save.",
           "Require result SETUP_SDK_SMOKE_OK:1 for PASS.",
