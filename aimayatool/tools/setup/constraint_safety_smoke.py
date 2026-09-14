@@ -36,6 +36,7 @@ def run_setup_constraint_safety_smoke():
     _expect_value_error(lambda: constraints.create_point_constraint(driven, driven), "self point constraint")
     _expect_value_error(lambda: constraints.create_orient_constraint(driven, driven), "self orient constraint")
     _expect_value_error(lambda: constraints.create_aim_constraint(driver_a, driven, up, aim_axis="x", up_axis="-x"), "collinear aim/up axes")
+    _expect_value_error(lambda: constraints.create_aim_constraint(driver_a, driven, up, aim_axis="banana", up_axis="y", use_offset_group=True), "unsupported aim axis preflight")
     _expect_value_error(lambda: constraints.create_parent_constraint([driver_a, driver_b], driven, use_offset_group=True, container="missingContainer"), "missing container preflight")
 
     after_constraints = set(cmds.ls(type=("parentConstraint", "pointConstraint", "orientConstraint", "aimConstraint")) or [])
@@ -52,4 +53,4 @@ def run_setup_constraint_safety_smoke():
     if parent != [container]:
         raise RuntimeError("Constraint container parenting changed after safety hardening.")
 
-    return "SETUP_CONSTRAINT_SAFETY_OK:7"
+    return "SETUP_CONSTRAINT_SAFETY_OK:8"
