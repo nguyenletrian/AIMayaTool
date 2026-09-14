@@ -87,3 +87,25 @@ def run_setup_ikfk_switch_smoke():
     if cmds.getAttr(fk_offset + ".visibility") > 0.5 or cmds.getAttr(ik_offset + ".visibility") < 0.5 or cmds.getAttr(pole_offset + ".visibility") < 0.5:
         raise RuntimeError("IK visibility state mismatch at switch=1.")
     return "SETUP_IKFK_SWITCH_SMOKE_OK:2"
+
+
+def run_setup_ikfk_snap_smoke():
+    ikfk = _ikfk()
+    cmds.file(new=True, force=True)
+    settings = cmds.createNode("transform", name="snapSettings")
+    cmds.addAttr(settings, longName="ikfk", attributeType="double", defaultValue=0, keyable=True)
+    source = cmds.createNode("transform", name="snapSource")
+    target = cmds.createNode("transform", name="snapTarget")
+    cmds.xform(source, worldSpace=True, translation=(1, 2, 3))
+    cmds.xform(target, worldSpace=True, translation=(5, 0, 0))
+    offsets = ikfk.capture_ikfk_snap_offsets([source], [target])
+    cmds.xform(source, worldSpace=True, translation=(-20, -20, -20))
+    cmds.xform(target, worldSpace=True, translation=(8, 4, 0))
+    result = ikfk.snap_ikfk([source], [target], settings + ".ikfk", 1, offsets=offsets, key=False)
+    if result["switch_value"] != 1 or abs(cmds.getAttr(settings + ".ikfk") - 1.0) > 1e-5:
+        raise RuntimeError("IK/FK snap did not activate requested switch value.")
+    pos = cmds.xform(source, query=True, worldSpace=True, translation=True)
+    expected = (4.0, 6.0, 3.0)
+    if any(abs(a - b) > 1e-4 for a, b in zip(pos, expected)):
+        raise RuntimeError("IK/FK snap offset evaluation mismatch: {0}".format(pos))
+    return "SETUP_IKFK_SNAP_SMOKE_OK:2"
