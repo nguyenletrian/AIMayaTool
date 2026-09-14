@@ -13,6 +13,17 @@ _EXPECTED_BUTTONS = (
 )
 
 
+def _button_labels():
+    labels = []
+    for control in cmds.lsUI(controls=True, long=True) or []:
+        try:
+            if cmds.objectTypeUI(control) == "button":
+                labels.append(cmds.button(control, query=True, label=True))
+        except Exception:
+            pass
+    return labels
+
+
 def run_setup_ui_core_parity_smoke():
     setup = importlib.reload(setup_module)
     window = "AIMayaToolSetupUIParitySmoke"
@@ -21,13 +32,7 @@ def run_setup_ui_core_parity_smoke():
     window = cmds.window(window, title="AIMayaTool Setup UI Parity Smoke")
     cmds.columnLayout(adjustableColumn=True)
     setup.build_ui()
-    buttons = cmds.lsUI(buttons=True, long=True) or []
-    labels = []
-    for button in buttons:
-        try:
-            labels.append(cmds.button(button, query=True, label=True))
-        except Exception:
-            pass
+    labels = _button_labels()
     missing = [label for label in _EXPECTED_BUTTONS if label not in labels]
     cmds.deleteUI(window)
     if missing:
