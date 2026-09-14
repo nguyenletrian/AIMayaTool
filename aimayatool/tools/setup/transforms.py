@@ -65,7 +65,11 @@ def match_transform_hierarchy(source_root, destination_roots, translate=True, ro
         if len(destination_nodes) != len(source_nodes):
             raise ValueError("Hierarchy node count mismatch: {0} source nodes, {1} destination nodes.".format(len(source_nodes), len(destination_nodes)))
         for source, destination in zip(source_nodes, destination_nodes):
-            cmds.matchTransform(destination, source, position=bool(translate), rotation=bool(rotate), scale=bool(scale))
+            if translate and rotate and scale:
+                matrix = cmds.xform(source, query=True, worldSpace=True, matrix=True)
+                cmds.xform(destination, worldSpace=True, matrix=matrix)
+            else:
+                cmds.matchTransform(destination, source, position=bool(translate), rotation=bool(rotate), scale=bool(scale))
         results.append({"root": destination_nodes[0], "nodes": destination_nodes})
     return {"source_root": source_nodes[0], "source_nodes": source_nodes, "destinations": tuple(results)}
 
