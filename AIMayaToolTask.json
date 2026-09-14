@@ -298,8 +298,8 @@
     {
       "task_id": "aimayatool-goal007-scene-pattern-clear-offset-verify-141a",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -356,7 +356,11 @@
         ],
         "implementation_commit": "44426fef87bf260f3b9fa55879497dd0ff405937",
         "source_evidence": "Legacy Scene_Pattern_ClearOffset.py creates <object>_ClearOffsetGrp matched to each existing object, inserts it under the original parent and reparents the object beneath it. AIMayaTool reuses setup.controls.create_zero_group instead of duplicating constraint/group logic.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "scene_clear_offset_python_verification_pass",
+        "proven_main_commit": "7476207e3c2bdbb14d5e7853acc411412ce6c33d",
+        "evidence": "Bridge fast-forwarded main from aaf1ba83c836e14fee9708c0c558cc24a96c5bf8 to 7476207e3c2bdbb14d5e7853acc411412ce6c33d; py_compile passed for clear_offset.py and clear_offset_smoke.py, and import of aimayatool.tools.scene.clear_offset passed outside Maya."
       }
     },
     {
