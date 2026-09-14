@@ -70,6 +70,30 @@
     {
       "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-managed-live-139f",
       "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.aim_constraint_smoke", "callable": "run_scene_aim_constraint_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-implementation-verify-139e"], "purpose": "Validate ScenePattern Aim Constraint parity in Maya 2024 with offset insertion, signed axis mapping, object world-up, maintain-offset behavior, optional constraint-content parenting and missing-child skip.", "acceptance": ["Run only after 139e passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1 for PASS.", "Verify <child>_AimGrp insertion, aimConstraint target, object world-up reference, optional constraintContent parenting, and deterministic missing-child skip.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "a0a31e848cdebd24c5851867bdb5b061de2c0d88", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "FAIL", "classification": "scene_aimconstraint_smoke_worldup_query_false_negative", "proven_main_commit": "a8f579c97908b09e41d6b4a7ce29474ffe97fcb8", "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, and failed only at the smoke assertion querying worldUpObject. The executor had already created the aimConstraint successfully; Maya remained healthy with scene_saved=false and maya_quit=false. The smoke query did not preserve the reference in the expected return form.", "recovery_commit": "1853975a98a30a9a0b787774b3ad120c458a90e6"}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-worldup-graph-verify-139g",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/aim_constraint_smoke.py"], "imports": ["aimayatool.tools.scene.aim_constraint"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-managed-live-139f"], "purpose": "Verify the Aim Constraint smoke correction that checks the actual Maya worldUpMatrix graph connection rather than relying on the worldUpObject query return form.", "acceptance": ["Fast-forward main.", "Compile aim_constraint.py and aim_constraint_smoke.py.", "Import aimayatool.tools.scene.aim_constraint outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "1853975a98a30a9a0b787774b3ad120c458a90e6", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-aimconstraint-worldup-graph-retry-managed-live-139h",
+      "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -77,7 +101,7 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.aim_constraint_smoke", "callable": "run_scene_aim_constraint_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-implementation-verify-139e"], "purpose": "Validate ScenePattern Aim Constraint parity in Maya 2024 with offset insertion, signed axis mapping, object world-up, maintain-offset behavior, optional constraint-content parenting and missing-child skip.", "acceptance": ["Run only after 139e passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1 for PASS.", "Verify <child>_AimGrp insertion, aimConstraint target, object world-up reference, optional constraintContent parenting, and deterministic missing-child skip.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "a0a31e848cdebd24c5851867bdb5b061de2c0d88", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-aimconstraint-worldup-graph-verify-139g"], "retry_of": "aimayatool-goal007-scene-pattern-aimconstraint-managed-live-139f", "purpose": "Retry Aim Constraint Maya parity validation using the direct worldUpMatrix graph connection as the object world-up evidence.", "acceptance": ["Run only after 139g passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1 for PASS.", "Verify offset insertion, aim target, reference.worldMatrix[0] -> aimConstraint.worldUpMatrix, optional constraintContent parenting and missing-child skip.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "1853975a98a30a9a0b787774b3ad120c458a90e6", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
