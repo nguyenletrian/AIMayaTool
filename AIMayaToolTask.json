@@ -36,7 +36,8 @@
     {
       "task_id": "aimayatool-goal005-setup-fold-rig-verify-091a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -73,7 +74,11 @@
           "No eager Maya import is introduced in secondary.py.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_fold_rig_python_verification_pass",
+        "proven_main_commit": "098dcead8d29ea6f9a27472dcf89701690c0a74d",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 098dcead8d29ea6f9a27472dcf89701690c0a74d; py_compile passed for secondary.py, secondary_smoke.py and tests/test_setup_secondary.py; normal-Python import passed; all 2 focused secondary-rig tests passed."
       }
     },
     {
@@ -103,9 +108,16 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
         "depends_on": ["aimayatool-goal005-setup-fold-rig-verify-091a"],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-fold-rig-verify-091a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_fold_rig_python_verification_pass",
+          "proven_main_commit": "098dcead8d29ea6f9a27472dcf89701690c0a74d"
+        },
         "purpose": "Validate FoldRig driven-key choreography in real Maya at integer driver states 0, 1 and 2.",
         "acceptance": [
-          "Run only after 091a passes.",
           "Reuse healthy managed Maya 2024 when available.",
           "Force a fresh unsaved scene and do not save.",
           "Require result SETUP_FOLD_RIG_SMOKE_OK:3 for PASS.",
