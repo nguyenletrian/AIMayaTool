@@ -217,7 +217,7 @@
     {
       "task_id": "aimayatool-goal005-setup-plane-projection-managed-live-100b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -270,6 +270,72 @@
           "Require result SETUP_PLANE_PROJECTION_SMOKE_OK:3 for PASS.",
           "Prove a control at (3,7,4) projects to (3,0,4), moving it to (6,-5,2) projects to (6,0,2), and translating all three plane references to Y=2 updates projection to (6,2,2), including when the projected output is parented.",
           "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_plane_projection_managed_live_pass",
+        "proven_main_commit": "82d5e6637e643504f9c34a8694a4fae91751d890",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_PLANE_PROJECTION_SMOKE_OK:3, scene_saved=false and maya_quit=false. Smoke proved parent-space-correct projection at (3,0,4), then (6,0,2) after moving the control, then (6,2,2) after translating all three plane references to Y=2."
+      },
+      "bridge_completed": true
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-secondary-parity-assessment-101a",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "assessment",
+        "target": "repository"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": false,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "sources": [
+          "GUIDE.md",
+          "bridgeGoals.json",
+          "AIMayaToolTask.json",
+          "aimayatool/tools/setup",
+          "tests",
+          "MayaScriptNew/UIs/Setup.py"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-secondary",
+        "depends_on": [
+          "aimayatool-goal005-setup-plane-projection-managed-live-100b"
+        ],
+        "purpose": "Audit the remaining legacy Setup secondary/spline/rope helpers after accepted Fold, RopeStraight, RopeRoll, SplineIK, Rivet, ObjectOnCurve, JointsBetween and PlaneProjection slices; classify each remaining candidate as migrated, superseded, duplicate/internal-only, character-specific, intentionally retireable, or next reusable migration slice.",
+        "acceptance": [
+          "Read current AIMayaTool setup modules/tests plus legacy MayaScriptNew UIs/Setup.py and any directly referenced Setup helper modules needed to understand remaining secondary behavior.",
+          "Do not modify product code or TaskSource during the assessment task.",
+          "Produce a concise candidate table with legacy symbol/workflow, current AIMayaTool status, usefulness classification, hidden assumptions/dependencies, and recommended next action.",
+          "Recommend exactly one next bounded migration slice when evidence is clear; otherwise identify the smallest follow-up assessment needed.",
           "Do not invoke Codex."
         ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
