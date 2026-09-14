@@ -25,7 +25,8 @@
     {
       "task_id": "aimayatool-goal005-setup-spline-controls-verify-094a",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -71,7 +72,11 @@
           "No eager Maya import is introduced in spline_controls.py.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_spline_controls_python_verification_pass",
+        "proven_main_commit": "071de21d97c85be462a0774d73c5605a1737a222",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 071de21d97c85be462a0774d73c5605a1737a222; py_compile passed for spline_controls.py, spline_controls_smoke.py and tests/test_setup_spline_controls.py; normal-Python import passed; all 2 focused spline control tests passed."
       }
     },
     {
@@ -101,9 +106,16 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
         "depends_on": ["aimayatool-goal005-setup-spline-controls-verify-094a"],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-spline-controls-verify-094a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_spline_controls_python_verification_pass",
+          "proven_main_commit": "071de21d97c85be462a0774d73c5605a1737a222"
+        },
         "purpose": "Validate in real Maya that the explicit SplineRig control layer creates four controls/joints, binds the curve, and actually deforms the curve when an animator control moves.",
         "acceptance": [
-          "Run only after 094a passes.",
           "Reuse healthy managed Maya 2024 when available.",
           "Force a fresh unsaved scene and do not save.",
           "Require result SETUP_SPLINE_CONTROLS_SMOKE_OK:4 for PASS.",
