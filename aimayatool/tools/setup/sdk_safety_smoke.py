@@ -65,8 +65,14 @@ def run_setup_sdk_safety_smoke():
     ])
     if len(result["sdk_groups"]) != 2 or len(result["keyed_plugs"]) != 4:
         raise RuntimeError("Valid SDK composition did not create expected groups/keys.")
+    driven_group = result["sdk_groups"][driven]
+    other_group = result["sdk_groups"][other]
     cmds.setAttr(driver, 1)
     cmds.dgdirty(allPlugs=True)
-    if abs(cmds.getAttr(driven + ".translateX") - 5.0) > 1e-5 or abs(cmds.getAttr(other + ".translateY") - 3.0) > 1e-5:
-        raise RuntimeError("Valid SDK composition did not evaluate expected values.")
+    if abs(cmds.getAttr(driven_group + ".translateX") - 5.0) > 1e-5 or abs(cmds.getAttr(other_group + ".translateY") - 3.0) > 1e-5:
+        raise RuntimeError("Valid SDK composition did not evaluate expected SDK-group values.")
+    driven_world = cmds.xform(driven, query=True, worldSpace=True, translation=True)
+    other_world = cmds.xform(other, query=True, worldSpace=True, translation=True)
+    if abs(driven_world[0] - 5.0) > 1e-5 or abs(other_world[1] - 3.0) > 1e-5:
+        raise RuntimeError("Valid SDK composition did not propagate SDK-group values to driven transforms.")
     return "SETUP_SDK_SAFETY_OK:7"
