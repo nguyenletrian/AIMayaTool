@@ -50,6 +50,17 @@ def _selected_nodes():
     return nodes
 
 
+def _selected_transforms():
+    nodes = _cmds().ls(selection=True, long=True, type="transform") or []
+    if not nodes:
+        raise ValueError("Select one or more transforms to mirror to their named counterparts.")
+    return nodes
+
+
+def _mirror_selected(axis):
+    return _naming().execute_mirror_transform_batch(_selected_transforms(), axis=axis)
+
+
 def _prompt_namespace(title, action):
     cmds = _cmds()
     if cmds.promptDialog(title=title, message="Namespace:", text="TempNameSpace", button=[action, "Cancel"], defaultButton=action, cancelButton="Cancel", dismissString="Cancel") != action:
@@ -105,4 +116,12 @@ def build_ui():
     cmds.rowLayout(numberOfColumns=2, adjustableColumn=2)
     cmds.button(label="Move to Namespace...", command=lambda *_: _run("Move to namespace", _move_to_namespace))
     cmds.button(label="Remove Namespace...", command=lambda *_: _run("Remove namespace", _remove_namespace))
+    cmds.setParent("..")
+
+    cmds.separator(height=8, style="none")
+    cmds.text(label="Mirror batch", align="left")
+    cmds.text(label="Select source transforms; counterparts are resolved by mirror naming before any target is changed.", align="left")
+    cmds.rowLayout(numberOfColumns=3, adjustableColumn=3)
+    for label, axis in (("Mirror X", "x"), ("Mirror Y", "y"), ("Mirror Z", "z")):
+        cmds.button(label=label, command=lambda *_, a=axis: _run("Mirror " + a.upper(), lambda: _mirror_selected(a)))
     cmds.setParent("..")
