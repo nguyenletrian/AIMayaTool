@@ -34,6 +34,18 @@
     {
       "task_id": "aimayatool-goal006-setup-presets-validation-assessment-136a",
       "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/constraints.py", "aimayatool/tools/setup/controls.py", "aimayatool/tools/setup/ikfk.py", "aimayatool/tools/setup/naming.py"], "imports": ["aimayatool.tools.setup.naming"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-presets-validation", "depends_on": ["aimayatool-goal006-setup-mirror-batch-ui-managed-live-reload-135j"], "purpose": "Establish a bounded evidence baseline for reusable Setup presets and preflight validation before implementing new APIs.", "acceptance": ["Fast-forward main.", "Compile the listed Setup modules.", "Import aimayatool.tools.setup.naming outside Maya as the known safe pure-Python surface.", "Do not mutate repository files.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PRECONDITION_REJECTED", "classification": "verification_git_pull_requires_edit_permission", "evidence": "Bridge rejected the task before any product verification ran with summary 'git_pull precondition requires permissions.edit=true'. No Setup module was compiled or imported by this task.", "recovery_note": "Publish a separate corrected retry with edit=true solely so the ff-only git_pull precondition can execute."}
+    },
+    {
+      "task_id": "aimayatool-goal006-setup-presets-validation-assessment-retry-136b",
+      "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -41,7 +53,7 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/setup/constraints.py", "aimayatool/tools/setup/controls.py", "aimayatool/tools/setup/ikfk.py", "aimayatool/tools/setup/naming.py"], "imports": ["aimayatool.tools.setup.naming"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-presets-validation", "depends_on": ["aimayatool-goal006-setup-mirror-batch-ui-managed-live-reload-135j"], "purpose": "Establish a bounded evidence baseline for reusable Setup presets and preflight validation before implementing new APIs. Verify the current Setup package compiles/imports on the safe non-Maya surface so the Architect can design the first preset/validation slice against current repository truth.", "acceptance": ["Fast-forward main.", "Compile the listed Setup modules.", "Import aimayatool.tools.setup.naming outside Maya as the known safe pure-Python surface.", "Do not mutate repository files beyond the ff-only git pull precondition.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "recovery_note": "Previous dispatch was rejected before execution because git_pull requires permissions.edit=true. No product verification ran; retry with edit permission enabled solely for the ff-only precondition."}
+      "metadata": {"goal_id": "aimayatool-006", "milestone_id": "setup-presets-validation", "depends_on": [], "archived_prerequisite": [{"task_id": "aimayatool-goal006-setup-presets-validation-assessment-136a", "result": "PRECONDITION_REJECTED", "classification": "verification_git_pull_requires_edit_permission"}], "purpose": "Retry the bounded Setup presets/preflight baseline assessment with permission sufficient for the ff-only git_pull precondition.", "acceptance": ["Fast-forward main.", "Compile aimayatool/tools/setup/__init__.py, constraints.py, controls.py, ikfk.py and naming.py.", "Import aimayatool.tools.setup.naming outside Maya.", "Do not mutate repository files beyond the ff-only git pull precondition.", "Do not invoke Codex."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
