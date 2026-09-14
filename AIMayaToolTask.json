@@ -3,12 +3,12 @@
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
   "force_restart": {
     "enabled": false,
-    "request_id": "aimayatool-setup-migration-083",
+    "request_id": "aimayatool-setup-migration-084",
     "reason": "healthy_managed_maya_session_reusable"
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal005-setup-point-constraint-verify-083a",
+      "task_id": "aimayatool-goal005-setup-point-constraint-managed-live-083b",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
@@ -16,21 +16,96 @@
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-constraints-spaces",
         "result": "PASS",
-        "classification": "setup_point_constraint_python_verification_pass",
-        "proven_main_commit": "84474023d49a9b41e4778070efc1082c097aef45",
-        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 84474023d49a9b41e4778070efc1082c097aef45; py_compile passed for constraints.py, constraint_smoke.py and tests/test_setup_constraints.py; normal-Python import passed; all 5 focused tests passed.",
+        "classification": "setup_constraint_primitives_complete_managed_live_pass",
+        "proven_main_commit": "f0d9e61cc7a30e1bf8a3c651c760f93d1bbefd23",
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:4, scene_saved=false and maya_quit=false. Parent, point, orient and aim primitives are now live-proven.",
         "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-space-switch-managed-live-retry-082d",
+          "task_id": "aimayatool-goal005-setup-point-constraint-verify-083a",
           "result": "PASS",
           "architect_ack": true,
           "bridge_completed": true,
-          "classification": "setup_space_switch_managed_live_retry_pass",
-          "proven_main_commit": "ae3a10914ab0af48f8ddf8d92b4aca094038713b"
+          "classification": "setup_point_constraint_python_verification_pass",
+          "proven_main_commit": "84474023d49a9b41e4778070efc1082c097aef45"
         }
       }
     },
     {
-      "task_id": "aimayatool-goal005-setup-point-constraint-managed-live-083b",
+      "task_id": "aimayatool-goal005-setup-sdk-primitives-verify-084a",
+      "status": "pending",
+      "architect_ack": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/sdk.py",
+          "aimayatool/tools/setup/sdk_smoke.py",
+          "tests/test_setup_sdk.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.sdk"
+        ],
+        "tests": [
+          "tests.test_setup_sdk"
+        ],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-005",
+        "milestone_id": "setup-sdk-driven-keys",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-point-constraint-managed-live-083b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_constraint_primitives_complete_managed_live_pass",
+          "proven_main_commit": "f0d9e61cc7a30e1bf8a3c651c760f93d1bbefd23"
+        },
+        "implementation_commits": [
+          "78195f86816617f01eb6e4077d0a36933fe8b1c1",
+          "182b9f5c3640e1120f046fdedd41c76c2f563c7f",
+          "94ea6fb2cb2f7c96b1a03f573ade0205b26214fd"
+        ],
+        "purpose": "Verify the first Setup SDK/driven-key primitive slice: explicit serialized key maps, reusable SDK offset groups for transform channels, deterministic setDrivenKeyframe calls and linear tangents, extracted from legacy Drivenkey behavior without legacy UI/global state.",
+        "acceptance": [
+          "Fast-forward main including all three SDK implementation/test/smoke commits.",
+          "Compile sdk.py, sdk_smoke.py and tests/test_setup_sdk.py.",
+          "Import aimayatool.tools.setup.sdk under normal Python without Maya installed.",
+          "All tests in tests.test_setup_sdk pass.",
+          "No eager maya.cmds import is introduced in sdk.py.",
+          "Do not invoke Codex."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal005-setup-sdk-primitives-managed-live-084b",
       "status": "pending",
       "architect_ack": false,
       "project": {
@@ -66,31 +141,24 @@
         "isolated_scene": true,
         "save_scene": false,
         "maya_version": "2024",
-        "module": "aimayatool.tools.setup.constraint_smoke",
-        "callable": "run_setup_constraint_primitives_smoke",
+        "module": "aimayatool.tools.setup.sdk_smoke",
+        "callable": "run_setup_sdk_smoke",
         "expected_window": "",
         "startup_timeout": 180,
         "operation_timeout": 300
       },
       "metadata": {
         "goal_id": "aimayatool-005",
-        "milestone_id": "setup-constraints-spaces",
+        "milestone_id": "setup-sdk-driven-keys",
         "depends_on": [
-          "aimayatool-goal005-setup-point-constraint-verify-083a"
+          "aimayatool-goal005-setup-sdk-primitives-verify-084a"
         ],
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal005-setup-point-constraint-verify-083a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "setup_point_constraint_python_verification_pass",
-          "proven_main_commit": "84474023d49a9b41e4778070efc1082c097aef45"
-        },
-        "purpose": "Validate all four accepted Setup constraint primitives in real Maya after adding pointConstraint parity.",
+        "purpose": "Validate the first Setup SDK/driven-key primitive slice in real Maya, including SDK-group creation/reuse, animCurve creation and evaluated driven output.",
         "acceptance": [
+          "Run only after 084a passes.",
           "Reuse a healthy managed Maya 2024 session when available.",
           "Force a fresh unsaved scene and do not save.",
-          "Require result SETUP_CONSTRAINT_PRIMITIVES_SMOKE_OK:4 for PASS.",
+          "Require result SETUP_SDK_SMOKE_OK:1 for PASS.",
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
