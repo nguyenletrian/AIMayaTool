@@ -199,6 +199,37 @@ def _snap_ikfk_selected():
     return ikfk.snap_ikfk(nodes[0::2], nodes[1::2], switch_attr, switch_value)
 
 
+def _wire_ikfk_switch_selected():
+    from . import ikfk
+    cmds = _cmds()
+    nodes = cmds.ls(selection=True, long=True, type="transform") or []
+    if len(nodes) < 2:
+        raise ValueError("Select FK visibility nodes first, then IK visibility nodes, then optional proxy controls.")
+    if cmds.promptDialog(title="Wire IK/FK Switch", message="Switch attribute (node.attr):", button=["Next", "Cancel"], defaultButton="Next", cancelButton="Cancel", dismissString="Cancel") != "Next":
+        return None
+    switch_attr = cmds.promptDialog(query=True, text=True).strip()
+    if not switch_attr:
+        raise ValueError("Switch attribute is required.")
+    if cmds.promptDialog(title="Wire IK/FK Switch", message="FK node count:", text="1", button=["Next", "Cancel"], defaultButton="Next", cancelButton="Cancel", dismissString="Cancel") != "Next":
+        return None
+    try:
+        fk_count = int(cmds.promptDialog(query=True, text=True).strip())
+    except ValueError:
+        raise ValueError("FK node count must be an integer.")
+    if cmds.promptDialog(title="Wire IK/FK Switch", message="IK node count:", text="1", button=["Wire", "Cancel"], defaultButton="Wire", cancelButton="Cancel", dismissString="Cancel") != "Wire":
+        return None
+    try:
+        ik_count = int(cmds.promptDialog(query=True, text=True).strip())
+    except ValueError:
+        raise ValueError("IK node count must be an integer.")
+    if fk_count < 1 or ik_count < 1 or fk_count + ik_count > len(nodes):
+        raise ValueError("FK/IK counts must be positive and fit within the current selection.")
+    fk_nodes = nodes[:fk_count]
+    ik_nodes = nodes[fk_count:fk_count + ik_count]
+    proxy_nodes = nodes[fk_count + ik_count:]
+    return ikfk.wire_ikfk_switch(switch_attr, fk_nodes, ik_nodes, proxy_nodes=proxy_nodes)
+
+
 def build_ui():
     cmds = _cmds()
 
@@ -245,10 +276,11 @@ def build_ui():
 
     cmds.separator(height=8, style="none")
     cmds.text(label="IK/FK", align="left")
-    cmds.text(label="RP IK: joints in chain order, then IK control, then pole control. Snap: alternating source/target pairs.", align="left")
-    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2)
+    cmds.text(label="RP IK: joints then IK/pole controls. Snap: alternating source/target. Switch: FK nodes, IK nodes, optional proxies.", align="left")
+    cmds.rowLayout(numberOfColumns=3, adjustableColumn=3)
     cmds.button(label="Create RP IK", command=lambda *_: _run("RP IK", _rp_ik_selected))
     cmds.button(label="Snap IK/FK...", command=lambda *_: _run("IK/FK snap", _snap_ikfk_selected))
+    cmds.button(label="Wire IK/FK Switch...", command=lambda *_: _run("IK/FK switch", _wire_ikfk_switch_selected))
     cmds.setParent("..")
 
     cmds.separator(height=8, style="none")
