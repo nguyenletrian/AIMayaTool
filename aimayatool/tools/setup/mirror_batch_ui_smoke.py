@@ -8,26 +8,19 @@ def run_setup_mirror_batch_ui_smoke():
     window = cmds.window()
     column = cmds.columnLayout(parent=window)
     cmds.setParent(column)
+    before_buttons = set(cmds.lsUI(type="button", long=True) or [])
     naming_ui.build_ui()
-    descendants = cmds.layout(column, query=True, childArray=True) or []
+    after_buttons = set(cmds.lsUI(type="button", long=True) or [])
     labels = []
-    stack = list(descendants)
-    while stack:
-        control = stack.pop()
+    for button in sorted(after_buttons.difference(before_buttons)):
         try:
-            if cmds.objectTypeUI(control) == "button":
-                labels.append(cmds.button(control, query=True, label=True))
-                continue
-        except Exception:
-            pass
-        try:
-            stack.extend(cmds.layout(control, query=True, childArray=True) or [])
+            labels.append(cmds.button(button, query=True, label=True))
         except Exception:
             pass
     required = {"Mirror X", "Mirror Y", "Mirror Z"}
     missing = sorted(required.difference(labels))
     if missing:
-        raise AssertionError("Missing mirror batch UI buttons: {0}".format(missing))
+        raise AssertionError("Missing mirror batch UI buttons: {0}; discovered: {1}".format(missing, sorted(labels)))
 
     left = cmds.createNode("transform", name="arm_L_ctrl")
     right = cmds.createNode("transform", name="arm_R_ctrl")
