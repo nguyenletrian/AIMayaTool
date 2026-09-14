@@ -11,6 +11,50 @@ def _require_node(cmds, node, label):
         raise ValueError("{0} does not exist: {1}".format(label, node))
 
 
+def _long_name(cmds, node):
+    names = cmds.ls(node, long=True) or []
+    return names[0] if names else node
+
+
+def _require_distinct(cmds, named_nodes):
+    owners = {}
+    overlaps = []
+    for label, node in named_nodes:
+        canonical = _long_name(cmds, node)
+        previous = owners.get(canonical)
+        if previous is not None and previous != label:
+            overlaps.append("{0} ({1}/{2})".format(node, previous, label))
+        else:
+            owners[canonical] = label
+    if overlaps:
+        raise ValueError("Spline composition roles must be distinct: {0}".format(", ".join(overlaps)))
+
+
+def _require_unique(cmds, nodes, label):
+    canonical = [_long_name(cmds, node) for node in nodes]
+    if len(set(canonical)) != len(canonical):
+        raise ValueError("{0} must be unique.".format(label))
+
+
+def _validate_existing_attribute(cmds, node, attr_name, expected_type):
+    if not attr_name or not str(attr_name).strip():
+        raise ValueError("Spline attribute name is required.")
+    if not cmds.attributeQuery(attr_name, node=node, exists=True):
+        return
+    actual_type = cmds.getAttr(node + "." + attr_name, type=True)
+    if actual_type != expected_type:
+        raise ValueError("Existing attribute {0}.{1} must be type {2}, got {3}.".format(node, attr_name, expected_type, actual_type))
+
+
+def _validate_driven_constraint(cmds, constraint):
+    if cmds.nodeType(constraint) != "parentConstraint":
+        raise ValueError("Spline driven constraint must be a parentConstraint: {0}".format(constraint))
+    aliases = cmds.parentConstraint(constraint, query=True, weightAliasList=True) or []
+    if len(aliases) != 1:
+        raise ValueError("Spline follow constraint must have exactly one target: {0}".format(constraint))
+    return aliases[0]
+
+
 def _disconnect_rotation_inputs(cmds, node):
     for attr in ("rx", "ry", "rz"):
         dst = node + "." + attr
@@ -39,6 +83,17 @@ def compose_spline_global(control_group, local_parent, global_parent, orientatio
     for node in driven_constraints:
         _require_node(cmds, node, "Spline driven constraint")
 
+    _require_distinct(cmds, (("control_group", control_group), ("local_parent", local_parent), ("global_parent", global_parent)))
+    _require_unique(cmds, proxy_controls, "Spline proxy controls")
+    _require_unique(cmds, driven_constraints, "Spline driven constraints")
+    if visibility_group and _long_name(cmds, visibility_group) == _long_name(cmds, control_group):
+        raise ValueError("Spline visibility group must differ from control group.")
+    _validate_existing_attribute(cmds, orientation_control, global_attr, "double")
+    needs_visibility = bool(visibility_group or driven_constraints or proxy_controls)
+    if needs_visibility:
+        _validate_existing_attribute(cmds, visibility_control, visibility_attr, "bool")
+    driven_aliases = {constraint: _validate_driven_constraint(cmds, constraint) for constraint in driven_constraints}
+
     if not cmds.attributeQuery(global_attr, node=orientation_control, exists=True):
         cmds.addAttr(orientation_control, longName=global_attr, attributeType="double", minValue=0, maxValue=1, defaultValue=0, keyable=True)
     global_plug = orientation_control + "." + global_attr
@@ -56,17 +111,14 @@ def compose_spline_global(control_group, local_parent, global_parent, orientatio
     cmds.connectAttr(global_plug, blend + ".blender", force=True)
 
     visibility_plug = None
-    if visibility_group or driven_constraints or proxy_controls:
+    if needs_visibility:
         if not cmds.attributeQuery(visibility_attr, node=visibility_control, exists=True):
             cmds.addAttr(visibility_control, longName=visibility_attr, attributeType="bool", defaultValue=1, keyable=True)
         visibility_plug = visibility_control + "." + visibility_attr
         if visibility_group:
             cmds.connectAttr(visibility_plug, visibility_group + ".visibility", force=True)
         for constraint in driven_constraints:
-            aliases = cmds.parentConstraint(constraint, query=True, weightAliasList=True) or []
-            if len(aliases) != 1:
-                raise ValueError("Spline follow constraint must have exactly one target: {0}".format(constraint))
-            cmds.connectAttr(visibility_plug, constraint + "." + aliases[0], force=True)
+            cmds.connectAttr(visibility_plug, constraint + "." + driven_aliases[constraint], force=True)
         for control in proxy_controls:
             if control == visibility_control:
                 continue
