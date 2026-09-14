@@ -146,8 +146,8 @@
     {
       "task_id": "aimayatool-goal006-setup-mirror-batch-ui-smoke-reload-verify-135i",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -198,7 +198,11 @@
           "Do not import the Maya-only smoke outside Maya.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_mirror_batch_ui_smoke_reload_python_verification_pass",
+        "proven_main_commit": "3d2dc4622e0a16e02f64256c911582501c843004",
+        "evidence": "Bridge fast-forwarded local main from 7887fb6b9a2def22ba048be2a93c7d5c11b3b7bc to 3d2dc4622e0a16e02f64256c911582501c843004; py_compile passed for aimayatool/tools/setup/mirror_batch_ui_smoke.py after adding explicit reload of naming_ui for reused managed Maya sessions."
       }
     },
     {
