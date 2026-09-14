@@ -41,3 +41,24 @@ def run_setup_transform_hierarchy_smoke():
         if max(abs(source_t[i] - joint_t[i]) for i in range(3)) > 1e-4: raise RuntimeError("Hierarchy joint translation mismatch: {0}".format(joint))
         if max(abs(source_r[i] - joint_r[i]) for i in range(3)) > 1e-3: raise RuntimeError("Hierarchy joint rotation mismatch: {0}".format(joint))
     return "SETUP_TRANSFORM_HIERARCHY_SMOKE_OK:3"
+
+
+def run_setup_offset_group_smoke():
+    transforms = _transforms(); cmds.file(new=True, force=True)
+    parent = cmds.createNode("transform", name="offsetParent")
+    ctrl = cmds.createNode("transform", name="offsetCtrl", parent=parent)
+    cmds.xform(parent, worldSpace=True, translation=(3, 4, 5), rotation=(10, 20, 30))
+    cmds.xform(ctrl, worldSpace=True, translation=(8, 2, -1), rotation=(25, -15, 40))
+    before_t = cmds.xform(ctrl, query=True, worldSpace=True, translation=True); before_r = cmds.xform(ctrl, query=True, worldSpace=True, rotation=True)
+    inserted = transforms.insert_offset_group(ctrl)
+    group = inserted["group"]; ctrl_after = inserted["node"]
+    if (cmds.listRelatives(group, parent=True, fullPath=False) or []) != [parent]: raise RuntimeError("Offset group parent mismatch.")
+    if (cmds.listRelatives(ctrl_after, parent=True, fullPath=False) or []) != [group.rsplit("|", 1)[-1]]: raise RuntimeError("Offset child parent mismatch.")
+    after_t = cmds.xform(ctrl_after, query=True, worldSpace=True, translation=True); after_r = cmds.xform(ctrl_after, query=True, worldSpace=True, rotation=True)
+    if max(abs(before_t[i] - after_t[i]) for i in range(3)) > 1e-4 or max(abs(before_r[i] - after_r[i]) for i in range(3)) > 1e-3: raise RuntimeError("Offset insertion changed world pose.")
+    removed = transforms.remove_offset_group(group); restored = removed["children"][0]
+    if (cmds.listRelatives(restored, parent=True, fullPath=False) or []) != [parent]: raise RuntimeError("Offset restore parent mismatch.")
+    final_t = cmds.xform(restored, query=True, worldSpace=True, translation=True); final_r = cmds.xform(restored, query=True, worldSpace=True, rotation=True)
+    if max(abs(before_t[i] - final_t[i]) for i in range(3)) > 1e-4 or max(abs(before_r[i] - final_r[i]) for i in range(3)) > 1e-3: raise RuntimeError("Offset removal changed world pose.")
+    if cmds.objExists(group): raise RuntimeError("Offset group still exists after removal.")
+    return "SETUP_OFFSET_GROUP_SMOKE_OK:1"
