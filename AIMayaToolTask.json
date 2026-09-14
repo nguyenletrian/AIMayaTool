@@ -72,6 +72,7 @@
       "task_id": "aimayatool-goal005-setup-control-shape-catalog-verify-076a",
       "status": "pending",
       "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -139,13 +140,13 @@
         "classification": "setup_control_shape_catalog_python_verification_pass",
         "proven_main_commit": "4591ca865927ebe33d620247fb7fe681581c7d6d",
         "evidence": "Bridge fast-forwarded D:/AIMayaTool to 4591ca865927ebe33d620247fb7fe681581c7d6d; controls.py and tests/test_setup_control_shapes.py compiled; aimayatool.tools.setup.controls imported under normal Python; all 4 focused control-shape catalog tests passed."
-      },
-      "bridge_completed": true
+      }
     },
     {
       "task_id": "aimayatool-goal005-setup-control-shape-smoke-compile-076b",
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -202,7 +203,11 @@
           "Do not launch or mutate Maya in this verification task.",
           "Do not invoke Codex."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "setup_control_shape_smoke_compile_pass",
+        "proven_main_commit": "8d17371e9b007776673562ffffbbf92331f4f2cc",
+        "evidence": "Bridge fast-forwarded D:/AIMayaTool to 8d17371e9b007776673562ffffbbf92331f4f2cc and py_compile passed for aimayatool/tools/setup/smoke.py."
       }
     },
     {
@@ -251,9 +256,13 @@
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-controls-transforms",
-        "depends_on": [
-          "aimayatool-goal005-setup-control-shape-smoke-compile-076b"
-        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal005-setup-control-shape-smoke-compile-076b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "classification": "setup_control_shape_smoke_compile_pass"
+        },
         "purpose": "Create cube, sphere, diamond, locator and eye controls in managed Maya and verify each produces a usable nurbsCurve before accepting this control-shape catalog slice.",
         "acceptance": [
           "Reuse a healthy managed Maya 2024 session when available.",
