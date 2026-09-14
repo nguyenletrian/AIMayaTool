@@ -84,30 +84,15 @@
     {
       "task_id": "aimayatool-goal005-setup-fold-rig-managed-live-091b",
       "status": "pending",
-      "architect_ack": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.setup.secondary_smoke",
-        "callable": "run_setup_fold_rig_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
+      "architect_ack": true,
+      "bridge_completed": true,
       "metadata": {
         "goal_id": "aimayatool-005",
         "milestone_id": "setup-secondary",
-        "depends_on": ["aimayatool-goal005-setup-fold-rig-verify-091a"],
+        "result": "PASS",
+        "classification": "setup_fold_rig_managed_live_pass",
+        "proven_main_commit": "dfccd8076c76c2708ba0562a83e4822d63071d4b",
+        "evidence": "Managed Maya 2024 reused PID 15000, forced a fresh unsaved scene, returned AIBRIDGE_UI_SMOKE_OK:SETUP_FOLD_RIG_SMOKE_OK:3, scene_saved=false and maya_quit=false.",
         "archived_prerequisite": {
           "task_id": "aimayatool-goal005-setup-fold-rig-verify-091a",
           "result": "PASS",
@@ -115,16 +100,7 @@
           "bridge_completed": true,
           "classification": "setup_fold_rig_python_verification_pass",
           "proven_main_commit": "098dcead8d29ea6f9a27472dcf89701690c0a74d"
-        },
-        "purpose": "Validate FoldRig driven-key choreography in real Maya at integer driver states 0, 1 and 2.",
-        "acceptance": [
-          "Reuse healthy managed Maya 2024 when available.",
-          "Force a fresh unsaved scene and do not save.",
-          "Require result SETUP_FOLD_RIG_SMOKE_OK:3 for PASS.",
-          "Return scene_saved=false and maya_quit=false on normal success.",
-          "Do not invoke Codex."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        }
       }
     }
   ]
