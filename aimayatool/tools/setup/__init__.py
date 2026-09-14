@@ -392,3 +392,7 @@ def build_ui():
     cmds.button(label="Rope Straight...", command=lambda *_: _run("Rope straight", lambda: _rope_selected(False)))
     cmds.button(label="Rope Roll...", command=lambda *_: _run("Rope roll", lambda: _rope_selected(True)))
     cmds.setParent("..")
+
+    cmds.separator(height=8, style="none")
+    from . import naming_ui
+    naming_ui.build_ui()
