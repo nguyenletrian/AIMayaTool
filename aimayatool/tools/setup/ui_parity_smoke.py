@@ -11,6 +11,7 @@ _EXPECTED_BUTTONS = (
     "Parent Constraint", "Point Constraint", "Orient Constraint", "Aim Constraint",
     "Create Space Switch", "Copy Attribute...", "Create RP IK", "Create IK/FK Blend...", "Snap IK/FK...", "Wire IK/FK Switch...",
     "Spline IK Chain", "Object on Curve", "Joints Between...", "Fold Rig...", "Rope Straight...", "Rope Roll...",
+    "Clean Joint Names", "Restore Joint Names", "Save Name Temp", "Restore Name Temp", "Move to Namespace...", "Remove Namespace...",
 )
 
 
