@@ -1,11 +1,7 @@
 {
   "version": 1,
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
-  "force_restart": {
-    "enabled": false,
-    "request_id": "aimayatool-setup-migration-119",
-    "reason": "healthy_managed_maya_session_reusable"
-  },
+  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
     {
       "task_id": "aimayatool-goal007-scene-pattern-script-hook-inventory-156b",
@@ -20,18 +16,6 @@
       "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "PASS", "classification": "scene_script_hook_inventory_python_verification_pass", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-public-api-assessment-157c",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py", "aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io", "aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": {"task_id": "aimayatool-goal007-scene-pattern-exact-parity-inventory-157b", "result": "PASS", "architect_ack": true, "bridge_completed": true}, "result": "PASS", "classification": "scene_pattern_public_api_assessment_python_pass", "proven_main_commit": "f656bc850f61df104867e6b7975c665e136ae154", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
       "task_id": "aimayatool-goal007-scene-pattern-deterministic-regression-import-retry-157f",
       "status": "pending",
       "architect_ack": true,
@@ -41,32 +25,50 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/patterns_smoke.py", "aimayatool/tools/scene/operations_smoke.py"], "imports": ["aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.scene.patterns_smoke", "aimayatool.tools.scene.operations_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": {"task_id": "aimayatool-goal007-scene-pattern-deterministic-regression-retry-157e", "result": "FAIL", "architect_ack": true, "bridge_completed": true, "classification": "architect_task_definition_invalid_unittest_target"}, "retry_of_archived": "aimayatool-goal007-scene-pattern-deterministic-regression-retry-157e", "result": "PASS", "classification": "scene_pattern_deterministic_regression_python_pass", "proven_main_commit": "3d2bcb93d0938ce0f27d86ca9603072c2a424e7d", "evidence": "Bridge compiled patterns.py, operations.py, patterns_smoke.py and operations_smoke.py successfully, then imported patterns, operations and both smoke modules with exit code 0.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "PASS", "classification": "scene_pattern_deterministic_regression_python_pass", "proven_main_commit": "3d2bcb93d0938ce0f27d86ca9603072c2a424e7d", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-maya-smoke-boundary-158a",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/aim_constraint_smoke.py", "aimayatool/tools/scene/animation_backup.py", "aimayatool/tools/scene/animation_backup_smoke.py", "aimayatool/tools/scene/bs_sequence.py", "aimayatool/tools/scene/bs_sequence_smoke.py"], "imports": ["aimayatool.tools.scene.aim_constraint", "aimayatool.tools.scene.aim_constraint_smoke", "aimayatool.tools.scene.animation_backup", "aimayatool.tools.scene.animation_backup_smoke", "aimayatool.tools.scene.bs_sequence", "aimayatool.tools.scene.bs_sequence_smoke"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-deterministic-regression-import-retry-157f"], "result": "PASS", "classification": "scene_pattern_concrete_host_boundary_python_pass", "proven_main_commit": "a26299f47825725fbc5a7af08a8ffd25b8e42297", "evidence": "Bridge compiled and imported Aim Constraint, Animation Backup and BS Sequence implementation/smoke modules successfully outside Maya. Smoke entry points remained unexecuted during import.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-concrete-managed-live-158b",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya_live", "target": "managed"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
         "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/aim_constraint_smoke.py", "aimayatool/tools/scene/animation_backup.py", "aimayatool/tools/scene/animation_backup_smoke.py", "aimayatool/tools/scene/bs_sequence.py", "aimayatool/tools/scene/bs_sequence_smoke.py"],
-        "imports": ["aimayatool.tools.scene.aim_constraint", "aimayatool.tools.scene.aim_constraint_smoke", "aimayatool.tools.scene.animation_backup", "aimayatool.tools.scene.animation_backup_smoke", "aimayatool.tools.scene.bs_sequence", "aimayatool.tools.scene.bs_sequence_smoke"],
-        "tests": [],
-        "timeout": 180
+        "module": "aimayatool.tools.scene.aim_constraint_smoke",
+        "callable": "run_scene_aim_constraint_smoke",
+        "additional_smokes": [
+          {"module": "aimayatool.tools.scene.animation_backup_smoke", "callable": "run_scene_animation_backup_smoke", "expected_marker": "AIBRIDGE_UI_SMOKE_OK:SCENE_ANIMATION_BACKUP_OK:1"},
+          {"module": "aimayatool.tools.scene.bs_sequence_smoke", "callable": "run_scene_bs_sequence_smoke", "expected_marker": "AIBRIDGE_UI_SMOKE_OK:SCENE_BS_SEQUENCE_OK:2"}
+        ],
+        "expected_marker": "AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1",
+        "fresh_scene": true,
+        "save_scene": false,
+        "quit_maya": false,
+        "timeout": 300
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-deterministic-regression-import-retry-157f"],
-        "purpose": "Verify the concrete host-specific ScenePattern workflow modules and their Maya smoke entry points are syntactically/import clean before dispatching scene-mutating Maya validation.",
-        "acceptance": ["Fast-forward main.", "Compile all six explicit concrete workflow/smoke files.", "Import all six modules successfully outside Maya; smoke functions must not execute during import.", "Do not execute Maya scene mutation in this task.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex."],
-        "source_evidence": "Repository evidence confirms concrete migrated ScenePattern modules and paired smoke files for Aim Constraint, Animation Backup and BS Sequence. aim_constraint_smoke.py defers maya.cmds import and all scene mutation inside run_scene_aim_constraint_smoke(), so normal-Python import is a safe preflight before host validation.",
-        "next_if_pass": "Dispatch bounded Maya-host smoke validation for the proven concrete ScenePattern workflows using the cheapest supported Maya route, with a fresh unsaved scene and crash-recovery contract.",
+        "depends_on": ["aimayatool-goal007-scene-pattern-maya-smoke-boundary-158a"],
+        "purpose": "Run bounded Maya-host validation for the three concrete ScenePattern workflows whose Python boundary is proven: Aim Constraint, Animation Backup and BS Sequence.",
+        "acceptance": ["Fast-forward main before validation.", "Use Maya 2024 managed runtime and a fresh unsaved scene.", "Run Aim Constraint smoke and obtain AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1.", "Run Animation Backup smoke and obtain AIBRIDGE_UI_SMOKE_OK:SCENE_ANIMATION_BACKUP_OK:1.", "Run BS Sequence smoke and obtain AIBRIDGE_UI_SMOKE_OK:SCENE_BS_SEQUENCE_OK:2.", "Do not save the smoke scene and do not quit a healthy reusable Maya session.", "If the Maya runtime is lost/crashed without a product exception, apply the GUIDE.md fresh-managed-session retry contract before classifying product failure.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex."],
+        "source_evidence": "The three smoke functions create fresh bounded test scenes and assert concrete host behavior. Aim Constraint validates offset group, aimConstraint target/world-up and missing-child handling; Animation Backup validates keyed JSON export/import round-trip with tempfile cleanup; BS Sequence validates generated meshes, blendShape, attributes/connections/driven keys and current-frame restoration.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
