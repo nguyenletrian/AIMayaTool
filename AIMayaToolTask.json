@@ -1,7 +1,11 @@
 {
   "version": 1,
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
-  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
+  "force_restart": {
+    "enabled": false,
+    "request_id": "aimayatool-setup-migration-119",
+    "reason": "healthy_managed_maya_session_reusable"
+  },
   "tasks": [
     {
       "task_id": "aimayatool-goal007-scene-pattern-script-hook-inventory-156b",
@@ -30,14 +34,14 @@
     {
       "task_id": "aimayatool-goal007-scene-pattern-exact-parity-inventory-157b",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-catalog-parity-157a"], "purpose": "Hold a safe repository checkpoint while Architect compares the exact legacy UIs/ScenePattern module inventory against current aimayatool/tools/scene modules and classifies each legacy workflow as migrated, replaced/improved, duplicate/internal-only, intentionally retired, or still missing.", "acceptance": ["Fast-forward main.", "Compile/import the explicit Scene catalog boundary successfully.", "Do not execute Maya-mutating ScenePattern actions during this inventory checkpoint.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex."], "source_evidence": "Legacy UIs/ScenePattern directory contains concrete modules including AimConstraint, AnimationBackup, BSSequenceFromObjKeys, ClearOffset, ControlShape, ControlShapeAS, CreateAttribute, CreateCurve, CreateIK, CreateOffset, CreateRef and additional entries. Current AIMayaTool Scene package already contains corresponding focused modules for many workflows; exact one-to-one classification is required before further implementation.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-catalog-parity-157a"], "purpose": "Hold a safe repository checkpoint while Architect compares the exact legacy UIs/ScenePattern module inventory against current aimayatool/tools/scene modules and classifies each legacy workflow as migrated, replaced/improved, duplicate/internal-only, intentionally retired, or still missing.", "acceptance": ["Fast-forward main.", "Compile/import the explicit Scene catalog boundary successfully.", "Do not execute Maya-mutating ScenePattern actions during this inventory checkpoint.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex."], "source_evidence": "Legacy UIs/ScenePattern directory contains concrete modules including AimConstraint, AnimationBackup, BSSequenceFromObjKeys, ClearOffset, ControlShape, ControlShapeAS, CreateAttribute, CreateCurve, CreateIK, CreateOffset, CreateRef and additional entries. Current AIMayaTool Scene package already contains corresponding focused modules for many workflows; exact one-to-one classification is required before further implementation.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_pattern_exact_parity_inventory_checkpoint_pass", "proven_main_commit": "5a796380eac5e49426ec21575ddaf88e1ee675df", "evidence": "Bridge fast-forwarded main to 5a796380eac5e49426ec21575ddaf88e1ee675df; py_compile passed for scene/__init__.py, catalog.py and catalog_io.py; imports passed for aimayatool.tools.scene, catalog and catalog_io. No Maya-mutating or arbitrary stored script action was executed."}
     }
   ]
 }
