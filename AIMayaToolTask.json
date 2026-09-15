@@ -1,17 +1,131 @@
 {
   "version": 1,
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
-  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
+  "force_restart": {
+    "enabled": false,
+    "request_id": "aimayatool-setup-migration-119",
+    "reason": "healthy_managed_maya_session_reusable"
+  },
   "tasks": [
-    {"task_id":"aimayatool-goal007-scene-pattern-control-shape-legacy-io-managed-live-152b","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"maya","target":"managed_live_smoke"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"isolated_scene":true,"save_scene":false,"maya_version":"2024","module":"aimayatool.tools.scene.control_shape_legacy_io_smoke","callable":"run_scene_control_shape_legacy_io_smoke","live_port":7001},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":[],"result":"PASS","classification":"scene_control_shape_legacy_io_maya_live_parity_pass","proven_main_commit":"d978fa72b337a5189666f789091150da66724d0a"}},
-    {"task_id":"aimayatool-goal007-scene-pattern-delete-attribute-verify-153a","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/scene/delete_attribute.py","aimayatool/tools/scene/delete_attribute_smoke.py"],"imports":["aimayatool.tools.scene.delete_attribute"],"tests":[],"timeout":180},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":[],"result":"PASS","classification":"scene_delete_attribute_python_verification_pass","proven_main_commit":"b0f7b420290c81b6d03e513f1a4129c9d36faf23"}},
-    {"task_id":"aimayatool-goal007-scene-pattern-delete-attribute-managed-live-153b","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"maya","target":"managed_live_smoke"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"isolated_scene":true,"save_scene":false,"maya_version":"2024","module":"aimayatool.tools.scene.delete_attribute_smoke","callable":"run_scene_delete_attribute_smoke","live_port":7001},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-scene-pattern-delete-attribute-verify-153a"],"result":"PASS","classification":"scene_delete_attribute_maya_live_parity_pass","proven_main_commit":"6c8611c2762d742b3d9a3f712c4439ad79cc0982"}},
-    {"task_id":"aimayatool-goal007-scene-pattern-default-value-verify-154a","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/scene/default_value.py","aimayatool/tools/scene/default_value_smoke.py"],"imports":["aimayatool.tools.scene.default_value"],"tests":[],"timeout":180},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-scene-pattern-delete-attribute-managed-live-153b"],"result":"PASS","classification":"scene_default_value_python_verification_pass","proven_main_commit":"a4198d77f94a63fbf6023f18b46c3d2b17b7e398"}},
-    {"task_id":"aimayatool-goal007-scene-pattern-default-value-managed-live-154b","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"maya","target":"managed_live_smoke"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"isolated_scene":true,"save_scene":false,"maya_version":"2024","module":"aimayatool.tools.scene.default_value_smoke","callable":"run_scene_default_value_smoke","live_port":7001},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-scene-pattern-default-value-verify-154a"],"result":"PASS","classification":"scene_default_value_maya_live_parity_pass","proven_main_commit":"cddff4472f512ab546f40791dd12e18f4ce8ca1e"}},
-    {"task_id":"aimayatool-goal007-scene-pattern-remaining-audit-155a","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":false,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/scene"],"imports":[],"tests":[],"timeout":180},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-scene-pattern-default-value-managed-live-154b"],"result":"FAIL","classification":"scene_remaining_audit_precondition_permission_mismatch"}},
-    {"task_id":"aimayatool-goal007-scene-pattern-remaining-audit-retry-155b","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/scene"],"imports":[],"tests":[],"timeout":180},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":[],"retry_of":"aimayatool-goal007-scene-pattern-remaining-audit-155a","result":"FAIL","classification":"scene_remaining_audit_invalid_python_verification_directory_target","proven_main_commit":"a64b6bd3474319431ddd8b81b89640412688c60e"}},
-    {"task_id":"aimayatool-goal007-scene-pattern-remaining-audit-retry-155c","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/scene/__init__.py"],"imports":["aimayatool.tools.scene"],"tests":[],"timeout":180},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":[],"retry_of":"aimayatool-goal007-scene-pattern-remaining-audit-retry-155b","result":"PASS","classification":"scene_remaining_audit_python_checkpoint_pass","proven_main_commit":"5a32cfa5661117b59a14715f29da362a907e59d2"}},
-    {"task_id":"aimayatool-goal007-scene-pattern-script-hook-assessment-156a","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/scene/__init__.py"],"imports":["aimayatool.tools.scene"],"tests":[],"timeout":180},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-scene-pattern-remaining-audit-retry-155c"],"result":"PASS","classification":"scene_script_hook_assessment_checkpoint_pass","proven_main_commit":"2f0e37b67e3cf51a62dac1d46ce89e3b229992ed","evidence":"git_pull fast-forwarded main to 2f0e37b67e3cf51a62dac1d46ce89e3b229992ed; py_compile scene/__init__.py and import aimayatool.tools.scene passed; no legacy hook was executed."}},
-    {"task_id":"aimayatool-goal007-scene-pattern-script-hook-inventory-156b","status":"pending","architect_ack":false,"bridge_completed":false,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/scene/__init__.py"],"imports":["aimayatool.tools.scene"],"tests":[],"timeout":180},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-scene-pattern-script-hook-assessment-156a"],"purpose":"Keep a safe dependency-ready checkpoint while Architect completes exact legacy ScenePattern inventory and classifies script-hook behavior as migrate, replace/improve, or intentionally retire.","acceptance":["Fast-forward main.","Compile/import Scene package successfully.","Do not execute arbitrary legacy script paths.","Do not invoke Codex."],"source_evidence":"Exact repository inventory confirms ScenePattern modules must be discovered from main rather than guessed. CurrentAfterScript directly resolves a stored path and invokes NLTA_General.RunScriptFile, so execution remains intentionally blocked pending explicit classification.","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}}
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-legacy-io-managed-live-152b",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.control_shape_legacy_io_smoke", "callable": "run_scene_control_shape_legacy_io_smoke", "live_port": 7001},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "PASS", "classification": "scene_control_shape_legacy_io_maya_live_parity_pass", "proven_main_commit": "d978fa72b337a5189666f789091150da66724d0a"}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-delete-attribute-verify-153a",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/delete_attribute.py", "aimayatool/tools/scene/delete_attribute_smoke.py"], "imports": ["aimayatool.tools.scene.delete_attribute"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "PASS", "classification": "scene_delete_attribute_python_verification_pass", "proven_main_commit": "b0f7b420290c81b6d03e513f1a4129c9d36faf23"}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-delete-attribute-managed-live-153b",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.delete_attribute_smoke", "callable": "run_scene_delete_attribute_smoke", "live_port": 7001},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-delete-attribute-verify-153a"], "result": "PASS", "classification": "scene_delete_attribute_maya_live_parity_pass", "proven_main_commit": "6c8611c2762d742b3d9a3f712c4439ad79cc0982"}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-default-value-verify-154a",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/default_value.py", "aimayatool/tools/scene/default_value_smoke.py"], "imports": ["aimayatool.tools.scene.default_value"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-delete-attribute-managed-live-153b"], "result": "PASS", "classification": "scene_default_value_python_verification_pass", "proven_main_commit": "a4198d77f94a63fbf6023f18b46c3d2b17b7e398"}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-default-value-managed-live-154b",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.default_value_smoke", "callable": "run_scene_default_value_smoke", "live_port": 7001},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-default-value-verify-154a"], "result": "PASS", "classification": "scene_default_value_maya_live_parity_pass", "proven_main_commit": "cddff4472f512ab546f40791dd12e18f4ce8ca1e"}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-remaining-audit-155a",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene"], "imports": [], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-default-value-managed-live-154b"], "result": "FAIL", "classification": "scene_remaining_audit_precondition_permission_mismatch"}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-remaining-audit-retry-155b",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene"], "imports": [], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "retry_of": "aimayatool-goal007-scene-pattern-remaining-audit-155a", "result": "FAIL", "classification": "scene_remaining_audit_invalid_python_verification_directory_target", "proven_main_commit": "a64b6bd3474319431ddd8b81b89640412688c60e"}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-remaining-audit-retry-155c",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py"], "imports": ["aimayatool.tools.scene"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "retry_of": "aimayatool-goal007-scene-pattern-remaining-audit-retry-155b", "result": "PASS", "classification": "scene_remaining_audit_python_checkpoint_pass", "proven_main_commit": "5a32cfa5661117b59a14715f29da362a907e59d2"}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-script-hook-assessment-156a",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py"], "imports": ["aimayatool.tools.scene"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-remaining-audit-retry-155c"], "result": "PASS", "classification": "scene_script_hook_assessment_checkpoint_pass", "proven_main_commit": "2f0e37b67e3cf51a62dac1d46ce89e3b229992ed", "evidence": "git_pull fast-forwarded main to 2f0e37b67e3cf51a62dac1d46ce89e3b229992ed; py_compile scene/__init__.py and import aimayatool.tools.scene passed; no legacy hook was executed."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-script-hook-inventory-156b",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py"], "imports": ["aimayatool.tools.scene"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-script-hook-assessment-156a"], "purpose": "Keep a safe dependency-ready checkpoint while Architect completes exact legacy ScenePattern inventory and classifies script-hook behavior as migrate, replace/improve, or intentionally retire.", "acceptance": ["Fast-forward main.", "Compile/import Scene package successfully.", "Do not execute arbitrary legacy script paths.", "Do not invoke Codex."], "source_evidence": "Exact repository inventory confirms ScenePattern modules must be discovered from main rather than guessed. CurrentAfterScript directly resolves a stored path and invokes NLTA_General.RunScriptFile, so execution remains intentionally blocked pending explicit classification.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_script_hook_inventory_python_verification_pass", "architect_diagnosis": "Python checkpoint passed. Arbitrary stored-path script execution remains deliberately unexecuted; no evidence justifies migrating that unsafe legacy hook blindly. Continue ScenePattern parity by inventory/classification before any implementation."}
+    }
   ]
 }
