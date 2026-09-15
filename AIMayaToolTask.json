@@ -14,16 +14,6 @@
       "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "PASS", "classification": "scene_script_hook_inventory_python_verification_pass", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-maya-smoke-boundary-158a",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/aim_constraint_smoke.py", "aimayatool/tools/scene/animation_backup.py", "aimayatool/tools/scene/animation_backup_smoke.py", "aimayatool/tools/scene/bs_sequence.py", "aimayatool/tools/scene/bs_sequence_smoke.py"], "imports": ["aimayatool.tools.scene.aim_constraint", "aimayatool.tools.scene.aim_constraint_smoke", "aimayatool.tools.scene.animation_backup", "aimayatool.tools.scene.animation_backup_smoke", "aimayatool.tools.scene.bs_sequence", "aimayatool.tools.scene.bs_sequence_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "PASS", "classification": "scene_pattern_concrete_host_boundary_python_pass", "proven_main_commit": "a26299f47825725fbc5a7af08a8ffd25b8e42297", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
       "task_id": "aimayatool-goal007-scene-pattern-mayapy-route-probe-158e",
       "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -31,7 +21,7 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "module": "aimayatool.tools.scene.aim_constraint_smoke", "callable": "run_scene_aim_constraint_smoke", "expected_marker": "AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1", "fresh_scene": true, "save_scene": false, "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": {"task_id":"aimayatool-goal007-scene-pattern-runtime-discovery-retry-158d","result":"PASS","classification":"maya_2024_runtime_discovery_pass","proven_main_commit":"a0ee9a3d6b41ad6605733d03909585171d1ee125"}, "result": "INCONCLUSIVE", "classification": "route_unavailable_maya_mayapy", "failure_evidence": "No route handler registered for maya:mayapy; no product code executed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "INCONCLUSIVE", "classification": "route_unavailable_maya_mayapy", "failure_evidence": "No route handler registered for maya:mayapy; no product code executed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-remaining-module-inventory-159a",
@@ -41,10 +31,20 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py", "aimayatool/tools/scene/catalog_smoke.py", "aimayatool/tools/scene/catalog_io_smoke.py", "aimayatool/tools/scene/build_actions.py", "aimayatool/tools/scene/build_actions_smoke.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io", "aimayatool.tools.scene.catalog_smoke", "aimayatool.tools.scene.catalog_io_smoke", "aimayatool.tools.scene.build_actions", "aimayatool.tools.scene.build_actions_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-mayapy-route-probe-158e"], "result": "INCONCLUSIVE", "classification": "architect_task_definition_host_only_smoke_import", "proven_main_commit": "65c81923f9e8ccfc28f605a92c0181cb1507b82c", "evidence": "py_compile passed for all seven files. Normal-Python imports passed for scene, catalog, catalog_io, catalog_smoke, catalog_io_smoke and build_actions. build_actions_smoke alone failed because it imports maya.cmds at module import time.", "architect_diagnosis": "This is a verification-definition boundary error, not a build_actions product failure. build_actions_smoke is explicitly host-only because its top-level import is maya.cmds; it must not be imported by the normal-Python route.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "INCONCLUSIVE", "classification": "architect_task_definition_host_only_smoke_import", "proven_main_commit": "65c81923f9e8ccfc28f605a92c0181cb1507b82c", "evidence": "Only build_actions_smoke import failed because it imports maya.cmds at top level; all other checks passed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-remaining-module-python-retry-159b",
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py", "aimayatool/tools/scene/catalog_smoke.py", "aimayatool/tools/scene/catalog_io_smoke.py", "aimayatool/tools/scene/build_actions.py", "aimayatool/tools/scene/build_actions_smoke.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io", "aimayatool.tools.scene.catalog_smoke", "aimayatool.tools.scene.catalog_io_smoke", "aimayatool.tools.scene.build_actions"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-remaining-module-inventory-159a"], "retry_of": "aimayatool-goal007-scene-pattern-remaining-module-inventory-159a", "result": "PASS", "classification": "scene_catalog_build_python_boundary_pass", "proven_main_commit": "fc040d1451d06c24b9823b71c232e21af4ee2a83", "evidence": "Bridge compiled all seven files, including host-only build_actions_smoke.py, and successfully imported scene, catalog, catalog_io, catalog_smoke, catalog_io_smoke and build_actions in normal Python.", "architect_diagnosis": "Catalog/catalog-IO/build-actions normal-Python boundary is proven. build_actions_smoke remains correctly reserved for Maya-host validation.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-exact-current-surface-audit-159c",
       "status": "pending", "architect_ack": false, "bridge_completed": false,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
@@ -52,17 +52,16 @@
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
         "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py", "aimayatool/tools/scene/catalog_smoke.py", "aimayatool/tools/scene/catalog_io_smoke.py", "aimayatool/tools/scene/build_actions.py", "aimayatool/tools/scene/build_actions_smoke.py"],
-        "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io", "aimayatool.tools.scene.catalog_smoke", "aimayatool.tools.scene.catalog_io_smoke", "aimayatool.tools.scene.build_actions"],
+        "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py", "aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/animation_backup.py", "aimayatool/tools/scene/bs_sequence.py", "aimayatool/tools/scene/build_actions.py"],
+        "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io", "aimayatool.tools.scene.aim_constraint", "aimayatool.tools.scene.animation_backup", "aimayatool.tools.scene.bs_sequence", "aimayatool.tools.scene.build_actions"],
         "tests": [], "timeout": 180
       },
       "metadata": {
         "goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-remaining-module-inventory-159a"],
-        "retry_of": "aimayatool-goal007-scene-pattern-remaining-module-inventory-159a",
-        "purpose": "Retry the normal-Python Scene boundary with the host-only build_actions_smoke excluded from imports while retaining compile coverage for that smoke file.",
-        "acceptance": ["Fast-forward main.", "Compile all seven listed files, including build_actions_smoke.py.", "Import scene, catalog, catalog_io, both Python-safe catalog smoke modules and build_actions successfully.", "Do not import or execute build_actions_smoke outside Maya.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex."],
-        "next_if_pass": "Treat catalog/catalog-IO/build-actions normal-Python boundary as proven. Continue exact Scene/ScenePattern parity inventory while host-only build_actions smoke remains queued for a future supported Maya route.",
+        "depends_on": ["aimayatool-goal007-scene-pattern-remaining-module-python-retry-159b"],
+        "purpose": "Establish one bounded current-surface checkpoint across the ScenePattern framework and the concrete migrated Scene workflows visible in the current scene package before deciding whether additional legacy parity slices are missing.",
+        "acceptance": ["Fast-forward main.", "Compile and import all listed current Scene framework/concrete modules in normal Python.", "Do not import host-only smoke modules.", "Do not execute Maya scene mutation.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex."],
+        "next_if_pass": "Architect must compare this proven current surface against durable legacy parity evidence/source inventory. Do not close scene-pattern-parity from imports alone; publish any missing useful concrete workflow slice or explicit intentional-retirement evidence first.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
