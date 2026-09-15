@@ -1,83 +1,43 @@
 {
   "version": 1,
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
-  "force_restart": {
-    "enabled": false,
-    "request_id": "aimayatool-setup-migration-119",
-    "reason": "healthy_managed_maya_session_reusable"
-  },
+  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-script-hook-inventory-156b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-script-hook-inventory-156b", "status": "pending", "architect_ack": true, "bridge_completed": false,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py"], "imports": ["aimayatool.tools.scene"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "PASS", "classification": "scene_script_hook_inventory_python_verification_pass", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"files": ["aimayatool/tools/scene/__init__.py"], "imports": ["aimayatool.tools.scene"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "scene_script_hook_inventory_python_verification_pass", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-mayapy-route-probe-158e",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-scene-pattern-mayapy-route-probe-158e", "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "mayapy"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "module": "aimayatool.tools.scene.aim_constraint_smoke", "callable": "run_scene_aim_constraint_smoke", "expected_marker": "AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1", "fresh_scene": true, "save_scene": false, "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "INCONCLUSIVE", "classification": "route_unavailable_maya_mayapy", "failure_evidence": "No route handler registered for maya:mayapy; no product code executed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "action": {"type": "maya", "target": "mayapy"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"module": "aimayatool.tools.scene.aim_constraint_smoke", "callable": "run_scene_aim_constraint_smoke", "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "INCONCLUSIVE", "classification": "route_unavailable_maya_mayapy", "failure_evidence": "No route handler registered for maya:mayapy; no product code executed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-exact-current-surface-audit-159c",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-scene-pattern-primitive-backed-gap-assessment-retry-159e", "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py", "aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/animation_backup.py", "aimayatool/tools/scene/bs_sequence.py", "aimayatool/tools/scene/build_actions.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io", "aimayatool.tools.scene.aim_constraint", "aimayatool.tools.scene.animation_backup", "aimayatool.tools.scene.bs_sequence", "aimayatool.tools.scene.build_actions"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "PASS", "classification": "scene_pattern_current_surface_python_checkpoint_pass", "proven_main_commit": "e295710d678e247821d121552f664ef0a9651d99", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/setup/__init__.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.setup"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "scene_pattern_primitive_boundary_python_pass", "proven_main_commit": "b9ed8b905b99e85efed599e8b5ed1525bdabbeb5", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-primitive-backed-gap-assessment-159d",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-scene-pattern-create-offset-wrapper-159f", "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["MIGRATION.md", "PARITY_MAP.md", "aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/setup/__init__.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.aim_constraint", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.setup"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-exact-current-surface-audit-159c"], "result": "FAIL", "classification": "architect_task_definition_non_python_file_in_verification_files", "proven_main_commit": "cfdb7a5651ddbbcd4bd57a618180d1f9ec705534", "failure_evidence": "Bridge rejected the request before product execution because payload.files included MIGRATION.md; Python verification accepts only relative .py paths.", "architect_diagnosis": "Architect task-definition defect only; no AIMayaTool product code failed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "action": {"type": "implementation", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": true, "push": true},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"files": ["aimayatool/tools/scene/create_offset.py", "aimayatool/tools/scene/create_offset_smoke.py"], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-primitive-backed-gap-assessment-retry-159e"], "result": "INCONCLUSIVE", "classification": "route_unavailable_implementation_python", "failure_evidence": "Bridge returned No route handler registered for implementation:python; no implementation route executed.", "architect_diagnosis": "Route failure is not a product failure. Architect completed the bounded CreateOffset implementation directly: deterministic normalization/planning plus Setup create_zero_group delegation and Python-only smoke. Implementation commits: 2a1bb93145815b56cb070438100b22845937f1d8, bd6dc6ed9227b68360d91d54d6f92dd6101de1bc.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-primitive-backed-gap-assessment-retry-159e",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-scene-pattern-create-offset-python-verify-159g", "status": "pending", "architect_ack": false, "bridge_completed": false,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/setup/__init__.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.aim_constraint", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.setup"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-primitive-backed-gap-assessment-159d"], "retry_of": "aimayatool-goal007-scene-pattern-primitive-backed-gap-assessment-159d", "purpose": "Retry the primitive-backed ScenePattern boundary checkpoint with Python files only. Durable MIGRATION.md/PARITY_MAP.md evidence is Architect-side context, not verification payload input.", "acceptance": ["Fast-forward main.", "Compile/import the listed Scene and Setup Python boundaries.", "Do not execute Maya scene mutation or arbitrary stored script paths.", "Do not duplicate Setup rig mechanics inside Scene.", "Do not invoke Codex."], "next_if_pass": "Architect must inspect exact legacy primitive-backed ScenePattern modules against current Setup APIs and publish the smallest dependency-ready thin Scene wrapper or explicit replaced/improved classification.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_pattern_primitive_boundary_python_pass", "proven_main_commit": "b9ed8b905b99e85efed599e8b5ed1525bdabbeb5", "architect_diagnosis": "Scene and Setup primitive boundaries compile/import cleanly; next bounded parity slice is a thin CreateOffset Scene wrapper over Setup create_zero_group, not duplicated rig mechanics."}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-create-offset-wrapper-159f",
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "implementation", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": true, "push": true},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/create_offset.py", "aimayatool/tools/scene/create_offset_smoke.py"], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-primitive-backed-gap-assessment-retry-159e"], "purpose": "Migrate legacy ScenePattern Create Offset as a thin Scene composition/data wrapper over Setup create_zero_group; preserve useful objects + extraName semantics without duplicating offset mechanics.", "acceptance": ["Fast-forward main.", "Add a focused Scene create-offset module that normalizes deterministic item data and delegates Maya mutation to aimayatool.tools.setup.controls.create_zero_group.", "Preserve legacy useful semantics: explicit object list and optional extraName/suffix; do not preserve the legacy fallback literal 'ExtraName' when a clearer deterministic default is appropriate.", "Add deterministic Python smoke coverage that does not require maya.cmds where practical; isolate host mutation behind the Setup primitive.", "Do not bulk-copy legacy UI/global ITEMS/reload/path code.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex.", "Compile/import changed Python and commit/push the bounded implementation."], "next_if_pass": "Queue Python verification for the new CreateOffset wrapper, then Maya validation only through a proven supported route; continue the next smallest primitive-backed ScenePattern reconciliation.", "source_evidence": "Legacy UIs/ScenePattern/Scene_Pattern_CreateOffset.py stores objects and extraName then calls NLTA_General.CreateOffsetGroup. Current Setup controls.create_zero_group(node, suffix='_ZERO') owns the reusable offset-group mechanic.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/create_offset.py", "aimayatool/tools/scene/create_offset_smoke.py"], "imports": ["aimayatool.tools.scene.create_offset", "aimayatool.tools.scene.create_offset_smoke"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-create-offset-wrapper-159f"], "purpose": "Verify the Architect-completed CreateOffset Scene composition slice using the proven normal-Python route.", "acceptance": ["Fast-forward main.", "Compile create_offset.py and create_offset_smoke.py.", "Import both modules; smoke import must execute deterministic assertions without Maya.", "Preserve default _ZERO and explicit extraName/suffix semantics.", "Do not execute Maya mutation, arbitrary stored script paths, or Codex."], "next_if_pass": "ACK deterministic CreateOffset parity and continue the next smallest primitive-backed ScenePattern wrapper; Maya mutation validation remains deferred until a supported Maya execution route exists.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
