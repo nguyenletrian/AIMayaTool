@@ -1,1 +1,112 @@
-{"version":1,"history_checkpoint_blob":"c9404f150db66b6a9e55803a275872815d403e4e","force_restart":{"enabled":false,"request_id":"aimayatool-setup-migration-119","reason":"healthy_managed_maya_session_reusable"},"tasks":[{"task_id":"aimayatool-goal007-bs-sequence-proxy-visibility-boundary-160v","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"files":["aimayatool/tools/setup/__init__.py","aimayatool/tools/scene/bs_sequence_from_obj_keys.py"],"imports":["aimayatool.tools.setup","aimayatool.tools.scene.bs_sequence_from_obj_keys"],"tests":[],"timeout":180},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","result":"PASS","classification":"bs_sequence_proxy_visibility_boundary_python_pass","proven_main_commit":"446266b4cbcf77459e9649ed374dc22af4d549a4","implementation_commit":"a8228879cac095d65dcfedf7a9d1ddaf9bc6d4bf","smoke_commit":"b55811e8276e5937e40989e68fd2f9e2391e9e39","architect_diagnosis":"Existing setup.attributes.create_attribute already covers deterministic driver/show attribute creation, including min/max and bool types. No reusable proxy/connect boundary existed, so added injectable proxy attribute and non-destructive visibility wiring primitives. Existing proxy attrs/connections are rejected rather than silently replaced; partial attribute cleanup remains a higher Scene transaction concern.","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},{"task_id":"aimayatool-goal007-bs-sequence-proxy-visibility-smoke-160w","status":"pending","architect_ack":false,"bridge_completed":false,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/setup/attributes.py","aimayatool/tools/setup/proxy_attributes.py","aimayatool/tools/setup/proxy_attributes_python_smoke.py"],"imports":["aimayatool.tools.setup.attributes","aimayatool.tools.setup.proxy_attributes","aimayatool.tools.setup.proxy_attributes_python_smoke"],"tests":["aimayatool.tools.setup.proxy_attributes_python_smoke.ProxyAttributesSmokeTest"],"timeout":180},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-bs-sequence-proxy-visibility-boundary-160v"],"purpose":"Prove reusable proxy-attribute and visibility-wiring contracts before final BSSequence Scene transaction composition.","acceptance":["Fast-forward through b55811e8276e5937e40989e68fd2f9e2391e9e39.","Compile/import attributes, proxy_attributes and smoke, then run ProxyAttributesSmokeTest.","Require SETUP_PROXY_VISIBILITY_PYTHON_SMOKE_OK and unittest PASS.","Verify Maya proxy addAttr uses source plug, visibility wiring targets .visibility, and existing target attrs/incoming visibility connections are rejected non-destructively.","Retain setup.attributes.create_attribute for BSSequence-specific float 0..10 and bool show attribute creation; do not duplicate it.","Do not claim Maya runtime parity; do not use Codex."],"next_if_pass":"Architect closes final Setup dependency and implements an injectable BSSequence Scene transaction that composes proven sampling, blendShape, SDK, attribute/proxy/visibility boundaries with explicit currentTime/driver restoration and cleanup behavior, then queues focused Python transaction smoke.","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}}]}
+{
+  "version": 1,
+  "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
+  "force_restart": {
+    "enabled": false,
+    "request_id": "aimayatool-setup-migration-119",
+    "reason": "healthy_managed_maya_session_reusable"
+  },
+  "tasks": [
+    {
+      "task_id": "aimayatool-goal007-bs-sequence-proxy-visibility-boundary-160v",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "files": ["aimayatool/tools/setup/__init__.py", "aimayatool/tools/scene/bs_sequence_from_obj_keys.py"],
+        "imports": ["aimayatool.tools.setup", "aimayatool.tools.scene.bs_sequence_from_obj_keys"],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "result": "PASS",
+        "classification": "bs_sequence_proxy_visibility_boundary_python_pass",
+        "proven_main_commit": "446266b4cbcf77459e9649ed374dc22af4d549a4",
+        "implementation_commit": "a8228879cac095d65dcfedf7a9d1ddaf9bc6d4bf",
+        "smoke_commit": "b55811e8276e5937e40989e68fd2f9e2391e9e39",
+        "architect_diagnosis": "Existing setup.attributes.create_attribute already covers deterministic driver/show attribute creation, including min/max and bool types. No reusable proxy/connect boundary existed, so added injectable proxy attribute and non-destructive visibility wiring primitives. Existing proxy attrs/connections are rejected rather than silently replaced; partial attribute cleanup remains a higher Scene transaction concern.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-bs-sequence-proxy-visibility-smoke-160w",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "files": ["aimayatool/tools/setup/attributes.py", "aimayatool/tools/setup/proxy_attributes.py", "aimayatool/tools/setup/proxy_attributes_python_smoke.py"],
+        "imports": ["aimayatool.tools.setup.attributes", "aimayatool.tools.setup.proxy_attributes", "aimayatool.tools.setup.proxy_attributes_python_smoke"],
+        "tests": ["aimayatool.tools.setup.proxy_attributes_python_smoke.ProxyAttributesSmokeTest"],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": ["aimayatool-goal007-bs-sequence-proxy-visibility-boundary-160v"],
+        "result": "PASS",
+        "classification": "setup_proxy_visibility_contract_python_proven",
+        "proven_main_commit": "2e734c8ff7ec6ba3c72dfabdd4a2d7d966d1eea0",
+        "evidence": "py_compile/import passed; ProxyAttributesSmokeTest ran 2 tests OK and emitted SETUP_PROXY_VISIBILITY_PYTHON_SMOKE_OK.",
+        "architect_diagnosis": "Final reusable Setup dependency is proven. BSSequence composition can now use create_attribute, create_proxy_attribute, connect_visibility, mesh sampling, blendShape creation and driven-key schedule primitives without duplicating Setup mechanics.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-bs-sequence-transaction-smoke-160x",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "files": ["aimayatool/tools/scene/bs_sequence_from_obj_keys.py", "aimayatool/tools/scene/bs_sequence_transaction_python_smoke.py"],
+        "imports": ["aimayatool.tools.scene.bs_sequence_from_obj_keys", "aimayatool.tools.scene.bs_sequence_transaction_python_smoke"],
+        "tests": ["aimayatool.tools.scene.bs_sequence_transaction_python_smoke.BSSequenceTransactionSmokeTest"],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": ["aimayatool-goal007-bs-sequence-proxy-visibility-smoke-160w"],
+        "purpose": "Prove the final injectable BSSequence Scene transaction composition and rollback/restoration contract outside Maya before host validation.",
+        "implementation_commit": "0cd0e0bc86f160b4efc2a1e14658889fc1c76601",
+        "smoke_commit": "c4c4eb9dfb80882190c0df22d2c647b61846033f",
+        "acceptance": [
+          "Fast-forward through c4c4eb9dfb80882190c0df22d2c647b61846033f.",
+          "Compile/import the BSSequence transaction module and smoke module.",
+          "Run BSSequenceTransactionSmokeTest and require 2 tests PASS.",
+          "Verify successful composition creates generated meshes/group/blendShape, main+proxy+joint attributes, SDK schedule and show visibility wiring while restoring currentTime and driver value.",
+          "Verify injected schedule failure rolls back created attributes/connections/nodes and restores currentTime.",
+          "Do not claim Maya runtime parity; do not use Codex."
+        ],
+        "next_if_pass": "Architect queues bounded Maya live validation for the composed BSSequence workflow, using fresh-scene/recovery rules from GUIDE.md.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    }
+  ]
+}
