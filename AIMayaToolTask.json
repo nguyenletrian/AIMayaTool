@@ -4,34 +4,24 @@
   "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-composition-verify-159n",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"files": ["aimayatool/tools/setup/controls.py", "aimayatool/tools/scene/control_shape.py", "aimayatool/tools/scene/control_shape_python_smoke.py"], "imports": ["aimayatool.tools.setup.controls", "aimayatool.tools.scene.control_shape", "aimayatool.tools.scene.control_shape_python_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "scene_control_shape_composition_python_pass", "proven_main_commit": "e7726ceeeeec1f730b19540a06fd934c37b36da0", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-inventory-159o",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"files": ["aimayatool/tools/scene/control_shape.py", "aimayatool/tools/setup/controls.py"], "imports": ["aimayatool.tools.scene.control_shape", "aimayatool.tools.setup.controls"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-control-shape-composition-verify-159n"], "result": "PASS", "classification": "scene_control_shape_as_inventory_boundary_python_pass", "proven_main_commit": "8c5db736dddce24e32e34c2913d9810b80a537f7", "evidence": "Bridge py_compile/import checks passed for canonical Scene control_shape and Setup controls after fast-forwarding main.", "architect_diagnosis": "Legacy ControlShapeAS is not a pure duplicate. It shares the base ControlShape UI/helpers but adds AS-specific curve serialization/reconstruction evidence including curve degree/form and richer export/import logic. Keep interactive UI/file-dialog mechanics out of Scene; isolate only deterministic AS curve-data behavior behind Setup controls or a thin Scene data wrapper.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
       "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-data-delta-159p",
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"files": ["aimayatool/tools/setup/controls.py", "aimayatool/tools/scene/control_shape.py"], "imports": ["aimayatool.tools.setup.controls", "aimayatool.tools.scene.control_shape"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "scene_control_shape_as_data_delta_boundary_pass", "proven_main_commit": "af04fff3737d61aac46806be8357fcbfccf52c34", "architect_diagnosis": "Boundary remains Python-safe. Implemented the first isolated deterministic AS delta in Setup: normalize_curve_shape_data preserves degree, form, ordered XYZ points and optional knots without importing Maya or carrying UI/file persistence.", "implementation_commit": "c691d608a7e9f1676542167a6c2680ed2a716d38", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-normalize-verify-159q",
       "status": "pending", "architect_ack": false, "bridge_completed": false,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/controls.py", "aimayatool/tools/scene/control_shape.py"], "imports": ["aimayatool.tools.setup.controls", "aimayatool.tools.scene.control_shape"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-control-shape-as-inventory-159o"], "purpose": "Dependency-ready checkpoint before implementing the distinct deterministic ControlShapeAS curve-data delta identified by Architect.", "acceptance": ["Fast-forward main and compile/import canonical Setup controls and Scene control_shape boundaries.", "Preserve the proven ControlShape composition unchanged.", "Do not migrate MirrorShape, CopyShape, file dialogs, scene-path persistence, or UI helpers.", "Return PASS so Architect can implement only the AS-specific deterministic curve serialization/reconstruction delta (degree/form and required topology data) at the correct Setup/Scene boundary.", "Do not use Codex."], "next_if_pass": "Architect implements the minimal deterministic AS curve-data delta and queues Python smoke verification before moving to the next ScenePattern family.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/controls.py"], "imports": ["aimayatool.tools.setup.controls"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-control-shape-as-data-delta-159p"], "purpose": "Verify the isolated deterministic ControlShapeAS curve-data normalizer added in Setup.", "acceptance": ["Fast-forward main including implementation commit c691d608a7e9f1676542167a6c2680ed2a716d38.", "Compile and import aimayatool.tools.setup.controls in normal Python.", "Execute normalize_curve_shape_data with degree=3, form=0, pointData cv[0]..cv[3], and optional knots; verify ordered float XYZ tuples and preserved degree/form/knots.", "Verify invalid degree and insufficient point count raise ValueError.", "No Maya runtime parity is claimed and do not use Codex."], "next_if_pass": "Architect marks AS deterministic data normalization proven, then evaluates whether reconstruction needs a separate Setup primitive or whether normalization closes the required noninteractive legacy delta before continuing ScenePattern reconciliation.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
