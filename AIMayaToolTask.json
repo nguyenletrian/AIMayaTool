@@ -12,190 +12,36 @@
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [],
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-remaining-audit-retry-155c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "result": "PASS",
-        "classification": "scene_script_hook_assessment_checkpoint_pass",
-        "proven_main_commit": "2f0e37b67e3cf51a62dac1d46ce89e3b229992ed",
-        "evidence": "git_pull fast-forwarded main to 2f0e37b67e3cf51a62dac1d46ce89e3b229992ed; py_compile scene/__init__.py and import aimayatool.tools.scene passed; no legacy hook was executed."
-      }
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py"], "imports": ["aimayatool.tools.scene"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": {"task_id": "aimayatool-goal007-scene-pattern-remaining-audit-retry-155c", "result": "PASS", "architect_ack": true, "bridge_completed": true}, "result": "PASS", "classification": "scene_script_hook_assessment_checkpoint_pass", "proven_main_commit": "2f0e37b67e3cf51a62dac1d46ce89e3b229992ed", "evidence": "git_pull fast-forwarded main to 2f0e37b67e3cf51a62dac1d46ce89e3b229992ed; py_compile scene/__init__.py and import aimayatool.tools.scene passed; no legacy hook was executed."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-script-hook-inventory-156b",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-script-hook-assessment-156a"
-        ],
-        "purpose": "Keep a safe dependency-ready checkpoint while Architect completes exact legacy ScenePattern inventory and classifies script-hook behavior as migrate, replace/improve, or intentionally retire.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import Scene package successfully.",
-          "Do not execute arbitrary legacy script paths.",
-          "Do not invoke Codex."
-        ],
-        "source_evidence": "Exact repository inventory confirms ScenePattern modules must be discovered from main rather than guessed. CurrentAfterScript directly resolves a stored path and invokes NLTA_General.RunScriptFile, so execution remains intentionally blocked pending explicit classification.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "scene_script_hook_inventory_python_verification_pass",
-        "architect_diagnosis": "Python checkpoint passed. Arbitrary stored-path script execution remains deliberately unexecuted; no evidence justifies migrating that unsafe legacy hook blindly. Continue ScenePattern parity by inventory/classification before any implementation."
-      }
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py"], "imports": ["aimayatool.tools.scene"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-script-hook-assessment-156a"], "purpose": "Keep a safe dependency-ready checkpoint while Architect completes exact legacy ScenePattern inventory and classifies script-hook behavior as migrate, replace/improve, or intentionally retire.", "acceptance": ["Fast-forward main.", "Compile/import Scene package successfully.", "Do not execute arbitrary legacy script paths.", "Do not invoke Codex."], "source_evidence": "Exact repository inventory confirms ScenePattern modules must be discovered from main rather than guessed. CurrentAfterScript directly resolves a stored path and invokes NLTA_General.RunScriptFile, so execution remains intentionally blocked pending explicit classification.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_script_hook_inventory_python_verification_pass", "architect_diagnosis": "Python checkpoint passed. Arbitrary stored-path script execution remains deliberately unexecuted; no evidence justifies migrating that unsafe legacy hook blindly. Continue ScenePattern parity by inventory/classification before any implementation."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-catalog-parity-157a",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/__init__.py",
-          "aimayatool/tools/scene/catalog.py",
-          "aimayatool/tools/scene/catalog_io.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene",
-          "aimayatool.tools.scene.catalog",
-          "aimayatool.tools.scene.catalog_io"
-        ],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-script-hook-inventory-156b"
-        ],
-        "purpose": "Verify the migrated ScenePattern catalog/serialization surface remains deterministic and importable after exact legacy inventory, before deciding whether any remaining legacy ScenePattern entry needs implementation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile the explicit Scene catalog modules.",
-          "Import Scene, catalog, and catalog_io successfully.",
-          "Do not execute arbitrary stored script paths.",
-          "Do not invoke Codex."
-        ],
-        "source_evidence": "Legacy UIs/ScenePattern contains many concrete pattern modules while AIMayaTool already exposes a structured scene catalog. This bounded checkpoint verifies the catalog boundary before further parity classification.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-script-hook-inventory-156b"], "purpose": "Verify the migrated ScenePattern catalog/serialization surface remains deterministic and importable after exact legacy inventory, before deciding whether any remaining legacy ScenePattern entry needs implementation.", "acceptance": ["Fast-forward main.", "Compile the explicit Scene catalog modules.", "Import Scene, catalog, and catalog_io successfully.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex."], "source_evidence": "Legacy UIs/ScenePattern contains many concrete pattern modules while AIMayaTool already exposes a structured scene catalog. This bounded checkpoint verifies the catalog boundary before further parity classification.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_pattern_catalog_python_verification_pass", "proven_main_commit": "10f68994f5ed37ec265c80440d97d160ff750df6", "evidence": "Bridge fast-forwarded main to 10f68994f5ed37ec265c80440d97d160ff750df6; py_compile passed for scene/__init__.py, catalog.py and catalog_io.py; imports passed for aimayatool.tools.scene, catalog and catalog_io."}
     }
   ]
 }
