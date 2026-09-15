@@ -24,16 +24,6 @@
       "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "INCONCLUSIVE", "classification": "route_unavailable_maya_mayapy", "failure_evidence": "No route handler registered for maya:mayapy; no product code executed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-remaining-module-python-retry-159b",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py", "aimayatool/tools/scene/catalog_smoke.py", "aimayatool/tools/scene/catalog_io_smoke.py", "aimayatool/tools/scene/build_actions.py", "aimayatool/tools/scene/build_actions_smoke.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io", "aimayatool.tools.scene.catalog_smoke", "aimayatool.tools.scene.catalog_io_smoke", "aimayatool.tools.scene.build_actions"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "PASS", "classification": "scene_catalog_build_python_boundary_pass", "proven_main_commit": "fc040d1451d06c24b9823b71c232e21af4ee2a83", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
       "task_id": "aimayatool-goal007-scene-pattern-exact-current-surface-audit-159c",
       "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
@@ -41,10 +31,20 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py", "aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/animation_backup.py", "aimayatool/tools/scene/bs_sequence.py", "aimayatool/tools/scene/build_actions.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io", "aimayatool.tools.scene.aim_constraint", "aimayatool.tools.scene.animation_backup", "aimayatool.tools.scene.bs_sequence", "aimayatool.tools.scene.build_actions"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-remaining-module-python-retry-159b"], "result": "PASS", "classification": "scene_pattern_current_surface_python_checkpoint_pass", "proven_main_commit": "e295710d678e247821d121552f664ef0a9651d99", "evidence": "Bridge compiled and imported all nine listed current Scene framework/concrete modules with exit code 0.", "architect_diagnosis": "Current ScenePattern framework and visible migrated concrete surface are Python-clean, but imports do not establish complete legacy parity or Maya behavior. MIGRATION.md explicitly requires reconciliation of every concrete ScenePattern module before milestone closure.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "PASS", "classification": "scene_pattern_current_surface_python_checkpoint_pass", "proven_main_commit": "e295710d678e247821d121552f664ef0a9651d99", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-primitive-backed-gap-assessment-159d",
+      "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["MIGRATION.md", "PARITY_MAP.md", "aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/setup/__init__.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.aim_constraint", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.setup"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-exact-current-surface-audit-159c"], "result": "FAIL", "classification": "architect_task_definition_non_python_file_in_verification_files", "proven_main_commit": "cfdb7a5651ddbbcd4bd57a618180d1f9ec705534", "failure_evidence": "Bridge rejected the request before product execution because payload.files included MIGRATION.md; Python verification accepts only relative .py paths.", "architect_diagnosis": "Architect task-definition defect only; no AIMayaTool product code failed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-primitive-backed-gap-assessment-retry-159e",
       "status": "pending", "architect_ack": false, "bridge_completed": false,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
@@ -52,17 +52,17 @@
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {
         "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["MIGRATION.md", "PARITY_MAP.md", "aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/setup/__init__.py"],
+        "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/setup/__init__.py"],
         "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.aim_constraint", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.setup"],
         "tests": [], "timeout": 180
       },
       "metadata": {
         "goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-exact-current-surface-audit-159c"],
-        "purpose": "Bound the first remaining legacy ScenePattern parity family after the current-surface checkpoint. MIGRATION.md names primitive-backed patterns SpaceSwitch, DrivenKey/SDK, CreateIK, ControlShape, CreateAttribute, CreateCurve, offsets, AimConstraint and ProxyAttribute; current Scene package visibly has AimConstraint but the remaining wrappers require explicit reconciliation against already-completed Setup APIs.",
-        "acceptance": ["Fast-forward main.", "Compile/import the listed current Scene and Setup public boundaries.", "Do not claim missing wrappers solely from filenames; Architect must inspect legacy/current source evidence after this checkpoint.", "Do not duplicate Setup rig mechanics inside Scene.", "Do not execute Maya scene mutation or arbitrary stored script paths.", "Do not invoke Codex."],
-        "next_if_pass": "Architect should inspect the exact legacy primitive-backed modules and current Setup APIs, then publish the smallest missing thin Scene composition wrapper slice or explicit replaced/improved classification. Start with one coherent dependency-ready family rather than bulk-copying ScenePattern modules.",
-        "source_evidence": "MIGRATION.md Goal 007 requires primitive-backed ScenePattern reconciliation and states Scene must compose Setup APIs rather than reimplement rig mechanics. Legacy UIs/ScenePattern contains AimConstraint, ControlShape/ControlShapeAS, CreateAttribute, CreateCurve, CreateIK, CreateOffset and other concrete modules; current Scene surface checkpoint proves only the modules listed in 159c.",
+        "depends_on": ["aimayatool-goal007-scene-pattern-primitive-backed-gap-assessment-159d"],
+        "retry_of": "aimayatool-goal007-scene-pattern-primitive-backed-gap-assessment-159d",
+        "purpose": "Retry the primitive-backed ScenePattern boundary checkpoint with Python files only. Durable MIGRATION.md/PARITY_MAP.md evidence is Architect-side context, not verification payload input.",
+        "acceptance": ["Fast-forward main.", "Compile/import the listed Scene and Setup Python boundaries.", "Do not execute Maya scene mutation or arbitrary stored script paths.", "Do not duplicate Setup rig mechanics inside Scene.", "Do not invoke Codex."],
+        "next_if_pass": "Architect must inspect exact legacy primitive-backed ScenePattern modules against current Setup APIs and publish the smallest dependency-ready thin Scene wrapper or explicit replaced/improved classification.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
