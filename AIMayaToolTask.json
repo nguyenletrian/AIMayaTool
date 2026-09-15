@@ -49,27 +49,46 @@
       "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "timeout": 120},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-concrete-managed-live-158b"], "result": "INCONCLUSIVE", "classification": "architect_task_permission_precondition_mismatch", "failure_evidence": "Bridge rejected runtime discovery before execution because git_pull precondition requires permissions.edit=true while task declared edit=false.", "architect_diagnosis": "No Maya discovery or product code executed. Retry grants edit solely so the inherited ff-only git_pull precondition can run; runtime discovery itself remains read-only and scene-non-mutating.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-concrete-managed-live-158b"], "result": "INCONCLUSIVE", "classification": "architect_task_permission_precondition_mismatch", "failure_evidence": "Bridge rejected runtime discovery before execution because git_pull precondition requires permissions.edit=true while task declared edit=false.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-runtime-discovery-retry-158d",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "runtime_discovery"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "timeout": 120},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-runtime-discovery-158c"], "retry_of": "aimayatool-goal007-scene-pattern-runtime-discovery-158c", "result": "PASS", "classification": "maya_2024_runtime_discovery_pass", "proven_main_commit": "a0ee9a3d6b41ad6605733d03909585171d1ee125", "evidence": "Bridge discovered one Maya runtime from ProgramFiles: Maya 2024 at C:/Program Files/Autodesk/Maya2024/bin/maya.exe and mayapy.exe at C:/Program Files/Autodesk/Maya2024/bin/mayapy.exe.", "architect_diagnosis": "Maya 2024 host availability is proven. The project manifest still marks executable mayapy/batch/live routes as planned, so host execution capability must be probed without assuming the earlier unsupported maya_live:managed key.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-mayapy-route-probe-158e",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "mayapy"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {
+        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
+        "module": "aimayatool.tools.scene.aim_constraint_smoke",
+        "callable": "run_scene_aim_constraint_smoke",
+        "expected_marker": "AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1",
+        "fresh_scene": true,
+        "save_scene": false,
+        "timeout": 180
+      },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-runtime-discovery-158c"],
-        "retry_of": "aimayatool-goal007-scene-pattern-runtime-discovery-158c",
-        "purpose": "Retry read-only Maya runtime discovery with the permission required by the standard ff-only git_pull precondition.",
-        "acceptance": ["Fast-forward main.", "Run Maya runtime discovery only; do not mutate a Maya scene.", "Return installed/available Maya runtime evidence and supported execution route identifiers exposed by the worker.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex."],
-        "permission_note": "permissions.edit=true is granted only because AIBrigde requires it for the git_pull precondition; the requested Maya discovery action remains read-only.",
-        "next_if_pass": "Use only an execution route proven available by discovery for ScenePattern host smoke validation. If no executable Maya route exists, preserve blocker and continue dependency-independent Scene work.",
+        "depends_on": ["aimayatool-goal007-scene-pattern-runtime-discovery-retry-158d"],
+        "purpose": "Probe the cheapest host-capable route declared by the project manifest now that Maya 2024 and mayapy.exe are proven installed, using one bounded Aim Constraint smoke before attempting broader ScenePattern host validation.",
+        "acceptance": ["Fast-forward main.", "Use Maya 2024/mayapy if the route is implemented.", "Run only the bounded Aim Constraint smoke in a fresh unsaved scene and obtain AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1.", "Do not save a scene.", "If maya:mayapy has no registered handler, return route-unavailable evidence without treating it as product failure.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex."],
+        "next_if_pass": "Queue Animation Backup and BS Sequence host smokes through the same proven mayapy route. If route unavailable, preserve host-validation blocker and continue dependency-independent Scene work rather than guessing another route key.",
+        "source_evidence": "Runtime discovery proved Maya 2024 and mayapy.exe exist. GUIDE.md prefers mayapy/headless before Maya batch/live for host API behavior, while .aibridge/routers.json currently marks maya:mayapy planned rather than reusable.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
