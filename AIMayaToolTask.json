@@ -1,77 +1,24 @@
 {
   "version": 1,
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
-  "force_restart": {
-    "enabled": false,
-    "request_id": "aimayatool-setup-migration-119",
-    "reason": "healthy_managed_maya_session_reusable"
-  },
+  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-delete-verify-147a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-scene-pattern-create-ik-managed-live-148b", "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/delete_objects.py", "aimayatool/tools/scene/delete_objects_smoke.py"], "imports": ["aimayatool.tools.scene.delete_objects"], "tests": [], "timeout": 180},
-      "metadata": {
-        "goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [],
-        "archived_prerequisite": [{"task_id": "aimayatool-goal007-scene-pattern-create-ref-managed-live-146b", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "e7bbb13cb38c56259e4bfb2ce08e949e16669b88"}],
-        "purpose": "Verify the migrated ScenePattern Delete workflow before Maya execution.",
-        "acceptance": ["Fast-forward main.", "Compile delete_objects.py and delete_objects_smoke.py.", "Import aimayatool.tools.scene.delete_objects outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."],
-        "implementation_commit": "bf8a5392a5f34cd018b177bded24d0cf46290504", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_delete_python_verification_pass", "proven_main_commit": "092b0837dbd8d8a68324d61d824bb13717ebfd03"
-      }
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-delete-managed-live-147b",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.delete_objects_smoke", "callable": "run_scene_delete_objects_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-delete-verify-147a"], "purpose": "Validate ScenePattern Delete parity and deterministic missing-object handling in Maya 2024.", "acceptance": ["Run only after 147a passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_DELETE_OBJECTS_OK:2 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "bf8a5392a5f34cd018b177bded24d0cf46290504", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_delete_maya_live_parity_pass", "proven_main_commit": "1735494e5f54dcd34355c618ed7b594f5b9e57ba"}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-create-ik-verify-148a",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/create_ik.py", "aimayatool/tools/scene/create_ik_smoke.py"], "imports": ["aimayatool.tools.scene.create_ik"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-delete-managed-live-147b"], "purpose": "Verify the migrated ScenePattern three-object IK/FK builder before Maya execution.", "acceptance": ["Fast-forward main.", "Compile create_ik.py and create_ik_smoke.py.", "Import aimayatool.tools.scene.create_ik outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "c95953d5de89902a855345e4f01580c33e32b08c", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_create_ik_python_verification_pass", "proven_main_commit": "467ea5196082c86deedc1d88bbde4d73bbd0aac9"}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-create-ik-managed-live-148b",
-      "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "action": {"type": "maya", "target": "managed_live_smoke"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.create_ik_smoke", "callable": "run_scene_create_ik_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-create-ik-verify-148a"], "purpose": "Validate complete ScenePattern Create IK parity composition in Maya 2024.", "acceptance": ["Run only after 148a passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_CREATE_IK_OK:3 for PASS.", "Verify three bind/FK/IK joints, RP IK handle, FK controls, IK and pole controls, IK/FK switch and proxies, visibility wiring, three origin offsets/constraints, two Local/World space constraints, hidden internals, invalid-count skip, missing-object skip, and collinear skip.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "c95953d5de89902a855345e4f01580c33e32b08c", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_create_ik_maya_live_parity_pass", "proven_main_commit": "02f525f96c704f128682b31afb12e82f0c8229a4", "evidence": "Managed Maya 2024 reused healthy PID 19092 on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SCENE_CREATE_IK_OK:3; scene_saved=false and maya_quit=false."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": [{"task_id":"aimayatool-goal007-scene-pattern-create-ik-verify-148a","result":"PASS","architect_ack":true,"bridge_completed":true,"proven_main_commit":"467ea5196082c86deedc1d88bbde4d73bbd0aac9"}], "purpose": "Validate complete ScenePattern Create IK parity composition in Maya 2024.", "acceptance": ["Require AIBRIDGE_UI_SMOKE_OK:SCENE_CREATE_IK_OK:3 for PASS.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "c95953d5de89902a855345e4f01580c33e32b08c", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_create_ik_maya_live_parity_pass", "proven_main_commit": "02f525f96c704f128682b31afb12e82f0c8229a4", "evidence": "Managed Maya 2024 reused healthy PID 19092 on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SCENE_CREATE_IK_OK:3; scene_saved=false and maya_quit=false."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-io-verify-149a",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-io-verify-149a", "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/control_shape_io.py", "aimayatool/tools/scene/control_shape_io_smoke.py"], "imports": ["aimayatool.tools.scene.control_shape_io"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-create-ik-managed-live-148b"], "purpose": "Verify the first bounded ControlShape parity slice: deterministic curve CV/color/visibility data collection and application.", "acceptance": ["Fast-forward main.", "Compile control_shape_io.py and control_shape_io_smoke.py.", "Import aimayatool.tools.scene.control_shape_io outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "125f23b483324a10692f40882d0860bcbb205be8", "source_evidence": "Legacy Scene_Pattern_ControlShape.py QuickExportCurve/QuickImportCurve serializes explicit NURBS control CV positions plus override color and visibility data. This bounded migration isolates that useful data contract from legacy UI, scene-save prompting, PyMEL, and hard-coded SceneData paths.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-create-ik-managed-live-148b"], "purpose": "Verify the first bounded ControlShape parity slice: deterministic curve CV/color/visibility data collection and application.", "acceptance": ["Fast-forward main.", "Compile control_shape_io.py and control_shape_io_smoke.py.", "Import aimayatool.tools.scene.control_shape_io outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "125f23b483324a10692f40882d0860bcbb205be8", "source_evidence": "Legacy Scene_Pattern_ControlShape.py QuickExportCurve/QuickImportCurve serializes explicit NURBS control CV positions plus override color and visibility data.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_control_shape_io_python_verification_pass", "proven_main_commit": "56d38d98d84f42e939a98763098f85e240023cba", "evidence": "Bridge fast-forwarded main from 02f525f96c704f128682b31afb12e82f0c8229a4 to 56d38d98d84f42e939a98763098f85e240023cba; py_compile passed for control_shape_io.py and control_shape_io_smoke.py, and import of aimayatool.tools.scene.control_shape_io passed outside Maya."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-io-managed-live-149b",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-io-managed-live-149b", "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "action": {"type": "maya", "target": "managed_live_smoke"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.control_shape_io_smoke", "callable": "run_scene_control_shape_io_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
       "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-control-shape-io-verify-149a"], "purpose": "Validate bounded ControlShape data IO parity in Maya 2024.", "acceptance": ["Run only after 149a passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_CONTROL_SHAPE_IO_OK:1 for PASS.", "Verify local CV data and override color round-trip, deterministic missing-control skip, and shape/CV mismatch guard.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "125f23b483324a10692f40882d0860bcbb205be8", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
