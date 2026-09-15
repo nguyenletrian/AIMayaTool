@@ -1,6 +1,13 @@
 from __future__ import absolute_import
 
 
+def _curve_shape(cmds, node):
+    shapes = cmds.listRelatives(node, shapes=True, noIntermediate=True, fullPath=True, type="nurbsCurve") or []
+    if not shapes:
+        raise AssertionError("Expected NURBS curve shape under {0}".format(node))
+    return shapes[0]
+
+
 def run_scene_control_shape_copy_smoke():
     import maya.cmds as cmds
     from aimayatool.tools.scene.control_shape_copy import copy_curve_shape, mirror_curve_shape
@@ -11,11 +18,12 @@ def run_scene_control_shape_copy_smoke():
     copied = copy_curve_shape(source, (target, "Missing_CTRL"))
     assert copied[0]["status"] == "copied" and copied[1]["status"] == "skipped_missing"
     assert cmds.xform(target, query=True, worldSpace=True, matrix=True) == before_matrix
-    assert len(cmds.ls(target + "Shape.cv[*]", flatten=True) or []) == 3
+    assert len(cmds.ls(_curve_shape(cmds, target) + ".cv[*]", flatten=True) or []) == 3
     mirror = cmds.curve(name="Mirror_CTRL", degree=1, point=[(0, 0, 0), (0, 0, 0), (0, 0, 0)])
     result = mirror_curve_shape(source, mirror, axis="x")
     assert result["status"] == "mirrored" and result["cv_count"] == 3
-    src = cmds.pointPosition(source + "Shape.cv[1]", world=True); dst = cmds.pointPosition(mirror + "Shape.cv[1]", world=True)
+    src = cmds.pointPosition(_curve_shape(cmds, source) + ".cv[1]", world=True)
+    dst = cmds.pointPosition(_curve_shape(cmds, mirror) + ".cv[1]", world=True)
     assert abs(dst[0] + src[0]) < 1e-5 and abs(dst[1] - src[1]) < 1e-5 and abs(dst[2] - src[2]) < 1e-5
     mismatch = cmds.circle(name="Mismatch_CTRL", constructionHistory=False)[0]
     assert mirror_curve_shape(source, mismatch)["status"] == "skipped_cv_mismatch"
