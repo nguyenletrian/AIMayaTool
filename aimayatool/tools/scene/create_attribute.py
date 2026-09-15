@@ -1,12 +1,5 @@
 from __future__ import absolute_import
 
-_DATA_TYPES = {"string", "matrix"}
-
-
-def _cmds():
-    import maya.cmds as cmds
-    return cmds
-
 
 def _optional_float(value):
     if value in (None, ""):
@@ -31,44 +24,53 @@ def build_attribute_spec(name, attr_type="bool", keyable=True, lock=False, chann
         "channel_box": bool(channel_box),
         "minimum": _optional_float(minimum),
         "maximum": _optional_float(maximum),
-        "default": _optional_float(default),
+        "default": default if attr_type == "string" else _optional_float(default),
         "enum": str(enum or ""),
     }
 
 
-def create_attribute(objects, name, attr_type="bool", keyable=True, lock=False, channel_box=True,
-                     minimum=None, maximum=None, default=None, enum=""):
-    """Create one explicit custom attribute on each existing object, skipping existing attrs."""
-    cmds = _cmds()
+def build_create_attribute_plan(objects, name, attr_type="bool", keyable=True, lock=False,
+                                channel_box=True, minimum=None, maximum=None, default=None, enum=""):
+    """Return deterministic per-object Scene composition data."""
     spec = build_attribute_spec(name, attr_type, keyable, lock, channel_box,
                                 minimum, maximum, default, enum)
+    return tuple({"object": obj, "spec": dict(spec)} for obj in tuple(objects or ()))
+
+
+def create_attribute(objects, name, attr_type="bool", keyable=True, lock=False, channel_box=True,
+                     minimum=None, maximum=None, default=None, enum="", create_attribute_fn=None):
+    """Compose Scene CreateAttribute data over the reusable Setup primitive.
+
+    Missing objects and existing attributes retain the legacy deterministic skip behavior;
+    Maya attribute creation mechanics remain owned by Setup.
+    """
+    if create_attribute_fn is None:
+        from aimayatool.tools.setup.attributes import create_attribute as create_attribute_fn
+        import maya.cmds as cmds
+    else:
+        cmds = None
+    plan = build_create_attribute_plan(objects, name, attr_type, keyable, lock, channel_box,
+                                       minimum, maximum, default, enum)
     results = []
-    for obj in tuple(objects or ()):
-        if not obj or not cmds.objExists(obj):
-            results.append({"object": obj, "status": "missing"})
-            continue
-        if cmds.attributeQuery(spec["name"], node=obj, exists=True):
-            results.append({"object": obj, "status": "exists", "plug": "{0}.{1}".format(obj, spec["name"])})
-            continue
-
-        kwargs = {"longName": spec["name"], "keyable": spec["keyable"]}
-        if spec["type"] in _DATA_TYPES:
-            kwargs["dataType"] = spec["type"]
-        else:
-            kwargs["attributeType"] = spec["type"]
-        if spec["type"] == "enum":
-            kwargs["enumName"] = spec["enum"]
-        if spec["default"] is not None:
-            kwargs["defaultValue"] = spec["default"]
-        if spec["minimum"] is not None:
-            kwargs["minValue"] = spec["minimum"]
-        if spec["maximum"] is not None:
-            kwargs["maxValue"] = spec["maximum"]
-
-        cmds.addAttr(obj, **kwargs)
-        plug = "{0}.{1}".format(obj, spec["name"])
-        cmds.setAttr(plug, lock=spec["lock"])
-        if not cmds.getAttr(plug, keyable=True):
-            cmds.setAttr(plug, channelBox=spec["channel_box"])
+    for entry in plan:
+        obj = entry["object"]
+        spec = entry["spec"]
+        if cmds is not None:
+            if not obj or not cmds.objExists(obj):
+                results.append({"object": obj, "status": "missing"})
+                continue
+            plug = "{0}.{1}".format(obj, spec["name"])
+            if cmds.objExists(plug):
+                results.append({"object": obj, "status": "exists", "plug": plug})
+                continue
+        try:
+            plug = create_attribute_fn(
+                obj, spec["name"], attr_type=spec["type"], default=spec["default"],
+                minimum=spec["minimum"], maximum=spec["maximum"], enum=spec["enum"],
+                keyable=spec["keyable"], lock=spec["lock"], channel_box=spec["channel_box"])
+        except ValueError:
+            if cmds is None:
+                raise
+            raise
         results.append({"object": obj, "status": "created", "plug": plug})
     return tuple(results)
