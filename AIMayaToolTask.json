@@ -221,8 +221,8 @@
     {
       "task_id": "aimayatool-goal007-scene-pattern-create-ref-managed-live-146b",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -279,7 +279,139 @@
           "Return scene_saved=false and maya_quit=false on normal success.",
           "Do not invoke Codex."
         ],
-        "implementation_commit": "6e7882e8e80b145a06e81969d3208a289409c3df"
+        "implementation_commit": "6e7882e8e80b145a06e81969d3208a289409c3df",
+        "result": "PASS",
+        "classification": "scene_create_ref_maya_live_parity_pass",
+        "proven_main_commit": "e7bbb13cb38c56259e4bfb2ce08e949e16669b88",
+        "evidence": "Managed Maya 2024 reused healthy PID 15000 on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SCENE_CREATE_REF_OK:2. Matched world transform, optional parenting, missing-object skip, existing-reference skip, and missing-parent validation passed; scene_saved=false and maya_quit=false."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-delete-verify-147a",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/delete_objects.py",
+          "aimayatool/tools/scene/delete_objects_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.delete_objects"
+        ],
+        "tests": [],
+        "timeout": 180
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-create-ref-managed-live-146b"
+        ],
+        "purpose": "Verify the migrated ScenePattern Delete workflow before Maya execution.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile delete_objects.py and delete_objects_smoke.py.",
+          "Import aimayatool.tools.scene.delete_objects outside Maya successfully.",
+          "Do not execute Maya smoke in this Python-only task.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "bf8a5392a5f34cd018b177bded24d0cf46290504",
+        "source_evidence": "Legacy Scene_Pattern_Delete.py deletes each explicitly listed object only when it exists. AIMayaTool preserves that behavior with deterministic deleted/skipped_missing results.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-delete-managed-live-147b",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "isolated_scene": true,
+        "save_scene": false,
+        "maya_version": "2024",
+        "module": "aimayatool.tools.scene.delete_objects_smoke",
+        "callable": "run_scene_delete_objects_smoke",
+        "expected_window": "",
+        "live_port": 7001,
+        "startup_timeout": 180,
+        "operation_timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-delete-verify-147a"
+        ],
+        "purpose": "Validate ScenePattern Delete parity and deterministic missing-object handling in Maya 2024.",
+        "acceptance": [
+          "Run only after 147a passes.",
+          "Force a fresh unsaved scene and do not save.",
+          "Require AIBRIDGE_UI_SMOKE_OK:SCENE_DELETE_OBJECTS_OK:2 for PASS.",
+          "Verify two existing objects are deleted and a missing object is skipped deterministically.",
+          "Return scene_saved=false and maya_quit=false on normal success.",
+          "Do not invoke Codex."
+        ],
+        "implementation_commit": "bf8a5392a5f34cd018b177bded24d0cf46290504",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
   ]
