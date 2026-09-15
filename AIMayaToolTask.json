@@ -1,139 +1,65 @@
 {
   "version": 1,
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
-  "force_restart": {
-    "enabled": false,
-    "request_id": "aimayatool-setup-migration-119",
-    "reason": "healthy_managed_maya_session_reusable"
-  },
+  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-bs-sequence-proxy-visibility-boundary-160v",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-bs-sequence-proxy-visibility-smoke-160w", "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "bs_sequence_proxy_visibility_boundary_python_pass", "proven_main_commit": "446266b4cbcf77459e9649ed374dc22af4d549a4", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "setup_proxy_visibility_contract_python_proven", "proven_main_commit": "2e734c8ff7ec6ba3c72dfabdd4a2d7d966d1eea0", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-bs-sequence-proxy-visibility-smoke-160w",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-bs-sequence-transaction-smoke-160x", "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-bs-sequence-proxy-visibility-boundary-160v"], "result": "PASS", "classification": "setup_proxy_visibility_contract_python_proven", "proven_main_commit": "2e734c8ff7ec6ba3c72dfabdd4a2d7d966d1eea0", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "bs_sequence_transaction_contract_python_proven", "proven_main_commit": "5eb06b5ad5c4a103831d0ba5fe43a6f3abc60e4e", "implementation_commit": "0cd0e0bc86f160b4efc2a1e14658889fc1c76601", "smoke_commit": "c4c4eb9dfb80882190c0df22d2c647b61846033f", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-bs-sequence-transaction-smoke-160x",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-bs-sequence-transaction-maya-live-160y", "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-bs-sequence-proxy-visibility-smoke-160w"], "result": "PASS", "classification": "bs_sequence_transaction_contract_python_proven", "proven_main_commit": "5eb06b5ad5c4a103831d0ba5fe43a6f3abc60e4e", "implementation_commit": "0cd0e0bc86f160b4efc2a1e14658889fc1c76601", "smoke_commit": "c4c4eb9dfb80882190c0df22d2c647b61846033f", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-bs-sequence-transaction-maya-live-160y",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "maya_live"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 240},
+      "action": {"type": "verification", "target": "maya_live"}, "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"timeout": 240},
       "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "INCONCLUSIVE", "classification": "unsupported_route_configuration", "evidence": "No route handler registered for verification:maya_live; product code was not executed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-maya-route-runtime-assessment-160z",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-maya-route-runtime-assessment-retry-161a", "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "runtime_discovery"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 120},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "INCONCLUSIVE", "classification": "precondition_permission_mismatch", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-maya-route-runtime-assessment-retry-161a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "runtime_discovery"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 120},
+      "action": {"type": "maya", "target": "runtime_discovery"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"timeout": 120},
       "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "maya2024_runtime_discovered", "evidence": "Maya 2024 maya.exe and mayapy.exe discovered successfully.", "delivery_id": "97b642b350f603ae3a60", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-bs-sequence-transaction-mayapy-161b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-bs-sequence-transaction-mayapy-161b", "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "mayapy"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 240},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-maya-route-runtime-assessment-retry-161a"], "result": "INCONCLUSIVE", "classification": "maya_mayapy_route_unregistered", "evidence": "No route handler registered for maya:mayapy; product code was not executed.", "delivery_id": "d95f0b57b7d760b9561e", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "action": {"type": "maya", "target": "mayapy"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"timeout": 240},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "INCONCLUSIVE", "classification": "maya_mayapy_route_unregistered", "evidence": "No route handler registered for maya:mayapy; product code was not executed.", "delivery_id": "d95f0b57b7d760b9561e", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-maya-mayapy-route-enablement-161c",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-maya-mayapy-route-enablement-161c", "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "implementation", "target": "aibridge_route"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": true, "push": true},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-bs-sequence-transaction-mayapy-161b"], "result": "INCONCLUSIVE", "classification": "unsupported_route_configuration", "evidence": "Bridge returned: No route handler registered for implementation:aibridge_route. No implementation ran.", "delivery_id": "c594d47d7c60cbcf5c03", "architect_diagnosis": "The route-enablement task itself used a nonexistent route. Repository history proves the reusable AIBridge maya:managed_live_smoke route already existed and passed repeatedly; enabling a new route is unnecessary. Restore the historically proven route contract instead.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "action": {"type": "implementation", "target": "aibridge_route"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": true, "push": true},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"}, "payload": {"timeout": 300},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "INCONCLUSIVE", "classification": "unsupported_route_configuration", "evidence": "Bridge returned: No route handler registered for implementation:aibridge_route. No implementation ran.", "delivery_id": "c594d47d7c60cbcf5c03", "architect_diagnosis": "The route-enablement task itself used a nonexistent route. Historical evidence proves maya:managed_live_smoke is the reusable working host-validation route.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-bs-sequence-transaction-managed-live-161d",
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-bs-sequence-transaction-managed-live-161d", "status": "pending", "architect_ack": true, "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "action": {"type": "maya", "target": "managed_live_smoke"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "isolated_scene": true,
-        "save_scene": false,
-        "maya_version": "2024",
-        "module": "aimayatool.tools.scene.bs_sequence_from_obj_keys_smoke",
-        "callable": "run_bs_sequence_from_obj_keys_smoke",
-        "expected_window": "",
-        "startup_timeout": 180,
-        "operation_timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-maya-mayapy-route-enablement-161c"],
-        "purpose": "Validate the composed rollback-aware BSSequence transaction through the historically proven reusable managed Maya 2024 route.",
-        "smoke_commit": "684735a1aa6898b068f057f3aff2627dfa162891",
-        "route_evidence": "Historical AIMayaToolTask at f337261fd2d69bdfd2b51fd01b64920ee351c381 used action maya:managed_live_smoke successfully; HISTORY.md records repeated managed-live Maya 2024 PASS evidence.",
-        "acceptance": ["Fast-forward main through the managed smoke commit.", "Reuse a healthy managed Maya 2024 session when available, otherwise launch/recover according to GUIDE.md.", "Force a fresh unsaved scene and do not save it.", "Run aimayatool.tools.scene.bs_sequence_from_obj_keys_smoke.run_bs_sequence_from_obj_keys_smoke.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_BS_SEQUENCE_TRANSACTION_OK:2 for PASS.", "Verify real sampled meshes, group parenting, blendShape, main/proxy/joint attributes, driven-key curves, ShowBS visibility evaluation, currentTime restoration, and driver restoration.", "Return maya_quit=false on normal success.", "Do not use Codex."],
-        "next_if_pass": "Architect records BSSequence composed host validation and continues the next dependency-ready ScenePattern parity slice.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.bs_sequence_from_obj_keys_smoke", "callable": "run_bs_sequence_from_obj_keys_smoke", "operation_timeout": 300},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "bs_sequence_transaction_managed_maya2024_proven", "proven_main_commit": "619f1a59271ac5bd767e23b3bbb6017fdcb4d529", "smoke_commit": "684735a1aa6898b068f057f3aff2627dfa162891", "delivery_id": "77bff7b38e77497fae4f", "managed_pid": 19092, "managed_port": 7001, "session": "existing", "new_scene_forced": true, "scene_saved": false, "maya_quit": false, "evidence": "Managed Maya 2024 smoke returned AIBRIDGE_UI_SMOKE_OK:SCENE_BS_SEQUENCE_TRANSACTION_OK:2 after fast-forwarding main to 619f1a59271ac5bd767e23b3bbb6017fdcb4d529. Real host validation covered sampled meshes, group parenting, blendShape, main/proxy/joint attrs, driven-key curves, ShowBS visibility evaluation, currentTime restoration, and driver restoration.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-next-workflow-inventory-161e", "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-bs-sequence-transaction-managed-live-161d"], "purpose": "Re-read current ScenePattern parity evidence after BSSequence host acceptance and identify the next smallest unmigrated useful legacy Scene workflow without duplicating already-proven slices.", "acceptance": ["Fast-forward main.", "Inspect current AIMayaTool Scene modules and current task/goal evidence.", "Report the next smallest dependency-ready ScenePattern parity workflow or explicit supersession decision with source/evidence; do not modify product code.", "Do not reopen BSSequence or unsupported maya:mayapy route work.", "Do not use Codex."], "next_if_pass": "Architect implements or queues the identified smallest ScenePattern parity slice.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
