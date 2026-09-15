@@ -25,7 +25,7 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/aim_constraint.py", "aimayatool/tools/scene/aim_constraint_smoke.py", "aimayatool/tools/scene/animation_backup.py", "aimayatool/tools/scene/animation_backup_smoke.py", "aimayatool/tools/scene/bs_sequence.py", "aimayatool/tools/scene/bs_sequence_smoke.py"], "imports": ["aimayatool.tools.scene.aim_constraint", "aimayatool.tools.scene.aim_constraint_smoke", "aimayatool.tools.scene.animation_backup", "aimayatool.tools.scene.animation_backup_smoke", "aimayatool.tools.scene.bs_sequence", "aimayatool.tools.scene.bs_sequence_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": {"task_id": "aimayatool-goal007-scene-pattern-deterministic-regression-import-retry-157f", "result": "PASS", "architect_ack": true, "bridge_completed": true, "classification": "scene_pattern_deterministic_regression_python_pass"}, "result": "PASS", "classification": "scene_pattern_concrete_host_boundary_python_pass", "proven_main_commit": "a26299f47825725fbc5a7af08a8ffd25b8e42297", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "PASS", "classification": "scene_pattern_concrete_host_boundary_python_pass", "proven_main_commit": "a26299f47825725fbc5a7af08a8ffd25b8e42297", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-concrete-managed-live-158b",
@@ -37,26 +37,39 @@
       "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "module": "aimayatool.tools.scene.aim_constraint_smoke", "callable": "run_scene_aim_constraint_smoke", "expected_marker": "AIBRIDGE_UI_SMOKE_OK:SCENE_AIM_CONSTRAINT_OK:1", "fresh_scene": true, "save_scene": false, "quit_maya": false, "timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-maya-smoke-boundary-158a"], "result": "INCONCLUSIVE", "classification": "route_unavailable_maya_live_managed", "failure_evidence": "Bridge returned: No route handler registered for maya_live:managed. No Maya smoke callable executed and no AIMayaTool product failure was observed.", "architect_diagnosis": "Architect selected an unsupported route key. Repository router manifest currently marks maya:mayapy, maya:batch and maya:live as planned, while maya:runtime_discovery is the only declared reusable Maya runtime route. Treat this as orchestration capability evidence, not product failure.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-maya-smoke-boundary-158a"], "result": "INCONCLUSIVE", "classification": "route_unavailable_maya_live_managed", "failure_evidence": "Bridge returned: No route handler registered for maya_live:managed. No Maya smoke callable executed and no AIMayaTool product failure was observed.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-runtime-discovery-158c",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "maya", "target": "runtime_discovery"},
       "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "timeout": 120},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-concrete-managed-live-158b"], "result": "INCONCLUSIVE", "classification": "architect_task_permission_precondition_mismatch", "failure_evidence": "Bridge rejected runtime discovery before execution because git_pull precondition requires permissions.edit=true while task declared edit=false.", "architect_diagnosis": "No Maya discovery or product code executed. Retry grants edit solely so the inherited ff-only git_pull precondition can run; runtime discovery itself remains read-only and scene-non-mutating.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-runtime-discovery-retry-158d",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "runtime_discovery"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "timeout": 120},
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-concrete-managed-live-158b"],
-        "purpose": "Discover the Maya runtime/routes actually available to the bound worker before attempting host-mutating ScenePattern validation again.",
-        "acceptance": ["Fast-forward main.", "Run only read-only Maya runtime discovery; do not mutate a Maya scene.", "Return installed/available Maya runtime evidence and any supported execution route identifiers exposed by the worker.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex."],
-        "next_if_pass": "Use only a route proven available by runtime discovery for the three concrete ScenePattern smoke functions. If no executable Maya host route exists, preserve the host-validation blocker and continue only dependency-independent Scene work.",
-        "source_evidence": ".aibridge/routers.json declares maya:runtime_discovery as reuse/read-only, while maya:mayapy, maya:batch and maya:live are currently planned project routes.",
+        "depends_on": ["aimayatool-goal007-scene-pattern-runtime-discovery-158c"],
+        "retry_of": "aimayatool-goal007-scene-pattern-runtime-discovery-158c",
+        "purpose": "Retry read-only Maya runtime discovery with the permission required by the standard ff-only git_pull precondition.",
+        "acceptance": ["Fast-forward main.", "Run Maya runtime discovery only; do not mutate a Maya scene.", "Return installed/available Maya runtime evidence and supported execution route identifiers exposed by the worker.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex."],
+        "permission_note": "permissions.edit=true is granted only because AIBrigde requires it for the git_pull precondition; the requested Maya discovery action remains read-only.",
+        "next_if_pass": "Use only an execution route proven available by discovery for ScenePattern host smoke validation. If no executable Maya route exists, preserve blocker and continue dependency-independent Scene work.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
