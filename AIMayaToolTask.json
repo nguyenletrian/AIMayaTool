@@ -1,31 +1,71 @@
 {
   "version": 1,
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
-  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
+  "force_restart": {
+    "enabled": false,
+    "request_id": "aimayatool-setup-migration-119",
+    "reason": "healthy_managed_maya_session_reusable"
+  },
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-create-attribute-setup-primitive-verify-159k", "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "task_id": "aimayatool-goal007-scene-pattern-create-attribute-setup-primitive-verify-159k",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"files": ["aimayatool/tools/setup/attributes.py", "aimayatool/tools/setup/attributes_create_python_smoke.py"], "imports": ["aimayatool.tools.setup.attributes", "aimayatool.tools.setup.attributes_create_python_smoke"], "tests": [], "timeout": 180},
       "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "setup_create_attribute_deterministic_python_pass", "proven_main_commit": "11525227de5620971ce2a06811b1f8fdcde60e81", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-create-attribute-composition-verify-159l", "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "task_id": "aimayatool-goal007-scene-pattern-create-attribute-composition-verify-159l",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"files": ["aimayatool/tools/setup/attributes.py", "aimayatool/tools/scene/create_attribute.py", "aimayatool/tools/scene/create_attribute_python_smoke.py", "aimayatool/tools/scene/create_attribute_smoke.py"], "imports": ["aimayatool.tools.setup.attributes", "aimayatool.tools.scene.create_attribute", "aimayatool.tools.scene.create_attribute_python_smoke"], "tests": [], "timeout": 180},
       "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "scene_create_attribute_composition_python_pass", "proven_main_commit": "6cbbde9f18202df55dc2c6f9a6f2f2af56630754", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-boundary-159m", "status": "pending", "architect_ack": true, "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-boundary-159m",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"files": ["aimayatool/tools/setup/controls.py", "aimayatool/tools/setup/__init__.py", "aimayatool/tools/scene/__init__.py"], "imports": ["aimayatool.tools.setup.controls", "aimayatool.tools.setup", "aimayatool.tools.scene"], "tests": [], "timeout": 180},
       "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "scene_control_shape_setup_boundary_python_pass", "proven_main_commit": "c7a0a945cb0e7f7f08190cea828866d7e42a16da", "evidence": "Bridge compiled controls.py, setup/__init__.py and scene/__init__.py and imported all requested Python-safe boundaries successfully.", "architect_diagnosis": "Setup control-shape boundary is clean. Legacy ControlShape/ControlShapeAS mix serialized pattern behavior with interactive helper/UI/file workflows; Scene should retain only deterministic pattern data/composition while Setup owns curve-shape mechanics.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-composition-verify-159n", "status": "pending", "architect_ack": false, "bridge_completed": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-composition-verify-159n",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/controls.py", "aimayatool/tools/scene/control_shape.py", "aimayatool/tools/scene/control_shape_python_smoke.py"], "imports": ["aimayatool.tools.setup.controls", "aimayatool.tools.scene.control_shape", "aimayatool.tools.scene.control_shape_python_smoke"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-control-shape-boundary-159m"], "purpose": "Verify the new thin Scene ControlShape deterministic data/plan wrapper delegates shape replacement to Setup controls rather than copying legacy Maya/UI mechanics.", "acceptance": ["Fast-forward main including ControlShape wrapper commit 69ea1f10f251e7d472b5689c86f8893fa3b214d9 and Python smoke commit e7726ceeeeec1f730b19540a06fd934c37b36da0.", "Compile all three listed files.", "Import all three in normal Python; smoke must emit SCENE_CONTROL_SHAPE_PYTHON_SMOKE_OK:3.", "No Maya runtime parity is claimed by this tier.", "Do not migrate legacy MirrorShape/CopyShape/file-dialog helpers into this Scene wrapper and do not use Codex."], "next_if_pass": "Architect marks deterministic ControlShape composition proven, records ControlShapeAS as the same canonical composition family unless source evidence proves a distinct required runtime behavior, then continues exact ScenePattern reconciliation with the next dependency-ready pattern.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-control-shape-boundary-159m"], "purpose": "Verify the new thin Scene ControlShape deterministic data/plan wrapper delegates shape replacement to Setup controls rather than copying legacy Maya/UI mechanics.", "acceptance": ["Fast-forward main including ControlShape wrapper commit 69ea1f10f251e7d472b5689c86f8893fa3b214d9 and Python smoke commit e7726ceeeeec1f730b19540a06fd934c37b36da0.", "Compile all three listed files.", "Import all three in normal Python; smoke must emit SCENE_CONTROL_SHAPE_PYTHON_SMOKE_OK:3.", "No Maya runtime parity is claimed by this tier.", "Do not migrate legacy MirrorShape/CopyShape/file-dialog helpers into this Scene wrapper and do not use Codex."], "next_if_pass": "Architect marks deterministic ControlShape composition proven, records ControlShapeAS as the same canonical composition family unless source evidence proves a distinct required runtime behavior, then continues exact ScenePattern reconciliation with the next dependency-ready pattern.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_control_shape_composition_python_pass", "proven_main_commit": "e7726ceeeeec1f730b19540a06fd934c37b36da0", "evidence": "Python verification passed; ControlShape wrapper and smoke are proven at normal-Python tier.", "architect_diagnosis": "ControlShape deterministic composition is proven. ControlShapeAS exists as a materially larger distinct legacy source file, so do not collapse it by assumption; inventory its runtime/data delta before deciding canonicalization."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-inventory-159o",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/control_shape.py", "aimayatool/tools/setup/controls.py"], "imports": ["aimayatool.tools.scene.control_shape", "aimayatool.tools.setup.controls"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-control-shape-composition-verify-159n"], "purpose": "Bounded reconciliation checkpoint for legacy Scene_Pattern_ControlShapeAS.py versus the proven canonical Scene ControlShape composition before any duplicate migration.", "acceptance": ["Compile/import the current canonical Scene ControlShape and Setup controls boundaries.", "Report whether current product boundaries remain Python-safe after the proven ControlShape composition.", "Do not add a duplicate ControlShapeAS implementation in this task; preserve evidence for Architect-side source-delta classification.", "Do not use Codex."], "next_if_pass": "Architect compares legacy ControlShapeAS source evidence against ControlShape and either records it as duplicate/superseded or implements only a distinct required deterministic behavior, then continues to the next ScenePattern family.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
