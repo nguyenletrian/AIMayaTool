@@ -1,57 +1,29 @@
 {
   "version": 1,
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
-  "force_restart": {
-    "enabled": false,
-    "request_id": "aimayatool-setup-migration-119",
-    "reason": "healthy_managed_maya_session_reusable"
-  },
+  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-io-verify-149a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-io-verify-149a", "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/control_shape_io.py", "aimayatool/tools/scene/control_shape_io_smoke.py"], "imports": ["aimayatool.tools.scene.control_shape_io"], "tests": [], "timeout": 180},
       "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": [{"task_id": "aimayatool-goal007-scene-pattern-create-ik-managed-live-148b", "result": "PASS", "architect_ack": true, "bridge_completed": true, "proven_main_commit": "02f525f96c704f128682b31afb12e82f0c8229a4"}], "purpose": "Verify the first bounded ControlShape parity slice: deterministic curve CV/color/visibility data collection and application.", "implementation_commit": "125f23b483324a10692f40882d0860bcbb205be8", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_control_shape_io_python_verification_pass", "proven_main_commit": "56d38d98d84f42e939a98763098f85e240023cba"}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-io-managed-live-149b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-io-managed-live-149b", "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "action": {"type": "maya", "target": "managed_live_smoke"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.control_shape_io_smoke", "callable": "run_scene_control_shape_io_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
       "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-control-shape-io-verify-149a"], "purpose": "Validate bounded ControlShape data IO parity in Maya 2024.", "implementation_commit": "125f23b483324a10692f40882d0860bcbb205be8", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_control_shape_io_maya_live_parity_pass", "proven_main_commit": "28ebc681e92c0f05b1e0f62207a6a4000519ff4f", "evidence": "Managed Maya 2024 reused healthy PID 19092 on port 7001, forced a fresh unsaved scene, and returned AIBRIDGE_UI_SMOKE_OK:SCENE_CONTROL_SHAPE_IO_OK:1; local CV/color round-trip, missing-control skip and mismatch guard passed; scene_saved=false and maya_quit=false."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-copy-verify-150a",
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-copy-verify-150a", "status": "pending", "architect_ack": true, "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "action": {"type": "verification", "target": "python"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/control_shape_copy.py", "aimayatool/tools/scene/control_shape_copy_smoke.py"], "imports": ["aimayatool.tools.scene.control_shape_copy"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-control-shape-io-managed-live-149b"], "purpose": "Verify bounded ControlShape copy/mirror parity before Maya execution.", "acceptance": ["Fast-forward main.", "Compile control_shape_copy.py and control_shape_copy_smoke.py.", "Import aimayatool.tools.scene.control_shape_copy outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "f5968594ae8f116ddce76678981bb935b5c5beb3", "source_evidence": "Legacy Scene_Pattern_ControlShape.py provides CopyShape and MirrorShape operations. This bounded migration isolates shape replacement and mirrored CV positioning from legacy UI/PyMEL coupling.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-control-shape-io-managed-live-149b"], "purpose": "Verify bounded ControlShape copy/mirror parity before Maya execution.", "acceptance": ["Fast-forward main.", "Compile control_shape_copy.py and control_shape_copy_smoke.py.", "Import aimayatool.tools.scene.control_shape_copy outside Maya successfully.", "Do not execute Maya smoke in this Python-only task.", "Do not invoke Codex."], "implementation_commit": "f5968594ae8f116ddce76678981bb935b5c5beb3", "source_evidence": "Legacy Scene_Pattern_ControlShape.py provides CopyShape and MirrorShape operations. This bounded migration isolates shape replacement and mirrored CV positioning from legacy UI/PyMEL coupling.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.", "result": "PASS", "classification": "scene_control_shape_copy_python_verification_pass", "proven_main_commit": "1d12452729a4f3cc877f0a12f3dbaa0b98c1c629", "evidence": "Bridge fast-forwarded main from 28ebc681e92c0f05b1e0f62207a6a4000519ff4f to 1d12452729a4f3cc877f0a12f3dbaa0b98c1c629; py_compile passed for control_shape_copy.py and control_shape_copy_smoke.py, and import of aimayatool.tools.scene.control_shape_copy passed outside Maya."}
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-copy-managed-live-150b",
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-copy-managed-live-150b", "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"}, "action": {"type": "maya", "target": "managed_live_smoke"}, "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false}, "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "isolated_scene": true, "save_scene": false, "maya_version": "2024", "module": "aimayatool.tools.scene.control_shape_copy_smoke", "callable": "run_scene_control_shape_copy_smoke", "expected_window": "", "live_port": 7001, "startup_timeout": 180, "operation_timeout": 300},
       "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-control-shape-copy-verify-150a"], "purpose": "Validate bounded ControlShape copy/mirror parity in Maya 2024.", "acceptance": ["Run only after 150a passes.", "Force a fresh unsaved scene and do not save.", "Require AIBRIDGE_UI_SMOKE_OK:SCENE_CONTROL_SHAPE_COPY_OK:3 for PASS.", "Verify target transform preservation, shape replacement, X-mirror CV positions, missing-object skip and CV mismatch guard.", "Return scene_saved=false and maya_quit=false on normal success.", "Do not invoke Codex."], "implementation_commit": "f5968594ae8f116ddce76678981bb935b5c5beb3", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
