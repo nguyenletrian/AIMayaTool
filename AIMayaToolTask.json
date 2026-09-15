@@ -17,31 +17,7 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py"], "imports": ["aimayatool.tools.scene"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": {"task_id": "aimayatool-goal007-scene-pattern-script-hook-assessment-156a", "result": "PASS", "architect_ack": true, "bridge_completed": true}, "result": "PASS", "classification": "scene_script_hook_inventory_python_verification_pass", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-catalog-parity-157a",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-script-hook-inventory-156b"], "result": "PASS", "classification": "scene_pattern_catalog_python_verification_pass", "proven_main_commit": "10f68994f5ed37ec265c80440d97d160ff750df6", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-exact-parity-inventory-157b",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-catalog-parity-157a"], "result": "PASS", "classification": "scene_pattern_exact_parity_inventory_checkpoint_pass", "proven_main_commit": "5a796380eac5e49426ec21575ddaf88e1ee675df", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "result": "PASS", "classification": "scene_script_hook_inventory_python_verification_pass", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-public-api-assessment-157c",
@@ -53,10 +29,22 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/__init__.py", "aimayatool/tools/scene/catalog.py", "aimayatool/tools/scene/catalog_io.py", "aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py"], "imports": ["aimayatool.tools.scene", "aimayatool.tools.scene.catalog", "aimayatool.tools.scene.catalog_io", "aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations"], "tests": [], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-exact-parity-inventory-157b"], "result": "PASS", "classification": "scene_pattern_public_api_assessment_python_pass", "proven_main_commit": "f656bc850f61df104867e6b7975c665e136ae154", "architect_diagnosis": "The deterministic ScenePattern public boundary is Python-clean. Concrete migrated workflows can remain focused module-level APIs unless registry/UI evidence later requires explicit package exports; no speculative export change is justified by this checkpoint alone.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": [], "archived_prerequisite": {"task_id": "aimayatool-goal007-scene-pattern-exact-parity-inventory-157b", "result": "PASS", "architect_ack": true, "bridge_completed": true}, "result": "PASS", "classification": "scene_pattern_public_api_assessment_python_pass", "proven_main_commit": "f656bc850f61df104867e6b7975c665e136ae154", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-deterministic-regression-157d",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/patterns_smoke.py", "aimayatool/tools/scene/operations_smoke.py"], "imports": ["aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations"], "tests": ["python aimayatool/tools/scene/patterns_smoke.py", "python aimayatool/tools/scene/operations_smoke.py"], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-public-api-assessment-157c"], "result": "FAIL", "classification": "architect_task_definition_missing_smoke_files", "failure_evidence": "Bridge rejected the verification request before product execution because patterns_smoke.py did not exist at task dispatch time.", "architect_diagnosis": "Task definition referenced smoke files that were not present. This is an Architect-side verification-definition defect, not an AIMayaTool product failure. Added deterministic patterns_smoke.py and operations_smoke.py on main and queued a bounded retry.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-deterministic-regression-retry-157e",
       "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
@@ -74,10 +62,11 @@
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-public-api-assessment-157c"],
-        "purpose": "Prove ScenePattern behavior rather than stopping at importability: deterministic serialization/version validation, duplicate-safe registry behavior, non-mutating edits, and save/load round-trip must pass before closing the ScenePattern framework slice.",
-        "acceptance": ["Fast-forward main.", "Compile/import patterns.py and operations.py.", "Run existing patterns_smoke.py and operations_smoke.py successfully.", "Verification must cover deterministic ScenePattern/registry/edit/save-load behavior encoded by the repository smoke scripts.", "Do not execute Maya-mutating ScenePattern actions.", "Do not execute arbitrary stored script paths.", "Do not invoke Codex."],
-        "source_evidence": "patterns.py defines versioned ScenePattern serialization plus explicit duplicate handling in PatternRegistry; operations.py defines non-mutating edit_pattern and UTF-8 save/load round-trip. Existing repository smoke scripts are the cheapest sufficient deterministic validation tier before any Maya-host validation.",
+        "depends_on": ["aimayatool-goal007-scene-pattern-deterministic-regression-157d"],
+        "retry_of": "aimayatool-goal007-scene-pattern-deterministic-regression-157d",
+        "purpose": "Retry deterministic ScenePattern behavior verification after adding the two missing smoke scripts. Prove versioned serialization, duplicate-safe registry behavior, non-mutating edit, overwrite guard and save/load round-trip.",
+        "acceptance": ["Fast-forward main containing both new smoke files.", "Compile all four explicit files.", "Import patterns and operations.", "patterns_smoke.py prints AIMAYATOOL_SCENE_PATTERN_SMOKE_OK and exits zero.", "operations_smoke.py prints AIMAYATOOL_SCENE_OPERATIONS_SMOKE_OK and exits zero.", "Do not execute Maya-mutating actions or arbitrary stored script paths.", "Do not invoke Codex."],
+        "implementation_evidence": {"patterns_smoke_commit": "9b7d3d9bea3f5aa20be130548dc5dc3831df8311", "operations_smoke_commit": "0574783ed401711d1171532bf002271b76db92b5"},
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
