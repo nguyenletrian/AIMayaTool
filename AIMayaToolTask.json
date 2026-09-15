@@ -41,10 +41,22 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
       "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/patterns_smoke.py", "aimayatool/tools/scene/operations_smoke.py"], "imports": ["aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations"], "tests": ["python aimayatool/tools/scene/patterns_smoke.py", "python aimayatool/tools/scene/operations_smoke.py"], "timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-public-api-assessment-157c"], "result": "FAIL", "classification": "architect_task_definition_missing_smoke_files", "failure_evidence": "Bridge rejected the verification request before product execution because patterns_smoke.py did not exist at task dispatch time.", "architect_diagnosis": "Task definition referenced smoke files that were not present. This is an Architect-side verification-definition defect, not an AIMayaTool product failure. Added deterministic patterns_smoke.py and operations_smoke.py on main and queued a bounded retry.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-public-api-assessment-157c"], "result": "FAIL", "classification": "architect_task_definition_missing_smoke_files", "failure_evidence": "Bridge rejected the verification request before product execution because patterns_smoke.py did not exist at task dispatch time.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
       "task_id": "aimayatool-goal007-scene-pattern-deterministic-regression-retry-157e",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/patterns_smoke.py", "aimayatool/tools/scene/operations_smoke.py"], "imports": ["aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations"], "tests": ["python aimayatool/tools/scene/patterns_smoke.py", "python aimayatool/tools/scene/operations_smoke.py"], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-deterministic-regression-157d"], "retry_of": "aimayatool-goal007-scene-pattern-deterministic-regression-157d", "result": "FAIL", "classification": "architect_task_definition_invalid_unittest_target", "failure_evidence": "Bridge rejected tests entry 'python aimayatool/tools/scene/patterns_smoke.py' as an invalid unittest target before product execution.", "architect_diagnosis": "The Python verification route interprets payload.tests as unittest module/target identifiers, not shell commands. This is a second Architect-side task-definition defect, not an AIMayaTool product failure. Retry uses import execution of the smoke modules, matching the repository's established smoke-module pattern.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-deterministic-regression-import-retry-157f",
       "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
@@ -55,18 +67,18 @@
       "payload": {
         "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
         "files": ["aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/patterns_smoke.py", "aimayatool/tools/scene/operations_smoke.py"],
-        "imports": ["aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations"],
-        "tests": ["python aimayatool/tools/scene/patterns_smoke.py", "python aimayatool/tools/scene/operations_smoke.py"],
+        "imports": ["aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.scene.patterns_smoke", "aimayatool.tools.scene.operations_smoke"],
+        "tests": [],
         "timeout": 180
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-deterministic-regression-157d"],
-        "retry_of": "aimayatool-goal007-scene-pattern-deterministic-regression-157d",
-        "purpose": "Retry deterministic ScenePattern behavior verification after adding the two missing smoke scripts. Prove versioned serialization, duplicate-safe registry behavior, non-mutating edit, overwrite guard and save/load round-trip.",
-        "acceptance": ["Fast-forward main containing both new smoke files.", "Compile all four explicit files.", "Import patterns and operations.", "patterns_smoke.py prints AIMAYATOOL_SCENE_PATTERN_SMOKE_OK and exits zero.", "operations_smoke.py prints AIMAYATOOL_SCENE_OPERATIONS_SMOKE_OK and exits zero.", "Do not execute Maya-mutating actions or arbitrary stored script paths.", "Do not invoke Codex."],
-        "implementation_evidence": {"patterns_smoke_commit": "9b7d3d9bea3f5aa20be130548dc5dc3831df8311", "operations_smoke_commit": "0574783ed401711d1171532bf002271b76db92b5"},
+        "depends_on": ["aimayatool-goal007-scene-pattern-deterministic-regression-retry-157e"],
+        "retry_of": "aimayatool-goal007-scene-pattern-deterministic-regression-retry-157e",
+        "purpose": "Execute the deterministic ScenePattern smoke modules through the verification route's supported import mechanism. Both smoke modules run their assertions at import time, consistent with existing Scene smoke-module conventions.",
+        "acceptance": ["Fast-forward main.", "Compile all four explicit files.", "Import patterns.py and operations.py.", "Import patterns_smoke.py and operations_smoke.py successfully so their import-time assertions execute.", "No Maya-mutating actions or arbitrary stored script paths execute.", "Do not invoke Codex."],
+        "source_evidence": "Existing catalog_smoke.py follows the same import-time SMOKE_RESULT convention. Bridge evidence proves payload.tests expects unittest targets, so shell-style test commands are invalid for this route.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
