@@ -58,29 +58,14 @@
     {
       "task_id": "aimayatool-goal007-scene-pattern-deterministic-regression-import-retry-157f",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "action": {"type": "verification", "target": "python"},
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "files": ["aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/patterns_smoke.py", "aimayatool/tools/scene/operations_smoke.py"],
-        "imports": ["aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.scene.patterns_smoke", "aimayatool.tools.scene.operations_smoke"],
-        "tests": [],
-        "timeout": 180
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-deterministic-regression-retry-157e"],
-        "retry_of": "aimayatool-goal007-scene-pattern-deterministic-regression-retry-157e",
-        "purpose": "Execute the deterministic ScenePattern smoke modules through the verification route's supported import mechanism. Both smoke modules run their assertions at import time, consistent with existing Scene smoke-module conventions.",
-        "acceptance": ["Fast-forward main.", "Compile all four explicit files.", "Import patterns.py and operations.py.", "Import patterns_smoke.py and operations_smoke.py successfully so their import-time assertions execute.", "No Maya-mutating actions or arbitrary stored script paths execute.", "Do not invoke Codex."],
-        "source_evidence": "Existing catalog_smoke.py follows the same import-time SMOKE_RESULT convention. Bridge evidence proves payload.tests expects unittest targets, so shell-style test commands are invalid for this route.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/scene/patterns.py", "aimayatool/tools/scene/operations.py", "aimayatool/tools/scene/patterns_smoke.py", "aimayatool/tools/scene/operations_smoke.py"], "imports": ["aimayatool.tools.scene.patterns", "aimayatool.tools.scene.operations", "aimayatool.tools.scene.patterns_smoke", "aimayatool.tools.scene.operations_smoke"], "tests": [], "timeout": 180},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-deterministic-regression-retry-157e"], "retry_of": "aimayatool-goal007-scene-pattern-deterministic-regression-retry-157e", "result": "PASS", "classification": "scene_pattern_deterministic_regression_python_pass", "proven_main_commit": "3d2bcb93d0938ce0f27d86ca9603072c2a424e7d", "evidence": "Bridge compiled patterns.py, operations.py, patterns_smoke.py and operations_smoke.py successfully, then imported patterns, operations and both smoke modules with exit code 0. Importing the smoke modules executes their assertions, proving the deterministic behavior encoded there.", "architect_diagnosis": "ScenePattern deterministic framework regression is now proven at the normal-Python tier. The earlier 157d/157e failures were verification-definition defects only; the corrected supported route passes without Maya mutation or arbitrary script execution.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
