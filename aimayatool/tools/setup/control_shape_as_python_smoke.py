@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import unittest
 from aimayatool.tools.setup.controls import build_curve_create_kwargs, create_curve_from_shape_data, normalize_curve_shape_data
 
 
@@ -22,4 +23,8 @@ def run():
     return True
 
 
-if __name__ == "__main__": run()
+class ControlShapeASSmokeTest(unittest.TestCase):
+    def test_behavior(self): self.assertTrue(run())
+
+
+if __name__ == "__main__": unittest.main()
