@@ -4,20 +4,52 @@
   "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
     {
-      "task_id":"aimayatool-goal007-scene-pattern-create-curve-maya-161w","status":"pending","architect_ack":true,"bridge_completed":true,
-      "project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"maya","target":"managed_live_smoke"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":300},
-      "metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","result":"PASS","classification":"create_curve_managed_maya2024_proven","delivery_id":"073fc8dd9ffceeac5d6c","accepted_commit":"e500a457bed90a90fe77facecc15a20913d33325","history_commit":"c6451a9897937bacf4c2e12692dfeea9b459c49a","evidence":{"maya_version":"2024","managed_pid":15220,"session":"existing","scene_saved":false,"basic":true,"rebuild":true,"missing_parent":true,"success":true},"owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}
+      "task_id": "aimayatool-goal007-scene-pattern-create-curve-maya-161w",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "maya", "target": "managed_live_smoke"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"timeout": 300},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "create_curve_managed_maya2024_proven", "delivery_id": "073fc8dd9ffceeac5d6c", "accepted_commit": "e500a457bed90a90fe77facecc15a20913d33325", "history_commit": "c6451a9897937bacf4c2e12692dfeea9b459c49a", "evidence": {"maya_version": "2024", "managed_pid": 15220, "session": "existing", "scene_saved": false, "basic": true, "rebuild": true, "missing_parent": true, "success": true}, "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id":"aimayatool-goal007-scene-pattern-create-ik-inventory-161x","status":"pending","architect_ack":true,"bridge_completed":true,
-      "project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":false,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":240},
-      "metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-scene-pattern-create-curve-maya-161w"],"result":"INCONCLUSIVE","classification":"git_pull_precondition_permission_mismatch","delivery_id":"1ad83d8b317aceefb516","architect_diagnosis":"Task requested an ff-only git_pull precondition while permissions.edit=false. AIBrigde correctly rejected the precondition before inventory execution; this is task-contract configuration failure, not AIMayaTool product failure.","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}
+      "task_id": "aimayatool-goal007-scene-pattern-create-ik-inventory-161x",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"timeout": 240},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-create-curve-maya-161w"], "result": "INCONCLUSIVE", "classification": "git_pull_precondition_permission_mismatch", "delivery_id": "1ad83d8b317aceefb516", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     },
     {
-      "task_id":"aimayatool-goal007-scene-pattern-create-ik-inventory-retry-161y","status":"pending","architect_ack":false,"bridge_completed":false,
-      "project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},
-      "payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/scene/create_curve_python_smoke.py"],"timeout":240},
-      "metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-scene-pattern-create-ik-inventory-161x"],"retry_of":"aimayatool-goal007-scene-pattern-create-ik-inventory-161x","purpose":"Prepare the next ScenePattern parity slice for legacy CreateIK without bulk-copying its large UI-coupled implementation.","legacy_source":"UIs/ScenePattern/Scene_Pattern_CreateIK.py","instruction":"Inspect current AIMayaTool Setup/Scene primitives against legacy CreateIK. Identify reusable offset/group, joint-chain, IK handle, pole-vector, FK control, constraint, proxy-attribute, visibility, and space-switch primitives. Return a bounded migration decomposition and exact gaps; do not modify product code. Legacy CreateIK requires exactly three source objects and contains substantial NLTA/UI coupling, so prefer composition of existing clean primitives over copying the monolith. Do not use Codex.","acceptance":["ff-only git_pull precondition succeeds.","Current AIMayaTool reusable primitives are identified before implementation.","Useful legacy CreateIK behavior is separated from UI/serialization coupling.","Three-object and non-collinear geometry requirements are documented.","A bounded dependency-ready first implementation slice is specified without duplicating existing Setup helpers."],"next_if_pass":"Architect implements the smallest dependency-ready CreateIK composition slice using existing Setup primitives and adds focused deterministic verification before Maya validation.","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}
+      "task_id": "aimayatool-goal007-scene-pattern-create-ik-inventory-retry-161y",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"timeout": 240},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-create-ik-inventory-161x"], "retry_of": "aimayatool-goal007-scene-pattern-create-ik-inventory-161x", "result": "INCONCLUSIVE", "classification": "route_anchor_passed_create_ik_inventory_not_returned", "delivery_id": "0cdd904ef918a4bf5556", "evidence": {"git_pull": true, "anchor_py_compile": true, "inventory_returned": false}, "architect_diagnosis": "The route only compiled the CreateCurve anchor and returned no CreateIK inventory. Architect performed the bounded repository inventory directly instead of repeating a route that does not execute free-form inspection instructions.", "architect_inventory": {"reusable": ["setup.transforms.insert_offset_group", "setup.transforms.create_joints_at_references", "setup.controls.create_control/create_zero_group", "setup.ikfk.create_rp_ik", "setup.ikfk.create_ikfk_blend", "setup.ikfk.wire_ikfk_switch", "setup.spaces.create_space_switch"], "legacy_requirements": ["exactly_three_source_objects", "non_collinear_three_point_geometry", "bind_fk_ik_joint_chains", "pole_vector", "fk_controls", "ik_control", "ikfk_switch", "visibility", "optional_local_world_space"], "first_gap": "A clean Scene-level deterministic three-point CreateIK plan/composer is missing; existing Setup primitives should be composed rather than duplicated."}, "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-create-ik-plan-161z",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": true, "push": true},
+      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/ikfk.py", "aimayatool/tools/setup/transforms.py", "aimayatool/tools/setup/controls.py", "aimayatool/tools/setup/spaces.py"], "timeout": 300},
+      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-create-ik-inventory-retry-161y"], "purpose": "Implement the smallest clean Scene CreateIK composition slice on top of already-migrated Setup primitives.", "legacy_source": "UIs/ScenePattern/Scene_Pattern_CreateIK.py", "instruction": "Add a focused aimayatool.tools.scene CreateIK module and Python smoke. Keep pure normalization/geometry planning separate from Maya mutation. Require exactly three explicit source objects; compute/validate a non-collinear three-point plane and deterministic pole-vector position in Python. Represent parent/worldParent and naming inputs in the plan. At the Maya boundary compose existing Setup primitives where semantics match: transforms.insert_offset_group/create_joints_at_references, controls.create_control/create_zero_group, ikfk.create_rp_ik/create_ikfk_blend/wire_ikfk_switch, spaces.create_space_switch. Do not duplicate these helpers and do not copy legacy UI, JSON IO, PyMEL, NLTA modules, or reload patterns. The first slice may stop before full host construction if a reusable primitive mismatch is discovered, but it must return a precise structured gap rather than silently reimplementing it. Add focused deterministic tests for three-object normalization, non-collinear geometry/pole position, collinear rejection, and stable naming/plan output. Compile/import/test changed Python, commit and push product/test changes to main. Do not use Codex.", "acceptance": ["Scene CreateIK planning is deterministic and Maya-independent.", "Exactly three source objects are required and duplicates are rejected.", "Collinear three-point input is rejected before mutation.", "Pole-vector position and plane basis are deterministic for valid positions.", "Existing Setup primitives are reused rather than copied.", "No NLTA/PyMEL/UI/legacy JSON coupling is introduced.", "Focused Python smoke covers normalization, geometry, rejection, and naming/plan output.", "Changed Python compiles/imports and focused tests pass before commit/push."], "next_if_pass": "Architect inspects the committed slice, closes any composition gap directly if necessary, then queues managed Maya 2024 CreateIK host validation.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
     }
   ]
 }
