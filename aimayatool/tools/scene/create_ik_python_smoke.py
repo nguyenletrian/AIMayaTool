@@ -14,6 +14,8 @@ class CreateIKSmokeTest(unittest.TestCase):
         print("SCENE_CREATE_IK_PYTHON_SMOKE_OK")
     def test_validation(self):
         with self.assertRaises(ValueError): build_create_ik_plan(("a","b"),"rig")
+        with self.assertRaises(ValueError): build_create_ik_plan(("a","a","c"),"rig")
+        with self.assertRaises(ValueError): build_create_ik_plan(("a","","c"),"rig")
         with self.assertRaises(ValueError): build_three_point_frame(((0,0,0),(1,0,0),(2,0,0)))
 
 
