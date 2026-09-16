@@ -2,6 +2,15 @@
 
 This file records durable product/architecture milestones. Detailed task execution remains in `AIMayaToolTask.json`; active goals remain in `bridgeGoals.json`; Git history is the source of truth for exact changes.
 
+## 2026-09-16 — Scene CreateCurve slice accepted
+
+- Migrated the useful legacy ScenePattern CreateCurve behavior into deterministic AIMayaTool Scene planning/execution: multiline XYZ points, degree derived from point count, optional parent, hidden output, and optional rebuild spans.
+- Corrected legacy semantics by making rebuild conditional instead of preserving the apparent always-rebuild behavior.
+- Python route evidence proved both CreateCurve modules compile/import; the route twice omitted requested unittest execution, so that omission remains recorded as inconclusive route evidence rather than being misreported as a unit-test pass.
+- Managed Maya 2024 validation passed in the existing managed session with a fresh unsaved scene: basic parented/hidden curve, optional rebuilt curve, and missing-parent world fallback all returned true; marker payload reported `success: True`.
+- Accepted managed-smoke/product checkpoint: `e500a457bed90a90fe77facecc15a20913d33325`.
+- Validation tier: normal Python compile/import evidence + managed live Maya 2024 host mutation.
+
 ## 2026-09-16 — Scene CreateAttribute slice accepted
 
 - Migrated the legacy ScenePattern CreateAttribute workflow into deterministic AIMayaTool Scene APIs with normalized planning separated from Maya mutation.
