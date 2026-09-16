@@ -8,10 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-create-offset-implement-162e",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -22,35 +18,39 @@
         "target": "OpenAI",
         "via": "web"
       },
+      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-162f",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
       "action": {
-        "type": "verification",
-        "target": "python"
+        "type": "maya",
+        "target": "managed_live_smoke"
       },
       "permissions": {
         "read": true,
         "edit": true,
         "run_tests": true,
-        "commit": true,
-        "push": true
+        "commit": false,
+        "push": false
       },
       "payload": {
-        "timeout": 240
+        "timeout": 300
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "result": "INCONCLUSIVE",
-        "classification": "implementation_route_only_verified_setup_anchor",
-        "delivery_id": "157f996a5afbfb4e8248",
-        "architect_diagnosis": "Route compiled/imported only setup.transforms. Repository review found create_offset.py existed but incorrectly used controls.create_zero_group instead of the required setup.transforms.insert_offset_group and lacked the required managed Maya smoke. Architect corrected both directly at commit 417ab5c36c9ebbb8280e861f46aef6667568f1fd.",
+        "classification": "managed_maya_task_configuration_missing_save_scene_false",
+        "delivery_id": "720586761ece5eef40b2",
+        "evidence": {
+          "git_pull": true,
+          "product_executed": false,
+          "error": "Maya smoke requires payload.save_scene=false"
+        },
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-162f",
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -61,6 +61,10 @@
         "target": "OpenAI",
         "via": "web"
       },
+      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-retry-162g",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
       "action": {
         "type": "maya",
         "target": "managed_live_smoke"
@@ -83,24 +87,25 @@
         ],
         "module": "aimayatool.tools.scene.create_offset",
         "callable": "create_offset_managed_maya_smoke",
+        "save_scene": false,
         "timeout": 300
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-create-offset-implement-162e"
+          "aimayatool-goal007-scene-pattern-create-offset-maya-162f"
         ],
-        "purpose": "Validate corrected Scene CreateOffset composition in managed Maya 2024.",
+        "retry_of": "aimayatool-goal007-scene-pattern-create-offset-maya-162f",
+        "purpose": "Retry corrected Scene CreateOffset managed Maya 2024 validation with required unsaved-scene contract.",
         "acceptance": [
           "Fresh scene is used and remains unsaved.",
-          "Explicit suffix groups are created.",
-          "Empty suffix uses legacy <object>ExtraName fallback.",
-          "Missing object is skipped without aborting.",
+          "Explicit suffix and fallback naming pass.",
+          "Missing object is skipped.",
           "World matrices are preserved.",
           "Smoke returns success:true."
         ],
-        "next_if_pass": "Architect accepts CreateOffset, records durable HISTORY checkpoint, and inventories the next dependency-ready ScenePattern slice.",
+        "next_if_pass": "Architect accepts CreateOffset, records HISTORY, and inventories next ScenePattern slice.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
