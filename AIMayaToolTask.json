@@ -1,152 +1,17 @@
 {
   "version": 1,
   "history_checkpoint_blob": "c9404f150db66b6a9e55803a275872815d403e4e",
-  "force_restart": {
-    "enabled": false,
-    "request_id": "aimayatool-setup-migration-119",
-    "reason": "healthy_managed_maya_session_reusable"
-  },
+  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
-    {
-      "task_id": "aimayatool-goal007-bs-sequence-transaction-managed-live-161d",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"isolated_scene": true, "save_scene": false, "maya_version": "2024"},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "bs_sequence_transaction_managed_maya2024_proven", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-next-workflow-inventory-161e",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 180},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "INCONCLUSIVE", "classification": "invalid_python_verification_request", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-clear-offset-parity-161f",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": true, "push": true},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 240},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "INCONCLUSIVE", "classification": "invalid_python_unittest_target", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-clear-offset-parity-retry-161g",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": true, "push": true},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 240},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "archived_prerequisite": {"task_id": "aimayatool-goal007-clear-offset-parity-161f", "result": "INCONCLUSIVE", "architect_ack": true, "bridge_completed": true}, "result": "PASS", "classification": "python_verification_passed_but_acceptance_gap_detected", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-clear-offset-contract-fix-161h",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": true, "push": true},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 240},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-clear-offset-parity-retry-161g"], "result": "PASS", "classification": "verification_passed_but_repository_correction_not_applied", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-clear-offset-implementation-fix-161i",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "implementation", "target": "repository"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": true, "push": true},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-clear-offset-contract-fix-161h"], "result": "INCONCLUSIVE", "classification": "unsupported_route_configuration", "implementation_commits": ["173c6955e4aae46e6a0baa8b160357c309dc46af", "a89029869b8856c3087e021e34c5f8d7f90d2fdb"], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-clear-offset-correction-verify-161j",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 240},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-clear-offset-implementation-fix-161i"], "result": "INCONCLUSIVE", "classification": "invalid_precondition_permission_contract", "delivery_id": "0cc7422686061f51577c", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-clear-offset-correction-verify-retry-161k",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 240},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-clear-offset-correction-verify-161j"], "retry_of": "aimayatool-goal007-clear-offset-correction-verify-161j", "result": "PASS", "classification": "clear_offset_contract_python_proven", "delivery_id": "55966319fd2ff6f929de", "evidence": {"py_compile": true, "imports": true, "unittest_cases": 4, "unittest_result": "PASS"}, "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-clear-offset-managed-maya-161l",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-clear-offset-correction-verify-retry-161k"], "result": "INCONCLUSIVE", "classification": "invalid_managed_live_payload_contract", "delivery_id": "df1544c6d6d2008d33d8", "architect_diagnosis": "managed_live_smoke requires payload.module as a dotted Python module name; the prior free-form payload.script contract was rejected before Maya product execution.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "task_id": "aimayatool-goal007-clear-offset-managed-maya-retry-161m",
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "module": "aimayatool.tools.scene.clear_offset",
-        "function": "clear_offset_managed_maya_smoke",
-        "maya_version": "2024",
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-clear-offset-managed-maya-161l"],
-        "retry_of": "aimayatool-goal007-clear-offset-managed-maya-161l",
-        "purpose": "Retry managed Maya 2024 validation using the route's module/function payload contract.",
-        "acceptance": [
-          "Invoke aimayatool.tools.scene.clear_offset.clear_offset_managed_maya_smoke inside managed Maya 2024.",
-          "The smoke creates an isolated test hierarchy and proves parented ClearOffset insertion preserves world matrix.",
-          "The smoke proves root-object and pre-existing-name-collision paths skip without unintended mutation.",
-          "Return structured PASS/FAIL evidence from actual Maya scene operations."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    }
+    {"task_id":"aimayatool-goal007-scene-pattern-next-workflow-inventory-161e","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":180},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","result":"INCONCLUSIVE","classification":"invalid_python_verification_request","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"task_id":"aimayatool-goal007-clear-offset-parity-161f","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":true,"push":true},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":240},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","result":"INCONCLUSIVE","classification":"invalid_python_unittest_target","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"task_id":"aimayatool-goal007-clear-offset-parity-retry-161g","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":true,"push":true},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":240},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","result":"PASS","classification":"python_verification_passed_but_acceptance_gap_detected","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"task_id":"aimayatool-goal007-clear-offset-contract-fix-161h","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":true,"push":true},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":240},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-clear-offset-parity-retry-161g"],"result":"PASS","classification":"verification_passed_but_repository_correction_not_applied","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"task_id":"aimayatool-goal007-clear-offset-implementation-fix-161i","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"implementation","target":"repository"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":true,"push":true},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":300},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-clear-offset-contract-fix-161h"],"result":"INCONCLUSIVE","classification":"unsupported_route_configuration","implementation_commits":["173c6955e4aae46e6a0baa8b160357c309dc46af","a89029869b8856c3087e021e34c5f8d7f90d2fdb"],"owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"task_id":"aimayatool-goal007-clear-offset-correction-verify-161j","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":false,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":240},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-clear-offset-implementation-fix-161i"],"result":"INCONCLUSIVE","classification":"invalid_precondition_permission_contract","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"task_id":"aimayatool-goal007-clear-offset-correction-verify-retry-161k","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":240},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-clear-offset-correction-verify-161j"],"retry_of":"aimayatool-goal007-clear-offset-correction-verify-161j","result":"PASS","classification":"clear_offset_contract_python_proven","evidence":{"py_compile":true,"imports":true,"unittest_cases":4,"unittest_result":"PASS"},"owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"task_id":"aimayatool-goal007-clear-offset-managed-maya-161l","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"maya","target":"managed_live_smoke"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":300},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-clear-offset-correction-verify-retry-161k"],"result":"INCONCLUSIVE","classification":"invalid_managed_live_payload_contract","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"task_id":"aimayatool-goal007-clear-offset-managed-maya-retry-161m","status":"pending","architect_ack":true,"bridge_completed":true,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"maya","target":"managed_live_smoke"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":300},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-clear-offset-managed-maya-161l"],"retry_of":"aimayatool-goal007-clear-offset-managed-maya-161l","result":"INCONCLUSIVE","classification":"invalid_managed_live_callable_contract","delivery_id":"0e79186bcac8e9da063c","architect_diagnosis":"managed_live_smoke requires payload.callable; payload.function was rejected before Maya product execution. A dedicated zero-argument Maya smoke callable was added to clear_offset.py and the retry now uses the discovered module/callable contract.","implementation_commit":"e80bf89147d81ff58808c20af13cd29b13b3fe71","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"task_id":"aimayatool-goal007-clear-offset-managed-maya-retry2-161n","status":"pending","architect_ack":false,"bridge_completed":false,"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"maya","target":"managed_live_smoke"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"module":"aimayatool.tools.scene.clear_offset","callable":"clear_offset_managed_maya_smoke","maya_version":"2024","isolated_scene":true,"save_scene":false,"timeout":300},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-clear-offset-managed-maya-retry-161m"],"retry_of":"aimayatool-goal007-clear-offset-managed-maya-retry-161m","purpose":"Run the corrected zero-argument ClearOffset smoke callable in managed Maya 2024.","acceptance":["Managed Maya invokes clear_offset_managed_maya_smoke successfully.","Parented insertion preserves world matrix and hierarchy.","Root and name-collision cases skip without unintended mutation.","Returned structured evidence has success=true."],"owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}}
   ]
 }
