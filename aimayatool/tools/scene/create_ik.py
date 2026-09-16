@@ -59,7 +59,6 @@ def build_create_ik(objects,parent,world_parent=None):
     raw_positions=[cmds.xform(node,query=True,worldSpace=True,translation=True) for node in objects]
     try: plan=build_create_ik_plan(objects,parent,world_parent,raw_positions)
     except ValueError: return {"status":"skipped_collinear","objects":objects}
-    pts=[om.MVector(p) for p in raw_positions]
     origin_offsets=[create_zero_group(node,suffix="_IKFKExtraOffset")[0] for node in objects]
     system=cmds.createNode("transform",name=plan["system"]); cmds.xform(system,worldSpace=True,matrix=cmds.xform(parent,query=True,worldSpace=True,matrix=True)); system=cmds.parent(system,parent)[0]
     joints=[]; connect_groups=[]
@@ -90,3 +89,21 @@ def build_create_ik(objects,parent,world_parent=None):
     for node in objects:
         for shape in cmds.listRelatives(node,shapes=True,noIntermediate=True,fullPath=True) or []: cmds.setAttr(shape+".visibility",0)
     return {"status":"applied","system":system,"joints":tuple(joints),"fk_joints":tuple(fk_joints),"ik_joints":tuple(ik_joints),"fk_controls":tuple(fk_ctrls),"ik_control":ik_ctrl,"pole_control":pole,"ik_handle":rp["handle"],"switch_attr":switch_attr,"origin_offsets":tuple(origin_offsets),"origin_constraints":tuple(origin_constraints),"spaces":tuple(spaces),"visibility":visibility}
+
+
+def create_ik_managed_maya_smoke():
+    cmds=_cmds(); cmds.file(new=True,force=True)
+    rig=cmds.group(empty=True,name="Rig_GRP"); world=cmds.group(empty=True,name="World_GRP")
+    objects=[]
+    for name,pos in (("Upper_REF",(0,0,0)),("Middle_REF",(4,2,0)),("End_REF",(8,0,0))):
+        node=cmds.group(empty=True,name=name); cmds.xform(node,worldSpace=True,translation=pos); objects.append(node)
+    result=build_create_ik(objects,rig,world)
+    applied=result.get("status")=="applied"; nodes_ok=applied and all(cmds.objExists(n) for n in result["joints"]+result["fk_joints"]+result["ik_joints"]+(result["ik_control"],result["pole_control"],result["ik_handle"]))
+    switch_ok=applied and cmds.objExists(result["switch_attr"]); spaces_ok=applied and len(result["spaces"])==2
+    invalid=build_create_ik((objects[0],objects[0],objects[2]),rig,world).get("status")=="skipped_invalid_objects"
+    col_a=cmds.group(empty=True,name="ColA_REF"); col_b=cmds.group(empty=True,name="ColB_REF"); col_c=cmds.group(empty=True,name="ColC_REF")
+    for node,pos in zip((col_a,col_b,col_c),((0,5,0),(2,5,0),(4,5,0))): cmds.xform(node,worldSpace=True,translation=pos)
+    collinear=build_create_ik((col_a,col_b,col_c),rig).get("status")=="skipped_collinear"
+    smoke={"applied":applied,"nodes":bool(nodes_ok),"switch":bool(switch_ok),"spaces":bool(spaces_ok),"invalid":invalid,"collinear":collinear,"success":bool(nodes_ok and switch_ok and spaces_ok and invalid and collinear)}
+    if not smoke["success"]: raise AssertionError("CreateIK managed Maya smoke failed: %r" % smoke)
+    return smoke
