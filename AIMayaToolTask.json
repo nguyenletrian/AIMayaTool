@@ -18,7 +18,7 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-retry-162g",
+      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-retry-162h",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
@@ -39,14 +39,18 @@
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "result": "INCONCLUSIVE",
-        "classification": "managed_maya_task_configuration_missing_isolated_scene_true",
-        "delivery_id": "6b059515b60154fec8cd",
+        "result": "FAIL",
+        "classification": "create_offset_world_matrix_not_preserved",
+        "delivery_id": "daf2cf5160ac66191aa2",
         "evidence": {
-          "git_pull": true,
-          "product_executed": false,
-          "error": "Maya smoke requires payload.isolated_scene=true"
+          "applied": true,
+          "named": true,
+          "world_matrix_preserved": false,
+          "fallback": true,
+          "missing": true,
+          "success": false
         },
+        "architect_diagnosis": "Managed Maya 2024 proved a real shared Setup primitive defect: insert_offset_group used matchTransform before parenting, so a transformed parent could alter the group's effective world transform. Corrected insert_offset_group at commit 48b8d5c3e163dbd75202322ebd36e7e7c9ad34d2 to capture and explicitly restore the exact world matrix.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
@@ -61,7 +65,7 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-retry-162h",
+      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-fix-162i",
       "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
@@ -95,15 +99,14 @@
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-create-offset-maya-retry-162g"
+          "aimayatool-goal007-scene-pattern-create-offset-maya-retry-162h"
         ],
-        "retry_of": "aimayatool-goal007-scene-pattern-create-offset-maya-retry-162g",
-        "purpose": "Retry CreateOffset managed Maya 2024 validation with both required scene-safety flags.",
+        "purpose": "Revalidate Scene CreateOffset after fixing shared insert_offset_group exact world-matrix preservation.",
         "acceptance": [
-          "Fresh isolated scene is used and remains unsaved.",
+          "Fresh isolated scene remains unsaved.",
           "Explicit suffix and fallback naming pass.",
           "Missing object is skipped.",
-          "World matrices are preserved.",
+          "World matrices are exactly preserved.",
           "Smoke returns success:true."
         ],
         "next_if_pass": "Architect accepts CreateOffset, records HISTORY, and inventories next ScenePattern slice.",
