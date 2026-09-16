@@ -8,38 +8,99 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-create-offset-162d",
+      "task_id": "aimayatool-goal007-scene-pattern-create-offset-implement-162e",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"timeout": 240},
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "payload": {
+        "timeout": 240
+      },
       "metadata": {
-        "goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS",
-        "classification": "create_offset_setup_primitive_inventory_proven", "delivery_id": "73ac683baf76e5f34ec2",
-        "evidence": {"py_compile": true, "import": true, "primitive": "aimayatool.tools.setup.transforms.insert_offset_group"},
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "result": "INCONCLUSIVE",
+        "classification": "implementation_route_only_verified_setup_anchor",
+        "delivery_id": "157f996a5afbfb4e8248",
+        "architect_diagnosis": "Route compiled/imported only setup.transforms. Repository review found create_offset.py existed but incorrectly used controls.create_zero_group instead of the required setup.transforms.insert_offset_group and lacked the required managed Maya smoke. Architect corrected both directly at commit 417ab5c36c9ebbb8280e861f46aef6667568f1fd.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-create-offset-implement-162e",
-      "status": "pending", "architect_ack": false, "bridge_completed": false,
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": true, "push": true},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/transforms.py"], "imports": ["aimayatool.tools.setup.transforms"], "timeout": 240},
+      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-162f",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.create_offset",
+        "callable": "create_offset_managed_maya_smoke",
+        "timeout": 300
+      },
       "metadata": {
-        "goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-create-offset-162d"],
-        "purpose": "Implement the thin ScenePattern CreateOffset composition now that the shared Setup primitive is proven.",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_CreateOffset.py",
-        "instruction": "Create aimayatool/tools/scene/create_offset.py and focused Python smoke coverage. Expose deterministic planning/execution for explicit objects plus extra_name. Preserve legacy naming semantics: explicit extraName produces <object><extraName>; empty extraName falls back to <object>ExtraName. Reuse setup.transforms.insert_offset_group; do not duplicate its host mutation logic and do not copy legacy UI/PyMEL/NLTA/JSON plumbing. Missing objects should produce bounded skip evidence rather than aborting unrelated items. Add a zero-argument create_offset_managed_maya_smoke callable that creates a fresh test scene and proves explicit naming, fallback naming, missing-object handling, and world-matrix preservation. Compile/import focused modules, commit and push implementation to main. Do not use Codex.",
-        "acceptance": ["scene/create_offset.py exists on main.", "Wrapper reuses insert_offset_group.", "Explicit extraName and legacy fallback naming are deterministic.", "Managed Maya smoke callable exists and checks world-matrix preservation plus missing-object handling.", "Changed Python compiles/imports and implementation is committed/pushed."],
-        "next_if_pass": "Architect reviews committed CreateOffset code and queues managed Maya 2024 validation.",
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-create-offset-implement-162e"
+        ],
+        "purpose": "Validate corrected Scene CreateOffset composition in managed Maya 2024.",
+        "acceptance": [
+          "Fresh scene is used and remains unsaved.",
+          "Explicit suffix groups are created.",
+          "Empty suffix uses legacy <object>ExtraName fallback.",
+          "Missing object is skipped without aborting.",
+          "World matrices are preserved.",
+          "Smoke returns success:true."
+        ],
+        "next_if_pass": "Architect accepts CreateOffset, records durable HISTORY checkpoint, and inventories the next dependency-ready ScenePattern slice.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
