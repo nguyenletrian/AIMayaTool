@@ -23,10 +23,12 @@ def execute_clear_offset_plan(plan,cmds_module=None):
         obj,name=entry["object"],entry["group_name"]
         if not obj or not cmds.objExists(obj): results.append({"object":obj,"status":"skipped_missing_object"}); continue
         parents=cmds.listRelatives(obj,parent=True,fullPath=True) or []
-        parent=parents[0] if parents else None
+        if not parents: results.append({"object":obj,"status":"skipped_root_object"}); continue
+        if cmds.objExists(name): results.append({"object":obj,"status":"skipped_name_collision","group_name":name}); continue
+        parent=parents[0]
         group=cmds.group(empty=True,name=name)
         cmds.delete(cmds.parentConstraint(obj,group,maintainOffset=False))
-        if parent: group=cmds.parent(group,parent)[0]
+        group=cmds.parent(group,parent)[0]
         child=cmds.parent(obj,group)[0]
         results.append({"object":obj,"status":"applied","group":group,"child_path":child,"original_parent":parent})
     return tuple(results)
