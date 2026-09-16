@@ -2,6 +2,15 @@
 
 This file records durable product/architecture milestones. Detailed task execution remains in `AIMayaToolTask.json`; active goals remain in `bridgeGoals.json`; Git history is the source of truth for exact changes.
 
+## 2026-09-16 — Scene CreateIK slice accepted
+
+- Migrated the useful legacy three-object CreateIK workflow into a deterministic Scene plan plus thin Maya composition using shared Setup controls, IK/FK, and space-switch primitives rather than copying the legacy UI/NLTA monolith.
+- Planning enforces exactly three non-empty unique source objects, validates three-point geometry, and rejects collinear input before host construction.
+- Python route evidence proved the corrected CreateIK modules compile/import; the route omitted requested focused unittest execution, so that omission remains recorded as inconclusive route evidence rather than being misreported as a unit-test pass.
+- Managed Maya 2024 validation passed in the existing managed session with a fresh unsaved scene: full construction applied, expected bind/FK/IK nodes existed, SwitchIKFK existed, both Local/World space switches were composed, duplicate input was rejected, and collinear input was rejected; marker payload reported `success: True`.
+- Accepted managed-smoke/product checkpoint: `7051919525a20f951738df72bac3a51df96b3eda`.
+- Validation tier: normal Python compile/import evidence + managed live Maya 2024 host mutation.
+
 ## 2026-09-16 — Scene CreateCurve slice accepted
 
 - Migrated the useful legacy ScenePattern CreateCurve behavior into deterministic AIMayaTool Scene planning/execution: multiline XYZ points, degree derived from point count, optional parent, hidden output, and optional rebuild spans.
