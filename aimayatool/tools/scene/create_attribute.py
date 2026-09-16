@@ -60,3 +60,30 @@ def create_attribute(objects, name, attr_type="bool", keyable=True, lock=False, 
     plan = build_create_attribute_plan(objects, name, attr_type, keyable, lock, channel_box,
                                        minimum, maximum, default, enum)
     return execute_create_attribute_plan(plan, cmds_module=cmds_module, create_attribute_fn=create_attribute_fn)
+
+
+def clear_attribute_managed_maya_smoke_scene(cmds):
+    cmds.file(new=True, force=True)
+    return cmds.createNode("transform", name="AIBridge_CreateAttributeSmoke")
+
+
+def create_attribute_managed_maya_smoke():
+    import maya.cmds as cmds
+    node = clear_attribute_managed_maya_smoke_scene(cmds)
+    numeric = create_attribute([node], "weight", "double", True, False, True, 0, 1, .5, cmds_module=cmds)
+    enum = create_attribute([node], "mode", "enum", False, True, True, 0, 2, 1, "FK:IK:Auto", cmds_module=cmds)
+    string = create_attribute([node], "label", "string", False, False, True, default="hello", cmds_module=cmds)
+    matrix = create_attribute([node], "bindMatrix", "matrix", False, False, True, cmds_module=cmds)
+    existing = create_attribute([node], "weight", "double", cmds_module=cmds)
+    missing = create_attribute(["AIBridge_CreateAttributeMissing"], "x", "double", cmds_module=cmds)
+    numeric_ok = numeric[0]["status"] == "created" and abs(cmds.getAttr(node + ".weight") - .5) < 1e-8
+    enum_ok = enum[0]["status"] == "created" and cmds.attributeQuery("mode", node=node, listEnum=True) == ["FK:IK:Auto"]
+    string_ok = string[0]["status"] == "created" and cmds.getAttr(node + ".label") == "hello"
+    matrix_ok = matrix[0]["status"] == "created" and cmds.getAttr(node + ".bindMatrix", type=True) == "matrix"
+    existing_ok = existing[0]["status"] == "skipped_existing_attribute"
+    missing_ok = missing[0]["status"] == "skipped_missing_object"
+    evidence = {"numeric": numeric_ok, "enum": enum_ok, "string": string_ok, "matrix": matrix_ok,
+                "existing": existing_ok, "missing": missing_ok}
+    evidence["success"] = all(evidence.values())
+    if not evidence["success"]: raise RuntimeError("CreateAttribute Maya smoke failed: {0}".format(evidence))
+    return "AIBRIDGE_UI_SMOKE_OK:{0}".format(evidence)
