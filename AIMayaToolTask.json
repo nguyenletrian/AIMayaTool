@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "history_checkpoint_blob": "fa33d8e378eeee1b3fbfc5b59463ce3b4f46deab",
+  "history_checkpoint_blob": "4e5935e22bc03b4612db870064442fb9ed45c597",
   "force_restart": {
     "enabled": false,
     "request_id": "aimayatool-setup-migration-119",
@@ -8,7 +8,7 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-goal007-scene-pattern-create-curve-maya-161w",
+      "task_id": "aimayatool-goal007-scene-pattern-create-ik-maya-162c",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
@@ -40,16 +40,32 @@
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "result": "PASS",
-        "classification": "create_curve_managed_maya2024_proven",
-        "accepted_commit": "e500a457bed90a90fe77facecc15a20913d33325",
+        "classification": "create_ik_managed_maya2024_proven",
+        "delivery_id": "a612b7a6cb0448dfe215",
+        "accepted_commit": "7051919525a20f951738df72bac3a51df96b3eda",
+        "history_commit": "39fa7bde3e47b9cba81c892b6021d5a766fb0e20",
+        "evidence": {
+          "maya_version": "2024",
+          "managed_pid": 15220,
+          "session": "existing",
+          "scene_saved": false,
+          "applied": true,
+          "nodes": true,
+          "switch": true,
+          "spaces": true,
+          "invalid": true,
+          "collinear": true,
+          "success": true
+        },
+        "python_route_note": "compile/import passed; requested unittest was omitted by verification route and was not misreported as passed.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
     {
-      "task_id": "aimayatool-goal007-scene-pattern-create-ik-verify-162b",
+      "task_id": "aimayatool-goal007-scene-pattern-create-offset-162d",
       "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
+      "architect_ack": false,
+      "bridge_completed": false,
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -72,53 +88,6 @@
         "via": "web"
       },
       "payload": {
-        "timeout": 240
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "result": "INCONCLUSIVE",
-        "classification": "create_ik_compile_import_passed_unittest_route_omitted",
-        "delivery_id": "9e8c58ae1c54f897ea05",
-        "evidence": {
-          "py_compile": true,
-          "imports": [
-            "aimayatool.tools.scene.create_ik",
-            "aimayatool.tools.scene.create_ik_python_smoke"
-          ],
-          "unittest_returned": false
-        },
-        "architect_diagnosis": "The verification route compiled and imported both corrected CreateIK modules but again omitted requested unittest execution. Do not loop the same route; proceed to managed Maya host validation while preserving this omission as inconclusive evidence.",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
-      "task_id": "aimayatool-goal007-scene-pattern-create-ik-maya-162c",
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "payload": {
         "preconditions": [
           {
             "type": "git_pull",
@@ -127,30 +96,29 @@
             "branch": "main"
           }
         ],
-        "module": "aimayatool.tools.scene.create_ik",
-        "callable": "create_ik_managed_maya_smoke",
-        "maya_version": "2024",
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 300
+        "files": [
+          "aimayatool/tools/setup/transforms.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.transforms"
+        ],
+        "timeout": 240
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-create-ik-verify-162b"
+          "aimayatool-goal007-scene-pattern-create-ik-maya-162c"
         ],
-        "implementation_commit": "7051919525a20f951738df72bac3a51df96b3eda",
-        "purpose": "Validate corrected Scene CreateIK host construction in managed Maya 2024.",
+        "purpose": "Inventory the next legacy ScenePattern CreateOffset slice against the already-proven Setup offset primitive before adding Scene composition.",
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_CreateOffset.py",
+        "instruction": "Verify the existing setup.transforms.insert_offset_group primitive is available and importable. Legacy CreateOffset applies an explicit extraName per object, with legacy fallback '<object>ExtraName'. Do not copy UI, PyMEL, NLTA, reload, or JSON plumbing. Return only route evidence; Architect will implement the thin Scene wrapper after repository review. Do not use Codex.",
         "acceptance": [
-          "Fresh unsaved scene is used.",
-          "Valid non-collinear three-object input builds bind/FK/IK chains, controls and RP IK handle.",
-          "SwitchIKFK exists and two Local/World space switches are composed through Setup spaces.",
-          "Duplicate input is rejected without mutation.",
-          "Collinear input is rejected before construction.",
-          "Smoke returns success true and scene is not saved."
+          "ff-only pull succeeds.",
+          "setup.transforms compiles/imports.",
+          "No product mutation is performed by this inventory task."
         ],
-        "next_if_pass": "Architect accepts CreateIK, records durable HISTORY evidence, and advances to the next ScenePattern parity slice.",
+        "next_if_pass": "Architect implements a thin deterministic Scene CreateOffset wrapper around insert_offset_group, adds focused smoke coverage, and queues host validation.",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
