@@ -1,16 +1,12 @@
 {
   "version": 1,
-  "history_checkpoint_blob": "4e5935e22bc03b4612db870064442fb9ed45c597",
-  "force_restart": {
-    "enabled": false,
-    "request_id": "aimayatool-setup-migration-119",
-    "reason": "healthy_managed_maya_session_reusable"
-  },
+  "history_checkpoint_blob": "502d5ec4cdb809057cd8484a1a4dbf9bd4b34a67",
+  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
     {
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-fix-162i",
+      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-diagnostic-162j",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
@@ -18,40 +14,26 @@
       "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
       "payload": {"timeout": 300},
       "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "result": "FAIL",
-        "classification": "create_offset_world_matrix_check_still_failed_after_primitive_fix",
-        "delivery_id": "ceb68832574731731f81",
-        "evidence": {"named": true, "world_matrix_preserved": false, "fallback": true, "missing": true, "success": false},
-        "architect_diagnosis": "The first primitive correction did not make the smoke's exact tuple equality pass. Maya matrix decomposition/recomposition can introduce floating-point deltas even when pose is preserved. Architect strengthened the smoke with a transformed/scaled parent, tolerance-based matrix comparison, and max_matrix_delta evidence at commit ed29c2e84f1e8afcd5fdb8a8c6ace17686a8ad3c so the next run distinguishes real pose drift from numerical noise.",
+        "goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "create_offset_managed_maya2024_proven", "delivery_id": "6ead49b4215ab465e7d7",
+        "evidence": {"named": true, "world_matrix_preserved": true, "max_matrix_delta": 8.881784197001252e-16, "fallback": true, "missing": true, "success": true, "managed_pid": 15220, "new_scene_forced": true, "scene_saved": false},
+        "accepted_checkpoints": ["48b8d5c3e163dbd75202322ebd36e7e7c9ad34d2", "ed29c2e84f1e8afcd5fdb8a8c6ace17686a8ad3c"],
+        "history_commit": "6fe7111e43f6f7f4bdf19012e4b00e08ef071225",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     },
     {
       "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
       "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-diagnostic-162j",
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "payload": {
-        "preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}],
-        "module": "aimayatool.tools.scene.create_offset",
-        "callable": "create_offset_managed_maya_smoke",
-        "save_scene": false,
-        "isolated_scene": true,
-        "timeout": 300
-      },
+      "task_id": "aimayatool-goal007-scene-pattern-create-ref-inventory-162k",
+      "status": "pending", "architect_ack": false, "bridge_completed": false,
+      "action": {"type": "verification", "target": "python"},
+      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
+      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": ["aimayatool/tools/setup/transforms.py"], "imports": ["aimayatool.tools.setup.transforms"], "timeout": 300},
       "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": ["aimayatool-goal007-scene-pattern-create-offset-maya-fix-162i"],
-        "purpose": "Revalidate CreateOffset with a transformed/scaled parent and diagnostic tolerance-based world-matrix evidence.",
-        "acceptance": ["Fresh isolated scene remains unsaved.", "Explicit suffix and fallback naming pass.", "Missing object is skipped.", "World matrices remain within 1e-9 and max_matrix_delta is reported.", "Smoke returns success:true."],
-        "next_if_pass": "Architect accepts CreateOffset, records HISTORY, and inventories next ScenePattern slice.",
+        "goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-create-offset-maya-diagnostic-162j"],
+        "purpose": "Inventory the next bounded legacy ScenePattern CreateRef slice. Legacy behavior creates <object>_Ref empty transforms, matchTransforms each source, and optionally parents refs under the configured parent. Determine reusable AIMayaTool transform primitives and required product correction before implementation.",
+        "legacy_source": "MayaScriptNew/UIs/ScenePattern/Scene_Pattern_CreateRef.py",
+        "acceptance": ["Shared transform module compiles/imports.", "Architect uses repository evidence to determine the narrow reusable primitive and does not bulk-copy legacy UI/NLTA plumbing.", "No product parity claim is made from import evidence alone."],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
