@@ -2,6 +2,15 @@
 
 This file records durable product/architecture milestones. Detailed task execution remains in `AIMayaToolTask.json`; active goals remain in `bridgeGoals.json`; Git history is the source of truth for exact changes.
 
+## 2026-09-16 — Scene CreateOffset slice accepted
+
+- Migrated useful legacy ScenePattern CreateOffset behavior into deterministic Scene planning/execution while reusing the shared Setup `insert_offset_group` primitive.
+- Preserved legacy explicit `extraName` naming and the empty-name fallback `<object>ExtraName`; missing objects are skipped independently.
+- Managed Maya diagnosis exposed that exact tuple equality was too strict for Maya matrix decomposition/recomposition. The shared primitive was corrected to explicitly restore the world matrix, and the final diagnostic smoke used a transformed/non-uniformly-scaled parent plus tolerance-based comparison.
+- Managed Maya 2024 validation passed in the existing managed session with a fresh unsaved scene: explicit naming, fallback naming, missing-object handling, and world-matrix preservation all passed; maximum matrix delta was `8.881784197001252e-16`; marker payload reported `success: True`.
+- Accepted product checkpoints: shared primitive correction `48b8d5c3e163dbd75202322ebd36e7e7c9ad34d2`; diagnostic CreateOffset smoke `ed29c2e84f1e8afcd5fdb8a8c6ace17686a8ad3c`.
+- Validation tier: managed live Maya 2024 host mutation.
+
 ## 2026-09-16 — Scene CreateIK slice accepted
 
 - Migrated the useful legacy three-object CreateIK workflow into a deterministic Scene plan plus thin Maya composition using shared Setup controls, IK/FK, and space-switch primitives rather than copying the legacy UI/NLTA monolith.
