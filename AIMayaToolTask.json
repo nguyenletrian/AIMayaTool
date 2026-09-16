@@ -1,23 +1,238 @@
 {
   "version": 1,
   "history_checkpoint_blob": "fa33d8e378eeee1b3fbfc5b59463ce3b4f46deab",
-  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
+  "force_restart": {
+    "enabled": false,
+    "request_id": "aimayatool-setup-migration-119",
+    "reason": "healthy_managed_maya_session_reusable"
+  },
   "tasks": [
     {
-      "task_id":"aimayatool-goal007-scene-pattern-create-curve-maya-161w","status":"pending","architect_ack":true,"bridge_completed":true,
-      "project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"maya","target":"managed_live_smoke"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":300},
-      "metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","result":"PASS","classification":"create_curve_managed_maya2024_proven","delivery_id":"073fc8dd9ffceeac5d6c","accepted_commit":"e500a457bed90a90fe77facecc15a20913d33325","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}
+      "task_id": "aimayatool-goal007-scene-pattern-create-curve-maya-161w",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "result": "PASS",
+        "classification": "create_curve_managed_maya2024_proven",
+        "delivery_id": "073fc8dd9ffceeac5d6c",
+        "accepted_commit": "e500a457bed90a90fe77facecc15a20913d33325",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     },
     {
-      "task_id":"aimayatool-goal007-scene-pattern-create-ik-plan-161z","status":"pending","architect_ack":true,"bridge_completed":true,
-      "project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":true,"push":true},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"payload":{"timeout":300},
-      "metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","result":"INCONCLUSIVE","classification":"route_anchor_passed_create_ik_implementation_not_executed","delivery_id":"c2cf101d7ce294904bab","evidence":{"git_pull":true,"setup_anchor_py_compile":true,"create_ik_files_present":false},"architect_diagnosis":"The verification route compiled only the four Setup anchor files and did not execute the requested CreateIK implementation/commit work. Repository search confirms no Scene create_ik module was created. This is route-capability mismatch, not product failure.","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}
+      "task_id": "aimayatool-goal007-scene-pattern-create-ik-plan-161z",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "result": "INCONCLUSIVE",
+        "classification": "route_anchor_passed_create_ik_implementation_not_executed",
+        "delivery_id": "c2cf101d7ce294904bab",
+        "evidence": {
+          "git_pull": true,
+          "setup_anchor_py_compile": true,
+          "create_ik_files_present": false
+        },
+        "architect_diagnosis": "The verification route compiled only the four Setup anchor files and did not execute the requested CreateIK implementation/commit work. Repository search confirms no Scene create_ik module was created. This is route-capability mismatch, not product failure.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     },
     {
-      "task_id":"aimayatool-goal007-scene-pattern-create-ik-implement-162a","status":"pending","architect_ack":false,"bridge_completed":false,
-      "project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":true,"push":true},"return_route":{"type":"provider","target":"OpenAI","via":"web"},
-      "payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/setup/ikfk.py","aimayatool/tools/setup/transforms.py","aimayatool/tools/setup/controls.py","aimayatool/tools/setup/spaces.py"],"timeout":300},
-      "metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-scene-pattern-create-ik-plan-161z"],"retry_of":"aimayatool-goal007-scene-pattern-create-ik-plan-161z","purpose":"Implement the missing deterministic Scene CreateIK planning/composition slice after 161z proved the verification route only checks anchors.","instruction":"Create aimayatool/tools/scene/create_ik.py and create_ik_python_smoke.py. Pure planning must require exactly three unique source names and exactly three XYZ positions, reject collinear geometry, compute deterministic normalized chain direction, plane normal and pole-vector position, and return stable names/options. Keep Maya imports behind execution boundaries. Reuse setup.transforms, setup.controls, setup.ikfk and setup.spaces at the host composition boundary; do not copy their implementations. Do not introduce NLTA, PyMEL, UI, reload, or legacy JSON dependencies. Run py_compile, import smoke and focused unittest for the new files, then commit/push. If this route cannot create files, return an explicit capability mismatch rather than reporting success from anchor compilation. Do not use Codex.","acceptance":["Both new Scene CreateIK files exist in main after the task.","Exactly-three and duplicate validation are covered.","Valid non-collinear geometry yields deterministic plane/pole data.","Collinear geometry is rejected before Maya mutation.","Stable naming/options are covered.","Setup primitives are imported/composed, not duplicated.","Both new modules compile/import and focused unittest passes.","Product/test changes are committed and pushed."],"next_if_pass":"Architect reviews the implementation and queues managed Maya 2024 host construction validation.","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}
+      "task_id": "aimayatool-goal007-scene-pattern-create-ik-implement-162a",
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/ikfk.py",
+          "aimayatool/tools/setup/transforms.py",
+          "aimayatool/tools/setup/controls.py",
+          "aimayatool/tools/setup/spaces.py"
+        ],
+        "timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-create-ik-plan-161z"
+        ],
+        "retry_of": "aimayatool-goal007-scene-pattern-create-ik-plan-161z",
+        "purpose": "Implement the missing deterministic Scene CreateIK planning/composition slice after 161z proved the verification route only checks anchors.",
+        "instruction": "Create aimayatool/tools/scene/create_ik.py and create_ik_python_smoke.py. Pure planning must require exactly three unique source names and exactly three XYZ positions, reject collinear geometry, compute deterministic normalized chain direction, plane normal and pole-vector position, and return stable names/options. Keep Maya imports behind execution boundaries. Reuse setup.transforms, setup.controls, setup.ikfk and setup.spaces at the host composition boundary; do not copy their implementations. Do not introduce NLTA, PyMEL, UI, reload, or legacy JSON dependencies. Run py_compile, import smoke and focused unittest for the new files, then commit/push. If this route cannot create files, return an explicit capability mismatch rather than reporting success from anchor compilation. Do not use Codex.",
+        "acceptance": [
+          "Both new Scene CreateIK files exist in main after the task.",
+          "Exactly-three and duplicate validation are covered.",
+          "Valid non-collinear geometry yields deterministic plane/pole data.",
+          "Collinear geometry is rejected before Maya mutation.",
+          "Stable naming/options are covered.",
+          "Setup primitives are imported/composed, not duplicated.",
+          "Both new modules compile/import and focused unittest passes.",
+          "Product/test changes are committed and pushed."
+        ],
+        "next_if_pass": "Architect reviews the implementation and queues managed Maya 2024 host construction validation.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "INCONCLUSIVE",
+        "classification": "route_anchor_passed_but_create_ik_files_found_and_architect_corrected",
+        "delivery_id": "a18aaba03a508527be02",
+        "evidence": {
+          "git_pull": true,
+          "setup_anchor_py_compile": true,
+          "worker_new_file_checks_returned": false
+        },
+        "architect_diagnosis": "Worker again returned only Setup anchor compilation. Repository inspection found CreateIK files present, but review found acceptance gaps: duplicate source validation missing, unsupported 'diamond' control shape, and local/world space logic duplicated instead of reusing setup.spaces. Architect corrected these directly.",
+        "architect_correction_commits": [
+          "c78905c434c308d31bde784d8081c51f900c23a1",
+          "ac92ac2ede24a7df5255eccc8896e46307f9704d"
+        ]
+      }
+    },
+    {
+      "task_id": "aimayatool-goal007-scene-pattern-create-ik-verify-162b",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/create_ik.py",
+          "aimayatool/tools/scene/create_ik_python_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.create_ik",
+          "aimayatool.tools.scene.create_ik_python_smoke"
+        ],
+        "unittest_modules": [
+          "aimayatool.tools.scene.create_ik_python_smoke"
+        ],
+        "timeout": 240
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-create-ik-implement-162a"
+        ],
+        "purpose": "Verify the Architect-corrected deterministic CreateIK planning slice before Maya host validation.",
+        "acceptance": [
+          "Both CreateIK modules compile.",
+          "Both CreateIK modules import outside Maya.",
+          "Focused unittest executes and passes, including exactly-three, duplicate/empty source rejection, deterministic plane/pole output, collinear rejection, and stable names.",
+          "No Codex."
+        ],
+        "next_if_pass": "Architect adds/reviews a zero-argument managed Maya smoke for CreateIK construction and queues Maya 2024 validation.",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
     }
   ]
 }
