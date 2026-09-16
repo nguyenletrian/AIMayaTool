@@ -56,3 +56,19 @@ def create_curves(items):
         try: results.append(execute_create_curve_plan(build_create_curve_plan(item)))
         except ValueError as exc: results.append({"status":"skipped","reason":str(exc),"item":item})
     return tuple(results)
+
+
+def create_curve_managed_maya_smoke():
+    cmds = _cmds()
+    cmds.file(new=True, force=True)
+    parent = cmds.group(empty=True, name="Rig_GRP")
+    basic = create_curve("0 0 0\n1 0 0\n2 1 0\n3 1 0", "Path_CTRL", parent=parent, hidden=True)
+    basic_ok = bool(cmds.objExists(basic["curve"]) and (cmds.listRelatives(basic["curve"], parent=True) or [None])[0] == parent and cmds.getAttr(basic["curve"] + ".visibility") == 0 and basic["degree"] == 3 and basic["rebuilt_curve"] is None)
+    rebuilt = create_curve("0 0 0\n1 0 0\n2 0 0\n3 1 0", "Rebuild_CTRL", parent=parent, rebuild_spans=5, hidden=True)
+    rebuilt_ok = bool(rebuilt["rebuilt_curve"] and cmds.objExists(rebuilt["rebuilt_curve"]) and (cmds.listRelatives(rebuilt["rebuilt_curve"], parent=True) or [None])[0] == parent and cmds.getAttr(rebuilt["rebuilt_curve"] + ".visibility") == 0 and rebuilt["rebuild_spans"] == 5)
+    missing_parent = create_curve("0 0 0\n1 0 0", "Line_CTRL", parent="Missing_GRP", hidden=False)
+    missing_parent_ok = bool(cmds.objExists(missing_parent["curve"]) and not cmds.listRelatives(missing_parent["curve"], parent=True) and missing_parent["degree"] == 1 and cmds.getAttr(missing_parent["curve"] + ".visibility") == 1)
+    result = {"basic": basic_ok, "rebuild": rebuilt_ok, "missing_parent": missing_parent_ok, "success": basic_ok and rebuilt_ok and missing_parent_ok}
+    if not result["success"]:
+        raise AssertionError("CreateCurve managed Maya smoke failed: %r" % result)
+    return result
