@@ -18,7 +18,7 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-162f",
+      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-retry-162g",
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": true,
@@ -40,12 +40,12 @@
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "result": "INCONCLUSIVE",
-        "classification": "managed_maya_task_configuration_missing_save_scene_false",
-        "delivery_id": "720586761ece5eef40b2",
+        "classification": "managed_maya_task_configuration_missing_isolated_scene_true",
+        "delivery_id": "6b059515b60154fec8cd",
         "evidence": {
           "git_pull": true,
           "product_executed": false,
-          "error": "Maya smoke requires payload.save_scene=false"
+          "error": "Maya smoke requires payload.isolated_scene=true"
         },
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
@@ -61,7 +61,7 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-retry-162g",
+      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-retry-162h",
       "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
@@ -88,18 +88,19 @@
         "module": "aimayatool.tools.scene.create_offset",
         "callable": "create_offset_managed_maya_smoke",
         "save_scene": false,
+        "isolated_scene": true,
         "timeout": 300
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-create-offset-maya-162f"
+          "aimayatool-goal007-scene-pattern-create-offset-maya-retry-162g"
         ],
-        "retry_of": "aimayatool-goal007-scene-pattern-create-offset-maya-162f",
-        "purpose": "Retry corrected Scene CreateOffset managed Maya 2024 validation with required unsaved-scene contract.",
+        "retry_of": "aimayatool-goal007-scene-pattern-create-offset-maya-retry-162g",
+        "purpose": "Retry CreateOffset managed Maya 2024 validation with both required scene-safety flags.",
         "acceptance": [
-          "Fresh scene is used and remains unsaved.",
+          "Fresh isolated scene is used and remains unsaved.",
           "Explicit suffix and fallback naming pass.",
           "Missing object is skipped.",
           "World matrices are preserved.",
