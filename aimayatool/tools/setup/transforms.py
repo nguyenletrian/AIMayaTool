@@ -69,6 +69,16 @@ def create_joint_hierarchy_from_transforms(root,suffix="_JNT",name_prefix=None,m
     return {"root":root,"sources":tuple(sources),"joints":tuple(created),"mapping":mapping}
 
 
+def create_reference_transform(source,name=None,parent=None,suffix="_Ref"):
+    """Create an empty transform matched to source, optionally parented without changing world pose."""
+    cmds=_cmds(); _require_node(cmds,source,"Reference source")
+    if parent is not None: _require_node(cmds,parent,"Reference parent")
+    ref=cmds.createNode("transform",name=name or (_short_name(source)+suffix))
+    match_world_transform(ref,source)
+    if parent is not None: ref=cmds.parent(ref,parent,absolute=True)[0]
+    return ref
+
+
 def insert_offset_group(node,name=None,suffix="_fixOffset"):
     """Insert a matched transform directly above a node and preserve its exact world matrix."""
     cmds=_cmds(); _require_node(cmds,node,"Offset node"); node=_long_name(cmds,node); before=tuple(cmds.xform(node,query=True,worldSpace=True,matrix=True)); parents=cmds.listRelatives(node,parent=True,fullPath=True) or []; parent=parents[0] if parents else None; group_name=name or (_short_name(node)+suffix)
