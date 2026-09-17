@@ -137,8 +137,8 @@
       },
       "task_id": "aimayatool-goal007-scene-pattern-create-ref-inventory-retry-162l",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "action": {
         "type": "verification",
         "target": "python"
@@ -180,6 +180,68 @@
           "Shared transform module compiles/imports.",
           "Architect uses repository evidence to determine the narrow reusable primitive and does not bulk-copy legacy UI/NLTA plumbing.",
           "No product parity claim is made from import evidence alone."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "create_ref_inventory_python_precondition_passed",
+        "architect_diagnosis": "Retry preconditions and Python compile/import verification passed. Repository evidence confirms match_world_transform is the reusable primitive; CreateRef parity still needs a bounded host-mutating implementation and Maya validation."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-create-ref-implementation-162m",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "action": {
+        "type": "implementation",
+        "target": "repository"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/setup/transforms.py"
+        ],
+        "timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-create-ref-inventory-retry-162l"
+        ],
+        "purpose": "Implement the narrow reusable CreateRef primitive from repository evidence: create an empty transform named <source>_Ref (or explicit name), match the source world transform, and optionally parent it under an explicit parent while preserving the matched world pose. Keep legacy UI/NLTA serialization out of the primitive.",
+        "legacy_source": "MayaScriptNew/UIs/ScenePattern/Scene_Pattern_CreateRef.py",
+        "acceptance": [
+          "Add a focused reusable transform helper rather than copying the legacy ScenePattern UI module.",
+          "Validate source and optional parent existence with actionable ValueError behavior.",
+          "Created ref is an empty transform, follows deterministic naming, matches source world transform, and optional parenting preserves world pose.",
+          "Add or update deterministic smoke coverage for naming, missing inputs, and command sequencing where possible outside Maya.",
+          "Compile every changed Python module and run focused Python verification.",
+          "Commit and push the bounded implementation to main; do not claim Maya parity until a later managed Maya validation task passes."
         ],
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
