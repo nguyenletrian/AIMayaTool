@@ -1,71 +1,14 @@
 {
   "version": 1,
   "history_checkpoint_blob": "502d5ec4cdb809057cd8484a1a4dbf9bd4b34a67",
-  "force_restart": {
-    "enabled": false,
-    "request_id": "aimayatool-setup-migration-119",
-    "reason": "healthy_managed_maya_session_reusable"
-  },
+  "force_restart": {"enabled": false, "request_id": "aimayatool-setup-migration-119", "reason": "healthy_managed_maya_session_reusable"},
   "tasks": [
-    {
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "task_id": "aimayatool-goal007-scene-pattern-create-ref-maya-validation-retry3-162t",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "payload": {"timeout": 300, "save_scene": false, "isolated_scene": true, "module": "aimayatool.tools.setup.create_ref_smoke", "callable": "run"},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "create_ref_managed_maya2024_proven", "delivery_id": "ad3099aacee1210756aa", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "task_id": "aimayatool-goal007-scene-pattern-create-attribute-python-verify-162u",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "payload": {"files": ["aimayatool/tools/scene/create_attribute.py", "aimayatool/tools/setup/attributes.py"], "imports": ["aimayatool.tools.scene.create_attribute", "aimayatool.tools.setup.attributes"], "timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "create_attribute_python_verification_passed", "delivery_id": "70014dcfe7f86fc5bcca", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "task_id": "aimayatool-goal007-scene-pattern-create-attribute-maya-validation-162v",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "action": {"type": "maya", "target": "managed_live_smoke"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "payload": {"timeout": 300, "save_scene": false, "isolated_scene": true, "module": "aimayatool.tools.scene.create_attribute", "callable": "create_attribute_managed_maya_smoke"},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "PASS", "classification": "create_attribute_managed_maya2024_proven", "delivery_id": "2b653d613c8449a51f9f", "evidence": {"managed_pid": 7156, "new_scene_forced": true, "scene_saved": false, "numeric": true, "enum": true, "string": true, "matrix": true, "existing": true, "missing": true}, "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "task_id": "aimayatool-goal007-scene-pattern-create-curve-inventory-162w",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": false, "run_tests": true, "commit": false, "push": false},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": [], "imports": ["aimayatool.tools.scene"], "timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "result": "INCONCLUSIVE", "classification": "git_pull_precondition_permission_contract_missing_edit_true", "delivery_id": "32b7d35e1f05905cdf12", "architect_diagnosis": "Bridge rejected the task before verification because git_pull mutates the local worktree and therefore requires permissions.edit=true. No AIMayaTool import or CreateCurve behavior ran.", "prevention": "Any future verification task containing a git_pull precondition must grant permissions.edit=true while commit/push remain false unless independently required. Treat precondition permissions as part of the route contract during task preflight.", "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    },
-    {
-      "project": {"repository": "https://github.com/nguyenletrian/AIMayaTool.git", "branch": "main", "workdir": "D:/AIMayaTool"},
-      "return_route": {"type": "provider", "target": "OpenAI", "via": "web"},
-      "task_id": "aimayatool-goal007-scene-pattern-create-curve-inventory-retry-162x",
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
-      "action": {"type": "verification", "target": "python"},
-      "permissions": {"read": true, "edit": true, "run_tests": true, "commit": false, "push": false},
-      "payload": {"preconditions": [{"type": "git_pull", "strategy": "ff-only", "remote": "origin", "branch": "main"}], "files": [], "imports": ["aimayatool.tools.scene"], "timeout": 300},
-      "metadata": {"goal_id": "aimayatool-007", "milestone_id": "scene-pattern-parity", "depends_on": ["aimayatool-goal007-scene-pattern-create-curve-inventory-162w"], "retry_of": "aimayatool-goal007-scene-pattern-create-curve-inventory-162w", "purpose": "Retry only the rejected CreateCurve freshness/import inventory with the verified git_pull permission contract. Legacy CreateCurve behavior remains inventoried; this gate makes no Maya parity claim.", "acceptance": ["Fast-forward pull main succeeds with edit permission limited to the local worktree update.", "aimayatool.tools.scene imports outside Maya.", "No Maya behavior or CreateCurve implementation claim is made from this gate."], "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."}
-    }
+    {"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"task_id":"aimayatool-goal007-scene-pattern-create-ref-maya-validation-retry3-162t","status":"pending","architect_ack":true,"bridge_completed":true,"action":{"type":"maya","target":"managed_live_smoke"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"payload":{"timeout":300,"save_scene":false,"isolated_scene":true,"module":"aimayatool.tools.setup.create_ref_smoke","callable":"run"},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","result":"PASS","classification":"create_ref_managed_maya2024_proven","delivery_id":"ad3099aacee1210756aa","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"task_id":"aimayatool-goal007-scene-pattern-create-attribute-python-verify-162u","status":"pending","architect_ack":true,"bridge_completed":true,"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"payload":{"files":["aimayatool/tools/scene/create_attribute.py","aimayatool/tools/setup/attributes.py"],"imports":["aimayatool.tools.scene.create_attribute","aimayatool.tools.setup.attributes"],"timeout":300},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","result":"PASS","classification":"create_attribute_python_verification_passed","delivery_id":"70014dcfe7f86fc5bcca","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"task_id":"aimayatool-goal007-scene-pattern-create-attribute-maya-validation-162v","status":"pending","architect_ack":true,"bridge_completed":true,"action":{"type":"maya","target":"managed_live_smoke"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"payload":{"timeout":300,"save_scene":false,"isolated_scene":true,"module":"aimayatool.tools.scene.create_attribute","callable":"create_attribute_managed_maya_smoke"},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","result":"PASS","classification":"create_attribute_managed_maya2024_proven","delivery_id":"2b653d613c8449a51f9f","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"task_id":"aimayatool-goal007-scene-pattern-create-curve-inventory-162w","status":"pending","architect_ack":true,"bridge_completed":true,"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":false,"run_tests":true,"commit":false,"push":false},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":[],"imports":["aimayatool.tools.scene"],"timeout":300},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","result":"INCONCLUSIVE","classification":"git_pull_precondition_permission_contract_missing_edit_true","delivery_id":"32b7d35e1f05905cdf12","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"task_id":"aimayatool-goal007-scene-pattern-create-curve-inventory-retry-162x","status":"pending","architect_ack":true,"bridge_completed":true,"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":[],"imports":["aimayatool.tools.scene"],"timeout":300},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","result":"PASS","classification":"create_curve_inventory_precondition_passed","delivery_id":"6ea33df7801597749820","verification_evidence":{"git_pull_after":"d933891cbb85d7daf53c24f399be6e8327fe52e8","scene_package_import":true},"architect_diagnosis":"Corrected git_pull permission contract passed and the base scene package imports outside Maya. Repository reinspection also found an existing create_curve.py adapter, so the next work is verification of that implementation rather than duplicate implementation.","owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"task_id":"aimayatool-goal007-scene-pattern-create-curve-python-verify-162y","status":"pending","architect_ack":false,"bridge_completed":false,"action":{"type":"verification","target":"python"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"payload":{"preconditions":[{"type":"git_pull","strategy":"ff-only","remote":"origin","branch":"main"}],"files":["aimayatool/tools/scene/create_curve.py"],"imports":["aimayatool.tools.scene.create_curve"],"timeout":300},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-scene-pattern-create-curve-inventory-retry-162x"],"purpose":"Verify the existing deterministic CreateCurve adapter before host validation. Current adapter normalizes legacy multiline points, computes degree=min(3,n-1), handles optional/missing parent, supports hidden curves and bounded rebuild output, and exposes a managed Maya smoke callable.","acceptance":["Fast-forward pull main succeeds.","create_curve.py compiles and imports outside Maya.","No Maya behavior claim is made from this deterministic gate."],"owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}},
+    {"project":{"repository":"https://github.com/nguyenletrian/AIMayaTool.git","branch":"main","workdir":"D:/AIMayaTool"},"return_route":{"type":"provider","target":"OpenAI","via":"web"},"task_id":"aimayatool-goal007-scene-pattern-create-curve-maya-validation-162z","status":"pending","architect_ack":false,"bridge_completed":false,"action":{"type":"maya","target":"managed_live_smoke"},"permissions":{"read":true,"edit":true,"run_tests":true,"commit":false,"push":false},"payload":{"timeout":300,"save_scene":false,"isolated_scene":true,"module":"aimayatool.tools.scene.create_curve","callable":"create_curve_managed_maya_smoke"},"metadata":{"goal_id":"aimayatool-007","milestone_id":"scene-pattern-parity","depends_on":["aimayatool-goal007-scene-pattern-create-curve-python-verify-162y"],"purpose":"Validate the existing CreateCurve adapter in a fresh isolated unsaved Maya scene using the already-inspected complete managed-live smoke payload contract.","acceptance":["Fresh isolated unsaved Maya scene is used.","Basic cubic hidden curve is created and parented.","Rebuild output is created, hidden and parented when rebuild spans are requested.","Missing parent is handled deterministically without blocking curve creation.","Route reports new_scene_forced=true and scene_saved=false."],"owner_constraint":"Do not use Codex until the owner explicitly re-enables it."}}
   ]
 }
