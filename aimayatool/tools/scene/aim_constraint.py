@@ -37,3 +37,27 @@ def execute_aim_constraint_plan(plan,cmds_module=None,create_offset_fn=None):
         if content: constraint=cmds.parent(constraint,content)[0]
         results.append({"child":child,"child_path":child_path,"status":"applied","offset":offset,"constraint":constraint})
     return tuple(results)
+
+
+def apply_aim_constraint(descriptor,cmds_module=None,create_offset_fn=None): return execute_aim_constraint_plan(build_aim_constraint_plan(descriptor),cmds_module=cmds_module,create_offset_fn=create_offset_fn)
+
+
+def aim_constraint_managed_maya_smoke():
+    import maya.cmds as cmds
+    cmds.file(new=True,force=True)
+    rig=cmds.group(empty=True,name="Rig_GRP"); child=cmds.group(empty=True,name="Aim_CTRL",parent=rig); target=cmds.group(empty=True,name="Aim_Target",parent=rig); reference=cmds.group(empty=True,name="Aim_Up",parent=rig); content=cmds.group(empty=True,name="ConstraintContent_GRP")
+    cmds.xform(child,translation=(1.0,2.0,0.0)); cmds.xform(target,translation=(8.0,3.0,1.0)); cmds.xform(reference,translation=(1.0,7.0,2.0))
+    result=apply_aim_constraint({"child":child,"parent":target,"reference":reference,"mainAxis":"x","secondAxis":"y","maintain":False,"constraintContent":content})[0]
+    constraint=result.get("constraint"); offset=result.get("offset"); applied=result.get("status")=="applied" and cmds.objExists(offset) and cmds.objExists(constraint)
+    hierarchy=bool(applied and (cmds.listRelatives(child,parent=True,fullPath=False) or [None])[0].split("|")[-1]==offset.split("|")[-1])
+    constraint_parent=(cmds.listRelatives(constraint,parent=True,fullPath=False) or [None])[0] if applied else None; content_ok=bool(constraint_parent and constraint_parent.split("|")[-1]==content)
+    target_ok=bool(applied and target in (cmds.aimConstraint(constraint,query=True,targetList=True) or [])); world_up_ok=bool(applied and cmds.getAttr(constraint+".worldUpType")==1 and cmds.listConnections(constraint+".worldUpMatrix",source=True,destination=False))
+    missing=apply_aim_constraint({"child":"Missing_CTRL","parent":target,"reference":reference})[0]; missing_ok=missing.get("status")=="skipped_missing_child"
+    invalid_parent=False
+    try: apply_aim_constraint({"child":child,"parent":"Missing_Target","reference":reference})
+    except ValueError: invalid_parent=True
+    axis_ok=axis_vector("-z")== (0.0,0.0,-1.0)
+    smoke={"applied":applied,"hierarchy":hierarchy,"constraint_content":content_ok,"target":target_ok,"world_up_object":world_up_ok,"missing_child":missing_ok,"invalid_parent":invalid_parent,"axis":axis_ok}
+    smoke["success"]=all(smoke.values())
+    if not smoke["success"]: raise AssertionError("AimConstraint managed Maya smoke failed: %r" % smoke)
+    return smoke
