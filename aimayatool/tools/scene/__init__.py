@@ -14,9 +14,18 @@ REGISTRY = PatternRegistry()
 def build_ui():
     import maya.cmds as cmds
 
-    cmds.text(label="Scene Patterns", align="left")
-    cmds.text(label="Create, load, edit, and save deterministic ScenePattern data.", align="left")
-    cmds.text(label="Reusable display-layer and scene build helpers are available through the Scene API.", align="left")
+    column = cmds.columnLayout(adjustableColumn=True, rowSpacing=6)
+    cmds.text(label="Scene 2.0", align="left", font="boldLabelFont")
+    cmds.separator(style="in", height=8)
+    cmds.text(label="Patterns & Presets", align="left", font="boldLabelFont")
+    cmds.text(label="Create, edit, save, and organize reusable ScenePattern presets.", align="left")
+    cmds.text(label="Compare & Edit", align="left", font="boldLabelFont")
+    cmds.text(label="Inspect deterministic field changes and apply validated partial edits.", align="left")
+    cmds.text(label="Build Pipeline", align="left", font="boldLabelFont")
+    cmds.text(label="Run ordered reusable build steps with explicit error handling.", align="left")
+    cmds.text(label="Display Layers", align="left", font="boldLabelFont")
+    cmds.text(label="Reusable display-layer helpers remain available through the Scene API.", align="left")
+    return column
 
 __all__ = [
     "BuildStep",
