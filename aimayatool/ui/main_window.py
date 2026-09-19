@@ -82,6 +82,28 @@ def discovery_interaction_smoke():
     return "AIBRIDGE_UI_DISCOVERY_OK:recent=setup|favorite=setup"
 
 
+def tracked_action_interaction_smoke():
+    """Prove an intentional tracked Setup action reaches workspace discovery in live Maya."""
+    show()
+    reg = _current_registry()
+    node = cmds.createNode("transform", name="AIMayaToolTrackedFreeze")
+    cmds.setAttr(node + ".translateX", 3.0)
+    cmds.select(node, replace=True)
+    from aimayatool.ui.components import run_tracked_action
+    from aimayatool.tools.setup import _freeze_selected
+    result = run_tracked_action("setup", "freeze_trs", "Freeze TRS", _freeze_selected)
+    _refresh_discovery()
+    recent = reg.recent_actions()
+    label = cmds.text(_DISCOVERY, query=True, label=True)
+    if not recent or recent[0]["group_id"] != "setup" or recent[0]["action_id"] != "freeze_trs":
+        raise RuntimeError("Tracked recent action missing: {0}".format(recent))
+    if "Actions Recent: Freeze TRS" not in label:
+        raise RuntimeError("Workspace discovery missing tracked action: {0}".format(label))
+    if abs(cmds.getAttr(node + ".translateX")) > 1e-6:
+        raise RuntimeError("Freeze TRS action did not execute")
+    return "AIBRIDGE_ACTION_RECENT_OK:setup|freeze_trs|workspace"
+
+
 def search_interaction_smoke():
     show()
     expected = (("skin", "skinning"), ("rig", "setup"), ("preset", "scene"))
