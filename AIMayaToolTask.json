@@ -28,85 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-presets-smart-defaults-secondary-count-maya-180c",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.tools.setup",
-        "callable": "smart_group_count_managed_maya_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "presets-smart-defaults",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal010-presets-smart-defaults-secondary-count-python-180b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Prove deterministic secondary-rig smart-default calculation in managed Maya without selection mutation; prompt remains user-overridable.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use isolated fresh scene.",
-          "Invoke smart_group_count_managed_maya_smoke.",
-          "Even positive remaining selection yields paired half-count; ambiguous/non-positive shapes use fallback.",
-          "Explicit non-default fallback is preserved.",
-          "Calculation leaves Maya selection unchanged.",
-          "Callable returns AIBRIDGE_SMART_DEFAULT_OK:deterministic|override.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "presets_smart_defaults_complete",
-        "delivery_id": "539e2e3d33a15d4164b9",
-        "verification_evidence": {
-          "marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_SMART_DEFAULT_OK:deterministic|override",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "pid": 6168,
-          "port": 7001,
-          "session": "existing"
-        },
-        "architect_diagnosis": "Managed Maya proved the smart default is deterministic, preserves explicit fallback/override semantics and does not mutate selection. presets-smart-defaults is complete; favorites-recent is activated."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-favorites-recent-inventory-181a",
       "action": {
         "type": "verification",
@@ -730,6 +651,78 @@
         "classification": "verification_only_no_product_edit",
         "delivery_id": "bc8f0fc684d9989928c6",
         "architect_diagnosis": "Compile/import passed, but main_window remains group-only and prerequisite tracked action implementation is absent. ACK delivery as verification-only, not feature completion."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-tracked-action-verify-181j",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/components.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/registry.py",
+          "tests/test_registry_action_state.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ],
+        "tests": [
+          "tests.test_registry_action_state"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-ui-instrument-setup-retry-181h"
+        ],
+        "purpose": "Independently verify the Architect-implemented tracked action runner and representative Setup Freeze TRS instrumentation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile components.py, Setup entrypoint, registry.py and registry action tests.",
+          "Confirm run_tracked_action records explicit setup/freeze_trs/Freeze TRS identity before delegating to run_action.",
+          "Confirm Setup Freeze TRS invokes the tracked runner while other Setup actions remain unchanged.",
+          "Run registry focused tests and import-safe registry check.",
+          "Do not edit product code.",
+          "Do not use Codex."
+        ],
+        "implementation_commits": [
+          "abdd8d77c86281a9a1a82f7206534f4b0972cbbd",
+          "ffc41100b22a96d38633c04ecfbc3a78cd5746f2"
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
