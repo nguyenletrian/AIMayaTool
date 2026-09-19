@@ -28,79 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-build-parity-inventory-168u",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-build-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-default-switch-ikfk-python-verify-168t",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "goal_state_commit": "e8b9f2ba6b906636fa7aba1b648c6750a620b533",
-        "purpose": "Begin the next Goal 007 milestone by refreshing current Scene package evidence and inventorying legacy non-ScenePattern scene setup/build actions against AIMayaTool. Select the first genuinely missing bounded build slice without duplicating ScenePattern coverage.",
-        "acceptance": [
-          "Fast-forward main including completed scene-pattern-parity goal state.",
-          "Compile/import Scene package.",
-          "Inventory legacy Scene setup/build actions outside ScenePattern against current target modules.",
-          "Classify aliases/internal helpers before proposing implementation.",
-          "Return evidence for the first dependency-ready scene-build-parity slice."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_build_inventory_baseline_verified",
-        "delivery_id": "4b7908b69fa2a9843084",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "a0aa719b5f4bbf8a27cddaba851863fd1235b61e"
-        },
-        "architect_diagnosis": "Legacy non-ScenePattern build surface is concentrated in Scene.py orchestration and SceneDefaultFunctions. Current build_actions covers deterministic hierarchy creation; control_shape_io/legacy_io cover the core curve export/import payload. The first bounded remaining build gap is project-relative SceneData path policy plus export/import/update orchestration for dataCurveShape.json, including the legacy current-folder vs parent-work-folder variants without hard-coded project assumptions."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-build-control-shape-path-sync-168v",
       "action": {
         "type": "verification",
@@ -716,9 +643,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -762,6 +689,72 @@
           "Run only build_actions_smoke callable.",
           "Require explicit product result; timeout/no result is runtime evidence, not product PASS.",
           "Do not involve FoldRig or reuse its unhealthy validation route."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "unsupported_verification_route",
+        "delivery_id": "8166fe3b8a472cd87fd3",
+        "architect_diagnosis": "Bridge has no handler for verification:maya:ui_smoke. This is a task-routing error, not a build_actions product failure. Existing smoke callable is run_scene_build_actions_smoke, so retry is converted to the established managed Maya verification contract rather than repeating the unsupported route."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-maya-build-actions-managed-retry-169e",
+      "action": {
+        "type": "maya_smoke",
+        "target": "managed_maya"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 45,
+        "module": "aimayatool.tools.scene.build_actions_smoke",
+        "callable": "run_scene_build_actions_smoke",
+        "isolated_scene": true,
+        "save_scene": false,
+        "new_scene_forced": true,
+        "expected_result": "SCENE_BUILD_ACTIONS_SMOKE_OK"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_retry_source": {
+          "task_id": "aimayatool-goal007-scene-maya-build-actions-smoke-169d",
+          "result": "FAIL",
+          "reason": "No route handler registered for verification:maya:ui_smoke"
+        },
+        "purpose": "Retry Scene build-actions host validation through the established managed Maya smoke contract with the actual repository callable.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Start/use managed Maya with a forced fresh isolated unsaved scene.",
+          "Invoke aimayatool.tools.scene.build_actions_smoke.run_scene_build_actions_smoke.",
+          "Require exact product result SCENE_BUILD_ACTIONS_SMOKE_OK.",
+          "Do not save the scene and do not involve FoldRig."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
