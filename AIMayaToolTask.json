@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-implementation-route-recovery-assessment-retry-167f",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "retry_of": "aimayatool-goal007-implementation-route-recovery-assessment-167e",
-        "purpose": "Retry the bounded implementation-route recovery gate with the minimum permission required for git_pull.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import current Scene package successfully.",
-          "Do not mutate product source files; edit permission exists solely because git_pull updates the local worktree.",
-          "Do not commit or push.",
-          "Do not claim FoldRig/Rivet/SplineRig implementation occurred.",
-          "Return repository precondition commit and verification evidence for Architect route recovery."
-        ],
-        "blocker": "Implementation dispatch remains unavailable; this task only establishes a fresh verified repository baseline.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "implementation_route_recovery_baseline_verified",
-        "delivery_id": "079c3eb3e8912629c1c3",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "aa92ff66a9c244614213b8466491bae412878483"
-        },
-        "architect_diagnosis": "Fresh main baseline is healthy. The remaining blocker is architectural: current project router metadata exposes no code-implementation route, so FoldRig/Rivet/SplineRig must not be requeued until an implementation-capable route is restored or added."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-bootstrap-no-git-design-verification-167g",
       "action": {
         "type": "verification",
@@ -654,9 +585,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -696,6 +627,67 @@
           "Invoke aimayatool.tools.scene.fold_rig.fold_rig_managed_maya_smoke.",
           "Smoke returns ok=true with two constraints, three weight aliases per constraint, animCurve-driven weights, and driver restored to final value.",
           "Treat runtime/session loss as inconclusive and follow Guide fresh-session recovery."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "INCONCLUSIVE_RUNTIME_LOSS",
+        "classification": "maya_ui_smoke_timeout_no_product_evidence",
+        "delivery_id": "09c6ebdd699f623b9e8a",
+        "architect_diagnosis": "Maya 2024 availability was established, but the smoke returned no product output and timed out after 45s. Per project Guide this first runtime-loss/timeout is inconclusive, not a FoldRig failure; retry in a genuinely fresh managed Maya session."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-fresh-retry-167p",
+      "action": {
+        "type": "maya",
+        "target": "ui_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.fold_rig",
+        "callable": "fold_rig_managed_maya_smoke",
+        "new_scene": true,
+        "timeout": 45,
+        "save_scene": false,
+        "isolated_scene": true
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "retry_of": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-retry2-167o",
+        "purpose": "Fresh-session recovery retry after the first Maya UI smoke timeout with no FoldRig product evidence.",
+        "acceptance": [
+          "Do not reuse a stale/refused/unresponsive Maya session; establish a genuinely fresh managed Maya 2024 session.",
+          "Fast-forward main.",
+          "Force an isolated fresh unsaved scene and keep save_scene=false.",
+          "Invoke aimayatool.tools.scene.fold_rig.fold_rig_managed_maya_smoke.",
+          "Return explicit product result or exception evidence. If the same bounded operation times out/crashes again on the genuinely fresh session, preserve both runs and classify as a reproducible Maya blocker rather than retrying indefinitely."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
