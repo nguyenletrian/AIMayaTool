@@ -85,7 +85,7 @@ def _zero_selected():
 
 def _freeze_selected():
     from . import transforms
-    return transforms.freeze_transforms(_require_selection(1, "Select transforms to freeze."))
+    return transforms.freeze_transforms(_require_selection(1, "Select transforms to freeze."), translate=True, rotate=True, scale=True)
 
 
 def _reset_selected():
@@ -118,6 +118,35 @@ def batch_reset_managed_maya_smoke():
         if abs(cmds.getAttr(node + ".scaleX") - float(i + 2)) > 1e-6:
             raise RuntimeError("Scale was unexpectedly changed: {0}".format(node))
     return "AIBRIDGE_BATCH_RESET_OK:ordered|TR_reset|scale_preserved"
+
+
+def batch_freeze_managed_maya_smoke():
+    """Prove ordered multi-selection Freeze TRS behavior without saving the scene."""
+    cmds = _cmds()
+    nodes = [cmds.polyCube(name="AIMayaToolBatchFreeze{0}".format(i))[0] for i in range(3)]
+    for i, node in enumerate(nodes):
+        cmds.setAttr(node + ".translateX", float(i + 2))
+        cmds.setAttr(node + ".rotateY", float((i + 1) * 10))
+        cmds.setAttr(node + ".scaleX", float(i + 2))
+    before = {node: tuple(cmds.xform(node, query=True, worldSpace=True, boundingBox=True)) for node in nodes}
+    cmds.select(nodes, replace=True)
+    expected = cmds.ls(selection=True, long=True) or []
+    import importlib
+    from . import transforms
+    importlib.reload(transforms)
+    _freeze_selected()
+    actual = cmds.ls(selection=True, long=True) or []
+    if actual != expected:
+        raise RuntimeError("Selection order changed: {0} != {1}".format(actual, expected))
+    for node in nodes:
+        values = [cmds.getAttr(node + "." + attr) for attr in ("translateX","translateY","translateZ","rotateX","rotateY","rotateZ")]
+        scales = [cmds.getAttr(node + "." + attr) for attr in ("scaleX","scaleY","scaleZ")]
+        if any(abs(value) > 1e-6 for value in values) or any(abs(value - 1.0) > 1e-6 for value in scales):
+            raise RuntimeError("TRS was not frozen to identity: {0}".format(node))
+        after = tuple(cmds.xform(node, query=True, worldSpace=True, boundingBox=True))
+        if any(abs(a - b) > 1e-5 for a, b in zip(after, before[node])):
+            raise RuntimeError("Visible world result changed during freeze: {0}".format(node))
+    return "AIBRIDGE_BATCH_FREEZE_OK:ordered|TRS_frozen|world_preserved"
 
 
 def _create_joints_selected():
