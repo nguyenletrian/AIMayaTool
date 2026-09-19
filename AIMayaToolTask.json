@@ -388,78 +388,6 @@
         "read": true,
         "edit": true,
         "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "task_id": "aimayatool-goal010-favorites-recent-ui-instrument-setup-retry-181h",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/components.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/registry.py",
-          "tests/test_registry_action_state.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-ui-instrument-setup-181f"
-        ],
-        "purpose": "Correct the missed 181f implementation: add a thin tracked-action execution seam and instrument one representative Setup action with explicit stable identity.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Actually edit product code: add a shared tracked-action runner (or equivalent) that accepts explicit group_id, action_id, display label, records mark_recent_action on intentional invocation, then delegates to existing run_action.",
-          "Instrument exactly one representative non-destructive Setup action with explicit stable identity; Freeze TRS is acceptable.",
-          "Do not infer identity from callback repr or result/status text.",
-          "Preserve run_action success/error behavior and existing group discovery.",
-          "Add focused deterministic test coverage for tracking-before-delegation without requiring Maya where practical.",
-          "Run py_compile, import-safe checks and focused tests.",
-          "Commit and push the implementation to main after checks pass.",
-          "Do not add persistence or broad domain rewiring.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_ACCEPTANCE_NOT_IMPLEMENTED",
-        "classification": "verification_only_no_product_edit",
-        "delivery_id": "7f4ab66cba929400e47d",
-        "architect_diagnosis": "Compile/import passed, but repository evidence still shows no tracked-action helper and Freeze TRS still uses plain _run. The requested implementation did not land. Architect will implement this bounded slice directly and use Bridge for verification."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
         "commit": false,
         "push": false
       },
@@ -656,9 +584,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -706,6 +634,72 @@
           "Do not save scene.",
           "Do not use Codex."
         ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_ACCEPTANCE_NOT_IMPLEMENTED",
+        "classification": "smoke_callable_missing",
+        "delivery_id": "cd59444be74b17885a7d",
+        "architect_diagnosis": "The runtime failure was a missing smoke callable, not a Reset TR product failure. Architect added the bounded batch_reset_managed_maya_smoke callable to Setup, preserving fresh-scene/no-save requirements. Retry is required."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-batch-productivity-reset-maya-smoke-retry-182e",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.tools.setup",
+        "callable": "batch_reset_managed_maya_smoke",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "batch-productivity",
+        "depends_on": [
+          "aimayatool-goal010-batch-productivity-reset-maya-smoke-182d"
+        ],
+        "purpose": "Retry managed Maya proof after adding the missing smoke callable.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use fresh unsaved scene.",
+          "Invoke batch_reset_managed_maya_smoke.",
+          "Verify ordered selection remains unchanged, translation and rotation reset to zero, and scale remains unchanged for all three transforms.",
+          "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "implementation_commit": "ba9062b1788863513bb566cd883bbaacd7900b85",
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
