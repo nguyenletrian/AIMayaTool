@@ -92,70 +92,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-single-script-maya-validation-retry-164aa",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "save_scene": false,
-        "isolated_scene": true,
-        "module": "aimayatool.tools.scene.single_script",
-        "callable": "single_script_managed_maya_smoke"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-single-script-python-verify-164y"
-        ],
-        "retry_of": "aimayatool-goal007-scene-pattern-single-script-maya-validation-164z",
-        "purpose": "Retry SingleScript host proof after correcting smoke fixture newline serialization.",
-        "implementation_commit": "a174187ad1ff728f068941f37cf948965674740e",
-        "acceptance": [
-          "Fresh isolated unsaved Maya scene.",
-          "Temporary Python file contains real newline characters and executes through runner.",
-          "Script mutates Maya scene.",
-          "Missing script raises deterministic IOError.",
-          "new_scene_forced=true, scene_saved=false, smoke success=true."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "single_script_smoke_fixture_literal_newline_persisted",
-        "delivery_id": "2fb77ee39b66859f8733",
-        "architect_diagnosis": "Retry 164aa reproduced the same fixture-only SyntaxError. Repository inspection proved single_script.py on main still wrote literal backslash-n sequences, so the prior claimed fixture correction had not actually changed the file. Corrected the smoke fixture to real newline escapes in commit d81acbf74c340a5714921b1f34cccea1a9a7f3aa; product runner remains unproven rather than failed."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-single-script-maya-validation-retry-164ab",
       "action": {
         "type": "maya",
@@ -737,6 +673,73 @@
           "import": "aimayatool.tools.scene"
         },
         "architect_diagnosis": "Inventory gate passed. Legacy MeshVertex Run is empty and must not be represented as migrated behavior. Safe Python-only boundary is component-name parsing, mesh consistency/cardinality validation, and pair-data normalization. Symmetry discovery and vertex-position mirroring depend on NLTA_Mesh/Maya geometry state and require a separate host-backed slice."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-mesh-vertex-core-python-verify-165h",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/mesh_vertex.py",
+          "tests/test_scene_mesh_vertex.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.mesh_vertex"
+        ],
+        "tests": [
+          "tests.test_scene_mesh_vertex"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-mesh-vertex-inventory-165g"
+        ],
+        "purpose": "Verify deterministic MeshVertex core helpers from the approved inventory boundary.",
+        "implementation_commits": [
+          "5f3a6bad7a6e11e7a8281bc34f7b518a7b0db173",
+          "5859973b763437fe1c728e48fc7c6b495560c175"
+        ],
+        "acceptance": [
+          "Compile files.",
+          "Import outside Maya.",
+          "Focused tests pass for vertex parsing, same-mesh/cardinality validation, and normalized index data.",
+          "No symmetry discovery or vertex mutation claim."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
