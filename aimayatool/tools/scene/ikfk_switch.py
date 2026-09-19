@@ -85,3 +85,27 @@ def ikfk_switch_managed_maya_smoke():
     ok=abs(cmds.getAttr(source+".tx")-5.0)<0.001 and cmds.getAttr(switch+".blend")==1
     if not ok: raise RuntimeError("IK/FK switch smoke failed")
     return {"ok":True,"result":result}
+
+
+def normalize_default_ikfk_item(data):
+    data=dict(data or {})
+    item={"controlParent":str(data.get("controlParent","")).strip(),"controlSwitch":str(data.get("controlSwitch","")).strip(),
+          "attributeSwitch":str(data.get("attributeSwitch","")).strip(),"fkActive":int(data.get("fkActive",0)),"ikActive":int(data.get("ikActive",1)),
+          "controlUpper":str(data.get("controlUpper","")).strip(),"controlFK":_lines(data.get("controlFK")),"controlIK":_lines(data.get("controlIK")),
+          "controlRoll":_lines(data.get("controlRoll")),"jointIK":_lines(data.get("jointIK")),"mirror":bool(data.get("mirror",False))}
+    if not item["controlParent"]: raise ValueError("controlParent is required")
+    if not item["attributeSwitch"]: raise ValueError("attributeSwitch is required")
+    return item
+
+def build_default_ikfk_setup_plan(items):
+    result=[]
+    for index,raw in enumerate(items or []):
+        item=normalize_default_ikfk_item(raw); switch=item["controlSwitch"] or item["controlParent"]
+        query={"attrBlend":item["attributeSwitch"],"fkMode":item["fkActive"],"ikMode":item["ikActive"],"ctrlSw":[switch]}
+        if item["controlUpper"]: query["ctrlUpper"]=[item["controlUpper"]]
+        if item["controlFK"]: query["ctrlFK"]=item["controlFK"]
+        if item["controlIK"]: query["ctrlIK"]=item["controlIK"]
+        if item["jointIK"]: query["jointIK"]=item["jointIK"]
+        if item["controlRoll"]: query["RollToes"]=item["controlRoll"]
+        result.append({"controlParent":item["controlParent"],"controlType":2 if index==0 else 1,"mirror":item["mirror"],"query":query})
+    return {"version":1,"legacy":"DefaultSwitchIKFK","setups":result}
