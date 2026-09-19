@@ -288,6 +288,23 @@ def _smart_group_count(total, fixed, fallback=1):
     return remaining // 2 if remaining > 0 and remaining % 2 == 0 else fallback
 
 
+def smart_group_count_managed_maya_smoke():
+    """Focused proof for deterministic prompt default without scene mutation."""
+    cmds = _cmds()
+    before = cmds.ls(selection=True, long=True) or []
+    cases = ((8, 4, 2), (6, 2, 2), (7, 4, 1), (4, 4, 1))
+    for total, fixed, expected in cases:
+        result = _smart_group_count(total, fixed)
+        if result != expected:
+            raise RuntimeError("Smart count mismatch: {0}, {1} -> {2}, expected {3}".format(total, fixed, result, expected))
+    if _smart_group_count(7, 4, fallback=3) != 3:
+        raise RuntimeError("Explicit fallback was not preserved")
+    after = cmds.ls(selection=True, long=True) or []
+    if after != before:
+        raise RuntimeError("Smart count mutated Maya selection")
+    return "AIBRIDGE_SMART_DEFAULT_OK:deterministic|override"
+
+
 def _secondary_count(cmds, title, total, fixed):
     default_count = str(_smart_group_count(total, fixed))
     if cmds.promptDialog(title=title, message="Objects / destinations count:", text=default_count, button=["Next", "Cancel"], defaultButton="Next", cancelButton="Cancel", dismissString="Cancel") != "Next":
