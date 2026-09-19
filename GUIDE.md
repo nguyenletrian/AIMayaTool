@@ -43,6 +43,13 @@ Update `HISTORY.md` when a durable conclusion is reached, not for every transien
 
 Future project profiles should use the same separation so history stays readable while task evidence remains machine-oriented.
 
+## AIBrigde worker identity and execution target
+AIMayaTool runs on the shared AIBrigde platform but has a distinct project execution identity. The project profile is `system_id=aimayatool`, `project_id=aimayatool`, and the worker must carry its explicit worker/instance identity when task or task-request messages are exchanged.
+
+The current managed Maya smoke target is declared in `.aibridge/project.json` as `127.0.0.1:7001` (`maya-2024-port-7001`). This is the **Maya execution port**. It must never be confused with AIBrigde's browser/CDP transport, which defaults to `127.0.0.1:9222`.
+
+For future AIMayaTool managed instances, the explicit instance target wins over this current smoke convention. Do not infer a port from free-form task text, repository name, or action name. Task/request messages must identify the project/worker lane explicitly so an AIBrigde task cannot be mistaken for an AIMayaTool task (or another future project).
+
 ## Mission
 Build a clean Maya toolset from the proven ideas in `nguyenletrian/MayaScriptNew`, while redesigning helpers, UI, structure, loading, and runtime boundaries for maintainability and speed.
 
