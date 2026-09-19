@@ -539,74 +539,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-favorites-recent-workspace-python-verify-181k",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/main_window.py",
-          "aimayatool/ui/components.py",
-          "aimayatool/registry.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-tracked-action-verify-181j"
-        ],
-        "purpose": "Verify the Architect-implemented action-level Recent/Favorites workspace presentation before live Maya validation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile main_window.py, components.py and registry.py.",
-          "Confirm discovery reads recent_actions/favorite_actions and preserves group recent/favorites.",
-          "Confirm discovery remains presentation-only and does not execute actions.",
-          "Do not edit product code.",
-          "Do not use Codex."
-        ],
-        "implementation_commit": "a2ee7cf3df8003bb83e6252a51f70ae4fcfcf44a",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "workspace_action_discovery_python_verified",
-        "delivery_id": "acf2301bd83f8355bda0",
-        "architect_diagnosis": "Python verification passed for the bounded workspace action Recent/Favorites presentation. Proceed to the already queued managed-Maya workspace regression smoke; milestone remains open until live Maya proves tracked action interaction."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-batch-productivity-inventory-182a",
       "action": {
         "type": "verification",
@@ -660,9 +592,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -713,6 +645,75 @@
           "Commit and push only after verification passes.",
           "Do not use Codex."
         ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_ACCEPTANCE_NOT_IMPLEMENTED",
+        "classification": "verification_only_no_product_edit",
+        "delivery_id": "0b3566375048f3afe53d",
+        "architect_diagnosis": "Worker compile/import passed, but repository evidence showed no reset_transforms batch helper and the existing Setup Reset TR action referenced a missing plural primitive. Architect implemented the bounded ordered reset_transforms batch helper directly. A separate read-only verification is now required before treating 182b complete."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-batch-productivity-setup-verify-182c",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/setup/transforms.py",
+          "aimayatool/tools/setup/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup.transforms",
+          "aimayatool.tools.setup"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "batch-productivity",
+        "depends_on": [
+          "aimayatool-goal010-batch-productivity-setup-182b"
+        ],
+        "purpose": "Independently verify the Architect-implemented ordered selected-transform batch helper and Reset TR integration.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile and import Setup transforms and Setup entrypoint.",
+          "Verify reset_transforms validates the full ordered selection before mutation and preserves selection order in its returned tuple.",
+          "Verify Setup _reset_selected delegates to reset_transforms with translate=True, rotate=True, scale=False.",
+          "Run focused deterministic tests if present.",
+          "Do not edit product code.",
+          "Do not use Codex."
+        ],
+        "implementation_commit": "9318abec540e8bec4270fe3593cca36dbd98b3d3",
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
