@@ -646,9 +646,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -697,7 +697,17 @@
           "All focused SpaceSwitch core tests pass.",
           "Do not claim Maya host behavior from this gate."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "space_switch_host_python_regression_passed",
+        "delivery_id": "6dd27b058e7af155c363",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "tests_run": 3
+        },
+        "architect_diagnosis": "Post-host-adapter Python regression passed: SpaceSwitch implementation/tests compile, module remains import-safe outside Maya, and all 3 deterministic core tests pass. Dependency for managed Maya smoke 166h is resolved; Maya host behavior remains gated by 166h."
       }
     },
     {
