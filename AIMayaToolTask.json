@@ -21,77 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-script-hook-adapters-165a",
-      "action": {
-        "type": "implementation",
-        "target": "repository"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/script_hooks.py",
-          "tests/test_scene_script_hooks.py"
-        ],
-        "reference_files": [
-          "UIs/ScenePattern/Scene_Pattern_CurrentAfterScript.py",
-          "UIs/ScenePattern/Scene_Pattern_CurrentPostScript.py",
-          "UIs/ScenePattern/Scene_Pattern_UpAfterScript.py",
-          "UIs/ScenePattern/Scene_Pattern_UpPostScript.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Migrate the four legacy Current/Up AfterScript/PostScript ScenePattern wrappers as one explicit script-hook adapter over the already proven SingleScript runner, preserving current-vs-parent SceneData path semantics without copying legacy UI/reload coupling.",
-        "legacy_source_shas": {
-          "CurrentAfterScript": "e47bea520e2567a67f7272343f4dd5d8b3562103",
-          "CurrentPostScript": "ef78fffbf9b094e1b4e4f2939b84b3ccf37174f9",
-          "UpAfterScript": "2a50a681db2295b31642645d36af6fe53d1cf217",
-          "UpPostScript": "a531467608d281184285f7be6b37097b6b09180f"
-        },
-        "acceptance": [
-          "Implement deterministic Python-only path resolution for current scene directory versus one-level-up directory.",
-          "Represent AfterScript/PostScript hook identity explicitly while reusing run_script_file rather than duplicating execution logic.",
-          "No pymel, NLTA_General, reload loop, hard-coded developer path, or UI dependency.",
-          "Add focused deterministic tests for current/up path resolution, hook descriptors, and delegated script execution contract.",
-          "Compile changed Python and run focused tests before commit/push."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "unsupported_route_implementation_repository",
-        "delivery_id": "922105c5861a7b983bdb",
-        "architect_diagnosis": "Bridge rejected this task before repository work because implementation:repository has no registered route handler. No product-code failure occurred. Reissue implementation through a supported Python task route with explicit edit/commit/push permissions."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-script-hook-adapters-python-verify-165b",
       "action": {
         "type": "verification",
@@ -756,6 +685,66 @@
           }
         },
         "architect_diagnosis": "Nearest-component deterministic assignment core passed Python verification: one-to-one greedy selection, stable tie ordering and validation are proven outside Maya. Distances remain Euclidean; topology extraction and skin mutation remain host-backed."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-inventory-165k",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "purpose": "Bounded architecture gate for BSSequenceFromObjKeys. Separate deterministic keyframe/driver-weight planning from Maya duplication, blendShape, proxy attributes and driven-key mutation.",
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_BSSequenceFromObjKeys.py",
+        "legacy_source_sha": "0b417ef76373752e7ad4f59eeffc66fff1160471",
+        "acceptance": [
+          "git_pull current main.",
+          "Current scene package compiles/imports cleanly.",
+          "Identify Python-only planning boundary for normalized nonzero keyframes, generated shoot names, driver positions and per-shape weight states.",
+          "Keep animation queries, duplicate/group/blendShape, proxy attributes, connections and setDrivenKeyframe as Maya-host behavior.",
+          "Document edge cases including zero generated shapes and the legacy last-shoot half-segment adjustment before implementation.",
+          "No repository mutation required."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
