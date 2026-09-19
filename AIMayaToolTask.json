@@ -18,6 +18,86 @@
         "target": "OpenAI",
         "via": "web"
       },
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-scene-pattern-rename-maya-validation-164j",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "save_scene": false,
+        "isolated_scene": true,
+        "module": "aimayatool.tools.scene.rename",
+        "callable": "rename_managed_maya_smoke"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-rename-python-verify-164i"
+        ],
+        "purpose": "Host-prove ScenePattern Rename behavior.",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene.",
+          "Existing objects renamed to requested names.",
+          "Missing objects skipped independently.",
+          "Invalid empty rename data rejected deterministically.",
+          "new_scene_forced=true, scene_saved=false, smoke success=true."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "rename_managed_maya2024_proven",
+        "delivery_id": "8d930091e0a6a1b420e7",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "port": 7001,
+          "git_pull_before": "50ce630e98d966b381cb7f348ae8067d1c9dfdc7",
+          "git_pull_after": "82955d8876aab8e7a8db84f1af285d89f2846a7e",
+          "smoke": {
+            "renamed": true,
+            "missing": true,
+            "exists": true,
+            "invalid": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: existing objects were renamed, missing objects were skipped independently, requested renamed nodes exist and original names no longer resolve, and invalid empty rename input is rejected deterministically."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
       "task_id": "aimayatool-goal007-scene-pattern-unlock-attribute-python-verify-164a",
       "status": "pending",
       "architect_ack": true,
@@ -193,98 +273,6 @@
         "delivery_id": "3d5417d379976988216e",
         "architect_diagnosis": "Repository main contains the corrected real-newline fixture at commit 9cddcc6a, but retry 164c had no git_pull precondition and the managed Maya process executed D:/AIMayaTool without updating its worktree. The identical line-44 IndexError therefore reflects stale local source, not a repeated failure of the corrected fixture.",
         "prevention": "Any retry that depends on a repository fix must include a git_pull precondition and permissions.edit=true before managed Maya execution."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "task_id": "aimayatool-goal007-scene-pattern-unlock-attribute-maya-validation-retry-164d",
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "save_scene": false,
-        "isolated_scene": true,
-        "module": "aimayatool.tools.scene.unlock_attribute",
-        "callable": "unlock_attribute_managed_maya_smoke"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "retry_of": "aimayatool-goal007-scene-pattern-unlock-attribute-maya-validation-retry-164c",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-unlock-attribute-python-verify-164a"
-        ],
-        "purpose": "Retry managed Maya host proof after explicitly pulling the corrected smoke fixture into the execution worktree.",
-        "acceptance": [
-          "AIMayaTool/AIBrigde runtime is explicitly running before execution.",
-          "A fresh managed Maya 2024 session is established; do not reuse prior PID 6168 as proof of liveness.",
-          "git_pull fast-forwards D:/AIMayaTool to current main before smoke execution.",
-          "Fresh isolated unsaved Maya scene is used.",
-          "tx/ty/tz/rx/ry/rz/sx/sy/sz are unlocked and keyable on existing objects.",
-          "Incoming transform-attribute connections are disconnected.",
-          "Missing objects are skipped deterministically.",
-          "Route reports new_scene_forced=true and scene_saved=false and smoke success=true."
-        ],
-        "required_fix_commit": "9cddcc6ade70e0ba61078569408b6e3197ba3b6d",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "runtime_preflight_required": true,
-        "architect_correction": "Previous stale-worktree diagnosis was not sufficiently established because the owner reports the AIMayaTool runtime was stopped. Preserve 164c as observed failure evidence, but treat its root cause as unresolved runtime/source-state ambiguity until a fresh session proves otherwise.",
-        "runtime_resume_evidence": "AIBrigde delivered a fresh queue_exhausted task_request to Architect on 2026-09-19, proving the task-request runtime path is running again. Managed Maya freshness/liveness must still be established by this task before product smoke.",
-        "previous_blocked_reason": "Owner reports AIMayaTool runtime is stopped. Do not execute this Maya retry until runtime is explicitly restored and a fresh managed session is established; prior PID/session evidence must not be reused.",
-        "result": "PASS",
-        "classification": "unlock_attribute_managed_maya2024_proven",
-        "delivery_id": "1037eaf44050ce12f97e",
-        "maya_evidence": {
-          "pid": 6168,
-          "managed_pid": 6168,
-          "session": "existing",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "maya_quit": false,
-          "port": 7001,
-          "git_pull_before": "8d24ccbf9c4f2476859c5ee38c5751e33d1ab182",
-          "git_pull_after": "8734da5d0429db0f850cb0185893413038e67325",
-          "git_pull_changed": true,
-          "smoke": {
-            "disconnected": true,
-            "unlocked": true,
-            "keyable": true,
-            "attrs": true,
-            "missing": true,
-            "success": true
-          },
-          "marker": "AIBRIDGE_UI_SMOKE_OK"
-        },
-        "architect_diagnosis": "Retry 164d passed after the required ff-only pull updated D:/AIMayaTool through commit 8734da5. The smoke host-proved disconnect, unlock, keyable, attribute coverage, and deterministic missing-object behavior in a forced-new unsaved Maya scene. Although the route reported session=existing and PID 6168, the successful product marker plus current-source pull resolves the prior source/runtime ambiguity; do not infer a fresh-process launch from this evidence."
       }
     },
     {
@@ -503,88 +491,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-proxy-attribute-maya-validation-retry-164h",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "save_scene": false,
-        "isolated_scene": true,
-        "module": "aimayatool.tools.scene.proxy_attribute",
-        "callable": "proxy_attribute_managed_maya_smoke"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "retry_of": "aimayatool-goal007-scene-pattern-proxy-attribute-maya-validation-164g",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-proxy-attribute-python-verify-164f"
-        ],
-        "purpose": "Retry managed Maya ProxyAttribute host proof after correcting multiline smoke fixture.",
-        "required_fix_commit": "5032747ee7ecb523c71d936e6b9df1f41a9a2982",
-        "acceptance": [
-          "Fresh isolated unsaved Maya scene.",
-          "Requested proxy attr created on multiple existing targets from valid source plug.",
-          "Proxy semantics resolve to source.",
-          "Missing targets skipped independently.",
-          "Missing source rejected deterministically.",
-          "new_scene_forced=true, scene_saved=false, smoke success=true."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "proxy_attribute_managed_maya2024_proven",
-        "delivery_id": "af71e0452ba2949703ef",
-        "maya_evidence": {
-          "pid": 6168,
-          "managed_pid": 6168,
-          "session": "existing",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "git_pull_before": "29b93f3deb5410a19bc9136db865f25350ecd98b",
-          "git_pull_after": "b8d03248c2ba3b1d3cb3f1ffc4a0288564db1d5c",
-          "smoke": {
-            "created": true,
-            "missing": true,
-            "attrs": true,
-            "values": true,
-            "invalid_source": true,
-            "success": true
-          }
-        },
-        "architect_diagnosis": "Retry passed after pulling the corrected multiline fixture. Managed Maya host-proved proxy creation on multiple targets, source-value propagation, independent missing-target skip, and deterministic invalid-source rejection in a forced-new unsaved scene."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rename-python-verify-164i",
       "action": {
         "type": "verification",
@@ -653,10 +559,68 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-rename-maya-validation-164j",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-visibility-python-verify-164k",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/visibility.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.visibility"
+        ],
+        "timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "purpose": "Verify Architect-migrated ScenePattern Visibility adapter.",
+        "implementation_commit": "bcf200fa9a27be38573ad0d03a9008f20c987c19",
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_Visibility.py",
+        "legacy_source_sha": "b1135e8a9f75711b191a7905530b9fb27fa43f13",
+        "acceptance": [
+          "git_pull fast-forwards main.",
+          "visibility.py compiles/imports outside Maya.",
+          "No Maya host claim from this gate."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-visibility-maya-validation-164l",
       "action": {
         "type": "maya",
         "target": "managed_live_smoke"
@@ -680,46 +644,24 @@
         "timeout": 300,
         "save_scene": false,
         "isolated_scene": true,
-        "module": "aimayatool.tools.scene.rename",
-        "callable": "rename_managed_maya_smoke"
+        "module": "aimayatool.tools.scene.visibility",
+        "callable": "visibility_managed_maya_smoke"
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-rename-python-verify-164i"
+          "aimayatool-goal007-scene-pattern-visibility-python-verify-164k"
         ],
-        "purpose": "Host-prove ScenePattern Rename behavior.",
+        "purpose": "Host-prove direct and locked/connected Visibility behavior.",
         "acceptance": [
           "Fresh isolated unsaved Maya scene.",
-          "Existing objects renamed to requested names.",
-          "Missing objects skipped independently.",
-          "Invalid empty rename data rejected deterministically.",
+          "Unlocked/unconnected visibility hides directly.",
+          "Locked visibility uses hidden offset-group fallback without unlocking source visibility.",
+          "Missing objects skip independently.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "rename_managed_maya2024_proven",
-        "delivery_id": "8d930091e0a6a1b420e7",
-        "maya_evidence": {
-          "pid": 6168,
-          "managed_pid": 6168,
-          "session": "existing",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "port": 7001,
-          "git_pull_before": "50ce630e98d966b381cb7f348ae8067d1c9dfdc7",
-          "git_pull_after": "82955d8876aab8e7a8db84f1af285d89f2846a7e",
-          "smoke": {
-            "renamed": true,
-            "missing": true,
-            "exists": true,
-            "invalid": true,
-            "success": true
-          },
-          "marker": "AIBRIDGE_UI_SMOKE_OK"
-        },
-        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: existing objects were renamed, missing objects were skipped independently, requested renamed nodes exist and original names no longer resolve, and invalid empty rename input is rejected deterministically."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
