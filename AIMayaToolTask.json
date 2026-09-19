@@ -296,73 +296,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-retry-165w",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.rope_weights",
-        "callable": "rope_weights_managed_maya_smoke",
-        "args": [
-          "straight"
-        ],
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "retry_of": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-165u",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-rope-weight-core-python-verify-165s"
-        ],
-        "implementation_commit": "fae22d36f882e295fc8f6de3d94c39e6d213239e",
-        "purpose": "Retry RopeStraight managed-Maya validation with the dedicated smoke fixture now present.",
-        "acceptance": [
-          "git_pull current main.",
-          "Use fresh isolated unsaved Maya scene.",
-          "Exercise rope_weights_managed_maya_smoke('straight').",
-          "Return structured evidence proving the three-target pointConstraint weight state matches deterministic RopeStraight weight math."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_WRONG_MODE",
-        "classification": "route_args_ignored_straight_not_validated",
-        "delivery_id": "3ed52752701e099888a1",
-        "architect_diagnosis": "Managed Maya smoke itself passed, but returned mode='roll' even though this Straight task supplied args=['straight']. This proves the route ignores payload.args. Evidence validates the roll fixture only and must not be accepted as RopeStraight parity. Queue a dedicated no-argument Straight wrapper callable."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -702,9 +635,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -756,6 +689,76 @@
           "Focused tests cover maintain true/false, custom enum labels, optional slide/default value, multiple children and invalid cardinality/empty inputs.",
           "Compile/import and focused unittest pass outside Maya.",
           "Do not implement offset groups, constraints, condition nodes or plusMinusAverage in this task."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "BLOCKED_PRECONDITION_IMPLEMENTATION_MISSING",
+        "classification": "verification_published_before_space_switch_files",
+        "delivery_id": "75e690429834e2f9182d",
+        "architect_diagnosis": "Verification correctly rejected the task because space_switch.py did not yet exist. Architect task publication was premature: this slice required implementation before verification. Added deterministic SpaceSwitch core and focused tests in commits ba0ed2a15ab8213f7f31c581713a2c137659466c and 09bece8e8c5bec7903bd38503c2c7bf264f0e3b2; queue corrected verification retry."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-space-switch-core-verify-166e",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/space_switch.py",
+          "tests/test_scene_space_switch.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.space_switch"
+        ],
+        "tests": [
+          "tests.test_scene_space_switch"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "retry_of": "aimayatool-goal007-scene-pattern-space-switch-core-166d",
+        "implementation_commits": [
+          "ba0ed2a15ab8213f7f31c581713a2c137659466c",
+          "09bece8e8c5bec7903bd38503c2c7bf264f0e3b2"
+        ],
+        "purpose": "Verify the now-implemented deterministic SpaceSwitch planning core outside Maya.",
+        "acceptance": [
+          "git_pull current main.",
+          "py_compile space_switch.py and test_scene_space_switch.py.",
+          "Import aimayatool.tools.scene.space_switch outside Maya.",
+          "Run tests.test_scene_space_switch; all focused tests pass.",
+          "No Maya host behavior claim."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
