@@ -28,78 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-maya-validation-closeout-169p",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-maya-validation-assessment-169o",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Final deterministic closeout gate before Architect durably marks scene-maya-validation complete and advances Goal 007 state/history.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import Scene package one final time against the exact closeout state.",
-          "Preserve direct managed-Maya PASS evidence for build_actions, display_layer, and SingleScript.",
-          "Return PASS only for deterministic closeout verification; Architect performs bridgeGoals/HISTORY mutation after ACK.",
-          "Do not declare broader program completion."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_maya_validation_closeout_pass",
-        "delivery_id": "687f71ab190cc36adbef",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "1e0be86ee0b30fc3fc879e1232fe6cb3a13c4def"
-        },
-        "architect_diagnosis": "Final deterministic closeout gate passed after direct managed-Maya validation of build actions, display layers, and SingleScript. Scene complete migration Goal 007 satisfies its current acceptance/milestone gates and can close; activate Goal 008 next."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal008-scene-presets-inventory-170a",
       "action": {
         "type": "verification",
@@ -674,9 +602,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -724,6 +652,76 @@
           "Inventory existing compare/edit capabilities from current repository evidence.",
           "Identify a bounded Python-only compare/edit modernization slice before UI work.",
           "Do not invent Maya-host requirements for deterministic data comparison."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_compare_edit_baseline_verified",
+        "delivery_id": "7588d1717338119dbc38",
+        "architect_diagnosis": "Current baseline has immutable whole-pattern edit but no deterministic field-level compare result or validated partial-change application. Architect implemented the bounded Python-only compare/edit slice and import-executed behavior smoke."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal008-scene-compare-edit-verify-171b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/compare_edit.py",
+          "aimayatool/tools/scene/compare_edit_smoke.py",
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.compare_edit_smoke",
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-008",
+        "milestone_id": "scene-compare-edit",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal008-scene-compare-edit-inventory-171a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify deterministic field-level ScenePattern comparison and safe partial edit application.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile compare/edit modules and public Scene export.",
+          "Import compare_edit_smoke so its assertions execute.",
+          "Prove unchanged comparison, deterministic changed-field ordering, immutable edit behavior, before/after values, unknown-field rejection, and invalid-type rejection.",
+          "No Maya/UI dependency."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
