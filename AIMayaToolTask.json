@@ -500,9 +500,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-proxy-attribute-maya-validation-retry-164h",
       "action": {
         "type": "maya",
@@ -547,7 +547,28 @@
           "Missing source rejected deterministically.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "proxy_attribute_managed_maya2024_proven",
+        "delivery_id": "af71e0452ba2949703ef",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "git_pull_before": "29b93f3deb5410a19bc9136db865f25350ecd98b",
+          "git_pull_after": "b8d03248c2ba3b1d3cb3f1ffc4a0288564db1d5c",
+          "smoke": {
+            "created": true,
+            "missing": true,
+            "attrs": true,
+            "values": true,
+            "invalid_source": true,
+            "success": true
+          }
+        },
+        "architect_diagnosis": "Retry passed after pulling the corrected multiline fixture. Managed Maya host-proved proxy creation on multiple targets, source-value propagation, independent missing-target skip, and deterministic invalid-source rejection in a forced-new unsaved scene."
       }
     }
   ]
