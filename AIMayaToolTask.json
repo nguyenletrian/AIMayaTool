@@ -28,81 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-gradient-texture-python-verify-167u",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/gradient_texture.py",
-          "tests/test_scene_gradient_texture.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.gradient_texture"
-        ],
-        "tests": [
-          "tests.test_scene_gradient_texture"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "implementation_commits": [
-          "f3206b0d267a998c0d37fbfd13713f50d1198dd1",
-          "c8b04475b421c4fd1c00736e4a74ed51a9be8436"
-        ],
-        "purpose": "Verify Architect-authored GradientTexture normalization and import safety before Maya-host validation.",
-        "acceptance": [
-          "Fast-forward main including GradientTexture implementation and tests.",
-          "Compile implementation and tests.",
-          "Import aimayatool.tools.scene.gradient_texture outside Maya.",
-          "Run tests.test_scene_gradient_texture successfully.",
-          "Do not claim Maya parity from Python-only evidence."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "gradient_texture_python_verification_pass",
-        "delivery_id": "ca0d715c3fb9f4d07cac",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "main_commit": "86f9686992fe8d012650bbe9cd729a87a6d4c5e6"
-        },
-        "architect_diagnosis": "GradientTexture deterministic implementation passes compile/import/unit tests. Maya ui_smoke remains infrastructure-blocked, so continue with the remaining bounded SplineRig implementation rather than generating redundant live failures."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-spline-rig-implementation-sync-167v",
       "action": {
         "type": "verification",
@@ -691,9 +616,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -743,6 +668,86 @@
           "Compile/import Scene package.",
           "Do not implement or claim IK/FK parity from this sync task.",
           "Return current-main evidence for Architect to define the smallest reusable IK/FK switch migration slice."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ikfk_switch_inventory_verified",
+        "delivery_id": "02a400c47bbd36af0fdc",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "da6806f8160cd763934c6185f2c481454281439f"
+        },
+        "architect_diagnosis": "Baseline passed. Legacy NewSwitchIKFK and WithAddKeys share the same snap data/runtime model; WithAddKeys adds transform/switch keying behavior. Architect extracted the deterministic shared model instead of copying embedded UI/script strings."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-ikfk-switch-model-python-verify-168h",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/ikfk_switch.py",
+          "tests/test_scene_ikfk_switch.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.ikfk_switch"
+        ],
+        "tests": [
+          "tests.test_scene_ikfk_switch"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-ikfk-switch-inventory-168g",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commits": [
+          "df004489f758ba9fbe04ffac9f5012e6d6e0cf17",
+          "428cb3b86b17fdc440bcd2ae42e1c8ed220d14f5"
+        ],
+        "purpose": "Verify deterministic shared IK/FK snap model, mirror expansion and WithAddKeys key-plan variant outside Maya before host runtime implementation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile implementation/test.",
+          "Import module outside Maya.",
+          "Run tests.test_scene_ikfk_switch successfully.",
+          "Do not claim Maya IK/FK runtime parity."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
