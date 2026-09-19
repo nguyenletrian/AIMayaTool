@@ -28,81 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-space-switch-host-python-regression-166g",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/space_switch.py",
-          "tests/test_scene_space_switch.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.space_switch"
-        ],
-        "tests": [
-          "tests.test_scene_space_switch"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-space-switch-core-verify-retry-166f",
-          "result": "PASS"
-        },
-        "implementation_commit": "2c5851d797ec7614d17026e3d477024222ea72b1",
-        "purpose": "Regression gate after adding the thin Maya SpaceSwitch host adapter; preserve outside-Maya import safety and deterministic core tests.",
-        "acceptance": [
-          "git_pull current main.",
-          "Compile/import space_switch outside Maya.",
-          "All focused SpaceSwitch core tests pass.",
-          "Do not claim Maya host behavior from this gate."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "space_switch_host_python_regression_passed",
-        "delivery_id": "6dd27b058e7af155c363",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "tests_run": 3
-        },
-        "architect_diagnosis": "Post-host-adapter Python regression passed: SpaceSwitch implementation/tests compile, module remains import-safe outside Maya, and all 3 deterministic core tests pass. Dependency for managed Maya smoke 166h is resolved; Maya host behavior remains gated by 166h."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-core-verify-166i",
       "action": {
         "type": "verification",
@@ -162,78 +87,6 @@
         "delivery_id": "d5e22ca6e68f1bab8e14",
         "architect_diagnosis": "Compile/import passed. The sole failure is the same fixture-encoding class seen earlier: the test supplied literal backslash+n inside the target group, so splitlines correctly produced one target and assignment count 1. Corrected the fixture to contain an actual newline; product core unchanged.",
         "test_fix_commit": "edecdbfd70842e76f9b245ec2c02681041a47f2d"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-core-verify-retry-166j",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/modulo_sdk.py",
-          "tests/test_scene_modulo_sdk.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.modulo_sdk"
-        ],
-        "tests": [
-          "tests.test_scene_modulo_sdk"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "retry_of": "aimayatool-goal007-scene-pattern-modulo-sdk-core-verify-166i",
-        "test_fix_commit": "edecdbfd70842e76f9b245ec2c02681041a47f2d",
-        "purpose": "Retry deterministic ModuloSDK core verification after correcting multiline target fixture encoding.",
-        "acceptance": [
-          "git_pull current main.",
-          "Compile/import modulo_sdk outside Maya.",
-          "All tests.test_scene_modulo_sdk tests pass.",
-          "No Maya behavior claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "modulo_sdk_core_python_verified",
-        "delivery_id": "465b9e8e1e233f9caee6",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "tests_run": 3
-        },
-        "architect_diagnosis": "Deterministic ModuloSDK core passes after correcting only the multiline test fixture: compile/import outside Maya and all 3 focused tests pass. This proves canonical newer-variant planning semantics (multiline expansion, dynamic modulo count, int/modulo/abs slot mapping, deterministic offset names); Maya offset-group/expression behavior remains unproven."
       }
     },
     {
@@ -686,9 +539,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -727,6 +580,139 @@
           "Fresh isolated unsaved scene.",
           "SDK/zero groups exist.",
           "connectionInfo proves SDK offset attr directly drives child attr.",
+          "animCurve drives SDK attr.",
+          "Driver 0/10 evaluates 1/5.",
+          "Tangents linear."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "BLOCKED_SYNTAX_FIXTURE",
+        "classification": "driven_key_smoke_literal_backslash_n_syntax_error",
+        "delivery_id": "2c86077561ee5ed7c4df",
+        "architect_diagnosis": "166q never reached Maya behavior: prior Architect edit accidentally committed literal backslash+n between smoke statements, causing SyntaxError on module reload. Corrected only that source newline in commit 9aec638019a7831337efca354ee8b9ba40d97a45; product/connection logic unchanged."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-driven-key-python-syntax-regression-166r",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/driven_key.py",
+          "tests/test_scene_driven_key.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.driven_key"
+        ],
+        "tests": [
+          "tests.test_scene_driven_key"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry2-166q",
+          "result": "BLOCKED_SYNTAX_FIXTURE"
+        },
+        "syntax_fix_commit": "9aec638019a7831337efca354ee8b9ba40d97a45",
+        "purpose": "Re-establish compile/import/unit gate after correcting smoke source newline.",
+        "acceptance": [
+          "py_compile passes.",
+          "Import outside Maya passes.",
+          "All focused tests pass."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry3-166s",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.driven_key",
+        "callable": "driven_key_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-driven-key-python-syntax-regression-166r"
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry2-166q",
+          "result": "BLOCKED_SYNTAX_FIXTURE"
+        },
+        "syntax_fix_commit": "9aec638019a7831337efca354ee8b9ba40d97a45",
+        "purpose": "Retry exact DrivenKey DG-path smoke only after compile/import regression gate passes.",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene.",
+          "SDK/zero groups exist.",
+          "connectionInfo proves SDK attr directly drives child attr.",
           "animCurve drives SDK attr.",
           "Driver 0/10 evaluates 1/5.",
           "Tangents linear."
