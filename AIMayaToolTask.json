@@ -687,9 +687,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-skin-joint-nearest-component-inventory-165i",
       "action": {
         "type": "verification",
@@ -733,7 +733,17 @@
           "Flag any legacy distance/reporting inconsistency for follow-up rather than preserving it blindly.",
           "No repository mutation required."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "skin_joint_nearest_component_inventory_gate_passed",
+        "delivery_id": "083b405c3aaa76e45910",
+        "verification_evidence": {
+          "git_pull_before": "4b2edf9186d4b17223f40b0a82bd879a83166093",
+          "git_pull_after": "c83caa52e4fde495b387fa49ecc474c641798b2d",
+          "py_compile": true,
+          "import": "aimayatool.tools.scene"
+        },
+        "architect_diagnosis": "Inventory gate passed. Safe Python-only boundary is deterministic greedy one-to-one joint/component assignment from precomputed distances, including stable tie handling and validation. Maya topology traversal, world-space point extraction, skinCluster/influence mutation and skinPercent writes remain host-backed. Legacy GetClosestDistanceToComponent already returns Euclidean length, so reporting distance ** 0.5 is inconsistent and should not be preserved."
       }
     }
   ]
