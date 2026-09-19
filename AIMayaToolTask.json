@@ -28,87 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-ikfk-switch-model-python-verify-168h",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/ikfk_switch.py",
-          "tests/test_scene_ikfk_switch.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.ikfk_switch"
-        ],
-        "tests": [
-          "tests.test_scene_ikfk_switch"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-ikfk-switch-inventory-168g",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "df004489f758ba9fbe04ffac9f5012e6d6e0cf17",
-          "428cb3b86b17fdc440bcd2ae42e1c8ed220d14f5"
-        ],
-        "purpose": "Verify deterministic shared IK/FK snap model, mirror expansion and WithAddKeys key-plan variant outside Maya before host runtime implementation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile implementation/test.",
-          "Import module outside Maya.",
-          "Run tests.test_scene_ikfk_switch successfully.",
-          "Do not claim Maya IK/FK runtime parity."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ikfk_switch_model_python_verification_pass",
-        "delivery_id": "09eebe4745dc784b9861",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "main_commit": "5cf98891f1d20d29755c5f056e844b0d51ddd4fd"
-        },
-        "architect_diagnosis": "Shared IK/FK snap model, mirror expansion, and WithAddKeys key-plan variant pass deterministic Python verification. Runtime Maya snap/scriptNode behavior remains a separate slice."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-ikfk-runtime-preimplementation-sync-168i",
       "action": {
         "type": "verification",
@@ -697,9 +616,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -752,6 +671,79 @@
           "Import outside Maya.",
           "Run focused unittest successfully.",
           "Do not claim Maya ControlShapeAS runtime parity from Python-only evidence."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "control_shape_as_runtime_python_verification_pass",
+        "delivery_id": "c8c070d29f7265de95ee",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "main_commit": "21b3defff58aa1638d0d5dbca0ce687b1391668a"
+        },
+        "architect_diagnosis": "ControlShapeAS capture/restore adapter is Python import-safe and deterministic snapshot tests remain green. Maya runtime parity remains unclaimed. ScenePattern parity now needs a fresh end-to-end reconciliation before closing this milestone."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-final-reconciliation-168r",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-runtime-python-verify-168q",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Final bounded ScenePattern reconciliation after spline, IK/FK, rope, ModuloSDKNew and ControlShapeAS slices. Re-scan legacy Scene_Pattern_* against current aimayatool/tools/scene and classify every remaining apparent gap as migrated, intentionally superseded/alias, metadata-only/internal-only, or genuinely uncovered before marking scene-pattern-parity complete.",
+        "acceptance": [
+          "Fast-forward current main.",
+          "Compile/import Scene package.",
+          "Do not mark scene-pattern-parity complete unless every useful legacy ScenePattern has a concrete current implementation or explicit supersession/retirement rationale.",
+          "Return current-main evidence for Architect's final reconciliation decision.",
+          "Do not claim Maya validation for Python-only/runtime-unvalidated adapters."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
