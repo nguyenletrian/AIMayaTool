@@ -28,77 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-ikfk-runtime-preimplementation-sync-168i",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/ikfk_switch.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.ikfk_switch"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-ikfk-switch-model-python-verify-168h",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Sync verified IK/FK deterministic model immediately before Architect implements the Maya-host runtime adapter for snap matrices, switch application, and optional transform keying. Keep embedded legacy UI strings out of the public module.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import ikfk_switch.py.",
-          "Do not claim Maya runtime parity from this sync.",
-          "Return current-main evidence for immediate Architect runtime-adapter implementation."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ikfk_runtime_preimplementation_sync_verified",
-        "delivery_id": "6a022b31344014ac181d",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "88e865f730ea149ecd7f213db49bb9b34e09d3e6"
-        },
-        "architect_diagnosis": "Baseline passed; Architect added the bounded Maya runtime adapter for offset capture, snap application, switch value, optional transform/switch keys, plus a managed smoke callable."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-ikfk-runtime-python-verify-168j",
       "action": {
         "type": "verification",
@@ -696,9 +625,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -744,6 +673,79 @@
           "Do not mark scene-pattern-parity complete unless every useful legacy ScenePattern has a concrete current implementation or explicit supersession/retirement rationale.",
           "Return current-main evidence for Architect's final reconciliation decision.",
           "Do not claim Maya validation for Python-only/runtime-unvalidated adapters."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_pattern_final_reconciliation_baseline_pass",
+        "delivery_id": "58cc1b8f3c3cf1936500",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "f04aa6a1871829555cadd489ca3d8cade4cd9abe"
+        },
+        "architect_diagnosis": "Fresh legacy/current tree reconciliation shows concrete target coverage for the ScenePattern surface, with known variants intentionally consolidated: script hooks -> script_hooks, Layer -> display_layers, Delete -> delete_objects, DeformSineForControls -> deform_sine_controls, ModuloSDKNew -> modulo_sdk, NewSwitchIKFK variants -> ikfk_switch, RopeRoll/RopeStraight -> rope_weights, ControlShapeAS -> control_shape_snapshot, Note -> metadata-only. DefaultSwitchIKFK remains structurally distinct and requires explicit reconciliation before the milestone can close."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-default-switch-ikfk-reconcile-168s",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/ikfk_switch.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.ikfk_switch"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-final-reconciliation-168r",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_DefaultSwitchIKFK.py",
+        "purpose": "Resolve the final structurally distinct ScenePattern item. Compare legacy DefaultSwitchIKFK schema/behavior against current IK/FK APIs and determine a bounded adapter/supersession path before closing scene-pattern-parity.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import ikfk_switch.py.",
+          "Do not treat DefaultSwitchIKFK as equivalent to NewSwitchIKFK without explicit schema/behavior evidence.",
+          "Return current-main evidence for Architect implementation or documented supersession decision.",
+          "Do not mark scene-pattern-parity complete yet."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
