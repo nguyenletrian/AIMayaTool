@@ -21,87 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-visibility-switch-maya-validation-164t",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "save_scene": false,
-        "isolated_scene": true,
-        "module": "aimayatool.tools.scene.visibility_switch",
-        "callable": "visibility_switch_managed_maya_smoke"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-visibility-switch-python-verify-164s"
-        ],
-        "purpose": "Host-prove enum VisibilitySwitch option-to-condition mapping.",
-        "acceptance": [
-          "Fresh isolated unsaved Maya scene.",
-          "Enum control attribute created for options.",
-          "Each option row maps to its condition index and visibility target.",
-          "Semicolon object groups are supported.",
-          "Missing objects skip independently.",
-          "new_scene_forced=true, scene_saved=false, smoke success=true."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "visibility_switch_managed_maya2024_proven",
-        "delivery_id": "8f1cda490898237e1bfb",
-        "maya_evidence": {
-          "pid": 6168,
-          "managed_pid": 6168,
-          "session": "existing",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "port": 7001,
-          "git_pull_before": "bf0d8cfda51482ff1993c6deb0c9b0e1fa337e4d",
-          "git_pull_after": "6759112a38285121b1e3e7d88e99bc9a31b5e3f3",
-          "smoke": {
-            "attr": true,
-            "indices": true,
-            "connected": true,
-            "missing": true,
-            "success": true
-          },
-          "marker": "AIBRIDGE_UI_SMOKE_OK"
-        },
-        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: enum control attribute exists, option rows map to the expected condition indices, condition outputs connect to visibility targets, semicolon grouping is exercised, and missing objects skip independently."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-visibility-toggle-python-verify-164o",
       "action": {
         "type": "verification",
@@ -690,9 +609,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-single-script-maya-validation-164z",
       "action": {
         "type": "maya",
@@ -732,6 +651,70 @@
           "Temporary Python file executes through runner.",
           "Script can mutate Maya scene.",
           "Missing script file raises deterministic IOError.",
+          "new_scene_forced=true, scene_saved=false, smoke success=true."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "single_script_smoke_fixture_literal_newline",
+        "delivery_id": "4905fdec445c980e2268",
+        "architect_diagnosis": "Managed Maya reached the adapter, but the temporary smoke script contained literal backslash-n sequences and failed compile with SyntaxError. This is a smoke-fixture defect, not evidence that run_script_file failed. Fixture corrected in a174187ad1ff728f068941f37cf948965674740e; retry required."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-single-script-maya-validation-retry-164aa",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "save_scene": false,
+        "isolated_scene": true,
+        "module": "aimayatool.tools.scene.single_script",
+        "callable": "single_script_managed_maya_smoke"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-single-script-python-verify-164y"
+        ],
+        "retry_of": "aimayatool-goal007-scene-pattern-single-script-maya-validation-164z",
+        "purpose": "Retry SingleScript host proof after correcting smoke fixture newline serialization.",
+        "implementation_commit": "a174187ad1ff728f068941f37cf948965674740e",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene.",
+          "Temporary Python file contains real newline characters and executes through runner.",
+          "Script mutates Maya scene.",
+          "Missing script raises deterministic IOError.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
