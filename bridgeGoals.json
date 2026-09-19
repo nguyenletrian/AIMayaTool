@@ -468,7 +468,7 @@
     {
       "goal_id": "aimayatool-008",
       "title": "Scene 2.0 modernization",
-      "status": "active",
+      "status": "completed",
       "purpose": "Upgrade Scene workflows with stronger preset management, compare/edit/validation, reusable build pipelines and clearer workflow visualization.",
       "acceptance": [
         "Scene workflows provide clear productivity and reliability improvements over MayaScriptNew."
@@ -492,14 +492,21 @@
         {
           "milestone_id": "scene-ux-polish",
           "title": "Modernize Scene interaction design",
-          "status": "active"
+          "status": "completed"
         }
-      ]
+      ],
+      "completion_evidence": {
+        "task_id": "aimayatool-goal008-scene-ux-polish-managed-maya-retry-173d",
+        "delivery_id": "e388f25bcbfd0cf9eacc",
+        "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:StatusLine|MainStatusLineLayout|formLayout4|columnLayout13",
+        "scene_saved": false,
+        "completed_date": "2026-09-19"
+      }
     },
     {
       "goal_id": "aimayatool-009",
       "title": "Unified UI and UX 2.0",
-      "status": "planned",
+      "status": "active",
       "purpose": "Deliver one coherent professional AIMayaTool workspace for Skinning, Setup and Scene with consistent visual language and interaction patterns.",
       "acceptance": [
         "Skinning, Setup and Scene feel like one product rather than migrated scripts.",
