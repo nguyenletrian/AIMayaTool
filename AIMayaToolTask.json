@@ -255,72 +255,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-favorites-recent-workspace-inventory-181e",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/registry.py",
-          "aimayatool/ui/main_window.py",
-          "aimayatool/ui/components.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-ui-instrument-inventory-181d"
-        ],
-        "purpose": "Inventory the bounded workspace surface needed to expose action-level Recent/Favorites after instrumentation, preserving existing group discovery and thin UI.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile registry, main workspace and shared components.",
-          "Identify the smallest workspace presentation for action-level Recent/Favorites using registry state without duplicating domain business logic.",
-          "Preserve existing group search, group recent/favorites and tab navigation.",
-          "Keep action execution explicit; no automatic execution from search/discovery.",
-          "Do not add persistence, batch productivity or preflight behavior.",
-          "Do not claim Maya interaction behavior from this Python inventory.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "favorites_recent_workspace_inventory_pass",
-        "delivery_id": "2c582523bc96be0fbbab",
-        "architect_diagnosis": "Workspace inventory compiles. main_window currently renders group-level Recent/Favorites in one discovery text plus a group favorite toggle. The smallest action-level surface should extend that discovery area after representative action instrumentation is proven: render action Recent/Favorites from registry state without automatic execution, while preserving existing group search/tab navigation and group favorite behavior."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-batch-productivity-inventory-182a",
       "action": {
         "type": "verification",
@@ -648,9 +582,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -696,6 +630,84 @@
           "Do not use Codex."
         ],
         "implementation_commit": "5abbfd05bbfc6c6394d891ef2716fb0b5a706894",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "batch_reset_maya_pass",
+        "delivery_id": "f8440dda4f562afb9f45",
+        "verification_evidence": {
+          "marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_BATCH_RESET_OK:ordered|TR_reset|scale_preserved",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001,
+          "session": "existing"
+        },
+        "architect_diagnosis": "Managed Maya proved the ordered multi-selection Reset TR path after stale-module recovery: all three transforms reset translation/rotation, scale remained preserved, and selection order remained unchanged. Batch productivity now has its first runtime-proven slice."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "task_id": "aimayatool-goal010-batch-productivity-inventory-182g",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/setup/transforms.py",
+          "aimayatool/tools/skinning/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup",
+          "aimayatool.tools.setup.transforms",
+          "aimayatool.tools.skinning"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "batch-productivity",
+        "depends_on": [
+          "aimayatool-goal010-batch-productivity-reset-maya-smoke-retry2-182f"
+        ],
+        "purpose": "Inventory the next safe batch-productivity slice after runtime-proven Reset TR, prioritizing an existing multi-selection Setup workflow that can reuse deterministic primitives without broad generic batching.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Inspect current Setup/Skinning multi-selection entrypoints after the proven Reset TR slice.",
+          "Select one next bounded workflow with clear semantics and low destructive risk, preferably Freeze TRS or Zero Group if existing primitives are already deterministic.",
+          "Separate UI selection wrappers from reusable primitives.",
+          "Do not implement arbitrary callback batching or persistence.",
+          "Do not use preflight-guidance in this slice.",
+          "Do not use Codex."
+        ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
