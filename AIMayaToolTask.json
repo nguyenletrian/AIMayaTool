@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-spline-rig-implementation-sync-167v",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-preimplementation-baseline-167i",
-          "result": "PASS_BASELINE"
-        },
-        "purpose": "Sync the current Scene baseline immediately before Architect authors the remaining SplineRig ScenePattern slice directly through repository tools.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import current Scene package.",
-          "Do not claim SplineRig implementation or Maya parity from this sync task.",
-          "Return current main evidence for immediate Architect-owned SplineRig implementation."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "spline_rig_preimplementation_sync_verified",
-        "delivery_id": "6fd634d82efb6447161f",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "9e275e8441aede760ca04748c4d28da3416acdf5"
-        },
-        "architect_diagnosis": "Scene baseline passed. Architect migrated the bounded legacy SplineRig workflow directly through repository tools and added deterministic tests; verification is queued next."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-spline-rig-python-verify-167w",
       "action": {
         "type": "verification",
@@ -692,9 +623,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -748,6 +679,78 @@
           "Import module outside Maya.",
           "Run tests.test_scene_ikfk_switch successfully.",
           "Do not claim Maya IK/FK runtime parity."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ikfk_switch_model_python_verification_pass",
+        "delivery_id": "09eebe4745dc784b9861",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "main_commit": "5cf98891f1d20d29755c5f056e844b0d51ddd4fd"
+        },
+        "architect_diagnosis": "Shared IK/FK snap model, mirror expansion, and WithAddKeys key-plan variant pass deterministic Python verification. Runtime Maya snap/scriptNode behavior remains a separate slice."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-ikfk-runtime-preimplementation-sync-168i",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/ikfk_switch.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.ikfk_switch"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-ikfk-switch-model-python-verify-168h",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Sync verified IK/FK deterministic model immediately before Architect implements the Maya-host runtime adapter for snap matrices, switch application, and optional transform keying. Keep embedded legacy UI strings out of the public module.",
+        "acceptance": [
+          "Fast-forward current main.",
+          "Compile/import ikfk_switch.py.",
+          "Do not claim Maya runtime parity from this sync.",
+          "Return current-main evidence for immediate Architect runtime-adapter implementation."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
