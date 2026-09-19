@@ -650,9 +650,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry3-165p",
       "action": {
         "type": "maya",
@@ -696,7 +696,30 @@
           "Prove keys (5,10), two shoot meshes, group/blendShape, joint/proxy/show/visibility wiring, driven-key animCurves and restoration to frame 3.",
           "Return structured checks; do not infer success from import alone."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "bs_sequence_managed_maya_smoke_passed",
+        "delivery_id": "cc939c9ff1e10a969958",
+        "verification_evidence": {
+          "managed_pid": 6168,
+          "port": 7001,
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "keyframes": [
+            5,
+            10
+          ],
+          "generated_meshes": [
+            "AIBridgeBSTarget_Shoot_01",
+            "AIBridgeBSTarget_Shoot_02"
+          ],
+          "group": "AIBridgeBSTarget_BSs",
+          "blend_shape": "AIBridgeBSTarget_sequence_BS",
+          "driver": "AIBridgeBSMain.sequence",
+          "show_driver": "AIBridgeBSMain.sequenceShowBS",
+          "checks_all_true": true
+        },
+        "architect_diagnosis": "BSSequence adapter is now host-proven in managed Maya 2024 for the tested deterministic fixture: nonzero transform key collection, shoot generation/naming, BS group and blendShape creation, driver-to-joint connection, proxy/show/visibility wiring, driven-key creation, and current-frame restoration all passed in a fresh unsaved scene."
       }
     }
   ]
