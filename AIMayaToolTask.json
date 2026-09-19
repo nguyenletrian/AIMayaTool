@@ -25,77 +25,6 @@
         "read": true,
         "edit": true,
         "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-favorites-recent-inventory-181a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/registry.py",
-          "aimayatool/ui/main_window.py",
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal010-presets-smart-defaults-secondary-count-maya-180c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Inventory the existing Goal 009 group-level recent/favorite discovery state and identify the smallest useful Goal 010 extension toward workflow/action-level favorites and recent access without premature persistence complexity.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile registry, main workspace and three domain entrypoints.",
-          "Inventory current group-level recent/favorite APIs and UI behavior from Goal 009.",
-          "Identify one bounded action/workflow-level favorites/recent slice that improves repeat access while preserving explicit actions and thin UI.",
-          "Do not add persistence unless repository evidence shows an established storage contract appropriate for this state.",
-          "Do not expand into batch productivity or preflight guidance.",
-          "Do not claim Maya interaction behavior from Python inventory.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "favorites_recent_inventory_pass",
-        "delivery_id": "79a1597159cfcf5b83b5",
-        "architect_diagnosis": "Goal 009 already provides in-memory group-level recent/favorites in registry.py and a thin workspace discovery surface. Domain actions are still created directly inside build_ui and there is no stable action/workflow identity catalog, so action-level favorites/recent should not be inferred from callback/result labels. The smallest safe next slice is a Python-only registry action-state contract using explicit group_id/action_id/label identities, with deterministic recent ordering, favorite toggling, validation, and no persistence or Maya mutation; UI/domain instrumentation follows only after that contract is proven."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
         "commit": true,
         "push": true
       },
@@ -462,76 +391,6 @@
         "commit": true,
         "push": true
       },
-      "task_id": "aimayatool-goal010-favorites-recent-workspace-surface-181g",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/main_window.py",
-          "aimayatool/registry.py",
-          "aimayatool/ui/components.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-ui-instrument-setup-retry-181h"
-        ],
-        "purpose": "Implement the smallest non-executing workspace presentation for action-level Recent/Favorites after representative action instrumentation is available.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Extend workspace discovery presentation to show action-level Recent/Favorites from registry state while preserving existing group Recent/Favorites.",
-          "Do not automatically execute actions from discovery/search.",
-          "Preserve group search, tab navigation and group favorite toggle behavior.",
-          "Keep UI thin; do not duplicate domain business logic.",
-          "Do not add persistence, batch productivity or preflight behavior.",
-          "Add a focused smoke/helper if needed for later managed Maya validation.",
-          "Run py_compile/import-safe checks and commit/push only after verification passes.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_ACCEPTANCE_NOT_IMPLEMENTED",
-        "classification": "dependency_bypassed_verification_only",
-        "delivery_id": "da830385de8d29540da5",
-        "architect_diagnosis": "181g ran despite its corrected dependency on pending 181h. Checks only compiled/imported unchanged workspace code; main_window still renders group-level discovery only, and Setup instrumentation is still absent. ACK the delivery but do not count workspace surface as implemented. Requeue workspace implementation behind 181h after the corrective instrumentation."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
       "task_id": "aimayatool-goal010-favorites-recent-ui-instrument-setup-retry-181h",
       "action": {
         "type": "verification",
@@ -664,9 +523,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -721,6 +580,136 @@
         "implementation_commits": [
           "abdd8d77c86281a9a1a82f7206534f4b0972cbbd",
           "ffc41100b22a96d38633c04ecfbc3a78cd5746f2"
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "tracked_action_python_verified",
+        "delivery_id": "a54c076525c66a7bd794",
+        "architect_diagnosis": "Independent Python verification compiled the tracked runner and Setup instrumentation and all four registry action-state tests passed. Architect then implemented the bounded non-executing workspace action Recent/Favorites presentation directly."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-workspace-python-verify-181k",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/main_window.py",
+          "aimayatool/ui/components.py",
+          "aimayatool/registry.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-tracked-action-verify-181j"
+        ],
+        "purpose": "Verify the Architect-implemented action-level Recent/Favorites workspace presentation before live Maya validation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile main_window.py, components.py and registry.py.",
+          "Confirm discovery reads recent_actions/favorite_actions and preserves group recent/favorites.",
+          "Confirm discovery remains presentation-only and does not execute actions.",
+          "Do not edit product code.",
+          "Do not use Codex."
+        ],
+        "implementation_commit": "a2ee7cf3df8003bb83e6252a51f70ae4fcfcf44a",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-maya-smoke-181l",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.ui.main_window",
+        "callable": "discovery_interaction_smoke",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-workspace-python-verify-181k"
+        ],
+        "purpose": "Run bounded managed-Maya regression after action-level discovery wiring, proving the workspace still opens and existing group discovery remains functional before adding a dedicated tracked-action interaction smoke.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use fresh unsaved scene.",
+          "Invoke discovery_interaction_smoke.",
+          "Existing group Recent/Favorites behavior remains functional with the expanded discovery label.",
+          "UI constructs without exception.",
+          "Do not save scene.",
+          "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
