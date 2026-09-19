@@ -103,86 +103,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-space-switch-managed-maya-smoke-166h",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.space_switch",
-        "callable": "space_switch_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-space-switch-host-python-regression-166g"
-        ],
-        "implementation_commit": "2c5851d797ec7614d17026e3d477024222ea72b1",
-        "purpose": "Validate actual SpaceSwitch Maya host mutation in a fresh unsaved scene.",
-        "acceptance": [
-          "git_pull current main.",
-          "Use fresh isolated unsaved Maya scene.",
-          "Invoke space_switch_managed_maya_smoke().",
-          "Require offset/default-space creation, enum and slide attrs, parentConstraint, three condition nodes for Default+two parents, plusMinusAverage slide complement, and slide parentConstraint.",
-          "Return structured checks; no UI parity claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "space_switch_managed_maya_smoke_passed",
-        "delivery_id": "93a4dc2e23dfdf28f6e2",
-        "verification_evidence": {
-          "managed_pid": 6168,
-          "port": 7001,
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "checks": {
-            "offset": true,
-            "default_space": true,
-            "constraint": true,
-            "pick_attr": true,
-            "slide_attr": true,
-            "conditions": true,
-            "slide_node": true,
-            "slide_constraint": true
-          }
-        },
-        "architect_diagnosis": "SpaceSwitch managed Maya smoke passed in a fresh unsaved scene. The bounded host slice now proves offset/default-space creation, enum and slide attributes, parentConstraint creation, Default+parent condition network, plusMinusAverage slide complement and slide-constraint creation. This does not yet claim UI/serialization parity or exhaustive maintain=true behavior."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-core-verify-166i",
       "action": {
         "type": "verification",
@@ -704,9 +624,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -739,7 +659,7 @@
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-maya-validation",
         "retry_of": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-166o",
-        "smoke_fix_commit": "5d0a7071f8c2bbd3fa393f601eaac436b4853052",
+        "smoke_fix_commit": "b4c9e3ce9adbdb850d56ede49115bbce77113f59",
         "purpose": "Retry DrivenKey managed Maya smoke after correcting only the SDK connection-path assertion.",
         "acceptance": [
           "Fresh isolated unsaved Maya scene.",
@@ -747,6 +667,69 @@
           "SDK animCurve drives the child attribute through the expected Maya DG path.",
           "Values evaluate 1 at driver 0 and 5 at driver 10.",
           "Tangents are linear."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAILED_SMOKE_ASSERTION",
+        "classification": "driven_key_connection_query_wrong_direction",
+        "delivery_id": "87690f7a046d386f4571",
+        "architect_diagnosis": "Second retry confirms product behavior remains healthy: hierarchy, SDK animCurve, evaluation and linear tangents all pass. The prior smoke fix queried animCurve upstream of the child, but the legacy/product graph is animCurve -> SDK offset attr -> child attr, so filtering the child's immediate source by animCurve is incorrect. Replaced it with exact plug-level connectionInfo checks proving SDK offset attr directly drives child attr. Product host logic unchanged."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry2-166q",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.driven_key",
+        "callable": "driven_key_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "retry_of": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry-166p",
+        "smoke_fix_commit": "b4c9e3ce9adbdb850d56ede49115bbce77113f59",
+        "purpose": "Retry DrivenKey Maya smoke with exact plug-level connection validation matching legacy graph animCurve -> SDK attr -> child attr.",
+        "acceptance": [
+          "Fresh isolated unsaved scene.",
+          "SDK/zero groups exist.",
+          "connectionInfo proves SDK offset attr directly drives child attr.",
+          "animCurve drives SDK attr.",
+          "Driver 0/10 evaluates 1/5.",
+          "Tangents linear."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
