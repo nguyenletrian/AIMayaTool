@@ -565,7 +565,7 @@
       },
       "permissions": {
         "read": true,
-        "edit": false,
+        "edit": true,
         "run_tests": true,
         "commit": false,
         "push": false
@@ -626,7 +626,7 @@
       },
       "permissions": {
         "read": true,
-        "edit": false,
+        "edit": true,
         "run_tests": true,
         "commit": false,
         "push": false
