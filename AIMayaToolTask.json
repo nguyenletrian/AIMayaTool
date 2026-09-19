@@ -28,92 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-utility-parity-inventory-169a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-utility-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-data-index-python-verify-168z",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "goal_state_commit": "42ee925b110e0000b470e98c763b48a0fdbbf221",
-        "legacy_inventory_candidates": [
-          "Libs/NLTA_Scene.py",
-          "UIs/Scene.py",
-          "UIs/SceneDefaultFunctions/1_Export Curve.py",
-          "UIs/SceneDefaultFunctions/2_Import Curve.py",
-          "UIs/SceneDefaultFunctions/3_Export Curve Up.py",
-          "UIs/SceneDefaultFunctions/4_Import Curve UP.py",
-          "UIs/SceneDefaultFunctions/5_Update Curve Up.py",
-          "UIs/SceneU.py",
-          "UIs/SceneUNew.py",
-          "UIs/Scene_.py"
-        ],
-        "current_scene_module_count": 99,
-        "purpose": "Begin remaining Scene utility parity with a fresh non-ScenePattern legacy/current inventory. Classify orchestration/UI-only aliases separately and identify the first genuinely missing reusable Scene utility.",
-        "acceptance": [
-          "Fast-forward main including completed scene-data-compatibility state.",
-          "Compile/import Scene package.",
-          "Reconcile useful legacy Scene utilities outside ScenePattern and SceneDefaultFunctions against current scene modules.",
-          "Do not duplicate already migrated Setup/Skinning helpers merely because legacy Scene UI called them.",
-          "Return first dependency-ready utility gap or evidence that utility parity is already complete."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_utility_parity_gate_pass",
-        "delivery_id": "4e682ca54833056acd95",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "6ac70650d14a61531a3015d4ae86032278b2ea51"
-        },
-        "architect_diagnosis": "Fresh non-ScenePattern inventory leaves Libs/NLTA_Scene.py empty and Scene.py/SceneU.py/SceneUNew.py/Scene_.py as legacy orchestration/UI generations. Their reusable behaviors are already represented by current patterns/catalog/execution/build/script-hook/control-shape modules or migrated Setup/ScenePattern tools. No distinct reusable Scene utility gap remains; utility parity closes without copying obsolete monolithic UI code."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-ui-parity-inventory-169b",
       "action": {
         "type": "verification",
@@ -659,9 +573,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -707,6 +621,81 @@
           "Invoke only aimayatool.tools.scene.build_actions_smoke.run_scene_build_actions_smoke.",
           "Require exact product result SCENE_BUILD_ACTIONS_SMOKE_OK; route rejection or timeout is not product PASS.",
           "Do not save scene data and do not involve FoldRig."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_build_actions_managed_maya_pass",
+        "delivery_id": "18638118f15427f6a5fd",
+        "verification_evidence": {
+          "route": "maya:managed_live_smoke",
+          "result": "AIBRIDGE_UI_SMOKE_OK:SCENE_BUILD_ACTIONS_SMOKE_OK",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "managed_pid": 6168,
+          "port": 7001,
+          "session": "existing"
+        },
+        "architect_diagnosis": "Registered managed-live route is operational after restart and build_actions produced the exact product success marker in a forced fresh unsaved Maya scene. Continue the milestone with another bounded existing Scene smoke family; do not infer full Scene Maya validation from this slice alone."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-maya-single-script-managed-live-169k",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 45,
+        "module": "aimayatool.tools.scene.single_script",
+        "callable": "single_script_managed_maya_smoke",
+        "isolated_scene": true,
+        "save_scene": false,
+        "new_scene_forced": true
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-maya-build-actions-managed-live-169j",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Continue bounded Scene host regression with the existing SingleScript managed-Maya smoke entrypoint already proven in prior runtime evidence.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use managed live Maya in a forced fresh unsaved scene.",
+          "Invoke only aimayatool.tools.scene.single_script.single_script_managed_maya_smoke.",
+          "Require explicit successful product output; timeout/session loss remains runtime evidence.",
+          "Do not save scene data."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
