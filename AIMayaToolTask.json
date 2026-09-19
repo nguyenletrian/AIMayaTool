@@ -28,76 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-components-python-verify-retry-175c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/components.py",
-          "aimayatool/ui/components_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.ui.components",
-          "aimayatool.ui.components_smoke"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-components",
-        "retry_of_archived": {
-          "task_id": "aimayatool-goal009-ui-components-python-verify-175b",
-          "result": "FAIL",
-          "classification": "ui_component_validation_order_regression",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Re-run reusable UI component Python contract after moving deterministic input validation ahead of maya.cmds import.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile components.py and components_smoke.py.",
-          "Import aimayatool.ui.components outside Maya.",
-          "Import components_smoke outside Maya; empty-row validation must execute without requiring Maya.",
-          "Do not treat Python PASS as Maya rendering acceptance."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_component_python_contract_pass",
-        "delivery_id": "60a3c31eb57f0afe4bd0",
-        "architect_diagnosis": "Reusable components now compile and import outside Maya; deterministic empty-row validation executes before lazy maya.cmds import. Architect adopted section() in the Scene UI as the first bounded domain integration; Maya rendering validation remains required."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-components-scene-adoption-python-175d",
       "action": {
         "type": "verification",
@@ -662,9 +592,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -711,6 +641,75 @@
           "Import registry outside Maya and preserve deterministic search contract.",
           "Inspect that main_window search delegates matching to search_groups() and only switches existing tabs; it must not move domain logic into UI.",
           "Do not treat Python PASS as Maya interaction acceptance.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_search_workspace_python_pass",
+        "delivery_id": "925ff1c80a813fe3db91",
+        "architect_diagnosis": "Registry-backed workspace search wiring compiles while the Python-safe registry remains importable. Managed Maya must now validate window construction with the new search field before interaction behavior is accepted."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-search-discovery-workspace-maya-176d",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.ui.main_window",
+        "callable": "show",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45,
+        "expected_window": "AIMayaToolWindow"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-search-discovery",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-search-discovery-workspace-python-176c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Validate the registry-backed search-enabled workspace constructs successfully in managed Maya before a focused search interaction smoke.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated fresh managed Maya scene.",
+          "Invoke aimayatool.ui.main_window.show and require AIMayaToolWindow.",
+          "Confirm search-enabled workspace construction completes without Maya/Python exception.",
+          "Do not save the Maya scene.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
