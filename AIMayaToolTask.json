@@ -28,87 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-model-python-verify-168p",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/control_shape_snapshot.py",
-          "tests/test_scene_control_shape_snapshot.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.control_shape_snapshot"
-        ],
-        "tests": [
-          "tests.test_scene_control_shape_snapshot"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-sync-168o",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "4fb6c892c3b289a4bdf96aec5637bd5cb2c8ea53",
-          "75ce48b695b35c0d3ab43e1abc7f19704b765b23"
-        ],
-        "purpose": "Verify deterministic ControlShapeAS snapshot normalization and update-vs-rebuild restore planning before adding Maya capture/rebuild mechanics.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile implementation/test.",
-          "Import outside Maya.",
-          "Run focused unittest successfully.",
-          "Do not claim ControlShapeAS Maya parity."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "control_shape_as_model_python_verification_pass",
-        "delivery_id": "f5d25da4e26d86c0e37c",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "main_commit": "6c53cade536a59e4488b1905f0acf9c7b9ddb45c"
-        },
-        "architect_diagnosis": "Deterministic ControlShapeAS snapshot model passed. Architect added Maya capture/restore mechanics that preserve display data and CVs and rebuild missing/topology-mismatched curve shapes."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-runtime-python-verify-168q",
       "action": {
         "type": "verification",
@@ -709,9 +628,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -759,6 +678,87 @@
           "Compile/import control_shape_legacy_io.py, patterns.py and pattern_descriptor.py.",
           "Return current-main evidence for authoritative persisted SceneData compatibility inventory.",
           "Do not infer support from nonexistent modules."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_data_compatibility_inventory_verified",
+        "delivery_id": "2de223a2719769b5c4ea",
+        "verification_evidence": {
+          "py_compile": true,
+          "imports": true,
+          "main_commit": "22fc0e8a11dad55019a520dd4f9b203d25d770c5"
+        },
+        "architect_diagnosis": "Existing adapters are import-safe. Legacy repository contains UIs/SceneData.json as the authoritative persisted Scene index plus dataCurveShape payloads already handled by control_shape_legacy_io. SceneData.json uses moduleName/order/title/name/id/ext/path and path may be either a string or one-element list. Architect added a deterministic compatibility model for that index."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-data-index-python-verify-168z",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/pattern_descriptor.py",
+          "tests/test_scene_legacy_data_index.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.pattern_descriptor"
+        ],
+        "tests": [
+          "tests.test_scene_legacy_data_index"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-data-compatibility",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-data-compatibility-inventory-retry-168y",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commits": [
+          "2e24c3ec53cc1004d434dff4a0b12f575e5fefbf",
+          "cd586fd0a8fde99fba7ca6a53218f776f7c8cd5e"
+        ],
+        "legacy_source": "UIs/SceneData.json",
+        "purpose": "Verify legacy SceneData index normalization including historical string/list path variants and deterministic ordering/indexing.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile implementation/test.",
+          "Import outside Maya.",
+          "Run focused compatibility tests.",
+          "Do not claim compatibility for payload files not covered by their own adapters."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
