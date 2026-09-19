@@ -18,48 +18,6 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "task_id": "aimayatool-goal007-scene-pattern-aim-constraint-maya-validation-163i",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "timeout": 300,
-        "save_scene": false,
-        "isolated_scene": true,
-        "module": "aimayatool.tools.scene.aim_constraint",
-        "callable": "aim_constraint_managed_maya_smoke"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "result": "PASS",
-        "classification": "aim_constraint_managed_maya2024_proven",
-        "delivery_id": "dd537feb8e429fc38bd4",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
       "task_id": "aimayatool-goal007-scene-pattern-orient-constraint-python-verify-163j",
       "status": "pending",
       "architect_ack": true,
@@ -185,82 +143,6 @@
           "maya_app_dir": "C:\\Users\\PC\\.aibridge\\maya-managed-live\\maya-2024-port-7001"
         },
         "architect_diagnosis": "Managed Maya exited before the live port became ready, so no AIMayaTool product callable executed and no OrientConstraint behavior was tested. Per Maya runtime-loss recovery contract, classify this first startup loss as inconclusive and retry the same bounded smoke in a fresh managed Maya 2024 session."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "task_id": "aimayatool-goal007-scene-pattern-orient-constraint-maya-validation-retry-163l",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "timeout": 300,
-        "save_scene": false,
-        "isolated_scene": true,
-        "module": "aimayatool.tools.scene.orient_constraint",
-        "callable": "orient_constraint_managed_maya_smoke"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "retry_of": "aimayatool-goal007-scene-pattern-orient-constraint-maya-validation-163k",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-orient-constraint-python-verify-163j"
-        ],
-        "purpose": "Fresh managed Maya 2024 retry after 163k exited before live-port readiness. Run the identical bounded OrientConstraint smoke; do not reuse a stale/crashed session.",
-        "acceptance": [
-          "Fresh isolated unsaved Maya scene is used.",
-          "offset=true inserts child_orientConstraintGrp and constrains that group.",
-          "constraintContent reparents the orientConstraint node when supplied.",
-          "Constraint target is the requested parent.",
-          "offset=false constrains the child directly without creating an offset group.",
-          "Missing child is skipped and missing parent is rejected deterministically.",
-          "Route reports new_scene_forced=true and scene_saved=false."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "orient_constraint_managed_maya2024_proven",
-        "delivery_id": "f21a0297957824bc43e9",
-        "maya_evidence": {
-          "version": "2024",
-          "pid": 6168,
-          "managed_pid": 6168,
-          "session": "launched",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "maya_quit": false,
-          "smoke": {
-            "applied": true,
-            "hierarchy": true,
-            "constraint_content": true,
-            "target": true,
-            "no_offset": true,
-            "missing_child": true,
-            "invalid_parent": true,
-            "success": true
-          }
-        },
-        "architect_diagnosis": "Fresh managed Maya 2024 retry passed after the prior pre-port startup loss. OrientConstraint behavior is now host-proven: offset hierarchy, constraint container parenting, requested target, direct no-offset path, missing-child skip, and invalid-parent rejection all passed in an isolated unsaved scene."
       }
     },
     {
@@ -686,6 +568,117 @@
           "marker": "SCENE_DELETE_OBJECTS_OK:2"
         },
         "architect_diagnosis": "Managed Maya smoke passed in a forced-new unsaved scene. Existing Scene Delete migration deleted both existing transforms and skipped the missing object without failure."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-delete-attribute-python-verify-163s",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/delete_attribute.py",
+          "aimayatool/tools/scene/delete_attribute_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.delete_attribute",
+          "aimayatool.tools.scene.delete_attribute_smoke"
+        ],
+        "timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "purpose": "Verify the existing ScenePattern DeleteAttribute migration against authoritative legacy semantics before host proof.",
+        "acceptance": [
+          "git_pull fast-forwards main with permissions.edit=true.",
+          "delete_attribute.py and delete_attribute_smoke.py compile successfully.",
+          "Both modules import outside Maya.",
+          "No Maya behavior claim is made from this gate."
+        ],
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_DeleteAttribute.py",
+        "legacy_source_sha": "872a2fcd1d60f21b7e1842ed3829f22d96be3bcc",
+        "current_primitive_sha": "cb5ccfd02df8e3b34b2916654d0d09e65dcc6cd5",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-delete-attribute-maya-validation-163t",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "timeout": 300,
+        "save_scene": false,
+        "isolated_scene": true,
+        "module": "aimayatool.tools.scene.delete_attribute_smoke",
+        "callable": "run_scene_delete_attribute_smoke"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-delete-attribute-python-verify-163s"
+        ],
+        "purpose": "Host-prove existing ScenePattern DeleteAttribute migration in managed Maya after deterministic verification.",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene is used.",
+          "Two existing custom attributes are deleted.",
+          "A missing plug is skipped without failing the operation.",
+          "Smoke returns the SCENE_DELETE_ATTRIBUTE_OK marker.",
+          "Route reports new_scene_forced=true and scene_saved=false."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
   ]
