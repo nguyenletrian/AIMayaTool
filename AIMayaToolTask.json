@@ -664,9 +664,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-single-script-maya-validation-retry-164ab",
       "action": {
         "type": "maya",
@@ -710,7 +710,28 @@
           "Missing script raises deterministic IOError.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "single_script_managed_maya2024_proven",
+        "delivery_id": "64a958e677d24d026f43",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "port": 7001,
+          "git_pull_before": "e753a15b911ad783e2dcc337aec5db7775064f27",
+          "git_pull_after": "4beb7a7efa9a7c51204ae6f2f9b6f821d74ce41e",
+          "smoke": {
+            "executed": true,
+            "exists": true,
+            "missing": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Corrected SingleScript smoke passed in managed Maya 2024: the temporary Python file executed, mutated the fresh scene by creating AIBridgeSingleScriptNode, and the missing-file path raised IOError deterministically. SingleScript host behavior is now proven."
       }
     }
   ]
