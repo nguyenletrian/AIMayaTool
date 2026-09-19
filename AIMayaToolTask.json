@@ -688,7 +688,7 @@
         "via": "web"
       },
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "bridge_completed": false,
       "permissions": {
         "read": true,
@@ -734,7 +734,8 @@
           "delivery_id": "f63d96a93f8b420c7b1c",
           "reason": "payload.preconditions must be a non-empty list with at most 4 items",
           "classification": "task_schema_rejected_before_restart"
-        }
+        },
+        "architect_ack_diagnosis": "ACKs the failed delivery attempt only. Failure occurred at task-schema validation before restart execution. Architect repaired payload.preconditions to a valid non-empty ff-only git_pull list in commit 1afcac8ab85fe5f9d144533fcf4c4d4ba340cfc3. Task remains pending/bridge_completed=false so Bridge can execute the corrected restart; no Scene Maya validation is claimed."
       }
     }
   ]
