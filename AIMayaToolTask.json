@@ -28,82 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-rope-runtime-sync-168l",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/rope_weights.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.rope_weights"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-remaining-gap-inventory-168k",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "legacy_sources": [
-          "UIs/ScenePattern/Scene_Pattern_RopeRoll.py",
-          "UIs/ScenePattern/Scene_Pattern_RopeStraight.py"
-        ],
-        "purpose": "Sync the existing deterministic rope_weights module immediately before Architect adds the shared Maya constraint/DG runtime adapter for legacy RopeRoll and RopeStraight, reusing one host implementation parameterized by mode instead of duplicating two modules.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import rope_weights.py.",
-          "Do not duplicate deterministic weight math already present.",
-          "Do not claim Maya runtime parity from this sync.",
-          "Return evidence for immediate shared runtime-adapter implementation."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "rope_runtime_preimplementation_sync_verified",
-        "delivery_id": "6856f05ef358432ce4c9",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "fd1a61f3d51fa49d56e478a85449286f224805ba"
-        },
-        "architect_diagnosis": "Existing rope_weights baseline passed. Architect added one shared Maya runtime adapter for RopeRoll/RopeStraight, reusing deterministic weights(mode,...) and parameterizing host behavior by mode."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-rope-runtime-python-verify-168m",
       "action": {
         "type": "verification",
@@ -698,9 +622,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -747,6 +671,87 @@
           "Inventory legacy Scene setup/build actions outside ScenePattern against current target modules.",
           "Classify aliases/internal helpers before proposing implementation.",
           "Return evidence for the first dependency-ready scene-build-parity slice."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_build_inventory_baseline_verified",
+        "delivery_id": "4b7908b69fa2a9843084",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "a0aa719b5f4bbf8a27cddaba851863fd1235b61e"
+        },
+        "architect_diagnosis": "Legacy non-ScenePattern build surface is concentrated in Scene.py orchestration and SceneDefaultFunctions. Current build_actions covers deterministic hierarchy creation; control_shape_io/legacy_io cover the core curve export/import payload. The first bounded remaining build gap is project-relative SceneData path policy plus export/import/update orchestration for dataCurveShape.json, including the legacy current-folder vs parent-work-folder variants without hard-coded project assumptions."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-build-control-shape-path-sync-168v",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/control_shape_io.py",
+          "aimayatool/tools/scene/control_shape_legacy_io.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.control_shape_io",
+          "aimayatool.tools.scene.control_shape_legacy_io"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-build-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-build-parity-inventory-168u",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "legacy_sources": [
+          "UIs/SceneDefaultFunctions/1_Export Curve.py",
+          "UIs/SceneDefaultFunctions/2_Import Curve.py",
+          "UIs/SceneDefaultFunctions/3_Export Curve Up.py",
+          "UIs/SceneDefaultFunctions/4_Import Curve UP.py",
+          "UIs/SceneDefaultFunctions/5_Update Curve Up.py"
+        ],
+        "purpose": "Sync current control-shape IO immediately before adding deterministic scene-relative SceneData path resolution and export/import/update orchestration. Preserve both legacy local SceneData and parent-work SceneData layouts as explicit policy, not hidden path assumptions.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import both control-shape IO modules.",
+          "Do not duplicate shape payload collection/conversion already implemented.",
+          "Do not prompt SaveSceneAs inside deterministic helpers.",
+          "Return evidence for immediate path/orchestration implementation."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
