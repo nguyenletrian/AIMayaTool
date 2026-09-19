@@ -28,72 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-166u",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.driven_key",
-        "callable": "driven_key_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry3-166s",
-          "result": "FAILED_SMOKE_ASSERTION"
-        },
-        "smoke_fix_commit": "89bc2fc90066eeb0c69adc96e71b1ca7d4185e2a",
-        "purpose": "Final bounded DrivenKey smoke using destination-side direct-plug query only.",
-        "acceptance": [
-          "Fresh isolated unsaved scene.",
-          "SDK/zero groups exist.",
-          "Destination-side connectionInfo reports SDK attr as direct source of child attr.",
-          "animCurve exists upstream of SDK attr.",
-          "Driver 0/10 evaluates 1/5.",
-          "Tangents linear."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAILED_SMOKE_ASSERTION",
-        "classification": "driven_key_connectionInfo_false_negative",
-        "delivery_id": "f0ffea37f00de8838473",
-        "architect_diagnosis": "Maya product behavior again passes hierarchy, animCurve creation, evaluation at driver 0/10, and linear tangents. Only connectionInfo(sourceFromDestination=True) returned a false negative for the child plug. Replaced the smoke-only child-source probe with listConnections(..., plugs=True, skipConversionNodes=True), leaving product host mutation unchanged."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-retry-166v",
       "action": {
         "type": "maya",
@@ -118,7 +52,6 @@
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-maya-validation",
-        "retry_of": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-166u",
         "smoke_fix_commit": "e3a98b94842acd3fda9e51906afc36bfe91718fa",
         "purpose": "Retry final bounded DrivenKey Maya smoke using listConnections plug-level child-source validation.",
         "acceptance": [
@@ -133,7 +66,11 @@
         "result": "FAILED_SMOKE_ASSERTION",
         "classification": "driven_key_invalid_direct_connection_expectation",
         "delivery_id": "6f969d622f9d3c694289",
-        "architect_diagnosis": "Repeated Maya evidence shows the direct-connection expectation itself is invalid. apply_driven_key parents the driven object under _SDKGrp and setDrivenKeyframe animates the SDK group's channel; it does not connect SDKGroup.tx to child.tx. Therefore both connectionInfo and listConnections correctly fail to find such a direct plug connection. Hierarchy, animCurve, SDK evaluation and tangents all pass. Replaced the invalid smoke assertion with hierarchy + child-local stability checks; product host logic unchanged."
+        "architect_diagnosis": "Repeated Maya evidence shows the direct-connection expectation itself is invalid. apply_driven_key parents the driven object under _SDKGrp and setDrivenKeyframe animates the SDK group's channel; it does not connect SDKGroup.tx to child.tx. Therefore both connectionInfo and listConnections correctly fail to find such a direct plug connection. Hierarchy, animCurve, SDK evaluation and tangents all pass. Replaced the invalid smoke assertion with hierarchy + child-local stability checks; product host logic unchanged.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-166u",
+          "result": "FAILED_SMOKE_ASSERTION"
+        }
       }
     },
     {
@@ -741,6 +678,78 @@
         "result": "CANCELLED_UNSUPPORTED_ROUTE",
         "classification": "prevented_known_unsupported_implementation_python_route",
         "architect_diagnosis": "Cancelled before execution because the same implementation:python route is known unsupported from 167b."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-implementation-route-recovery-assessment-167e",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisites": [
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-fold-rig-core-167b",
+            "result": "BLOCKED_ROUTE"
+          },
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-rivet-core-167c",
+            "result": "CANCELLED_UNSUPPORTED_ROUTE"
+          },
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-spline-rig-core-167d",
+            "result": "CANCELLED_UNSUPPORTED_ROUTE"
+          }
+        ],
+        "purpose": "Keep queue truthful and executable while implementation dispatch is unavailable. Verify repository remains clean/importable and return current commit evidence; Architect will use that evidence to recover an actual implementation-capable path rather than misrouting code changes through verification.",
+        "acceptance": [
+          "Fast-forward current main.",
+          "Compile/import current Scene package successfully.",
+          "Do not mutate product code.",
+          "Do not claim FoldRig/Rivet/SplineRig implementation occurred.",
+          "Return repository precondition commit and verification evidence so Architect can safely decide the next route/capability recovery action."
+        ],
+        "blocker": "Current .aibridge/routers.json has no implementation route. Known implementation:python dispatch is unsupported; verification:python must not be abused as an implementation route.",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
