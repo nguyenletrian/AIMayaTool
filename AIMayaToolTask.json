@@ -640,8 +640,8 @@
       },
       "task_id": "aimayatool-goal007-scene-pattern-layer-maya-validation-163x",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "action": {
         "type": "maya",
         "target": "managed_live_smoke"
@@ -675,7 +675,20 @@
           "Member removal returns the object to defaultLayer.",
           "Smoke completes successfully and route reports new_scene_forced=true, scene_saved=false."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "layer_managed_maya2024_proven",
+        "delivery_id": "e557eaa127ce6f174070",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "maya_quit": false,
+          "marker": "SCENE_DISPLAY_LAYER_SMOKE_OK"
+        },
+        "architect_diagnosis": "Managed Maya smoke passed in a forced-new unsaved scene. Display-layer creation/member assignment, visibility toggling, reference display type, and member removal are host-proven by the smoke assertions."
       }
     }
   ]
