@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-gradient-texture-implementation-sync-167t",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-gradient-texture-preimplementation-baseline-167k",
-          "result": "PASS_BASELINE"
-        },
-        "purpose": "Continue ScenePattern migration while Maya live validation infrastructure is blocked; sync current Scene baseline immediately before Architect authors GradientTexture directly through repository tools.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import current Scene package.",
-          "Do not claim GradientTexture implementation or Maya parity from this sync task.",
-          "Return current main evidence for immediate Architect-owned GradientTexture implementation."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "gradient_texture_preimplementation_sync_verified",
-        "delivery_id": "1ccba72f5a338d87f846",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "d64dfc27b46ffa0b381d6dc6eb9036b0b09a60e3"
-        },
-        "architect_diagnosis": "Scene baseline was healthy. Architect implemented GradientTexture directly through repository tools; deterministic verification follows."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-gradient-texture-python-verify-167u",
       "action": {
         "type": "verification",
@@ -689,9 +620,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -736,6 +667,82 @@
           "Compile/import Scene package.",
           "Do not claim full ScenePattern parity from this baseline.",
           "Return current-main evidence for Architect to choose the next bounded uncovered legacy slice."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "post_spline_inventory_baseline_verified",
+        "delivery_id": "8b0134c5ad03a3caca70",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "5ccf140bc1bd2666515e72b8789cfb256af70ed2"
+        },
+        "architect_diagnosis": "Post-spline baseline is healthy. Fresh legacy-vs-target inventory identifies IK/FK switch workflows as a meaningful remaining parity family; script-hook legacy variants are already represented by script_hooks.py and should not be duplicated."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-ikfk-switch-inventory-168g",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-post-spline-inventory-168f",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "legacy_sources": [
+          "UIs/ScenePattern/Scene_Pattern_DefaultSwitchIKFK.py",
+          "UIs/ScenePattern/Scene_Pattern_NewSwitchIKFK.py",
+          "UIs/ScenePattern/Scene_Pattern_NewSwitchIKFK_WithAddKeys.py"
+        ],
+        "purpose": "Sync current main before Architect performs a bounded IK/FK-switch parity inventory. Determine shared deterministic data/model behavior and whether NewSwitchIKFK_WithAddKeys is a variant/superset, avoiding wholesale copy of embedded UI/script strings.",
+        "acceptance": [
+          "Fast-forward current main.",
+          "Compile/import Scene package.",
+          "Do not implement or claim IK/FK parity from this sync task.",
+          "Return current-main evidence for Architect to define the smallest reusable IK/FK switch migration slice."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
