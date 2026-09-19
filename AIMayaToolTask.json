@@ -28,72 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-context-selection-helper-python-179b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/setup/__init__.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "context-selection",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal010-context-selection-inventory-179a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify the first bounded context-selection helper: ordered Setup transform selection with explicit minimum/exact count validation and no hidden scene mutation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile Setup entrypoint.",
-          "Confirm _selection_context reads the current ordered transform selection only.",
-          "Minimum count failures preserve caller-supplied actionable usage errors.",
-          "Exact count validation is available without auto-selecting or mutating the scene.",
-          "Existing _require_selection delegates to _selection_context so current callers retain behavior.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "context_selection_helper_python_pass",
-        "delivery_id": "74c5aacd90e2d2309500",
-        "architect_diagnosis": "Explicit ordered selection-context helper compiles and existing _require_selection delegates to it. Added a focused managed Maya smoke to prove ordered selection and failure paths do not mutate the user's selection."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-context-selection-helper-maya-179c",
       "action": {
         "type": "maya",
@@ -607,9 +541,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -657,7 +591,11 @@
           "Do not claim Maya interaction behavior from this Python inventory.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "favorites_recent_ui_instrument_inventory_pass",
+        "delivery_id": "f5210002ef06d1536e24",
+        "architect_diagnosis": "Python inventory compiles. Domain entrypoints already funnel actions through local _run -> shared run_action, while UI labels differ from stable action identity. The smallest safe instrumentation seam is a shared tracked action runner accepting explicit group_id/action_id/label and recording recent immediately on intentional invocation before delegating to existing run_action; start with a bounded representative Setup action rather than broad rewiring."
       }
     },
     {
@@ -717,6 +655,72 @@
           "Keep action execution explicit; no automatic execution from search/discovery.",
           "Do not add persistence, batch productivity or preflight behavior.",
           "Do not claim Maya interaction behavior from this Python inventory.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-ui-instrument-setup-181f",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/components.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/registry.py",
+          "tests/test_registry_action_state.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-workspace-inventory-181e"
+        ],
+        "purpose": "Implement the smallest representative action instrumentation slice using explicit stable identity, preserving existing run_action behavior and avoiding broad domain rewiring.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Add a thin shared tracked-action runner or equivalent seam that accepts explicit group_id, action_id and display label and records recent action state on intentional invocation before delegating to existing run_action presentation.",
+          "Instrument one representative non-destructive Setup action with an explicit stable action_id; do not derive identity from callback repr or result text.",
+          "Preserve existing run_action success/error semantics and group-level discovery behavior.",
+          "Do not add persistence or broad rewiring across all domain buttons in this slice.",
+          "Add/update deterministic Python tests where possible and run py_compile/import/tests.",
+          "Commit and push only after verification passes.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
