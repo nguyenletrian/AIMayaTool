@@ -36,7 +36,7 @@ def unlock_attribute_managed_maya_smoke():
     driver = cmds.createNode("transform", name="UnlockDriver")
     cmds.connectAttr(driver + ".tx", obj + ".tx", force=True)
     cmds.setAttr(obj + ".ry", lock=True, keyable=False)
-    result = unlock_attributes(({"objects": obj + "\\nMissingUnlockObject"},))
+    result = unlock_attributes(({"objects": obj + "\nMissingUnlockObject"},))
     disconnected = not cmds.connectionInfo(obj + ".tx", isDestination=True)
     unlocked = not cmds.getAttr(obj + ".ry", lock=True)
     keyable = cmds.getAttr(obj + ".ry", keyable=True)
