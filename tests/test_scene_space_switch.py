@@ -3,7 +3,7 @@ from aimayatool.tools.scene.space_switch import plan_space_switch
 
 class SpaceSwitchTests(unittest.TestCase):
     def test_maintain_indices(self):
-        p=plan_space_switch("ctrl", "world\\nbody", maintain=True)
+        p=plan_space_switch("ctrl", ["world","body"], maintain=True)
         self.assertEqual(p["options"],["world","body"]); self.assertEqual([x["pick_index"] for x in p["targets"]],[0,1])
     def test_default_and_slide(self):
         p=plan_space_switch(["a","b"],["world","body"],enum="World;Body",attr_slide="spaceBlend",default_value=.25,maintain=False)
