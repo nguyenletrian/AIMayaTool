@@ -32,82 +32,6 @@
         "type": "implementation",
         "target": "python"
       },
-      "task_id": "aimayatool-goal007-scene-pattern-rivet-core-167c",
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 600,
-        "files": [
-          "aimayatool/tools/scene/rivet.py",
-          "tests/test_scene_rivet.py"
-        ],
-        "tests": [
-          "tests.test_scene_rivet"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-implementation-plan-167a",
-          "result": "PASS_GATE_ONLY"
-        },
-        "purpose": "Implement canonical Rivet ScenePattern core from verified legacy source.",
-        "legacy_contract": {
-          "fields": [
-            "vertexs",
-            "name",
-            "copyTransform",
-            "child",
-            "parent"
-          ],
-          "behavior": ">=3 vertices -> polygon facet -> curveFromMeshEdge/loft/pointOnSurfaceInfo locator orientation; optional matched copy transform under locator; optional child RivetOffset parentConstraint; copy source mesh skin to plane; optional parent plane+locator."
-        },
-        "acceptance": [
-          "Add import-safe scene/rivet.py with deterministic normalization validating >=3 non-empty vertex components, a non-empty name, and same source mesh for vertices where required.",
-          "Separate deterministic plan/data validation from Maya mutation.",
-          "Maya apply path must build the facet and rivet DG network matching legacy effective behavior, including locator orientation and optional copyTransform/child/parent behavior.",
-          "Guard missing mesh/shapes/skin assumptions with actionable errors rather than index failures.",
-          "Add focused tests for normalization, <3 rejection, component parsing and optional-field planning; import must pass outside Maya.",
-          "Commit/push implementation and tests; return commit SHA and evidence."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "CANCELLED_UNSUPPORTED_ROUTE",
-        "classification": "prevented_known_unsupported_implementation_python_route",
-        "architect_diagnosis": "Cancelled before execution because the same implementation:python route is known unsupported from 167b."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "action": {
-        "type": "implementation",
-        "target": "python"
-      },
       "task_id": "aimayatool-goal007-scene-pattern-spline-rig-core-167d",
       "payload": {
         "preconditions": [
@@ -683,9 +607,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -737,6 +661,73 @@
           "Import aimayatool.tools.scene.fold_rig outside Maya.",
           "Run tests.test_scene_fold_rig successfully.",
           "Do not claim Maya parity; Maya-host behavior requires a later smoke task."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "fold_rig_python_verification_pass",
+        "delivery_id": "fe32ec5827caae749499",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "main_commit": "0eb133cd6376d008399ed267760de26a1df0da27"
+        },
+        "architect_diagnosis": "Architect-authored FoldRig implementation passes deterministic Python compile/import/unit tests. Maya behavior is not yet proven and requires managed Maya smoke."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-167m",
+      "action": {
+        "type": "maya",
+        "target": "ui_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.fold_rig",
+        "callable": "fold_rig_managed_maya_smoke",
+        "new_scene": true,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-fold-rig-python-verify-167l"
+        ],
+        "purpose": "Validate FoldRig parentConstraint/driven-key behavior in a fresh managed Maya scene after deterministic Python verification.",
+        "acceptance": [
+          "Fast-forward main including the verified FoldRig implementation.",
+          "Use a fresh unsaved managed Maya scene.",
+          "Invoke aimayatool.tools.scene.fold_rig.fold_rig_managed_maya_smoke.",
+          "Smoke returns ok=true with two constraints, three weight aliases per constraint, animCurve-driven weights, and driver restored to final value.",
+          "Treat runtime/session loss as inconclusive and use the Guide fresh-session recovery rule; do not convert transport failure into product failure."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
