@@ -28,80 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-data-compatibility-inventory-retry-168y",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/control_shape_legacy_io.py",
-          "aimayatool/tools/scene/patterns.py",
-          "aimayatool/tools/scene/pattern_descriptor.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.control_shape_legacy_io",
-          "aimayatool.tools.scene.patterns",
-          "aimayatool.tools.scene.pattern_descriptor"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-data-compatibility",
-        "archived_retry_source": {
-          "task_id": "aimayatool-goal007-scene-data-compatibility-inventory-168x",
-          "result": "FAIL",
-          "reason": "nonexistent pattern_legacy.py referenced by Architect"
-        },
-        "purpose": "Corrected Scene legacy-data compatibility inventory baseline using only current-main adapter modules.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import control_shape_legacy_io.py, patterns.py and pattern_descriptor.py.",
-          "Return current-main evidence for authoritative persisted SceneData compatibility inventory.",
-          "Do not infer support from nonexistent modules."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_data_compatibility_inventory_verified",
-        "delivery_id": "2de223a2719769b5c4ea",
-        "verification_evidence": {
-          "py_compile": true,
-          "imports": true,
-          "main_commit": "22fc0e8a11dad55019a520dd4f9b203d25d770c5"
-        },
-        "architect_diagnosis": "Existing adapters are import-safe. Legacy repository contains UIs/SceneData.json as the authoritative persisted Scene index plus dataCurveShape payloads already handled by control_shape_legacy_io. SceneData.json uses moduleName/order/title/name/id/ext/path and path may be either a string or one-element list. Architect added a deterministic compatibility model for that index."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-data-index-python-verify-168z",
       "action": {
         "type": "verification",
@@ -687,9 +613,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
+      "status": "completed",
       "architect_ack": true,
-      "bridge_completed": false,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -735,7 +661,69 @@
           "reason": "payload.preconditions must be a non-empty list with at most 4 items",
           "classification": "task_schema_rejected_before_restart"
         },
-        "architect_ack_diagnosis": "ACKs the failed delivery attempt only. Failure occurred at task-schema validation before restart execution. Architect repaired payload.preconditions to a valid non-empty ff-only git_pull list in commit 1afcac8ab85fe5f9d144533fcf4c4d4ba340cfc3. Task remains pending/bridge_completed=false so Bridge can execute the corrected restart; no Scene Maya validation is claimed."
+        "architect_ack_diagnosis": "ACKs the failed delivery attempt only. Failure occurred at task-schema validation before restart execution. Architect repaired payload.preconditions to a valid non-empty ff-only git_pull list in commit 1afcac8ab85fe5f9d144533fcf4c4d4ba340cfc3. Task remains pending/bridge_completed=false so Bridge can execute the corrected restart; no Scene Maya validation is claimed.",
+        "result": "FAIL",
+        "classification": "task_schema_rejected_before_restart",
+        "delivery_id": "f63d96a93f8b420c7b1c",
+        "architect_diagnosis": "Failed delivery was ACKed after schema diagnosis; no restart executed. Corrected retry is published as a new task so queue selection can proceed without reusing a completed delivery record."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-aibridge-maya-route-restart-retry-169i",
+      "action": {
+        "type": "bridge",
+        "target": "restart"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "reason": "Pull AIBrigde main containing a619350716ada837961f147093a74f4c070d926c and relaunch worker so maya:managed_live_smoke is registered."
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_retry_source": {
+          "task_id": "aimayatool-goal007-aibridge-maya-route-restart-169h",
+          "result": "FAIL",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "reason": "Original restart delivery was rejected because preconditions was empty."
+        },
+        "aibridge_fix_commit": "a619350716ada837961f147093a74f4c070d926c",
+        "purpose": "Execute the corrected AIBrigde restart after the original delivery was schema-rejected before execution.",
+        "acceptance": [
+          "Fast-forward the configured repository precondition.",
+          "AIBrigde server pulls/relaunches with main containing a6193507.",
+          "maya:managed_live_smoke becomes available after relaunch.",
+          "Do not claim Scene Maya product validation from restart alone."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
