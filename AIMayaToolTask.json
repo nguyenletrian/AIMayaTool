@@ -633,8 +633,8 @@
       },
       "task_id": "aimayatool-goal007-scene-pattern-group-maya-validation-163z",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "action": {
         "type": "maya",
         "target": "managed_live_smoke"
@@ -668,7 +668,26 @@
           "Missing parent is rejected deterministically.",
           "Route reports new_scene_forced=true and scene_saved=false."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "group_managed_maya2024_proven",
+        "delivery_id": "e366e0c8539aab8e70c8",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "maya_quit": false,
+          "smoke": {
+            "created": true,
+            "parented": true,
+            "matched": true,
+            "invalid_parent": true,
+            "success": true
+          }
+        },
+        "architect_diagnosis": "Managed Maya smoke passed in a forced-new unsaved scene. ScenePattern Group creation, matchTransform-before-parent behavior, requested hierarchy, and deterministic missing-parent rejection are host-proven."
       }
     }
   ]
