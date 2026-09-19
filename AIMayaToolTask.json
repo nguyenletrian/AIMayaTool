@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-status-progress-inventory-retry-177b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/components.py",
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-status-progress",
-        "retry_of_archived": {
-          "task_id": "aimayatool-goal009-ui-status-progress-inventory-177a",
-          "result": "FAIL",
-          "classification": "invalid_verification_path",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify actual domain entrypoints and confirm the status/error unification baseline.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile the real package entrypoints and components.py.",
-          "Confirm Skinning and Setup currently duplicate _run success/error presentation through inViewMessage, warning and traceback.",
-          "Confirm Scene entry UI currently has no equivalent action status surface.",
-          "Use this as evidence for a reusable status/error presentation component; do not claim Maya behavior.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_status_progress_baseline_verified",
-        "delivery_id": "bd1355d894f670abd3d5",
-        "architect_diagnosis": "Real package entrypoints compile. Skinning and Setup duplicate action success/error presentation; Scene currently has no equivalent action wrapper. Added reusable run_action() to components.py as the smallest unification slice, preserving thin domain callbacks."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-status-progress-component-python-177c",
       "action": {
         "type": "verification",
@@ -671,9 +602,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -717,6 +648,76 @@
           "Minimum count failures preserve caller-supplied actionable usage errors.",
           "Exact count validation is available without auto-selecting or mutating the scene.",
           "Existing _require_selection delegates to _selection_context so current callers retain behavior.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "context_selection_helper_python_pass",
+        "delivery_id": "74c5aacd90e2d2309500",
+        "architect_diagnosis": "Explicit ordered selection-context helper compiles and existing _require_selection delegates to it. Added a focused managed Maya smoke to prove ordered selection and failure paths do not mutate the user's selection."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-context-selection-helper-maya-179c",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.tools.setup",
+        "callable": "selection_context_managed_maya_smoke",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "context-selection",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-context-selection-helper-python-179b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Prove the first context-aware selection helper in managed Maya: ordered selection is preserved and invalid-count validation is non-mutating.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated fresh scene.",
+          "Invoke selection_context_managed_maya_smoke.",
+          "Two selected transforms must be returned in Maya selection order.",
+          "A minimum-count failure must raise the caller-supplied actionable ValueError internally and leave selection unchanged.",
+          "Callable returns AIBRIDGE_CONTEXT_SELECTION_OK:ordered|nonmutating.",
+          "Do not save scene.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
