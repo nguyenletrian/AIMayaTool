@@ -28,81 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-components-skinning-adoption-maya-175i",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.tools.skinning",
-        "callable": "build_ui",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-components",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-components-skinning-adoption-python-175h",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Final managed-Maya validation of reusable section() adoption in Skinning, completing cross-domain Scene/Setup/Skinning evidence for ui-components.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use isolated fresh managed Maya scene.",
-          "Invoke aimayatool.tools.skinning.build_ui.",
-          "Return PASS only if Skinning UI construction with reusable section() completes without Maya/Python exception.",
-          "Do not save the Maya scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_components_cross_domain_maya_pass",
-        "delivery_id": "fdce22774a3c86b24c0a",
-        "verification_evidence": {
-          "marker": "AIBRIDGE_UI_SMOKE_OK:",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "pid": 6168,
-          "port": 7001
-        },
-        "architect_diagnosis": "Skinning build_ui completed successfully in managed Maya. Together with Scene and Setup evidence, reusable section()/button_row() presentation primitives are validated across all three domains; ui-components milestone accepted."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-search-discovery-inventory-176a",
       "action": {
         "type": "verification",
@@ -670,9 +595,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -719,6 +644,75 @@
           "Verify set_favorite enables/disables known groups and favorite_groups follows registry order.",
           "Unknown group ids must raise ValueError.",
           "No maya.cmds dependency or persistence layer in this slice.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_discovery_recent_favorite_python_pass",
+        "delivery_id": "c2bbfb60bec332e9504c",
+        "architect_diagnosis": "Python-safe recent/favorite registry state compiles/imports successfully. Architect exposed a compact Recent/Favorites summary plus Toggle Favorite control in the workspace and records search-selected groups as recent; Maya validation is required."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-maya-176j",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.ui.main_window",
+        "callable": "show",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45,
+        "expected_window": "AIMayaToolWindow"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-search-discovery",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-python-176i",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Validate Maya construction of the compact Recent/Favorites discovery surface before interaction acceptance.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated fresh scene.",
+          "Invoke aimayatool.ui.main_window.show and require AIMayaToolWindow.",
+          "Confirm Recent/Favorites summary and Toggle Favorite UI construct without Maya/Python exception.",
+          "Do not save scene.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
