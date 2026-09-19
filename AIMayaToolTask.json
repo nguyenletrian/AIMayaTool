@@ -653,9 +653,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-script-hook-adapters-python-verify-retry-165d",
       "action": {
         "type": "verification",
@@ -704,7 +704,22 @@
           "Focused tests pass.",
           "No Maya host behavior claim."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "script_hook_adapters_python_verification_passed",
+        "delivery_id": "cbbbfe74da250b6efa0e",
+        "verification_evidence": {
+          "git_pull_before": "294e9414a50165c7632dbcc53058cbfe97c9b008",
+          "git_pull_after": "0f7f4df52c6eb737ccd808773faad975f2111f31",
+          "py_compile": true,
+          "import": "aimayatool.tools.scene.script_hooks",
+          "tests": {
+            "target": "tests.test_scene_script_hooks",
+            "ran": 3,
+            "success": true
+          }
+        },
+        "architect_diagnosis": "Deterministic Python gate passed: script-hook adapter and tests compile, module imports outside Maya, and all three focused tests pass for hook descriptors, current/up SceneData path semantics, and delegated script execution."
       }
     }
   ]
