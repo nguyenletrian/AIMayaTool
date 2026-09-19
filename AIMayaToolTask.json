@@ -21,77 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-transform-backup-python-verify-164w",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/transform_backup.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.transform_backup"
-        ],
-        "timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Verify TransformBackup core capture/restore adapter.",
-        "implementation_commit": "1dfa59c9bcb9be9cf0cfacd3a96c29bf9fb2a913",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_TransformBackup.py",
-        "legacy_source_sha": "17ad4210ac531e34bdf7f3841d8a7a333759b2d9",
-        "acceptance": [
-          "git_pull current main.",
-          "Module compiles/imports outside Maya.",
-          "No Maya host behavior claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "transform_backup_python_verification_passed",
-        "delivery_id": "533e86a64fa1af212a29",
-        "verification_evidence": {
-          "git_pull_before": "733cdbd3dd6f6af2f4858d968e5f1bd85cff7243",
-          "git_pull_after": "5900f25a54f0e01f02f3a56969ea97a416506291",
-          "repository_changed": true,
-          "py_compile": true,
-          "imports": [
-            "aimayatool.tools.scene.transform_backup"
-          ]
-        },
-        "architect_diagnosis": "Python gate passed after fast-forwarding current main. TransformBackup core compiles/imports cleanly; joint recreation, parenting and joint-specific state restoration remain gated by managed-Maya task 164x."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-single-script-python-verify-164y",
       "action": {
         "type": "verification",
@@ -718,6 +647,73 @@
           "import": "aimayatool.tools.scene"
         },
         "architect_diagnosis": "Inventory gate passed. Current scene package remains clean. Legacy MatchPairs Run body is incomplete and must not be treated as behavior to port. Safe boundary: deterministic source/target normalization, pair-name mapping, and XML replacement/transformation can be migrated as Python-only helpers; Maya world-space nearest matching and selection cycling should remain separate host/UI behavior for a later Maya-backed slice."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-match-pairs-core-python-verify-165f",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/match_pairs.py",
+          "tests/test_scene_match_pairs.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.match_pairs"
+        ],
+        "tests": [
+          "tests.test_scene_match_pairs"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-match-pairs-inventory-165e"
+        ],
+        "purpose": "Verify deterministic MatchPairs core helpers from the approved inventory boundary.",
+        "implementation_commits": [
+          "51cc308be45dbec57cd53992e20edf46584dc73c",
+          "87719decfeab874681c314e2462c63c4166b72f5"
+        ],
+        "acceptance": [
+          "Compile files.",
+          "Import outside Maya.",
+          "Focused tests pass.",
+          "No Maya host behavior claim."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
