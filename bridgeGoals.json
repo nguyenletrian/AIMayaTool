@@ -539,7 +539,14 @@
         {
           "milestone_id": "ui-search-discovery",
           "title": "Add search/discovery and useful recent/favorite access",
-          "status": "active"
+          "status": "active",
+          "search_interaction_evidence": {
+            "task_id": "aimayatool-goal009-ui-search-discovery-interaction-maya-retry-176h",
+            "delivery_id": "633d21a010ed04a18e6b",
+            "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
+            "scene_saved": false,
+            "date": "2026-09-19"
+          }
         },
         {
           "milestone_id": "ui-status-progress",
