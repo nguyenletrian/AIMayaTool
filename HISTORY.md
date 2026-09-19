@@ -56,3 +56,12 @@ Earlier accepted architecture, Skinning, Setup, and Scene milestones remain pres
 - Deterministic Python behavior was verified through import-executed smoke coverage for preset, compare/edit, and build-pipeline slices.
 - Final UX host validation passed in managed Maya with a forced fresh scene (`AIBRIDGE_UI_SMOKE_OK:StatusLine|MainStatusLineLayout|formLayout4|columnLayout13`) and `scene_saved=false`.
 - Goal 009 Unified UI/UX is the next program phase.
+## 2026-09-19 — Batch Productivity milestone accepted
+
+- Completed Goal `aimayatool-010` milestone `batch-productivity` with two bounded, runtime-proven Setup batch workflows: ordered Reset TR and ordered Freeze TRS.
+- Reset TR proof marker: `AIBRIDGE_BATCH_RESET_OK:ordered|TR_reset|scale_preserved`.
+- Freeze TRS proof marker: `AIBRIDGE_BATCH_FREEZE_OK:ordered|TRS_frozen|world_preserved`.
+- Both managed Maya validations used fresh unsaved scenes and preserved explicit selection order; no scene was saved.
+- The reusable `reset_transforms` and `freeze_transforms` helpers validate the full ordered collection before mutation and delegate to the existing single-node primitives.
+- Batch milestone closeout was recorded in `AIMayaToolTask.json`; the next dependency-ready slice is an inventory for preflight validation and actionable guidance.
+
