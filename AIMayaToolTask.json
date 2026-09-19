@@ -28,134 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry-166p",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.driven_key",
-        "callable": "driven_key_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "smoke_fix_commit": "b4c9e3ce9adbdb850d56ede49115bbce77113f59",
-        "purpose": "Retry DrivenKey managed Maya smoke after correcting only the SDK connection-path assertion.",
-        "acceptance": [
-          "Fresh isolated unsaved Maya scene.",
-          "SDK and zero groups exist.",
-          "SDK animCurve drives the child attribute through the expected Maya DG path.",
-          "Values evaluate 1 at driver 0 and 5 at driver 10.",
-          "Tangents are linear."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAILED_SMOKE_ASSERTION",
-        "classification": "driven_key_connection_query_wrong_direction",
-        "delivery_id": "87690f7a046d386f4571",
-        "architect_diagnosis": "Second retry confirms product behavior remains healthy: hierarchy, SDK animCurve, evaluation and linear tangents all pass. The prior smoke fix queried animCurve upstream of the child, but the legacy/product graph is animCurve -> SDK offset attr -> child attr, so filtering the child's immediate source by animCurve is incorrect. Replaced it with exact plug-level connectionInfo checks proving SDK offset attr directly drives child attr. Product host logic unchanged.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-166o",
-          "result": "FAILED_SMOKE_ASSERTION"
-        }
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry2-166q",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.driven_key",
-        "callable": "driven_key_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "retry_of": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry-166p",
-        "smoke_fix_commit": "b4c9e3ce9adbdb850d56ede49115bbce77113f59",
-        "purpose": "Retry DrivenKey Maya smoke with exact plug-level connection validation matching legacy graph animCurve -> SDK attr -> child attr.",
-        "acceptance": [
-          "Fresh isolated unsaved scene.",
-          "SDK/zero groups exist.",
-          "connectionInfo proves SDK offset attr directly drives child attr.",
-          "animCurve drives SDK attr.",
-          "Driver 0/10 evaluates 1/5.",
-          "Tangents linear."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "BLOCKED_SYNTAX_FIXTURE",
-        "classification": "driven_key_smoke_literal_backslash_n_syntax_error",
-        "delivery_id": "2c86077561ee5ed7c4df",
-        "architect_diagnosis": "166q never reached Maya behavior: prior Architect edit accidentally committed literal backslash+n between smoke statements, causing SyntaxError on module reload. Corrected only that source newline in commit 9aec638019a7831337efca354ee8b9ba40d97a45; product/connection logic unchanged."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-driven-key-python-syntax-regression-166r",
       "action": {
         "type": "verification",
@@ -700,6 +572,136 @@
         "classification": "unsupported_verification_repository_audit_route",
         "delivery_id": "54c804489cad7c9a8adf",
         "architect_diagnosis": "No product/audit behavior ran. Project router metadata registers verification:python but not verification:repository_audit; publishing 166y used a nonexistent route. Correct by using the supported verification:python route only for executable local evidence, while Architect performs cross-repository source inspection directly before publishing implementation tasks."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-fold-gradient-implementation-plan-166z",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-remaining-rig-patterns-repo-audit-166y",
+          "result": "BLOCKED_ROUTE"
+        },
+        "purpose": "Prepare implementation-ready FoldRig + GradientTexture migration boundaries from Architect-inspected legacy evidence. FoldRig is a parentConstraint/SDK fold-chain workflow; GradientTexture builds ramp/remapValue shading control. Current AIMayaTool search found no equivalent scene surface.",
+        "legacy_evidence": [
+          "Scene_Pattern_FoldRig.py fields: objEnd, objsRun, destinations, attrContent, attr, constraintContent; validates objs/destinations cardinality; builds parentConstraints and driven keys.",
+          "Scene_Pattern_GradientTexture.py fields: object,type,interpolation,whiteBegin,blackBegin,runColor,minValue,maxValue,objConnect,attrConnect,reverse; builds ramp + remapValue and material transparency/opacity connection."
+        ],
+        "acceptance": [
+          "Confirm current Scene package compile/import gate.",
+          "Return exact target module/API names for FoldRig and GradientTexture, deterministic normalization/validation helpers, and Maya-host mutation functions.",
+          "Identify focused unit tests and managed-Maya smoke fixtures required before parity acceptance.",
+          "No product mutation in this planning task."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-implementation-plan-167a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-remaining-rig-patterns-repo-audit-166y",
+          "result": "BLOCKED_ROUTE"
+        },
+        "purpose": "Prepare implementation-ready Rivet + SplineRig migration boundaries from Architect-inspected legacy evidence. Current AIMayaTool search found no equivalent scene surface; SplineControl/SplineCurve named legacy files were not present and must not be invented.",
+        "legacy_evidence": [
+          "Scene_Pattern_Rivet.py: >=3 vertices -> poly facet -> curveFromMeshEdge/loft/pointOnSurfaceInfo locator orientation; optional copyTransform, child offset constraint, skin copy, parent.",
+          "Scene_Pattern_SplineRig.py fields: parent,parentGlobal,controls,numberCtrls,rebuild; builds spline offsets/joints/curve/rebuild/ikSpline/control joints+skin/controls/global blend/visibility proxy.",
+          "Scene_Pattern_SplineControl.py and Scene_Pattern_SplineCurve.py returned 404 in legacy repo; treat absent unless later evidence proves otherwise."
+        ],
+        "acceptance": [
+          "Confirm current Scene package compile/import gate.",
+          "Return canonical Rivet and SplineRig target APIs with deterministic input normalization separated from Maya mutation.",
+          "Explicitly avoid creating standalone SplineControl/SplineCurve migrations without source evidence; absorb reusable behavior into canonical SplineRig primitives where appropriate.",
+          "Define focused Python tests and managed-Maya smoke acceptance for rivet DG network and spline rig hierarchy/IK/visibility/global behavior.",
+          "No product mutation in this planning task."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
