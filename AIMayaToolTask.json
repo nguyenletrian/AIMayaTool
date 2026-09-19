@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-rivet-implementation-sync-167r",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-preimplementation-baseline-167i",
-          "result": "PASS_BASELINE"
-        },
-        "purpose": "Keep forward progress while FoldRig Maya live validation is infrastructure-blocked. Sync/verify current Scene baseline immediately before Architect authors the bounded Rivet slice directly through repository tools.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import current Scene package baseline.",
-          "Do not claim Rivet implementation or Maya parity from this task.",
-          "Return current main evidence for the next Architect-owned Rivet implementation commit."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "rivet_preimplementation_sync_verified",
-        "delivery_id": "bd6115e3a892a6d60d34",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "6041237041966853d7fd06d8336bce2fd10cbee3"
-        },
-        "architect_diagnosis": "Scene baseline was healthy. Architect then implemented the bounded Rivet slice directly through repository tools; deterministic verification is queued next."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-rivet-python-verify-167s",
       "action": {
         "type": "verification",
@@ -680,9 +611,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -728,6 +659,86 @@
           "Compile/import Scene package.",
           "Do not claim SplineControlFromObjs implementation from this sync.",
           "Return current-main evidence for immediate Architect implementation."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "spline_control_from_objs_preimplementation_sync_verified",
+        "delivery_id": "1d935788f34ddb47d06d",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "34a194e465da7892be8357c56b55ee0aaad727c2"
+        },
+        "architect_diagnosis": "Baseline passed; Architect migrated standalone SplineControlFromObjs and added deterministic tests."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-spline-control-from-objs-python-verify-168e",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/spline_control_from_objs.py",
+          "tests/test_scene_spline_control_from_objs.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.spline_control_from_objs"
+        ],
+        "tests": [
+          "tests.test_scene_spline_control_from_objs"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-spline-control-from-objs-sync-168d",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commits": [
+          "0092aa8f1168299544f61c876c0464db4cb2c46a",
+          "d64dfae70e750740d7e3a227da5d392e51710e0b"
+        ],
+        "purpose": "Verify standalone SplineControlFromObjs migration outside Maya.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile implementation/test.",
+          "Import module outside Maya.",
+          "Run focused unittest successfully.",
+          "Do not claim Maya parity."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
