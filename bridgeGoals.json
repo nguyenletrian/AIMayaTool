@@ -482,12 +482,12 @@
         {
           "milestone_id": "scene-compare-edit",
           "title": "Improve compare/edit workflows",
-          "status": "active"
+          "status": "completed"
         },
         {
           "milestone_id": "scene-build-pipeline",
           "title": "Improve reusable build pipelines",
-          "status": "pending"
+          "status": "active"
         },
         {
           "milestone_id": "scene-ux-polish",
