@@ -622,9 +622,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -672,7 +672,17 @@
           "All focused core tests pass.",
           "No Maya host claim."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "modulo_sdk_host_python_regression_passed",
+        "delivery_id": "6ccc5fbca317218b2444",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "tests_run": 3
+        },
+        "architect_diagnosis": "Post-host-adapter Python regression passed: ModuloSDK implementation/tests compile, module remains import-safe outside Maya, and all 3 deterministic core tests pass. Dependency for managed Maya smoke 166l is resolved; host mutation/evaluation remains gated by 166l."
       }
     },
     {
