@@ -672,7 +672,23 @@
         {
           "milestone_id": "batch-productivity",
           "title": "Batch workflow improvements",
-          "status": "active"
+          "status": "completed",
+          "completion_evidence": {
+            "closeout_task": "aimayatool-goal010-batch-productivity-closeout-182k",
+            "closeout_commit": "88beb291fae0cede0a1cab82d7bda6d1662253e7",
+            "completed_date": "2026-09-19",
+            "runtime_markers": [
+              "AIBRIDGE_BATCH_RESET_OK:ordered|TR_reset|scale_preserved",
+              "AIBRIDGE_BATCH_FREEZE_OK:ordered|TRS_frozen|world_preserved"
+            ],
+            "coverage": [
+              "ordered multi-selection Reset TR",
+              "ordered multi-selection Freeze TRS",
+              "selection-order preservation",
+              "explicit bounded batch helpers",
+              "fresh unsaved managed Maya validation"
+            ]
+          }
         },
         {
           "milestone_id": "preflight-guidance",
