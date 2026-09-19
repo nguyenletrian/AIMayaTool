@@ -594,9 +594,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-visibility-switch-python-verify-164s",
       "action": {
         "type": "verification",
@@ -638,7 +638,20 @@
           "Module compiles/imports outside Maya.",
           "No Maya host claim."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "visibility_switch_python_verification_passed",
+        "delivery_id": "0be441bfe0152a0704cd",
+        "verification_evidence": {
+          "git_pull_before": "b607cf6037cb9bd5b0be8dccae45bab74908558f",
+          "git_pull_after": "bf0d8cfda51482ff1993c6deb0c9b0e1fa337e4d",
+          "repository_changed": true,
+          "py_compile": true,
+          "imports": [
+            "aimayatool.tools.scene.visibility_switch"
+          ]
+        },
+        "architect_diagnosis": "Python gate passed after fast-forwarding current main. VisibilitySwitch adapter compiles/imports cleanly; enum creation, condition-index mapping, visibility connections and host hierarchy behavior remain gated by managed-Maya task 164t."
       }
     },
     {
