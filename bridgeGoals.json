@@ -414,7 +414,7 @@
     {
       "goal_id": "aimayatool-007",
       "title": "Scene complete migration",
-      "status": "active",
+      "status": "completed",
       "purpose": "Migrate every useful Scene and ScenePattern workflow from MayaScriptNew, including serialization, pattern management, display layers, setup/build actions and required legacy data compatibility.",
       "acceptance": [
         "Every useful MayaScriptNew Scene workflow is available or intentionally superseded.",
@@ -450,14 +450,25 @@
         {
           "milestone_id": "scene-maya-validation",
           "title": "Validate complete Scene parity in Maya",
-          "status": "pending"
+          "status": "completed"
         }
-      ]
+      ],
+      "completion_evidence": {
+        "closeout_task": "aimayatool-goal007-scene-maya-validation-closeout-169p",
+        "closeout_delivery_id": "687f71ab190cc36adbef",
+        "closeout_commit": "1e0be86ee0b30fc3fc879e1232fe6cb3a13c4def",
+        "managed_maya_markers": [
+          "SCENE_BUILD_ACTIONS_SMOKE_OK",
+          "SingleScript success=True",
+          "SCENE_DISPLAY_LAYER_SMOKE_OK"
+        ],
+        "scene_saved": false
+      }
     },
     {
       "goal_id": "aimayatool-008",
       "title": "Scene 2.0 modernization",
-      "status": "planned",
+      "status": "active",
       "purpose": "Upgrade Scene workflows with stronger preset management, compare/edit/validation, reusable build pipelines and clearer workflow visualization.",
       "acceptance": [
         "Scene workflows provide clear productivity and reliability improvements over MayaScriptNew."
@@ -466,7 +477,7 @@
         {
           "milestone_id": "scene-presets",
           "title": "Modernize pattern/preset management",
-          "status": "pending"
+          "status": "active"
         },
         {
           "milestone_id": "scene-compare-edit",
