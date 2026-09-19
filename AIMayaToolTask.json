@@ -28,83 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-ui-parity-inventory-169b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/catalog.py",
-          "aimayatool/tools/scene/patterns.py",
-          "aimayatool/tools/scene/operations.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.catalog",
-          "aimayatool.tools.scene.patterns",
-          "aimayatool.tools.scene.operations"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-ui-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-utility-parity-inventory-169a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "goal_state_commit": "4600e0b143ce10a794c3dd9069a440fed661d117",
-        "purpose": "Begin Scene UI parity by refreshing the domain APIs that the thin UI must expose, then reconcile current UI/registry exposure against the legacy Scene/ScenePattern workflows without reintroducing monolithic Maya-cmds UI logic.",
-        "acceptance": [
-          "Fast-forward main including completed scene-utility-parity state.",
-          "Compile/import Scene catalog, patterns and operations domain modules.",
-          "Inventory current Scene UI/registry exposure against completed Scene workflow coverage.",
-          "Keep UI thin over domain APIs; do not copy SceneU/SceneUNew monolithic logic.",
-          "Return first dependency-ready UI exposure gap or evidence UI parity is already complete."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_ui_parity_architecture_gate_pass",
-        "delivery_id": "a66d3c3fa710237f92e9",
-        "verification_evidence": {
-          "py_compile": true,
-          "imports": true,
-          "main_commit": "bfa1d4b3c27368d3ded85f24ce9af1623fbfcd7e"
-        },
-        "architect_diagnosis": "Scene catalog/pattern/operations APIs are import-safe. Fresh target tree/code search shows no separate Scene-specific UI/registry implementation to migrate; the legacy SceneU/SceneUNew surface was monolithic orchestration whose reusable workflows are now exposed as domain APIs. Under the target architecture, UI parity is satisfied by keeping this surface domain-driven rather than recreating the obsolete Maya-cmds monolith. Maya interaction remains a separate validation milestone."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-maya-validation-plan-169c",
       "action": {
         "type": "verification",
@@ -649,9 +572,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -696,6 +619,82 @@
           "Invoke only aimayatool.tools.scene.single_script.single_script_managed_maya_smoke.",
           "Require explicit successful product output; timeout/session loss remains runtime evidence.",
           "Do not save scene data."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_single_script_managed_maya_pass",
+        "delivery_id": "f1d0411b26e8123f8af7",
+        "verification_evidence": {
+          "route": "maya:managed_live_smoke",
+          "result": "AIBRIDGE_UI_SMOKE_OK:{'executed': True, 'exists': True, 'missing': True, 'success': True}",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "managed_pid": 6168,
+          "port": 7001,
+          "session": "existing"
+        },
+        "architect_diagnosis": "SingleScript bounded host smoke passed in a forced fresh unsaved Maya scene. The returned dictionary explicitly exercised executed/existing/missing cases with success=True. Continue Scene Maya validation rather than closing the milestone from two slices."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-maya-smoke-inventory-refresh-169l",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-maya-single-script-managed-live-169k",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Refresh current-main Scene smoke inventory after two successful managed-Maya slices and identify the next existing bounded host smoke entrypoint without guessing module/callable names.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import the Scene package.",
+          "Inventory current Scene smoke modules/callables from repository evidence.",
+          "Preserve PASS evidence for build_actions and SingleScript.",
+          "Return the next dependency-ready bounded Maya smoke family, or evidence that no further existing smoke entrypoint is required before milestone assessment."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
