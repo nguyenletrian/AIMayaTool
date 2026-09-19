@@ -28,87 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-spline-curve-from-objs-python-verify-168c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/spline_curve_from_objs.py",
-          "tests/test_scene_spline_curve_from_objs.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.spline_curve_from_objs"
-        ],
-        "tests": [
-          "tests.test_scene_spline_curve_from_objs"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-spline-curve-from-objs-sync-168b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "03e84e7c4b07c603543c5940efb3d113a0212895",
-          "b17d5ae308d7bbf9e8b7928b880f725da7f4331c"
-        ],
-        "purpose": "Verify standalone SplineCurveFromObjs migration outside Maya before any host validation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile implementation and focused test.",
-          "Import module outside Maya.",
-          "Run tests.test_scene_spline_curve_from_objs successfully.",
-          "Do not claim Maya parity from Python-only evidence."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "spline_curve_from_objs_python_verification_pass",
-        "delivery_id": "7073fc281270759860c3",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "main_commit": "cc2af62069db96b3310290f835a6b5948823b4ae"
-        },
-        "architect_diagnosis": "Standalone SplineCurveFromObjs passes deterministic Python verification; Maya parity remains unclaimed while live ui_smoke transport is blocked."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-spline-control-from-objs-sync-168d",
       "action": {
         "type": "verification",
@@ -703,9 +622,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -755,6 +674,80 @@
           "Do not duplicate deterministic weight math already present.",
           "Do not claim Maya runtime parity from this sync.",
           "Return evidence for immediate shared runtime-adapter implementation."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "rope_runtime_preimplementation_sync_verified",
+        "delivery_id": "6856f05ef358432ce4c9",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "fd1a61f3d51fa49d56e478a85449286f224805ba"
+        },
+        "architect_diagnosis": "Existing rope_weights baseline passed. Architect added one shared Maya runtime adapter for RopeRoll/RopeStraight, reusing deterministic weights(mode,...) and parameterizing host behavior by mode."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-rope-runtime-python-verify-168m",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/rope_weights.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.rope_weights"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-rope-runtime-sync-168l",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commits": [
+          "15fad0f5e26430390e363a0d2bdea7e63c81c359"
+        ],
+        "purpose": "Verify shared RopeRoll/RopeStraight runtime adapter remains Python import-safe before Maya-host validation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile rope_weights.py.",
+          "Import aimayatool.tools.scene.rope_weights outside Maya.",
+          "Do not claim Maya runtime parity from Python-only evidence."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
