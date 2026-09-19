@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-search-discovery-workspace-python-176c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/main_window.py",
-          "aimayatool/registry.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-search-discovery",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-search-discovery-registry-python-176b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify registry-backed workspace search wiring before managed Maya interaction validation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile main_window.py and registry.py.",
-          "Import registry outside Maya and preserve deterministic search contract.",
-          "Inspect that main_window search delegates matching to search_groups() and only switches existing tabs; it must not move domain logic into UI.",
-          "Do not treat Python PASS as Maya interaction acceptance.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_search_workspace_python_pass",
-        "delivery_id": "925ff1c80a813fe3db91",
-        "architect_diagnosis": "Registry-backed workspace search wiring compiles while the Python-safe registry remains importable. Managed Maya must now validate window construction with the new search field before interaction behavior is accepted."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-search-discovery-workspace-maya-176d",
       "action": {
         "type": "maya",
@@ -671,9 +602,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -722,6 +653,83 @@
           "Toggle current favorite and require Setup in favorites plus refreshed discovery label.",
           "Return AIBRIDGE_UI_DISCOVERY_OK:recent=setup|favorite=setup without exception.",
           "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_search_discovery_complete",
+        "delivery_id": "41ca0d747b26a2ff31f8",
+        "verification_evidence": {
+          "marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001,
+          "session": "existing"
+        },
+        "architect_diagnosis": "Managed Maya interaction validation passed for the Recent/Favorites discovery surface after search interaction was already proven. ui-search-discovery now has sufficient evidence and is closed; ui-status-progress is active."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-status-progress-inventory-177a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/components.py",
+          "aimayatool/tools/skinning.py",
+          "aimayatool/tools/setup.py",
+          "aimayatool/tools/scene/__init__.py"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-status-progress",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-interaction-maya-176l",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Inventory current status/progress/error presentation across Skinning, Setup and Scene and identify the smallest reusable unification slice without moving domain logic into UI.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile the listed UI/domain entry modules.",
+          "Inspect existing status/progress/error presentation and reusable components.",
+          "Report concrete duplication/inconsistency across Skinning, Setup and Scene.",
+          "Identify the smallest dependency-ready reusable status/progress/error slice and the domains that should adopt it first.",
+          "Do not claim Maya behavior from this inventory.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
