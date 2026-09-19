@@ -727,9 +727,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -777,6 +777,74 @@
           "Do not use Codex."
         ],
         "implementation_commit": "d20e89708d3253d9cb4a21c3c414d86af044935c",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "batch_freeze_helper_verified",
+        "delivery_id": "3ce69ac1b2df38dba0ac",
+        "architect_diagnosis": "Python verification passed. Source inspection confirms ordered freeze_transforms validates the full node collection before mutation and delegates to freeze_transform. Architect made the Setup wrapper flags explicit and added a managed Maya smoke callable for runtime proof."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-batch-productivity-freeze-maya-smoke-182j",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.tools.setup",
+        "callable": "batch_freeze_managed_maya_smoke",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "batch-productivity",
+        "depends_on": [
+          "aimayatool-goal010-batch-productivity-freeze-verify-182i"
+        ],
+        "purpose": "Prove ordered multi-selection Freeze TRS behavior in managed Maya without saving the scene.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use a fresh unsaved scene.",
+          "Create at least three polygon transforms with non-zero translation, rotation and scale in a known selection order.",
+          "Invoke batch_freeze_managed_maya_smoke.",
+          "TRS channels become identity while visible world-space bounding boxes remain unchanged.",
+          "Selection order remains unchanged.",
+          "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "implementation_commit": "fce32c87674850a861f0b3c4c9957a7e97fa16f0",
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
