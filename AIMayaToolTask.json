@@ -28,80 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-host-python-regression-166k",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/modulo_sdk.py",
-          "tests/test_scene_modulo_sdk.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.modulo_sdk"
-        ],
-        "tests": [
-          "tests.test_scene_modulo_sdk"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-core-verify-retry-166j",
-          "result": "PASS"
-        },
-        "implementation_commit": "0229247ead9f79f8546d9daafee12bf15b406e0e",
-        "purpose": "Regression gate after adding ModuloSDK Maya host adapter.",
-        "acceptance": [
-          "Compile/import outside Maya.",
-          "All focused core tests pass.",
-          "No Maya host claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "modulo_sdk_host_python_regression_passed",
-        "delivery_id": "6ccc5fbca317218b2444",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "tests_run": 3
-        },
-        "architect_diagnosis": "Post-host-adapter Python regression passed: ModuloSDK implementation/tests compile, module remains import-safe outside Maya, and all 3 deterministic core tests pass. Dependency for managed Maya smoke 166l is resolved; host mutation/evaluation remains gated by 166l."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-driven-key-core-verify-166m",
       "action": {
         "type": "verification",
@@ -650,9 +576,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -688,12 +614,75 @@
           "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry3-166s",
           "result": "FAILED_SMOKE_ASSERTION"
         },
-        "smoke_fix_commit": "455a812695dcabaaebb06f0831de4ba9c435da8a",
+        "smoke_fix_commit": "89bc2fc90066eeb0c69adc96e71b1ca7d4185e2a",
         "purpose": "Final bounded DrivenKey smoke using destination-side direct-plug query only.",
         "acceptance": [
           "Fresh isolated unsaved scene.",
           "SDK/zero groups exist.",
           "Destination-side connectionInfo reports SDK attr as direct source of child attr.",
+          "animCurve exists upstream of SDK attr.",
+          "Driver 0/10 evaluates 1/5.",
+          "Tangents linear."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAILED_SMOKE_ASSERTION",
+        "classification": "driven_key_connectionInfo_false_negative",
+        "delivery_id": "f0ffea37f00de8838473",
+        "architect_diagnosis": "Maya product behavior again passes hierarchy, animCurve creation, evaluation at driver 0/10, and linear tangents. Only connectionInfo(sourceFromDestination=True) returned a false negative for the child plug. Replaced the smoke-only child-source probe with listConnections(..., plugs=True, skipConversionNodes=True), leaving product host mutation unchanged."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-retry-166v",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.driven_key",
+        "callable": "driven_key_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "retry_of": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-166u",
+        "smoke_fix_commit": "89bc2fc90066eeb0c69adc96e71b1ca7d4185e2a",
+        "purpose": "Retry final bounded DrivenKey Maya smoke using listConnections plug-level child-source validation.",
+        "acceptance": [
+          "Fresh isolated unsaved scene.",
+          "SDK/zero groups exist.",
+          "listConnections reports SDK attr as the direct upstream plug for child attr.",
           "animCurve exists upstream of SDK attr.",
           "Driver 0/10 evaluates 1/5.",
           "Tangents linear."
