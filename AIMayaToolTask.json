@@ -636,9 +636,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -686,7 +686,17 @@
           "All focused core tests pass.",
           "No Maya behavior claim."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "driven_key_host_python_regression_passed",
+        "delivery_id": "762cb484cf158b0b55b0",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "tests_run": 3
+        },
+        "architect_diagnosis": "Post-host-adapter Python regression passed: DrivenKey implementation/tests compile, module remains import-safe outside Maya, and all 3 deterministic core tests pass. Dependency for managed Maya smoke 166o is resolved; Maya offset hierarchy, SDK connection/evaluation, animCurve and tangent behavior remain gated by 166o."
       }
     },
     {
