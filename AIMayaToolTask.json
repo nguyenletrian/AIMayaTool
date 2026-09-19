@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-status-progress-inventory-177a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/components.py",
-          "aimayatool/tools/skinning.py",
-          "aimayatool/tools/setup.py",
-          "aimayatool/tools/scene/__init__.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-status-progress",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-interaction-maya-176l",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Inventory current status/progress/error presentation across Skinning, Setup and Scene and identify the smallest reusable unification slice without moving domain logic into UI.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile the listed UI/domain entry modules.",
-          "Inspect existing status/progress/error presentation and reusable components.",
-          "Report concrete duplication/inconsistency across Skinning, Setup and Scene.",
-          "Identify the smallest dependency-ready reusable status/progress/error slice and the domains that should adopt it first.",
-          "Do not claim Maya behavior from this inventory.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "invalid_verification_path",
-        "delivery_id": "d683e45ed81e3b2e0190",
-        "architect_diagnosis": "Task referenced nonexistent flat modules aimayatool/tools/skinning.py and setup.py. Repository uses package entrypoints aimayatool/tools/skinning/__init__.py and setup/__init__.py. Architect verified the actual entrypoints: Skinning and Setup duplicate _run wrappers using inViewMessage/warning/traceback, while Scene exposes headings only. Retry inventory uses real paths."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-status-progress-inventory-retry-177b",
       "action": {
         "type": "verification",
@@ -670,9 +601,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -720,6 +651,72 @@
           "Prefer reusable Python-safe logic where possible before Maya integration.",
           "Do not expand into presets, favorites/recent, batch productivity or broad preflight work.",
           "Do not claim Maya behavior from this inventory.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "context_selection_inventory_pass",
+        "delivery_id": "279454b296097ee37454",
+        "architect_diagnosis": "Selection inventory compiles. Setup has the densest repeated ordered transform-selection validation and already centralizes many paths through _require_selection; the smallest safe context-aware slice is an explicit ordered _selection_context helper with minimum/exact count validation and no automatic/destructive selection. Existing _require_selection now delegates to it."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-context-selection-helper-python-179b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/setup/__init__.py"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "context-selection",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-context-selection-inventory-179a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify the first bounded context-selection helper: ordered Setup transform selection with explicit minimum/exact count validation and no hidden scene mutation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile Setup entrypoint.",
+          "Confirm _selection_context reads the current ordered transform selection only.",
+          "Minimum count failures preserve caller-supplied actionable usage errors.",
+          "Exact count validation is available without auto-selecting or mutating the scene.",
+          "Existing _require_selection delegates to _selection_context so current callers retain behavior.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
