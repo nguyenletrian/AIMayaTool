@@ -28,86 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-runtime-python-verify-168q",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/control_shape_snapshot.py",
-          "tests/test_scene_control_shape_snapshot.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.control_shape_snapshot"
-        ],
-        "tests": [
-          "tests.test_scene_control_shape_snapshot"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-model-python-verify-168p",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "060f6eac0dc338d0971070a2b93853ead66655b1"
-        ],
-        "purpose": "Verify ControlShapeAS Maya capture/restore adapter remains import-safe and preserves deterministic snapshot tests before any host validation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile implementation/test.",
-          "Import outside Maya.",
-          "Run focused unittest successfully.",
-          "Do not claim Maya ControlShapeAS runtime parity from Python-only evidence."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "control_shape_as_runtime_python_verification_pass",
-        "delivery_id": "c8c070d29f7265de95ee",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "main_commit": "21b3defff58aa1638d0d5dbca0ce687b1391668a"
-        },
-        "architect_diagnosis": "ControlShapeAS capture/restore adapter is Python import-safe and deterministic snapshot tests remain green. Maya runtime parity remains unclaimed. ScenePattern parity now needs a fresh end-to-end reconciliation before closing this milestone."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-final-reconciliation-168r",
       "action": {
         "type": "verification",
@@ -702,9 +622,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -759,6 +679,93 @@
           "Import outside Maya.",
           "Run focused compatibility tests.",
           "Do not claim compatibility for payload files not covered by their own adapters."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_data_compatibility_gate_pass",
+        "delivery_id": "188a5a0b5b7521c35fbd",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "main_commit": "63a84ed51785dd0a2bdc88d51ef388eec3399d00"
+        },
+        "architect_diagnosis": "Legacy SceneData index compatibility passed, including historical path string/list variants. Fresh legacy tree contains UIs/SceneData.json as the persisted Scene index; legacy curve payload compatibility is already handled separately. Required Scene legacy-data adapter coverage is complete."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-utility-parity-inventory-169a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-utility-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-data-index-python-verify-168z",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "goal_state_commit": "42ee925b110e0000b470e98c763b48a0fdbbf221",
+        "legacy_inventory_candidates": [
+          "Libs/NLTA_Scene.py",
+          "UIs/Scene.py",
+          "UIs/SceneDefaultFunctions/1_Export Curve.py",
+          "UIs/SceneDefaultFunctions/2_Import Curve.py",
+          "UIs/SceneDefaultFunctions/3_Export Curve Up.py",
+          "UIs/SceneDefaultFunctions/4_Import Curve UP.py",
+          "UIs/SceneDefaultFunctions/5_Update Curve Up.py",
+          "UIs/SceneU.py",
+          "UIs/SceneUNew.py",
+          "UIs/Scene_.py"
+        ],
+        "current_scene_module_count": 99,
+        "purpose": "Begin remaining Scene utility parity with a fresh non-ScenePattern legacy/current inventory. Classify orchestration/UI-only aliases separately and identify the first genuinely missing reusable Scene utility.",
+        "acceptance": [
+          "Fast-forward main including completed scene-data-compatibility state.",
+          "Compile/import Scene package.",
+          "Reconcile useful legacy Scene utilities outside ScenePattern and SceneDefaultFunctions against current scene modules.",
+          "Do not duplicate already migrated Setup/Skinning helpers merely because legacy Scene UI called them.",
+          "Return first dependency-ready utility gap or evidence that utility parity is already complete."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
