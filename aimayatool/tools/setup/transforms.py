@@ -33,6 +33,16 @@ def reset_transform(node,translate=True,rotate=True,scale=True):
         for axis in "XYZ": cmds.setAttr(node+".scale"+axis,1)
     return node
 
+def freeze_transforms(nodes, translate=True, rotate=True, scale=True):
+    """Freeze an ordered transform collection after validating every node."""
+    nodes = tuple(nodes or ())
+    if not nodes:
+        raise ValueError("At least one transform is required.")
+    cmds = _cmds()
+    for node in nodes:
+        _require_node(cmds, node, "Transform")
+    return tuple(freeze_transform(node, translate=translate, rotate=rotate, scale=scale) for node in nodes)
+
 def reset_transforms(nodes, translate=True, rotate=True, scale=True):
     """Reset an ordered transform collection using the existing single-node primitive."""
     nodes = tuple(nodes or ())
