@@ -28,76 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-components-skinning-adoption-python-175h",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/components.py",
-          "aimayatool/tools/skinning/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.ui.components",
-          "aimayatool.tools.skinning"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-components",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-components-setup-adoption-maya-175g",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify cross-domain Skinning adoption of reusable section() before final managed-Maya component milestone validation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile components.py and Skinning __init__.py.",
-          "Import components and Skinning outside Maya without eager Maya-host failure.",
-          "Confirm only presentation construction changed; domain callbacks remain owned by Skinning.",
-          "Do not treat Python PASS as Maya rendering acceptance.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_components_skinning_adoption_python_pass",
-        "delivery_id": "e662374d5221f4257a8d",
-        "architect_diagnosis": "Skinning reusable section() adoption compiles and imports outside Maya. Final managed-Maya construction is required before accepting the cross-domain ui-components milestone."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-components-skinning-adoption-maya-175i",
       "action": {
         "type": "maya",
@@ -662,9 +592,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -713,6 +643,82 @@
           "Assert skin->Skinning, rig->Setup, preset->Scene using normalized Maya UI child names.",
           "Return AIBRIDGE_UI_SEARCH_OK:skinning|setup|scene without exception.",
           "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_search_interaction_maya_pass",
+        "delivery_id": "633d21a010ed04a18e6b",
+        "verification_evidence": {
+          "marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001
+        },
+        "architect_diagnosis": "Managed Maya interaction smoke completed after cache and UI-path normalization fixes. Search resolves representative Skinning/Setup/Scene queries and selects the matching workspace tabs. Milestone remains active because its title also requires useful recent/favorite access."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-python-176i",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/registry.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-search-discovery",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-search-discovery-interaction-maya-retry-176h",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify bounded Python-safe recent/favorite discovery state before exposing it in the Maya workspace.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile and import aimayatool.registry outside Maya.",
+          "Verify mark_recent orders most-recent-first, deduplicates repeated groups, and respects its limit.",
+          "Verify set_favorite enables/disables known groups and favorite_groups follows registry order.",
+          "Unknown group ids must raise ValueError.",
+          "No maya.cmds dependency or persistence layer in this slice.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
