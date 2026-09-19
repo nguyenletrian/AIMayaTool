@@ -162,68 +162,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-165m",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.bs_sequence",
-        "callable": "bs_sequence_managed_maya_smoke",
-        "new_scene": true,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-bs-sequence-existing-implementation-python-verify-165l"
-        ],
-        "purpose": "Managed Maya proof for the existing BSSequenceFromObjKeys adapter.",
-        "acceptance": [
-          "Use a fresh managed Maya scene and do not save it.",
-          "Create a minimal target mesh, animated source mesh/object, main/proxy attr holders and joint holder fixture.",
-          "Exercise build_bs_sequence_from_object_keys through a dedicated deterministic smoke callable.",
-          "Prove nonzero transform keys are collected, expected *_Shoot_XX meshes are generated, blendShape and BS group exist, driver/joint/proxy/show wiring exists, driven-key weights are created, and currentTime is restored.",
-          "Return structured smoke evidence and clean up fixture-created scene state when practical.",
-          "If the smoke callable is absent, report that exact gap; do not fabricate host success."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "BLOCKED_PRECONDITION",
-        "classification": "task_contract_missing_save_scene_false",
-        "delivery_id": "9e4fb8478425fef80b05",
-        "architect_diagnosis": "No Maya behavior was exercised. Route rejected the task because managed Maya smoke requires payload.save_scene=false. Retry with the required safety contract; this is task-spec correction, not an implementation failure."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-roll-inventory-165q",
       "action": {
         "type": "verification",
@@ -561,9 +499,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-roll-maya-host-assessment-retry-165v",
       "action": {
         "type": "maya",
@@ -609,7 +547,11 @@
           "If callable exists, exercise roll mode and return structured evidence for point/orient constraint weight wiring.",
           "If callable is absent, return the exact missing-callable gap; do not fabricate Maya parity."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAILED_ROUTE_ARGUMENT_NOT_FORWARDED",
+        "classification": "managed_live_smoke_callable_args_not_forwarded",
+        "delivery_id": "73e0c54375d46a660649",
+        "architect_diagnosis": "Managed Maya was healthy and fresh scene forced. Route invoked the callable with no positional args despite payload.args=['roll'], so the required mode parameter caused TypeError before fixture behavior ran. Made the callable route-compatible with default mode='roll' in commit 5d11221d76905cee69b8f9fec6c15adc21bcc0ca. Queue separate no-arg Roll retry; Straight remains pending but cannot rely on payload.args until route argument forwarding is proven."
       }
     },
     {
@@ -671,6 +613,66 @@
           "Use fresh isolated unsaved Maya scene.",
           "Exercise rope_weights_managed_maya_smoke('straight').",
           "Return structured evidence proving the three-target pointConstraint weight state matches deterministic RopeStraight weight math."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-rope-roll-maya-host-assessment-retry2-165x",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.rope_weights",
+        "callable": "rope_weights_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "retry_of": "aimayatool-goal007-scene-pattern-rope-roll-maya-host-assessment-retry-165v",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-rope-weight-core-python-verify-165s"
+        ],
+        "implementation_commit": "5d11221d76905cee69b8f9fec6c15adc21bcc0ca",
+        "purpose": "Retry RopeRoll host validation using the managed-live route's observed no-argument callable contract.",
+        "acceptance": [
+          "git_pull current main.",
+          "Use fresh isolated unsaved Maya scene.",
+          "Invoke route-compatible rope_weights_managed_maya_smoke() defaulting to roll.",
+          "Return structured evidence for three-target pointConstraint weights."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
