@@ -563,12 +563,25 @@
         {
           "milestone_id": "ui-status-progress",
           "title": "Unify status/progress/error presentation",
-          "status": "active"
+          "status": "completed",
+          "completion_evidence": {
+            "task_id": "aimayatool-goal009-ui-status-progress-interaction-maya-177f",
+            "delivery_id": "6c615a4ab4a7f7dbb8a9",
+            "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_UI_STATUS_OK:success|error",
+            "scene_saved": false,
+            "completed_date": "2026-09-19",
+            "coverage": [
+              "shared run_action presenter",
+              "Skinning/Setup adoption",
+              "managed Maya success path",
+              "managed Maya handled-error path"
+            ]
+          }
         },
         {
           "milestone_id": "ui-final-polish",
           "title": "Complete visual and interaction polish",
-          "status": "pending"
+          "status": "active"
         }
       ]
     },
