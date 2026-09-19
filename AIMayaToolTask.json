@@ -586,8 +586,8 @@
       },
       "task_id": "aimayatool-goal007-scene-pattern-deform-sine-controls-maya-validation-163p",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "action": {
         "type": "maya",
         "target": "managed_live_smoke"
@@ -621,7 +621,27 @@
           "Legacy attrName Ops/Active/Offset/Visible attributes and sine connections are created.",
           "Route reports new_scene_forced=true and scene_saved=false."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "deform_sine_controls_managed_maya2024_proven",
+        "delivery_id": "7ce7e6a3c619e4154b74",
+        "maya_evidence": {
+          "pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "maya_quit": false,
+          "smoke": {
+            "created": true,
+            "refs": true,
+            "hierarchy": true,
+            "axis_connections": true,
+            "y_unconnected": true,
+            "attrs": true,
+            "sine_connections": true,
+            "success": true
+          }
+        }
       }
     }
   ]
