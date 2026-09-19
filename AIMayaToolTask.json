@@ -28,80 +28,6 @@
         "commit": true,
         "push": true
       },
-      "task_id": "aimayatool-goal008-scene-presets-library-170b",
-      "action": {
-        "type": "implementation",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/presets.py",
-          "aimayatool/tools/scene/__init__.py",
-          "tests/test_scene_presets.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-presets",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal008-scene-presets-inventory-170a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Add a deterministic Python-only Scene preset-library abstraction over existing ScenePattern save/load primitives, without UI or Maya coupling.",
-        "requirements": [
-          "Create a focused preset library rooted at an explicit directory.",
-          "Provide deterministic list/get/save/delete-style preset operations using ScenePattern and existing serialization behavior.",
-          "Normalize preset names safely and prevent path traversal/out-of-root writes.",
-          "Keep overwrite behavior explicit and non-destructive by default.",
-          "Expose the new public preset API through aimayatool.tools.scene without changing ScenePattern v1 payload compatibility.",
-          "Add focused unittest coverage for ordering, round-trip, duplicate/overwrite behavior, invalid names/path traversal, and delete/missing behavior."
-        ],
-        "acceptance": [
-          "Changed modules py_compile.",
-          "Python-only imports succeed.",
-          "Focused tests pass.",
-          "No maya.cmds/UI dependency is introduced.",
-          "Commit and push implementation to main when verification passes."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "unsupported_verification_route",
-        "delivery_id": "0c68477c0486f2800cc8",
-        "architect_diagnosis": "Task was rejected before product execution because AIBrigde has no implementation:python route. No AIMayaTool implementation or product failure occurred. Republish the bounded work using the supported verification:python route with explicit edit/commit permissions and implementation requirements."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
       "task_id": "aimayatool-goal008-scene-presets-library-retry-170c",
       "action": {
         "type": "verification",
@@ -669,9 +595,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -721,6 +647,74 @@
           "Import compare_edit_smoke so all deterministic behavior assertions execute.",
           "Import aimayatool.tools.scene public API.",
           "Return PASS only if compile and both imports succeed."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_compare_edit_behavior_pass",
+        "delivery_id": "309f0ad22800e50c3167",
+        "architect_diagnosis": "Compile, import-executed compare/edit behavior smoke, and public Scene API import all passed. The deterministic Python-only compare/edit modernization slice is accepted."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal008-scene-build-pipeline-inventory-172a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/build_actions.py",
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-008",
+        "milestone_id": "scene-build-pipeline",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal008-scene-compare-edit-verify-retry-171c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Start Scene build-pipeline modernization by verifying current reusable build-action baseline and identifying the smallest deterministic orchestration gap before host/UI work.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import current Scene build-action/public APIs.",
+          "Inventory current reusable build-action capabilities from repository evidence.",
+          "Identify one bounded build-pipeline modernization slice with explicit ordering/error behavior.",
+          "Do not add Maya-host validation until the slice actually requires Maya."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
