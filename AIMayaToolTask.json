@@ -638,8 +638,8 @@
       },
       "task_id": "aimayatool-goal007-scene-pattern-delete-maya-validation-163r",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "action": {
         "type": "maya",
         "target": "managed_live_smoke"
@@ -672,7 +672,20 @@
           "Smoke returns the SCENE_DELETE_OBJECTS_OK marker.",
           "Route reports new_scene_forced=true and scene_saved=false."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "delete_managed_maya2024_proven",
+        "delivery_id": "bcf41162a1d151dde3c8",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "maya_quit": false,
+          "marker": "SCENE_DELETE_OBJECTS_OK:2"
+        },
+        "architect_diagnosis": "Managed Maya smoke passed in a forced-new unsaved scene. Existing Scene Delete migration deleted both existing transforms and skipped the missing object without failure."
       }
     }
   ]
