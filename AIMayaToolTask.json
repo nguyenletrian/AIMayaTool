@@ -21,74 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-script-hook-adapters-python-verify-165b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/script_hooks.py",
-          "tests/test_scene_script_hooks.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.script_hooks"
-        ],
-        "tests": [
-          "tests.test_scene_script_hooks"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-script-hook-adapters-python-impl-165c"
-        ],
-        "purpose": "Deterministically verify the migrated Current/Up AfterScript/PostScript adapters.",
-        "acceptance": [
-          "git_pull current main.",
-          "Changed modules compile.",
-          "script_hooks imports outside Maya.",
-          "Focused tests pass.",
-          "No Maya host behavior claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "dependency_dispatched_out_of_order",
-        "delivery_id": "9eb0df944a45b0e4b62d",
-        "architect_diagnosis": "Bridge dispatched verification before its pending implementation dependency 165c, so script_hooks.py did not yet exist. This is workflow ordering evidence, not a product verification failure. Requeue verification only after 165c completes."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-script-hook-adapters-python-impl-165c",
       "action": {
         "type": "python",
@@ -755,6 +687,67 @@
           "import": "aimayatool.tools.scene"
         },
         "architect_diagnosis": "Inventory gate passed. Python-only boundary: normalize/sort unique nonzero keyframes, deterministic shoot naming, compute driver positions across 0..10, and generate per-shape weight states. Maya animation queries, duplication/grouping, blendShape/proxy attrs/connections and driven-key writes remain host-backed. Zero shapes must be rejected before segment division. Preserve the active legacy last-shoot rule: for N shapes segment=10/N and final shoot position is 10 - segment/2, with terminal all-zero state still at driver=10."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-existing-implementation-python-verify-165l",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/bs_sequence.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.bs_sequence"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-bs-sequence-inventory-165k"
+        ],
+        "purpose": "Verify the existing bs_sequence.py already present on main before any further implementation. Repository evidence shows this module already contains a Maya-backed implementation, so avoid overwriting it with a second planner.",
+        "existing_file_sha": "8d544581549392655dfc7368f7b0cd641631189d",
+        "acceptance": [
+          "git_pull current main.",
+          "bs_sequence.py compiles and imports outside Maya.",
+          "Do not mutate repository.",
+          "Do not claim Maya behavior from this Python gate.",
+          "Return evidence so Architect can decide whether to add pure planning helpers or move directly to host validation without duplicating existing implementation."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
