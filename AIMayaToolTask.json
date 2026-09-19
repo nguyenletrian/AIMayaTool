@@ -28,82 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-ikfk-switch-inventory-168g",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-post-spline-inventory-168f",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "legacy_sources": [
-          "UIs/ScenePattern/Scene_Pattern_DefaultSwitchIKFK.py",
-          "UIs/ScenePattern/Scene_Pattern_NewSwitchIKFK.py",
-          "UIs/ScenePattern/Scene_Pattern_NewSwitchIKFK_WithAddKeys.py"
-        ],
-        "purpose": "Sync current main before Architect performs a bounded IK/FK-switch parity inventory. Determine shared deterministic data/model behavior and whether NewSwitchIKFK_WithAddKeys is a variant/superset, avoiding wholesale copy of embedded UI/script strings.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import Scene package.",
-          "Do not implement or claim IK/FK parity from this sync task.",
-          "Return current-main evidence for Architect to define the smallest reusable IK/FK switch migration slice."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ikfk_switch_inventory_verified",
-        "delivery_id": "02a400c47bbd36af0fdc",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "da6806f8160cd763934c6185f2c481454281439f"
-        },
-        "architect_diagnosis": "Baseline passed. Legacy NewSwitchIKFK and WithAddKeys share the same snap data/runtime model; WithAddKeys adds transform/switch keying behavior. Architect extracted the deterministic shared model instead of copying embedded UI/script strings."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-ikfk-switch-model-python-verify-168h",
       "action": {
         "type": "verification",
@@ -692,9 +616,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -748,6 +672,86 @@
           "Import outside Maya.",
           "Run focused unittest successfully.",
           "Do not claim ControlShapeAS Maya parity."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "control_shape_as_model_python_verification_pass",
+        "delivery_id": "f5d25da4e26d86c0e37c",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "main_commit": "6c53cade536a59e4488b1905f0acf9c7b9ddb45c"
+        },
+        "architect_diagnosis": "Deterministic ControlShapeAS snapshot model passed. Architect added Maya capture/restore mechanics that preserve display data and CVs and rebuild missing/topology-mismatched curve shapes."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-runtime-python-verify-168q",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/control_shape_snapshot.py",
+          "tests/test_scene_control_shape_snapshot.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.control_shape_snapshot"
+        ],
+        "tests": [
+          "tests.test_scene_control_shape_snapshot"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-model-python-verify-168p",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commits": [
+          "060f6eac0dc338d0971070a2b93853ead66655b1"
+        ],
+        "purpose": "Verify ControlShapeAS Maya capture/restore adapter remains import-safe and preserves deterministic snapshot tests before any host validation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile implementation/test.",
+          "Import outside Maya.",
+          "Run focused unittest successfully.",
+          "Do not claim Maya ControlShapeAS runtime parity from Python-only evidence."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
