@@ -224,68 +224,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry-165n",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.bs_sequence",
-        "callable": "bs_sequence_managed_maya_smoke",
-        "new_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "retry_of": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-165m",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-bs-sequence-existing-implementation-python-verify-165l"
-        ],
-        "purpose": "Retry BSSequence managed Maya proof with required save_scene=false safety contract.",
-        "acceptance": [
-          "Use a fresh managed Maya scene; save_scene must remain false.",
-          "Exercise dedicated deterministic smoke callable if present.",
-          "Prove nonzero keys, generated shoot meshes, BS group/blendShape, driver/joint/proxy/show wiring, driven-key weights and currentTime restoration.",
-          "If callable is absent, return exact missing-callable gap; do not fabricate success."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "BLOCKED_PRECONDITION",
-        "classification": "task_contract_missing_isolated_scene_true",
-        "delivery_id": "334dc2b711f46f48002e",
-        "architect_diagnosis": "No Maya behavior was exercised. Route additionally requires payload.isolated_scene=true. Retry with both managed-smoke safety fields explicitly set."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-roll-inventory-165q",
       "action": {
         "type": "verification",
@@ -558,9 +496,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-165u",
       "action": {
         "type": "maya",
@@ -605,7 +543,11 @@
           "If callable is absent, return the exact missing-callable gap; do not fabricate Maya parity.",
           "No repository mutation."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAILED_MISSING_SMOKE_CALLABLE",
+        "classification": "rope_weights_managed_maya_smoke_missing",
+        "delivery_id": "e55b6412555ba26f7545",
+        "architect_diagnosis": "Managed Maya session was healthy and a fresh scene was forced, but host validation could not execute because rope_weights_managed_maya_smoke was absent. Added the bounded managed-Maya fixture in commit fae22d36f882e295fc8f6de3d94c39e6d213239e; corrected Straight retry queued."
       }
     },
     {
@@ -666,6 +608,69 @@
           "Use fresh isolated unsaved Maya scene.",
           "If callable exists, exercise roll mode and return structured evidence for point/orient constraint weight wiring.",
           "If callable is absent, return the exact missing-callable gap; do not fabricate Maya parity."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-retry-165w",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.rope_weights",
+        "callable": "rope_weights_managed_maya_smoke",
+        "args": [
+          "straight"
+        ],
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "retry_of": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-165u",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-rope-weight-core-python-verify-165s"
+        ],
+        "implementation_commit": "fae22d36f882e295fc8f6de3d94c39e6d213239e",
+        "purpose": "Retry RopeStraight managed-Maya validation with the dedicated smoke fixture now present.",
+        "acceptance": [
+          "git_pull current main.",
+          "Use fresh isolated unsaved Maya scene.",
+          "Exercise rope_weights_managed_maya_smoke('straight').",
+          "Return structured evidence proving the three-target pointConstraint weight state matches deterministic RopeStraight weight math."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
