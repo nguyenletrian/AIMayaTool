@@ -24,15 +24,19 @@ def show():
         cmds.deleteUI(WINDOW)
 
     cmds.window(WINDOW, title="AI Maya Tool", sizeable=True, widthHeight=(420, 680))
-    root = cmds.scrollLayout(childResizable=True)
-    cmds.columnLayout(parent=root, adjustableColumn=True, rowSpacing=4)
+    root = cmds.columnLayout(adjustableColumn=True, rowSpacing=6)
+    tabs = cmds.tabLayout(parent=root, innerMarginWidth=6, innerMarginHeight=6)
 
+    tab_children = []
     for group in groups():
-        cmds.frameLayout(label=group["label"], collapsable=True, collapse=False, marginWidth=6, marginHeight=6)
-        cmds.columnLayout(adjustableColumn=True, rowSpacing=3)
+        page = cmds.scrollLayout(parent=tabs, childResizable=True)
+        cmds.columnLayout(parent=page, adjustableColumn=True, rowSpacing=4)
         _load_group(group)
         cmds.setParent("..")
         cmds.setParent("..")
+        tab_children.append((page, group["label"]))
+
+    cmds.tabLayout(tabs, edit=True, tabLabel=tab_children)
 
     cmds.showWindow(WINDOW)
     return WINDOW
