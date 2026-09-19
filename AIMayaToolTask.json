@@ -28,81 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-rivet-python-verify-167s",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/rivet.py",
-          "tests/test_scene_rivet.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.rivet"
-        ],
-        "tests": [
-          "tests.test_scene_rivet"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "implementation_commits": [
-          "417957465086a6a1c8eeaa8a5b3c80ba504619ac",
-          "690b5b07e44c324d7244109e8a15edf1961add07"
-        ],
-        "purpose": "Verify Architect-authored Rivet normalization/planning and import safety before any Maya-host validation.",
-        "acceptance": [
-          "Fast-forward main including Rivet implementation and tests.",
-          "Compile rivet.py and test module.",
-          "Import aimayatool.tools.scene.rivet outside Maya.",
-          "Run tests.test_scene_rivet successfully.",
-          "Do not claim Maya parity from Python-only evidence."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "rivet_python_verification_pass",
-        "delivery_id": "327e6c70e2f4d12c49dd",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "main_commit": "b512956bdfac535f54ce221618bddc84a11076d6"
-        },
-        "architect_diagnosis": "Rivet deterministic implementation passes compile/import/unit tests. Maya live UI-smoke remains infrastructure-blocked from repeated FoldRig empty-output timeouts, so do not send Rivet into the same unhealthy route yet."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-gradient-texture-implementation-sync-167t",
       "action": {
         "type": "verification",
@@ -683,9 +608,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -739,6 +664,78 @@
           "Import module outside Maya.",
           "Run focused unittest successfully.",
           "Do not claim Maya parity."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "spline_control_from_objs_python_verification_pass",
+        "delivery_id": "b03f0c0b924921af1131",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "main_commit": "83bdb0c02fb126dc954e15339b9186f64846936d"
+        },
+        "architect_diagnosis": "SplineControlFromObjs deterministic Python verification passed; Maya parity remains unclaimed."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-post-spline-inventory-168f",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-spline-control-from-objs-python-verify-168e",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Refresh current Scene baseline after completing the standalone spline slices, then let Architect re-inventory remaining legacy ScenePattern gaps without duplicating already migrated modules.",
+        "acceptance": [
+          "Fast-forward current main.",
+          "Compile/import Scene package.",
+          "Do not claim full ScenePattern parity from this baseline.",
+          "Return current-main evidence for Architect to choose the next bounded uncovered legacy slice."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
