@@ -28,82 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-maya-display-layer-managed-live-169n",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 45,
-        "module": "aimayatool.tools.scene.display_layer_smoke",
-        "callable": "run_scene_display_layer_smoke",
-        "isolated_scene": true,
-        "save_scene": false,
-        "new_scene_forced": true,
-        "expected_result": "SCENE_DISPLAY_LAYER_SMOKE_OK"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-maya-display-layers-discovery-169m",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Validate Scene display-layer helpers in managed Maya using the exact existing smoke entrypoint discovered from current repository evidence.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Force a fresh isolated unsaved Maya scene.",
-          "Invoke only aimayatool.tools.scene.display_layer_smoke.run_scene_display_layer_smoke.",
-          "Require exact product marker SCENE_DISPLAY_LAYER_SMOKE_OK.",
-          "Do not save scene data."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_display_layer_managed_maya_pass",
-        "delivery_id": "086e1d5714eb0b239bdc",
-        "verification_evidence": {
-          "route": "maya:managed_live_smoke",
-          "result": "AIBRIDGE_UI_SMOKE_OK:SCENE_DISPLAY_LAYER_SMOKE_OK",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "managed_pid": 6168,
-          "port": 7001,
-          "session": "existing"
-        },
-        "architect_diagnosis": "Display-layer helpers passed their dedicated managed-Maya smoke in a forced fresh unsaved scene. Build-actions, SingleScript, and display-layer host slices now have direct Maya evidence; perform a bounded milestone assessment against current Scene public API/smoke coverage before deciding whether more host slices are required."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-maya-validation-assessment-169o",
       "action": {
         "type": "verification",
@@ -694,9 +618,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -743,6 +667,75 @@
           "The smoke module must execute assertions at import time against a temporary directory and raise on failure.",
           "Prove round-trip/sorted list, duplicate guard/explicit overwrite, invalid names/path traversal rejection, delete/missing behavior.",
           "Return PASS only if smoke import exits successfully."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "verification_target_missing_before_smoke_creation",
+        "delivery_id": "41115e07ea38a20cdb0c",
+        "architect_diagnosis": "Verification correctly rejected a smoke module that had not yet been created. Architect created the deterministic import-executed smoke and queued a clean verification."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal008-scene-presets-behavior-smoke-retry-170h",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/presets.py",
+          "aimayatool/tools/scene/preset_behavior_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.preset_behavior_smoke"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-008",
+        "milestone_id": "scene-presets",
+        "retry_of_archived": {
+          "task_id": "aimayatool-goal008-scene-presets-behavior-smoke-170g",
+          "result": "FAIL",
+          "classification": "verification_target_missing_before_smoke_creation",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify the now-existing import-executed Scene preset behavior smoke.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile presets.py and preset_behavior_smoke.py.",
+          "Import aimayatool.tools.scene.preset_behavior_smoke; its import executes all assertions.",
+          "Successful import proves round-trip/sorted list, overwrite guard, invalid-name/traversal rejection, and delete/missing behavior.",
+          "No Maya/UI dependency."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
