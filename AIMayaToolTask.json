@@ -676,9 +676,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -740,7 +740,16 @@
           "Do not claim GradientTexture parity from this task."
         ],
         "blocker": "Current AIMayaTool router metadata still has no implementation-capable route. This supported verification gate is the last known unbaselined ScenePattern slice from the inspected remaining-pattern set.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_BASELINE",
+        "classification": "gradient_texture_preimplementation_baseline_verified",
+        "delivery_id": "6d6dca58f1c569092c34",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "ebbeb5e9d5ae2816e846f1429666f62a7930c346"
+        },
+        "architect_diagnosis": "GradientTexture preimplementation baseline is healthy. This does not implement the workflow; implementation remains gated by the absent implementation-capable route."
       }
     }
   ]
