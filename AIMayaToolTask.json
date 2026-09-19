@@ -28,72 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal008-scene-ux-polish-python-verify-173b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-ux-polish",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal008-scene-ux-polish-inventory-173a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Run the Python gate for the bounded Scene 2.0 Maya UI polish before managed-Maya validation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile aimayatool/tools/scene/__init__.py.",
-          "Import aimayatool.tools.scene outside Maya.",
-          "Do not treat Python PASS as Maya UI acceptance; managed Maya validation remains required."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_ux_python_gate_pass",
-        "delivery_id": "006515704d274c4a8948",
-        "architect_diagnosis": "Scene 2.0 UI polish compiles and public Scene module imports outside Maya. Python gate passed; Maya-host UI construction still requires managed live validation before milestone acceptance."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal008-scene-ux-polish-managed-maya-173c",
       "action": {
         "type": "maya",
@@ -647,9 +581,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -697,6 +631,74 @@
           "Import components and Scene outside Maya without eager maya.cmds dependency.",
           "Confirm the Scene public API remains importable after presentation-only refactor.",
           "Do not treat Python PASS as Maya rendering acceptance."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_components_scene_adoption_python_pass",
+        "delivery_id": "5a1543d19285d99e2abf",
+        "architect_diagnosis": "Scene adoption of reusable section() compiles and both components and Scene import outside Maya. Managed Maya rendering is now the required acceptance gate for this bounded adoption."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-components-scene-adoption-maya-175e",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.tools.scene",
+        "callable": "build_ui",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-components",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-components-scene-adoption-python-175d",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Validate the first reusable UI-component adoption by constructing Scene build_ui in managed Maya.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated fresh managed Maya scene.",
+          "Invoke aimayatool.tools.scene.build_ui.",
+          "Return PASS only if reusable section() rendering and Scene UI construction complete without Maya/Python exception.",
+          "Do not save the Maya scene.",
+          "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
