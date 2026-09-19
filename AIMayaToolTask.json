@@ -28,76 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-final-polish-inventory-178a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/main_window.py",
-          "aimayatool/ui/components.py",
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-final-polish",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-status-progress-interaction-maya-177f",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Inventory the completed unified workspace for remaining bounded visual/interaction inconsistencies before final Goal 009 polish and regression.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile the workspace, shared components and three domain entrypoints.",
-          "Inspect spacing, labels, section hierarchy, discovery/status surfaces, repeated raw rowLayout usage, and inconsistent interaction affordances.",
-          "Identify only bounded final-polish changes that preserve thin UI and existing domain behavior.",
-          "Do not introduce broad redesign or Goal 010 productivity features.",
-          "Do not claim Maya visual behavior from Python inventory.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_final_polish_inventory_pass",
-        "delivery_id": "e289549e3b01d0d72a3e",
-        "architect_diagnosis": "Final-polish inventory compiles. Setup still had repeated raw fixed-column action rows while shared button_row already exists; bounded polish converts those fixed action rows to the shared component while leaving dynamic shape rows and domain behavior unchanged."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-final-polish-setup-rows-python-178b",
       "action": {
         "type": "verification",
@@ -666,9 +596,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -717,6 +647,79 @@
           "Do not add persistence unless repository evidence shows an established storage contract appropriate for this state.",
           "Do not expand into batch productivity or preflight guidance.",
           "Do not claim Maya interaction behavior from Python inventory.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "favorites_recent_inventory_pass",
+        "delivery_id": "79a1597159cfcf5b83b5",
+        "architect_diagnosis": "Goal 009 already provides in-memory group-level recent/favorites in registry.py and a thin workspace discovery surface. Domain actions are still created directly inside build_ui and there is no stable action/workflow identity catalog, so action-level favorites/recent should not be inferred from callback/result labels. The smallest safe next slice is a Python-only registry action-state contract using explicit group_id/action_id/label identities, with deterministic recent ordering, favorite toggling, validation, and no persistence or Maya mutation; UI/domain instrumentation follows only after that contract is proven."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-action-state-181b",
+      "action": {
+        "type": "implementation",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/registry.py",
+          "tests/test_registry_action_state.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ],
+        "tests": [
+          "tests.test_registry_action_state"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-inventory-181a"
+        ],
+        "purpose": "Add the smallest reusable action/workflow-level recent/favorite state contract to the registry using explicit stable identities, without wiring Maya UI yet.",
+        "acceptance": [
+          "Fast-forward main and preserve existing group-level search/recent/favorite behavior.",
+          "Add explicit action/workflow identity validation based on group_id, stable action_id and display label; do not infer identity from callback repr or result/status labels.",
+          "Provide deterministic in-memory mark_recent_action/recent_actions and set_favorite_action/favorite_actions behavior with bounded recent ordering and duplicate promotion.",
+          "Reject unknown groups and malformed/empty action identities with actionable ValueError.",
+          "Do not add filesystem/settings persistence in this slice.",
+          "Do not import Maya or mutate scene/selection.",
+          "Add focused deterministic tests and run py_compile, non-Maya import and those tests.",
+          "Do not instrument domain buttons or expand into batch/preflight work yet.",
+          "Commit and push the bounded implementation to main after verification passes.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
