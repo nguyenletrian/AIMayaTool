@@ -28,77 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-post-spline-inventory-168f",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-spline-control-from-objs-python-verify-168e",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Refresh current Scene baseline after completing the standalone spline slices, then let Architect re-inventory remaining legacy ScenePattern gaps without duplicating already migrated modules.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import Scene package.",
-          "Do not claim full ScenePattern parity from this baseline.",
-          "Return current-main evidence for Architect to choose the next bounded uncovered legacy slice."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "post_spline_inventory_baseline_verified",
-        "delivery_id": "8b0134c5ad03a3caca70",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "5ccf140bc1bd2666515e72b8789cfb256af70ed2"
-        },
-        "architect_diagnosis": "Post-spline baseline is healthy. Fresh legacy-vs-target inventory identifies IK/FK switch workflows as a meaningful remaining parity family; script-hook legacy variants are already represented by script_hooks.py and should not be duplicated."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-ikfk-switch-inventory-168g",
       "action": {
         "type": "verification",
@@ -691,9 +620,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -739,6 +668,86 @@
           "Compile/import control_shape.py.",
           "Do not claim ControlShapeAS parity from this sync.",
           "Return current-main evidence for a bounded ControlShapeAS data-model slice."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "control_shape_as_preimplementation_sync_verified",
+        "delivery_id": "f09b4bc1afb2b0833d68",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "553e44c8d2a9ce39a270f0fb7ccd5db3f066aab6"
+        },
+        "architect_diagnosis": "Existing control_shape.py covers simple replacement only. Legacy ControlShapeAS also persists per-control/per-shape CV and display data and decides update-vs-rebuild when shape topology differs. Architect extracted that persistence/restore decision model into a separate deterministic module."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-model-python-verify-168p",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/control_shape_snapshot.py",
+          "tests/test_scene_control_shape_snapshot.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.control_shape_snapshot"
+        ],
+        "tests": [
+          "tests.test_scene_control_shape_snapshot"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-sync-168o",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commits": [
+          "4fb6c892c3b289a4bdf96aec5637bd5cb2c8ea53",
+          "75ce48b695b35c0d3ab43e1abc7f19704b765b23"
+        ],
+        "purpose": "Verify deterministic ControlShapeAS snapshot normalization and update-vs-rebuild restore planning before adding Maya capture/rebuild mechanics.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile implementation/test.",
+          "Import outside Maya.",
+          "Run focused unittest successfully.",
+          "Do not claim ControlShapeAS Maya parity."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
