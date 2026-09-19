@@ -4,7 +4,7 @@ import importlib
 
 import maya.cmds as cmds
 
-from aimayatool.registry import groups, search_groups
+from aimayatool import registry
 
 
 WINDOW = "AIMayaToolWindow"
@@ -15,7 +15,7 @@ _TAB_BY_GROUP = {}
 
 def _apply_search(*_):
     query = cmds.textField(_SEARCH, query=True, text=True)
-    matches = search_groups(query)
+    matches = registry.search_groups(query)
     if matches:
         page = _TAB_BY_GROUP.get(matches[0]["id"])
         if page:
@@ -43,7 +43,7 @@ def show():
 
     _TAB_BY_GROUP.clear()
     tab_children = []
-    for group in groups():
+    for group in registry.groups():
         page = cmds.scrollLayout(parent=tabs, childResizable=True)
         cmds.columnLayout(parent=page, adjustableColumn=True, rowSpacing=4)
         _load_group(group)
