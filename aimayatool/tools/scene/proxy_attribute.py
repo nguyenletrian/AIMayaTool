@@ -53,7 +53,7 @@ def proxy_attribute_managed_maya_smoke():
     target_a = cmds.createNode("transform", name="AIBridgeProxyTargetA")
     target_b = cmds.createNode("transform", name="AIBridgeProxyTargetB")
     cmds.addAttr(source, longName="driver", attributeType="double", defaultValue=0.0, keyable=True)
-    result = apply_proxy_attribute({"source": source, "sourceAttr": "driver", "targetAttr": "proxyDriver", "targets": target_a + "\\nMissingProxyTarget\\n" + target_b}, cmds_module=cmds)
+    result = apply_proxy_attribute({"source": source, "sourceAttr": "driver", "targetAttr": "proxyDriver", "targets": target_a + "\nMissingProxyTarget\n" + target_b}, cmds_module=cmds)
     created = [x for x in result if x["status"] == "created"]
     missing = [x for x in result if x["status"] == "skipped_missing"]
     attrs = all(cmds.objExists(x + ".proxyDriver") for x in (target_a, target_b))
