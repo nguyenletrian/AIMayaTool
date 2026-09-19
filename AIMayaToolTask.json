@@ -28,77 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-search-discovery-interaction-maya-176f",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.ui.main_window",
-        "callable": "search_interaction_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45,
-        "expected_window": "AIMayaToolWindow"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-search-discovery",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-search-discovery-workspace-maya-retry-176e",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Validate actual search interaction by entering representative discovery queries and asserting the selected Skinning/Setup/Scene tabs in managed Maya.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use isolated fresh scene.",
-          "Invoke aimayatool.ui.main_window.search_interaction_smoke.",
-          "Require AIMayaToolWindow.",
-          "Assert skin selects Skinning, rig selects Setup, preset selects Scene.",
-          "Return marker AIBRIDGE_UI_SEARCH_OK:skinning|setup|scene without exception.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "managed_maya_registry_cache_persists_during_interaction",
-        "delivery_id": "46c9a51a92cd3c16fbbf",
-        "architect_diagnosis": "The long-lived managed Maya session still holds the pre-search aimayatool.registry module. Window construction did not exercise search_groups(), so 176e could pass while interaction failed. Added _current_registry() to reload registry only when search_groups is absent, making both show() and search callbacks self-heal stale module state without unconditional reloads."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-search-discovery-interaction-maya-retry-176g",
       "action": {
         "type": "maya",
@@ -671,9 +600,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -720,6 +649,76 @@
           "Keep Maya import lazy.",
           "Preserve success result return and consistent no-changes/list formatting semantics.",
           "Preserve warning, highlighted in-view error, traceback, and None-on-error behavior.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_status_component_python_pass",
+        "delivery_id": "b092b763f0073f6cf09a",
+        "architect_diagnosis": "Reusable run_action compiles/imports outside Maya. Skinning and Setup now delegate their thin _run wrappers to the shared presenter while retaining domain-specific context labels; duplicate traceback/presentation logic was removed."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-status-progress-adoption-python-177d",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/components.py",
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.ui.components"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-status-progress",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-status-progress-component-python-177c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify Skinning and Setup adoption of the shared action status/error presenter before managed Maya validation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile components.py and both domain package entrypoints.",
+          "Import aimayatool.ui.components outside Maya.",
+          "Confirm Skinning/Setup _run wrappers delegate to run_action and no longer own duplicate traceback/inViewMessage presentation logic.",
+          "Keep domain behavior and callbacks otherwise unchanged.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
