@@ -28,70 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-runtime-discovery-167q",
-      "action": {
-        "type": "maya",
-        "target": "runtime_discovery"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 120
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-fresh-retry-167p",
-          "result": "BLOCKED_MAYA_RUNTIME"
-        },
-        "purpose": "Bounded read-only runtime diagnosis after two FoldRig ui_smoke timeouts. Establish current Maya/runtime availability without executing FoldRig again.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Discover current Maya 2024/runtime state using the registered read-only maya:runtime_discovery route.",
-          "Do not invoke FoldRig, mutate a scene, save files, or retry maya:ui_smoke.",
-          "Return concrete runtime/process/session evidence so Architect can distinguish live-route infrastructure failure from a product blocker before any later Maya validation."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "maya_2024_runtime_available_live_ui_smoke_transport_unproven",
-        "delivery_id": "49e3c3ee432070ec799d",
-        "verification_evidence": {
-          "runtime_count": 1,
-          "maya": "C:\\Program Files\\Autodesk\\Maya2024\\bin\\maya.exe",
-          "mayapy": "C:\\Program Files\\Autodesk\\Maya2024\\bin\\mayapy.exe",
-          "version": "2024"
-        },
-        "architect_diagnosis": "Maya 2024 and mayapy are installed and discoverable. This does not prove the live UI-smoke transport/session is healthy; the two empty-output timeouts remain infrastructure/runtime evidence, not FoldRig product failure."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-rivet-implementation-sync-167r",
       "action": {
         "type": "verification",
@@ -663,9 +599,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -719,6 +655,79 @@
           "Import module outside Maya.",
           "Run tests.test_scene_spline_curve_from_objs successfully.",
           "Do not claim Maya parity from Python-only evidence."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "spline_curve_from_objs_python_verification_pass",
+        "delivery_id": "7073fc281270759860c3",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "main_commit": "cc2af62069db96b3310290f835a6b5948823b4ae"
+        },
+        "architect_diagnosis": "Standalone SplineCurveFromObjs passes deterministic Python verification; Maya parity remains unclaimed while live ui_smoke transport is blocked."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-spline-control-from-objs-sync-168d",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-spline-curve-from-objs-python-verify-168c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_SplineControlFromObjs.py",
+        "purpose": "Sync current main immediately before Architect migrates the standalone SplineControlFromObjs slice that consumes an existing spline curve/joint chain.",
+        "acceptance": [
+          "Fast-forward current main.",
+          "Compile/import Scene package.",
+          "Do not claim SplineControlFromObjs implementation from this sync.",
+          "Return current-main evidence for immediate Architect implementation."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
