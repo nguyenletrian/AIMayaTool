@@ -623,9 +623,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -668,7 +668,22 @@
           "Driven child local tx remains stable while parent SDK offset carries the driven motion.",
           "Tangents linear."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "driven_key_managed_maya_verified",
+        "delivery_id": "0d8b732dfe0524366b2e",
+        "verification_evidence": {
+          "sdk_group": true,
+          "zero_group": true,
+          "child_parent": true,
+          "anim_curve": true,
+          "value0": true,
+          "value10": true,
+          "child_stable": true,
+          "linear": true,
+          "scene_saved": false
+        },
+        "architect_diagnosis": "Final corrected managed Maya validation passed. DrivenKey host behavior is proven against its actual hierarchy contract: driven object under _SDKGrp, _ZeloSDKGrp present, animCurve upstream of SDK channel, driver 0/10 evaluates SDK tx to 1/5, child local tx remains stable, and tangents are linear."
       }
     }
   ]
