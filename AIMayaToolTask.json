@@ -28,84 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-status-progress-adoption-maya-177e",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.ui.main_window",
-        "callable": "show",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45,
-        "expected_window": "AIMayaToolWindow"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-status-progress",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-status-progress-adoption-python-177d",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Validate that the unified Skinning/Setup status presenter adoption still constructs the complete workspace in managed Maya before focused action interaction tests.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use isolated fresh scene.",
-          "Invoke aimayatool.ui.main_window.show and require AIMayaToolWindow.",
-          "Skinning and Setup UI must construct after shared run_action adoption without Maya/Python exception.",
-          "Do not infer action success/error semantics from construction alone.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_status_adoption_workspace_maya_pass",
-        "delivery_id": "de243963cceec404e7ed",
-        "verification_evidence": {
-          "marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "pid": 6168,
-          "port": 7001,
-          "session": "existing"
-        },
-        "architect_diagnosis": "Complete workspace constructs successfully in managed Maya after Skinning/Setup adopt the shared presenter. Added a focused component smoke to exercise both success and handled-error paths before milestone closure."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-status-progress-interaction-maya-177f",
       "action": {
         "type": "maya",
@@ -677,9 +599,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -723,6 +645,77 @@
           "Ambiguous/invalid selection shapes return the explicit fallback.",
           "_secondary_count uses the helper only as prompt text; user-entered count remains authoritative and existing validation remains unchanged.",
           "No scene inference, selection mutation or destructive behavior is introduced.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "presets_smart_defaults_secondary_count_python_pass",
+        "delivery_id": "119e049732f8979ebc51",
+        "architect_diagnosis": "Deterministic secondary-rig count helper compiles. It only supplies prompt text, preserves explicit fallback/user override, and leaves existing count validation authoritative. Added a focused managed Maya smoke for deterministic cases and non-mutation before milestone closure."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-presets-smart-defaults-secondary-count-maya-180c",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.tools.setup",
+        "callable": "smart_group_count_managed_maya_smoke",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "presets-smart-defaults",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-presets-smart-defaults-secondary-count-python-180b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Prove deterministic secondary-rig smart-default calculation in managed Maya without selection mutation; prompt remains user-overridable.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated fresh scene.",
+          "Invoke smart_group_count_managed_maya_smoke.",
+          "Even positive remaining selection yields paired half-count; ambiguous/non-positive shapes use fallback.",
+          "Explicit non-default fallback is preserved.",
+          "Calculation leaves Maya selection unchanged.",
+          "Callable returns AIBRIDGE_SMART_DEFAULT_OK:deterministic|override.",
+          "Do not save scene.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
