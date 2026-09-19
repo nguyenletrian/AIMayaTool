@@ -28,72 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-aibridge-maya-route-restart-169h",
-      "action": {
-        "type": "bridge",
-        "target": "restart"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "reason": "Pull AIBrigde commit a619350716ada837961f147093a74f4c070d926c and relaunch worker so maya:managed_live_smoke is registered."
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-maya-route-capability-assessment-169g",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "aibridge_fix_commit": "a619350716ada837961f147093a74f4c070d926c",
-        "purpose": "Restart AIBrigde after registering the existing managed Maya smoke capability. Use the required non-empty precondition list; after restart, Architect will retry build_actions through maya:managed_live_smoke.",
-        "acceptance": [
-          "AIBrigde server pulls latest main containing a6193507.",
-          "Worker relaunches with install_maya_managed_live_smoke_capability included in standard_capabilities.",
-          "Do not mark Scene Maya validation complete from restart alone."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "previous_delivery_failure": {
-          "delivery_id": "f63d96a93f8b420c7b1c",
-          "reason": "payload.preconditions must be a non-empty list with at most 4 items",
-          "classification": "task_schema_rejected_before_restart"
-        },
-        "architect_ack_diagnosis": "ACKs the failed delivery attempt only. Failure occurred at task-schema validation before restart execution. Architect repaired payload.preconditions to a valid non-empty ff-only git_pull list in commit 1afcac8ab85fe5f9d144533fcf4c4d4ba340cfc3. Task remains pending/bridge_completed=false so Bridge can execute the corrected restart; no Scene Maya validation is claimed.",
-        "result": "FAIL",
-        "classification": "task_schema_rejected_before_restart",
-        "delivery_id": "f63d96a93f8b420c7b1c",
-        "architect_diagnosis": "Failed delivery was ACKed after schema diagnosis; no restart executed. Corrected retry is published as a new task so queue selection can proceed without reusing a completed delivery record."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-aibridge-maya-route-restart-retry-169i",
       "action": {
         "type": "bridge",
@@ -674,9 +608,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -723,6 +657,84 @@
           "Inventory current preset-management surface and relevant legacy/reference behavior.",
           "Identify bounded modernization gaps for preset create/save/load/organization without speculative UI implementation.",
           "Return dependency-ready next slice."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_presets_baseline_verified",
+        "delivery_id": "cdeb38b803076dd16e3a",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true
+        },
+        "architect_diagnosis": "Current Scene preset baseline is intentionally small: ScenePattern v1, in-memory PatternRegistry, deterministic create/edit, and single-file save/load. It lacks a reusable persistent preset-library abstraction for directory organization, listing, safe naming/path ownership, and CRUD orchestration. This is a bounded Python-only modernization slice before UI work."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "task_id": "aimayatool-goal008-scene-presets-library-170b",
+      "action": {
+        "type": "implementation",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/presets.py",
+          "aimayatool/tools/scene/__init__.py",
+          "tests/test_scene_presets.py"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-008",
+        "milestone_id": "scene-presets",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal008-scene-presets-inventory-170a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Add a deterministic Python-only Scene preset-library abstraction over existing ScenePattern save/load primitives, without UI or Maya coupling.",
+        "requirements": [
+          "Create a focused preset library rooted at an explicit directory.",
+          "Provide deterministic list/get/save/delete-style preset operations using ScenePattern and existing serialization behavior.",
+          "Normalize preset names safely and prevent path traversal/out-of-root writes.",
+          "Keep overwrite behavior explicit and non-destructive by default.",
+          "Expose the new public preset API through aimayatool.tools.scene without changing ScenePattern v1 payload compatibility.",
+          "Add focused unittest coverage for ordering, round-trip, duplicate/overwrite behavior, invalid names/path traversal, and delete/missing behavior."
+        ],
+        "acceptance": [
+          "Changed modules py_compile.",
+          "Python-only imports succeed.",
+          "Focused tests pass.",
+          "No maya.cmds/UI dependency is introduced.",
+          "Commit and push implementation to main when verification passes."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
