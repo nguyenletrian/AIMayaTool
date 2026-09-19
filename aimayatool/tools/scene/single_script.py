@@ -15,7 +15,7 @@ def single_script_managed_maya_smoke():
     import maya.cmds as cmds, tempfile
     fd,path=tempfile.mkstemp(suffix=".py",prefix="aibridge_single_script_"); os.close(fd)
     try:
-        with open(path,"w") as stream: stream.write("import maya.cmds as cmds\\ncmds.createNode('transform', name='AIBridgeSingleScriptNode')\\nRESULT = cmds.objExists('AIBridgeSingleScriptNode')\\n")
+        with open(path,"w") as stream: stream.write("import maya.cmds as cmds\ncmds.createNode('transform', name='AIBridgeSingleScriptNode')\nRESULT = cmds.objExists('AIBridgeSingleScriptNode')\n")
         ns=run_script_file(path); executed=bool(ns.get("RESULT")); exists=cmds.objExists("AIBridgeSingleScriptNode")
         missing=False
         try: run_script_file(path+".missing")
