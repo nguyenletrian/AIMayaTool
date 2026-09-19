@@ -28,171 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-rope-host-fixture-python-regression-166a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/rope_weights.py",
-          "tests/test_scene_rope_weights.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.rope_weights"
-        ],
-        "tests": [
-          "tests.test_scene_rope_weights"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_prerequisites": [
-          {
-            "task_id": "aimayatool-goal007-scene-pattern-rope-roll-maya-host-assessment-retry2-165x",
-            "result": "PASS"
-          },
-          {
-            "task_id": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-retry2-165y",
-            "result": "PASS"
-          }
-        ],
-        "purpose": "Regression gate after adding managed-Maya smoke wrappers; ensure Python-only rope core remains import-safe and focused deterministic tests still pass.",
-        "acceptance": [
-          "git_pull current main.",
-          "Compile/import rope_weights outside Maya.",
-          "Run tests.test_scene_rope_weights successfully.",
-          "Do not claim additional Maya behavior from this Python gate."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "rope_host_fixture_python_regression_passed",
-        "delivery_id": "b9e895335a57f05372ef",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "tests_run": 3
-        },
-        "architect_diagnosis": "Post-smoke-wrapper Python regression passed: rope_weights.py and focused tests compile, module imports outside Maya, and all 3 deterministic unit tests pass. Combined with the already accepted managed-Maya Roll/Straight smokes, the bounded rope weight slice remains proven at both Python and Maya tiers."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal007-scene-pattern-parity-gap-audit-166b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/catalog.py",
-          "aimayatool/tools/scene/patterns.py",
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene",
-          "aimayatool.tools.scene.catalog",
-          "aimayatool.tools.scene.patterns"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisites": [
-          {
-            "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry3-165z",
-            "result": "PASS"
-          },
-          {
-            "task_id": "aimayatool-goal007-scene-pattern-rope-host-fixture-python-regression-166a",
-            "result": "PASS"
-          }
-        ],
-        "purpose": "Bounded parity-gap audit before closing ScenePattern parity. Compare current Scene catalog/registry/module surface against the legacy UIs/ScenePattern inventory and identify only unresolved useful workflows, duplicates/superseded items, or validation gaps; do not bulk-copy legacy code.",
-        "legacy_inventory_source": "nguyenletrian/MayaScriptNew/UIs/ScenePattern",
-        "acceptance": [
-          "git_pull current main.",
-          "Current Scene package/catalog/pattern registry compile and import cleanly.",
-          "Compare legacy ScenePattern filenames/workflows with current aimayatool/tools/scene surface and existing catalog/registry exposure.",
-          "Return a concise structured list of unresolved useful gaps, if any, separating missing implementation from missing Maya/UI validation and from duplicate/superseded/internal-only legacy items.",
-          "If a clear next migration slice exists, identify its exact legacy source and target architectural boundary for Architect follow-up.",
-          "No repository mutation required."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_WITH_GAPS",
-        "classification": "scene_pattern_parity_gap_audit_passed",
-        "delivery_id": "d49aac0539513fcf6b27",
-        "verification_evidence": {
-          "py_compile": true,
-          "imports": [
-            "aimayatool.tools.scene",
-            "aimayatool.tools.scene.catalog",
-            "aimayatool.tools.scene.patterns"
-          ]
-        },
-        "architect_diagnosis": "Current Scene package/catalog/registry compiles and imports cleanly. Legacy-to-current inventory comparison shows substantial migrated coverage, but unresolved useful ScenePattern families remain absent from the current scene module surface/search, including Drivenkey, FoldRig, GradientTexture, ModuloSDK/New, Default/New SwitchIKFK variants, Rivet, SpaceSwitch, SplineControl/SplineCurve/SplineRig and Note. Do not close ScenePattern parity yet. Publish a bounded legacy inventory slice to establish semantics and clean architectural boundaries before implementation."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-sdk-switch-space-inventory-166c",
       "action": {
         "type": "verification",
@@ -774,6 +609,131 @@
           "tests_run": 3
         },
         "architect_diagnosis": "Deterministic ModuloSDK core passes after correcting only the multiline test fixture: compile/import outside Maya and all 3 focused tests pass. This proves canonical newer-variant planning semantics (multiline expansion, dynamic modulo count, int/modulo/abs slot mapping, deterministic offset names); Maya offset-group/expression behavior remains unproven."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-host-python-regression-166k",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/modulo_sdk.py",
+          "tests/test_scene_modulo_sdk.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.modulo_sdk"
+        ],
+        "tests": [
+          "tests.test_scene_modulo_sdk"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-core-verify-retry-166j",
+          "result": "PASS"
+        },
+        "implementation_commit": "0229247ead9f79f8546d9daafee12bf15b406e0e",
+        "purpose": "Regression gate after adding ModuloSDK Maya host adapter.",
+        "acceptance": [
+          "Compile/import outside Maya.",
+          "All focused core tests pass.",
+          "No Maya host claim."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-managed-maya-smoke-166l",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.modulo_sdk",
+        "callable": "modulo_sdk_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-modulo-sdk-host-python-regression-166k"
+        ],
+        "implementation_commit": "0229247ead9f79f8546d9daafee12bf15b406e0e",
+        "purpose": "Validate canonical ModuloSDK host behavior in fresh Maya.",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene.",
+          "Create missing integer driver attr.",
+          "Create deterministic _Modulo_Grp offsets for multiline targets.",
+          "Create Maya expression using dynamic modulo count.",
+          "Set driver to slot 2 and prove both target offset attrs evaluate to configured value 3.",
+          "Return structured checks."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
