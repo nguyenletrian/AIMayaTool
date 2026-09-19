@@ -28,73 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal008-scene-presets-tests-170f",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "tests/test_scene_presets.py"
-        ],
-        "imports": [
-          "tests.test_scene_presets"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-presets",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal008-scene-presets-library-verify-retry-170e",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Close the remaining behavioral-evidence gap for Scene PresetLibrary after compile/import passed but the route omitted the requested unittest execution.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import tests.test_scene_presets.",
-          "Inspect/execute the focused preset tests using the supported Python verification capabilities available to the worker.",
-          "Return explicit evidence for round-trip/list ordering, overwrite guard, invalid-name/path traversal rejection, and delete/missing behavior; do not treat import alone as behavioral proof.",
-          "Do not modify product code."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_preset_tests_import_only",
-        "delivery_id": "e4822b8ec0a79928423c",
-        "architect_diagnosis": "The worker again only compiled/imported the unittest module; it did not execute the test cases. Do not loop on the same incapable verification route. Architect must obtain behavioral evidence through an available execution surface or explicitly bounded direct review."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal008-scene-presets-behavior-smoke-170g",
       "action": {
         "type": "verification",
@@ -642,9 +575,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -689,6 +622,73 @@
           "Compile aimayatool/tools/scene/__init__.py.",
           "Import aimayatool.tools.scene outside Maya.",
           "Do not treat Python PASS as Maya UI acceptance; managed Maya validation remains required."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_ux_python_gate_pass",
+        "delivery_id": "006515704d274c4a8948",
+        "architect_diagnosis": "Scene 2.0 UI polish compiles and public Scene module imports outside Maya. Python gate passed; Maya-host UI construction still requires managed live validation before milestone acceptance."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal008-scene-ux-polish-managed-maya-173c",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.tools.scene",
+        "callable": "build_ui",
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-008",
+        "milestone_id": "scene-ux-polish",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal008-scene-ux-polish-python-verify-173b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Validate the bounded Scene 2.0 build_ui polish inside a fresh managed Maya session.",
+        "acceptance": [
+          "Fast-forward main before host execution.",
+          "Use fresh managed Maya scene/session where supported.",
+          "Import aimayatool.tools.scene and invoke build_ui inside Maya.",
+          "Return PASS only if UI construction completes without Maya/Python exception.",
+          "Do not save the Maya scene.",
+          "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
