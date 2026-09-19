@@ -28,80 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal008-scene-presets-behavior-smoke-retry-170h",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/presets.py",
-          "aimayatool/tools/scene/preset_behavior_smoke.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.preset_behavior_smoke"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-presets",
-        "retry_of_archived": {
-          "task_id": "aimayatool-goal008-scene-presets-behavior-smoke-170g",
-          "result": "FAIL",
-          "classification": "verification_target_missing_before_smoke_creation",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify the now-existing import-executed Scene preset behavior smoke.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile presets.py and preset_behavior_smoke.py.",
-          "Import aimayatool.tools.scene.preset_behavior_smoke; its import executes all assertions.",
-          "Successful import proves round-trip/sorted list, overwrite guard, invalid-name/traversal rejection, and delete/missing behavior.",
-          "No Maya/UI dependency."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_preset_library_behavior_pass",
-        "delivery_id": "5140a63fadb66c535e03",
-        "verification_evidence": {
-          "py_compile": true,
-          "import_executed_behavior_smoke": true,
-          "marker_contract": "SCENE_PRESET_BEHAVIOR_OK"
-        },
-        "architect_diagnosis": "Import-executed smoke completed successfully, so all deterministic preset-library assertions ran without failure. Scene preset modernization slice is accepted."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal008-scene-compare-edit-inventory-171a",
       "action": {
         "type": "verification",
@@ -704,6 +630,65 @@
           "port": 7001
         },
         "architect_diagnosis": "Scene 2.0 build_ui constructed successfully in managed Maya with a forced fresh scene and no scene save. UX polish milestone is accepted."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-information-architecture-inventory-174a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/main_window.py",
+          "aimayatool/registry.py",
+          "aimayatool/app.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-information-architecture",
+        "purpose": "Establish the current unified workspace/navigation baseline before Goal 009 UI information-architecture changes. Current repository evidence shows a single scroll window with Skinning/Setup/Scene frame groups and registry-backed group metadata; sections.py is absent despite the aspirational Guide layout.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile main_window.py, registry.py, and app.py.",
+          "Import the Python-only registry.",
+          "Treat current repository evidence as baseline: registry groups Skinning/Setup/Scene; main window renders all groups as stacked collapsible frames; do not assume ui/sections.py exists.",
+          "Return evidence only; no Maya/UI mutation in this inventory task."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
