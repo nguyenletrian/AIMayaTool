@@ -28,77 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal008-scene-compare-edit-verify-retry-171c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/compare_edit.py",
-          "aimayatool/tools/scene/compare_edit_smoke.py",
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.compare_edit_smoke",
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-compare-edit",
-        "retry_of_archived": {
-          "task_id": "aimayatool-goal008-scene-compare-edit-verify-171b",
-          "result": "FAIL",
-          "classification": "scene_compare_edit_package_syntax_regression",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Re-run compare/edit compile and import-executed behavior verification after fixing Scene package future-import ordering.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile compare_edit.py, compare_edit_smoke.py, and Scene __init__.py.",
-          "Import compare_edit_smoke so all deterministic behavior assertions execute.",
-          "Import aimayatool.tools.scene public API.",
-          "Return PASS only if compile and both imports succeed."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_compare_edit_behavior_pass",
-        "delivery_id": "309f0ad22800e50c3167",
-        "architect_diagnosis": "Compile, import-executed compare/edit behavior smoke, and public Scene API import all passed. The deterministic Python-only compare/edit modernization slice is accepted."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal008-scene-build-pipeline-inventory-172a",
       "action": {
         "type": "verification",
@@ -635,9 +564,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -685,6 +614,85 @@
           "Confirm AIMayaToolWindow is created without Maya/Python exception.",
           "Exercise construction of all registry-backed tab pages during show().",
           "Do not save the Maya scene.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_information_architecture_managed_maya_pass",
+        "delivery_id": "99c9f1962b8d8585e646",
+        "verification_evidence": {
+          "marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001
+        },
+        "architect_diagnosis": "Registry-driven Skinning/Setup/Scene tab workspace constructed successfully in managed Maya. Information-architecture milestone is accepted."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-components-inventory-175a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/main_window.py",
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-components",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-information-architecture-managed-maya-174c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Inventory repeated Maya UI construction patterns across the accepted top-level workspace and domain UIs, then identify the smallest reusable component-builder slice without moving domain logic into UI.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile main_window.py and Skinning/Setup/Scene UI modules.",
+          "Import the Python-only registry.",
+          "Inventory repeated presentation primitives such as section headers, spacing/separators, button rows, and descriptive text from repository evidence.",
+          "Identify one bounded reusable UI-component slice that can be adopted incrementally and preserves thin callbacks.",
+          "Do not implement search/status/final visual polish in this milestone.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
