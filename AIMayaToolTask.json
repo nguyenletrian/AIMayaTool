@@ -28,78 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-new-sync-168n",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/modulo_sdk.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.modulo_sdk"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-rope-runtime-python-verify-168m",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_ModuloSDKNew.py",
-        "purpose": "Sync current modulo_sdk implementation before Architect determines whether to extend it with ModuloSDKNew's grouped target-attribute values, per-target _Modulo_Grp offsets, and modulo expression plan rather than creating a duplicate module.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import modulo_sdk.py.",
-          "Do not claim ModuloSDKNew parity from this sync.",
-          "Return current-main evidence for immediate bounded extension decision."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "modulo_sdk_new_superseded_verified",
-        "delivery_id": "1d76d3b978085e86dde1",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "f507a1412440acb9e282fb558b3d1843d3d2ae9e"
-        },
-        "architect_diagnosis": "Current modulo_sdk.py already implements ModuloSDKNew's grouped multiline targets, 0..9 slot normalization, per-target _Modulo_Grp offsets, modulo expression generation, Maya apply path, and managed smoke. No duplicate extension is needed."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-sync-168o",
       "action": {
         "type": "verification",
@@ -702,9 +630,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -758,6 +686,82 @@
           "Import outside Maya.",
           "Run focused path-policy tests.",
           "Do not claim Maya runtime validation."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_build_parity_gate_pass",
+        "delivery_id": "c30ac21cbcf0dc5672b0",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "main_commit": "dbc367b177acb60b969050b3e1ab41ff0291e499"
+        },
+        "architect_diagnosis": "Explicit local/parent SceneData policies and control-shape export/import/update orchestration passed deterministic verification. Together with existing build_actions and the bounded legacy SceneDefaultFunctions inventory, the scene-build-parity coverage gate is complete. Maya-host validation remains deferred."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-data-compatibility-inventory-168x",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/control_shape_legacy_io.py",
+          "aimayatool/tools/scene/pattern_legacy.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.control_shape_legacy_io",
+          "aimayatool.tools.scene.pattern_legacy"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-data-compatibility",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-build-control-shape-path-python-verify-168w",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "goal_state_commit": "a9ccb77a2049045215589ac02fd4d8a4925ab422",
+        "purpose": "Begin Scene legacy-data compatibility by refreshing existing adapters and inventorying authoritative legacy SceneData JSON schemas/files against current adapters. Identify the first genuinely unsupported persisted format without duplicating ScenePattern or control-shape adapters.",
+        "acceptance": [
+          "Fast-forward main including completed scene-build-parity state.",
+          "Compile/import existing Scene legacy adapters.",
+          "Inventory persisted SceneData JSON formats used by MayaScriptNew Scene workflows.",
+          "Classify already-supported, internal/ephemeral, and genuinely unsupported formats.",
+          "Return the first dependency-ready compatibility slice."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
