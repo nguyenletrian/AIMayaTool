@@ -91,77 +91,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-existing-implementation-python-verify-165l",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/bs_sequence.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.bs_sequence"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-bs-sequence-inventory-165k"
-        ],
-        "purpose": "Verify the existing bs_sequence.py already present on main before any further implementation. Repository evidence shows this module already contains a Maya-backed implementation, so avoid overwriting it with a second planner.",
-        "existing_file_sha": "8d544581549392655dfc7368f7b0cd641631189d",
-        "acceptance": [
-          "git_pull current main.",
-          "bs_sequence.py compiles and imports outside Maya.",
-          "Do not mutate repository.",
-          "Do not claim Maya behavior from this Python gate.",
-          "Return evidence so Architect can decide whether to add pure planning helpers or move directly to host validation without duplicating existing implementation."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "bs_sequence_existing_implementation_python_verification_passed",
-        "delivery_id": "7b96e889a9e6c6cb17f0",
-        "verification_evidence": {
-          "git_pull_before": "6864b6bac87602f0684464acc604f354aab02a5f",
-          "git_pull_after": "bc509359331e4d320d22b7c056970574006122ed",
-          "py_compile": true,
-          "import": "aimayatool.tools.scene.bs_sequence"
-        },
-        "architect_diagnosis": "Existing bs_sequence.py is Python-import safe and should not be overwritten. Its Maya-backed implementation already mirrors the active legacy workflow structurally. Python verification does not prove host behavior; next useful gate is managed Maya smoke covering keyframe collection, generated shoot meshes, blendShape/driver/show wiring, and frame restoration."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-roll-inventory-165q",
       "action": {
         "type": "verification",
@@ -565,9 +494,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-retry-165w",
       "action": {
         "type": "maya",
@@ -614,7 +543,11 @@
           "Exercise rope_weights_managed_maya_smoke('straight').",
           "Return structured evidence proving the three-target pointConstraint weight state matches deterministic RopeStraight weight math."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_WRONG_MODE",
+        "classification": "route_args_ignored_straight_not_validated",
+        "delivery_id": "3ed52752701e099888a1",
+        "architect_diagnosis": "Managed Maya smoke itself passed, but returned mode='roll' even though this Straight task supplied args=['straight']. This proves the route ignores payload.args. Evidence validates the roll fixture only and must not be accepted as RopeStraight parity. Queue a dedicated no-argument Straight wrapper callable."
       }
     },
     {
@@ -673,6 +606,65 @@
           "Use fresh isolated unsaved Maya scene.",
           "Invoke route-compatible rope_weights_managed_maya_smoke() defaulting to roll.",
           "Return structured evidence for three-target pointConstraint weights."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-retry2-165y",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.rope_weights",
+        "callable": "rope_straight_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "retry_of": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-retry-165w",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-rope-weight-core-python-verify-165s"
+        ],
+        "purpose": "Validate RopeStraight through a dedicated no-argument managed-Maya wrapper because the route ignores payload.args.",
+        "acceptance": [
+          "git_pull current main.",
+          "Use fresh isolated unsaved Maya scene.",
+          "Invoke rope_straight_managed_maya_smoke() with no route arguments.",
+          "Result must report mode='straight' and prove the three-target pointConstraint weights match deterministic RopeStraight math."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
