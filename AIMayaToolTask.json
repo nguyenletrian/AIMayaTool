@@ -28,73 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal008-scene-ux-polish-inventory-173a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-ux-polish",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal008-scene-build-pipeline-verify-172b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Start Scene 2.0 UX polish by verifying the current Scene build_ui/public surface and identifying the smallest user-facing Maya UI improvement that exposes the accepted preset/compare/build capabilities without broad redesign.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import current Scene public module.",
-          "Inventory current build_ui surface from repository evidence.",
-          "Identify a bounded UX-polish slice that preserves existing APIs and avoids unrelated UI framework changes.",
-          "Because build_ui is Maya-host-specific, require managed Maya validation after any UI implementation."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_ux_baseline_verified",
-        "delivery_id": "32ff867ee01801c14afe",
-        "architect_diagnosis": "Current build_ui is only three informational text rows and does not communicate the accepted Scene 2.0 capability groups. Architect applied a bounded Maya-cmds UX polish: one column, titled capability sections, preserved public APIs, no new actions or framework changes."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal008-scene-ux-polish-python-verify-173b",
       "action": {
         "type": "verification",
@@ -644,9 +577,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -694,6 +627,75 @@
           "Compile components.py and components_smoke.py.",
           "Import aimayatool.ui.components outside Maya.",
           "Import components_smoke outside Maya; empty-row validation must execute without requiring Maya.",
+          "Do not treat Python PASS as Maya rendering acceptance."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_component_python_contract_pass",
+        "delivery_id": "60a3c31eb57f0afe4bd0",
+        "architect_diagnosis": "Reusable components now compile and import outside Maya; deterministic empty-row validation executes before lazy maya.cmds import. Architect adopted section() in the Scene UI as the first bounded domain integration; Maya rendering validation remains required."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-components-scene-adoption-python-175d",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/components.py",
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.ui.components",
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-components",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-components-python-verify-retry-175c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify the first bounded domain adoption of reusable section() presentation in Scene before managed-Maya rendering validation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile components.py and Scene __init__.py.",
+          "Import components and Scene outside Maya without eager maya.cmds dependency.",
+          "Confirm the Scene public API remains importable after presentation-only refactor.",
           "Do not treat Python PASS as Maya rendering acceptance."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
