@@ -380,7 +380,7 @@ def build_ui():
 
     section("Transforms and joints")
     button_row([
-        ("Freeze TRS", lambda *_: _run("Freeze", _freeze_selected)),
+        ("Freeze TRS", lambda *_: __import__("aimayatool.ui.components", fromlist=["run_tracked_action"]).run_tracked_action("setup", "freeze_trs", "Freeze TRS", _freeze_selected)),
         ("Reset TR", lambda *_: _run("Reset", _reset_selected)),
         ("Create Joints", lambda *_: _run("Joints", _create_joints_selected))
     ])
