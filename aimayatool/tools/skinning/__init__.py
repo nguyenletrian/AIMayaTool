@@ -1,7 +1,5 @@
 from __future__ import absolute_import
 
-import traceback
-
 
 def _cmds():
     import maya.cmds as cmds
@@ -9,25 +7,8 @@ def _cmds():
 
 
 def _run(label, fn):
-    cmds = _cmds()
-    try:
-        changed = fn()
-        if isinstance(changed, (list, tuple)):
-            text = ', '.join(str(item) for item in changed) if changed else 'no changes'
-        else:
-            text = str(changed) if changed else 'no changes'
-        cmds.inViewMessage(amg='%s: %s' % (label, text), pos='midCenter', fade=True)
-        return changed
-    except Exception as exc:
-        message = '%s failed: %s' % (label, exc)
-        cmds.warning('AIMayaTool Skinning: %s' % message)
-        try:
-            cmds.inViewMessage(amg='<hl>%s</hl>' % message, pos='midCenter', fade=True)
-        except Exception:
-            pass
-        traceback.print_exc()
-        return None
-
+    from aimayatool.ui.components import run_action
+    return run_action(label, fn, context="AIMayaTool Skinning")
 
 def build_ui():
     cmds = _cmds()
