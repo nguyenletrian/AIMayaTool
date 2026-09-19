@@ -721,9 +721,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -767,7 +767,27 @@
           "Require offset/default-space creation, enum and slide attrs, parentConstraint, three condition nodes for Default+two parents, plusMinusAverage slide complement, and slide parentConstraint.",
           "Return structured checks; no UI parity claim."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "space_switch_managed_maya_smoke_passed",
+        "delivery_id": "93a4dc2e23dfdf28f6e2",
+        "verification_evidence": {
+          "managed_pid": 6168,
+          "port": 7001,
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "checks": {
+            "offset": true,
+            "default_space": true,
+            "constraint": true,
+            "pick_attr": true,
+            "slide_attr": true,
+            "conditions": true,
+            "slide_node": true,
+            "slide_constraint": true
+          }
+        },
+        "architect_diagnosis": "SpaceSwitch managed Maya smoke passed in a fresh unsaved scene. The bounded host slice now proves offset/default-space creation, enum and slide attributes, parentConstraint creation, Default+parent condition network, plusMinusAverage slide complement and slide-constraint creation. This does not yet claim UI/serialization parity or exhaustive maintain=true behavior."
       }
     }
   ]
