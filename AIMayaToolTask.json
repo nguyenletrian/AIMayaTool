@@ -28,78 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-search-discovery-inventory-176a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/main_window.py",
-          "aimayatool/registry.py",
-          "aimayatool/ui/components.py"
-        ],
-        "imports": [
-          "aimayatool.registry",
-          "aimayatool.ui.components"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-search-discovery",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-components-skinning-adoption-maya-175i",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Inventory the accepted tabbed workspace and registry to identify the smallest search/discovery slice that improves tool finding without moving domain logic into UI or prematurely implementing status/final polish.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile main_window.py, registry.py, and components.py.",
-          "Import Python-safe registry/components where applicable.",
-          "Inventory available registry metadata and current navigation surface for searchable/discoverable tool information.",
-          "Identify one bounded search/discovery implementation slice; preserve Skinning/Setup/Scene domain APIs and thin UI callbacks.",
-          "Do not implement status/progress or final visual polish in this milestone.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_search_discovery_baseline_verified",
-        "delivery_id": "6057cb8ce348bf76391e",
-        "architect_diagnosis": "Current registry exposes only top-level Skinning/Setup/Scene identity and module paths; main_window has no search surface. Smallest safe slice is Python-only searchable group metadata/keywords first, followed by a thin Maya search field that switches to matching tabs."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-search-discovery-registry-python-176b",
       "action": {
         "type": "verification",
@@ -664,9 +592,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -712,6 +640,76 @@
           "Use isolated fresh scene.",
           "Invoke aimayatool.ui.main_window.show and require AIMayaToolWindow.",
           "Confirm Recent/Favorites summary and Toggle Favorite UI construct without Maya/Python exception.",
+          "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "managed_maya_partial_registry_capability_cache",
+        "delivery_id": "42926a9a41236e9e7c5e",
+        "architect_diagnosis": "The existing managed Maya registry cache already had search_groups(), so the prior cache guard considered it current even though newer recent/favorite symbols were absent. Expanded _current_registry() capability check to require the complete discovery API and reload whenever any required symbol is missing."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-maya-retry-176k",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.ui.main_window",
+        "callable": "show",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45,
+        "expected_window": "AIMayaToolWindow"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-search-discovery",
+        "retry_of_archived": {
+          "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-maya-176j",
+          "result": "FAIL",
+          "classification": "managed_maya_partial_registry_capability_cache",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Retry Recent/Favorites workspace construction with capability-complete registry cache freshness detection.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated fresh scene.",
+          "Invoke aimayatool.ui.main_window.show on the existing managed Maya session.",
+          "Require AIMayaToolWindow and construct Recent/Favorites summary plus Toggle Favorite without exception.",
           "Do not save scene.",
           "Do not use Codex."
         ],
