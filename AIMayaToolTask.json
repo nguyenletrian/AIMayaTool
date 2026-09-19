@@ -28,67 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-167m",
-      "action": {
-        "type": "maya",
-        "target": "ui_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.fold_rig",
-        "callable": "fold_rig_managed_maya_smoke",
-        "new_scene": true,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-fold-rig-python-verify-167l"
-        ],
-        "purpose": "Validate FoldRig parentConstraint/driven-key behavior in a fresh managed Maya scene after deterministic Python verification.",
-        "acceptance": [
-          "Fast-forward main including the verified FoldRig implementation.",
-          "Use a fresh unsaved managed Maya scene.",
-          "Invoke aimayatool.tools.scene.fold_rig.fold_rig_managed_maya_smoke.",
-          "Smoke returns ok=true with two constraints, three weight aliases per constraint, animCurve-driven weights, and driver restored to final value.",
-          "Treat runtime/session loss as inconclusive and use the Guide fresh-session recovery rule; do not convert transport failure into product failure."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "BLOCKED_PAYLOAD_CONTRACT",
-        "classification": "maya_ui_smoke_requires_explicit_save_scene_false",
-        "delivery_id": "c18c7d9132acc97060f6",
-        "architect_diagnosis": "No FoldRig product behavior was executed. maya:ui_smoke rejected the task before invocation because payload.save_scene=false was not explicit. Retry same smoke with corrected route contract."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-retry-167n",
       "action": {
         "type": "maya",
@@ -112,7 +51,6 @@
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "retry_of": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-167m",
         "purpose": "Retry the identical FoldRig managed Maya smoke with the required explicit non-saving contract.",
         "acceptance": [
           "Fast-forward main.",
@@ -125,7 +63,13 @@
         "result": "BLOCKED_PAYLOAD_CONTRACT",
         "classification": "maya_ui_smoke_requires_explicit_isolated_scene_true",
         "delivery_id": "d7f2fa36ba3d358fcb44",
-        "architect_diagnosis": "No FoldRig product behavior executed. maya:ui_smoke rejected the retry because payload.isolated_scene=true was not explicit. Preserve save_scene=false and retry with isolated_scene=true."
+        "architect_diagnosis": "No FoldRig product behavior executed. maya:ui_smoke rejected the retry because payload.isolated_scene=true was not explicit. Preserve save_scene=false and retry with isolated_scene=true.",
+        "archived_retry_source": {
+          "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-167m",
+          "result": "BLOCKED_PAYLOAD_CONTRACT",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       }
     },
     {
@@ -613,9 +557,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -658,6 +602,86 @@
           "Compile/import current Scene package.",
           "Do not claim SplineRig implementation or Maya parity from this sync task.",
           "Return current main evidence for immediate Architect-owned SplineRig implementation."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "spline_rig_preimplementation_sync_verified",
+        "delivery_id": "6fd634d82efb6447161f",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "9e275e8441aede760ca04748c4d28da3416acdf5"
+        },
+        "architect_diagnosis": "Scene baseline passed. Architect migrated the bounded legacy SplineRig workflow directly through repository tools and added deterministic tests; verification is queued next."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-spline-rig-python-verify-167w",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/spline_rig.py",
+          "tests/test_scene_spline_rig.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.spline_rig"
+        ],
+        "tests": [
+          "tests.test_scene_spline_rig"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-spline-rig-implementation-sync-167v",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commits": [
+          "3e14c474ee4d78036e7438325f48f80b8898c2ca",
+          "0c2d1fac34990dbb8535f986863d3bc815c6588b"
+        ],
+        "purpose": "Verify Architect-authored SplineRig normalization/planning and import safety before any Maya-host validation.",
+        "acceptance": [
+          "Fast-forward main including SplineRig implementation and tests.",
+          "Compile spline_rig.py and its focused test module.",
+          "Import aimayatool.tools.scene.spline_rig outside Maya.",
+          "Run tests.test_scene_spline_rig successfully.",
+          "Do not claim Maya parity from Python-only evidence."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
