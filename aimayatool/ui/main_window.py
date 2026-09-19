@@ -16,7 +16,8 @@ _DISCOVERY = "AIMayaToolDiscovery"
 
 def _current_registry():
     global registry
-    if not hasattr(registry, "search_groups"):
+    required = ("search_groups", "mark_recent", "recent_groups", "set_favorite", "favorite_groups")
+    if any(not hasattr(registry, name) for name in required):
         registry = importlib.reload(registry)
     return registry
 
