@@ -28,84 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-context-selection-helper-maya-179c",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.tools.setup",
-        "callable": "selection_context_managed_maya_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "context-selection",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal010-context-selection-helper-python-179b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Prove the first context-aware selection helper in managed Maya: ordered selection is preserved and invalid-count validation is non-mutating.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use isolated fresh scene.",
-          "Invoke selection_context_managed_maya_smoke.",
-          "Two selected transforms must be returned in Maya selection order.",
-          "A minimum-count failure must raise the caller-supplied actionable ValueError internally and leave selection unchanged.",
-          "Callable returns AIBRIDGE_CONTEXT_SELECTION_OK:ordered|nonmutating.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "context_selection_complete",
-        "delivery_id": "ad538445d23a047d2333",
-        "verification_evidence": {
-          "marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_CONTEXT_SELECTION_OK:ordered|nonmutating",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "pid": 6168,
-          "port": 7001,
-          "session": "existing"
-        },
-        "architect_diagnosis": "Managed Maya proved ordered selection preservation and non-mutating validation failure. Context-selection milestone is complete; presets-smart-defaults is activated."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-presets-smart-defaults-inventory-180a",
       "action": {
         "type": "verification",
@@ -609,9 +531,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -657,7 +579,11 @@
           "Do not claim Maya interaction behavior from this Python inventory.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "favorites_recent_workspace_inventory_pass",
+        "delivery_id": "2c582523bc96be0fbbab",
+        "architect_diagnosis": "Workspace inventory compiles. main_window currently renders group-level Recent/Favorites in one discovery text plus a group favorite toggle. The smallest action-level surface should extend that discovery area after representative action instrumentation is proven: render action Recent/Favorites from registry state without automatic execution, while preserving existing group search/tab navigation and group favorite behavior."
       }
     },
     {
@@ -721,6 +647,72 @@
           "Do not add persistence or broad rewiring across all domain buttons in this slice.",
           "Add/update deterministic Python tests where possible and run py_compile/import/tests.",
           "Commit and push only after verification passes.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-workspace-surface-181g",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/main_window.py",
+          "aimayatool/registry.py",
+          "aimayatool/ui/components.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-ui-instrument-setup-181f"
+        ],
+        "purpose": "Implement the smallest non-executing workspace presentation for action-level Recent/Favorites after representative action instrumentation is available.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Extend workspace discovery presentation to show action-level Recent/Favorites from registry state while preserving existing group Recent/Favorites.",
+          "Do not automatically execute actions from discovery/search.",
+          "Preserve group search, tab navigation and group favorite toggle behavior.",
+          "Keep UI thin; do not duplicate domain business logic.",
+          "Do not add persistence, batch productivity or preflight behavior.",
+          "Add a focused smoke/helper if needed for later managed Maya validation.",
+          "Run py_compile/import-safe checks and commit/push only after verification passes.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
