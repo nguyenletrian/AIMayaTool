@@ -28,80 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-driven-key-host-python-regression-166n",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/driven_key.py",
-          "tests/test_scene_driven_key.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.driven_key"
-        ],
-        "tests": [
-          "tests.test_scene_driven_key"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-driven-key-core-verify-166m",
-          "result": "PASS"
-        },
-        "implementation_commit": "51478da1d86a0fc390e40770548b2e44c4f700a0",
-        "purpose": "Regression gate after DrivenKey Maya host adapter.",
-        "acceptance": [
-          "Compile/import outside Maya.",
-          "All focused core tests pass.",
-          "No Maya behavior claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "driven_key_host_python_regression_passed",
-        "delivery_id": "762cb484cf158b0b55b0",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "tests_run": 3
-        },
-        "architect_diagnosis": "Post-host-adapter Python regression passed: DrivenKey implementation/tests compile, module remains import-safe outside Maya, and all 3 deterministic core tests pass. Dependency for managed Maya smoke 166o is resolved; Maya offset hierarchy, SDK connection/evaluation, animCurve and tangent behavior remain gated by 166o."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-166o",
       "action": {
         "type": "maya",
@@ -126,9 +52,6 @@
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-maya-validation",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-driven-key-host-python-regression-166n"
-        ],
         "implementation_commit": "51478da1d86a0fc390e40770548b2e44c4f700a0",
         "purpose": "Validate DrivenKey host mutation and actual SDK evaluation in fresh Maya.",
         "acceptance": [
@@ -145,7 +68,11 @@
         "classification": "driven_key_sdk_connection_assertion_too_strict",
         "delivery_id": "22f16d4057bfbf11b695",
         "architect_diagnosis": "Maya behavior itself passed: SDK/zero groups exist, animCurve exists, values evaluate correctly at driver 0/10, and tangents are linear. Only the smoke's direct isConnected(offset.tx, child.tx) assertion failed because setDrivenKeyframe inserts an animCurve in the dependency path. Corrected smoke acceptance to recognize the animCurve-driven connection path; product host mutation unchanged.",
-        "smoke_fix_commit": "5d0a7071f8c2bbd3fa393f601eaac436b4853052"
+        "smoke_fix_commit": "5d0a7071f8c2bbd3fa393f601eaac436b4853052",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-driven-key-host-python-regression-166n",
+          "result": "PASS"
+        }
       }
     },
     {
@@ -684,6 +611,77 @@
           "scene_saved": false
         },
         "architect_diagnosis": "Final corrected managed Maya validation passed. DrivenKey host behavior is proven against its actual hierarchy contract: driven object under _SDKGrp, _ZeloSDKGrp present, animCurve upstream of SDK channel, driver 0/10 evaluates SDK tx to 1/5, child local tx remains stable, and tangents are linear."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-remaining-rig-patterns-inventory-166x",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-driven-key-hierarchy-smoke-166w",
+          "result": "PASS"
+        },
+        "purpose": "Inventory the next unresolved useful ScenePattern rig-helper family after DrivenKey closure: FoldRig, GradientTexture, Rivet, SplineControl/SplineCurve/SplineRig and Note; determine canonical migration/supersession boundaries before implementation.",
+        "legacy_sources": [
+          "UIs/ScenePattern/Scene_Pattern_FoldRig.py",
+          "UIs/ScenePattern/Scene_Pattern_GradientTexture.py",
+          "UIs/ScenePattern/Scene_Pattern_Rivet.py",
+          "UIs/ScenePattern/Scene_Pattern_SplineControl.py",
+          "UIs/ScenePattern/Scene_Pattern_SplineCurve.py",
+          "UIs/ScenePattern/Scene_Pattern_SplineRig.py",
+          "UIs/ScenePattern/Scene_Pattern_Note.py"
+        ],
+        "acceptance": [
+          "git_pull current main and confirm current Scene package imports cleanly.",
+          "Read available listed legacy sources and identify exact user-visible semantics, persisted data fields, Maya mutations, dependencies and edge cases.",
+          "Cross-check current AIMayaTool Setup/Scene APIs and classify each legacy workflow as missing, already superseded/reusable, duplicate/internal-only, or intentionally retireable with evidence.",
+          "For genuinely missing useful behavior, separate deterministic planning/data normalization from Maya-host mutation and propose focused module/API boundaries.",
+          "Return dependency-ready implementation and verification slices; do not bulk-copy legacy modules and do not claim parity without evidence.",
+          "No repository mutation required."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
