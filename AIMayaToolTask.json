@@ -28,74 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-search-discovery-registry-python-176b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/registry.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-search-discovery",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-search-discovery-inventory-176a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify Python-safe discovery metadata and deterministic top-level group search before wiring a Maya search field.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile and import aimayatool.registry outside Maya.",
-          "Verify groups() retains Skinning/Setup/Scene records and exposes keyword metadata.",
-          "Verify search_groups('skin') resolves Skinning, search_groups('rig') resolves Setup, search_groups('preset') resolves Scene, and blank query returns all groups.",
-          "No maya.cmds dependency may be introduced in registry.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_search_registry_python_pass",
-        "delivery_id": "232945f62c8ec781c5ef",
-        "architect_diagnosis": "Registry discovery metadata compiles/imports outside Maya. Architect wired a thin workspace search field that delegates matching to search_groups() and switches to the first matching existing domain tab; domain APIs remain untouched."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-search-discovery-workspace-python-176c",
       "action": {
         "type": "verification",
@@ -661,9 +593,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -710,6 +642,85 @@
           "Use isolated fresh scene.",
           "Invoke aimayatool.ui.main_window.show on the existing managed Maya session.",
           "Require AIMayaToolWindow and construct Recent/Favorites summary plus Toggle Favorite without exception.",
+          "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_discovery_recent_favorite_workspace_maya_pass",
+        "delivery_id": "2c26ee99078234e12e91",
+        "verification_evidence": {
+          "marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001,
+          "session": "existing"
+        },
+        "architect_diagnosis": "Recent/Favorites workspace surface constructs successfully in the long-lived managed Maya session after capability-complete registry cache refresh. A focused interaction smoke is now required to prove Recent updates and Favorite toggling, not just construction."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-interaction-maya-176l",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.ui.main_window",
+        "callable": "discovery_interaction_smoke",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45,
+        "expected_window": "AIMayaToolWindow"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-search-discovery",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-maya-retry-176k",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Prove useful Recent/Favorites interaction in managed Maya before closing ui-search-discovery.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated fresh scene.",
+          "Invoke discovery_interaction_smoke.",
+          "Search rig and require Setup to become most recent.",
+          "Toggle current favorite and require Setup in favorites plus refreshed discovery label.",
+          "Return AIBRIDGE_UI_DISCOVERY_OK:recent=setup|favorite=setup without exception.",
           "Do not save scene.",
           "Do not use Codex."
         ],
