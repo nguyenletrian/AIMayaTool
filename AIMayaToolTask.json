@@ -484,8 +484,8 @@
       },
       "task_id": "aimayatool-goal007-scene-pattern-orient-constraint-maya-validation-retry-163l",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "action": {
         "type": "maya",
         "target": "managed_live_smoke"
@@ -521,7 +521,30 @@
           "Missing child is skipped and missing parent is rejected deterministically.",
           "Route reports new_scene_forced=true and scene_saved=false."
         ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "orient_constraint_managed_maya2024_proven",
+        "delivery_id": "f21a0297957824bc43e9",
+        "maya_evidence": {
+          "version": "2024",
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "launched",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "maya_quit": false,
+          "smoke": {
+            "applied": true,
+            "hierarchy": true,
+            "constraint_content": true,
+            "target": true,
+            "no_offset": true,
+            "missing_child": true,
+            "invalid_parent": true,
+            "success": true
+          }
+        },
+        "architect_diagnosis": "Fresh managed Maya 2024 retry passed after the prior pre-port startup loss. OrientConstraint behavior is now host-proven: offset hierarchy, constraint container parenting, requested target, direct no-offset path, missing-child skip, and invalid-parent rejection all passed in an isolated unsaved scene."
       }
     }
   ]
