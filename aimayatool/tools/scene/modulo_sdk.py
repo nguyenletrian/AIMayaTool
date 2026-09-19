@@ -39,3 +39,39 @@ def build_expression_plan(driver, attrs_data):
         assignments[slot]=row
     data["assignments"]=assignments
     return data
+
+
+def apply_modulo_sdk(driver, attrs_data):
+    import maya.cmds as cmds
+    plan=build_expression_plan(driver,attrs_data)
+    if not cmds.objExists(plan["driver_node"]): raise ValueError("Missing driver: "+plan["driver_node"])
+    if not cmds.attributeQuery(plan["driver_attr"],node=plan["driver_node"],exists=True): cmds.addAttr(plan["driver_node"],longName=plan["driver_attr"],attributeType="long",defaultValue=0,keyable=True)
+    offsets={}
+    for plug in plan["targets"]:
+        target,_=_plug(plug,"target")
+        if not cmds.objExists(target): raise ValueError("Missing target: "+target)
+        if target not in offsets:
+            name=target+"_Modulo_Grp"
+            if cmds.objExists(name): offsets[target]=name
+            else:
+                parent=(cmds.listRelatives(target,parent=True) or [None])[0]; offset=cmds.group(empty=True,name=name); cmds.matchTransform(offset,target)
+                if parent: cmds.parent(offset,parent)
+                cmds.parent(target,offset); offsets[target]=offset
+    branches=[]
+    for slot in plan["slots"]:
+        body=[]
+        for item in plan["assignments"][slot]: body.append("{0}.{1}={2};".format(offsets[item["target"]],item["attr"],item["value"]))
+        branches.append(("{0}if ($r == {1})\n{{\n\t{2}\n}}".format("" if not branches else "else ",slot,"".join(body))))
+    script="float $val = {0};\nint $r = abs((int)$val % {1});\n{2}\n".format(plan["driver"],plan["modulo_count"],"\n".join(branches))
+    expression=cmds.expression(string=script,object="",alwaysEvaluate=True,unitConversion="all")
+    return {"plan":plan,"offsets":offsets,"expression":expression,"script":script}
+
+
+def modulo_sdk_managed_maya_smoke():
+    import maya.cmds as cmds
+    driver=cmds.createNode("transform",name="AIBridgeModuloDriver"); a=cmds.createNode("transform",name="AIBridgeModuloA"); b=cmds.createNode("transform",name="AIBridgeModuloB")
+    result=apply_modulo_sdk(driver+".modulo",{a+".tx\n"+b+".ry":{"0":"1","2":"3"}})
+    cmds.setAttr(driver+".modulo",2); cmds.dgdirty(allPlugs=True); cmds.refresh(force=True)
+    checks={"driver_attr":cmds.attributeQuery("modulo",node=driver,exists=True),"offset_a":cmds.objExists(a+"_Modulo_Grp"),"offset_b":cmds.objExists(b+"_Modulo_Grp"),"expression":cmds.objExists(result["expression"]),"modulo_count":result["plan"]["modulo_count"]==3,"slot2_a":abs(cmds.getAttr(a+"_Modulo_Grp.tx")-3.0)<1e-6,"slot2_b":abs(cmds.getAttr(b+"_Modulo_Grp.ry")-3.0)<1e-6}
+    if not all(checks.values()): raise RuntimeError("ModuloSDK smoke failed: {0}".format(checks))
+    return {"ok":True,"checks":checks,"expression":result["expression"],"script":result["script"]}
