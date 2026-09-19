@@ -21,82 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-script-hook-adapters-python-impl-165c",
-      "action": {
-        "type": "python",
-        "target": "repository_edit"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/script_hooks.py",
-          "tests/test_scene_script_hooks.py"
-        ],
-        "reference_files": [
-          "UIs/ScenePattern/Scene_Pattern_CurrentAfterScript.py",
-          "UIs/ScenePattern/Scene_Pattern_CurrentPostScript.py",
-          "UIs/ScenePattern/Scene_Pattern_UpAfterScript.py",
-          "UIs/ScenePattern/Scene_Pattern_UpPostScript.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Migrate the four legacy Current/Up AfterScript/PostScript ScenePattern wrappers as one explicit script-hook adapter over the already proven SingleScript runner, preserving current-vs-parent SceneData path semantics without copying legacy UI/reload coupling.",
-        "legacy_source_shas": {
-          "CurrentAfterScript": "e47bea520e2567a67f7272343f4dd5d8b3562103",
-          "CurrentPostScript": "ef78fffbf9b094e1b4e4f2939b84b3ccf37174f9",
-          "UpAfterScript": "2a50a681db2295b31642645d36af6fe53d1cf217",
-          "UpPostScript": "a531467608d281184285f7be6b37097b6b09180f"
-        },
-        "acceptance": [
-          "Implement deterministic Python-only path resolution for current scene directory versus one-level-up directory.",
-          "Represent AfterScript/PostScript hook identity explicitly while reusing run_script_file rather than duplicating execution logic.",
-          "No pymel, NLTA_General, reload loop, hard-coded developer path, or UI dependency.",
-          "Add focused deterministic tests for current/up path resolution, hook descriptors, and delegated script execution contract.",
-          "Compile changed Python and run focused tests before commit/push."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "retry_of": "aimayatool-goal007-scene-pattern-script-hook-adapters-165a",
-        "result": "FAIL",
-        "classification": "unsupported_route_python_repository_edit",
-        "delivery_id": "0582904eb7f028c5c143",
-        "architect_diagnosis": "Bridge has no python:repository_edit handler. Architect completed this bounded repository implementation directly instead: script_hooks.py commit 00ca3757ae256274b0bc52fd4113266d825dc49d and deterministic test commit 1d043414f2312d111cc9df4bcfe33618962678af. Verification remains delegated to 165d.",
-        "implementation_commits": [
-          "00ca3757ae256274b0bc52fd4113266d825dc49d",
-          "1d043414f2312d111cc9df4bcfe33618962678af"
-        ]
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-match-pairs-inventory-165e",
       "action": {
         "type": "verification",
@@ -691,9 +615,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-165m",
       "action": {
         "type": "maya",
@@ -734,6 +658,68 @@
           "Prove nonzero transform keys are collected, expected *_Shoot_XX meshes are generated, blendShape and BS group exist, driver/joint/proxy/show wiring exists, driven-key weights are created, and currentTime is restored.",
           "Return structured smoke evidence and clean up fixture-created scene state when practical.",
           "If the smoke callable is absent, report that exact gap; do not fabricate host success."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "BLOCKED_PRECONDITION",
+        "classification": "task_contract_missing_save_scene_false",
+        "delivery_id": "9e4fb8478425fef80b05",
+        "architect_diagnosis": "No Maya behavior was exercised. Route rejected the task because managed Maya smoke requires payload.save_scene=false. Retry with the required safety contract; this is task-spec correction, not an implementation failure."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry-165n",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.bs_sequence",
+        "callable": "bs_sequence_managed_maya_smoke",
+        "new_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "retry_of": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-165m",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-bs-sequence-existing-implementation-python-verify-165l"
+        ],
+        "purpose": "Retry BSSequence managed Maya proof with required save_scene=false safety contract.",
+        "acceptance": [
+          "Use a fresh managed Maya scene; save_scene must remain false.",
+          "Exercise dedicated deterministic smoke callable if present.",
+          "Prove nonzero keys, generated shoot meshes, BS group/blendShape, driver/joint/proxy/show wiring, driven-key weights and currentTime restoration.",
+          "If callable is absent, return exact missing-callable gap; do not fabricate success."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
