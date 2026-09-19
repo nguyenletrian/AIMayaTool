@@ -325,8 +325,9 @@ def _rope_selected(roll=False):
 
 def build_ui():
     cmds = _cmds()
+    from aimayatool.ui.components import button_row, section
 
-    cmds.text(label="Control shapes", align="left")
+    section("Control shapes", spacing=False)
     cmds.rowLayout(numberOfColumns=3, adjustableColumn=3)
     for label, shape in (("Circle", "circle"), ("Box", "box"), ("Sphere", "sphere")):
         cmds.button(label=label, command=lambda *_, s=shape: _run("Created " + s, lambda: _create_selected(s)))
@@ -335,22 +336,19 @@ def build_ui():
     for label, shape in (("Diamond", "diamond"), ("Locator", "locator"), ("Eye", "eye")):
         cmds.button(label=label, command=lambda *_, s=shape: _run("Created " + s, lambda: _create_selected(s)))
     cmds.setParent("..")
-    cmds.rowLayout(numberOfColumns=2, adjustableColumn=2)
-    cmds.button(label="Replace Shape...", command=lambda *_: _run("Replaced shape", _replace_selected_shape))
-    cmds.button(label="Zero Group", command=lambda *_: _run("Zero group", _zero_selected))
-    cmds.setParent("..")
+    button_row([
+        ("Replace Shape...", lambda *_: _run("Replaced shape", _replace_selected_shape)),
+        ("Zero Group", lambda *_: _run("Zero group", _zero_selected)),
+    ])
 
-    cmds.separator(height=8, style="none")
-    cmds.text(label="Transforms and joints", align="left")
+    section("Transforms and joints")
     cmds.rowLayout(numberOfColumns=3, adjustableColumn=3)
     cmds.button(label="Freeze TRS", command=lambda *_: _run("Freeze", _freeze_selected))
     cmds.button(label="Reset TR", command=lambda *_: _run("Reset", _reset_selected))
     cmds.button(label="Create Joints", command=lambda *_: _run("Joints", _create_joints_selected))
     cmds.setParent("..")
 
-    cmds.separator(height=8, style="none")
-    cmds.text(label="Constraints", align="left")
-    cmds.text(label="Selection order is explicit; driven object is selected last unless stated otherwise.", align="left")
+    section("Constraints", "Selection order is explicit; driven object is selected last unless stated otherwise.")
     cmds.rowLayout(numberOfColumns=2, adjustableColumn=2)
     cmds.button(label="Parent Constraint", command=lambda *_: _run("Parent constraint", _parent_constraint_selected))
     cmds.button(label="Point Constraint", command=lambda *_: _run("Point constraint", _point_constraint_selected))
@@ -360,16 +358,13 @@ def build_ui():
     cmds.button(label="Aim Constraint", command=lambda *_: _run("Aim constraint", _aim_constraint_selected))
     cmds.setParent("..")
 
-    cmds.separator(height=8, style="none")
-    cmds.text(label="Spaces and attributes", align="left")
+    section("Spaces and attributes")
     cmds.rowLayout(numberOfColumns=2, adjustableColumn=2)
     cmds.button(label="Create Space Switch", command=lambda *_: _run("Space switch", _space_switch_selected))
     cmds.button(label="Copy Attribute...", command=lambda *_: _run("Attribute copy", _copy_attribute_selected))
     cmds.setParent("..")
 
-    cmds.separator(height=8, style="none")
-    cmds.text(label="IK/FK", align="left")
-    cmds.text(label="RP IK: joints then controls. Blend: bind/FK/IK chains. Snap: alternating pairs. Switch: FK/IK nodes then proxies.", align="left")
+    section("IK/FK", "RP IK: joints then controls. Blend: bind/FK/IK chains. Snap: alternating pairs. Switch: FK/IK nodes then proxies.")
     cmds.rowLayout(numberOfColumns=2, adjustableColumn=2)
     cmds.button(label="Create RP IK", command=lambda *_: _run("RP IK", _rp_ik_selected))
     cmds.button(label="Create IK/FK Blend...", command=lambda *_: _run("IK/FK blend", _blend_ikfk_selected))
@@ -379,9 +374,7 @@ def build_ui():
     cmds.button(label="Wire IK/FK Switch...", command=lambda *_: _run("IK/FK switch", _wire_ikfk_switch_selected))
     cmds.setParent("..")
 
-    cmds.separator(height=8, style="none")
-    cmds.text(label="Secondary rigs", align="left")
-    cmds.text(label="Selection order is explicit; Fold/Rope prompts split ordered object/destination groups and driver configuration.", align="left")
+    section("Secondary rigs", "Selection order is explicit; Fold/Rope prompts split ordered object/destination groups and driver configuration.")
     cmds.rowLayout(numberOfColumns=3, adjustableColumn=3)
     cmds.button(label="Spline IK Chain", command=lambda *_: _run("Spline IK", _spline_ik_selected))
     cmds.button(label="Object on Curve", command=lambda *_: _run("Object on curve", _object_on_curve_selected))
