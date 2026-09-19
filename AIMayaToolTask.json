@@ -28,81 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-maya-single-script-managed-live-169k",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 45,
-        "module": "aimayatool.tools.scene.single_script",
-        "callable": "single_script_managed_maya_smoke",
-        "isolated_scene": true,
-        "save_scene": false,
-        "new_scene_forced": true
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-maya-build-actions-managed-live-169j",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Continue bounded Scene host regression with the existing SingleScript managed-Maya smoke entrypoint already proven in prior runtime evidence.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use managed live Maya in a forced fresh unsaved scene.",
-          "Invoke only aimayatool.tools.scene.single_script.single_script_managed_maya_smoke.",
-          "Require explicit successful product output; timeout/session loss remains runtime evidence.",
-          "Do not save scene data."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_single_script_managed_maya_pass",
-        "delivery_id": "f1d0411b26e8123f8af7",
-        "verification_evidence": {
-          "route": "maya:managed_live_smoke",
-          "result": "AIBRIDGE_UI_SMOKE_OK:{'executed': True, 'exists': True, 'missing': True, 'success': True}",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "managed_pid": 6168,
-          "port": 7001,
-          "session": "existing"
-        },
-        "architect_diagnosis": "SingleScript bounded host smoke passed in a forced fresh unsaved Maya scene. The returned dictionary explicitly exercised executed/existing/missing cases with success=True. Continue Scene Maya validation rather than closing the milestone from two slices."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-maya-smoke-inventory-refresh-169l",
       "action": {
         "type": "verification",
@@ -692,9 +617,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": false,
@@ -747,6 +672,80 @@
           "Import preset library and Scene package.",
           "Run tests.test_scene_presets and require all focused tests PASS.",
           "Do not claim Maya validation; this slice is Python-only."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "invalid_task_permission_contract",
+        "delivery_id": "9d084659cebd2392c019",
+        "architect_diagnosis": "Task never reached product verification: git_pull precondition requires permissions.edit=true. Republish identical verification with edit enabled solely to permit repository fast-forward."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal008-scene-presets-library-verify-retry-170e",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/presets.py",
+          "aimayatool/tools/scene/__init__.py",
+          "tests/test_scene_presets.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.presets",
+          "aimayatool.tools.scene"
+        ],
+        "unittests": [
+          "tests.test_scene_presets"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-008",
+        "milestone_id": "scene-presets",
+        "retry_of_archived": {
+          "task_id": "aimayatool-goal008-scene-presets-library-verify-170d",
+          "result": "FAIL",
+          "classification": "invalid_task_permission_contract",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Retry verification of Architect-implemented Scene preset library with edit permission required by git_pull precondition.",
+        "acceptance": [
+          "Fast-forward main.",
+          "py_compile preset library, Scene package export, and tests.",
+          "Import preset library and Scene package.",
+          "Run tests.test_scene_presets and require all focused tests PASS.",
+          "Do not modify product code during verification."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
