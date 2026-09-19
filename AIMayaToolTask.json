@@ -624,7 +624,7 @@
         "via": "web"
       },
       "task_id": "aimayatool-goal007-scene-pattern-unlock-attribute-maya-validation-retry-164d",
-      "status": "blocked",
+      "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
       "action": {
@@ -674,8 +674,9 @@
         "required_fix_commit": "9cddcc6ade70e0ba61078569408b6e3197ba3b6d",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
         "runtime_preflight_required": true,
-        "blocked_reason": "Owner reports AIMayaTool runtime is stopped. Do not execute this Maya retry until runtime is explicitly restored and a fresh managed session is established; prior PID/session evidence must not be reused.",
-        "architect_correction": "Previous stale-worktree diagnosis was not sufficiently established because the owner reports the AIMayaTool runtime was stopped. Preserve 164c as observed failure evidence, but treat its root cause as unresolved runtime/source-state ambiguity until a fresh session proves otherwise."
+        "architect_correction": "Previous stale-worktree diagnosis was not sufficiently established because the owner reports the AIMayaTool runtime was stopped. Preserve 164c as observed failure evidence, but treat its root cause as unresolved runtime/source-state ambiguity until a fresh session proves otherwise.",
+        "runtime_resume_evidence": "AIBrigde delivered a fresh queue_exhausted task_request to Architect on 2026-09-19, proving the task-request runtime path is running again. Managed Maya freshness/liveness must still be established by this task before product smoke.",
+        "previous_blocked_reason": "Owner reports AIMayaTool runtime is stopped. Do not execute this Maya retry until runtime is explicitly restored and a fresh managed session is established; prior PID/session evidence must not be reused."
       }
     }
   ]
