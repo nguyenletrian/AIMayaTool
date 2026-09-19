@@ -21,77 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-transfer-attribute-python-verify-164u",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/transfer_attribute.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.transfer_attribute"
-        ],
-        "timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Verify ScenePattern TransferAttribute adapter.",
-        "implementation_commit": "62480e503cfd634f9fd03f4491a7f97d554b400b",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_TransferAttribute.py",
-        "legacy_source_sha": "48de8ea63b89f304627ab8ef4ecee87989928376",
-        "acceptance": [
-          "git_pull current main.",
-          "Module compiles/imports outside Maya.",
-          "No Maya host behavior claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "transfer_attribute_python_verification_passed",
-        "delivery_id": "ac44f2470f1fa1caa0e5",
-        "verification_evidence": {
-          "git_pull_before": "6759112a38285121b1e3e7d88e99bc9a31b5e3f3",
-          "git_pull_after": "ac334458f1444a9587fbeec12ed0eef51fcf4117",
-          "repository_changed": true,
-          "py_compile": true,
-          "imports": [
-            "aimayatool.tools.scene.transfer_attribute"
-          ]
-        },
-        "architect_diagnosis": "Python gate passed after fast-forwarding current main. TransferAttribute adapter compiles/imports cleanly; destination attribute creation and Maya connection rewiring remain gated by managed-Maya task 164v."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-transform-backup-python-verify-164w",
       "action": {
         "type": "verification",
@@ -720,6 +649,65 @@
           }
         },
         "architect_diagnosis": "Deterministic Python gate passed: script-hook adapter and tests compile, module imports outside Maya, and all three focused tests pass for hook descriptors, current/up SceneData path semantics, and delegated script execution."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-match-pairs-inventory-165e",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "purpose": "Bounded inventory/architecture gate for legacy MatchPairs before implementation. The legacy module mixes incomplete Run behavior with useful nearest-distance pairing and XML name-transfer utilities; determine the safe migration boundary instead of speculatively porting its UI/global state.",
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_MatchPairs.py",
+        "legacy_source_sha": "c9a9790b8ebc8ad2c739c4a784aa4f3db8bf6ecf",
+        "acceptance": [
+          "git_pull current main.",
+          "Confirm current scene package imports cleanly.",
+          "Report a concrete migration boundary separating deterministic pair/XML helpers from Maya selection/UI behavior.",
+          "Do not claim the legacy Run body as implemented; it is effectively incomplete in the reference source.",
+          "No repository mutation required."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
