@@ -28,79 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-default-switch-ikfk-reconcile-168s",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/ikfk_switch.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.ikfk_switch"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-final-reconciliation-168r",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_DefaultSwitchIKFK.py",
-        "purpose": "Resolve the final structurally distinct ScenePattern item. Compare legacy DefaultSwitchIKFK schema/behavior against current IK/FK APIs and determine a bounded adapter/supersession path before closing scene-pattern-parity.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import ikfk_switch.py.",
-          "Do not treat DefaultSwitchIKFK as equivalent to NewSwitchIKFK without explicit schema/behavior evidence.",
-          "Return current-main evidence for Architect implementation or documented supersession decision.",
-          "Do not mark scene-pattern-parity complete yet."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "default_switch_ikfk_distinct_schema_verified",
-        "delivery_id": "2e22feb3b5817fd1cfc9",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "1a7f5dd776dfc243d4c6746c9f92f0706faeba3c"
-        },
-        "architect_diagnosis": "Legacy DefaultSwitchIKFK is not the NewSwitch snap schema: it configures SetupSnapIKFK using controlParent/controlSwitch, FK/IK mode values, FK/IK controls, IK joints and optional upper/roll controls. Architect added a deterministic compatibility planner preserving that legacy setup schema without coupling the public API to the old UI widget names."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-default-switch-ikfk-python-verify-168t",
       "action": {
         "type": "verification",
@@ -718,9 +645,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -771,6 +698,80 @@
           "Inventory current Scene UI/registry exposure against completed Scene workflow coverage.",
           "Keep UI thin over domain APIs; do not copy SceneU/SceneUNew monolithic logic.",
           "Return first dependency-ready UI exposure gap or evidence UI parity is already complete."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_ui_parity_architecture_gate_pass",
+        "delivery_id": "a66d3c3fa710237f92e9",
+        "verification_evidence": {
+          "py_compile": true,
+          "imports": true,
+          "main_commit": "bfa1d4b3c27368d3ded85f24ce9af1623fbfcd7e"
+        },
+        "architect_diagnosis": "Scene catalog/pattern/operations APIs are import-safe. Fresh target tree/code search shows no separate Scene-specific UI/registry implementation to migrate; the legacy SceneU/SceneUNew surface was monolithic orchestration whose reusable workflows are now exposed as domain APIs. Under the target architecture, UI parity is satisfied by keeping this surface domain-driven rather than recreating the obsolete Maya-cmds monolith. Maya interaction remains a separate validation milestone."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-maya-validation-plan-169c",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-ui-parity-inventory-169b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "goal_state_commit": "6c912201795964b969810863d236c000387c931f",
+        "known_runtime_blocker": "FoldRig fresh managed maya:ui_smoke timed out twice with no product output; do not route all Scene tools through that unhealthy path.",
+        "purpose": "Begin final Goal 007 Maya-validation milestone by refreshing Scene package and inventorying existing per-tool smoke coverage/results. Build a bounded validation plan that reuses proven managed-Maya routes where available and separates Python-only coverage from genuinely unvalidated host behavior.",
+        "acceptance": [
+          "Fast-forward main including completed scene-ui-parity state.",
+          "Compile/import Scene package.",
+          "Inventory existing Scene smoke modules and prior runtime evidence before scheduling host work.",
+          "Do not blindly retry the known unhealthy FoldRig UI-smoke route.",
+          "Prefer bounded managed Maya or mayapy validation per tool family, and return the first safe dependency-ready validation slice."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
