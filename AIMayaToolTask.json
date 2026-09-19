@@ -678,9 +678,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -723,7 +723,15 @@
           "Return baseline evidence preserving the already-inspected legacy contracts for later implementation."
         ],
         "blocker": "Implementation-capable route is still absent from current project router/capability metadata. This task is read/verify-only and must not mutate product code.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_BASELINE",
+        "classification": "rivet_spline_preimplementation_baseline_verified",
+        "delivery_id": "74b4c81fe61d84bd2b37",
+        "verification_evidence": {
+          "py_compile": true,
+          "main_commit": "e15e007251be18b646587fd95e762093df0945ef"
+        },
+        "architect_diagnosis": "Rivet/SplineRig preimplementation baseline is healthy. This does not implement either workflow; implementation remains gated by the absent implementation-capable route."
       }
     }
   ]
