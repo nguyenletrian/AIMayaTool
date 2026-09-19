@@ -739,9 +739,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -788,6 +788,76 @@
           "Do not use Codex."
         ],
         "implementation_commit": "726279faffa1b765fe9c624c614452ed5107c800",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_SMOKE_ASSERTION",
+        "classification": "persistent_maya_stale_setup_callable",
+        "delivery_id": "1b053dc5fd7af1037c2b",
+        "architect_diagnosis": "Tracking and workspace assertions advanced past the prior stale-components failure, but the existing Maya session's Setup callable did not apply translation freeze. Repository inspection shows the current primitive is transforms.freeze_transform(..., translate=True). Hardened the smoke to reload Setup/transforms and invoke that current primitive while preserving the same tracked-action seam."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-action-maya-smoke-retry2-181o",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.ui.main_window",
+        "callable": "tracked_action_interaction_smoke",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-action-maya-smoke-retry-181n"
+        ],
+        "purpose": "Retry tracked-action live proof using freshly reloaded current Setup transform primitive in the persistent Maya session.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use fresh unsaved scene.",
+          "Invoke tracked_action_interaction_smoke.",
+          "Disposable transform translation is frozen to zero through current transforms.freeze_transform primitive.",
+          "Tracked action records setup/freeze_trs/Freeze TRS and workspace displays it.",
+          "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "implementation_commits": [
+          "12abb5ed32878e5e341225cbf0c3540c65bb4af9",
+          "a0201ee2f05c0faa374a5078e2e6187833f41f02"
+        ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
