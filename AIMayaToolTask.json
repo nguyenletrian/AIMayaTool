@@ -28,85 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-interaction-maya-176l",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.ui.main_window",
-        "callable": "discovery_interaction_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45,
-        "expected_window": "AIMayaToolWindow"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-search-discovery",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-maya-retry-176k",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Prove useful Recent/Favorites interaction in managed Maya before closing ui-search-discovery.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use isolated fresh scene.",
-          "Invoke discovery_interaction_smoke.",
-          "Search rig and require Setup to become most recent.",
-          "Toggle current favorite and require Setup in favorites plus refreshed discovery label.",
-          "Return AIBRIDGE_UI_DISCOVERY_OK:recent=setup|favorite=setup without exception.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_search_discovery_complete",
-        "delivery_id": "41ca0d747b26a2ff31f8",
-        "verification_evidence": {
-          "marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "pid": 6168,
-          "port": 7001,
-          "session": "existing"
-        },
-        "architect_diagnosis": "Managed Maya interaction validation passed for the Recent/Favorites discovery surface after search interaction was already proven. ui-search-discovery now has sufficient evidence and is closed; ui-status-progress is active."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-status-progress-inventory-177a",
       "action": {
         "type": "verification",
@@ -670,9 +591,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -721,6 +642,84 @@
           "Setup shared button rows must construct after polish while dynamic control-shape rows remain available.",
           "Search/discovery and status surfaces must coexist in the workspace without construction regression.",
           "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_final_polish_and_goal009_complete",
+        "delivery_id": "1f3173dca2dcf6f66ac7",
+        "verification_evidence": {
+          "marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001,
+          "session": "existing"
+        },
+        "architect_diagnosis": "Final managed Maya workspace regression passed after bounded polish. All Goal 009 milestones now have sufficient evidence; Goal 009 is complete. Goal 010 context-selection is activated for the next bounded inventory."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-context-selection-inventory-179a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py",
+          "aimayatool/registry.py"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "context-selection",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-final-polish-maya-178c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Inventory explicit selection requirements across Skinning, Setup and Scene to identify the smallest safe context-aware selection helper that reduces repetitive selection without hiding destructive behavior.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile the three domain entrypoints and registry.",
+          "Inventory selection-reading helpers and repeated selection-order validation across domains.",
+          "Identify one bounded context-selection slice with explicit fallback/error behavior and no destructive auto-selection.",
+          "Prefer reusable Python-safe logic where possible before Maya integration.",
+          "Do not expand into presets, favorites/recent, batch productivity or broad preflight work.",
+          "Do not claim Maya behavior from this inventory.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
