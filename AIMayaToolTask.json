@@ -25,78 +25,6 @@
         "read": true,
         "edit": true,
         "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal008-scene-presets-inventory-170a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py",
-          "aimayatool/tools/scene/operations.py",
-          "aimayatool/tools/scene/patterns.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-presets",
-        "archived_prerequisite": {
-          "goal_id": "aimayatool-007",
-          "result": "completed",
-          "closeout_task": "aimayatool-goal007-scene-maya-validation-closeout-169p"
-        },
-        "purpose": "Start Scene 2.0 modernization by inventorying current pattern/preset APIs and legacy/reference preset-management behavior before proposing implementation changes.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Verify current Scene pattern/preset modules compile/import.",
-          "Inventory current preset-management surface and relevant legacy/reference behavior.",
-          "Identify bounded modernization gaps for preset create/save/load/organization without speculative UI implementation.",
-          "Return dependency-ready next slice."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_presets_baseline_verified",
-        "delivery_id": "cdeb38b803076dd16e3a",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true
-        },
-        "architect_diagnosis": "Current Scene preset baseline is intentionally small: ScenePattern v1, in-memory PatternRegistry, deterministic create/edit, and single-file save/load. It lacks a reusable persistent preset-library abstraction for directory organization, listing, safe naming/path ownership, and CRUD orchestration. This is a bounded Python-only modernization slice before UI work."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
         "commit": true,
         "push": true
       },
@@ -671,9 +599,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -722,6 +650,77 @@
           "Import compare_edit_smoke so its assertions execute.",
           "Prove unchanged comparison, deterministic changed-field ordering, immutable edit behavior, before/after values, unknown-field rejection, and invalid-type rejection.",
           "No Maya/UI dependency."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "scene_compare_edit_package_syntax_regression",
+        "delivery_id": "97724b717255bfe35692",
+        "architect_diagnosis": "Architect export edit inserted compare_edit import before __future__, causing a real Python syntax regression. Fixed by restoring __future__ import as first executable statement; compare/edit implementation itself remains pending verification."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal008-scene-compare-edit-verify-retry-171c",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/compare_edit.py",
+          "aimayatool/tools/scene/compare_edit_smoke.py",
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.compare_edit_smoke",
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-008",
+        "milestone_id": "scene-compare-edit",
+        "retry_of_archived": {
+          "task_id": "aimayatool-goal008-scene-compare-edit-verify-171b",
+          "result": "FAIL",
+          "classification": "scene_compare_edit_package_syntax_regression",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Re-run compare/edit compile and import-executed behavior verification after fixing Scene package future-import ordering.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile compare_edit.py, compare_edit_smoke.py, and Scene __init__.py.",
+          "Import compare_edit_smoke so all deterministic behavior assertions execute.",
+          "Import aimayatool.tools.scene public API.",
+          "Return PASS only if compile and both imports succeed."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
