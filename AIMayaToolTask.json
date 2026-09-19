@@ -559,9 +559,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-visibility-python-verify-164k",
       "action": {
         "type": "verification",
@@ -603,7 +603,20 @@
           "visibility.py compiles/imports outside Maya.",
           "No Maya host claim from this gate."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "visibility_python_verification_passed",
+        "delivery_id": "40ccf6c3b1b60c372e95",
+        "verification_evidence": {
+          "git_pull_before": "82955d8876aab8e7a8db84f1af285d89f2846a7e",
+          "git_pull_after": "dc687f2cb97ea23485ac7ee0179f8d8bf880da0b",
+          "repository_changed": true,
+          "py_compile": true,
+          "imports": [
+            "aimayatool.tools.scene.visibility"
+          ]
+        },
+        "architect_diagnosis": "Python gate passed after fast-forwarding current main. Visibility adapter compiles/imports cleanly; direct-hide and locked/connected offset fallback behavior remain gated by managed-Maya task 164l."
       }
     },
     {
