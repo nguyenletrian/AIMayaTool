@@ -103,6 +103,9 @@ def batch_reset_managed_maya_smoke():
         cmds.setAttr(node + ".scaleX", float(i + 2))
     cmds.select(nodes, replace=True)
     expected = cmds.ls(selection=True, long=True) or []
+    import importlib
+    from . import transforms
+    importlib.reload(transforms)
     _reset_selected()
     actual = cmds.ls(selection=True, long=True) or []
     if actual != expected:
