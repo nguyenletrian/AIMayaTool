@@ -653,9 +653,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rename-maya-validation-164j",
       "action": {
         "type": "maya",
@@ -697,7 +697,29 @@
           "Invalid empty rename data rejected deterministically.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "rename_managed_maya2024_proven",
+        "delivery_id": "8d930091e0a6a1b420e7",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "port": 7001,
+          "git_pull_before": "50ce630e98d966b381cb7f348ae8067d1c9dfdc7",
+          "git_pull_after": "82955d8876aab8e7a8db84f1af285d89f2846a7e",
+          "smoke": {
+            "renamed": true,
+            "missing": true,
+            "exists": true,
+            "invalid": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: existing objects were renamed, missing objects were skipped independently, requested renamed nodes exist and original names no longer resolve, and invalid empty rename input is rejected deterministically."
       }
     }
   ]
