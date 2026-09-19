@@ -361,72 +361,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-rope-roll-maya-host-assessment-retry-165v",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.rope_weights",
-        "callable": "rope_weights_managed_maya_smoke",
-        "args": [
-          "roll"
-        ],
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "retry_of": "aimayatool-goal007-scene-pattern-rope-roll-maya-host-assessment-165t",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-rope-weight-core-python-verify-165s"
-        ],
-        "purpose": "Retry RopeRoll managed-Maya host-readiness assessment after correcting git_pull edit permission.",
-        "acceptance": [
-          "git_pull current main with permissions.edit=true.",
-          "Use fresh isolated unsaved Maya scene.",
-          "If callable exists, exercise roll mode and return structured evidence for point/orient constraint weight wiring.",
-          "If callable is absent, return the exact missing-callable gap; do not fabricate Maya parity."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAILED_ROUTE_ARGUMENT_NOT_FORWARDED",
-        "classification": "managed_live_smoke_callable_args_not_forwarded",
-        "delivery_id": "73e0c54375d46a660649",
-        "architect_diagnosis": "Managed Maya was healthy and fresh scene forced. Route invoked the callable with no positional args despite payload.args=['roll'], so the required mode parameter caused TypeError before fixture behavior ran. Made the callable route-compatible with default mode='roll' in commit 5d11221d76905cee69b8f9fec6c15adc21bcc0ca. Queue separate no-arg Roll retry; Straight remains pending but cannot rely on payload.args until route argument forwarding is proven."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-retry-165w",
       "action": {
         "type": "maya",
@@ -750,6 +684,79 @@
           "tests_run": 3
         },
         "architect_diagnosis": "Post-smoke-wrapper Python regression passed: rope_weights.py and focused tests compile, module imports outside Maya, and all 3 deterministic unit tests pass. Combined with the already accepted managed-Maya Roll/Straight smokes, the bounded rope weight slice remains proven at both Python and Maya tiers."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-parity-gap-audit-166b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/catalog.py",
+          "aimayatool/tools/scene/patterns.py",
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene",
+          "aimayatool.tools.scene.catalog",
+          "aimayatool.tools.scene.patterns"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisites": [
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry3-165z",
+            "result": "PASS"
+          },
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-rope-host-fixture-python-regression-166a",
+            "result": "PASS"
+          }
+        ],
+        "purpose": "Bounded parity-gap audit before closing ScenePattern parity. Compare current Scene catalog/registry/module surface against the legacy UIs/ScenePattern inventory and identify only unresolved useful workflows, duplicates/superseded items, or validation gaps; do not bulk-copy legacy code.",
+        "legacy_inventory_source": "nguyenletrian/MayaScriptNew/UIs/ScenePattern",
+        "acceptance": [
+          "git_pull current main.",
+          "Current Scene package/catalog/pattern registry compile and import cleanly.",
+          "Compare legacy ScenePattern filenames/workflows with current aimayatool/tools/scene surface and existing catalog/registry exposure.",
+          "Return a concise structured list of unresolved useful gaps, if any, separating missing implementation from missing Maya/UI validation and from duplicate/superseded/internal-only legacy items.",
+          "If a clear next migration slice exists, identify its exact legacy source and target architectural boundary for Architect follow-up.",
+          "No repository mutation required."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
