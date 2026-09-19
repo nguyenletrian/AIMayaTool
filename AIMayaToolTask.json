@@ -298,9 +298,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-proxy-attribute-migrate-164e",
       "action": {
         "type": "implementation",
@@ -329,7 +329,7 @@
         "milestone_id": "scene-pattern-parity",
         "purpose": "Migrate ScenePattern ProxyAttribute as a thin Scene adapter over the accepted Setup proxy primitive.",
         "legacy_source": "UIs/ScenePattern/Scene_Pattern_ProxyAttribute.py",
-        "legacy_source_sha": "4f50f0d3e5a36b1d0a9c3216f91ecce8c7d26a1b",
+        "legacy_source_sha": "c26e66b0a1fb543b91e739212a9ecd2b0ea401d9",
         "reuse_target": "aimayatool.tools.setup.proxy_attributes.create_proxy_attribute",
         "acceptance": [
           "Add focused Scene adapter without copying legacy UI/NLTA infrastructure.",
@@ -339,7 +339,13 @@
           "Add deterministic Python smoke/tests and a bounded managed-Maya smoke entrypoint.",
           "Commit and push implementation to main."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "RECOVERED",
+        "classification": "unsupported_route_recovered_by_architect",
+        "delivery_id": "630fb3137821fae2dc10",
+        "failure": "No route handler registered for implementation:repository",
+        "implementation_commit": "97c6f42aa192bd8a708c3d7c77cacbc5c61d4814",
+        "architect_diagnosis": "implementation:repository is not a registered AIBrigde route. Architect performed the bounded repository implementation directly and committed it to main; dependent verification may now run."
       }
     },
     {
