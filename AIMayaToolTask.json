@@ -660,9 +660,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-match-pairs-core-python-verify-165f",
       "action": {
         "type": "verification",
@@ -713,7 +713,22 @@
           "Focused tests pass.",
           "No Maya host behavior claim."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "match_pairs_core_python_verification_passed",
+        "delivery_id": "43d9ea37c316d9ebdcb4",
+        "verification_evidence": {
+          "git_pull_before": "58fb728580ca7c4c7de635e0c8f0d7c4cc1cbc5c",
+          "git_pull_after": "7f5e29b10ee7bbdf4c1d351163dec8051ec0624b",
+          "py_compile": true,
+          "import": "aimayatool.tools.scene.match_pairs",
+          "tests": {
+            "target": "tests.test_scene_match_pairs",
+            "ran": 3,
+            "success": true
+          }
+        },
+        "architect_diagnosis": "Deterministic MatchPairs core passed Python verification: both files compile, module imports outside Maya, and all 3 focused tests pass. This proves only normalization/pair mapping/XML transfer; Maya nearest-distance and selection behavior remain outside this gate."
       }
     }
   ]
