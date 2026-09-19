@@ -28,72 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-retry-166v",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.driven_key",
-        "callable": "driven_key_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "smoke_fix_commit": "e3a98b94842acd3fda9e51906afc36bfe91718fa",
-        "purpose": "Retry final bounded DrivenKey Maya smoke using listConnections plug-level child-source validation.",
-        "acceptance": [
-          "Fresh isolated unsaved scene.",
-          "SDK/zero groups exist.",
-          "listConnections reports SDK attr as the direct upstream plug for child attr.",
-          "animCurve exists upstream of SDK attr.",
-          "Driver 0/10 evaluates 1/5.",
-          "Tangents linear."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAILED_SMOKE_ASSERTION",
-        "classification": "driven_key_invalid_direct_connection_expectation",
-        "delivery_id": "6f969d622f9d3c694289",
-        "architect_diagnosis": "Repeated Maya evidence shows the direct-connection expectation itself is invalid. apply_driven_key parents the driven object under _SDKGrp and setDrivenKeyframe animates the SDK group's channel; it does not connect SDKGroup.tx to child.tx. Therefore both connectionInfo and listConnections correctly fail to find such a direct plug connection. Hierarchy, animCurve, SDK evaluation and tangents all pass. Replaced the invalid smoke assertion with hierarchy + child-local stability checks; product host logic unchanged.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-166u",
-          "result": "FAILED_SMOKE_ASSERTION"
-        }
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-driven-key-hierarchy-smoke-166w",
       "action": {
         "type": "maya",
@@ -118,7 +52,6 @@
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-maya-validation",
-        "retry_of": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-retry-166v",
         "smoke_fix_commit": "e3a98b94842acd3fda9e51906afc36bfe91718fa",
         "purpose": "Final DrivenKey Maya validation using the actual implementation contract: SDK offset hierarchy plus keyed offset evaluation, not a nonexistent direct SDK->child plug connection.",
         "acceptance": [
@@ -144,7 +77,11 @@
           "linear": true,
           "scene_saved": false
         },
-        "architect_diagnosis": "Final corrected managed Maya validation passed. DrivenKey host behavior is proven against its actual hierarchy contract: driven object under _SDKGrp, _ZeloSDKGrp present, animCurve upstream of SDK channel, driver 0/10 evaluates SDK tx to 1/5, child local tx remains stable, and tangents are linear."
+        "architect_diagnosis": "Final corrected managed Maya validation passed. DrivenKey host behavior is proven against its actual hierarchy contract: driven object under _SDKGrp, _ZeloSDKGrp present, animCurve upstream of SDK channel, driver 0/10 evaluates SDK tx to 1/5, child local tx remains stable, and tangents are linear.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-retry-166v",
+          "result": "FAILED_SMOKE_ASSERTION"
+        }
       }
     },
     {
@@ -691,9 +628,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": false,
@@ -749,6 +686,70 @@
           "Return repository precondition commit and verification evidence so Architect can safely decide the next route/capability recovery action."
         ],
         "blocker": "Current .aibridge/routers.json has no implementation route. Known implementation:python dispatch is unsupported; verification:python must not be abused as an implementation route.",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "BLOCKED_PERMISSION",
+        "classification": "git_pull_requires_edit_permission",
+        "delivery_id": "1de3ca2f48d9bf3fc2cc",
+        "architect_diagnosis": "Task did not reach Python verification. git_pull mutates the local worktree and the Bridge contract requires permissions.edit=true. Retry the same bounded recovery gate with edit=true while keeping commit/push false and product mutation forbidden."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-implementation-route-recovery-assessment-retry-167f",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "retry_of": "aimayatool-goal007-implementation-route-recovery-assessment-167e",
+        "purpose": "Retry the bounded implementation-route recovery gate with the minimum permission required for git_pull.",
+        "acceptance": [
+          "Fast-forward current main.",
+          "Compile/import current Scene package successfully.",
+          "Do not mutate product source files; edit permission exists solely because git_pull updates the local worktree.",
+          "Do not commit or push.",
+          "Do not claim FoldRig/Rivet/SplineRig implementation occurred.",
+          "Return repository precondition commit and verification evidence for Architect route recovery."
+        ],
+        "blocker": "Implementation dispatch remains unavailable; this task only establishes a fresh verified repository baseline.",
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
