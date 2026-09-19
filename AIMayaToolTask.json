@@ -28,85 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-sdk-switch-space-inventory-166c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-parity-gap-audit-166b",
-          "result": "PASS_WITH_GAPS"
-        },
-        "purpose": "Inventory the next cohesive missing ScenePattern behavior family before implementation: Drivenkey, ModuloSDK variants, IK/FK switch variants and SpaceSwitch.",
-        "legacy_sources": [
-          "UIs/ScenePattern/Scene_Pattern_Drivenkey.py",
-          "UIs/ScenePattern/Scene_Pattern_ModuloSDK.py",
-          "UIs/ScenePattern/Scene_Pattern_ModuloSDKNew.py",
-          "UIs/ScenePattern/Scene_Pattern_DefaultSwitchIKFK.py",
-          "UIs/ScenePattern/Scene_Pattern_NewSwitchIKFK.py",
-          "UIs/ScenePattern/Scene_Pattern_NewSwitchIKFK_WithAddKeys.py",
-          "UIs/ScenePattern/Scene_Pattern_SpaceSwitch.py"
-        ],
-        "acceptance": [
-          "git_pull current main and confirm current Scene package imports cleanly.",
-          "Read the listed legacy sources and document exact user-visible semantics, data fields, Maya operations and meaningful edge cases without bulk-copying legacy code.",
-          "Separate deterministic Python-only planning/data normalization from Maya-host mutation for each workflow.",
-          "Identify overlap/supersession among ModuloSDK variants and IK/FK switch variants so only useful canonical behavior is migrated.",
-          "Return a concise implementation plan with proposed aimayatool/tools/scene module boundaries and focused Python/Maya verification gates.",
-          "No repository mutation required."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "sdk_switch_space_inventory_gate_passed",
-        "delivery_id": "f412bdbc823c4db58c5b",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": "aimayatool.tools.scene"
-        },
-        "architect_diagnosis": "Inventory gate accepted. The current Scene package remains import-safe. Legacy sources establish separate canonical boundaries: DrivenKey data/key-state normalization vs Maya SDK creation; ModuloSDK variants require supersession analysis before choosing one canonical implementation; IK/FK switch variants share switch/snap data and Maya matrix/scriptJob behavior with the WithAddKeys variant adding keying behavior; SpaceSwitch has a clean deterministic plan boundary (children/parents/enum/maintain/slide/default validation and target-index mapping) while offset groups, parentConstraints, condition and plusMinusAverage nodes are Maya-host mutations. Proceed first with SpaceSwitch as the smallest independent vertical slice; keep SDK and IK/FK families for subsequent bounded slices."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-space-switch-core-166d",
       "action": {
         "type": "verification",
@@ -763,6 +684,78 @@
           }
         },
         "architect_diagnosis": "Canonical ModuloSDK managed Maya smoke passed in a fresh unsaved scene. The host slice now proves missing driver-attr creation, deterministic offset groups for multiline targets, Maya expression creation with dynamic modulo count 3, and actual slot-2 evaluation driving both offset attributes to 3. UI/serialization parity and broader legacy edge cases remain outside this bounded claim."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-driven-key-core-verify-166m",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/driven_key.py",
+          "tests/test_scene_driven_key.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.driven_key"
+        ],
+        "tests": [
+          "tests.test_scene_driven_key"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-managed-maya-smoke-166l",
+          "result": "PASS"
+        },
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_Drivenkey.py",
+        "legacy_source_sha": "b9c6a492b8913e6c7d4cf056eb19ecae91221069",
+        "implementation_commits": [
+          "ee9fd3b042d8b156a4b695382a0b527a167d56ae",
+          "02952691e1a2100dffb58663e71fc10859742dde"
+        ],
+        "purpose": "Verify deterministic DrivenKey data/planning boundary before Maya SDK mutation.",
+        "acceptance": [
+          "Compile/import outside Maya.",
+          "Normalize driverAttr and multiline drivenAttrs.",
+          "Normalize numeric driver/driven values, deterministic key ordering, driven-object inventory, _SDKGrp and _ZeloSDKGrp naming.",
+          "Reject malformed plugs, empty keyData and duplicate driverValue.",
+          "All focused tests pass.",
+          "Do not create Maya offset groups or SDK curves."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
