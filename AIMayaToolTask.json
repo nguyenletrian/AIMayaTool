@@ -187,74 +187,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-favorites-recent-ui-instrument-inventory-181d",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/registry.py",
-          "aimayatool/ui/components.py",
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-action-state-verify-181c"
-        ],
-        "purpose": "Inventory the smallest safe UI/domain instrumentation seam for recording stable action recency without changing action semantics or adding persistence.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile registry, shared UI components and domain entrypoints.",
-          "Identify a thin reusable action wrapper/helper that can record explicit group_id/action_id/label only when an action is intentionally invoked.",
-          "Preserve current run_action success/error presentation and existing callbacks.",
-          "Do not infer action identity from callback repr/result labels.",
-          "Do not add persistence, batch productivity or preflight behavior.",
-          "Do not claim Maya interaction behavior from this Python inventory.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "favorites_recent_ui_instrument_inventory_pass",
-        "delivery_id": "f5210002ef06d1536e24",
-        "architect_diagnosis": "Python inventory compiles. Domain entrypoints already funnel actions through local _run -> shared run_action, while UI labels differ from stable action identity. The smallest safe instrumentation seam is a shared tracked action runner accepting explicit group_id/action_id/label and recording recent immediately on intentional invocation before delegating to existing run_action; start with a bounded representative Setup action rather than broad rewiring."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-batch-productivity-inventory-182a",
       "action": {
         "type": "verification",
@@ -656,9 +588,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -706,6 +638,75 @@
           "Separate UI selection wrappers from reusable primitives.",
           "Do not implement arbitrary callback batching or persistence.",
           "Do not use preflight-guidance in this slice.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "batch_productivity_next_slice_inventory_pass",
+        "delivery_id": "65ed78f90f9e4e2e6e8b",
+        "architect_diagnosis": "Current Setup/Skinning inventory confirms Freeze TRS and Zero Group already have explicit selection wrappers; transforms.freeze_transform and reset_transforms are deterministic primitives. The next bounded low-risk slice is batch Freeze TRS using an ordered helper analogous to reset_transforms, preserving selection order and avoiding generic callback batching."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "task_id": "aimayatool-goal010-batch-productivity-freeze-182h",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/setup/transforms.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup",
+          "aimayatool.tools.setup.transforms"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "batch-productivity",
+        "depends_on": [
+          "aimayatool-goal010-batch-productivity-inventory-182g"
+        ],
+        "purpose": "Implement the next bounded batch slice for Freeze TRS using an ordered selected-transform helper, mirroring the proven Reset TR pattern.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Add a thin ordered freeze_transforms helper that validates all nodes before mutation and delegates to freeze_transform.",
+          "Use it from the existing _freeze_selected wrapper with translate=True, rotate=True, scale=True.",
+          "Preserve selection order and existing run_action/error behavior.",
+          "Do not introduce arbitrary callback batching, hidden auto-selection, or persistence.",
+          "Add deterministic non-Maya coverage where practical and run py_compile/import/focused tests.",
+          "Commit and push only after verification passes.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
