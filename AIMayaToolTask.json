@@ -101,149 +101,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-space-switch-core-verify-166e",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/space_switch.py",
-          "tests/test_scene_space_switch.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.space_switch"
-        ],
-        "tests": [
-          "tests.test_scene_space_switch"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "retry_of": "aimayatool-goal007-scene-pattern-space-switch-core-166d",
-        "implementation_commits": [
-          "ba0ed2a15ab8213f7f31c581713a2c137659466c",
-          "09bece8e8c5bec7903bd38503c2c7bf264f0e3b2"
-        ],
-        "purpose": "Verify the now-implemented deterministic SpaceSwitch planning core outside Maya.",
-        "acceptance": [
-          "git_pull current main.",
-          "py_compile space_switch.py and test_scene_space_switch.py.",
-          "Import aimayatool.tools.scene.space_switch outside Maya.",
-          "Run tests.test_scene_space_switch; all focused tests pass.",
-          "No Maya host behavior claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAILED_TEST_FIXTURE",
-        "classification": "space_switch_test_encoded_literal_backslash_n",
-        "delivery_id": "bb6f5a61bd7b9ffc9492",
-        "architect_diagnosis": "Compile/import passed. The only unit failure was the test fixture itself: it passed the literal characters backslash+n ('world\\\\nbody') instead of two parent names/newline-delimited input, so normalization correctly treated it as one name. Replaced that ambiguous fixture with an explicit parent list in commit 1055337f096ee99b2bec55abd30014feb226a84d. Product core was not changed."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal007-scene-pattern-space-switch-core-verify-retry-166f",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/space_switch.py",
-          "tests/test_scene_space_switch.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.space_switch"
-        ],
-        "tests": [
-          "tests.test_scene_space_switch"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "retry_of": "aimayatool-goal007-scene-pattern-space-switch-core-verify-166e",
-        "test_fix_commit": "1055337f096ee99b2bec55abd30014feb226a84d",
-        "purpose": "Retry deterministic SpaceSwitch core verification after correcting the malformed multiline test fixture.",
-        "acceptance": [
-          "git_pull current main.",
-          "py_compile implementation and tests.",
-          "Import outside Maya.",
-          "All tests.test_scene_space_switch tests pass.",
-          "No Maya behavior claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "space_switch_core_python_verified",
-        "delivery_id": "8eaeb836dad69bc05482",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "tests_run": 3
-        },
-        "architect_diagnosis": "Deterministic SpaceSwitch planning core is Python-proven after correcting the test fixture: implementation/tests compile, module imports outside Maya, and all 3 focused tests pass. This proves normalization/index/default/slide planning only; Maya offset-group, parentConstraint, condition and plusMinusAverage behavior remains unproven."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-space-switch-host-python-regression-166g",
       "action": {
         "type": "verification",
@@ -766,6 +623,132 @@
           "tests_run": 3
         },
         "architect_diagnosis": "Deterministic DrivenKey planning core is Python-proven: implementation/tests compile, module imports outside Maya, and all 3 focused tests pass. This proves driver/driven plug normalization, numeric key normalization and ordering, driven-object inventory, deterministic _SDKGrp/_ZeloSDKGrp naming, and invalid/duplicate-key rejection only; Maya offset groups, connections, setDrivenKeyframe and tangent behavior remain unproven."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-driven-key-host-python-regression-166n",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/driven_key.py",
+          "tests/test_scene_driven_key.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.driven_key"
+        ],
+        "tests": [
+          "tests.test_scene_driven_key"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-driven-key-core-verify-166m",
+          "result": "PASS"
+        },
+        "implementation_commit": "51478da1d86a0fc390e40770548b2e44c4f700a0",
+        "purpose": "Regression gate after DrivenKey Maya host adapter.",
+        "acceptance": [
+          "Compile/import outside Maya.",
+          "All focused core tests pass.",
+          "No Maya behavior claim."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-166o",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.driven_key",
+        "callable": "driven_key_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-driven-key-host-python-regression-166n"
+        ],
+        "implementation_commit": "51478da1d86a0fc390e40770548b2e44c4f700a0",
+        "purpose": "Validate DrivenKey host mutation and actual SDK evaluation in fresh Maya.",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene.",
+          "Create _SDKGrp and _ZeloSDKGrp hierarchy.",
+          "Create/connect SDK attr to driven child attr.",
+          "Create setDrivenKeyframe keys at driver 0/10 with values 1/5.",
+          "Prove actual evaluation at both driver values.",
+          "Prove animCurve exists and tangents are linear.",
+          "Return structured checks."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
