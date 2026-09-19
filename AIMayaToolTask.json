@@ -28,74 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-maya-validation-route-blocker-169f",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/build_actions_smoke.py"
-        ],
-        "imports": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_retry_source": {
-          "task_id": "aimayatool-goal007-scene-maya-build-actions-managed-retry-169e",
-          "result": "FAIL",
-          "reason": "No route handler registered for maya_smoke:managed_maya"
-        },
-        "purpose": "Preserve deterministic evidence for the first host-validation slice while explicitly classifying Maya execution as blocked by the current Bridge route registry. Do not guess another Maya route.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile build_actions_smoke.py without importing it outside Maya.",
-          "Confirm the smoke module/callable remains present in current main.",
-          "Return Python verification evidence only; do not claim Maya product validation.",
-          "Architect will keep scene-maya-validation open until a supported Bridge Maya route is evidenced."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_maya_validation_bridge_route_blocked",
-        "delivery_id": "875c5b6dc04658ecbb33",
-        "verification_evidence": {
-          "py_compile": true,
-          "main_commit": "defec67474e941729e1aa0461c452df4390d9ebc"
-        },
-        "architect_diagnosis": "build_actions smoke source remains syntactically valid, but current Bridge rejected both attempted Maya route contracts before product execution. Host validation therefore remains open and blocked on restoring/discovering a supported AIBrigde Maya execution handler."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-maya-route-capability-assessment-169g",
       "action": {
         "type": "verification",
@@ -661,9 +593,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -718,6 +650,83 @@
           "Reconcile current Scene public API families with existing direct Maya evidence and deterministic Python coverage.",
           "Do not infer host validation for Maya-dependent behavior without evidence.",
           "Return the next exact bounded host slice if one remains, otherwise return evidence supporting scene-maya-validation milestone closure."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_maya_validation_milestone_ready_to_close",
+        "delivery_id": "8433b2a163f4872eb6df",
+        "verification_evidence": {
+          "py_compile": true,
+          "imports": true,
+          "main_commit": "fa3335ad228f4684fd619cc9d39729fa70efa7f5",
+          "managed_maya_slices": [
+            "build_actions",
+            "single_script",
+            "display_layer"
+          ]
+        },
+        "architect_diagnosis": "Representative Scene API compiles/imports. Current operations.py and patterns.py are deterministic Python-only data/JSON/registry logic and do not require Maya host execution. Maya-dependent public families have direct managed-Maya evidence for build actions and display layers; SingleScript host execution is also proven. The scene-maya-validation milestone has sufficient evidence to close, subject to durable goal/history state update."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-maya-validation-closeout-169p",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-maya-validation-assessment-169o",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Final deterministic closeout gate before Architect durably marks scene-maya-validation complete and advances Goal 007 state/history.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import Scene package one final time against the exact closeout state.",
+          "Preserve direct managed-Maya PASS evidence for build_actions, display_layer, and SingleScript.",
+          "Return PASS only for deterministic closeout verification; Architect performs bridgeGoals/HISTORY mutation after ACK.",
+          "Do not declare broader program completion."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
