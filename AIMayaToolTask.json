@@ -23,83 +23,6 @@
       "bridge_completed": true,
       "permissions": {
         "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "action": {
-        "type": "implementation",
-        "target": "python"
-      },
-      "task_id": "aimayatool-goal007-scene-pattern-spline-rig-core-167d",
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 900,
-        "files": [
-          "aimayatool/tools/scene/spline_rig.py",
-          "tests/test_scene_spline_rig.py"
-        ],
-        "tests": [
-          "tests.test_scene_spline_rig"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-implementation-plan-167a",
-          "result": "PASS_GATE_ONLY"
-        },
-        "purpose": "Implement canonical SplineRig ScenePattern core from verified legacy source; do not invent absent standalone SplineControl/SplineCurve migrations.",
-        "legacy_contract": {
-          "fields": [
-            "parent",
-            "parentGlobal",
-            "controls",
-            "numberCtrls",
-            "rebuild"
-          ],
-          "behavior": "Create control spline offsets, spline joint chain, follow refs, curve/rebuild, ikSpline, control joints+skin, spline controls, visible/hidden rig groups, Global orientation blend, SplineControls visibility/constraint/proxy behavior."
-        },
-        "acceptance": [
-          "Add import-safe scene/spline_rig.py; deterministic normalization requires >=2 controls, non-empty parent/parentGlobal, integer numberCtrls>=0 and positive rebuild span/value as applicable.",
-          "Separate deterministic naming/build plan from Maya mutation so tests do not require Maya.",
-          "Preserve legacy effective hierarchy and naming contracts (_SplineOffset, _SplineJnt, _SplineRef, _SplineRig, visible/hidden groups) while fixing obvious legacy issue where rebuild field is read but hard-coded spans=100; canonical apply must use normalized rebuild value.",
-          "Implement ikSpline/control-joint skin/control creation and Global + SplineControls behavior without UI coupling.",
-          "Do not create separate SplineControl/SplineCurve modules: inspected legacy paths were absent.",
-          "Add focused deterministic tests for normalization, naming/build counts, invalid controls/numberCtrls/rebuild and import outside Maya.",
-          "Commit/push implementation and tests; return commit SHA and evidence."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "CANCELLED_UNSUPPORTED_ROUTE",
-        "classification": "prevented_known_unsupported_implementation_python_route",
-        "architect_diagnosis": "Cancelled before execution because the same implementation:python route is known unsupported from 167b."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
         "edit": false,
         "run_tests": true,
         "commit": false,
@@ -686,9 +609,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -728,6 +651,66 @@
           "Invoke aimayatool.tools.scene.fold_rig.fold_rig_managed_maya_smoke.",
           "Smoke returns ok=true with two constraints, three weight aliases per constraint, animCurve-driven weights, and driver restored to final value.",
           "Treat runtime/session loss as inconclusive and use the Guide fresh-session recovery rule; do not convert transport failure into product failure."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "BLOCKED_PAYLOAD_CONTRACT",
+        "classification": "maya_ui_smoke_requires_explicit_save_scene_false",
+        "delivery_id": "c18c7d9132acc97060f6",
+        "architect_diagnosis": "No FoldRig product behavior was executed. maya:ui_smoke rejected the task before invocation because payload.save_scene=false was not explicit. Retry same smoke with corrected route contract."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-retry-167n",
+      "action": {
+        "type": "maya",
+        "target": "ui_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.fold_rig",
+        "callable": "fold_rig_managed_maya_smoke",
+        "new_scene": true,
+        "timeout": 45,
+        "save_scene": false
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "retry_of": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-167m",
+        "purpose": "Retry the identical FoldRig managed Maya smoke with the required explicit non-saving contract.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use a fresh unsaved managed Maya scene and do not save it.",
+          "Invoke aimayatool.tools.scene.fold_rig.fold_rig_managed_maya_smoke.",
+          "Smoke returns ok=true with two constraints, three weight aliases per constraint, animCurve-driven weights, and driver restored to final value.",
+          "Treat runtime/session loss as inconclusive and follow Guide fresh-session recovery."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
