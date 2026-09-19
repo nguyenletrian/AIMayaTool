@@ -28,77 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-maya-display-layers-discovery-169m",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/display_layers.py"
-        ],
-        "imports": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-maya-smoke-inventory-refresh-169l",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Prepare the next bounded host slice by verifying the current display-layer implementation and discovering its existing smoke entrypoint/callable from repository evidence before scheduling Maya execution.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile display_layers.py without claiming host behavior.",
-          "Inspect current repository evidence for the dedicated display-layer smoke module/callable.",
-          "Return exact existing host smoke entrypoint if present; do not invent one.",
-          "Keep scene-maya-validation open."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_display_layer_smoke_entrypoint_discovered",
-        "delivery_id": "eae1e14622b53f3e5bd1",
-        "verification_evidence": {
-          "py_compile": true,
-          "smoke_module": "aimayatool.tools.scene.display_layer_smoke",
-          "callable": "run_scene_display_layer_smoke",
-          "expected_result": "SCENE_DISPLAY_LAYER_SMOKE_OK"
-        },
-        "architect_diagnosis": "display_layers.py compiles. Repository evidence confirms dedicated smoke module display_layer_smoke.py with callable run_scene_display_layer_smoke and exact success marker SCENE_DISPLAY_LAYER_SMOKE_OK; schedule this bounded host slice."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-maya-display-layer-managed-live-169n",
       "action": {
         "type": "maya",
@@ -698,9 +627,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -746,6 +675,74 @@
           "Inspect/execute the focused preset tests using the supported Python verification capabilities available to the worker.",
           "Return explicit evidence for round-trip/list ordering, overwrite guard, invalid-name/path traversal rejection, and delete/missing behavior; do not treat import alone as behavioral proof.",
           "Do not modify product code."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_preset_tests_import_only",
+        "delivery_id": "e4822b8ec0a79928423c",
+        "architect_diagnosis": "The worker again only compiled/imported the unittest module; it did not execute the test cases. Do not loop on the same incapable verification route. Architect must obtain behavioral evidence through an available execution surface or explicitly bounded direct review."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal008-scene-presets-behavior-smoke-170g",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/presets.py",
+          "aimayatool/tools/scene/preset_behavior_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.preset_behavior_smoke"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-008",
+        "milestone_id": "scene-presets",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal008-scene-presets-tests-170f",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Use a directly import-executed deterministic behavior smoke because the Python verification route does not execute unittest targets.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import preset_behavior_smoke.py.",
+          "The smoke module must execute assertions at import time against a temporary directory and raise on failure.",
+          "Prove round-trip/sorted list, duplicate guard/explicit overwrite, invalid names/path traversal rejection, delete/missing behavior.",
+          "Return PASS only if smoke import exits successfully."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
