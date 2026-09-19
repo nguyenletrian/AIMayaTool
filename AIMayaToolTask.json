@@ -28,80 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-rope-runtime-python-verify-168m",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/rope_weights.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.rope_weights"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-rope-runtime-sync-168l",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "15fad0f5e26430390e363a0d2bdea7e63c81c359"
-        ],
-        "purpose": "Verify shared RopeRoll/RopeStraight runtime adapter remains Python import-safe before Maya-host validation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile rope_weights.py.",
-          "Import aimayatool.tools.scene.rope_weights outside Maya.",
-          "Do not claim Maya runtime parity from Python-only evidence."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "rope_runtime_python_verification_pass",
-        "delivery_id": "d041ed633109df74ddc5",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "ef6c07fa7b6a16571bd64c14efa97aafa410e0c1"
-        },
-        "architect_diagnosis": "Shared RopeRoll/RopeStraight adapter is Python import-safe. Maya runtime parity remains unclaimed. Remaining evidence shows Note is metadata-only, while ModuloSDKNew contains distinct expression/offset-group behavior not proven by the current modulo_sdk slice."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-new-sync-168n",
       "action": {
         "type": "verification",
@@ -695,9 +621,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -752,6 +678,86 @@
           "Do not duplicate shape payload collection/conversion already implemented.",
           "Do not prompt SaveSceneAs inside deterministic helpers.",
           "Return evidence for immediate path/orchestration implementation."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_build_control_shape_path_preimplementation_sync_verified",
+        "delivery_id": "c609f68fa72faefb6788",
+        "verification_evidence": {
+          "py_compile": true,
+          "imports": true,
+          "main_commit": "41d13797184d244f6728e8bbe4f3ba54797b9002"
+        },
+        "architect_diagnosis": "Current control-shape IO baseline is import-safe. Architect added explicit local/parent SceneData path policies plus export/import/update orchestration reusing existing payload functions, with deterministic path tests."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-build-control-shape-path-python-verify-168w",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/control_shape_io.py",
+          "tests/test_scene_control_shape_io_paths.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.control_shape_io"
+        ],
+        "tests": [
+          "tests.test_scene_control_shape_io_paths"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-build-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-build-control-shape-path-sync-168v",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commits": [
+          "84ae75e22986142d7e9d3711f291877e5ea046a6",
+          "4442de8e09ca38a3041a482d7eef35a94412508c"
+        ],
+        "purpose": "Verify deterministic SceneData path policies and control-shape export/import/update orchestration outside Maya.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile implementation and focused tests.",
+          "Import outside Maya.",
+          "Run focused path-policy tests.",
+          "Do not claim Maya runtime validation."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
