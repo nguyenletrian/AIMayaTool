@@ -96,7 +96,7 @@ def tracked_action_interaction_smoke():
     setup = importlib.reload(setup)
     transforms = importlib.import_module("aimayatool.tools.setup.transforms")
     transforms = importlib.reload(transforms)
-    result = components.run_tracked_action("setup", "freeze_trs", "Freeze TRS", lambda: transforms.freeze_transforms(setup._require_selection(1, "Select transforms to freeze.")))
+    result = components.run_tracked_action("setup", "freeze_trs", "Freeze TRS", lambda: tuple(transforms.freeze_transform(item, translate=True, rotate=True, scale=True) for item in setup._require_selection(1, "Select transforms to freeze.")))
     _refresh_discovery()
     recent = reg.recent_actions()
     label = cmds.text(_DISCOVERY, query=True, label=True)
