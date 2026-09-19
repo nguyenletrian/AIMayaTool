@@ -318,76 +318,6 @@
         "read": true,
         "edit": true,
         "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "task_id": "aimayatool-goal010-favorites-recent-ui-instrument-setup-181f",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/components.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/registry.py",
-          "tests/test_registry_action_state.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-workspace-inventory-181e"
-        ],
-        "purpose": "Implement the smallest representative action instrumentation slice using explicit stable identity, preserving existing run_action behavior and avoiding broad domain rewiring.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Add a thin shared tracked-action runner or equivalent seam that accepts explicit group_id, action_id and display label and records recent action state on intentional invocation before delegating to existing run_action presentation.",
-          "Instrument one representative non-destructive Setup action with an explicit stable action_id; do not derive identity from callback repr or result text.",
-          "Preserve existing run_action success/error semantics and group-level discovery behavior.",
-          "Do not add persistence or broad rewiring across all domain buttons in this slice.",
-          "Add/update deterministic Python tests where possible and run py_compile/import/tests.",
-          "Commit and push only after verification passes.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_ACCEPTANCE_NOT_IMPLEMENTED",
-        "classification": "verification_pass_but_implementation_missing",
-        "delivery_id": "c266081f422b3c12a9ab",
-        "architect_diagnosis": "Worker checks passed only because existing files compile/import; repository evidence shows no tracked-action helper and Setup still calls the original two-argument _run for every action. Therefore 181f implementation acceptance was not satisfied. Architect ACKs the delivered result but does not treat the feature as implemented; queue a corrected editable implementation task before workspace surface work."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
         "commit": false,
         "push": false
       },
@@ -652,9 +582,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -700,6 +630,72 @@
           "Do not use Codex."
         ],
         "implementation_commit": "ba9062b1788863513bb566cd883bbaacd7900b85",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_STALE_TRANSFORMS_MODULE",
+        "classification": "persistent_maya_stale_module_cache",
+        "delivery_id": "e526618a804de65163f6",
+        "architect_diagnosis": "The smoke callable is now present, but the persistent Maya session cached an older aimayatool.tools.setup.transforms module without reset_transforms. Added importlib.reload(transforms) inside the smoke before invoking _reset_selected. Retry required; this is runtime module-cache evidence, not absence of the committed helper."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-batch-productivity-reset-maya-smoke-retry2-182f",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.tools.setup",
+        "callable": "batch_reset_managed_maya_smoke",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "batch-productivity",
+        "depends_on": [
+          "aimayatool-goal010-batch-productivity-reset-maya-smoke-retry-182e"
+        ],
+        "purpose": "Retry batch Reset TR proof after stale transforms-module recovery in persistent Maya.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use fresh unsaved scene.",
+          "Invoke batch_reset_managed_maya_smoke.",
+          "Verify ordered selection unchanged, translation/rotation reset, scale preserved for all three transforms.",
+          "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "implementation_commit": "5abbfd05bbfc6c6394d891ef2716fb0b5a706894",
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
