@@ -671,141 +671,6 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-favorites-recent-action-maya-smoke-181m",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.ui.main_window",
-        "callable": "tracked_action_interaction_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-maya-smoke-181l"
-        ],
-        "purpose": "Prove the complete action-level recent path in managed Maya: intentional Setup Freeze TRS execution records stable action identity and workspace discovery displays it.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use fresh unsaved scene.",
-          "Invoke tracked_action_interaction_smoke.",
-          "Freeze TRS executes on a disposable transform.",
-          "recent_actions first entry is setup/freeze_trs with label Freeze TRS.",
-          "Workspace discovery contains Actions Recent: Freeze TRS.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "implementation_commit": "2877db1a3b2e963e61ae1aed0d61b783117aa326",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "INCONCLUSIVE_RUNTIME_STALE_MODULE",
-        "classification": "persistent_maya_stale_module_cache",
-        "delivery_id": "9ad05722618ff49915d2",
-        "architect_diagnosis": "Repository components.py contains run_tracked_action, but the existing managed Maya session imported a stale cached aimayatool.ui.components module lacking it. This is runtime cache evidence, not product absence. Smoke was hardened to reload components when the helper is missing; retry in managed Maya."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-favorites-recent-action-maya-smoke-retry-181n",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.ui.main_window",
-        "callable": "tracked_action_interaction_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-action-maya-smoke-181m"
-        ],
-        "purpose": "Retry complete tracked-action Maya proof with stale-module recovery in the persistent managed Maya session.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use fresh unsaved scene.",
-          "Invoke tracked_action_interaction_smoke after its stale components-module recovery update.",
-          "Freeze TRS executes on disposable transform.",
-          "recent_actions records setup/freeze_trs/Freeze TRS and workspace displays Actions Recent: Freeze TRS.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "implementation_commit": "726279faffa1b765fe9c624c614452ed5107c800",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_SMOKE_ASSERTION",
-        "classification": "persistent_maya_stale_setup_callable",
-        "delivery_id": "1b053dc5fd7af1037c2b",
-        "architect_diagnosis": "Tracking and workspace assertions advanced past the prior stale-components failure, but the existing Maya session's Setup callable did not apply translation freeze. Repository inspection shows the current primitive is transforms.freeze_transform(..., translate=True). Hardened the smoke to reload Setup/transforms and invoke that current primitive while preserving the same tracked-action seam."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
       "status": "pending",
       "architect_ack": false,
       "bridge_completed": false,
@@ -816,10 +681,10 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-favorites-recent-action-maya-smoke-retry2-181o",
+      "task_id": "aimayatool-goal010-batch-productivity-inventory-182a",
       "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
+        "type": "verification",
+        "target": "python"
       },
       "payload": {
         "preconditions": [
@@ -831,32 +696,25 @@
           }
         ],
         "timeout": 300,
-        "module": "aimayatool.ui.main_window",
-        "callable": "tracked_action_interaction_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
+        "files": [
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py",
+          "aimayatool/ui/components.py"
+        ]
       },
       "metadata": {
         "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-action-maya-smoke-retry-181n"
-        ],
-        "purpose": "Retry tracked-action live proof using freshly reloaded current Setup transform primitive in the persistent Maya session.",
+        "milestone_id": "batch-productivity",
+        "purpose": "Inventory existing multi-selection/list-driven operations and choose the smallest safe reusable batch-productivity slice without hiding destructive behavior.",
         "acceptance": [
           "Fast-forward main.",
-          "Use fresh unsaved scene.",
-          "Invoke tracked_action_interaction_smoke.",
-          "Disposable transform translation is frozen to zero through current transforms.freeze_transform primitive.",
-          "Tracked action records setup/freeze_trs/Freeze TRS and workspace displays it.",
-          "Do not save scene.",
+          "Compile Skinning, Setup, Scene entrypoints and shared UI components.",
+          "Identify existing actions that already operate on multiple selected/listed items and distinguish them from single-target/destructive workflows.",
+          "Choose the smallest reusable batch helper or bounded representative workflow that reduces repetition while keeping selection/order and mutation explicit.",
+          "Prefer deterministic Python planning/validation before Maya mutation.",
+          "Do not implement preflight-guidance in this milestone.",
           "Do not use Codex."
-        ],
-        "implementation_commits": [
-          "12abb5ed32878e5e341225cbf0c3540c65bb4af9",
-          "a0201ee2f05c0faa374a5078e2e6187833f41f02"
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
