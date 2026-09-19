@@ -28,77 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-search-discovery-interaction-maya-retry-176g",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.ui.main_window",
-        "callable": "search_interaction_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45,
-        "expected_window": "AIMayaToolWindow"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-search-discovery",
-        "retry_of_archived": {
-          "task_id": "aimayatool-goal009-ui-search-discovery-interaction-maya-176f",
-          "result": "FAIL",
-          "classification": "managed_maya_registry_cache_persists_during_interaction",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Retry real search interaction after adding targeted registry cache refresh for long-lived managed Maya sessions.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use isolated fresh scene.",
-          "Invoke search_interaction_smoke in managed Maya, including existing long-lived session.",
-          "Assert skin->Skinning, rig->Setup, preset->Scene.",
-          "Return AIBRIDGE_UI_SEARCH_OK:skinning|setup|scene without exception.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "maya_ui_path_comparison_false_negative",
-        "delivery_id": "bcafa2001bc6a8aadd56",
-        "architect_diagnosis": "Search itself succeeded: query 'skin' returned ('skinning',) and Maya selected scrollLayout12. The smoke falsely failed because Maya query returned the selected child short name while _TAB_BY_GROUP stored its full DAG-like UI path. Normalize both to terminal control names before comparison; product behavior requires no change."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-search-discovery-interaction-maya-retry-176h",
       "action": {
         "type": "maya",
@@ -669,9 +598,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -719,6 +648,76 @@
           "Import aimayatool.ui.components outside Maya.",
           "Confirm Skinning/Setup _run wrappers delegate to run_action and no longer own duplicate traceback/inViewMessage presentation logic.",
           "Keep domain behavior and callbacks otherwise unchanged.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_status_adoption_python_pass",
+        "delivery_id": "64f2c220c6517aec3333",
+        "architect_diagnosis": "Shared presenter adoption compiles successfully in Skinning and Setup. Next gate validates real Maya success/error presentation, including the long-lived session where module cache behavior matters."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-status-progress-adoption-maya-177e",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.ui.main_window",
+        "callable": "show",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45,
+        "expected_window": "AIMayaToolWindow"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-status-progress",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-status-progress-adoption-python-177d",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Validate that the unified Skinning/Setup status presenter adoption still constructs the complete workspace in managed Maya before focused action interaction tests.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated fresh scene.",
+          "Invoke aimayatool.ui.main_window.show and require AIMayaToolWindow.",
+          "Skinning and Setup UI must construct after shared run_action adoption without Maya/Python exception.",
+          "Do not infer action success/error semantics from construction alone.",
+          "Do not save scene.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
