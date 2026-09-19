@@ -21,75 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-match-pairs-inventory-165e",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Bounded inventory/architecture gate for legacy MatchPairs before implementation. The legacy module mixes incomplete Run behavior with useful nearest-distance pairing and XML name-transfer utilities; determine the safe migration boundary instead of speculatively porting its UI/global state.",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_MatchPairs.py",
-        "legacy_source_sha": "c9a9790b8ebc8ad2c739c4a784aa4f3db8bf6ecf",
-        "acceptance": [
-          "git_pull current main.",
-          "Confirm current scene package imports cleanly.",
-          "Report a concrete migration boundary separating deterministic pair/XML helpers from Maya selection/UI behavior.",
-          "Do not claim the legacy Run body as implemented; it is effectively incomplete in the reference source.",
-          "No repository mutation required."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "match_pairs_inventory_gate_passed",
-        "delivery_id": "2f0cc8fef2248ae44ba4",
-        "verification_evidence": {
-          "git_pull_before": "0f7f4df52c6eb737ccd808773faad975f2111f31",
-          "git_pull_after": "58fb728580ca7c4c7de635e0c8f0d7c4cc1cbc5c",
-          "py_compile": true,
-          "import": "aimayatool.tools.scene"
-        },
-        "architect_diagnosis": "Inventory gate passed. Current scene package remains clean. Legacy MatchPairs Run body is incomplete and must not be treated as behavior to port. Safe boundary: deterministic source/target normalization, pair-name mapping, and XML replacement/transformation can be migrated as Python-only helpers; Maya world-space nearest matching and selection cycling should remain separate host/UI behavior for a later Maya-backed slice."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-mesh-vertex-inventory-165g",
       "action": {
         "type": "verification",
@@ -657,9 +588,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry2-165o",
       "action": {
         "type": "maya",
@@ -701,6 +632,69 @@
           "Exercise dedicated deterministic smoke callable if present.",
           "Prove nonzero keys, generated shoot meshes, BS group/blendShape, driver/joint/proxy/show wiring, driven-key weights and currentTime restoration.",
           "If callable is absent, return exact missing-callable gap; do not fabricate success."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAILED_MISSING_SMOKE_CALLABLE",
+        "delivery_id": "60eee4710ddac2193f83",
+        "architect_diagnosis": "Managed Maya session was healthy and fresh scene was forced, but host proof could not start because bs_sequence_managed_maya_smoke was absent. Added a deterministic smoke fixture in commit 7dca776546b156da4c8fd39d62427654032a512f; retry required."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry3-165p",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.bs_sequence",
+        "callable": "bs_sequence_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "retry_of": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry2-165o",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-bs-sequence-existing-implementation-python-verify-165l"
+        ],
+        "implementation_commit": "7dca776546b156da4c8fd39d62427654032a512f",
+        "purpose": "Run the now-present deterministic BSSequence managed Maya smoke.",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene.",
+          "Smoke returns success=true.",
+          "Prove keys (5,10), two shoot meshes, group/blendShape, joint/proxy/show/visibility wiring, driven-key animCurves and restoration to frame 3.",
+          "Return structured checks; do not infer success from import alone."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
