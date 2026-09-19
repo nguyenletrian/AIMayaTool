@@ -679,7 +679,7 @@
       },
       "task_id": "aimayatool-goal010-favorites-recent-action-state-181b",
       "action": {
-        "type": "implementation",
+        "type": "verification",
         "target": "python"
       },
       "payload": {
@@ -722,7 +722,14 @@
           "Commit and push the bounded implementation to main after verification passes.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "route_recovery": {
+          "failed_delivery_id": "8c58dc5f7ee9f746e2af",
+          "failed_route": "implementation:python",
+          "classification": "unsupported_route_handler",
+          "note": "Bridge reported no handler for implementation:python. Requeued the same bounded editable Python task through the established verification:python route; edit/commit/push permissions and implementation acceptance remain unchanged."
+        },
+        "retry_count": 1
       }
     }
   ]
