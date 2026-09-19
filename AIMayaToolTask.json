@@ -18,144 +18,6 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "task_id": "aimayatool-goal007-scene-pattern-orient-constraint-python-verify-163j",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/orient_constraint.py",
-          "aimayatool/tools/setup/constraints.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.orient_constraint",
-          "aimayatool.tools.setup.constraints"
-        ],
-        "timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Verify the new thin ScenePattern OrientConstraint adapter composed over the already migrated setup constraint primitive. Legacy evidence creates an optional child_orientConstraintGrp, applies orientConstraint(parent, child-or-offset, mo=maintain), and optionally reparents the constraint under constraintContent.",
-        "acceptance": [
-          "git_pull fast-forwards main successfully with permissions.edit=true.",
-          "orient_constraint.py and setup/constraints.py compile successfully.",
-          "Both modules import outside Maya.",
-          "No Maya behavior claim is made from this gate."
-        ],
-        "implementation_commit": "3901c441396e4b7c2c2ef4724eb5b0fe9025f102",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_OrientConstraint.py",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "orient_constraint_python_verification_passed",
-        "delivery_id": "6cd7d99b36795855206c",
-        "verification_evidence": {
-          "git_pull_after": "8198acb9adb4e44496a0e7fd2b79c17a0171a41b",
-          "repository_changed": false,
-          "py_compile": true,
-          "imports": [
-            "aimayatool.tools.scene.orient_constraint",
-            "aimayatool.tools.setup.constraints"
-          ]
-        },
-        "architect_diagnosis": "Deterministic OrientConstraint gate passed. The Scene adapter and shared setup constraint primitive compile/import outside Maya; host behavior remains gated by dependent managed-live task 163k."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "task_id": "aimayatool-goal007-scene-pattern-orient-constraint-maya-validation-163k",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "timeout": 300,
-        "save_scene": false,
-        "isolated_scene": true,
-        "module": "aimayatool.tools.scene.orient_constraint",
-        "callable": "orient_constraint_managed_maya_smoke"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-orient-constraint-python-verify-163j"
-        ],
-        "purpose": "Validate ScenePattern OrientConstraint behavior in managed Maya after deterministic verification passes.",
-        "acceptance": [
-          "Fresh isolated unsaved Maya scene is used.",
-          "offset=true inserts child_orientConstraintGrp and constrains that group.",
-          "constraintContent reparents the orientConstraint node when supplied.",
-          "Constraint target is the requested parent.",
-          "offset=false constrains the child directly without creating an offset group.",
-          "Missing child is skipped and missing parent is rejected deterministically.",
-          "Route reports new_scene_forced=true and scene_saved=false."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "INCONCLUSIVE",
-        "classification": "maya_runtime_startup_exit_253",
-        "delivery_id": "3bad4382839ab6b516ba",
-        "runtime_evidence": {
-          "summary": "MAYA_LIVE_SESSION_UNAVAILABLE",
-          "error": "Managed Maya exited before live port became ready (exit 253)",
-          "host": "127.0.0.1",
-          "port": 7001,
-          "startup_timeout": 90,
-          "operation_timeout": 45,
-          "maya_app_dir": "C:\\Users\\PC\\.aibridge\\maya-managed-live\\maya-2024-port-7001"
-        },
-        "architect_diagnosis": "Managed Maya exited before the live port became ready, so no AIMayaTool product callable executed and no OrientConstraint behavior was tested. Per Maya runtime-loss recovery contract, classify this first startup loss as inconclusive and retry the same bounded smoke in a fresh managed Maya 2024 session."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
       "task_id": "aimayatool-goal007-scene-pattern-deform-sine-python-verify-163m",
       "status": "pending",
       "architect_ack": true,
@@ -696,6 +558,118 @@
         "result": "PASS",
         "classification": "delete_attribute_managed_maya2024_proven",
         "architect_diagnosis": "Bridge reports the managed Maya smoke passed for the exact 163t route after its Python dependency passed. This ACK records the successful host-validation gate; the reminder did not include the original detailed runtime payload, so no unprovided PID/marker fields are invented."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-default-value-python-verify-163u",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/default_value.py",
+          "aimayatool/tools/scene/default_value_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.default_value",
+          "aimayatool.tools.scene.default_value_smoke"
+        ],
+        "timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "purpose": "Verify existing ScenePattern DefaultValue migration against authoritative legacy semantics before host proof.",
+        "acceptance": [
+          "git_pull fast-forwards main with permissions.edit=true.",
+          "default_value.py and default_value_smoke.py compile successfully.",
+          "Both modules import outside Maya.",
+          "No Maya behavior claim is made from this gate."
+        ],
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_DefaultValue.py",
+        "legacy_source_sha": "fa4da0174f8e2472b3a8da931bcdc523870f1979",
+        "current_primitive_sha": "e2589028559f09ec995ebec210dfb12eb082dc13",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-default-value-maya-validation-163v",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "timeout": 300,
+        "save_scene": false,
+        "isolated_scene": true,
+        "module": "aimayatool.tools.scene.default_value_smoke",
+        "callable": "run_scene_default_value_smoke"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-default-value-python-verify-163u"
+        ],
+        "purpose": "Host-prove ScenePattern DefaultValue migration in managed Maya after deterministic verification.",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene is used.",
+          "Float, integer and string values are converted/set correctly.",
+          "Locked attributes are unlocked before setting.",
+          "Incoming connections are disconnected before setting.",
+          "Missing attributes are skipped deterministically.",
+          "Smoke returns SCENE_DEFAULT_VALUE_OK marker and route reports new_scene_forced=true, scene_saved=false."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
   ]
