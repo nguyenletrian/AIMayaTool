@@ -23,82 +23,6 @@
       "bridge_completed": true,
       "permissions": {
         "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal007-implementation-route-recovery-assessment-167e",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisites": [
-          {
-            "task_id": "aimayatool-goal007-scene-pattern-fold-rig-core-167b",
-            "result": "BLOCKED_ROUTE"
-          },
-          {
-            "task_id": "aimayatool-goal007-scene-pattern-rivet-core-167c",
-            "result": "CANCELLED_UNSUPPORTED_ROUTE"
-          },
-          {
-            "task_id": "aimayatool-goal007-scene-pattern-spline-rig-core-167d",
-            "result": "CANCELLED_UNSUPPORTED_ROUTE"
-          }
-        ],
-        "purpose": "Keep queue truthful and executable while implementation dispatch is unavailable. Verify repository remains clean/importable and return current commit evidence; Architect will use that evidence to recover an actual implementation-capable path rather than misrouting code changes through verification.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import current Scene package successfully.",
-          "Do not mutate product code.",
-          "Do not claim FoldRig/Rivet/SplineRig implementation occurred.",
-          "Return repository precondition commit and verification evidence so Architect can safely decide the next route/capability recovery action."
-        ],
-        "blocker": "Current .aibridge/routers.json has no implementation route. Known implementation:python dispatch is unsupported; verification:python must not be abused as an implementation route.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "BLOCKED_PERMISSION",
-        "classification": "git_pull_requires_edit_permission",
-        "delivery_id": "1de3ca2f48d9bf3fc2cc",
-        "architect_diagnosis": "Task did not reach Python verification. git_pull mutates the local worktree and the Bridge contract requires permissions.edit=true. Retry the same bounded recovery gate with edit=true while keeping commit/push false and product mutation forbidden."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
         "edit": true,
         "run_tests": true,
         "commit": false,
@@ -670,9 +594,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -708,6 +632,67 @@
         "acceptance": [
           "Fast-forward main.",
           "Use a fresh unsaved managed Maya scene and do not save it.",
+          "Invoke aimayatool.tools.scene.fold_rig.fold_rig_managed_maya_smoke.",
+          "Smoke returns ok=true with two constraints, three weight aliases per constraint, animCurve-driven weights, and driver restored to final value.",
+          "Treat runtime/session loss as inconclusive and follow Guide fresh-session recovery."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "BLOCKED_PAYLOAD_CONTRACT",
+        "classification": "maya_ui_smoke_requires_explicit_isolated_scene_true",
+        "delivery_id": "d7f2fa36ba3d358fcb44",
+        "architect_diagnosis": "No FoldRig product behavior executed. maya:ui_smoke rejected the retry because payload.isolated_scene=true was not explicit. Preserve save_scene=false and retry with isolated_scene=true."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-retry2-167o",
+      "action": {
+        "type": "maya",
+        "target": "ui_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.fold_rig",
+        "callable": "fold_rig_managed_maya_smoke",
+        "new_scene": true,
+        "timeout": 45,
+        "save_scene": false,
+        "isolated_scene": true
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "retry_of": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-retry-167n",
+        "purpose": "Retry FoldRig managed Maya smoke with the complete explicit scene-safety contract discovered from route validation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Run in an isolated fresh unsaved Maya scene; save_scene must remain false.",
           "Invoke aimayatool.tools.scene.fold_rig.fold_rig_managed_maya_smoke.",
           "Smoke returns ok=true with two constraints, three weight aliases per constraint, animCurve-driven weights, and driver restored to final value.",
           "Treat runtime/session loss as inconclusive and follow Guide fresh-session recovery."
