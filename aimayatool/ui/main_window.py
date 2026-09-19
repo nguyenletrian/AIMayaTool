@@ -4,10 +4,23 @@ import importlib
 
 import maya.cmds as cmds
 
-from aimayatool.registry import groups
+from aimayatool.registry import groups, search_groups
 
 
 WINDOW = "AIMayaToolWindow"
+_SEARCH = "AIMayaToolSearchField"
+_TABS = "AIMayaToolTabs"
+_TAB_BY_GROUP = {}
+
+
+def _apply_search(*_):
+    query = cmds.textField(_SEARCH, query=True, text=True)
+    matches = search_groups(query)
+    if matches:
+        page = _TAB_BY_GROUP.get(matches[0]["id"])
+        if page:
+            cmds.tabLayout(_TABS, edit=True, selectTab=page)
+    return tuple(item["id"] for item in matches)
 
 
 def _load_group(group):
@@ -25,8 +38,10 @@ def show():
 
     cmds.window(WINDOW, title="AI Maya Tool", sizeable=True, widthHeight=(420, 680))
     root = cmds.columnLayout(adjustableColumn=True, rowSpacing=6)
-    tabs = cmds.tabLayout(parent=root, innerMarginWidth=6, innerMarginHeight=6)
+    cmds.textField(_SEARCH, parent=root, placeholderText="Search Skinning, Setup, Scene...", changeCommand=_apply_search, enterCommand=_apply_search)
+    tabs = cmds.tabLayout(_TABS, parent=root, innerMarginWidth=6, innerMarginHeight=6)
 
+    _TAB_BY_GROUP.clear()
     tab_children = []
     for group in groups():
         page = cmds.scrollLayout(parent=tabs, childResizable=True)
@@ -34,6 +49,7 @@ def show():
         _load_group(group)
         cmds.setParent("..")
         cmds.setParent("..")
+        _TAB_BY_GROUP[group["id"]] = page
         tab_children.append((page, group["label"]))
 
     cmds.tabLayout(tabs, edit=True, tabLabel=tab_children)
