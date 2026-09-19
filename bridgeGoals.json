@@ -445,7 +445,7 @@
         {
           "milestone_id": "scene-ui-parity",
           "title": "Expose complete Scene workflows in UI",
-          "status": "pending"
+          "status": "completed"
         },
         {
           "milestone_id": "scene-maya-validation",
