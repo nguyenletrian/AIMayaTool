@@ -28,76 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal008-scene-compare-edit-verify-171b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/compare_edit.py",
-          "aimayatool/tools/scene/compare_edit_smoke.py",
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.compare_edit_smoke",
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-compare-edit",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal008-scene-compare-edit-inventory-171a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify deterministic field-level ScenePattern comparison and safe partial edit application.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile compare/edit modules and public Scene export.",
-          "Import compare_edit_smoke so its assertions execute.",
-          "Prove unchanged comparison, deterministic changed-field ordering, immutable edit behavior, before/after values, unknown-field rejection, and invalid-type rejection.",
-          "No Maya/UI dependency."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "scene_compare_edit_package_syntax_regression",
-        "delivery_id": "97724b717255bfe35692",
-        "architect_diagnosis": "Architect export edit inserted compare_edit import before __future__, causing a real Python syntax regression. Fixed by restoring __future__ import as first executable statement; compare/edit implementation itself remains pending verification."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal008-scene-compare-edit-verify-retry-171c",
       "action": {
         "type": "verification",
@@ -637,9 +567,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -686,6 +616,76 @@
           "Compile main_window.py, registry.py, app.py.",
           "Import aimayatool.registry outside Maya.",
           "Do not treat Python PASS as UI acceptance; managed Maya validation remains required."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_information_architecture_python_gate_pass",
+        "delivery_id": "a558b50c8480f646f768",
+        "architect_diagnosis": "Registry-driven tab navigation compiles cleanly and registry remains importable outside Maya. Managed Maya UI construction is still required before accepting the information-architecture milestone."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-information-architecture-managed-maya-174c",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.ui.main_window",
+        "callable": "show",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45,
+        "expected_window": "AIMayaToolWindow"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-information-architecture",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-information-architecture-python-verify-174b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Validate the registry-driven Skinning/Setup/Scene tab workspace inside managed Maya.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated fresh managed Maya scene.",
+          "Invoke aimayatool.ui.main_window.show.",
+          "Confirm AIMayaToolWindow is created without Maya/Python exception.",
+          "Exercise construction of all registry-backed tab pages during show().",
+          "Do not save the Maya scene.",
+          "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
