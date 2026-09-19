@@ -28,85 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal008-scene-presets-library-verify-retry-170e",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/presets.py",
-          "aimayatool/tools/scene/__init__.py",
-          "tests/test_scene_presets.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.presets",
-          "aimayatool.tools.scene"
-        ],
-        "unittests": [
-          "tests.test_scene_presets"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-presets",
-        "retry_of_archived": {
-          "task_id": "aimayatool-goal008-scene-presets-library-verify-170d",
-          "result": "FAIL",
-          "classification": "invalid_task_permission_contract",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Retry verification of Architect-implemented Scene preset library with edit permission required by git_pull precondition.",
-        "acceptance": [
-          "Fast-forward main.",
-          "py_compile preset library, Scene package export, and tests.",
-          "Import preset library and Scene package.",
-          "Run tests.test_scene_presets and require all focused tests PASS.",
-          "Do not modify product code during verification."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_preset_library_python_pass",
-        "delivery_id": "0753cba6f6b15424fb73",
-        "verification_evidence": {
-          "py_compile": true,
-          "imports": true,
-          "unittest_reported": false
-        },
-        "architect_diagnosis": "PresetLibrary implementation compiles and imports successfully. The verification result did not include a unittest check despite the requested unittest target, so focused behavioral tests remain unproven and must be verified before accepting the slice."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal008-scene-presets-tests-170f",
       "action": {
         "type": "verification",
@@ -654,9 +575,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -702,6 +623,72 @@
           "Inventory current build_ui surface from repository evidence.",
           "Identify a bounded UX-polish slice that preserves existing APIs and avoids unrelated UI framework changes.",
           "Because build_ui is Maya-host-specific, require managed Maya validation after any UI implementation."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_ux_baseline_verified",
+        "delivery_id": "32ff867ee01801c14afe",
+        "architect_diagnosis": "Current build_ui is only three informational text rows and does not communicate the accepted Scene 2.0 capability groups. Architect applied a bounded Maya-cmds UX polish: one column, titled capability sections, preserved public APIs, no new actions or framework changes."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal008-scene-ux-polish-python-verify-173b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-008",
+        "milestone_id": "scene-ux-polish",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal008-scene-ux-polish-inventory-173a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Run the Python gate for the bounded Scene 2.0 Maya UI polish before managed-Maya validation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile aimayatool/tools/scene/__init__.py.",
+          "Import aimayatool.tools.scene outside Maya.",
+          "Do not treat Python PASS as Maya UI acceptance; managed Maya validation remains required."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
