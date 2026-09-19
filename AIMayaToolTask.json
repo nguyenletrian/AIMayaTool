@@ -21,76 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-rope-straight-inventory-165r",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Bounded architecture inventory for legacy rope-straight; target adapter is currently absent.",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_RopeStraight.py",
-        "legacy_source_sha": "9822e86813a640fc135dbef1561f29ee5514664f",
-        "acceptance": [
-          "Current scene package compiles/imports cleanly.",
-          "Document the exact legacy weight-network semantics: active progression uses (driver + offset) directly.",
-          "Define deterministic Python-only boundary for normalized object/destination pairs, offset/range validation and expected weight math.",
-          "Keep point/orient constraints and DG node creation/connections as Maya-host behavior.",
-          "Identify empty-line/cardinality/zero-denominator edge cases before implementation.",
-          "No repository mutation required."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "rope_straight_inventory_gate_passed",
-        "delivery_id": "07cec68ab3409c61f025",
-        "verification_evidence": {
-          "git_pull_before": "32c4cd2dc0321edb1134fb6fd6ed9caa0fd99ec9",
-          "git_pull_after": "a9f3f7cbf577cda11eb14993e7242bf65e19c77b",
-          "py_compile": true,
-          "import": "aimayatool.tools.scene"
-        },
-        "architect_diagnosis": "RopeStraight inventory boundary accepted. Normalize non-empty object/destination lists and require equal cardinality. Legacy effective=driver+offset; denominator=effective+1; each item i is active when effective>=i, with start=(effective-(i-1))/denominator, end=i/denominator and destination=1-active. Maya point/orient constraints and DG creation/connections remain host-backed. Validate offset/range and reject denominator zero instead of preserving divide-by-zero behavior."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -788,6 +718,83 @@
           }
         },
         "architect_diagnosis": "SpaceSwitch managed Maya smoke passed in a fresh unsaved scene. The bounded host slice now proves offset/default-space creation, enum and slide attributes, parentConstraint creation, Default+parent condition network, plusMinusAverage slide complement and slide-constraint creation. This does not yet claim UI/serialization parity or exhaustive maintain=true behavior."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-core-verify-166i",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/modulo_sdk.py",
+          "tests/test_scene_modulo_sdk.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.modulo_sdk"
+        ],
+        "tests": [
+          "tests.test_scene_modulo_sdk"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-space-switch-managed-maya-smoke-166h",
+          "result": "PASS"
+        },
+        "legacy_sources": [
+          {
+            "path": "UIs/ScenePattern/Scene_Pattern_ModuloSDK.py"
+          },
+          {
+            "path": "UIs/ScenePattern/Scene_Pattern_ModuloSDKNew.py"
+          }
+        ],
+        "implementation_commits": [
+          "f5c6b0f519762012991f4d9ecb8c5bdbe4b7db0b",
+          "cb02717cc5adc98de9de37304894f94807891ca5"
+        ],
+        "purpose": "Verify the deterministic ModuloSDK core using the newer legacy variant as the canonical superset: multiline target groups and dynamic modulo count supersede the fixed-%10 single-target-group behavior.",
+        "acceptance": [
+          "git_pull current main.",
+          "Compile/import modulo_sdk outside Maya.",
+          "Focused tests pass for multiline target expansion, dynamic modulo_count=max populated slot+1, legacy int/modulo/abs slot semantics, deterministic offset naming, and invalid input rejection.",
+          "Keep offset-group creation and Maya expression creation for the later host adapter.",
+          "No Maya behavior claim."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
