@@ -21,158 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-mesh-vertex-inventory-165g",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Bounded inventory/architecture gate for legacy MeshVertex before migration. Its Run body is empty while GetTopoPair performs Maya/mesh-library topology matching and vertex mutation; establish what behavior is actually portable and what requires host proof.",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_MeshVertex.py",
-        "legacy_source_sha": "59cfc90470ad2253eb0e09098b5b6c4467521837",
-        "acceptance": [
-          "git_pull current main.",
-          "Current scene package compiles/imports cleanly.",
-          "Treat legacy Run as incomplete, not implemented behavior.",
-          "Identify a deterministic Python-only boundary for component parsing/pair data validation if useful.",
-          "Keep FindSymmetricVertexPairs and MirrorVertexPositionsByPairs as Maya/mesh-host behavior requiring later host-backed validation.",
-          "No repository mutation required."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "mesh_vertex_inventory_gate_passed",
-        "delivery_id": "5939f2f389dc4efbb316",
-        "verification_evidence": {
-          "git_pull_before": "7f5e29b10ee7bbdf4c1d351163dec8051ec0624b",
-          "git_pull_after": "0ab955fe40972bbb4de0cb02a5bfd107b8761285",
-          "py_compile": true,
-          "import": "aimayatool.tools.scene"
-        },
-        "architect_diagnosis": "Inventory gate passed. Legacy MeshVertex Run is empty and must not be represented as migrated behavior. Safe Python-only boundary is component-name parsing, mesh consistency/cardinality validation, and pair-data normalization. Symmetry discovery and vertex-position mirroring depend on NLTA_Mesh/Maya geometry state and require a separate host-backed slice."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-mesh-vertex-core-python-verify-165h",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/mesh_vertex.py",
-          "tests/test_scene_mesh_vertex.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.mesh_vertex"
-        ],
-        "tests": [
-          "tests.test_scene_mesh_vertex"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-mesh-vertex-inventory-165g"
-        ],
-        "purpose": "Verify deterministic MeshVertex core helpers from the approved inventory boundary.",
-        "implementation_commits": [
-          "5f3a6bad7a6e11e7a8281bc34f7b518a7b0db173",
-          "5859973b763437fe1c728e48fc7c6b495560c175"
-        ],
-        "acceptance": [
-          "Compile files.",
-          "Import outside Maya.",
-          "Focused tests pass for vertex parsing, same-mesh/cardinality validation, and normalized index data.",
-          "No symmetry discovery or vertex mutation claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "mesh_vertex_core_python_verification_passed",
-        "delivery_id": "e94e9bf448a92476ffc8",
-        "verification_evidence": {
-          "git_pull_before": "0ab955fe40972bbb4de0cb02a5bfd107b8761285",
-          "git_pull_after": "4b2edf9186d4b17223f40b0a82bd879a83166093",
-          "py_compile": true,
-          "import": "aimayatool.tools.scene.mesh_vertex",
-          "tests": {
-            "target": "tests.test_scene_mesh_vertex",
-            "ran": 3,
-            "success": true
-          }
-        },
-        "architect_diagnosis": "MeshVertex deterministic core passed Python verification: parsing, normalization, same-mesh/cardinality validation and index extraction are proven outside Maya. Symmetry discovery and vertex-position mutation remain unproven host behavior."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-skin-joint-nearest-component-inventory-165i",
       "action": {
         "type": "verification",
@@ -720,6 +568,126 @@
           "checks_all_true": true
         },
         "architect_diagnosis": "BSSequence adapter is now host-proven in managed Maya 2024 for the tested deterministic fixture: nonzero transform key collection, shoot generation/naming, BS group and blendShape creation, driver-to-joint connection, proxy/show/visibility wiring, driven-key creation, and current-frame restoration all passed in a fresh unsaved scene."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-rope-roll-inventory-165q",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "purpose": "Bounded architecture inventory for legacy rope-roll; target adapter is currently absent.",
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_RopeRoll.py",
+        "legacy_source_sha": "ee8ddc9c571ae1543a9d99a73f5257d10656d2a9",
+        "acceptance": [
+          "Current scene package compiles/imports cleanly.",
+          "Document the exact legacy weight-network semantics: activeCount = objectCount - (driver + offset).",
+          "Define deterministic Python-only boundary for normalized object/destination pairs, offset/range validation and expected weight math.",
+          "Keep point/orient constraints and DG node creation/connections as Maya-host behavior.",
+          "Identify empty-line/cardinality/zero-denominator edge cases before implementation.",
+          "No repository mutation required."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-rope-straight-inventory-165r",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "purpose": "Bounded architecture inventory for legacy rope-straight; target adapter is currently absent.",
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_RopeStraight.py",
+        "legacy_source_sha": "9822e86813a640fc135dbef1561f29ee5514664f",
+        "acceptance": [
+          "Current scene package compiles/imports cleanly.",
+          "Document the exact legacy weight-network semantics: active progression uses (driver + offset) directly.",
+          "Define deterministic Python-only boundary for normalized object/destination pairs, offset/range validation and expected weight math.",
+          "Keep point/orient constraints and DG node creation/connections as Maya-host behavior.",
+          "Identify empty-line/cardinality/zero-denominator edge cases before implementation.",
+          "No repository mutation required."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
