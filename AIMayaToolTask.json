@@ -93,59 +93,6 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "task_id": "aimayatool-goal007-scene-pattern-delete-attribute-maya-validation-163t",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "timeout": 300,
-        "save_scene": false,
-        "isolated_scene": true,
-        "module": "aimayatool.tools.scene.delete_attribute_smoke",
-        "callable": "run_scene_delete_attribute_smoke"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-delete-attribute-python-verify-163s"
-        ],
-        "purpose": "Host-prove existing ScenePattern DeleteAttribute migration in managed Maya after deterministic verification.",
-        "acceptance": [
-          "Fresh isolated unsaved Maya scene is used.",
-          "Two existing custom attributes are deleted.",
-          "A missing plug is skipped without failing the operation.",
-          "Smoke returns the SCENE_DELETE_ATTRIBUTE_OK marker.",
-          "Route reports new_scene_forced=true and scene_saved=false."
-        ],
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
-        "result": "PASS",
-        "classification": "delete_attribute_managed_maya2024_proven",
-        "architect_diagnosis": "Bridge reports the managed Maya smoke passed for the exact 163t route after its Python dependency passed. This ACK records the successful host-validation gate; the reminder did not include the original detailed runtime payload, so no unprovided PID/marker fields are invented."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
       "task_id": "aimayatool-goal007-scene-pattern-default-value-python-verify-163u",
       "status": "pending",
       "architect_ack": true,
@@ -636,8 +583,8 @@
       },
       "task_id": "aimayatool-goal007-scene-pattern-unlock-attribute-maya-validation-164b",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "action": {
         "type": "maya",
         "target": "managed_live_smoke"
@@ -670,6 +617,68 @@
           "Missing objects are skipped deterministically.",
           "Route reports new_scene_forced=true and scene_saved=false and smoke success=true."
         ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "FAIL",
+        "classification": "unlock_attribute_smoke_fixture_escape_bug",
+        "delivery_id": "3084695f9a5cc11956b3",
+        "architect_diagnosis": "Managed Maya reached the smoke but the fixture passed a literal backslash-n, so splitlines produced one combined object name and the missing-object assertion indexed result[1]. This is a smoke-fixture bug, not evidence that the adapter's Maya behavior failed.",
+        "failure": {
+          "type": "IndexError",
+          "message": "tuple index out of range",
+          "line": 44
+        },
+        "fix_commit": "9cddcc6ade70e0ba61078569408b6e3197ba3b6d"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-unlock-attribute-maya-validation-retry-164c",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "timeout": 300,
+        "save_scene": false,
+        "isolated_scene": true,
+        "module": "aimayatool.tools.scene.unlock_attribute",
+        "callable": "unlock_attribute_managed_maya_smoke"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "retry_of": "aimayatool-goal007-scene-pattern-unlock-attribute-maya-validation-164b",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-unlock-attribute-python-verify-164a"
+        ],
+        "purpose": "Retry managed Maya host proof after correcting the smoke multiline fixture.",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene is used.",
+          "tx/ty/tz/rx/ry/rz/sx/sy/sz are unlocked and keyable on existing objects.",
+          "Incoming transform-attribute connections are disconnected.",
+          "Missing objects are skipped deterministically.",
+          "Route reports new_scene_forced=true and scene_saved=false and smoke success=true."
+        ],
+        "fix_commit": "9cddcc6ade70e0ba61078569408b6e3197ba3b6d",
         "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
