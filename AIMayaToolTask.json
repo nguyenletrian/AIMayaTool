@@ -28,73 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal008-scene-ux-polish-managed-maya-173c",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.tools.scene",
-        "callable": "build_ui",
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-ux-polish",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal008-scene-ux-polish-python-verify-173b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Validate the bounded Scene 2.0 build_ui polish inside a fresh managed Maya session.",
-        "acceptance": [
-          "Fast-forward main before host execution.",
-          "Use fresh managed Maya scene/session where supported.",
-          "Import aimayatool.tools.scene and invoke build_ui inside Maya.",
-          "Return PASS only if UI construction completes without Maya/Python exception.",
-          "Do not save the Maya scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "invalid_maya_smoke_isolation_contract",
-        "delivery_id": "1a08e058b6bc12cd3932",
-        "architect_diagnosis": "Managed Maya route rejected the task before product execution because payload.isolated_scene=true is mandatory. This is task-contract failure, not Scene UI failure."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal008-scene-ux-polish-managed-maya-retry-173d",
       "action": {
         "type": "maya",
@@ -650,9 +583,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -698,6 +631,83 @@
           "Invoke aimayatool.tools.scene.build_ui.",
           "Return PASS only if reusable section() rendering and Scene UI construction complete without Maya/Python exception.",
           "Do not save the Maya scene.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_components_scene_adoption_maya_pass",
+        "delivery_id": "bb5864c55e26817e606b",
+        "verification_evidence": {
+          "marker": "AIBRIDGE_UI_SMOKE_OK:StatusLine|MainStatusLineLayout|formLayout4|columnLayout19",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001
+        },
+        "architect_diagnosis": "Reusable section() adoption renders successfully in managed Maya. With Python and Maya gates proven, Architect expanded the bounded adoption to Setup section headings plus one representative two-button row; callbacks remain domain-owned."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-components-setup-adoption-python-175f",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/components.py",
+          "aimayatool/tools/setup/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.ui.components",
+          "aimayatool.tools.setup"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-components",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-components-scene-adoption-maya-175e",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify incremental Setup adoption of reusable section() plus a representative button_row() before Maya rendering validation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile components.py and Setup __init__.py.",
+          "Import components and Setup outside Maya without eager Maya-host failure.",
+          "Confirm Setup callbacks remain domain-owned and public module remains importable.",
+          "Do not treat Python PASS as Maya rendering acceptance.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
