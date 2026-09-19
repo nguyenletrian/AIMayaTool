@@ -28,88 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-driven-key-core-verify-166m",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/driven_key.py",
-          "tests/test_scene_driven_key.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.driven_key"
-        ],
-        "tests": [
-          "tests.test_scene_driven_key"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-managed-maya-smoke-166l",
-          "result": "PASS"
-        },
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_Drivenkey.py",
-        "legacy_source_sha": "b9c6a492b8913e6c7d4cf056eb19ecae91221069",
-        "implementation_commits": [
-          "ee9fd3b042d8b156a4b695382a0b527a167d56ae",
-          "02952691e1a2100dffb58663e71fc10859742dde"
-        ],
-        "purpose": "Verify deterministic DrivenKey data/planning boundary before Maya SDK mutation.",
-        "acceptance": [
-          "Compile/import outside Maya.",
-          "Normalize driverAttr and multiline drivenAttrs.",
-          "Normalize numeric driver/driven values, deterministic key ordering, driven-object inventory, _SDKGrp and _ZeloSDKGrp naming.",
-          "Reject malformed plugs, empty keyData and duplicate driverValue.",
-          "All focused tests pass.",
-          "Do not create Maya offset groups or SDK curves."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "driven_key_core_python_verified",
-        "delivery_id": "b54890729309d1ae7ae4",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "tests_run": 3
-        },
-        "architect_diagnosis": "Deterministic DrivenKey planning core is Python-proven: implementation/tests compile, module imports outside Maya, and all 3 focused tests pass. This proves driver/driven plug normalization, numeric key normalization and ordering, driven-object inventory, deterministic _SDKGrp/_ZeloSDKGrp naming, and invalid/duplicate-key rejection only; Maya offset groups, connections, setDrivenKeyframe and tangent behavior remain unproven."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-driven-key-host-python-regression-166n",
       "action": {
         "type": "verification",
@@ -642,9 +560,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -677,7 +595,7 @@
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-maya-validation",
         "retry_of": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-166u",
-        "smoke_fix_commit": "89bc2fc90066eeb0c69adc96e71b1ca7d4185e2a",
+        "smoke_fix_commit": "e3a98b94842acd3fda9e51906afc36bfe91718fa",
         "purpose": "Retry final bounded DrivenKey Maya smoke using listConnections plug-level child-source validation.",
         "acceptance": [
           "Fresh isolated unsaved scene.",
@@ -685,6 +603,69 @@
           "listConnections reports SDK attr as the direct upstream plug for child attr.",
           "animCurve exists upstream of SDK attr.",
           "Driver 0/10 evaluates 1/5.",
+          "Tangents linear."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAILED_SMOKE_ASSERTION",
+        "classification": "driven_key_invalid_direct_connection_expectation",
+        "delivery_id": "6f969d622f9d3c694289",
+        "architect_diagnosis": "Repeated Maya evidence shows the direct-connection expectation itself is invalid. apply_driven_key parents the driven object under _SDKGrp and setDrivenKeyframe animates the SDK group's channel; it does not connect SDKGroup.tx to child.tx. Therefore both connectionInfo and listConnections correctly fail to find such a direct plug connection. Hierarchy, animCurve, SDK evaluation and tangents all pass. Replaced the invalid smoke assertion with hierarchy + child-local stability checks; product host logic unchanged."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-driven-key-hierarchy-smoke-166w",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.driven_key",
+        "callable": "driven_key_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "retry_of": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-retry-166v",
+        "smoke_fix_commit": "e3a98b94842acd3fda9e51906afc36bfe91718fa",
+        "purpose": "Final DrivenKey Maya validation using the actual implementation contract: SDK offset hierarchy plus keyed offset evaluation, not a nonexistent direct SDK->child plug connection.",
+        "acceptance": [
+          "Fresh isolated unsaved scene.",
+          "Driven object is parented directly under _SDKGrp and _ZeloSDKGrp exists above it.",
+          "animCurve exists upstream of SDK offset channel.",
+          "Driver 0/10 evaluates SDK offset tx to 1/5.",
+          "Driven child local tx remains stable while parent SDK offset carries the driven motion.",
           "Tangents linear."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
