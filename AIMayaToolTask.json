@@ -90,88 +90,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-match-pairs-core-python-verify-165f",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/match_pairs.py",
-          "tests/test_scene_match_pairs.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.match_pairs"
-        ],
-        "tests": [
-          "tests.test_scene_match_pairs"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-match-pairs-inventory-165e"
-        ],
-        "purpose": "Verify deterministic MatchPairs core helpers from the approved inventory boundary.",
-        "implementation_commits": [
-          "51cc308be45dbec57cd53992e20edf46584dc73c",
-          "87719decfeab874681c314e2462c63c4166b72f5"
-        ],
-        "acceptance": [
-          "Compile files.",
-          "Import outside Maya.",
-          "Focused tests pass.",
-          "No Maya host behavior claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "match_pairs_core_python_verification_passed",
-        "delivery_id": "43d9ea37c316d9ebdcb4",
-        "verification_evidence": {
-          "git_pull_before": "58fb728580ca7c4c7de635e0c8f0d7c4cc1cbc5c",
-          "git_pull_after": "7f5e29b10ee7bbdf4c1d351163dec8051ec0624b",
-          "py_compile": true,
-          "import": "aimayatool.tools.scene.match_pairs",
-          "tests": {
-            "target": "tests.test_scene_match_pairs",
-            "ran": 3,
-            "success": true
-          }
-        },
-        "architect_diagnosis": "Deterministic MatchPairs core passed Python verification: both files compile, module imports outside Maya, and all 3 focused tests pass. This proves only normalization/pair mapping/XML transfer; Maya nearest-distance and selection behavior remain outside this gate."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-mesh-vertex-inventory-165g",
       "action": {
         "type": "verification",
@@ -677,9 +595,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry-165n",
       "action": {
         "type": "maya",
@@ -717,6 +635,69 @@
         "purpose": "Retry BSSequence managed Maya proof with required save_scene=false safety contract.",
         "acceptance": [
           "Use a fresh managed Maya scene; save_scene must remain false.",
+          "Exercise dedicated deterministic smoke callable if present.",
+          "Prove nonzero keys, generated shoot meshes, BS group/blendShape, driver/joint/proxy/show wiring, driven-key weights and currentTime restoration.",
+          "If callable is absent, return exact missing-callable gap; do not fabricate success."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "BLOCKED_PRECONDITION",
+        "classification": "task_contract_missing_isolated_scene_true",
+        "delivery_id": "334dc2b711f46f48002e",
+        "architect_diagnosis": "No Maya behavior was exercised. Route additionally requires payload.isolated_scene=true. Retry with both managed-smoke safety fields explicitly set."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry2-165o",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.bs_sequence",
+        "callable": "bs_sequence_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "retry_of": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry-165n",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-bs-sequence-existing-implementation-python-verify-165l"
+        ],
+        "purpose": "Retry BSSequence managed Maya proof with complete known scene-safety contract.",
+        "acceptance": [
+          "Use fresh isolated managed Maya scene; isolated_scene=true and save_scene=false.",
           "Exercise dedicated deterministic smoke callable if present.",
           "Prove nonzero keys, generated shoot meshes, BS group/blendShape, driver/joint/proxy/show wiring, driven-key weights and currentTime restoration.",
           "If callable is absent, return exact missing-callable gap; do not fabricate success."
