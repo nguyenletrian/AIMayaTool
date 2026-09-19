@@ -18,86 +18,6 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "task_id": "aimayatool-goal010-favorites-recent-action-state-181b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/registry.py",
-          "tests/test_registry_action_state.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ],
-        "tests": [
-          "tests.test_registry_action_state"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "purpose": "Add the smallest reusable action/workflow-level recent/favorite state contract to the registry using explicit stable identities, without wiring Maya UI yet.",
-        "acceptance": [
-          "Fast-forward main and preserve existing group-level search/recent/favorite behavior.",
-          "Add explicit action/workflow identity validation based on group_id, stable action_id and display label; do not infer identity from callback repr or result/status labels.",
-          "Provide deterministic in-memory mark_recent_action/recent_actions and set_favorite_action/favorite_actions behavior with bounded recent ordering and duplicate promotion.",
-          "Reject unknown groups and malformed/empty action identities with actionable ValueError.",
-          "Do not add filesystem/settings persistence in this slice.",
-          "Do not import Maya or mutate scene/selection.",
-          "Add focused deterministic tests and run py_compile, non-Maya import and those tests.",
-          "Do not instrument domain buttons or expand into batch/preflight work yet.",
-          "Commit and push the bounded implementation to main after verification passes.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "route_recovery": {
-          "failed_delivery_id": "8c58dc5f7ee9f746e2af",
-          "failed_route": "implementation:python",
-          "classification": "unsupported_route_handler",
-          "note": "Bridge reported no handler for implementation:python. Requeued the same bounded editable Python task through the established verification:python route; edit/commit/push permissions and implementation acceptance remain unchanged."
-        },
-        "retry_count": 1,
-        "result": "IMPLEMENTED_PENDING_WORKER_VERIFICATION",
-        "classification": "route_failure_recovered_by_architect_implementation",
-        "architect_diagnosis": "The failed result was route-only: implementation:python had no Bridge handler. Architect implemented the bounded Python-only registry action-state contract directly on main, preserving group state and adding stable action identity, bounded recents, favorites and focused tests. A separate verification:python follow-up is queued so worker evidence, not the unsupported delivery, proves the implementation.",
-        "implementation_commits": [
-          "135a681ce90d39019cf06398cf79d3aaa2b40e51",
-          "e87e0607622764e743595b7f4d42748df13fc311"
-        ]
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
       "status": "pending",
       "architect_ack": true,
       "bridge_completed": false,
@@ -137,9 +57,6 @@
       "metadata": {
         "goal_id": "aimayatool-010",
         "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-action-state-181b"
-        ],
         "purpose": "Independently verify the Architect-implemented action-level recent/favorite registry contract after recovery from the unsupported implementation:python route.",
         "acceptance": [
           "Fast-forward main.",
@@ -163,210 +80,14 @@
           "classification": "precondition_permission_mismatch",
           "diagnosis": "Failure occurred before product verification because git_pull requires edit permission. Task has already been corrected to edit=true and remains pending for a clean verification retry."
         },
-        "architect_diagnosis": "ACKed the exact failed delivery without treating it as product failure. Current task definition is recovered: edit=true permits ff-only git_pull while commit/push remain false and acceptance forbids product edits. Keep the same task pending so Bridge can perform the intended compile/import/unit-test verification."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-batch-productivity-inventory-182a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py",
-          "aimayatool/ui/components.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "batch-productivity",
-        "purpose": "Inventory existing multi-selection/list-driven operations and choose the smallest safe reusable batch-productivity slice without hiding destructive behavior.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile Skinning, Setup, Scene entrypoints and shared UI components.",
-          "Identify existing actions that already operate on multiple selected/listed items and distinguish them from single-target/destructive workflows.",
-          "Choose the smallest reusable batch helper or bounded representative workflow that reduces repetition while keeping selection/order and mutation explicit.",
-          "Prefer deterministic Python planning/validation before Maya mutation.",
-          "Do not implement preflight-guidance in this milestone.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "batch_productivity_inventory_pass",
-        "delivery_id": "8604234e249dbb241681",
-        "architect_diagnosis": "Entry-point inventory compiles. Setup already has explicit multi-selection workflows (_zero_selected, _freeze_selected, _reset_selected, _create_joints_selected) and Scene build APIs already accept lists, so the smallest safe batch slice is a reusable selected-transform batch executor around existing Setup primitives, preserving ordered selection and explicit mutation. Do not introduce generic arbitrary callback batching or hidden destructive behavior."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "task_id": "aimayatool-goal010-batch-productivity-setup-182b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/setup/transforms.py",
-          "aimayatool/ui/components.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup",
-          "aimayatool.tools.setup.transforms"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "batch-productivity",
-        "depends_on": [
-          "aimayatool-goal010-batch-productivity-inventory-182a"
-        ],
-        "purpose": "Implement the smallest bounded batch-productivity slice by centralizing selected-transform execution over existing safe Setup transform primitives, without changing action semantics.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Add a thin reusable helper for ordered selected-transform execution that validates selection once and applies an explicit existing transform operation to each selected node.",
-          "Use the helper for one bounded representative batch workflow, preferably Reset TR, while preserving current selection order and run_action presentation.",
-          "Do not create arbitrary callback batching, hidden auto-selection, or persistence.",
-          "Preserve current single-action behavior and actionable selection errors.",
-          "Add deterministic non-Maya tests for ordering/validation where practical.",
-          "Run py_compile/import-safe checks and focused tests.",
-          "Commit and push only after verification passes.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_ACCEPTANCE_NOT_IMPLEMENTED",
-        "classification": "verification_only_no_product_edit",
-        "delivery_id": "0b3566375048f3afe53d",
-        "architect_diagnosis": "Worker compile/import passed, but repository evidence showed no reset_transforms batch helper and the existing Setup Reset TR action referenced a missing plural primitive. Architect implemented the bounded ordered reset_transforms batch helper directly. A separate read-only verification is now required before treating 182b complete."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-batch-productivity-setup-verify-182c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/setup/transforms.py",
-          "aimayatool/tools/setup/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup.transforms",
-          "aimayatool.tools.setup"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "batch-productivity",
-        "depends_on": [
-          "aimayatool-goal010-batch-productivity-setup-182b"
-        ],
-        "purpose": "Independently verify the Architect-implemented ordered selected-transform batch helper and Reset TR integration.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile and import Setup transforms and Setup entrypoint.",
-          "Verify reset_transforms validates the full ordered selection before mutation and preserves selection order in its returned tuple.",
-          "Verify Setup _reset_selected delegates to reset_transforms with translate=True, rotate=True, scale=False.",
-          "Run focused deterministic tests if present.",
-          "Do not edit product code.",
-          "Do not use Codex."
-        ],
-        "implementation_commit": "9318abec540e8bec4270fe3593cca36dbd98b3d3",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "batch_reset_helper_verified",
-        "delivery_id": "28250ac31edb74f6ce57",
-        "architect_diagnosis": "Verification compiled/imported both Setup modules. Repository inspection confirms _reset_selected delegates to transforms.reset_transforms over the ordered _require_selection result with translate=True, rotate=True, scale=False; the helper validates every node before invoking reset_transform, so the requested non-partial batch semantics are present. Queue managed-Maya smoke for runtime proof."
+        "architect_diagnosis": "ACKed the exact failed delivery without treating it as product failure. Current task definition is recovered: edit=true permits ff-only git_pull while commit/push remain false and acceptance forbids product edits. Keep the same task pending so Bridge can perform the intended compile/import/unit-test verification.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-favorites-recent-action-state-181b",
+          "result": "IMPLEMENTED_PENDING_WORKER_VERIFICATION",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "e87e0607622764e743595b7f4d42748df13fc311"
+        }
       }
     },
     {
@@ -415,9 +136,6 @@
       "metadata": {
         "goal_id": "aimayatool-010",
         "milestone_id": "batch-productivity",
-        "depends_on": [
-          "aimayatool-goal010-batch-productivity-setup-verify-182c"
-        ],
         "purpose": "Prove ordered multi-selection Reset TR behavior in managed Maya without saving the scene.",
         "acceptance": [
           "Fast-forward main.",
@@ -434,7 +152,14 @@
         "result": "FAIL_ACCEPTANCE_NOT_IMPLEMENTED",
         "classification": "smoke_callable_missing",
         "delivery_id": "cd59444be74b17885a7d",
-        "architect_diagnosis": "The runtime failure was a missing smoke callable, not a Reset TR product failure. Architect added the bounded batch_reset_managed_maya_smoke callable to Setup, preserving fresh-scene/no-save requirements. Retry is required."
+        "architect_diagnosis": "The runtime failure was a missing smoke callable, not a Reset TR product failure. Architect added the bounded batch_reset_managed_maya_smoke callable to Setup, preserving fresh-scene/no-save requirements. Retry is required.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-batch-productivity-setup-verify-182c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "9318abec540e8bec4270fe3593cca36dbd98b3d3"
+        }
       }
     },
     {
@@ -871,9 +596,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -922,6 +647,80 @@
           "Inspect goal/milestone state and report whether batch-productivity acceptance is satisfied without inventing additional scope.",
           "Identify the smallest dependency-ready preflight-guidance inventory slice.",
           "Do not edit product code.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "batch_productivity_closeout_pass",
+        "proven_main_commit": "33e928fe27e344e1e0236d3c834135af2f2d2b76",
+        "evidence": "Repository/task evidence confirms the runtime-proven Reset TR marker and Freeze TRS marker, and current Setup source still contains explicit ordered reset_transforms/freeze_transforms integration. No Maya rerun was performed. The bounded milestone acceptance is satisfied; the next dependency-ready slice is a preflight-guidance inventory.",
+        "architect_diagnosis": "Batch Productivity is closed on the two proven bounded slices: ordered Reset TR and ordered Freeze TRS. The next safe step is inventory-only preflight guidance, not speculative broad validation."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-preflight-guidance-inventory-183a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py",
+          "aimayatool/ui/components.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning",
+          "aimayatool.tools.setup",
+          "aimayatool.tools.scene",
+          "aimayatool.ui.components"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "preflight-guidance",
+        "depends_on": [
+          "aimayatool-goal010-batch-productivity-closeout-182k"
+        ],
+        "purpose": "Inventory existing deterministic previews, selection/context checks, and validation/error presentation to define the smallest reusable preflight-guidance contract before implementation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Inventory existing Skinning, Setup and Scene validation/preview/context checks and shared run_action error presentation.",
+          "Identify duplicated or incompatible validation-result shapes that could be unified without changing domain behavior.",
+          "Propose one bounded preflight guidance contract with explicit inputs, non-mutating validation, actionable messages, and no hidden mutation.",
+          "Do not implement the preflight feature in this inventory slice.",
+          "Do not alter existing product behavior.",
+          "Run py_compile/import-safe checks for inspected entrypoints.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
