@@ -640,9 +640,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -691,7 +691,19 @@
           "Do not save the Maya scene.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_ux_managed_maya_pass",
+        "delivery_id": "e388f25bcbfd0cf9eacc",
+        "verification_evidence": {
+          "managed_maya": true,
+          "marker": "AIBRIDGE_UI_SMOKE_OK:StatusLine|MainStatusLineLayout|formLayout4|columnLayout13",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001
+        },
+        "architect_diagnosis": "Scene 2.0 build_ui constructed successfully in managed Maya with a forced fresh scene and no scene save. UX polish milestone is accepted."
       }
     }
   ]
