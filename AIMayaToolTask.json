@@ -28,87 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-spline-rig-python-verify-167w",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/spline_rig.py",
-          "tests/test_scene_spline_rig.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.spline_rig"
-        ],
-        "tests": [
-          "tests.test_scene_spline_rig"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-spline-rig-implementation-sync-167v",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "3e14c474ee4d78036e7438325f48f80b8898c2ca",
-          "0c2d1fac34990dbb8535f986863d3bc815c6588b"
-        ],
-        "purpose": "Verify Architect-authored SplineRig normalization/planning and import safety before any Maya-host validation.",
-        "acceptance": [
-          "Fast-forward main including SplineRig implementation and tests.",
-          "Compile spline_rig.py and its focused test module.",
-          "Import aimayatool.tools.scene.spline_rig outside Maya.",
-          "Run tests.test_scene_spline_rig successfully.",
-          "Do not claim Maya parity from Python-only evidence."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "spline_rig_python_verification_pass",
-        "delivery_id": "1ad7bc6f1fcf2f1de9eb",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "main_commit": "e0c2bd9c3cfd6b7835d11b9f85e82e21b1f41141"
-        },
-        "architect_diagnosis": "SplineRig deterministic implementation passes compile/import/unit tests. Python acceptance is complete; do not claim Maya parity while the live ui_smoke route remains infrastructure-blocked."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-parity-inventory-168a",
       "action": {
         "type": "verification",
@@ -704,9 +623,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -751,6 +670,85 @@
           "Compile/import ikfk_switch.py.",
           "Do not claim Maya runtime parity from this sync.",
           "Return current-main evidence for immediate Architect runtime-adapter implementation."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ikfk_runtime_preimplementation_sync_verified",
+        "delivery_id": "6a022b31344014ac181d",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "88e865f730ea149ecd7f213db49bb9b34e09d3e6"
+        },
+        "architect_diagnosis": "Baseline passed; Architect added the bounded Maya runtime adapter for offset capture, snap application, switch value, optional transform/switch keys, plus a managed smoke callable."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-ikfk-runtime-python-verify-168j",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/ikfk_switch.py",
+          "tests/test_scene_ikfk_switch.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.ikfk_switch"
+        ],
+        "tests": [
+          "tests.test_scene_ikfk_switch"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-ikfk-runtime-preimplementation-sync-168i",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commits": [
+          "7bfce88707e049452fe890669acaec6219b27b53"
+        ],
+        "purpose": "Verify the IK/FK runtime adapter remains import-safe and preserves deterministic model tests before any Maya-host validation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile ikfk_switch.py and existing focused tests.",
+          "Import module outside Maya.",
+          "Run tests.test_scene_ikfk_switch successfully.",
+          "Do not claim Maya runtime parity from Python-only verification."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
