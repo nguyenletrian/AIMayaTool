@@ -28,85 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-python-verify-167l",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/fold_rig.py",
-          "tests/test_scene_fold_rig.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.fold_rig"
-        ],
-        "tests": [
-          "tests.test_scene_fold_rig"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-fold-rig-preimplementation-baseline-167h",
-          "result": "PASS_BASELINE"
-        },
-        "implementation_commits": [
-          "9c8ce7fb650eed3dcc87cb6e835ca2fc31cbcf85",
-          "01e32eb2f57e086c61185151da0a46e4eda9af7a"
-        ],
-        "purpose": "Deterministically verify Architect-authored FoldRig implementation now committed directly through repository tools, per AIBrigde Architect ownership contract.",
-        "acceptance": [
-          "Fast-forward main including FoldRig implementation and tests.",
-          "Compile fold_rig.py and test module.",
-          "Import aimayatool.tools.scene.fold_rig outside Maya.",
-          "Run tests.test_scene_fold_rig successfully.",
-          "Do not claim Maya parity; Maya-host behavior requires a later smoke task."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "fold_rig_python_verification_pass",
-        "delivery_id": "fe32ec5827caae749499",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "main_commit": "0eb133cd6376d008399ed267760de26a1df0da27"
-        },
-        "architect_diagnosis": "Architect-authored FoldRig implementation passes deterministic Python compile/import/unit tests. Maya behavior is not yet proven and requires managed Maya smoke."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-167m",
       "action": {
         "type": "maya",
@@ -617,9 +538,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -667,6 +588,76 @@
           "Import aimayatool.tools.scene.gradient_texture outside Maya.",
           "Run tests.test_scene_gradient_texture successfully.",
           "Do not claim Maya parity from Python-only evidence."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "gradient_texture_python_verification_pass",
+        "delivery_id": "ca0d715c3fb9f4d07cac",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "main_commit": "86f9686992fe8d012650bbe9cd729a87a6d4c5e6"
+        },
+        "architect_diagnosis": "GradientTexture deterministic implementation passes compile/import/unit tests. Maya ui_smoke remains infrastructure-blocked, so continue with the remaining bounded SplineRig implementation rather than generating redundant live failures."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-spline-rig-implementation-sync-167v",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-preimplementation-baseline-167i",
+          "result": "PASS_BASELINE"
+        },
+        "purpose": "Sync the current Scene baseline immediately before Architect authors the remaining SplineRig ScenePattern slice directly through repository tools.",
+        "acceptance": [
+          "Fast-forward current main.",
+          "Compile/import current Scene package.",
+          "Do not claim SplineRig implementation or Maya parity from this sync task.",
+          "Return current main evidence for immediate Architect-owned SplineRig implementation."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
