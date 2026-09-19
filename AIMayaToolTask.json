@@ -665,9 +665,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-visibility-switch-maya-validation-164t",
       "action": {
         "type": "maya",
@@ -710,7 +710,29 @@
           "Missing objects skip independently.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "visibility_switch_managed_maya2024_proven",
+        "delivery_id": "8f1cda490898237e1bfb",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "port": 7001,
+          "git_pull_before": "bf0d8cfda51482ff1993c6deb0c9b0e1fa337e4d",
+          "git_pull_after": "6759112a38285121b1e3e7d88e99bc9a31b5e3f3",
+          "smoke": {
+            "attr": true,
+            "indices": true,
+            "connected": true,
+            "missing": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: enum control attribute exists, option rows map to the expected condition indices, condition outputs connect to visibility targets, semicolon grouping is exercised, and missing objects skip independently."
       }
     }
   ]
