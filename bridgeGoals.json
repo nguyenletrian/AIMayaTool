@@ -517,12 +517,12 @@
         {
           "milestone_id": "ui-information-architecture",
           "title": "Unify navigation and workflow grouping",
-          "status": "pending"
+          "status": "completed"
         },
         {
           "milestone_id": "ui-components",
           "title": "Build consistent reusable controls",
-          "status": "pending"
+          "status": "active"
         },
         {
           "milestone_id": "ui-search-discovery",
