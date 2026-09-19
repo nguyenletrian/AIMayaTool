@@ -28,87 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-build-control-shape-path-sync-168v",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/control_shape_io.py",
-          "aimayatool/tools/scene/control_shape_legacy_io.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.control_shape_io",
-          "aimayatool.tools.scene.control_shape_legacy_io"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-build-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-build-parity-inventory-168u",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "legacy_sources": [
-          "UIs/SceneDefaultFunctions/1_Export Curve.py",
-          "UIs/SceneDefaultFunctions/2_Import Curve.py",
-          "UIs/SceneDefaultFunctions/3_Export Curve Up.py",
-          "UIs/SceneDefaultFunctions/4_Import Curve UP.py",
-          "UIs/SceneDefaultFunctions/5_Update Curve Up.py"
-        ],
-        "purpose": "Sync current control-shape IO immediately before adding deterministic scene-relative SceneData path resolution and export/import/update orchestration. Preserve both legacy local SceneData and parent-work SceneData layouts as explicit policy, not hidden path assumptions.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import both control-shape IO modules.",
-          "Do not duplicate shape payload collection/conversion already implemented.",
-          "Do not prompt SaveSceneAs inside deterministic helpers.",
-          "Return evidence for immediate path/orchestration implementation."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_build_control_shape_path_preimplementation_sync_verified",
-        "delivery_id": "c609f68fa72faefb6788",
-        "verification_evidence": {
-          "py_compile": true,
-          "imports": true,
-          "main_commit": "41d13797184d244f6728e8bbe4f3ba54797b9002"
-        },
-        "architect_diagnosis": "Current control-shape IO baseline is import-safe. Architect added explicit local/parent SceneData path policies plus export/import/update orchestration reusing existing payload functions, with deterministic path tests."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-build-control-shape-path-python-verify-168w",
       "action": {
         "type": "verification",
@@ -708,9 +627,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -755,6 +674,70 @@
           "Invoke aimayatool.tools.scene.build_actions_smoke.run_scene_build_actions_smoke.",
           "Require exact product result SCENE_BUILD_ACTIONS_SMOKE_OK.",
           "Do not save the scene and do not involve FoldRig."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "unsupported_maya_route_contract",
+        "delivery_id": "46d2bb642ffe3dcc2fa2",
+        "architect_diagnosis": "Second route-contract attempt is also unsupported by the current Bridge runtime. No AIMayaTool product code executed. Stop guessing route names; next task is a supported Python verification that preserves progress while recording Maya host validation as blocked on Bridge capability discovery/recovery."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-maya-validation-route-blocker-169f",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/build_actions_smoke.py"
+        ],
+        "imports": []
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_retry_source": {
+          "task_id": "aimayatool-goal007-scene-maya-build-actions-managed-retry-169e",
+          "result": "FAIL",
+          "reason": "No route handler registered for maya_smoke:managed_maya"
+        },
+        "purpose": "Preserve deterministic evidence for the first host-validation slice while explicitly classifying Maya execution as blocked by the current Bridge route registry. Do not guess another Maya route.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile build_actions_smoke.py without importing it outside Maya.",
+          "Confirm the smoke module/callable remains present in current main.",
+          "Return Python verification evidence only; do not claim Maya product validation.",
+          "Architect will keep scene-maya-validation open until a supported Bridge Maya route is evidenced."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
