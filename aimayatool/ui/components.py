@@ -34,3 +34,28 @@ def button_row(buttons, columns=None):
         cmds.button(label=label, command=callback)
     cmds.setParent("..")
     return row
+
+
+def run_action(label, fn, context="AIMayaTool"):
+    """Run a UI action with consistent success/error presentation."""
+    if not callable(fn):
+        raise TypeError("run_action fn must be callable")
+    cmds = _cmds()
+    try:
+        result = fn()
+        if isinstance(result, (list, tuple)):
+            detail = ", ".join(str(item) for item in result) if result else "no changes"
+        else:
+            detail = str(result) if result else "no changes"
+        cmds.inViewMessage(amg="{0}: {1}".format(label, detail), pos="midCenter", fade=True)
+        return result
+    except Exception as exc:
+        import traceback
+        message = "{0} failed: {1}".format(label, exc)
+        cmds.warning("{0}: {1}".format(context, message))
+        try:
+            cmds.inViewMessage(amg="<hl>{0}</hl>".format(message), pos="midCenter", fade=True)
+        except Exception:
+            pass
+        traceback.print_exc()
+        return None
