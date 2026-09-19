@@ -28,78 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-spline-curve-from-objs-sync-168b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-parity-inventory-168a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_SplineCurveFromObjs.py",
-        "purpose": "Sync healthy current main immediately before Architect migrates the standalone legacy SplineCurveFromObjs slice. Keep this separate from the already migrated full SplineRig.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import current Scene package.",
-          "Do not claim SplineCurveFromObjs implementation from this sync task.",
-          "Return current-main evidence for immediate Architect-owned bounded implementation."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "spline_curve_from_objs_preimplementation_sync_verified",
-        "delivery_id": "ac3a3936b01caa0caee5",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "b0bd9654a673db7b9616c2d9454e108a85eb545f"
-        },
-        "architect_diagnosis": "Baseline passed; Architect migrated standalone SplineCurveFromObjs and added deterministic tests."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-spline-curve-from-objs-python-verify-168c",
       "action": {
         "type": "verification",
@@ -703,9 +631,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -751,6 +679,82 @@
           "Do not duplicate legacy aliases or variants already intentionally represented.",
           "Return current-main evidence for Architect's bounded remaining-gap decision.",
           "Do not claim full ScenePattern parity."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "remaining_gap_inventory_baseline_verified",
+        "delivery_id": "3bdb7db6cb31e437f242",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "06395d51499f938aa6692f3b87e63dacbabf32f7"
+        },
+        "architect_diagnosis": "Baseline passed. RopeRoll/RopeStraight deterministic weights are already represented by rope_weights, but their Maya constraint/DG construction is not yet represented. ControlShapeAS is a larger specialized curve-shape persistence/copy workflow and should remain a separate later slice; aliases/variants should not be duplicated blindly."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-rope-runtime-sync-168l",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/rope_weights.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.rope_weights"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-remaining-gap-inventory-168k",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "legacy_sources": [
+          "UIs/ScenePattern/Scene_Pattern_RopeRoll.py",
+          "UIs/ScenePattern/Scene_Pattern_RopeStraight.py"
+        ],
+        "purpose": "Sync the existing deterministic rope_weights module immediately before Architect adds the shared Maya constraint/DG runtime adapter for legacy RopeRoll and RopeStraight, reusing one host implementation parameterized by mode instead of duplicating two modules.",
+        "acceptance": [
+          "Fast-forward current main.",
+          "Compile/import rope_weights.py.",
+          "Do not duplicate deterministic weight math already present.",
+          "Do not claim Maya runtime parity from this sync.",
+          "Return evidence for immediate shared runtime-adapter implementation."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
