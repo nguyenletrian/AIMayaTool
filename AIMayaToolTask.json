@@ -28,83 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal008-scene-ux-polish-managed-maya-retry-173d",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.tools.scene",
-        "callable": "build_ui",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-ux-polish",
-        "retry_of_archived": {
-          "task_id": "aimayatool-goal008-scene-ux-polish-managed-maya-173c",
-          "result": "FAIL",
-          "classification": "invalid_maya_smoke_isolation_contract",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Retry Scene 2.0 build_ui validation with the managed-Maya isolated-scene contract satisfied.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Run in isolated fresh managed Maya scene/session.",
-          "Import aimayatool.tools.scene and invoke build_ui inside Maya.",
-          "Return PASS only if UI construction completes without Maya/Python exception.",
-          "Do not save the Maya scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_ux_managed_maya_pass",
-        "delivery_id": "e388f25bcbfd0cf9eacc",
-        "verification_evidence": {
-          "managed_maya": true,
-          "marker": "AIBRIDGE_UI_SMOKE_OK:StatusLine|MainStatusLineLayout|formLayout4|columnLayout13",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "pid": 6168,
-          "port": 7001
-        },
-        "architect_diagnosis": "Scene 2.0 build_ui constructed successfully in managed Maya with a forced fresh scene and no scene save. UX polish milestone is accepted."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-information-architecture-inventory-174a",
       "action": {
         "type": "verification",
@@ -658,9 +581,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -708,6 +631,74 @@
           "Import components and Setup outside Maya without eager Maya-host failure.",
           "Confirm Setup callbacks remain domain-owned and public module remains importable.",
           "Do not treat Python PASS as Maya rendering acceptance.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_components_setup_adoption_python_pass",
+        "delivery_id": "3905f3df2f0132a48e93",
+        "architect_diagnosis": "Incremental Setup adoption of reusable section() and button_row() compiles and imports outside Maya. Managed Maya construction is required before accepting the Setup adoption."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-components-setup-adoption-maya-175g",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.tools.setup",
+        "callable": "build_ui",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-components",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-components-setup-adoption-python-175f",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Validate reusable section()/button_row() Setup adoption inside managed Maya.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated fresh managed Maya scene.",
+          "Invoke aimayatool.tools.setup.build_ui.",
+          "Return PASS only if Setup UI construction using reusable components completes without Maya/Python exception.",
+          "Do not save the Maya scene.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
