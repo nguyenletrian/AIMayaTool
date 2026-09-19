@@ -97,86 +97,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-script-hook-adapters-python-verify-retry-165d",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/script_hooks.py",
-          "tests/test_scene_script_hooks.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.script_hooks"
-        ],
-        "tests": [
-          "tests.test_scene_script_hooks"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-script-hook-adapters-python-impl-165c"
-        ],
-        "retry_of": "aimayatool-goal007-scene-pattern-script-hook-adapters-python-verify-165b",
-        "purpose": "Retry deterministic verification only after script-hook implementation 165c has completed.",
-        "acceptance": [
-          "git_pull current main.",
-          "Changed modules compile.",
-          "script_hooks imports outside Maya.",
-          "Focused tests pass.",
-          "No Maya host behavior claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "script_hook_adapters_python_verification_passed",
-        "delivery_id": "cbbbfe74da250b6efa0e",
-        "verification_evidence": {
-          "git_pull_before": "294e9414a50165c7632dbcc53058cbfe97c9b008",
-          "git_pull_after": "0f7f4df52c6eb737ccd808773faad975f2111f31",
-          "py_compile": true,
-          "import": "aimayatool.tools.scene.script_hooks",
-          "tests": {
-            "target": "tests.test_scene_script_hooks",
-            "ran": 3,
-            "success": true
-          }
-        },
-        "architect_diagnosis": "Deterministic Python gate passed: script-hook adapter and tests compile, module imports outside Maya, and all three focused tests pass for hook descriptors, current/up SceneData path semantics, and delegated script execution."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-match-pairs-inventory-165e",
       "action": {
         "type": "verification",
@@ -758,6 +678,64 @@
           "import": "aimayatool.tools.scene.bs_sequence"
         },
         "architect_diagnosis": "Existing bs_sequence.py is Python-import safe and should not be overwritten. Its Maya-backed implementation already mirrors the active legacy workflow structurally. Python verification does not prove host behavior; next useful gate is managed Maya smoke covering keyframe collection, generated shoot meshes, blendShape/driver/show wiring, and frame restoration."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-165m",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.bs_sequence",
+        "callable": "bs_sequence_managed_maya_smoke",
+        "new_scene": true,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-bs-sequence-existing-implementation-python-verify-165l"
+        ],
+        "purpose": "Managed Maya proof for the existing BSSequenceFromObjKeys adapter.",
+        "acceptance": [
+          "Use a fresh managed Maya scene and do not save it.",
+          "Create a minimal target mesh, animated source mesh/object, main/proxy attr holders and joint holder fixture.",
+          "Exercise build_bs_sequence_from_object_keys through a dedicated deterministic smoke callable.",
+          "Prove nonzero transform keys are collected, expected *_Shoot_XX meshes are generated, blendShape and BS group exist, driver/joint/proxy/show wiring exists, driven-key weights are created, and currentTime is restored.",
+          "Return structured smoke evidence and clean up fixture-created scene state when practical.",
+          "If the smoke callable is absent, report that exact gap; do not fabricate host success."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
