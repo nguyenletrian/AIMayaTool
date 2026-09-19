@@ -28,86 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-ikfk-runtime-python-verify-168j",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/ikfk_switch.py",
-          "tests/test_scene_ikfk_switch.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.ikfk_switch"
-        ],
-        "tests": [
-          "tests.test_scene_ikfk_switch"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-ikfk-runtime-preimplementation-sync-168i",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "7bfce88707e049452fe890669acaec6219b27b53"
-        ],
-        "purpose": "Verify the IK/FK runtime adapter remains import-safe and preserves deterministic model tests before any Maya-host validation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile ikfk_switch.py and existing focused tests.",
-          "Import module outside Maya.",
-          "Run tests.test_scene_ikfk_switch successfully.",
-          "Do not claim Maya runtime parity from Python-only verification."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ikfk_runtime_python_verification_pass",
-        "delivery_id": "a2f05824702d139f3be4",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "main_commit": "9358c77534686ca9c7a3fc268553205bed730e6b"
-        },
-        "architect_diagnosis": "IK/FK runtime adapter is import-safe and deterministic tests remain green. Maya runtime behavior remains unclaimed pending a healthy host route."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-remaining-gap-inventory-168k",
       "action": {
         "type": "verification",
@@ -697,9 +617,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -746,6 +666,85 @@
           "Do not treat DefaultSwitchIKFK as equivalent to NewSwitchIKFK without explicit schema/behavior evidence.",
           "Return current-main evidence for Architect implementation or documented supersession decision.",
           "Do not mark scene-pattern-parity complete yet."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "default_switch_ikfk_distinct_schema_verified",
+        "delivery_id": "2e22feb3b5817fd1cfc9",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "1a7f5dd776dfc243d4c6746c9f92f0706faeba3c"
+        },
+        "architect_diagnosis": "Legacy DefaultSwitchIKFK is not the NewSwitch snap schema: it configures SetupSnapIKFK using controlParent/controlSwitch, FK/IK mode values, FK/IK controls, IK joints and optional upper/roll controls. Architect added a deterministic compatibility planner preserving that legacy setup schema without coupling the public API to the old UI widget names."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-default-switch-ikfk-python-verify-168t",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/ikfk_switch.py",
+          "tests/test_scene_ikfk_switch.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.ikfk_switch"
+        ],
+        "tests": [
+          "tests.test_scene_ikfk_switch"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-default-switch-ikfk-reconcile-168s",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commits": [
+          "ec1b09c4599f6fe7ff40f8c6d252d670b93c7f16"
+        ],
+        "purpose": "Verify the DefaultSwitchIKFK compatibility schema/planner remains Python-safe alongside the newer snap model. If green, Architect can close the ScenePattern coverage gate while leaving host validation to the later Scene Maya-validation milestone.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile ikfk_switch.py and focused tests.",
+          "Import outside Maya.",
+          "Run existing focused IK/FK tests without regression.",
+          "Do not claim interactive Maya validation."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
