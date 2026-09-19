@@ -1,7 +1,5 @@
 from __future__ import absolute_import
 
-import traceback
-
 from .controls import create_controls_for_nodes, create_zero_group, replace_control_shape, available_shapes
 
 
@@ -16,22 +14,8 @@ def _selected_transforms():
 
 
 def _run(label, fn):
-    cmds = _cmds()
-    try:
-        result = fn()
-        text = str(result) if result else "no changes"
-        cmds.inViewMessage(amg="{0}: {1}".format(label, text), pos="midCenter", fade=True)
-        return result
-    except Exception as exc:
-        message = "{0} failed: {1}".format(label, exc)
-        cmds.warning("AIMayaTool Setup: " + message)
-        try:
-            cmds.inViewMessage(amg="<hl>{0}</hl>".format(message), pos="midCenter", fade=True)
-        except Exception:
-            pass
-        traceback.print_exc()
-        return None
-
+    from aimayatool.ui.components import run_action
+    return run_action(label, fn, context="AIMayaTool Setup")
 
 def _require_selection(minimum, usage):
     nodes = _selected_transforms()
