@@ -28,78 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-sync-168o",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/control_shape.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.control_shape"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-new-sync-168n",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_ControlShapeAS.py",
-        "purpose": "Sync current control_shape implementation before Architect analyzes and migrates the distinct ControlShapeAS persistence/copy/rebuild workflow without duplicating the existing simple shape replacement API.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import control_shape.py.",
-          "Do not claim ControlShapeAS parity from this sync.",
-          "Return current-main evidence for a bounded ControlShapeAS data-model slice."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "control_shape_as_preimplementation_sync_verified",
-        "delivery_id": "f09b4bc1afb2b0833d68",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "553e44c8d2a9ce39a270f0fb7ccd5db3f066aab6"
-        },
-        "architect_diagnosis": "Existing control_shape.py covers simple replacement only. Legacy ControlShapeAS also persists per-control/per-shape CV and display data and decides update-vs-rebuild when shape topology differs. Architect extracted that persistence/restore decision model into a separate deterministic module."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-model-python-verify-168p",
       "action": {
         "type": "verification",
@@ -711,9 +639,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -762,6 +690,75 @@
           "Inventory persisted SceneData JSON formats used by MayaScriptNew Scene workflows.",
           "Classify already-supported, internal/ephemeral, and genuinely unsupported formats.",
           "Return the first dependency-ready compatibility slice."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "invalid_verification_request_missing_file",
+        "delivery_id": "03449a59173cbea73fda",
+        "architect_diagnosis": "Architect referenced nonexistent pattern_legacy.py. Current repository evidence shows the relevant ScenePattern persistence modules are patterns.py and pattern_descriptor.py; retry is corrected to existing files only."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-data-compatibility-inventory-retry-168y",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/control_shape_legacy_io.py",
+          "aimayatool/tools/scene/patterns.py",
+          "aimayatool/tools/scene/pattern_descriptor.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.control_shape_legacy_io",
+          "aimayatool.tools.scene.patterns",
+          "aimayatool.tools.scene.pattern_descriptor"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-data-compatibility",
+        "archived_retry_source": {
+          "task_id": "aimayatool-goal007-scene-data-compatibility-inventory-168x",
+          "result": "FAIL",
+          "reason": "nonexistent pattern_legacy.py referenced by Architect"
+        },
+        "purpose": "Corrected Scene legacy-data compatibility inventory baseline using only current-main adapter modules.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import control_shape_legacy_io.py, patterns.py and pattern_descriptor.py.",
+          "Return current-main evidence for authoritative persisted SceneData compatibility inventory.",
+          "Do not infer support from nonexistent modules."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
