@@ -59,3 +59,14 @@ def run_action(label, fn, context="AIMayaTool"):
             pass
         traceback.print_exc()
         return None
+
+
+def run_action_managed_maya_smoke():
+    """Focused managed-Maya proof for shared success/error presentation."""
+    success = run_action("Status success", lambda: ["one", "two"], context="AIMayaTool Smoke")
+    if success != ["one", "two"]:
+        raise RuntimeError("run_action did not preserve success result")
+    failure = run_action("Status error", lambda: (_ for _ in ()).throw(ValueError("expected smoke error")), context="AIMayaTool Smoke")
+    if failure is not None:
+        raise RuntimeError("run_action did not return None for handled error")
+    return "AIBRIDGE_UI_STATUS_OK:success|error"
