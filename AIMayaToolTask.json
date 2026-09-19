@@ -630,9 +630,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-visibility-maya-validation-164l",
       "action": {
         "type": "maya",
@@ -674,7 +674,28 @@
           "Missing objects skip independently.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "visibility_managed_maya2024_proven",
+        "delivery_id": "91849a0c33f0d7940eea",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "port": 7001,
+          "git_pull_before": "dc687f2cb97ea23485ac7ee0179f8d8bf880da0b",
+          "git_pull_after": "c26d561c1644007d8a3486c024a8db951306bacb",
+          "smoke": {
+            "direct": true,
+            "fallback": true,
+            "missing": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene. Direct visibility hiding works for writable visibility, locked visibility uses the offset-group fallback, and missing objects are skipped independently."
       }
     }
   ]
