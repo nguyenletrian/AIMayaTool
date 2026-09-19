@@ -435,7 +435,7 @@
         {
           "milestone_id": "scene-data-compatibility",
           "title": "Complete required legacy data adapters",
-          "status": "pending"
+          "status": "completed"
         },
         {
           "milestone_id": "scene-utility-parity",
