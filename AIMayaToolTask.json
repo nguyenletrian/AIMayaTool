@@ -28,76 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-data-compatibility-inventory-168x",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/control_shape_legacy_io.py",
-          "aimayatool/tools/scene/pattern_legacy.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.control_shape_legacy_io",
-          "aimayatool.tools.scene.pattern_legacy"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-data-compatibility",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-build-control-shape-path-python-verify-168w",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "goal_state_commit": "a9ccb77a2049045215589ac02fd4d8a4925ab422",
-        "purpose": "Begin Scene legacy-data compatibility by refreshing existing adapters and inventorying authoritative legacy SceneData JSON schemas/files against current adapters. Identify the first genuinely unsupported persisted format without duplicating ScenePattern or control-shape adapters.",
-        "acceptance": [
-          "Fast-forward main including completed scene-build-parity state.",
-          "Compile/import existing Scene legacy adapters.",
-          "Inventory persisted SceneData JSON formats used by MayaScriptNew Scene workflows.",
-          "Classify already-supported, internal/ephemeral, and genuinely unsupported formats.",
-          "Return the first dependency-ready compatibility slice."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "invalid_verification_request_missing_file",
-        "delivery_id": "03449a59173cbea73fda",
-        "architect_diagnosis": "Architect referenced nonexistent pattern_legacy.py. Current repository evidence shows the relevant ScenePattern persistence modules are patterns.py and pattern_descriptor.py; retry is corrected to existing files only."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-data-compatibility-inventory-retry-168y",
       "action": {
         "type": "verification",
@@ -680,9 +610,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -735,7 +665,64 @@
             "maya_smoke:managed_maya"
           ],
           "required_recovery": "AIBrigde must expose or restore a registered Maya execution handler before host validation can continue."
-        }
+        },
+        "result": "PASS",
+        "classification": "aibridge_maya_route_registration_root_cause_found",
+        "delivery_id": "21236f26528a80f0cbd0",
+        "verification_evidence": {
+          "py_compile": true,
+          "main_commit": "88d2ae38635e6746f2273f323fdbbb03632e80b3"
+        },
+        "architect_diagnosis": "AIBrigde source contains registered route implementations maya:ui_smoke, maya:live_smoke and maya:managed_live_smoke. Root cause of managed route rejection: install_maya_managed_live_smoke_capability existed but was omitted from standard_capabilities() in aibridge/__main__.py. Architect fixed AIBrigde main at commit a619350716ada837961f147093a74f4c070d926c. Server restart/pull is required before retrying host validation."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-aibridge-maya-route-restart-169h",
+      "action": {
+        "type": "bridge",
+        "target": "restart"
+      },
+      "payload": {
+        "preconditions": [],
+        "reason": "Pull AIBrigde commit a619350716ada837961f147093a74f4c070d926c and relaunch worker so maya:managed_live_smoke is registered."
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-maya-route-capability-assessment-169g",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "aibridge_fix_commit": "a619350716ada837961f147093a74f4c070d926c",
+        "purpose": "Restart AIBrigde after registering the existing managed Maya smoke capability. After restart, Architect will retry build_actions through the actual route maya:managed_live_smoke.",
+        "acceptance": [
+          "AIBrigde server pulls latest main containing a6193507.",
+          "Worker relaunches with install_maya_managed_live_smoke_capability included in standard_capabilities.",
+          "Do not mark Scene Maya validation complete from restart alone."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
