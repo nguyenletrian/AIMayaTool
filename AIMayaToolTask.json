@@ -21,138 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-proxy-attribute-migrate-164e",
-      "action": {
-        "type": "implementation",
-        "target": "repository"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Migrate ScenePattern ProxyAttribute as a thin Scene adapter over the accepted Setup proxy primitive.",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_ProxyAttribute.py",
-        "legacy_source_sha": "c26e66b0a1fb543b91e739212a9ecd2b0ea401d9",
-        "reuse_target": "aimayatool.tools.setup.proxy_attributes.create_proxy_attribute",
-        "acceptance": [
-          "Add focused Scene adapter without copying legacy UI/NLTA infrastructure.",
-          "Normalize source/sourceAttr/targetAttr and multiline targets deterministically.",
-          "Skip missing targets independently; invalid source plug is deterministic.",
-          "Reuse create_proxy_attribute; do not duplicate proxy addAttr logic.",
-          "Add deterministic Python smoke/tests and a bounded managed-Maya smoke entrypoint.",
-          "Commit and push implementation to main."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "RECOVERED",
-        "classification": "unsupported_route_recovered_by_architect",
-        "delivery_id": "630fb3137821fae2dc10",
-        "failure": "No route handler registered for implementation:repository",
-        "implementation_commit": "97c6f42aa192bd8a708c3d7c77cacbc5c61d4814",
-        "architect_diagnosis": "implementation:repository is not a registered AIBrigde route. Architect performed the bounded repository implementation directly and committed it to main; dependent verification may now run."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-rename-attribute-python-verify-164m",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/rename_attribute.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.rename_attribute"
-        ],
-        "timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Verify ScenePattern RenameAttribute adapter.",
-        "implementation_commit": "5764c96915b0837b607988b4eb8ce387e70cfa65",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_RenameAttribute.py",
-        "legacy_source_sha": "3e1cb7bda481d0ca15e0a2c41338a851223038f1",
-        "acceptance": [
-          "git_pull current main.",
-          "Module compiles/imports outside Maya.",
-          "No Maya behavior claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "rename_attribute_python_verification_passed",
-        "delivery_id": "b410ee1506228628a52c",
-        "verification_evidence": {
-          "git_pull_before": "c26d561c1644007d8a3486c024a8db951306bacb",
-          "git_pull_after": "5713fb69660d205faf8e73d5f7ba51a14ba65087",
-          "repository_changed": true,
-          "py_compile": true,
-          "imports": [
-            "aimayatool.tools.scene.rename_attribute"
-          ]
-        },
-        "architect_diagnosis": "Python gate passed after fast-forwarding current main. RenameAttribute adapter compiles/imports cleanly; renameAttr, missing-plug, destination-collision and nice-name host semantics remain gated by managed-Maya task 164n."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-visibility-switch-maya-validation-164t",
       "action": {
         "type": "maya",
@@ -458,6 +326,89 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
+      "task_id": "aimayatool-goal007-scene-pattern-transform-backup-maya-validation-164x",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "save_scene": false,
+        "isolated_scene": true,
+        "module": "aimayatool.tools.scene.transform_backup",
+        "callable": "transform_backup_managed_maya_smoke"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-transform-backup-python-verify-164w"
+        ],
+        "purpose": "Host-prove TransformBackup joint capture and restoration semantics.",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene.",
+          "Captured missing object is ignored.",
+          "Deleted captured joint is recreated.",
+          "Parent relationship is restored when parent exists.",
+          "jointOrient, rotateOrder and segmentScaleCompensate restore correctly.",
+          "new_scene_forced=true, scene_saved=false, smoke success=true."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "transform_backup_managed_maya2024_proven",
+        "delivery_id": "b0777e1762a3f5def5d9",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "port": 7001,
+          "git_pull_before": "5900f25a54f0e01f02f3a56969ea97a416506291",
+          "git_pull_after": "f2c053e4dc0291163eaadff1b6b688de882bf4ca",
+          "smoke": {
+            "exists": true,
+            "parent": true,
+            "orient": true,
+            "rotate_order": true,
+            "ssc": true,
+            "created": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: deleted captured joint is recreated, parent relationship restored, and jointOrient, rotateOrder, and segmentScaleCompensate restore correctly."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-visibility-switch-python-verify-164s",
       "action": {
         "type": "verification",
@@ -668,10 +619,68 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-transform-backup-maya-validation-164x",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-single-script-python-verify-164y",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/single_script.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.single_script"
+        ],
+        "timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "purpose": "Verify SingleScript runner migration.",
+        "implementation_commit": "56c3dd6e604e6d90de511a521e207a561668f522",
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_SingleScript.py",
+        "legacy_source_sha": "e678bac1bfa210002ca8b0264fbf4c93cfa03ea8",
+        "acceptance": [
+          "git_pull current main.",
+          "Module compiles/imports outside Maya.",
+          "No Maya script execution claim."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-single-script-maya-validation-164z",
       "action": {
         "type": "maya",
         "target": "managed_live_smoke"
@@ -695,49 +704,24 @@
         "timeout": 300,
         "save_scene": false,
         "isolated_scene": true,
-        "module": "aimayatool.tools.scene.transform_backup",
-        "callable": "transform_backup_managed_maya_smoke"
+        "module": "aimayatool.tools.scene.single_script",
+        "callable": "single_script_managed_maya_smoke"
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-transform-backup-python-verify-164w"
+          "aimayatool-goal007-scene-pattern-single-script-python-verify-164y"
         ],
-        "purpose": "Host-prove TransformBackup joint capture and restoration semantics.",
+        "purpose": "Host-prove SingleScript executes a file in Maya and rejects missing files.",
         "acceptance": [
           "Fresh isolated unsaved Maya scene.",
-          "Captured missing object is ignored.",
-          "Deleted captured joint is recreated.",
-          "Parent relationship is restored when parent exists.",
-          "jointOrient, rotateOrder and segmentScaleCompensate restore correctly.",
+          "Temporary Python file executes through runner.",
+          "Script can mutate Maya scene.",
+          "Missing script file raises deterministic IOError.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "transform_backup_managed_maya2024_proven",
-        "delivery_id": "b0777e1762a3f5def5d9",
-        "maya_evidence": {
-          "pid": 6168,
-          "managed_pid": 6168,
-          "session": "existing",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "port": 7001,
-          "git_pull_before": "5900f25a54f0e01f02f3a56969ea97a416506291",
-          "git_pull_after": "f2c053e4dc0291163eaadff1b6b688de882bf4ca",
-          "smoke": {
-            "exists": true,
-            "parent": true,
-            "orient": true,
-            "rotate_order": true,
-            "ssc": true,
-            "created": true,
-            "success": true
-          },
-          "marker": "AIBRIDGE_UI_SMOKE_OK"
-        },
-        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: deleted captured joint is recreated, parent relationship restored, and jointOrient, rotateOrder, and segmentScaleCompensate restore correctly."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
