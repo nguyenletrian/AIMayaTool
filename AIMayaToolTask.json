@@ -778,10 +778,10 @@
       "project_id": "aimayatool",
       "worker_id": "aimayatool-worker",
       "execution_target": {
-        "kind": "project-python",
+        "kind": "maya",
         "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
       }
     }
   ]
