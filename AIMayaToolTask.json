@@ -28,86 +28,6 @@
         "commit": true,
         "push": true
       },
-      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-core-167b",
-      "action": {
-        "type": "implementation",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 600,
-        "files": [
-          "aimayatool/tools/scene/fold_rig.py",
-          "aimayatool/tools/scene/__init__.py",
-          "tests/test_scene_fold_rig.py"
-        ],
-        "tests": [
-          "tests.test_scene_fold_rig"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-fold-gradient-implementation-plan-166z",
-          "result": "PASS_GATE_ONLY"
-        },
-        "purpose": "Implement canonical FoldRig ScenePattern core from verified legacy semantics before Maya smoke validation.",
-        "legacy_contract": {
-          "fields": [
-            "objEnd",
-            "objsRun",
-            "destinations",
-            "attrContent",
-            "attr",
-            "constraintContent"
-          ],
-          "behavior": "Validate objsRun/destinations cardinality; create bounded integer driver attr when absent; for each run object build parentConstraint across objEnd + destinations, interpType=2, optional constraint parenting, and SDK weights across driver range."
-        },
-        "acceptance": [
-          "Add import-safe aimayatool.tools.scene.fold_rig with Maya import guarded/lazy so module imports outside Maya.",
-          "Provide deterministic normalization/validation for multiline objsRun/destinations and numeric driver plan; reject empty required names and unequal cardinality before Maya mutation.",
-          "Provide Maya-host apply function preserving legacy parentConstraint target ordering, interpType=2, optional constraintContent parenting, and driven-key weight behavior without UI/global ITEMS coupling.",
-          "Do not retain dead reverse-node logic from legacy: legacy ultimately resets driverAttr to attrContent.attr, so canonical implementation should model observed effective behavior only.",
-          "Add focused unit tests for normalization, cardinality rejection, driver/weight plan boundaries, and import outside Maya.",
-          "Expose only stable public API through scene package if project convention requires it; no UI work yet.",
-          "Commit/push implementation and tests; return commit SHA and test evidence."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "BLOCKED_ROUTE",
-        "classification": "unsupported_implementation_python_route",
-        "delivery_id": "6c1c5508bfd7b3370068",
-        "architect_diagnosis": "No implementation ran. Router metadata has no implementation:python handler; only verification:python is registered. Do not dispatch 167c/167d through the same unsupported route."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
       "action": {
         "type": "implementation",
         "target": "python"
@@ -750,6 +670,75 @@
           "main_commit": "ebbeb5e9d5ae2816e846f1429666f62a7930c346"
         },
         "architect_diagnosis": "GradientTexture preimplementation baseline is healthy. This does not implement the workflow; implementation remains gated by the absent implementation-capable route."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-python-verify-167l",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/fold_rig.py",
+          "tests/test_scene_fold_rig.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.fold_rig"
+        ],
+        "tests": [
+          "tests.test_scene_fold_rig"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-fold-rig-preimplementation-baseline-167h",
+          "result": "PASS_BASELINE"
+        },
+        "implementation_commits": [
+          "9c8ce7fb650eed3dcc87cb6e835ca2fc31cbcf85",
+          "01e32eb2f57e086c61185151da0a46e4eda9af7a"
+        ],
+        "purpose": "Deterministically verify Architect-authored FoldRig implementation now committed directly through repository tools, per AIBrigde Architect ownership contract.",
+        "acceptance": [
+          "Fast-forward main including FoldRig implementation and tests.",
+          "Compile fold_rig.py and test module.",
+          "Import aimayatool.tools.scene.fold_rig outside Maya.",
+          "Run tests.test_scene_fold_rig successfully.",
+          "Do not claim Maya parity; Maya-host behavior requires a later smoke task."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
