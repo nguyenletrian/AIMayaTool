@@ -21,76 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-inventory-165k",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Bounded architecture gate for BSSequenceFromObjKeys. Separate deterministic keyframe/driver-weight planning from Maya duplication, blendShape, proxy attributes and driven-key mutation.",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_BSSequenceFromObjKeys.py",
-        "legacy_source_sha": "0b417ef76373752e7ad4f59eeffc66fff1160471",
-        "acceptance": [
-          "git_pull current main.",
-          "Current scene package compiles/imports cleanly.",
-          "Identify Python-only planning boundary for normalized nonzero keyframes, generated shoot names, driver positions and per-shape weight states.",
-          "Keep animation queries, duplicate/group/blendShape, proxy attributes, connections and setDrivenKeyframe as Maya-host behavior.",
-          "Document edge cases including zero generated shapes and the legacy last-shoot half-segment adjustment before implementation.",
-          "No repository mutation required."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "bs_sequence_inventory_gate_passed",
-        "delivery_id": "b1ebe87e04f7381b9577",
-        "verification_evidence": {
-          "git_pull_before": "f3da9553d46961867623ea7032caa4fd89a52cf9",
-          "git_pull_after": "6864b6bac87602f0684464acc604f354aab02a5f",
-          "py_compile": true,
-          "import": "aimayatool.tools.scene"
-        },
-        "architect_diagnosis": "Inventory gate passed. Python-only boundary: normalize/sort unique nonzero keyframes, deterministic shoot naming, compute driver positions across 0..10, and generate per-shape weight states. Maya animation queries, duplication/grouping, blendShape/proxy attrs/connections and driven-key writes remain host-backed. Zero shapes must be rejected before segment division. Preserve the active legacy last-shoot rule: for N shapes segment=10/N and final shoot position is 10 - segment/2, with terminal all-zero state still at driver=10."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-roll-inventory-165q",
       "action": {
         "type": "verification",
@@ -564,101 +494,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-rope-roll-maya-host-assessment-retry2-165x",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.rope_weights",
-        "callable": "rope_weights_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "retry_of": "aimayatool-goal007-scene-pattern-rope-roll-maya-host-assessment-retry-165v",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-rope-weight-core-python-verify-165s"
-        ],
-        "implementation_commit": "5d11221d76905cee69b8f9fec6c15adc21bcc0ca",
-        "purpose": "Retry RopeRoll host validation using the managed-live route's observed no-argument callable contract.",
-        "acceptance": [
-          "git_pull current main.",
-          "Use fresh isolated unsaved Maya scene.",
-          "Invoke route-compatible rope_weights_managed_maya_smoke() defaulting to roll.",
-          "Return structured evidence for three-target pointConstraint weights."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "rope_roll_managed_maya_smoke_passed",
-        "delivery_id": "ad1fff1866ebe1ea4daf",
-        "verification_evidence": {
-          "managed_pid": 6168,
-          "port": 7001,
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "mode": "roll",
-          "constraint_count": 3,
-          "weights": [
-            {
-              "start": 0.5,
-              "end": 0.5,
-              "destination": 0,
-              "orient_reference": 1,
-              "orient_destination": 0
-            },
-            {
-              "start": 0,
-              "end": 0,
-              "destination": 1,
-              "orient_reference": 0,
-              "orient_destination": 1
-            },
-            {
-              "start": 0,
-              "end": 0,
-              "destination": 1,
-              "orient_reference": 0,
-              "orient_destination": 1
-            }
-          ]
-        },
-        "architect_diagnosis": "RopeRoll managed Maya smoke passed in a fresh unsaved scene. The no-argument route-compatible callable returned mode='roll', created three pointConstraints, and verified their three-target weight values against the deterministic RopeRoll core. This is accepted host evidence for the bounded RopeRoll weight fixture."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-retry2-165y",
       "action": {
         "type": "maya",
@@ -737,6 +572,138 @@
           ]
         },
         "architect_diagnosis": "RopeStraight managed Maya smoke passed in a fresh unsaved scene through the dedicated no-argument wrapper. It returned mode='straight', created three pointConstraints, and verified their three-target weight values against the deterministic RopeStraight core. RopeRoll and RopeStraight bounded host fixtures are now both Maya-proven."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry3-165z",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.bs_sequence",
+        "callable": "bs_sequence_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry2-165o",
+          "result": "FAILED_MISSING_SMOKE_CALLABLE",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "implementation_commit": "7dca776546b156da4c8fd39d62427654032a512f",
+        "purpose": "Run the deferred BSSequence managed Maya validation now that bs_sequence_managed_maya_smoke exists.",
+        "acceptance": [
+          "git_pull current main.",
+          "Use fresh isolated unsaved Maya scene.",
+          "Exercise bs_sequence_managed_maya_smoke().",
+          "Require success=true and checks proving keyframe collection, generated shoot meshes/names, BS group/blendShape, joint/proxy/show wiring, driven keys, and frame restoration."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-rope-host-fixture-python-regression-166a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/rope_weights.py",
+          "tests/test_scene_rope_weights.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.rope_weights"
+        ],
+        "tests": [
+          "tests.test_scene_rope_weights"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_prerequisites": [
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-rope-roll-maya-host-assessment-retry2-165x",
+            "result": "PASS"
+          },
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-retry2-165y",
+            "result": "PASS"
+          }
+        ],
+        "purpose": "Regression gate after adding managed-Maya smoke wrappers; ensure Python-only rope core remains import-safe and focused deterministic tests still pass.",
+        "acceptance": [
+          "git_pull current main.",
+          "Compile/import rope_weights outside Maya.",
+          "Run tests.test_scene_rope_weights successfully.",
+          "Do not claim additional Maya behavior from this Python gate."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
