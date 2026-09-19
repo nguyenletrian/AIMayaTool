@@ -28,88 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-data-index-python-verify-168z",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/pattern_descriptor.py",
-          "tests/test_scene_legacy_data_index.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.pattern_descriptor"
-        ],
-        "tests": [
-          "tests.test_scene_legacy_data_index"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-data-compatibility",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-data-compatibility-inventory-retry-168y",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "2e24c3ec53cc1004d434dff4a0b12f575e5fefbf",
-          "cd586fd0a8fde99fba7ca6a53218f776f7c8cd5e"
-        ],
-        "legacy_source": "UIs/SceneData.json",
-        "purpose": "Verify legacy SceneData index normalization including historical string/list path variants and deterministic ordering/indexing.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile implementation/test.",
-          "Import outside Maya.",
-          "Run focused compatibility tests.",
-          "Do not claim compatibility for payload files not covered by their own adapters."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_data_compatibility_gate_pass",
-        "delivery_id": "188a5a0b5b7521c35fbd",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "main_commit": "63a84ed51785dd0a2bdc88d51ef388eec3399d00"
-        },
-        "architect_diagnosis": "Legacy SceneData index compatibility passed, including historical path string/list variants. Fresh legacy tree contains UIs/SceneData.json as the persisted Scene index; legacy curve payload compatibility is already handled separately. Required Scene legacy-data adapter coverage is complete."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-utility-parity-inventory-169a",
       "action": {
         "type": "verification",
@@ -679,9 +597,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -722,6 +640,73 @@
           "AIBrigde server pulls/relaunches with main containing a6193507.",
           "maya:managed_live_smoke becomes available after relaunch.",
           "Do not claim Scene Maya product validation from restart alone."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "aibridge_restart_requested_successfully",
+        "delivery_id": "0d88e0eb67b613c8adff",
+        "architect_diagnosis": "Corrected restart task passed its bridge:restart contract: AIMayaTool main fast-forwarded and restart_requested=true. This proves restart orchestration acceptance, not yet post-relaunch Maya route availability or Scene product validation."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-maya-build-actions-managed-live-169j",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 45,
+        "module": "aimayatool.tools.scene.build_actions_smoke",
+        "callable": "run_scene_build_actions_smoke",
+        "isolated_scene": true,
+        "save_scene": false,
+        "new_scene_forced": true,
+        "expected_result": "SCENE_BUILD_ACTIONS_SMOKE_OK"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-aibridge-maya-route-restart-retry-169i",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Post-restart capability proof and bounded Scene host validation using the now-registered managed Maya live-smoke route.",
+        "acceptance": [
+          "Fast-forward AIMayaTool main.",
+          "Use maya:managed_live_smoke with a forced fresh isolated unsaved scene.",
+          "Invoke only aimayatool.tools.scene.build_actions_smoke.run_scene_build_actions_smoke.",
+          "Require exact product result SCENE_BUILD_ACTIONS_SMOKE_OK; route rejection or timeout is not product PASS.",
+          "Do not save scene data and do not involve FoldRig."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
