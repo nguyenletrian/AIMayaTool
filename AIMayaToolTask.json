@@ -28,80 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-maya-validation-plan-169c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-ui-parity-inventory-169b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "goal_state_commit": "6c912201795964b969810863d236c000387c931f",
-        "known_runtime_blocker": "FoldRig fresh managed maya:ui_smoke timed out twice with no product output; do not route all Scene tools through that unhealthy path.",
-        "purpose": "Begin final Goal 007 Maya-validation milestone by refreshing Scene package and inventorying existing per-tool smoke coverage/results. Build a bounded validation plan that reuses proven managed-Maya routes where available and separates Python-only coverage from genuinely unvalidated host behavior.",
-        "acceptance": [
-          "Fast-forward main including completed scene-ui-parity state.",
-          "Compile/import Scene package.",
-          "Inventory existing Scene smoke modules and prior runtime evidence before scheduling host work.",
-          "Do not blindly retry the known unhealthy FoldRig UI-smoke route.",
-          "Prefer bounded managed Maya or mayapy validation per tool family, and return the first safe dependency-ready validation slice."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_maya_validation_inventory_ready",
-        "delivery_id": "8bbb1331e31f6e4a31bd",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "22bc82546532dd2ef8b86711a8c39bbac9fb3709"
-        },
-        "architect_diagnosis": "Scene package is import-safe and current tree contains a broad set of dedicated smoke modules. Validation should proceed by existing bounded smoke families rather than one monolithic UI route. Start with build_actions_smoke because build parity was recently extended and this route is independent of the known FoldRig UI-smoke blocker."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-maya-build-actions-smoke-169d",
       "action": {
         "type": "verification",
@@ -647,9 +573,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -695,6 +621,76 @@
           "Inventory current Scene smoke modules/callables from repository evidence.",
           "Preserve PASS evidence for build_actions and SingleScript.",
           "Return the next dependency-ready bounded Maya smoke family, or evidence that no further existing smoke entrypoint is required before milestone assessment."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_maya_smoke_inventory_refresh_pass",
+        "delivery_id": "25a26e81c38068dd4c7d",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "e476c3e130e6f10e119269e05440a50c97051d40"
+        },
+        "architect_diagnosis": "Scene package remains import-safe after two managed-Maya PASS slices. Current public Scene API explicitly exposes display-layer helpers in addition to build-actions/pattern operations; continue with bounded display-layer host validation rather than closing the milestone."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-maya-display-layers-discovery-169m",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/display_layers.py"
+        ],
+        "imports": []
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-maya-smoke-inventory-refresh-169l",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Prepare the next bounded host slice by verifying the current display-layer implementation and discovering its existing smoke entrypoint/callable from repository evidence before scheduling Maya execution.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile display_layers.py without claiming host behavior.",
+          "Inspect current repository evidence for the dedicated display-layer smoke module/callable.",
+          "Return exact existing host smoke entrypoint if present; do not invent one.",
+          "Keep scene-maya-validation open."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
