@@ -680,9 +680,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-mesh-vertex-inventory-165g",
       "action": {
         "type": "verification",
@@ -726,7 +726,17 @@
           "Keep FindSymmetricVertexPairs and MirrorVertexPositionsByPairs as Maya/mesh-host behavior requiring later host-backed validation.",
           "No repository mutation required."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "mesh_vertex_inventory_gate_passed",
+        "delivery_id": "5939f2f389dc4efbb316",
+        "verification_evidence": {
+          "git_pull_before": "7f5e29b10ee7bbdf4c1d351163dec8051ec0624b",
+          "git_pull_after": "0ab955fe40972bbb4de0cb02a5bfd107b8761285",
+          "py_compile": true,
+          "import": "aimayatool.tools.scene"
+        },
+        "architect_diagnosis": "Inventory gate passed. Legacy MeshVertex Run is empty and must not be represented as migrated behavior. Safe Python-only boundary is component-name parsing, mesh consistency/cardinality validation, and pair-data normalization. Symmetry discovery and vertex-position mirroring depend on NLTA_Mesh/Maya geometry state and require a separate host-backed slice."
       }
     }
   ]
