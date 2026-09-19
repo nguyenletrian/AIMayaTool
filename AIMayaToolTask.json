@@ -23,80 +23,6 @@
       "bridge_completed": true,
       "permissions": {
         "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal008-scene-presets-library-verify-170d",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/presets.py",
-          "aimayatool/tools/scene/__init__.py",
-          "tests/test_scene_presets.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.presets",
-          "aimayatool.tools.scene"
-        ],
-        "unittests": [
-          "tests.test_scene_presets"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-presets",
-        "retry_of_archived": {
-          "task_id": "aimayatool-goal008-scene-presets-library-retry-170c",
-          "result": "FAIL",
-          "classification": "verification_target_missing_before_implementation",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify Architect-implemented deterministic Scene preset library.",
-        "acceptance": [
-          "Fast-forward main.",
-          "py_compile preset library, Scene package export, and tests.",
-          "Import preset library and Scene package.",
-          "Run tests.test_scene_presets and require all focused tests PASS.",
-          "Do not claim Maya validation; this slice is Python-only."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "invalid_task_permission_contract",
-        "delivery_id": "9d084659cebd2392c019",
-        "architect_diagnosis": "Task never reached product verification: git_pull precondition requires permissions.edit=true. Republish identical verification with edit enabled solely to permit repository fast-forward."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
         "edit": true,
         "run_tests": true,
         "commit": false,
@@ -658,9 +584,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -709,6 +635,73 @@
           "Import build_pipeline_smoke so ordering/error assertions execute.",
           "Prove ordered execution, result capture, stop-on-error default, continue-on-error option, and invalid-step rejection.",
           "No Maya validation required for this host-agnostic orchestration layer."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_build_pipeline_behavior_pass",
+        "delivery_id": "056f10d06bd881545fb0",
+        "architect_diagnosis": "Compile, import-executed build-pipeline smoke, and public Scene API import passed. Ordered orchestration/error-policy slice is accepted."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal008-scene-ux-polish-inventory-173a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-008",
+        "milestone_id": "scene-ux-polish",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal008-scene-build-pipeline-verify-172b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Start Scene 2.0 UX polish by verifying the current Scene build_ui/public surface and identifying the smallest user-facing Maya UI improvement that exposes the accepted preset/compare/build capabilities without broad redesign.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import current Scene public module.",
+          "Inventory current build_ui surface from repository evidence.",
+          "Identify a bounded UX-polish slice that preserves existing APIs and avoids unrelated UI framework changes.",
+          "Because build_ui is Maya-host-specific, require managed Maya validation after any UI implementation."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
