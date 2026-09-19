@@ -430,7 +430,7 @@
         {
           "milestone_id": "scene-build-parity",
           "title": "Complete scene setup/build actions",
-          "status": "pending"
+          "status": "completed"
         },
         {
           "milestone_id": "scene-data-compatibility",
