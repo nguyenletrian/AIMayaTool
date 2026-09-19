@@ -28,78 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-maya-smoke-inventory-refresh-169l",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-maya-single-script-managed-live-169k",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Refresh current-main Scene smoke inventory after two successful managed-Maya slices and identify the next existing bounded host smoke entrypoint without guessing module/callable names.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import the Scene package.",
-          "Inventory current Scene smoke modules/callables from repository evidence.",
-          "Preserve PASS evidence for build_actions and SingleScript.",
-          "Return the next dependency-ready bounded Maya smoke family, or evidence that no further existing smoke entrypoint is required before milestone assessment."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_maya_smoke_inventory_refresh_pass",
-        "delivery_id": "25a26e81c38068dd4c7d",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "e476c3e130e6f10e119269e05440a50c97051d40"
-        },
-        "architect_diagnosis": "Scene package remains import-safe after two managed-Maya PASS slices. Current public Scene API explicitly exposes display-layer helpers in addition to build-actions/pattern operations; continue with bounded display-layer host validation rather than closing the milestone."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-maya-display-layers-discovery-169m",
       "action": {
         "type": "verification",
@@ -691,9 +619,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -746,6 +674,78 @@
           "Import preset library and Scene package.",
           "Run tests.test_scene_presets and require all focused tests PASS.",
           "Do not modify product code during verification."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_preset_library_python_pass",
+        "delivery_id": "0753cba6f6b15424fb73",
+        "verification_evidence": {
+          "py_compile": true,
+          "imports": true,
+          "unittest_reported": false
+        },
+        "architect_diagnosis": "PresetLibrary implementation compiles and imports successfully. The verification result did not include a unittest check despite the requested unittest target, so focused behavioral tests remain unproven and must be verified before accepting the slice."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal008-scene-presets-tests-170f",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "tests/test_scene_presets.py"
+        ],
+        "imports": [
+          "tests.test_scene_presets"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-008",
+        "milestone_id": "scene-presets",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal008-scene-presets-library-verify-retry-170e",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Close the remaining behavioral-evidence gap for Scene PresetLibrary after compile/import passed but the route omitted the requested unittest execution.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import tests.test_scene_presets.",
+          "Inspect/execute the focused preset tests using the supported Python verification capabilities available to the worker.",
+          "Return explicit evidence for round-trip/list ordering, overwrite guard, invalid-name/path traversal rejection, and delete/missing behavior; do not treat import alone as behavioral proof.",
+          "Do not modify product code."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
