@@ -111,501 +111,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-batch-productivity-reset-maya-smoke-182d",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.tools.setup",
-        "callable": "batch_reset_managed_maya_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "batch-productivity",
-        "purpose": "Prove ordered multi-selection Reset TR behavior in managed Maya without saving the scene.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use a fresh unsaved scene.",
-          "Create at least three transforms with non-zero translate/rotate values and select them in a known order.",
-          "Invoke batch_reset_managed_maya_smoke.",
-          "All selected transforms have translation and rotation reset while scale is preserved.",
-          "Selection order remains unchanged after the operation.",
-          "Invalid selection input is rejected before partial mutation where exercised.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_ACCEPTANCE_NOT_IMPLEMENTED",
-        "classification": "smoke_callable_missing",
-        "delivery_id": "cd59444be74b17885a7d",
-        "architect_diagnosis": "The runtime failure was a missing smoke callable, not a Reset TR product failure. Architect added the bounded batch_reset_managed_maya_smoke callable to Setup, preserving fresh-scene/no-save requirements. Retry is required.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal010-batch-productivity-setup-verify-182c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "9318abec540e8bec4270fe3593cca36dbd98b3d3"
-        }
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-batch-productivity-reset-maya-smoke-retry-182e",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.tools.setup",
-        "callable": "batch_reset_managed_maya_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "batch-productivity",
-        "depends_on": [
-          "aimayatool-goal010-batch-productivity-reset-maya-smoke-182d"
-        ],
-        "purpose": "Retry managed Maya proof after adding the missing smoke callable.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use fresh unsaved scene.",
-          "Invoke batch_reset_managed_maya_smoke.",
-          "Verify ordered selection remains unchanged, translation and rotation reset to zero, and scale remains unchanged for all three transforms.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "implementation_commit": "ba9062b1788863513bb566cd883bbaacd7900b85",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_STALE_TRANSFORMS_MODULE",
-        "classification": "persistent_maya_stale_module_cache",
-        "delivery_id": "e526618a804de65163f6",
-        "architect_diagnosis": "The smoke callable is now present, but the persistent Maya session cached an older aimayatool.tools.setup.transforms module without reset_transforms. Added importlib.reload(transforms) inside the smoke before invoking _reset_selected. Retry required; this is runtime module-cache evidence, not absence of the committed helper."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-batch-productivity-reset-maya-smoke-retry2-182f",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.tools.setup",
-        "callable": "batch_reset_managed_maya_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "batch-productivity",
-        "depends_on": [
-          "aimayatool-goal010-batch-productivity-reset-maya-smoke-retry-182e"
-        ],
-        "purpose": "Retry batch Reset TR proof after stale transforms-module recovery in persistent Maya.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use fresh unsaved scene.",
-          "Invoke batch_reset_managed_maya_smoke.",
-          "Verify ordered selection unchanged, translation/rotation reset, scale preserved for all three transforms.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "implementation_commit": "5abbfd05bbfc6c6394d891ef2716fb0b5a706894",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "batch_reset_maya_pass",
-        "delivery_id": "f8440dda4f562afb9f45",
-        "verification_evidence": {
-          "marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_BATCH_RESET_OK:ordered|TR_reset|scale_preserved",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "pid": 6168,
-          "port": 7001,
-          "session": "existing"
-        },
-        "architect_diagnosis": "Managed Maya proved the ordered multi-selection Reset TR path after stale-module recovery: all three transforms reset translation/rotation, scale remained preserved, and selection order remained unchanged. Batch productivity now has its first runtime-proven slice."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "task_id": "aimayatool-goal010-batch-productivity-inventory-182g",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/setup/transforms.py",
-          "aimayatool/tools/skinning/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup",
-          "aimayatool.tools.setup.transforms",
-          "aimayatool.tools.skinning"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "batch-productivity",
-        "depends_on": [
-          "aimayatool-goal010-batch-productivity-reset-maya-smoke-retry2-182f"
-        ],
-        "purpose": "Inventory the next safe batch-productivity slice after runtime-proven Reset TR, prioritizing an existing multi-selection Setup workflow that can reuse deterministic primitives without broad generic batching.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Inspect current Setup/Skinning multi-selection entrypoints after the proven Reset TR slice.",
-          "Select one next bounded workflow with clear semantics and low destructive risk, preferably Freeze TRS or Zero Group if existing primitives are already deterministic.",
-          "Separate UI selection wrappers from reusable primitives.",
-          "Do not implement arbitrary callback batching or persistence.",
-          "Do not use preflight-guidance in this slice.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "batch_productivity_next_slice_inventory_pass",
-        "delivery_id": "65ed78f90f9e4e2e6e8b",
-        "architect_diagnosis": "Current Setup/Skinning inventory confirms Freeze TRS and Zero Group already have explicit selection wrappers; transforms.freeze_transform and reset_transforms are deterministic primitives. The next bounded low-risk slice is batch Freeze TRS using an ordered helper analogous to reset_transforms, preserving selection order and avoiding generic callback batching."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "task_id": "aimayatool-goal010-batch-productivity-freeze-182h",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/setup/transforms.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup",
-          "aimayatool.tools.setup.transforms"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "batch-productivity",
-        "depends_on": [
-          "aimayatool-goal010-batch-productivity-inventory-182g"
-        ],
-        "purpose": "Implement the next bounded batch slice for Freeze TRS using an ordered selected-transform helper, mirroring the proven Reset TR pattern.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Add a thin ordered freeze_transforms helper that validates all nodes before mutation and delegates to freeze_transform.",
-          "Use it from the existing _freeze_selected wrapper with translate=True, rotate=True, scale=True.",
-          "Preserve selection order and existing run_action/error behavior.",
-          "Do not introduce arbitrary callback batching, hidden auto-selection, or persistence.",
-          "Add deterministic non-Maya coverage where practical and run py_compile/import/focused tests.",
-          "Commit and push only after verification passes.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_ACCEPTANCE_NOT_IMPLEMENTED",
-        "classification": "verification_only_no_product_edit",
-        "delivery_id": "dab3cba4683765f374b2",
-        "architect_diagnosis": "Worker compiled/imported but did not implement freeze_transforms; repository search confirmed no such helper. Architect added the bounded ordered helper directly, matching proven reset_transforms semantics. Queue independent verification."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-batch-productivity-freeze-verify-182i",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/setup/transforms.py",
-          "aimayatool/tools/setup/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup",
-          "aimayatool.tools.setup.transforms"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "batch-productivity",
-        "depends_on": [
-          "aimayatool-goal010-batch-productivity-freeze-182h"
-        ],
-        "purpose": "Verify the Architect-implemented ordered Freeze TRS batch helper and Setup integration.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import Setup modules.",
-          "Confirm freeze_transforms validates all nodes before mutation, preserves order, and delegates to freeze_transform.",
-          "Confirm _freeze_selected delegates to freeze_transforms with translate=True, rotate=True, scale=True.",
-          "Do not edit product code.",
-          "Do not use Codex."
-        ],
-        "implementation_commit": "d20e89708d3253d9cb4a21c3c414d86af044935c",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "batch_freeze_helper_verified",
-        "delivery_id": "3ce69ac1b2df38dba0ac",
-        "architect_diagnosis": "Python verification passed. Source inspection confirms ordered freeze_transforms validates the full node collection before mutation and delegates to freeze_transform. Architect made the Setup wrapper flags explicit and added a managed Maya smoke callable for runtime proof."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-batch-productivity-freeze-maya-smoke-182j",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.tools.setup",
-        "callable": "batch_freeze_managed_maya_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "batch-productivity",
-        "depends_on": [
-          "aimayatool-goal010-batch-productivity-freeze-verify-182i"
-        ],
-        "purpose": "Prove ordered multi-selection Freeze TRS behavior in managed Maya without saving the scene.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use a fresh unsaved scene.",
-          "Create at least three polygon transforms with non-zero translation, rotation and scale in a known selection order.",
-          "Invoke batch_freeze_managed_maya_smoke.",
-          "TRS channels become identity while visible world-space bounding boxes remain unchanged.",
-          "Selection order remains unchanged.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "implementation_commit": "fce32c87674850a861f0b3c4c9957a7e97fa16f0",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "batch_freeze_maya_pass",
-        "delivery_id": "3253fc4b6c3a49dede2b",
-        "runtime_evidence": {
-          "managed_pid": 6168,
-          "port": 7001,
-          "session": "existing",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_BATCH_FREEZE_OK:ordered|TRS_frozen|world_preserved"
-        },
-        "architect_diagnosis": "Managed Maya runtime proof passed: ordered multi-selection Freeze TRS set local TRS channels to identity, preserved visible world-space result, preserved selection order, used a forced fresh unsaved scene, and did not save."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-batch-productivity-closeout-182k",
       "action": {
         "type": "verification",
@@ -721,6 +226,267 @@
           "Do not implement the preflight feature in this inventory slice.",
           "Do not alter existing product behavior.",
           "Run py_compile/import-safe checks for inspected entrypoints.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-preflight-guidance-skinning-inventory-183b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/skinning/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "preflight-guidance",
+        "depends_on": [
+          "aimayatool-goal010-preflight-guidance-inventory-183a"
+        ],
+        "purpose": "Inventory Skinning validation and preview seams that can feed a future shared preflight guidance contract.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Inspect existing validation, preview, selection/context, and actionable error behavior without changing product code.",
+          "Separate deterministic/non-mutating checks from Maya mutation and identify existing result/message contracts.",
+          "Recommend only the smallest reusable preflight guidance inputs/outputs needed by current workflows.",
+          "Compile/import the inspected Skinning entrypoint.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-preflight-guidance-setup-inventory-183c",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/setup/transforms.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup",
+          "aimayatool.tools.setup.transforms"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "preflight-guidance",
+        "depends_on": [
+          "aimayatool-goal010-preflight-guidance-inventory-183a"
+        ],
+        "purpose": "Inventory Setup selection/context validation and deterministic transform checks for shared preflight guidance.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Inspect existing validation, preview, selection/context, and actionable error behavior without changing product code.",
+          "Separate deterministic/non-mutating checks from Maya mutation and identify existing result/message contracts.",
+          "Recommend only the smallest reusable preflight guidance inputs/outputs needed by current workflows.",
+          "Compile/import the inspected Setup modules.",
+          "Preserve the already-proven ordered batch semantics as evidence, not as new scope.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-preflight-guidance-scene-inventory-183d",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py",
+          "aimayatool/ui/components.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene",
+          "aimayatool.ui.components"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "preflight-guidance",
+        "depends_on": [
+          "aimayatool-goal010-preflight-guidance-inventory-183a"
+        ],
+        "purpose": "Inventory Scene validation/preview surfaces and shared UI error presentation relevant to preflight guidance.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Inspect existing validation, preview, selection/context, and actionable error behavior without changing product code.",
+          "Separate deterministic/non-mutating checks from Maya mutation and identify existing result/message contracts.",
+          "Recommend only the smallest reusable preflight guidance inputs/outputs needed by current workflows.",
+          "Compile/import the inspected Scene package and shared UI components.",
+          "Do not redesign run_action or add UI behavior in this inventory.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-preflight-guidance-contract-synthesis-183e",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/setup/transforms.py",
+          "aimayatool/tools/scene/__init__.py",
+          "aimayatool/ui/components.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning",
+          "aimayatool.tools.setup",
+          "aimayatool.tools.setup.transforms",
+          "aimayatool.tools.scene",
+          "aimayatool.ui.components"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "preflight-guidance",
+        "depends_on": [
+          "aimayatool-goal010-preflight-guidance-skinning-inventory-183b",
+          "aimayatool-goal010-preflight-guidance-setup-inventory-183c",
+          "aimayatool-goal010-preflight-guidance-scene-inventory-183d"
+        ],
+        "purpose": "Synthesize the three domain inventories into one implementation-ready, bounded preflight guidance contract without implementing it.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Read the completed domain inventory results for Skinning, Setup, and Scene.",
+          "Define one explicit non-mutating preflight result shape with actionable messages and stable severity/category fields.",
+          "Identify the smallest first implementation target and its acceptance tests.",
+          "Do not implement product code or UI changes in this synthesis task.",
+          "Run compile/import-safe checks only where needed to validate referenced APIs.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
