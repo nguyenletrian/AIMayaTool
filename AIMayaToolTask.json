@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-components-scene-adoption-python-175d",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/components.py",
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.ui.components",
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-components",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-components-python-verify-retry-175c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify the first bounded domain adoption of reusable section() presentation in Scene before managed-Maya rendering validation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile components.py and Scene __init__.py.",
-          "Import components and Scene outside Maya without eager maya.cmds dependency.",
-          "Confirm the Scene public API remains importable after presentation-only refactor.",
-          "Do not treat Python PASS as Maya rendering acceptance."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_components_scene_adoption_python_pass",
-        "delivery_id": "5a1543d19285d99e2abf",
-        "architect_diagnosis": "Scene adoption of reusable section() compiles and both components and Scene import outside Maya. Managed Maya rendering is now the required acceptance gate for this bounded adoption."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-components-scene-adoption-maya-175e",
       "action": {
         "type": "maya",
@@ -661,9 +592,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -710,6 +641,77 @@
           "Invoke aimayatool.ui.main_window.show and require AIMayaToolWindow.",
           "Confirm search-enabled workspace construction completes without Maya/Python exception.",
           "Do not save the Maya scene.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "managed_maya_stale_registry_module_cache",
+        "delivery_id": "d0cab5347bacc1745b08",
+        "architect_diagnosis": "Repository registry.py contains search_groups(), but the existing managed Maya process had an older aimayatool.registry object cached. Reloading main_window then failed on from-import before registry itself was refreshed. Changed main_window to import the registry module and resolve registry.search_groups/groups at call time; retry must use a fresh managed Maya session to prove repository state rather than cached modules."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-search-discovery-workspace-maya-retry-176e",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.ui.main_window",
+        "callable": "show",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45,
+        "expected_window": "AIMayaToolWindow",
+        "fresh_session": true
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-search-discovery",
+        "retry_of_archived": {
+          "task_id": "aimayatool-goal009-ui-search-discovery-workspace-maya-176d",
+          "result": "FAIL",
+          "classification": "managed_maya_stale_registry_module_cache",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Retry search-enabled workspace construction in a fresh managed Maya session after removing fragile symbol from-import against cached registry modules.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Start/use a fresh managed Maya session so aimayatool.registry is loaded from current repository state.",
+          "Use isolated fresh scene and invoke aimayatool.ui.main_window.show.",
+          "Require AIMayaToolWindow and no Maya/Python exception.",
+          "Do not save scene.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
