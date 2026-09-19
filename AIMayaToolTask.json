@@ -28,87 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-spline-control-from-objs-python-verify-168e",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/spline_control_from_objs.py",
-          "tests/test_scene_spline_control_from_objs.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.spline_control_from_objs"
-        ],
-        "tests": [
-          "tests.test_scene_spline_control_from_objs"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-spline-control-from-objs-sync-168d",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "0092aa8f1168299544f61c876c0464db4cb2c46a",
-          "d64dfae70e750740d7e3a227da5d392e51710e0b"
-        ],
-        "purpose": "Verify standalone SplineControlFromObjs migration outside Maya.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile implementation/test.",
-          "Import module outside Maya.",
-          "Run focused unittest successfully.",
-          "Do not claim Maya parity."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "spline_control_from_objs_python_verification_pass",
-        "delivery_id": "b03f0c0b924921af1131",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "main_commit": "83bdb0c02fb126dc954e15339b9186f64846936d"
-        },
-        "architect_diagnosis": "SplineControlFromObjs deterministic Python verification passed; Maya parity remains unclaimed."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-post-spline-inventory-168f",
       "action": {
         "type": "verification",
@@ -700,9 +619,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -748,6 +667,78 @@
           "Compile/import modulo_sdk.py.",
           "Do not claim ModuloSDKNew parity from this sync.",
           "Return current-main evidence for immediate bounded extension decision."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "modulo_sdk_new_superseded_verified",
+        "delivery_id": "1d76d3b978085e86dde1",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "f507a1412440acb9e282fb558b3d1843d3d2ae9e"
+        },
+        "architect_diagnosis": "Current modulo_sdk.py already implements ModuloSDKNew's grouped multiline targets, 0..9 slot normalization, per-target _Modulo_Grp offsets, modulo expression generation, Maya apply path, and managed smoke. No duplicate extension is needed."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-sync-168o",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/control_shape.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.control_shape"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-new-sync-168n",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_ControlShapeAS.py",
+        "purpose": "Sync current control_shape implementation before Architect analyzes and migrates the distinct ControlShapeAS persistence/copy/rebuild workflow without duplicating the existing simple shape replacement API.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import control_shape.py.",
+          "Do not claim ControlShapeAS parity from this sync.",
+          "Return current-main evidence for a bounded ControlShapeAS data-model slice."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
