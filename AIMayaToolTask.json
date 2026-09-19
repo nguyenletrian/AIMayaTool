@@ -607,80 +607,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-favorites-recent-maya-smoke-181l",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.ui.main_window",
-        "callable": "discovery_interaction_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-workspace-python-verify-181k"
-        ],
-        "purpose": "Run bounded managed-Maya regression after action-level discovery wiring, proving the workspace still opens and existing group discovery remains functional before adding a dedicated tracked-action interaction smoke.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use fresh unsaved scene.",
-          "Invoke discovery_interaction_smoke.",
-          "Existing group Recent/Favorites behavior remains functional with the expanded discovery label.",
-          "UI constructs without exception.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "workspace_discovery_maya_regression_pass",
-        "delivery_id": "357e9eb2340569e3f4cc",
-        "verification_evidence": {
-          "marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_UI_DISCOVERY_OK:recent=setup|favorite=setup",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "pid": 6168,
-          "port": 7001,
-          "session": "existing"
-        },
-        "architect_diagnosis": "Managed Maya regression passed with the expanded discovery label; existing group Recent/Favorites behavior remains intact. Added a dedicated live smoke for intentional tracked Freeze TRS -> action recent -> workspace display before closing the milestone."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-batch-productivity-inventory-182a",
       "action": {
         "type": "verification",
@@ -714,6 +640,77 @@
           "Choose the smallest reusable batch helper or bounded representative workflow that reduces repetition while keeping selection/order and mutation explicit.",
           "Prefer deterministic Python planning/validation before Maya mutation.",
           "Do not implement preflight-guidance in this milestone.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "batch_productivity_inventory_pass",
+        "delivery_id": "8604234e249dbb241681",
+        "architect_diagnosis": "Entry-point inventory compiles. Setup already has explicit multi-selection workflows (_zero_selected, _freeze_selected, _reset_selected, _create_joints_selected) and Scene build APIs already accept lists, so the smallest safe batch slice is a reusable selected-transform batch executor around existing Setup primitives, preserving ordered selection and explicit mutation. Do not introduce generic arbitrary callback batching or hidden destructive behavior."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "task_id": "aimayatool-goal010-batch-productivity-setup-182b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/setup/transforms.py",
+          "aimayatool/ui/components.py"
+        ],
+        "imports": [
+          "aimayatool.tools.setup",
+          "aimayatool.tools.setup.transforms"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "batch-productivity",
+        "depends_on": [
+          "aimayatool-goal010-batch-productivity-inventory-182a"
+        ],
+        "purpose": "Implement the smallest bounded batch-productivity slice by centralizing selected-transform execution over existing safe Setup transform primitives, without changing action semantics.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Add a thin reusable helper for ordered selected-transform execution that validates selection once and applies an explicit existing transform operation to each selected node.",
+          "Use the helper for one bounded representative batch workflow, preferably Reset TR, while preserving current selection order and run_action presentation.",
+          "Do not create arbitrary callback batching, hidden auto-selection, or persistence.",
+          "Preserve current single-action behavior and actionable selection errors.",
+          "Add deterministic non-Maya tests for ordering/validation where practical.",
+          "Run py_compile/import-safe checks and focused tests.",
+          "Commit and push only after verification passes.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
