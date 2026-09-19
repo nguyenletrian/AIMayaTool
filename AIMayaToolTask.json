@@ -28,93 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-gradient-texture-preimplementation-baseline-167k",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-implementation-dispatch-blocker-freshness-167j",
-          "result": "PASS_BASELINE"
-        },
-        "purpose": "Establish the remaining GradientTexture ScenePattern preimplementation baseline from already-inspected legacy evidence, without dispatching an unsupported implementation route.",
-        "legacy_contract": {
-          "fields": [
-            "object",
-            "type",
-            "interpolation",
-            "whiteBegin",
-            "blackBegin",
-            "runColor",
-            "minValue",
-            "maxValue",
-            "objConnect",
-            "attrConnect",
-            "reverse"
-          ],
-          "behavior": "Resolve object material through shape/shading group; create ramp and connect transparency/opacity; configure ramp entries; ensure 0..10 control attribute; remapValue drives selected ramp color position with optional reversed input range and configured output range."
-        },
-        "acceptance": [
-          "Fast-forward current main and compile/import current Scene package.",
-          "Do not mutate product code, commit, or push.",
-          "Preserve the canonical split between deterministic normalization/planning and Maya DG mutation for later implementation.",
-          "Future implementation must guard missing shape/shading group/material/target attributes with actionable errors and must not rely on legacy UI globals.",
-          "Do not claim GradientTexture parity from this task."
-        ],
-        "blocker": "Current AIMayaTool router metadata still has no implementation-capable route. This supported verification gate is the last known unbaselined ScenePattern slice from the inspected remaining-pattern set.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_BASELINE",
-        "classification": "gradient_texture_preimplementation_baseline_verified",
-        "delivery_id": "6d6dca58f1c569092c34",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "ebbeb5e9d5ae2816e846f1429666f62a7930c346"
-        },
-        "architect_diagnosis": "GradientTexture preimplementation baseline is healthy. This does not implement the workflow; implementation remains gated by the absent implementation-capable route."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-fold-rig-python-verify-167l",
       "action": {
         "type": "verification",
@@ -635,9 +548,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -680,6 +593,80 @@
           "Compile/import current Scene package.",
           "Do not claim GradientTexture implementation or Maya parity from this sync task.",
           "Return current main evidence for immediate Architect-owned GradientTexture implementation."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "gradient_texture_preimplementation_sync_verified",
+        "delivery_id": "1ccba72f5a338d87f846",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "d64dfc27b46ffa0b381d6dc6eb9036b0b09a60e3"
+        },
+        "architect_diagnosis": "Scene baseline was healthy. Architect implemented GradientTexture directly through repository tools; deterministic verification follows."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-gradient-texture-python-verify-167u",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/gradient_texture.py",
+          "tests/test_scene_gradient_texture.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.gradient_texture"
+        ],
+        "tests": [
+          "tests.test_scene_gradient_texture"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "implementation_commits": [
+          "f3206b0d267a998c0d37fbfd13713f50d1198dd1",
+          "c8b04475b421c4fd1c00736e4a74ed51a9be8436"
+        ],
+        "purpose": "Verify Architect-authored GradientTexture normalization and import safety before Maya-host validation.",
+        "acceptance": [
+          "Fast-forward main including GradientTexture implementation and tests.",
+          "Compile implementation and tests.",
+          "Import aimayatool.tools.scene.gradient_texture outside Maya.",
+          "Run tests.test_scene_gradient_texture successfully.",
+          "Do not claim Maya parity from Python-only evidence."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
