@@ -140,9 +140,7 @@
       "metadata": {
         "goal_id": "aimayatool-010",
         "milestone_id": "batch-productivity",
-        "depends_on": [
-          "aimayatool-goal010-batch-productivity-freeze-maya-smoke-182j"
-        ],
+        "depends_on": [],
         "purpose": "Close out the bounded Batch Productivity milestone from the runtime-proven Reset TR and Freeze TRS slices, and identify the dependency-ready transition into preflight-guidance.",
         "acceptance": [
           "Fast-forward main.",
@@ -159,7 +157,14 @@
         "classification": "batch_productivity_closeout_pass",
         "proven_main_commit": "33e928fe27e344e1e0236d3c834135af2f2d2b76",
         "evidence": "Repository/task evidence confirms the runtime-proven Reset TR marker and Freeze TRS marker, and current Setup source still contains explicit ordered reset_transforms/freeze_transforms integration. No Maya rerun was performed. The bounded milestone acceptance is satisfied; the next dependency-ready slice is a preflight-guidance inventory.",
-        "architect_diagnosis": "Batch Productivity is closed on the two proven bounded slices: ordered Reset TR and ordered Freeze TRS. The next safe step is inventory-only preflight guidance, not speculative broad validation."
+        "architect_diagnosis": "Batch Productivity is closed on the two proven bounded slices: ordered Reset TR and ordered Freeze TRS. The next safe step is inventory-only preflight guidance, not speculative broad validation.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-batch-productivity-freeze-maya-smoke-182j",
+          "result": "COMPLETED_PREREQUISITE",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "proven_main_commit": "88beb291fae0cede0a1cab82d7bda6d1662253e7"
+        }
       }
     },
     {
@@ -487,6 +492,203 @@
           "Identify the smallest first implementation target and its acceptance tests.",
           "Do not implement product code or UI changes in this synthesis task.",
           "Run compile/import-safe checks only where needed to validate referenced APIs.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-preflight-guidance-contract-tests-184a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/core/result.py",
+          "aimayatool/registry.py",
+          "tests"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ],
+        "tests": [
+          "tests.test_preflight_guidance"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "preflight-guidance",
+        "depends_on": [
+          "aimayatool-goal010-preflight-guidance-contract-synthesis-183e"
+        ],
+        "purpose": "Turn the approved preflight guidance contract into deterministic Python test cases before product implementation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Read 183e contract synthesis evidence.",
+          "Define focused deterministic expectations for non-mutating preflight results, stable severity/category fields, actionable messages, and empty-valid cases.",
+          "Do not change product behavior or implement the feature.",
+          "Run py_compile/import-safe checks and focused tests.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-preflight-guidance-implementation-184b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/core/result.py",
+          "aimayatool/registry.py",
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ],
+        "tests": []
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "preflight-guidance",
+        "depends_on": [
+          "aimayatool-goal010-preflight-guidance-contract-tests-184a"
+        ],
+        "purpose": "Implement the smallest reusable preflight guidance primitive approved by the contract.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Read 183e and 184a evidence before implementation.",
+          "Implement only the bounded shared preflight contract; no broad refactor.",
+          "Validation must be non-mutating and preserve explicit domain APIs.",
+          "Run py_compile/import-safe checks and focused tests.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": true,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-preflight-guidance-maya-smoke-184c",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 900,
+        "files": [
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ],
+        "tests": []
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "preflight-guidance",
+        "depends_on": [
+          "aimayatool-goal010-preflight-guidance-implementation-184b"
+        ],
+        "purpose": "Validate bounded preflight guidance in managed Maya across representative Skinning, Setup, and Scene contexts.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use a fresh unsaved managed Maya scene.",
+          "Cover valid and invalid contexts across Skinning, Setup, and Scene where applicable.",
+          "Confirm validation is non-mutating and guidance is actionable.",
+          "Require explicit success markers and scene_saved=false.",
+          "Follow Guide runtime-loss recovery if Maya crashes.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
