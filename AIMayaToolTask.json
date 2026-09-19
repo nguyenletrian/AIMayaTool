@@ -682,7 +682,7 @@
       "bridge_completed": false,
       "permissions": {
         "read": true,
-        "edit": false,
+        "edit": true,
         "run_tests": true,
         "commit": false,
         "push": false
@@ -729,7 +729,13 @@
           "Do not edit product code in this verification task.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "permission_recovery": {
+          "failed_delivery_id": "66dbeb25b379c22e6f8a",
+          "classification": "precondition_permission_mismatch",
+          "note": "git_pull mutates the local worktree, so the verification route requires permissions.edit=true even though product files remain read-only by acceptance."
+        },
+        "retry_count": 1
       }
     }
   ]
