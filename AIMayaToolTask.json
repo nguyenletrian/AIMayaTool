@@ -460,76 +460,6 @@
         "read": true,
         "edit": true,
         "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "task_id": "aimayatool-goal010-favorites-recent-workspace-surface-retry-181i",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/main_window.py",
-          "aimayatool/registry.py",
-          "aimayatool/ui/components.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-ui-instrument-setup-retry-181h"
-        ],
-        "purpose": "Correct the bypassed 181g delivery by actually implementing the bounded action-level Recent/Favorites workspace presentation after tracked action instrumentation lands.",
-        "acceptance": [
-          "Fast-forward main and confirm 181h implementation is present before editing.",
-          "Actually edit main_window.py to display action-level Recent/Favorites from registry state while preserving existing group Recent/Favorites.",
-          "Keep discovery non-executing: no action is automatically invoked from search or discovery.",
-          "Preserve group search, tab navigation and group favorite toggle behavior.",
-          "Keep UI thin and reuse registry state; do not duplicate domain logic.",
-          "Add a focused helper/smoke suitable for later managed Maya validation.",
-          "Run py_compile/import-safe checks; commit and push only after checks pass.",
-          "Do not add persistence, batch productivity or preflight behavior.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_ACCEPTANCE_NOT_IMPLEMENTED",
-        "classification": "verification_only_no_product_edit",
-        "delivery_id": "bc8f0fc684d9989928c6",
-        "architect_diagnosis": "Compile/import passed, but main_window remains group-only and prerequisite tracked action implementation is absent. ACK delivery as verification-only, not feature completion."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
         "commit": false,
         "push": false
       },
@@ -667,9 +597,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -715,6 +645,82 @@
           "Do not save scene.",
           "Do not use Codex."
         ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "workspace_discovery_maya_regression_pass",
+        "delivery_id": "357e9eb2340569e3f4cc",
+        "verification_evidence": {
+          "marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_UI_DISCOVERY_OK:recent=setup|favorite=setup",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001,
+          "session": "existing"
+        },
+        "architect_diagnosis": "Managed Maya regression passed with the expanded discovery label; existing group Recent/Favorites behavior remains intact. Added a dedicated live smoke for intentional tracked Freeze TRS -> action recent -> workspace display before closing the milestone."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-action-maya-smoke-181m",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.ui.main_window",
+        "callable": "tracked_action_interaction_smoke",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-maya-smoke-181l"
+        ],
+        "purpose": "Prove the complete action-level recent path in managed Maya: intentional Setup Freeze TRS execution records stable action identity and workspace discovery displays it.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use fresh unsaved scene.",
+          "Invoke tracked_action_interaction_smoke.",
+          "Freeze TRS executes on a disposable transform.",
+          "recent_actions first entry is setup/freeze_trs with label Freeze TRS.",
+          "Workspace discovery contains Actions Recent: Freeze TRS.",
+          "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "implementation_commit": "2877db1a3b2e963e61ae1aed0d61b783117aa326",
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
