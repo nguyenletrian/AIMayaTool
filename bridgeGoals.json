@@ -522,12 +522,24 @@
         {
           "milestone_id": "ui-components",
           "title": "Build consistent reusable controls",
-          "status": "active"
+          "status": "completed",
+          "completion_evidence": {
+            "task_id": "aimayatool-goal009-ui-components-skinning-adoption-maya-175i",
+            "delivery_id": "fdce22774a3c86b24c0a",
+            "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:",
+            "scene_saved": false,
+            "completed_date": "2026-09-19",
+            "coverage": [
+              "Scene section()",
+              "Setup section()/button_row()",
+              "Skinning section()"
+            ]
+          }
         },
         {
           "milestone_id": "ui-search-discovery",
           "title": "Add search/discovery and useful recent/favorite access",
-          "status": "pending"
+          "status": "active"
         },
         {
           "milestone_id": "ui-status-progress",
