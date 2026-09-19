@@ -28,83 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-implementation-dispatch-blocker-freshness-167j",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisites": [
-          {
-            "task_id": "aimayatool-goal007-scene-pattern-fold-rig-preimplementation-baseline-167h",
-            "result": "PASS_BASELINE"
-          },
-          {
-            "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-preimplementation-baseline-167i",
-            "result": "PASS_BASELINE"
-          }
-        ],
-        "purpose": "Maintain a fresh executable repository baseline while the only remaining blocker is the missing implementation-capable AIBridge dispatch route. This is a bounded freshness gate, not another migration claim.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile and import current Scene package.",
-          "Do not mutate product code, commit, or push.",
-          "Return current repository commit evidence.",
-          "Do not claim FoldRig, Rivet, SplineRig, GradientTexture, or no-Git bootstrap implementation."
-        ],
-        "blocker": "Current AIMayaTool .aibridge/routers.json still exposes verification:python and git:pull but no implementation-capable route. Architect also confirmed the private nguyenletrian/AIBrigde repository is accessible, but GitHub code search is not indexed, so route implementation cannot be truthfully inferred from search. Do not invent a route.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_BASELINE",
-        "classification": "implementation_dispatch_blocker_freshness_verified",
-        "delivery_id": "1152843f2906598e92df",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "af3e63f0cd41f1541075de10e70486639476754d"
-        },
-        "architect_diagnosis": "Fresh main remains compile/import healthy. No product implementation occurred. The implementation-dispatch blocker remains unchanged: current AIMayaTool router metadata has no implementation-capable route."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-gradient-texture-preimplementation-baseline-167k",
       "action": {
         "type": "verification",
@@ -637,9 +560,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -687,6 +610,76 @@
           "Import aimayatool.tools.scene.rivet outside Maya.",
           "Run tests.test_scene_rivet successfully.",
           "Do not claim Maya parity from Python-only evidence."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "rivet_python_verification_pass",
+        "delivery_id": "327e6c70e2f4d12c49dd",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "main_commit": "b512956bdfac535f54ce221618bddc84a11076d6"
+        },
+        "architect_diagnosis": "Rivet deterministic implementation passes compile/import/unit tests. Maya live UI-smoke remains infrastructure-blocked from repeated FoldRig empty-output timeouts, so do not send Rivet into the same unhealthy route yet."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-gradient-texture-implementation-sync-167t",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-gradient-texture-preimplementation-baseline-167k",
+          "result": "PASS_BASELINE"
+        },
+        "purpose": "Continue ScenePattern migration while Maya live validation infrastructure is blocked; sync current Scene baseline immediately before Architect authors GradientTexture directly through repository tools.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import current Scene package.",
+          "Do not claim GradientTexture implementation or Maya parity from this sync task.",
+          "Return current main evidence for immediate Architect-owned GradientTexture implementation."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
