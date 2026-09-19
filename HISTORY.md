@@ -49,3 +49,10 @@ Earlier accepted architecture, Skinning, Setup, and Scene milestones remain pres
 - Final deterministic closeout compiled/imported the Scene package successfully at checkpoint `1e0be86ee0b30fc3fc879e1232fe6cb3a13c4def`.
 - Validation tier: deterministic Python closeout plus managed live Maya 2024 host mutation; scenes were not saved.
 - Goal `aimayatool-008` (Scene 2.0 modernization) becomes the next active goal, beginning with preset management.
+
+## 2026-09-19 - Scene 2.0 modernization accepted
+
+- Completed Goal 008 across presets, compare/edit, build-pipeline orchestration, and bounded Maya UX polish.
+- Deterministic Python behavior was verified through import-executed smoke coverage for preset, compare/edit, and build-pipeline slices.
+- Final UX host validation passed in managed Maya with a forced fresh scene (`AIBRIDGE_UI_SMOKE_OK:StatusLine|MainStatusLineLayout|formLayout4|columnLayout13`) and `scene_saved=false`.
+- Goal 009 Unified UI/UX is the next program phase.
