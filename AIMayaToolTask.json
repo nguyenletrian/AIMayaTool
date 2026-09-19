@@ -21,89 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-transform-backup-maya-validation-164x",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "save_scene": false,
-        "isolated_scene": true,
-        "module": "aimayatool.tools.scene.transform_backup",
-        "callable": "transform_backup_managed_maya_smoke"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-transform-backup-python-verify-164w"
-        ],
-        "purpose": "Host-prove TransformBackup joint capture and restoration semantics.",
-        "acceptance": [
-          "Fresh isolated unsaved Maya scene.",
-          "Captured missing object is ignored.",
-          "Deleted captured joint is recreated.",
-          "Parent relationship is restored when parent exists.",
-          "jointOrient, rotateOrder and segmentScaleCompensate restore correctly.",
-          "new_scene_forced=true, scene_saved=false, smoke success=true."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "transform_backup_managed_maya2024_proven",
-        "delivery_id": "b0777e1762a3f5def5d9",
-        "maya_evidence": {
-          "pid": 6168,
-          "managed_pid": 6168,
-          "session": "existing",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "port": 7001,
-          "git_pull_before": "5900f25a54f0e01f02f3a56969ea97a416506291",
-          "git_pull_after": "f2c053e4dc0291163eaadff1b6b688de882bf4ca",
-          "smoke": {
-            "exists": true,
-            "parent": true,
-            "orient": true,
-            "rotate_order": true,
-            "ssc": true,
-            "created": true,
-            "success": true
-          },
-          "marker": "AIBRIDGE_UI_SMOKE_OK"
-        },
-        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: deleted captured joint is recreated, parent relationship restored, and jointOrient, rotateOrder, and segmentScaleCompensate restore correctly."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-visibility-switch-python-verify-164s",
       "action": {
         "type": "verification",
@@ -592,9 +509,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-script-hook-adapters-165a",
       "action": {
         "type": "implementation",
@@ -645,7 +562,11 @@
           "Add focused deterministic tests for current/up path resolution, hook descriptors, and delegated script execution contract.",
           "Compile changed Python and run focused tests before commit/push."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "unsupported_route_implementation_repository",
+        "delivery_id": "922105c5861a7b983bdb",
+        "architect_diagnosis": "Bridge rejected this task before repository work because implementation:repository has no registered route handler. No product-code failure occurred. Reissue implementation through a supported Python task route with explicit edit/commit/push permissions."
       }
     },
     {
@@ -699,7 +620,7 @@
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-script-hook-adapters-165a"
+          "aimayatool-goal007-scene-pattern-script-hook-adapters-python-impl-165c"
         ],
         "purpose": "Deterministically verify the migrated Current/Up AfterScript/PostScript adapters.",
         "acceptance": [
@@ -710,6 +631,74 @@
           "No Maya host behavior claim."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-script-hook-adapters-python-impl-165c",
+      "action": {
+        "type": "python",
+        "target": "repository_edit"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/script_hooks.py",
+          "tests/test_scene_script_hooks.py"
+        ],
+        "reference_files": [
+          "UIs/ScenePattern/Scene_Pattern_CurrentAfterScript.py",
+          "UIs/ScenePattern/Scene_Pattern_CurrentPostScript.py",
+          "UIs/ScenePattern/Scene_Pattern_UpAfterScript.py",
+          "UIs/ScenePattern/Scene_Pattern_UpPostScript.py"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "purpose": "Migrate the four legacy Current/Up AfterScript/PostScript ScenePattern wrappers as one explicit script-hook adapter over the already proven SingleScript runner, preserving current-vs-parent SceneData path semantics without copying legacy UI/reload coupling.",
+        "legacy_source_shas": {
+          "CurrentAfterScript": "e47bea520e2567a67f7272343f4dd5d8b3562103",
+          "CurrentPostScript": "ef78fffbf9b094e1b4e4f2939b84b3ccf37174f9",
+          "UpAfterScript": "2a50a681db2295b31642645d36af6fe53d1cf217",
+          "UpPostScript": "a531467608d281184285f7be6b37097b6b09180f"
+        },
+        "acceptance": [
+          "Implement deterministic Python-only path resolution for current scene directory versus one-level-up directory.",
+          "Represent AfterScript/PostScript hook identity explicitly while reusing run_script_file rather than duplicating execution logic.",
+          "No pymel, NLTA_General, reload loop, hard-coded developer path, or UI dependency.",
+          "Add focused deterministic tests for current/up path resolution, hook descriptors, and delegated script execution contract.",
+          "Compile changed Python and run focused tests before commit/push."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "retry_of": "aimayatool-goal007-scene-pattern-script-hook-adapters-165a"
       }
     }
   ]
