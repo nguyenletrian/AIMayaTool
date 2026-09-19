@@ -28,72 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-retry2-167o",
-      "action": {
-        "type": "maya",
-        "target": "ui_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.fold_rig",
-        "callable": "fold_rig_managed_maya_smoke",
-        "new_scene": true,
-        "timeout": 45,
-        "save_scene": false,
-        "isolated_scene": true
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Retry FoldRig managed Maya smoke with the complete explicit scene-safety contract discovered from route validation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Run in an isolated fresh unsaved Maya scene; save_scene must remain false.",
-          "Invoke aimayatool.tools.scene.fold_rig.fold_rig_managed_maya_smoke.",
-          "Smoke returns ok=true with two constraints, three weight aliases per constraint, animCurve-driven weights, and driver restored to final value.",
-          "Treat runtime/session loss as inconclusive and follow Guide fresh-session recovery."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "INCONCLUSIVE_RUNTIME_LOSS",
-        "classification": "maya_ui_smoke_timeout_no_product_evidence",
-        "delivery_id": "09c6ebdd699f623b9e8a",
-        "architect_diagnosis": "Maya 2024 availability was established, but the smoke returned no product output and timed out after 45s. Per project Guide this first runtime-loss/timeout is inconclusive, not a FoldRig failure; retry in a genuinely fresh managed Maya session.",
-        "archived_retry_source": {
-          "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-retry-167n",
-          "result": "BLOCKED_PAYLOAD_CONTRACT",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-fresh-retry-167p",
       "action": {
         "type": "maya",
@@ -647,9 +581,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -694,6 +628,78 @@
           "Compile/import the Scene package baseline.",
           "Do not claim full ScenePattern parity from this baseline check.",
           "Return current-main evidence for Architect's next legacy-vs-target inventory pass."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_pattern_inventory_baseline_verified",
+        "delivery_id": "a420427d30f866223dab",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "716dd3fa0f50500595193fbb720f32321605a23f"
+        },
+        "architect_diagnosis": "Scene baseline is healthy. Legacy-vs-target inventory shows explicit remaining standalone gaps including SplineCurveFromObjs and SplineControlFromObjs; RopeRoll/RopeStraight deterministic math already exists in rope_weights and should not be duplicated."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-spline-curve-from-objs-sync-168b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-parity-inventory-168a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_SplineCurveFromObjs.py",
+        "purpose": "Sync healthy current main immediately before Architect migrates the standalone legacy SplineCurveFromObjs slice. Keep this separate from the already migrated full SplineRig.",
+        "acceptance": [
+          "Fast-forward current main.",
+          "Compile/import current Scene package.",
+          "Do not claim SplineCurveFromObjs implementation from this sync task.",
+          "Return current-main evidence for immediate Architect-owned bounded implementation."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
