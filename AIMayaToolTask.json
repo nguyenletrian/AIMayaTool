@@ -611,9 +611,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -656,7 +656,15 @@
           "Return baseline evidence for immediate implementation once a real implementation route exists."
         ],
         "blocker": "Implementation-capable route is still absent from current project router/capability metadata. This task is read/verify-only and must not mutate product code.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_BASELINE",
+        "classification": "fold_rig_preimplementation_baseline_verified",
+        "delivery_id": "cad694502fa8ec942b77",
+        "verification_evidence": {
+          "py_compile": true,
+          "main_commit": "d25398ef7f384332018a3474ff35284f4366cb57"
+        },
+        "architect_diagnosis": "FoldRig preimplementation baseline is healthy. This does not implement FoldRig; implementation remains gated by the absent implementation-capable route. Independent 167i remains pending."
       }
     },
     {
