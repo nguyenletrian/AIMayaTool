@@ -21,76 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-rope-roll-inventory-165q",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Bounded architecture inventory for legacy rope-roll; target adapter is currently absent.",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_RopeRoll.py",
-        "legacy_source_sha": "ee8ddc9c571ae1543a9d99a73f5257d10656d2a9",
-        "acceptance": [
-          "Current scene package compiles/imports cleanly.",
-          "Document the exact legacy weight-network semantics: activeCount = objectCount - (driver + offset).",
-          "Define deterministic Python-only boundary for normalized object/destination pairs, offset/range validation and expected weight math.",
-          "Keep point/orient constraints and DG node creation/connections as Maya-host behavior.",
-          "Identify empty-line/cardinality/zero-denominator edge cases before implementation.",
-          "No repository mutation required."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "rope_roll_inventory_gate_passed",
-        "delivery_id": "719b75ebd0b3b3c122e0",
-        "verification_evidence": {
-          "git_pull_before": "79f7ce8d10a15b456fc753099b1ec9d6afb2f466",
-          "git_pull_after": "32c4cd2dc0321edb1134fb6fd6ed9caa0fd99ec9",
-          "py_compile": true,
-          "import": "aimayatool.tools.scene"
-        },
-        "architect_diagnosis": "RopeRoll inventory boundary accepted. Normalize non-empty object/destination lists and require equal cardinality. Legacy effective=driver+offset; activeCount=N-effective; denominator=activeCount+1; each item i is active when activeCount>=i, with start=(activeCount-(i-1))/denominator, end=i/denominator, destination=1-active. Maya point/orient constraints and DG wiring remain host-backed. Reject states where denominator is zero rather than creating divide-by-zero DG behavior; validate offset/range explicitly."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-straight-inventory-165r",
       "action": {
         "type": "verification",
@@ -145,76 +75,6 @@
           "import": "aimayatool.tools.scene"
         },
         "architect_diagnosis": "RopeStraight inventory boundary accepted. Normalize non-empty object/destination lists and require equal cardinality. Legacy effective=driver+offset; denominator=effective+1; each item i is active when effective>=i, with start=(effective-(i-1))/denominator, end=i/denominator and destination=1-active. Maya point/orient constraints and DG creation/connections remain host-backed. Validate offset/range and reject denominator zero instead of preserving divide-by-zero behavior."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-rope-weight-core-python-verify-165s",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/rope_weights.py",
-          "tests/test_scene_rope_weights.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.rope_weights"
-        ],
-        "tests": [
-          "tests.test_scene_rope_weights"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-rope-roll-inventory-165q",
-          "aimayatool-goal007-scene-pattern-rope-straight-inventory-165r"
-        ],
-        "implementation_commits": [
-          "6f58951df1a28eeff316436c98532cb709e3df4e",
-          "78df07b87e3170d26c94cfeb2d79e11f08247cce"
-        ],
-        "purpose": "Verify shared deterministic Python core for RopeRoll/RopeStraight pair normalization and legacy weight math.",
-        "acceptance": [
-          "Compile/import outside Maya.",
-          "Focused tests pass for pair normalization/cardinality, roll semantics, straight semantics and zero-denominator rejection.",
-          "No Maya constraint/DG behavior claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "c7b8c39ec4e52758c8b9",
-        "architect_diagnosis": "Shared RopeRoll/RopeStraight deterministic core is Python-proven: compile/import passed and focused tests cover normalization/cardinality, roll math, straight math and zero-denominator rejection. This does not yet prove Maya constraint/DG behavior."
       }
     },
     {
@@ -773,6 +633,131 @@
           "tests_run": 3
         },
         "architect_diagnosis": "Deterministic SpaceSwitch planning core is Python-proven after correcting the test fixture: implementation/tests compile, module imports outside Maya, and all 3 focused tests pass. This proves normalization/index/default/slide planning only; Maya offset-group, parentConstraint, condition and plusMinusAverage behavior remains unproven."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-space-switch-host-python-regression-166g",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/space_switch.py",
+          "tests/test_scene_space_switch.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.space_switch"
+        ],
+        "tests": [
+          "tests.test_scene_space_switch"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-space-switch-core-verify-retry-166f",
+          "result": "PASS"
+        },
+        "implementation_commit": "2c5851d797ec7614d17026e3d477024222ea72b1",
+        "purpose": "Regression gate after adding the thin Maya SpaceSwitch host adapter; preserve outside-Maya import safety and deterministic core tests.",
+        "acceptance": [
+          "git_pull current main.",
+          "Compile/import space_switch outside Maya.",
+          "All focused SpaceSwitch core tests pass.",
+          "Do not claim Maya host behavior from this gate."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-space-switch-managed-maya-smoke-166h",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.space_switch",
+        "callable": "space_switch_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-space-switch-host-python-regression-166g"
+        ],
+        "implementation_commit": "2c5851d797ec7614d17026e3d477024222ea72b1",
+        "purpose": "Validate actual SpaceSwitch Maya host mutation in a fresh unsaved scene.",
+        "acceptance": [
+          "git_pull current main.",
+          "Use fresh isolated unsaved Maya scene.",
+          "Invoke space_switch_managed_maya_smoke().",
+          "Require offset/default-space creation, enum and slide attrs, parentConstraint, three condition nodes for Default+two parents, plusMinusAverage slide complement, and slide parentConstraint.",
+          "Return structured checks; no UI parity claim."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
