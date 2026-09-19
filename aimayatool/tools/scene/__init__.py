@@ -1,3 +1,4 @@
+from .compare_edit import apply_pattern_changes, compare_patterns
 from __future__ import absolute_import
 
 from .build_actions import build_scene_structure, ensure_group, ensure_hierarchy, parent_nodes
@@ -19,6 +20,8 @@ def build_ui():
 
 
 __all__ = [
+    "apply_pattern_changes",
+    "compare_patterns",
     "PresetLibrary",
     "PatternRegistry",
     "REGISTRY",
