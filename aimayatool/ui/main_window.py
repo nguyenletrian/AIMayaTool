@@ -16,7 +16,7 @@ _DISCOVERY = "AIMayaToolDiscovery"
 
 def _current_registry():
     global registry
-    required = ("search_groups", "mark_recent", "recent_groups", "set_favorite", "favorite_groups")
+    required = ("search_groups", "mark_recent", "recent_groups", "set_favorite", "favorite_groups", "recent_actions", "favorite_actions")
     if any(not hasattr(registry, name) for name in required):
         registry = importlib.reload(registry)
     return registry
@@ -37,7 +37,9 @@ def _refresh_discovery():
     reg = _current_registry()
     recent = ", ".join(item["label"] for item in reg.recent_groups()) or "None"
     favorites = ", ".join(item["label"] for item in reg.favorite_groups()) or "None"
-    cmds.text(_DISCOVERY, edit=True, label="Recent: {0}    Favorites: {1}".format(recent, favorites))
+    action_recent = ", ".join(item["label"] for item in reg.recent_actions()) or "None"
+    action_favorites = ", ".join(item["label"] for item in reg.favorite_actions()) or "None"
+    cmds.text(_DISCOVERY, edit=True, label="Recent: {0}    Favorites: {1}    Actions Recent: {2}    Actions Favorites: {3}".format(recent, favorites, action_recent, action_favorites))
 
 
 def _toggle_current_favorite(*_):
