@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal008-scene-compare-edit-inventory-171a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/operations.py",
-          "aimayatool/tools/scene/patterns.py",
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-compare-edit",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal008-scene-presets-behavior-smoke-retry-170h",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Start Scene compare/edit modernization by establishing the current deterministic edit/inspection baseline and identifying the smallest reusable compare/edit gap before implementation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import current Scene pattern/edit APIs.",
-          "Inventory existing compare/edit capabilities from current repository evidence.",
-          "Identify a bounded Python-only compare/edit modernization slice before UI work.",
-          "Do not invent Maya-host requirements for deterministic data comparison."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_compare_edit_baseline_verified",
-        "delivery_id": "7588d1717338119dbc38",
-        "architect_diagnosis": "Current baseline has immutable whole-pattern edit but no deterministic field-level compare result or validated partial-change application. Architect implemented the bounded Python-only compare/edit slice and import-executed behavior smoke."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal008-scene-compare-edit-verify-171b",
       "action": {
         "type": "verification",
@@ -643,9 +574,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -687,6 +618,74 @@
           "Import the Python-only registry.",
           "Treat current repository evidence as baseline: registry groups Skinning/Setup/Scene; main window renders all groups as stacked collapsible frames; do not assume ui/sections.py exists.",
           "Return evidence only; no Maya/UI mutation in this inventory task."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_information_architecture_baseline_verified",
+        "delivery_id": "faeab361043c7513e1f8",
+        "architect_diagnosis": "Current workspace is one long scroll of collapsible Skinning/Setup/Scene frames. The bounded IA slice replaces stacked top-level frames with registry-driven Skinning/Setup/Scene tabs, preserving group modules and thin UI callbacks."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-information-architecture-python-verify-174b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/main_window.py",
+          "aimayatool/registry.py",
+          "aimayatool/app.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-information-architecture",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-information-architecture-inventory-174a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Python gate for registry-driven top-level workflow tabs before managed Maya UI validation.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile main_window.py, registry.py, app.py.",
+          "Import aimayatool.registry outside Maya.",
+          "Do not treat Python PASS as UI acceptance; managed Maya validation remains required."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
