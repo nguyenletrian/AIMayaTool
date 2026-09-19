@@ -521,9 +521,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -583,7 +583,11 @@
           "Expose only stable public API through scene package if project convention requires it; no UI work yet.",
           "Commit/push implementation and tests; return commit SHA and test evidence."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "BLOCKED_ROUTE",
+        "classification": "unsupported_implementation_python_route",
+        "delivery_id": "6c1c5508bfd7b3370068",
+        "architect_diagnosis": "No implementation ran. Router metadata has no implementation:python handler; only verification:python is registered. Do not dispatch 167c/167d through the same unsupported route."
       }
     },
     {
@@ -597,9 +601,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -656,7 +660,10 @@
           "Add focused tests for normalization, <3 rejection, component parsing and optional-field planning; import must pass outside Maya.",
           "Commit/push implementation and tests; return commit SHA and evidence."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "CANCELLED_UNSUPPORTED_ROUTE",
+        "classification": "prevented_known_unsupported_implementation_python_route",
+        "architect_diagnosis": "Cancelled before execution because the same implementation:python route is known unsupported from 167b."
       }
     },
     {
@@ -670,9 +677,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -730,7 +737,10 @@
           "Add focused deterministic tests for normalization, naming/build counts, invalid controls/numberCtrls/rebuild and import outside Maya.",
           "Commit/push implementation and tests; return commit SHA and evidence."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "CANCELLED_UNSUPPORTED_ROUTE",
+        "classification": "prevented_known_unsupported_implementation_python_route",
+        "architect_diagnosis": "Cancelled before execution because the same implementation:python route is known unsupported from 167b."
       }
     }
   ]
