@@ -71,7 +71,7 @@ def driven_key_managed_maya_smoke():
     item={"driverAttr":driver+".drive","drivenAttrs":driven+".tx","keyData":[{"driverValue":0,"drivenValues":{driven:{"tx":1}}},{"driverValue":10,"drivenValues":{driven:{"tx":5}}}]}
     result=apply_driven_key([item])[0]; offset=result["offsets"][driven]; zero=driven+"_ZeloSDKGrp"; sdk=offset+".tx"
     cmds.setAttr(driver+".drive",0); v0=cmds.getAttr(sdk); cmds.setAttr(driver+".drive",10); v10=cmds.getAttr(sdk)
-    curves=cmds.listConnections(sdk,source=True,destination=False,type="animCurve") or []; tangents=cmds.keyTangent(sdk,query=True,inTangentType=True) or []
-    checks={"sdk_group":cmds.objExists(offset),"zero_group":cmds.objExists(zero),"connected":cmds.isConnected(sdk,driven+".tx") or bool(cmds.listConnections(driven+".tx",source=True,destination=False,type="animCurve")),"anim_curve":bool(curves),"value0":abs(v0-1)<1e-6,"value10":abs(v10-5)<1e-6,"linear":bool(tangents) and all(x=="linear" for x in tangents)}
+    curves=cmds.listConnections(sdk,source=True,destination=False,type="animCurve") or []; tangents=cmds.keyTangent(sdk,query=True,inTangentType=True) or []\n    child_source=cmds.connectionInfo(driven+".tx",sourceFromDestination=True) or ""; sdk_destinations=cmds.connectionInfo(sdk,destinationFromSource=True) or []
+    checks={"sdk_group":cmds.objExists(offset),"zero_group":cmds.objExists(zero),"connected":child_source==sdk and driven+".tx" in sdk_destinations,"anim_curve":bool(curves),"value0":abs(v0-1)<1e-6,"value10":abs(v10-5)<1e-6,"linear":bool(tangents) and all(x=="linear" for x in tangents)}
     if not all(checks.values()): raise RuntimeError("DrivenKey smoke failed: {0}".format(checks))
     return {"ok":True,"checks":checks,"offset":offset,"zero":zero,"curves":curves}
