@@ -635,12 +635,26 @@
         {
           "milestone_id": "presets-smart-defaults",
           "title": "Reusable presets and smart defaults",
-          "status": "active"
+          "status": "completed",
+          "completion_evidence": {
+            "task_id": "aimayatool-goal010-presets-smart-defaults-secondary-count-maya-180c",
+            "delivery_id": "539e2e3d33a15d4164b9",
+            "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_SMART_DEFAULT_OK:deterministic|override",
+            "scene_saved": false,
+            "completed_date": "2026-09-19",
+            "coverage": [
+              "existing Scene PresetLibrary inventory",
+              "deterministic secondary-rig paired count suggestion",
+              "explicit fallback",
+              "user-overridable prompt default",
+              "non-mutating calculation"
+            ]
+          }
         },
         {
           "milestone_id": "favorites-recent",
           "title": "Favorites and recent workflows",
-          "status": "pending"
+          "status": "active"
         },
         {
           "milestone_id": "batch-productivity",
