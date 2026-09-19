@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from .build_actions import build_scene_structure, ensure_group, ensure_hierarchy, parent_nodes
 from .display_layers import add_members, ensure_display_layer, members, remove_members, set_display_type, set_visibility
 from .operations import create_pattern, edit_pattern, load_pattern, save_pattern
+from .presets import PresetLibrary
 from .patterns import PatternRegistry, ScenePattern
 
 
@@ -18,6 +19,7 @@ def build_ui():
 
 
 __all__ = [
+    "PresetLibrary",
     "PatternRegistry",
     "REGISTRY",
     "ScenePattern",
