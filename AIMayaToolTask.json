@@ -678,7 +678,7 @@
         "via": "web"
       },
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "bridge_completed": false,
       "permissions": {
         "read": true,
@@ -735,7 +735,14 @@
           "classification": "precondition_permission_mismatch",
           "note": "git_pull mutates the local worktree, so the verification route requires permissions.edit=true even though product files remain read-only by acceptance."
         },
-        "retry_count": 1
+        "retry_count": 1,
+        "failed_result_ack": {
+          "delivery_id": "66dbeb25b379c22e6f8a",
+          "result": "FAIL",
+          "classification": "precondition_permission_mismatch",
+          "diagnosis": "Failure occurred before product verification because git_pull requires edit permission. Task has already been corrected to edit=true and remains pending for a clean verification retry."
+        },
+        "architect_diagnosis": "ACKed the exact failed delivery without treating it as product failure. Current task definition is recovered: edit=true permits ff-only git_pull while commit/push remain false and acceptance forbids product edits. Keep the same task pending so Bridge can perform the intended compile/import/unit-test verification."
       }
     }
   ]
