@@ -21,76 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-skin-joint-nearest-component-inventory-165i",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Bounded architecture gate for SkinJointToNearestComponent. Separate deterministic assignment policy from Maya topology/world-position extraction and skinCluster mutation before migration.",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_SkinJointToNearestComponent.py",
-        "legacy_source_sha": "8614144d8967f9b7df2f0c3de1a73a9318f57065",
-        "acceptance": [
-          "git_pull current main.",
-          "Current scene package compiles/imports cleanly.",
-          "Define Python-only boundary for candidate sorting/one-joint-one-component greedy assignment from precomputed distances.",
-          "Keep connected-component extraction, world positions, skinCluster creation/influence edits and skinPercent writes as Maya-host behavior.",
-          "Flag any legacy distance/reporting inconsistency for follow-up rather than preserving it blindly.",
-          "No repository mutation required."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "skin_joint_nearest_component_inventory_gate_passed",
-        "delivery_id": "083b405c3aaa76e45910",
-        "verification_evidence": {
-          "git_pull_before": "4b2edf9186d4b17223f40b0a82bd879a83166093",
-          "git_pull_after": "c83caa52e4fde495b387fa49ecc474c641798b2d",
-          "py_compile": true,
-          "import": "aimayatool.tools.scene"
-        },
-        "architect_diagnosis": "Inventory gate passed. Safe Python-only boundary is deterministic greedy one-to-one joint/component assignment from precomputed distances, including stable tie handling and validation. Maya topology traversal, world-space point extraction, skinCluster/influence mutation and skinPercent writes remain host-backed. Legacy GetClosestDistanceToComponent already returns Euclidean length, so reporting distance ** 0.5 is inconsistent and should not be preserved."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-inventory-165k",
       "action": {
         "type": "verification",
@@ -418,89 +348,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry3-165p",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.bs_sequence",
-        "callable": "bs_sequence_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "retry_of": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry2-165o",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-bs-sequence-existing-implementation-python-verify-165l"
-        ],
-        "implementation_commit": "7dca776546b156da4c8fd39d62427654032a512f",
-        "purpose": "Run the now-present deterministic BSSequence managed Maya smoke.",
-        "acceptance": [
-          "Fresh isolated unsaved Maya scene.",
-          "Smoke returns success=true.",
-          "Prove keys (5,10), two shoot meshes, group/blendShape, joint/proxy/show/visibility wiring, driven-key animCurves and restoration to frame 3.",
-          "Return structured checks; do not infer success from import alone."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "bs_sequence_managed_maya_smoke_passed",
-        "delivery_id": "cc939c9ff1e10a969958",
-        "verification_evidence": {
-          "managed_pid": 6168,
-          "port": 7001,
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "keyframes": [
-            5,
-            10
-          ],
-          "generated_meshes": [
-            "AIBridgeBSTarget_Shoot_01",
-            "AIBridgeBSTarget_Shoot_02"
-          ],
-          "group": "AIBridgeBSTarget_BSs",
-          "blend_shape": "AIBridgeBSTarget_sequence_BS",
-          "driver": "AIBridgeBSMain.sequence",
-          "show_driver": "AIBridgeBSMain.sequenceShowBS",
-          "checks_all_true": true
-        },
-        "architect_diagnosis": "BSSequence adapter is now host-proven in managed Maya 2024 for the tested deterministic fixture: nonzero transform key collection, shoot generation/naming, BS group and blendShape creation, driver-to-joint connection, proxy/show/visibility wiring, driven-key creation, and current-frame restoration all passed in a fresh unsaved scene."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-roll-inventory-165q",
       "action": {
         "type": "verification",
@@ -695,6 +542,128 @@
         "result": "PASS",
         "delivery_id": "c7b8c39ec4e52758c8b9",
         "architect_diagnosis": "Shared RopeRoll/RopeStraight deterministic core is Python-proven: compile/import passed and focused tests cover normalization/cardinality, roll math, straight math and zero-denominator rejection. This does not yet prove Maya constraint/DG behavior."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-rope-roll-maya-host-assessment-165t",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.rope_weights",
+        "callable": "rope_weights_managed_maya_smoke",
+        "args": [
+          "roll"
+        ],
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-rope-weight-core-python-verify-165s"
+        ],
+        "purpose": "Bounded RopeRoll host-readiness gate. Determine whether a dedicated managed-Maya fixture exists before claiming DG/constraint parity.",
+        "acceptance": [
+          "Use fresh isolated unsaved Maya scene.",
+          "If callable exists, exercise the requested mode and return structured evidence for point/orient constraint weight wiring.",
+          "If callable is absent, return the exact missing-callable gap; do not fabricate Maya parity.",
+          "No repository mutation."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-165u",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.rope_weights",
+        "callable": "rope_weights_managed_maya_smoke",
+        "args": [
+          "straight"
+        ],
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-rope-weight-core-python-verify-165s"
+        ],
+        "purpose": "Bounded RopeStraight host-readiness gate. Determine whether a dedicated managed-Maya fixture exists before claiming DG/constraint parity.",
+        "acceptance": [
+          "Use fresh isolated unsaved Maya scene.",
+          "If callable exists, exercise the requested mode and return structured evidence for point/orient constraint weight wiring.",
+          "If callable is absent, return the exact missing-callable gap; do not fabricate Maya parity.",
+          "No repository mutation."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
