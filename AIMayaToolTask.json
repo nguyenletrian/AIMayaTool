@@ -28,85 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-search-discovery-workspace-maya-retry-176e",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.ui.main_window",
-        "callable": "show",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45,
-        "expected_window": "AIMayaToolWindow",
-        "fresh_session": true
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-search-discovery",
-        "retry_of_archived": {
-          "task_id": "aimayatool-goal009-ui-search-discovery-workspace-maya-176d",
-          "result": "FAIL",
-          "classification": "managed_maya_stale_registry_module_cache",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Retry search-enabled workspace construction in a fresh managed Maya session after removing fragile symbol from-import against cached registry modules.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Start/use a fresh managed Maya session so aimayatool.registry is loaded from current repository state.",
-          "Use isolated fresh scene and invoke aimayatool.ui.main_window.show.",
-          "Require AIMayaToolWindow and no Maya/Python exception.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_search_workspace_maya_pass",
-        "delivery_id": "51eb4c3ee17128e178f1",
-        "verification_evidence": {
-          "marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "pid": 6168,
-          "port": 7001,
-          "reported_session": "existing"
-        },
-        "architect_diagnosis": "Search-enabled AIMayaToolWindow now constructs successfully in managed Maya. Although the task requested fresh_session, runtime reported session=existing; the cache-robust import fix nevertheless loaded successfully. Architect added a focused callable that enters representative queries and asserts selected tabs for Skinning/Setup/Scene."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-search-discovery-interaction-maya-176f",
       "action": {
         "type": "maya",
@@ -681,9 +602,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -730,6 +651,75 @@
           "Confirm Skinning and Setup currently duplicate _run success/error presentation through inViewMessage, warning and traceback.",
           "Confirm Scene entry UI currently has no equivalent action status surface.",
           "Use this as evidence for a reusable status/error presentation component; do not claim Maya behavior.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_status_progress_baseline_verified",
+        "delivery_id": "bd1355d894f670abd3d5",
+        "architect_diagnosis": "Real package entrypoints compile. Skinning and Setup duplicate action success/error presentation; Scene currently has no equivalent action wrapper. Added reusable run_action() to components.py as the smallest unification slice, preserving thin domain callbacks."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-status-progress-component-python-177c",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/components.py"
+        ],
+        "imports": [
+          "aimayatool.ui.components"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-status-progress",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-status-progress-inventory-retry-177b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify the reusable run_action status/error presenter before replacing duplicated Skinning/Setup wrappers.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile and import aimayatool.ui.components outside Maya.",
+          "run_action must validate callable input before importing Maya.",
+          "Keep Maya import lazy.",
+          "Preserve success result return and consistent no-changes/list formatting semantics.",
+          "Preserve warning, highlighted in-view error, traceback, and None-on-error behavior.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
