@@ -28,78 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-remaining-gap-inventory-168k",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-ikfk-runtime-python-verify-168j",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Refresh Scene baseline after IK/FK migration and select the next genuinely uncovered legacy ScenePattern family. Reconcile legacy aliases/variants such as ControlShapeAS, ModuloSDKNew, Note, RopeRoll/RopeStraight, and script hooks against existing target modules before adding code.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import Scene package.",
-          "Do not duplicate legacy aliases or variants already intentionally represented.",
-          "Return current-main evidence for Architect's bounded remaining-gap decision.",
-          "Do not claim full ScenePattern parity."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "remaining_gap_inventory_baseline_verified",
-        "delivery_id": "3bdb7db6cb31e437f242",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "06395d51499f938aa6692f3b87e63dacbabf32f7"
-        },
-        "architect_diagnosis": "Baseline passed. RopeRoll/RopeStraight deterministic weights are already represented by rope_weights, but their Maya constraint/DG construction is not yet represented. ControlShapeAS is a larger specialized curve-shape persistence/copy workflow and should remain a separate later slice; aliases/variants should not be duplicated blindly."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-rope-runtime-sync-168l",
       "action": {
         "type": "verification",
@@ -690,9 +618,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -745,6 +673,80 @@
           "Import outside Maya.",
           "Run existing focused IK/FK tests without regression.",
           "Do not claim interactive Maya validation."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_pattern_parity_coverage_gate_pass",
+        "delivery_id": "e52051f959359378498d",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "main_commit": "dce63ad7abd79c9604018f061bbaf3cc73821f4e"
+        },
+        "architect_diagnosis": "DefaultSwitchIKFK compatibility planner is Python-safe with existing IK/FK regression green. Combined with final reconciliation, every useful legacy ScenePattern now has a concrete implementation, intentional consolidation/supersession, or metadata-only rationale. scene-pattern-parity is closed for coverage; Maya-host acceptance remains explicitly deferred to scene-maya-validation."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-build-parity-inventory-168u",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-build-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-default-switch-ikfk-python-verify-168t",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "goal_state_commit": "e8b9f2ba6b906636fa7aba1b648c6750a620b533",
+        "purpose": "Begin the next Goal 007 milestone by refreshing current Scene package evidence and inventorying legacy non-ScenePattern scene setup/build actions against AIMayaTool. Select the first genuinely missing bounded build slice without duplicating ScenePattern coverage.",
+        "acceptance": [
+          "Fast-forward main including completed scene-pattern-parity goal state.",
+          "Compile/import Scene package.",
+          "Inventory legacy Scene setup/build actions outside ScenePattern against current target modules.",
+          "Classify aliases/internal helpers before proposing implementation.",
+          "Return evidence for the first dependency-ready scene-build-parity slice."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
