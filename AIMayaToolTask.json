@@ -28,86 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-default-switch-ikfk-python-verify-168t",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/ikfk_switch.py",
-          "tests/test_scene_ikfk_switch.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.ikfk_switch"
-        ],
-        "tests": [
-          "tests.test_scene_ikfk_switch"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-default-switch-ikfk-reconcile-168s",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commits": [
-          "ec1b09c4599f6fe7ff40f8c6d252d670b93c7f16"
-        ],
-        "purpose": "Verify the DefaultSwitchIKFK compatibility schema/planner remains Python-safe alongside the newer snap model. If green, Architect can close the ScenePattern coverage gate while leaving host validation to the later Scene Maya-validation milestone.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile ikfk_switch.py and focused tests.",
-          "Import outside Maya.",
-          "Run existing focused IK/FK tests without regression.",
-          "Do not claim interactive Maya validation."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_pattern_parity_coverage_gate_pass",
-        "delivery_id": "e52051f959359378498d",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "main_commit": "dce63ad7abd79c9604018f061bbaf3cc73821f4e"
-        },
-        "architect_diagnosis": "DefaultSwitchIKFK compatibility planner is Python-safe with existing IK/FK regression green. Combined with final reconciliation, every useful legacy ScenePattern now has a concrete implementation, intentional consolidation/supersession, or metadata-only rationale. scene-pattern-parity is closed for coverage; Maya-host acceptance remains explicitly deferred to scene-maya-validation."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-build-parity-inventory-168u",
       "action": {
         "type": "verification",
@@ -722,9 +642,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -772,6 +692,76 @@
           "Inventory existing Scene smoke modules and prior runtime evidence before scheduling host work.",
           "Do not blindly retry the known unhealthy FoldRig UI-smoke route.",
           "Prefer bounded managed Maya or mayapy validation per tool family, and return the first safe dependency-ready validation slice."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_maya_validation_inventory_ready",
+        "delivery_id": "8bbb1331e31f6e4a31bd",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "22bc82546532dd2ef8b86711a8c39bbac9fb3709"
+        },
+        "architect_diagnosis": "Scene package is import-safe and current tree contains a broad set of dedicated smoke modules. Validation should proceed by existing bounded smoke families rather than one monolithic UI route. Start with build_actions_smoke because build parity was recently extended and this route is independent of the known FoldRig UI-smoke blocker."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-maya-build-actions-smoke-169d",
+      "action": {
+        "type": "verification",
+        "target": "maya:ui_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 45,
+        "module": "aimayatool.tools.scene.build_actions_smoke",
+        "callable": "run_build_actions_smoke",
+        "isolated_scene": true,
+        "save_scene": false
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-maya-validation-plan-169c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Validate the bounded Scene hierarchy/build-actions family in a fresh isolated Maya scene using its existing dedicated smoke route.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated unsaved scene; do not save user data.",
+          "Run only build_actions_smoke callable.",
+          "Require explicit product result; timeout/no result is runtime evidence, not product PASS.",
+          "Do not involve FoldRig or reuse its unhealthy validation route."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
