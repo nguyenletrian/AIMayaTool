@@ -74,3 +74,35 @@ def apply_control_shape_data(data, controls=None):
             elif "overrideColor" in shape_data: cmds.setAttr(shape + ".overrideColor", shape_data["overrideColor"])
         results.append({"control": control, "status": "skipped_cv_mismatch" if mismatch else "applied"})
     return tuple(results)
+
+
+def resolve_scene_data_path(scene_path, layout="local", filename="dataCurveShape.json"):
+    import os
+    scene_path=str(scene_path or "").strip()
+    if not scene_path: raise ValueError("scene_path is required")
+    scene_folder=os.path.dirname(os.path.abspath(scene_path))
+    if layout=="local": base=scene_folder
+    elif layout=="parent": base=os.path.dirname(scene_folder)
+    else: raise ValueError("layout must be local or parent")
+    return os.path.join(base,"SceneData",filename)
+
+def export_scene_control_shapes(scene_path, controls, layout="local"):
+    import os
+    path=resolve_scene_data_path(scene_path,layout)
+    folder=os.path.dirname(path)
+    if not os.path.isdir(folder): os.makedirs(folder)
+    return {"path":path,"data":write_control_shape_json(path,controls)}
+
+def import_scene_control_shapes(scene_path, controls=None, layout="local"):
+    path=resolve_scene_data_path(scene_path,layout)
+    return {"path":path,"results":apply_control_shape_data(read_control_shape_json(path),controls=controls)}
+
+def update_scene_control_shapes(scene_path, controls, layout="parent"):
+    import os
+    path=resolve_scene_data_path(scene_path,layout)
+    old=read_control_shape_json(path) if os.path.exists(path) else {}
+    old.update(collect_control_shape_data(controls))
+    folder=os.path.dirname(path)
+    if not os.path.isdir(folder): os.makedirs(folder)
+    with open(path,"w") as stream: json.dump(old,stream,indent=2,sort_keys=True)
+    return {"path":path,"data":old}
