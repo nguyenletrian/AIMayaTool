@@ -21,77 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-single-script-python-verify-164y",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/single_script.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.single_script"
-        ],
-        "timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Verify SingleScript runner migration.",
-        "implementation_commit": "56c3dd6e604e6d90de511a521e207a561668f522",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_SingleScript.py",
-        "legacy_source_sha": "e678bac1bfa210002ca8b0264fbf4c93cfa03ea8",
-        "acceptance": [
-          "git_pull current main.",
-          "Module compiles/imports outside Maya.",
-          "No Maya script execution claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "single_script_python_verification_passed",
-        "delivery_id": "42d3d4c67cd24f052ca5",
-        "verification_evidence": {
-          "git_pull_before": "f2c053e4dc0291163eaadff1b6b688de882bf4ca",
-          "git_pull_after": "baf980c73fafce393075d3f707ab773317f6f919",
-          "repository_changed": true,
-          "py_compile": true,
-          "imports": [
-            "aimayatool.tools.scene.single_script"
-          ]
-        },
-        "architect_diagnosis": "Python gate passed after fast-forwarding current main. SingleScript runner compiles/imports cleanly; actual script execution and Maya scene mutation remain gated by managed-Maya task 164z."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-script-hook-adapters-165a",
       "action": {
         "type": "implementation",
@@ -744,6 +673,74 @@
           "import": "aimayatool.tools.scene"
         },
         "architect_diagnosis": "Inventory gate passed. Safe Python-only boundary is deterministic greedy one-to-one joint/component assignment from precomputed distances, including stable tie handling and validation. Maya topology traversal, world-space point extraction, skinCluster/influence mutation and skinPercent writes remain host-backed. Legacy GetClosestDistanceToComponent already returns Euclidean length, so reporting distance ** 0.5 is inconsistent and should not be preserved."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-skin-joint-nearest-component-core-python-verify-165j",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/skin_joint_nearest_component.py",
+          "tests/test_scene_skin_joint_nearest_component.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.skin_joint_nearest_component"
+        ],
+        "tests": [
+          "tests.test_scene_skin_joint_nearest_component"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-skin-joint-nearest-component-inventory-165i"
+        ],
+        "purpose": "Verify deterministic nearest-component greedy assignment core from the approved inventory boundary.",
+        "implementation_commits": [
+          "e7b60bdfea6a8083661e237b75d6409ae3cbb249",
+          "8d8a59a4815d21d44f137874dd93bf67fdf48648"
+        ],
+        "acceptance": [
+          "Compile files.",
+          "Import outside Maya.",
+          "Focused tests pass for one-to-one greedy assignment, deterministic tie order and invalid input rejection.",
+          "Distances remain Euclidean values; do not apply the legacy extra square root.",
+          "No Maya topology or skin mutation claim."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
