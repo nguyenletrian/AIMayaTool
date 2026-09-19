@@ -282,9 +282,14 @@ def _secondary_driver_attr(cmds, title, driver_node):
     return driver_node + "." + attribute
 
 
-def _secondary_count(cmds, title, total, fixed):
+def _smart_group_count(total, fixed, fallback=1):
+    """Suggest an equal paired-group count when selection shape is unambiguous."""
     remaining = total - fixed
-    default_count = str(remaining // 2) if remaining > 0 and remaining % 2 == 0 else "1"
+    return remaining // 2 if remaining > 0 and remaining % 2 == 0 else fallback
+
+
+def _secondary_count(cmds, title, total, fixed):
+    default_count = str(_smart_group_count(total, fixed))
     if cmds.promptDialog(title=title, message="Objects / destinations count:", text=default_count, button=["Next", "Cancel"], defaultButton="Next", cancelButton="Cancel", dismissString="Cancel") != "Next":
         return None
     try:
