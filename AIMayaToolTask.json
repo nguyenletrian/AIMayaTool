@@ -624,9 +624,9 @@
         "via": "web"
       },
       "task_id": "aimayatool-goal007-scene-pattern-unlock-attribute-maya-validation-retry-164d",
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "action": {
         "type": "maya",
         "target": "managed_live_smoke"
@@ -676,7 +676,32 @@
         "runtime_preflight_required": true,
         "architect_correction": "Previous stale-worktree diagnosis was not sufficiently established because the owner reports the AIMayaTool runtime was stopped. Preserve 164c as observed failure evidence, but treat its root cause as unresolved runtime/source-state ambiguity until a fresh session proves otherwise.",
         "runtime_resume_evidence": "AIBrigde delivered a fresh queue_exhausted task_request to Architect on 2026-09-19, proving the task-request runtime path is running again. Managed Maya freshness/liveness must still be established by this task before product smoke.",
-        "previous_blocked_reason": "Owner reports AIMayaTool runtime is stopped. Do not execute this Maya retry until runtime is explicitly restored and a fresh managed session is established; prior PID/session evidence must not be reused."
+        "previous_blocked_reason": "Owner reports AIMayaTool runtime is stopped. Do not execute this Maya retry until runtime is explicitly restored and a fresh managed session is established; prior PID/session evidence must not be reused.",
+        "result": "PASS",
+        "classification": "unlock_attribute_managed_maya2024_proven",
+        "delivery_id": "1037eaf44050ce12f97e",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "maya_quit": false,
+          "port": 7001,
+          "git_pull_before": "8d24ccbf9c4f2476859c5ee38c5751e33d1ab182",
+          "git_pull_after": "8734da5d0429db0f850cb0185893413038e67325",
+          "git_pull_changed": true,
+          "smoke": {
+            "disconnected": true,
+            "unlocked": true,
+            "keyable": true,
+            "attrs": true,
+            "missing": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Retry 164d passed after the required ff-only pull updated D:/AIMayaTool through commit 8734da5. The smoke host-proved disconnect, unlock, keyable, attribute coverage, and deterministic missing-object behavior in a forced-new unsaved Maya scene. Although the route reported session=existing and PID 6168, the successful product marker plus current-source pull resolves the prior source/runtime ambiguity; do not infer a fresh-process launch from this evidence."
       }
     }
   ]
