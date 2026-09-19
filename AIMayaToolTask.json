@@ -671,9 +671,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -721,6 +721,73 @@
           "Do not use Codex."
         ],
         "implementation_commit": "2877db1a3b2e963e61ae1aed0d61b783117aa326",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "INCONCLUSIVE_RUNTIME_STALE_MODULE",
+        "classification": "persistent_maya_stale_module_cache",
+        "delivery_id": "9ad05722618ff49915d2",
+        "architect_diagnosis": "Repository components.py contains run_tracked_action, but the existing managed Maya session imported a stale cached aimayatool.ui.components module lacking it. This is runtime cache evidence, not product absence. Smoke was hardened to reload components when the helper is missing; retry in managed Maya."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-action-maya-smoke-retry-181n",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.ui.main_window",
+        "callable": "tracked_action_interaction_smoke",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-action-maya-smoke-181m"
+        ],
+        "purpose": "Retry complete tracked-action Maya proof with stale-module recovery in the persistent managed Maya session.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use fresh unsaved scene.",
+          "Invoke tracked_action_interaction_smoke after its stale components-module recovery update.",
+          "Freeze TRS executes on disposable transform.",
+          "recent_actions records setup/freeze_trs/Freeze TRS and workspace displays Actions Recent: Freeze TRS.",
+          "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "implementation_commit": "726279faffa1b765fe9c624c614452ed5107c800",
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
