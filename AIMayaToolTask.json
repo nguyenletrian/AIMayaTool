@@ -28,76 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-presets-smart-defaults-inventory-180a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py",
-          "aimayatool/registry.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "presets-smart-defaults",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal010-context-selection-helper-maya-179c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Inventory existing presets, prompt defaults and deterministic reusable configuration to choose the smallest safe smart-default productivity slice without hiding destructive behavior.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile the three domain entrypoints and registry.",
-          "Inventory existing presets, prompt defaults, repeated literal defaults and reusable configuration across Skinning, Setup and Scene.",
-          "Identify one bounded smart-default/preset slice with deterministic fallback and explicit user override.",
-          "Prefer existing domain semantics; do not add opaque scene inference.",
-          "Do not expand into favorites/recent, batch productivity or broad preflight work.",
-          "Do not claim Maya behavior from Python inventory.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "presets_smart_defaults_inventory_pass",
-        "delivery_id": "4dd2b60d25b0f37ef3e8",
-        "architect_diagnosis": "Inventory compiles. Scene already has a deterministic filesystem PresetLibrary; Setup contains bounded prompt defaults derived from explicit selection counts. The smallest safe smart-default slice is extracting the secondary-rig paired-group count suggestion into pure deterministic _smart_group_count(total,fixed,fallback), retaining the existing prompt so users can override it."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-presets-smart-defaults-secondary-count-python-180b",
       "action": {
         "type": "verification",
@@ -597,9 +527,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -649,7 +579,11 @@
           "Commit and push only after verification passes.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_ACCEPTANCE_NOT_IMPLEMENTED",
+        "classification": "verification_pass_but_implementation_missing",
+        "delivery_id": "c266081f422b3c12a9ab",
+        "architect_diagnosis": "Worker checks passed only because existing files compile/import; repository evidence shows no tracked-action helper and Setup still calls the original two-argument _run for every action. Therefore 181f implementation acceptance was not satisfied. Architect ACKs the delivered result but does not treat the feature as implemented; queue a corrected editable implementation task before workspace surface work."
       }
     },
     {
@@ -701,7 +635,7 @@
         "goal_id": "aimayatool-010",
         "milestone_id": "favorites-recent",
         "depends_on": [
-          "aimayatool-goal010-favorites-recent-ui-instrument-setup-181f"
+          "aimayatool-goal010-favorites-recent-ui-instrument-setup-retry-181h"
         ],
         "purpose": "Implement the smallest non-executing workspace presentation for action-level Recent/Favorites after representative action instrumentation is available.",
         "acceptance": [
@@ -713,6 +647,74 @@
           "Do not add persistence, batch productivity or preflight behavior.",
           "Add a focused smoke/helper if needed for later managed Maya validation.",
           "Run py_compile/import-safe checks and commit/push only after verification passes.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-ui-instrument-setup-retry-181h",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/components.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/registry.py",
+          "tests/test_registry_action_state.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-ui-instrument-setup-181f"
+        ],
+        "purpose": "Correct the missed 181f implementation: add a thin tracked-action execution seam and instrument one representative Setup action with explicit stable identity.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Actually edit product code: add a shared tracked-action runner (or equivalent) that accepts explicit group_id, action_id, display label, records mark_recent_action on intentional invocation, then delegates to existing run_action.",
+          "Instrument exactly one representative non-destructive Setup action with explicit stable identity; Freeze TRS is acceptable.",
+          "Do not infer identity from callback repr or result/status text.",
+          "Preserve run_action success/error behavior and existing group discovery.",
+          "Add focused deterministic test coverage for tracking-before-delegation without requiring Maya where practical.",
+          "Run py_compile, import-safe checks and focused tests.",
+          "Commit and push the implementation to main after checks pass.",
+          "Do not add persistence or broad domain rewiring.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
