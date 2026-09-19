@@ -578,9 +578,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -626,7 +626,17 @@
           "Import outside Maya passes.",
           "All focused tests pass."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "driven_key_python_syntax_regression_passed",
+        "delivery_id": "8b4916b990e3416c5747",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "tests_run": 3
+        },
+        "architect_diagnosis": "Compile/import/unit regression passed after the verified newline repair. The DrivenKey module is syntactically healthy and import-safe outside Maya; all 3 focused deterministic tests pass. The final bounded managed Maya connection-path smoke is dependency-ready."
       }
     },
     {
