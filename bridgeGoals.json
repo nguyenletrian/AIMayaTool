@@ -487,12 +487,12 @@
         {
           "milestone_id": "scene-build-pipeline",
           "title": "Improve reusable build pipelines",
-          "status": "active"
+          "status": "completed"
         },
         {
           "milestone_id": "scene-ux-polish",
           "title": "Modernize Scene interaction design",
-          "status": "pending"
+          "status": "active"
         }
       ]
     },
