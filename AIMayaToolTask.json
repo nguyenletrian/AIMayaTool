@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-search-discovery-workspace-maya-176d",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.ui.main_window",
-        "callable": "show",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45,
-        "expected_window": "AIMayaToolWindow"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-search-discovery",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-search-discovery-workspace-python-176c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Validate the registry-backed search-enabled workspace constructs successfully in managed Maya before a focused search interaction smoke.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use isolated fresh managed Maya scene.",
-          "Invoke aimayatool.ui.main_window.show and require AIMayaToolWindow.",
-          "Confirm search-enabled workspace construction completes without Maya/Python exception.",
-          "Do not save the Maya scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "managed_maya_stale_registry_module_cache",
-        "delivery_id": "d0cab5347bacc1745b08",
-        "architect_diagnosis": "Repository registry.py contains search_groups(), but the existing managed Maya process had an older aimayatool.registry object cached. Reloading main_window then failed on from-import before registry itself was refreshed. Changed main_window to import the registry module and resolve registry.search_groups/groups at call time; retry must use a fresh managed Maya session to prove repository state rather than cached modules."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-search-discovery-workspace-maya-retry-176e",
       "action": {
         "type": "maya",
@@ -681,9 +612,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -730,6 +661,75 @@
           "Report concrete duplication/inconsistency across Skinning, Setup and Scene.",
           "Identify the smallest dependency-ready reusable status/progress/error slice and the domains that should adopt it first.",
           "Do not claim Maya behavior from this inventory.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "invalid_verification_path",
+        "delivery_id": "d683e45ed81e3b2e0190",
+        "architect_diagnosis": "Task referenced nonexistent flat modules aimayatool/tools/skinning.py and setup.py. Repository uses package entrypoints aimayatool/tools/skinning/__init__.py and setup/__init__.py. Architect verified the actual entrypoints: Skinning and Setup duplicate _run wrappers using inViewMessage/warning/traceback, while Scene exposes headings only. Retry inventory uses real paths."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-status-progress-inventory-retry-177b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/components.py",
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-status-progress",
+        "retry_of_archived": {
+          "task_id": "aimayatool-goal009-ui-status-progress-inventory-177a",
+          "result": "FAIL",
+          "classification": "invalid_verification_path",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify actual domain entrypoints and confirm the status/error unification baseline.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile the real package entrypoints and components.py.",
+          "Confirm Skinning and Setup currently duplicate _run success/error presentation through inViewMessage, warning and traceback.",
+          "Confirm Scene entry UI currently has no equivalent action status surface.",
+          "Use this as evidence for a reusable status/error presentation component; do not claim Maya behavior.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
