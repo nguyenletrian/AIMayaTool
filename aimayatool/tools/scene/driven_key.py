@@ -72,7 +72,9 @@ def driven_key_managed_maya_smoke():
     result=apply_driven_key([item])[0]; offset=result["offsets"][driven]; zero=driven+"_ZeloSDKGrp"; sdk=offset+".tx"
     cmds.setAttr(driver+".drive",0); v0=cmds.getAttr(sdk); cmds.setAttr(driver+".drive",10); v10=cmds.getAttr(sdk)
     curves=cmds.listConnections(sdk,source=True,destination=False,type="animCurve") or []; tangents=cmds.keyTangent(sdk,query=True,inTangentType=True) or []
-    child_source=(cmds.listConnections(driven+".tx",source=True,destination=False,plugs=True,skipConversionNodes=True) or [""])[0]
-    checks={"sdk_group":cmds.objExists(offset),"zero_group":cmds.objExists(zero),"connected":child_source==sdk,"anim_curve":bool(curves),"value0":abs(v0-1)<1e-6,"value10":abs(v10-5)<1e-6,"linear":bool(tangents) and all(x=="linear" for x in tangents)}
+    # The child channel is intentionally driven by the SDK offset transform hierarchy; setDrivenKeyframe keys the offset channel itself.
+    # Prove the real behavior instead of requiring a direct DG connection from offset.tx to child.tx.
+    cmds.setAttr(driver+".drive",0); child_v0=cmds.getAttr(driven+".tx"); cmds.setAttr(driver+".drive",10); child_v10=cmds.getAttr(driven+".tx")
+    checks={"sdk_group":cmds.objExists(offset),"zero_group":cmds.objExists(zero),"child_parent":(cmds.listRelatives(driven,parent=True) or [""])[0]==offset,"anim_curve":bool(curves),"value0":abs(v0-1)<1e-6,"value10":abs(v10-5)<1e-6,"child_stable":abs(child_v0)<1e-6 and abs(child_v10)<1e-6,"linear":bool(tangents) and all(x=="linear" for x in tangents)}
     if not all(checks.values()): raise RuntimeError("DrivenKey smoke failed: {0}".format(checks))
     return {"ok":True,"checks":checks,"offset":offset,"zero":zero,"curves":curves}
