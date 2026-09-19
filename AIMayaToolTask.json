@@ -21,159 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-rename-attribute-maya-validation-164n",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "save_scene": false,
-        "isolated_scene": true,
-        "module": "aimayatool.tools.scene.rename_attribute",
-        "callable": "rename_attribute_managed_maya_smoke"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-rename-attribute-python-verify-164m"
-        ],
-        "purpose": "Host-prove RenameAttribute legacy semantics.",
-        "acceptance": [
-          "Fresh isolated unsaved Maya scene.",
-          "Existing attribute renamed and old plug removed.",
-          "Missing source plug skipped.",
-          "Existing destination attribute skipped rather than overwritten.",
-          "Malformed plug rejected deterministically.",
-          "new_scene_forced=true, scene_saved=false, smoke success=true."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "rename_attribute_managed_maya2024_proven",
-        "delivery_id": "dec2098d96d3e6abccce",
-        "maya_evidence": {
-          "pid": 6168,
-          "managed_pid": 6168,
-          "session": "existing",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "port": 7001,
-          "git_pull_before": "5713fb69660d205faf8e73d5f7ba51a14ba65087",
-          "git_pull_after": "c47a88968d72e16d379d5f79e5abf348de2f947d",
-          "smoke": {
-            "renamed": true,
-            "missing": true,
-            "existing": true,
-            "invalid": true,
-            "success": true
-          },
-          "marker": "AIBRIDGE_UI_SMOKE_OK"
-        },
-        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: source attribute rename succeeds, missing source plugs skip independently, an existing destination attribute is preserved/skipped, and malformed plug input is rejected deterministically."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-proxy-attribute-python-verify-164f",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/proxy_attribute.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.proxy_attribute"
-        ],
-        "timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-proxy-attribute-migrate-164e"
-        ],
-        "purpose": "Verify ProxyAttribute adapter before host proof.",
-        "acceptance": [
-          "git_pull updates main.",
-          "Scene proxy module compiles/imports outside Maya.",
-          "Focused deterministic smoke/tests cover normalization, multiline targets, missing targets and invalid source.",
-          "No Maya behavior claim from this gate."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "proxy_attribute_python_verification_passed",
-        "delivery_id": "e6c094c223cf63b6f323",
-        "verification_evidence": {
-          "git_pull_before": "8734da5d0429db0f850cb0185893413038e67325",
-          "git_pull_after": "2f7f28f11d24b0b108babf85fe3038ded11c3d91",
-          "repository_changed": true,
-          "py_compile": true,
-          "imports": [
-            "aimayatool.tools.scene.proxy_attribute"
-          ]
-        },
-        "architect_diagnosis": "Deterministic gate passed after fast-forwarding current main. Scene ProxyAttribute adapter compiles and imports outside Maya. The generic verification route did not execute the requested focused behavioral smoke/tests, so normalization/missing-target behavior remains unproven here and is not claimed; host behavior remains gated by 164g."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-visibility-python-verify-164k",
       "action": {
         "type": "verification",
@@ -381,6 +228,85 @@
           ]
         },
         "architect_diagnosis": "Deterministic ScenePattern UnlockAttribute gate passed after fast-forwarding current main. Adapter compiles/imports cleanly; Maya unlock/keyable/disconnect behavior remains gated by dependent managed-live task 164b."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
+      "task_id": "aimayatool-goal007-scene-pattern-replace-path-maya-validation-164r",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "save_scene": false,
+        "isolated_scene": true,
+        "module": "aimayatool.tools.scene.replace_path",
+        "callable": "replace_path_managed_maya_smoke"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-replace-path-python-verify-164q"
+        ],
+        "purpose": "Host-prove ReplacePath file-node mutation semantics with deterministic injected file map.",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene.",
+          "Matching file texture basename is replaced case-insensitively.",
+          "Unmatched file node remains unchanged.",
+          "Exactly the expected file node is reported replaced.",
+          "new_scene_forced=true, scene_saved=false, smoke success=true."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "replace_path_managed_maya2024_proven",
+        "delivery_id": "094baf2e68541a08b779",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "port": 7001,
+          "git_pull_before": "d8f48e9caef11e009b7c1bd46f432db30bcbfda5",
+          "git_pull_after": "b607cf6037cb9bd5b0be8dccae45bab74908558f",
+          "smoke": {
+            "replaced": true,
+            "untouched": true,
+            "count": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: matching file texture basename is replaced through fileTextureName, unmatched file nodes remain untouched, and exactly the expected node is reported as replaced."
       }
     },
     {
@@ -668,10 +594,68 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-replace-path-maya-validation-164r",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-visibility-switch-python-verify-164s",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/visibility_switch.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.visibility_switch"
+        ],
+        "timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "purpose": "Verify ScenePattern VisibilitySwitch adapter.",
+        "implementation_commit": "14bb62c427ee1e98540e91c49c799da942642884",
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_VisibilitySwitch.py",
+        "legacy_source_sha": "9ce2fb908f428648c3e65dffa8ea19d6d67266f4",
+        "acceptance": [
+          "git_pull current main.",
+          "Module compiles/imports outside Maya.",
+          "No Maya host claim."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-visibility-switch-maya-validation-164t",
       "action": {
         "type": "maya",
         "target": "managed_live_smoke"
@@ -695,45 +679,25 @@
         "timeout": 300,
         "save_scene": false,
         "isolated_scene": true,
-        "module": "aimayatool.tools.scene.replace_path",
-        "callable": "replace_path_managed_maya_smoke"
+        "module": "aimayatool.tools.scene.visibility_switch",
+        "callable": "visibility_switch_managed_maya_smoke"
       },
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
         "depends_on": [
-          "aimayatool-goal007-scene-pattern-replace-path-python-verify-164q"
+          "aimayatool-goal007-scene-pattern-visibility-switch-python-verify-164s"
         ],
-        "purpose": "Host-prove ReplacePath file-node mutation semantics with deterministic injected file map.",
+        "purpose": "Host-prove enum VisibilitySwitch option-to-condition mapping.",
         "acceptance": [
           "Fresh isolated unsaved Maya scene.",
-          "Matching file texture basename is replaced case-insensitively.",
-          "Unmatched file node remains unchanged.",
-          "Exactly the expected file node is reported replaced.",
+          "Enum control attribute created for options.",
+          "Each option row maps to its condition index and visibility target.",
+          "Semicolon object groups are supported.",
+          "Missing objects skip independently.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "replace_path_managed_maya2024_proven",
-        "delivery_id": "094baf2e68541a08b779",
-        "maya_evidence": {
-          "pid": 6168,
-          "managed_pid": 6168,
-          "session": "existing",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "port": 7001,
-          "git_pull_before": "d8f48e9caef11e009b7c1bd46f432db30bcbfda5",
-          "git_pull_after": "b607cf6037cb9bd5b0be8dccae45bab74908558f",
-          "smoke": {
-            "replaced": true,
-            "untouched": true,
-            "count": true,
-            "success": true
-          },
-          "marker": "AIBRIDGE_UI_SMOKE_OK"
-        },
-        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: matching file texture basename is replaced through fileTextureName, unmatched file nodes remain untouched, and exactly the expected node is reported as replaced."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
