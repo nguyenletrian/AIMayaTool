@@ -57,3 +57,44 @@ def rope_weights_managed_maya_smoke(mode="roll"):
 
 def rope_straight_managed_maya_smoke():
     return rope_weights_managed_maya_smoke("straight")
+
+
+def normalize_rope_runtime(data, mode):
+    data=dict(data or {})
+    pairs=normalize_pairs(data.get("objsRun"),data.get("destinations"))
+    if mode not in ("roll","straight"): raise ValueError("mode must be roll or straight")
+    result={"mode":mode,"objStart":str(data.get("objStart","")).strip(),"objEnd":str(data.get("objEnd","")).strip(),
+            "pairs":pairs,"attrContent":str(data.get("attrContent","")).strip(),"attr":str(data.get("attr","")).strip(),
+            "constraintContent":str(data.get("constraintContent","")).strip(),"orientReference":str(data.get("orientReference","")).strip(),
+            "offset":int(data.get("offset",0))}
+    for key in ("objStart","objEnd","attrContent","attr","orientReference"):
+        if not result[key]: raise ValueError(key+" is required")
+    return result
+
+def apply_rope_runtime(data, mode):
+    from maya import cmds
+    plan=normalize_rope_runtime(data,mode); count=len(plan["pairs"])
+    names=[plan["objStart"],plan["objEnd"],plan["attrContent"],plan["orientReference"]]
+    names += [x for pair in plan["pairs"] for x in pair]
+    missing=[x for x in names if not cmds.objExists(x)]
+    if missing: raise ValueError("Missing rope objects: "+", ".join(missing))
+    if plan["constraintContent"] and not cmds.objExists(plan["constraintContent"]): raise ValueError("Missing constraintContent: "+plan["constraintContent"])
+    max_value=max(count-plan["offset"],0)
+    if not cmds.attributeQuery(plan["attr"],node=plan["attrContent"],exists=True):
+        cmds.addAttr(plan["attrContent"],longName=plan["attr"],attributeType="long",minValue=0,maxValue=max_value,defaultValue=0,keyable=True)
+    driver=plan["attrContent"]+"."+plan["attr"]; created=[]
+    for i,(obj,dest) in enumerate(plan["pairs"],1):
+        point=cmds.pointConstraint(plan["objStart"],plan["objEnd"],dest,obj,maintainOffset=False)[0]
+        orient=cmds.orientConstraint(plan["orientReference"],dest,obj,maintainOffset=False)[0]
+        if plan["constraintContent"]: cmds.parent(point,orient,plan["constraintContent"])
+        created.append({"object":obj,"destination":dest,"pointConstraint":point,"orientConstraint":orient,"index":i})
+    def update(*_):
+        values=weights(mode,count,cmds.getAttr(driver),plan["offset"])
+        for entry,value in zip(created,values):
+            p=entry["pointConstraint"]; pa=cmds.pointConstraint(p,query=True,weightAliasList=True) or []
+            o=entry["orientConstraint"]; oa=cmds.orientConstraint(o,query=True,weightAliasList=True) or []
+            for alias,v in zip(pa,(value["start"],value["end"],value["destination"])): cmds.setAttr(p+"."+alias,v)
+            for alias,v in zip(oa,(value["orient_reference"],value["orient_destination"])): cmds.setAttr(o+"."+alias,v)
+        return values
+    update()
+    return {"plan":plan,"driver":driver,"constraints":created,"update":update}
