@@ -28,78 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-final-reconciliation-168r",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-control-shape-as-runtime-python-verify-168q",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Final bounded ScenePattern reconciliation after spline, IK/FK, rope, ModuloSDKNew and ControlShapeAS slices. Re-scan legacy Scene_Pattern_* against current aimayatool/tools/scene and classify every remaining apparent gap as migrated, intentionally superseded/alias, metadata-only/internal-only, or genuinely uncovered before marking scene-pattern-parity complete.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import Scene package.",
-          "Do not mark scene-pattern-parity complete unless every useful legacy ScenePattern has a concrete current implementation or explicit supersession/retirement rationale.",
-          "Return current-main evidence for Architect's final reconciliation decision.",
-          "Do not claim Maya validation for Python-only/runtime-unvalidated adapters."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_pattern_final_reconciliation_baseline_pass",
-        "delivery_id": "58cc1b8f3c3cf1936500",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "f04aa6a1871829555cadd489ca3d8cade4cd9abe"
-        },
-        "architect_diagnosis": "Fresh legacy/current tree reconciliation shows concrete target coverage for the ScenePattern surface, with known variants intentionally consolidated: script hooks -> script_hooks, Layer -> display_layers, Delete -> delete_objects, DeformSineForControls -> deform_sine_controls, ModuloSDKNew -> modulo_sdk, NewSwitchIKFK variants -> ikfk_switch, RopeRoll/RopeStraight -> rope_weights, ControlShapeAS -> control_shape_snapshot, Note -> metadata-only. DefaultSwitchIKFK remains structurally distinct and requires explicit reconciliation before the milestone can close."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-default-switch-ikfk-reconcile-168s",
       "action": {
         "type": "verification",
@@ -704,9 +632,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -766,6 +694,83 @@
           "Reconcile useful legacy Scene utilities outside ScenePattern and SceneDefaultFunctions against current scene modules.",
           "Do not duplicate already migrated Setup/Skinning helpers merely because legacy Scene UI called them.",
           "Return first dependency-ready utility gap or evidence that utility parity is already complete."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_utility_parity_gate_pass",
+        "delivery_id": "4e682ca54833056acd95",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "6ac70650d14a61531a3015d4ae86032278b2ea51"
+        },
+        "architect_diagnosis": "Fresh non-ScenePattern inventory leaves Libs/NLTA_Scene.py empty and Scene.py/SceneU.py/SceneUNew.py/Scene_.py as legacy orchestration/UI generations. Their reusable behaviors are already represented by current patterns/catalog/execution/build/script-hook/control-shape modules or migrated Setup/ScenePattern tools. No distinct reusable Scene utility gap remains; utility parity closes without copying obsolete monolithic UI code."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-ui-parity-inventory-169b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/catalog.py",
+          "aimayatool/tools/scene/patterns.py",
+          "aimayatool/tools/scene/operations.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.catalog",
+          "aimayatool.tools.scene.patterns",
+          "aimayatool.tools.scene.operations"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-ui-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-utility-parity-inventory-169a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "goal_state_commit": "4600e0b143ce10a794c3dd9069a440fed661d117",
+        "purpose": "Begin Scene UI parity by refreshing the domain APIs that the thin UI must expose, then reconcile current UI/registry exposure against the legacy Scene/ScenePattern workflows without reintroducing monolithic Maya-cmds UI logic.",
+        "acceptance": [
+          "Fast-forward main including completed scene-utility-parity state.",
+          "Compile/import Scene catalog, patterns and operations domain modules.",
+          "Inventory current Scene UI/registry exposure against completed Scene workflow coverage.",
+          "Keep UI thin over domain APIs; do not copy SceneU/SceneUNew monolithic logic.",
+          "Return first dependency-ready UI exposure gap or evidence UI parity is already complete."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
