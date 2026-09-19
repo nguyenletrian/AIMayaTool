@@ -34,3 +34,21 @@ def normalize_scene_pattern_descriptor(data):
         "default_value": default_value,
         "maintain": maintain,
     }
+
+
+def normalize_legacy_scene_data_index(data):
+    if not isinstance(data,list): raise TypeError("Legacy SceneData index must be a list")
+    result=[]
+    for raw in data:
+        if not isinstance(raw,dict): continue
+        path=raw.get("path","")
+        if isinstance(path,(list,tuple)): path=path[0] if path else ""
+        result.append({"id":str(raw.get("id","")).strip(),"module_name":str(raw.get("moduleName","")).strip(),
+                       "name":str(raw.get("name","")).strip(),"title":str(raw.get("title","")).strip(),
+                       "order":int(raw.get("order",0)),"ext":str(raw.get("ext","json")).strip().lower(),
+                       "path":str(path or "").replace("\\","/")})
+    return sorted(result,key=lambda x:(x["order"],x["id"],x["module_name"]))
+
+def build_legacy_scene_data_index_plan(data):
+    items=normalize_legacy_scene_data_index(data)
+    return {"version":1,"items":items,"by_id":{item["id"]:item for item in items if item["id"]}}
