@@ -506,7 +506,7 @@
     {
       "goal_id": "aimayatool-009",
       "title": "Unified UI and UX 2.0",
-      "status": "active",
+      "status": "completed",
       "purpose": "Deliver one coherent professional AIMayaTool workspace for Skinning, Setup and Scene with consistent visual language and interaction patterns.",
       "acceptance": [
         "Skinning, Setup and Scene feel like one product rather than migrated scripts.",
@@ -581,14 +581,34 @@
         {
           "milestone_id": "ui-final-polish",
           "title": "Complete visual and interaction polish",
-          "status": "active"
+          "status": "completed",
+          "completion_evidence": {
+            "task_id": "aimayatool-goal009-ui-final-polish-maya-178c",
+            "delivery_id": "1f3173dca2dcf6f66ac7",
+            "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
+            "scene_saved": false,
+            "completed_date": "2026-09-19",
+            "coverage": [
+              "Skinning/Setup/Scene workspace construction",
+              "shared Setup action rows",
+              "search/discovery surface",
+              "shared status/error presentation"
+            ]
+          }
         }
-      ]
+      ],
+      "completion_evidence": {
+        "task_id": "aimayatool-goal009-ui-final-polish-maya-178c",
+        "delivery_id": "1f3173dca2dcf6f66ac7",
+        "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
+        "scene_saved": false,
+        "completed_date": "2026-09-19"
+      }
     },
     {
       "goal_id": "aimayatool-010",
       "title": "Workflow intelligence and productivity",
-      "status": "planned",
+      "status": "active",
       "purpose": "Add safe productivity features such as contextual selection, presets, smart defaults, favorites/recent actions, batch operations and preflight validation.",
       "acceptance": [
         "Productivity features reduce repetitive manual work without hiding destructive behavior or weakening explicit APIs."
@@ -597,7 +617,7 @@
         {
           "milestone_id": "context-selection",
           "title": "Context-aware selection helpers",
-          "status": "pending"
+          "status": "active"
         },
         {
           "milestone_id": "presets-smart-defaults",
