@@ -33,6 +33,17 @@ def reset_transform(node,translate=True,rotate=True,scale=True):
         for axis in "XYZ": cmds.setAttr(node+".scale"+axis,1)
     return node
 
+def reset_transforms(nodes, translate=True, rotate=True, scale=True):
+    """Reset an ordered transform collection using the existing single-node primitive."""
+    nodes = tuple(nodes or ())
+    if not nodes:
+        raise ValueError("At least one transform is required.")
+    cmds = _cmds()
+    for node in nodes:
+        _require_node(cmds, node, "Transform")
+    return tuple(reset_transform(node, translate=translate, rotate=rotate, scale=scale) for node in nodes)
+
+
 def hierarchy_between(begin,end,node_type=None):
     cmds=_cmds(); _require_node(cmds,begin,"Hierarchy begin"); _require_node(cmds,end,"Hierarchy end")
     begin=_long_name(cmds,begin); current=_long_name(cmds,end); chain=[current]
