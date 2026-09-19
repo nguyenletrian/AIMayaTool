@@ -28,151 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry3-166s",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.driven_key",
-        "callable": "driven_key_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-driven-key-python-syntax-regression-retry-166t"
-        ],
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-driven-key-python-syntax-regression-166r",
-          "result": "FAILED_COMPILE"
-        },
-        "syntax_fix_commit": "9aec638019a7831337efca354ee8b9ba40d97a45",
-        "purpose": "Retry exact DrivenKey DG-path smoke only after compile/import regression gate passes.",
-        "acceptance": [
-          "Fresh isolated unsaved Maya scene.",
-          "SDK/zero groups exist.",
-          "connectionInfo proves SDK attr directly drives child attr.",
-          "animCurve drives SDK attr.",
-          "Driver 0/10 evaluates 1/5.",
-          "Tangents linear."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAILED_SMOKE_ASSERTION",
-        "classification": "driven_key_redundant_destination_query_false_negative",
-        "delivery_id": "1adca33e5a67438544a8",
-        "architect_diagnosis": "Maya again proves hierarchy, animCurve, numeric evaluation and linear tangents. The remaining false negative came from requiring both destination-side sourceFromDestination and source-side destinationFromSource queries. For this connection, destination-side connectionInfo is the authoritative direct-plug check and the redundant source-side query is not needed. Removed only the redundant assertion; product host logic unchanged.",
-        "smoke_fix_commit": "455a812695dcabaaebb06f0831de4ba9c435da8a"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal007-scene-pattern-driven-key-python-syntax-regression-retry-166t",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/driven_key.py",
-          "tests/test_scene_driven_key.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.driven_key"
-        ],
-        "tests": [
-          "tests.test_scene_driven_key"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "syntax_fix_commit": "524acf28ee6801ae87300f64d58b4475d4822c0a",
-        "purpose": "Re-run compile/import/tests after verified character-level newline repair.",
-        "acceptance": [
-          "git_pull current main includes driven_key.py fix.",
-          "py_compile passes.",
-          "Import outside Maya passes.",
-          "All focused tests pass."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "driven_key_python_syntax_regression_passed",
-        "delivery_id": "8b4916b990e3416c5747",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "unittest": true,
-          "tests_run": 3
-        },
-        "architect_diagnosis": "Compile/import/unit regression passed after the verified newline repair. The DrivenKey module is syntactically healthy and import-safe outside Maya; all 3 focused deterministic tests pass. The final bounded managed Maya connection-path smoke is dependency-ready.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-driven-key-python-syntax-regression-166r",
-          "result": "FAILED_COMPILE"
-        }
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-166u",
       "action": {
         "type": "maya",
@@ -592,9 +447,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -644,7 +499,15 @@
           "Define focused Python tests and managed-Maya smoke acceptance for rivet DG network and spline rig hierarchy/IK/visibility/global behavior.",
           "No product mutation in this planning task."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_GATE_ONLY",
+        "classification": "rivet_spline_python_gate_passed_plan_evidence_architect_owned",
+        "delivery_id": "fd57839532fbb3063ddb",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true
+        },
+        "architect_diagnosis": "Supported Python gate passed. It proves current Scene package health only; substantive Rivet/Spline planning remains grounded in Architect-inspected legacy sources. Publish independent implementation slices so they can proceed without coupling."
       }
     },
     {
@@ -719,6 +582,153 @@
           "Add focused unit tests for normalization, cardinality rejection, driver/weight plan boundaries, and import outside Maya.",
           "Expose only stable public API through scene package if project convention requires it; no UI work yet.",
           "Commit/push implementation and tests; return commit SHA and test evidence."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "action": {
+        "type": "implementation",
+        "target": "python"
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-rivet-core-167c",
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 600,
+        "files": [
+          "aimayatool/tools/scene/rivet.py",
+          "tests/test_scene_rivet.py"
+        ],
+        "tests": [
+          "tests.test_scene_rivet"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-implementation-plan-167a",
+          "result": "PASS_GATE_ONLY"
+        },
+        "purpose": "Implement canonical Rivet ScenePattern core from verified legacy source.",
+        "legacy_contract": {
+          "fields": [
+            "vertexs",
+            "name",
+            "copyTransform",
+            "child",
+            "parent"
+          ],
+          "behavior": ">=3 vertices -> polygon facet -> curveFromMeshEdge/loft/pointOnSurfaceInfo locator orientation; optional matched copy transform under locator; optional child RivetOffset parentConstraint; copy source mesh skin to plane; optional parent plane+locator."
+        },
+        "acceptance": [
+          "Add import-safe scene/rivet.py with deterministic normalization validating >=3 non-empty vertex components, a non-empty name, and same source mesh for vertices where required.",
+          "Separate deterministic plan/data validation from Maya mutation.",
+          "Maya apply path must build the facet and rivet DG network matching legacy effective behavior, including locator orientation and optional copyTransform/child/parent behavior.",
+          "Guard missing mesh/shapes/skin assumptions with actionable errors rather than index failures.",
+          "Add focused tests for normalization, <3 rejection, component parsing and optional-field planning; import must pass outside Maya.",
+          "Commit/push implementation and tests; return commit SHA and evidence."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "action": {
+        "type": "implementation",
+        "target": "python"
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-spline-rig-core-167d",
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 900,
+        "files": [
+          "aimayatool/tools/scene/spline_rig.py",
+          "tests/test_scene_spline_rig.py"
+        ],
+        "tests": [
+          "tests.test_scene_spline_rig"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-implementation-plan-167a",
+          "result": "PASS_GATE_ONLY"
+        },
+        "purpose": "Implement canonical SplineRig ScenePattern core from verified legacy source; do not invent absent standalone SplineControl/SplineCurve migrations.",
+        "legacy_contract": {
+          "fields": [
+            "parent",
+            "parentGlobal",
+            "controls",
+            "numberCtrls",
+            "rebuild"
+          ],
+          "behavior": "Create control spline offsets, spline joint chain, follow refs, curve/rebuild, ikSpline, control joints+skin, spline controls, visible/hidden rig groups, Global orientation blend, SplineControls visibility/constraint/proxy behavior."
+        },
+        "acceptance": [
+          "Add import-safe scene/spline_rig.py; deterministic normalization requires >=2 controls, non-empty parent/parentGlobal, integer numberCtrls>=0 and positive rebuild span/value as applicable.",
+          "Separate deterministic naming/build plan from Maya mutation so tests do not require Maya.",
+          "Preserve legacy effective hierarchy and naming contracts (_SplineOffset, _SplineJnt, _SplineRef, _SplineRig, visible/hidden groups) while fixing obvious legacy issue where rebuild field is read but hard-coded spans=100; canonical apply must use normalized rebuild value.",
+          "Implement ikSpline/control-joint skin/control creation and Global + SplineControls behavior without UI coupling.",
+          "Do not create separate SplineControl/SplineCurve modules: inspected legacy paths were absent.",
+          "Add focused deterministic tests for normalization, naming/build counts, invalid controls/numberCtrls/rebuild and import outside Maya.",
+          "Commit/push implementation and tests; return commit SHA and evidence."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
