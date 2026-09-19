@@ -703,7 +703,14 @@
         "target": "restart"
       },
       "payload": {
-        "preconditions": [],
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
         "reason": "Pull AIBrigde commit a619350716ada837961f147093a74f4c070d926c and relaunch worker so maya:managed_live_smoke is registered."
       },
       "metadata": {
@@ -716,13 +723,18 @@
           "bridge_completed": true
         },
         "aibridge_fix_commit": "a619350716ada837961f147093a74f4c070d926c",
-        "purpose": "Restart AIBrigde after registering the existing managed Maya smoke capability. After restart, Architect will retry build_actions through the actual route maya:managed_live_smoke.",
+        "purpose": "Restart AIBrigde after registering the existing managed Maya smoke capability. Use the required non-empty precondition list; after restart, Architect will retry build_actions through maya:managed_live_smoke.",
         "acceptance": [
           "AIBrigde server pulls latest main containing a6193507.",
           "Worker relaunches with install_maya_managed_live_smoke_capability included in standard_capabilities.",
           "Do not mark Scene Maya validation complete from restart alone."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "previous_delivery_failure": {
+          "delivery_id": "f63d96a93f8b420c7b1c",
+          "reason": "payload.preconditions must be a non-empty list with at most 4 items",
+          "classification": "task_schema_rejected_before_restart"
+        }
       }
     }
   ]
