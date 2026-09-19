@@ -683,9 +683,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -739,7 +739,17 @@
           "Run tests.test_scene_rope_weights successfully.",
           "Do not claim additional Maya behavior from this Python gate."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "rope_host_fixture_python_regression_passed",
+        "delivery_id": "b9e895335a57f05372ef",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "tests_run": 3
+        },
+        "architect_diagnosis": "Post-smoke-wrapper Python regression passed: rope_weights.py and focused tests compile, module imports outside Maya, and all 3 deterministic unit tests pass. Combined with the already accepted managed-Maya Roll/Straight smokes, the bounded rope weight slice remains proven at both Python and Maya tiers."
       }
     }
   ]
