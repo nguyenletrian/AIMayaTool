@@ -326,22 +326,49 @@ def build_ui():
     ])
 
     section("Transforms and joints")
-    button_row([\n        ("Freeze TRS", lambda *_: _run("Freeze", _freeze_selected)),\n        ("Reset TR", lambda *_: _run("Reset", _reset_selected)),\n        ("Create Joints", lambda *_: _run("Joints", _create_joints_selected))\n    ])
+    button_row([
+        ("Freeze TRS", lambda *_: _run("Freeze", _freeze_selected)),
+        ("Reset TR", lambda *_: _run("Reset", _reset_selected)),
+        ("Create Joints", lambda *_: _run("Joints", _create_joints_selected))
+    ])
 
     section("Constraints", "Selection order is explicit; driven object is selected last unless stated otherwise.")
-    button_row([\n        ("Parent Constraint", lambda *_: _run("Parent constraint", _parent_constraint_selected)),\n        ("Point Constraint", lambda *_: _run("Point constraint", _point_constraint_selected))\n    ])
-    button_row([\n        ("Orient Constraint", lambda *_: _run("Orient constraint", _orient_constraint_selected)),\n        ("Aim Constraint", lambda *_: _run("Aim constraint", _aim_constraint_selected))\n    ])
+    button_row([
+        ("Parent Constraint", lambda *_: _run("Parent constraint", _parent_constraint_selected)),
+        ("Point Constraint", lambda *_: _run("Point constraint", _point_constraint_selected))
+    ])
+    button_row([
+        ("Orient Constraint", lambda *_: _run("Orient constraint", _orient_constraint_selected)),
+        ("Aim Constraint", lambda *_: _run("Aim constraint", _aim_constraint_selected))
+    ])
 
     section("Spaces and attributes")
-    button_row([\n        ("Create Space Switch", lambda *_: _run("Space switch", _space_switch_selected)),\n        ("Copy Attribute...", lambda *_: _run("Attribute copy", _copy_attribute_selected))\n    ])
+    button_row([
+        ("Create Space Switch", lambda *_: _run("Space switch", _space_switch_selected)),
+        ("Copy Attribute...", lambda *_: _run("Attribute copy", _copy_attribute_selected))
+    ])
 
     section("IK/FK", "RP IK: joints then controls. Blend: bind/FK/IK chains. Snap: alternating pairs. Switch: FK/IK nodes then proxies.")
-    button_row([\n        ("Create RP IK", lambda *_: _run("RP IK", _rp_ik_selected)),\n        ("Create IK/FK Blend...", lambda *_: _run("IK/FK blend", _blend_ikfk_selected))\n    ])
-    button_row([\n        ("Snap IK/FK...", lambda *_: _run("IK/FK snap", _snap_ikfk_selected)),\n        ("Wire IK/FK Switch...", lambda *_: _run("IK/FK switch", _wire_ikfk_switch_selected))\n    ])
+    button_row([
+        ("Create RP IK", lambda *_: _run("RP IK", _rp_ik_selected)),
+        ("Create IK/FK Blend...", lambda *_: _run("IK/FK blend", _blend_ikfk_selected))
+    ])
+    button_row([
+        ("Snap IK/FK...", lambda *_: _run("IK/FK snap", _snap_ikfk_selected)),
+        ("Wire IK/FK Switch...", lambda *_: _run("IK/FK switch", _wire_ikfk_switch_selected))
+    ])
 
     section("Secondary rigs", "Selection order is explicit; Fold/Rope prompts split ordered object/destination groups and driver configuration.")
-    button_row([\n        ("Spline IK Chain", lambda *_: _run("Spline IK", _spline_ik_selected)),\n        ("Object on Curve", lambda *_: _run("Object on curve", _object_on_curve_selected)),\n        ("Joints Between...", lambda *_: _run("Joints between", _joints_between_selected))\n    ])
-    button_row([\n        ("Fold Rig...", lambda *_: _run("Fold rig", _fold_rig_selected)),\n        ("Rope Straight...", lambda *_: _run("Rope straight", lambda: _rope_selected(False))),\n        ("Rope Roll...", lambda *_: _run("Rope roll", lambda: _rope_selected(True)))\n    ])
+    button_row([
+        ("Spline IK Chain", lambda *_: _run("Spline IK", _spline_ik_selected)),
+        ("Object on Curve", lambda *_: _run("Object on curve", _object_on_curve_selected)),
+        ("Joints Between...", lambda *_: _run("Joints between", _joints_between_selected))
+    ])
+    button_row([
+        ("Fold Rig...", lambda *_: _run("Fold rig", _fold_rig_selected)),
+        ("Rope Straight...", lambda *_: _run("Rope straight", lambda: _rope_selected(False))),
+        ("Rope Roll...", lambda *_: _run("Rope roll", lambda: _rope_selected(True)))
+    ])
 
     cmds.separator(height=8, style="none")
     from . import naming_ui
