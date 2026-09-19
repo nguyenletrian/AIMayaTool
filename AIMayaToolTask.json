@@ -28,76 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-final-polish-setup-rows-python-178b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/ui/components.py"
-        ],
-        "imports": [
-          "aimayatool.ui.components"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-final-polish",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-final-polish-inventory-178a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify bounded final polish converting Setup fixed action rows to shared button_row without changing callbacks or dynamic control-shape rows.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile Setup entrypoint and components.py.",
-          "Import shared components outside Maya.",
-          "Fixed Setup action rows for transforms, constraints, spaces, IK/FK and secondary rigs use button_row.",
-          "Dynamic control-shape loops remain unchanged.",
-          "Action labels/callback targets and domain behavior remain unchanged.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_final_polish_setup_rows_python_pass",
-        "delivery_id": "90dff721faf1e21766c5",
-        "architect_diagnosis": "Bounded Setup row polish compiles cleanly. Shared button_row now owns fixed action rows while dynamic control-shape loops remain unchanged. Final managed Maya workspace regression is required before closing Goal 009."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-final-polish-maya-178c",
       "action": {
         "type": "maya",
@@ -667,9 +597,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -706,9 +636,6 @@
       "metadata": {
         "goal_id": "aimayatool-010",
         "milestone_id": "favorites-recent",
-        "depends_on": [
-          "aimayatool-goal010-favorites-recent-inventory-181a"
-        ],
         "purpose": "Add the smallest reusable action/workflow-level recent/favorite state contract to the registry using explicit stable identities, without wiring Maya UI yet.",
         "acceptance": [
           "Fast-forward main and preserve existing group-level search/recent/favorite behavior.",
@@ -729,7 +656,80 @@
           "classification": "unsupported_route_handler",
           "note": "Bridge reported no handler for implementation:python. Requeued the same bounded editable Python task through the established verification:python route; edit/commit/push permissions and implementation acceptance remain unchanged."
         },
-        "retry_count": 1
+        "retry_count": 1,
+        "result": "IMPLEMENTED_PENDING_WORKER_VERIFICATION",
+        "classification": "route_failure_recovered_by_architect_implementation",
+        "architect_diagnosis": "The failed result was route-only: implementation:python had no Bridge handler. Architect implemented the bounded Python-only registry action-state contract directly on main, preserving group state and adding stable action identity, bounded recents, favorites and focused tests. A separate verification:python follow-up is queued so worker evidence, not the unsupported delivery, proves the implementation.",
+        "implementation_commits": [
+          "135a681ce90d39019cf06398cf79d3aaa2b40e51",
+          "e87e0607622764e743595b7f4d42748df13fc311"
+        ]
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-action-state-verify-181c",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/registry.py",
+          "tests/test_registry_action_state.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ],
+        "tests": [
+          "tests.test_registry_action_state"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-action-state-181b"
+        ],
+        "purpose": "Independently verify the Architect-implemented action-level recent/favorite registry contract after recovery from the unsupported implementation:python route.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile registry.py and tests/test_registry_action_state.py.",
+          "Import aimayatool.registry outside Maya.",
+          "Run tests.test_registry_action_state and require all tests pass.",
+          "Confirm existing group-level APIs remain available.",
+          "Do not edit product code in this verification task.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
