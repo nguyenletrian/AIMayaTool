@@ -3,7 +3,7 @@ from aimayatool.tools.scene.modulo_sdk import normalize_modulo_sdk, modulo_slot,
 
 class ModuloSDKTests(unittest.TestCase):
     def test_new_variant_multiline_and_dynamic_count(self):
-        p=build_expression_plan("driver.mod",{"a.tx\\nb.ry":{"0":"1","2":"3"}})
+        p=build_expression_plan("driver.mod",{"a.tx\nb.ry":{"0":"1","2":"3"}})
         self.assertEqual(p["modulo_count"],3); self.assertEqual(len(p["assignments"][2]),2)
     def test_modulo_semantics(self):
         self.assertEqual(modulo_slot(12.9,3),0); self.assertEqual(modulo_slot(-5,3),1)
