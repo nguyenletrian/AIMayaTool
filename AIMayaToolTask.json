@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-python-176i",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/registry.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-search-discovery",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-search-discovery-interaction-maya-retry-176h",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify bounded Python-safe recent/favorite discovery state before exposing it in the Maya workspace.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile and import aimayatool.registry outside Maya.",
-          "Verify mark_recent orders most-recent-first, deduplicates repeated groups, and respects its limit.",
-          "Verify set_favorite enables/disables known groups and favorite_groups follows registry order.",
-          "Unknown group ids must raise ValueError.",
-          "No maya.cmds dependency or persistence layer in this slice.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_discovery_recent_favorite_python_pass",
-        "delivery_id": "c2bbfb60bec332e9504c",
-        "architect_diagnosis": "Python-safe recent/favorite registry state compiles/imports successfully. Architect exposed a compact Recent/Favorites summary plus Toggle Favorite control in the workspace and records search-selected groups as recent; Maya validation is required."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-maya-176j",
       "action": {
         "type": "maya",
@@ -668,9 +599,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -718,6 +649,84 @@
           "Expected ValueError path must be handled, emit warning/highlighted error, print traceback, and return None without failing the smoke.",
           "Callable returns AIBRIDGE_UI_STATUS_OK:success|error.",
           "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_status_progress_complete",
+        "delivery_id": "6c615a4ab4a7f7dbb8a9",
+        "verification_evidence": {
+          "marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_UI_STATUS_OK:success|error",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001,
+          "session": "existing"
+        },
+        "architect_diagnosis": "Focused managed Maya smoke proved both shared presenter paths: success preserves the original result and error is handled without escaping. ui-status-progress is complete; ui-final-polish is now active."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-final-polish-inventory-178a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/main_window.py",
+          "aimayatool/ui/components.py",
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-final-polish",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-status-progress-interaction-maya-177f",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Inventory the completed unified workspace for remaining bounded visual/interaction inconsistencies before final Goal 009 polish and regression.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile the workspace, shared components and three domain entrypoints.",
+          "Inspect spacing, labels, section hierarchy, discovery/status surfaces, repeated raw rowLayout usage, and inconsistent interaction affordances.",
+          "Identify only bounded final-polish changes that preserve thin UI and existing domain behavior.",
+          "Do not introduce broad redesign or Goal 010 productivity features.",
+          "Do not claim Maya visual behavior from Python inventory.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
