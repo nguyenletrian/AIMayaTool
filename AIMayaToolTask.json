@@ -28,74 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-information-architecture-python-verify-174b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/main_window.py",
-          "aimayatool/registry.py",
-          "aimayatool/app.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-information-architecture",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-information-architecture-inventory-174a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Python gate for registry-driven top-level workflow tabs before managed Maya UI validation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile main_window.py, registry.py, app.py.",
-          "Import aimayatool.registry outside Maya.",
-          "Do not treat Python PASS as UI acceptance; managed Maya validation remains required."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_information_architecture_python_gate_pass",
-        "delivery_id": "a558b50c8480f646f768",
-        "architect_diagnosis": "Registry-driven tab navigation compiles cleanly and registry remains importable outside Maya. Managed Maya UI construction is still required before accepting the information-architecture milestone."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-information-architecture-managed-maya-174c",
       "action": {
         "type": "maya",
@@ -663,9 +595,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -713,6 +645,74 @@
           "Import components and Skinning outside Maya without eager Maya-host failure.",
           "Confirm only presentation construction changed; domain callbacks remain owned by Skinning.",
           "Do not treat Python PASS as Maya rendering acceptance.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_components_skinning_adoption_python_pass",
+        "delivery_id": "e662374d5221f4257a8d",
+        "architect_diagnosis": "Skinning reusable section() adoption compiles and imports outside Maya. Final managed-Maya construction is required before accepting the cross-domain ui-components milestone."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-components-skinning-adoption-maya-175i",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.tools.skinning",
+        "callable": "build_ui",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-components",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-components-skinning-adoption-python-175h",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Final managed-Maya validation of reusable section() adoption in Skinning, completing cross-domain Scene/Setup/Skinning evidence for ui-components.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated fresh managed Maya scene.",
+          "Invoke aimayatool.tools.skinning.build_ui.",
+          "Return PASS only if Skinning UI construction with reusable section() completes without Maya/Python exception.",
+          "Do not save the Maya scene.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
