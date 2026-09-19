@@ -665,9 +665,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-transfer-attribute-maya-validation-164v",
       "action": {
         "type": "maya",
@@ -710,7 +710,30 @@
           "Invalid/missing source rows skip deterministically.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "transfer_attribute_managed_maya2024_proven",
+        "delivery_id": "204617641a121c4b99e9",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "port": 7001,
+          "git_pull_before": "ac334458f1444a9587fbeec12ed0eef51fcf4117",
+          "git_pull_after": "733cdbd3dd6f6af2f4858d968e5f1bd85cff7243",
+          "smoke": {
+            "attr": true,
+            "enum": true,
+            "incoming": true,
+            "outgoing": true,
+            "skips": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: destination enum attribute creation preserves source enum options, incoming and outgoing connections are rewired through the destination plug, and invalid/missing source rows skip deterministically."
       }
     }
   ]
