@@ -28,74 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal008-scene-build-pipeline-inventory-172a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/build_actions.py",
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-build-pipeline",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal008-scene-compare-edit-verify-retry-171c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Start Scene build-pipeline modernization by verifying current reusable build-action baseline and identifying the smallest deterministic orchestration gap before host/UI work.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import current Scene build-action/public APIs.",
-          "Inventory current reusable build-action capabilities from repository evidence.",
-          "Identify one bounded build-pipeline modernization slice with explicit ordering/error behavior.",
-          "Do not add Maya-host validation until the slice actually requires Maya."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_build_pipeline_baseline_verified",
-        "delivery_id": "1e63b0da5ef61a7cf2b8",
-        "architect_diagnosis": "Current build_actions provide Maya host primitives but no reusable ordered orchestration/error policy. Architect added a Python-only BuildStep/run_build_pipeline layer that composes arbitrary actions without duplicating Maya behavior."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal008-scene-build-pipeline-verify-172b",
       "action": {
         "type": "verification",
@@ -641,9 +573,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -694,6 +626,75 @@
           "Identify one bounded reusable UI-component slice that can be adopted incrementally and preserves thin callbacks.",
           "Do not implement search/status/final visual polish in this milestone.",
           "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_components_baseline_verified",
+        "delivery_id": "54c87e8ccb45d98879d8",
+        "architect_diagnosis": "Domain UIs repeatedly construct section headings/descriptions/separators and fixed button rows directly with maya.cmds. Architect introduced a bounded reusable presentation-only components module: section() and button_row(); callbacks remain domain-owned."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-components-python-verify-175b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/components.py",
+          "aimayatool/ui/components_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.ui.components",
+          "aimayatool.ui.components_smoke"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-components",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-components-inventory-175a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify the reusable presentation-only UI component module before adopting it in Maya domain UIs.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile components.py and components_smoke.py.",
+          "Import components outside Maya without importing maya.cmds eagerly.",
+          "Import components_smoke so deterministic invalid-input contract executes.",
+          "Do not treat Python PASS as Maya rendering acceptance."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
