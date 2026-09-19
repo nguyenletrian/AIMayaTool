@@ -28,78 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-components-inventory-175a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/main_window.py",
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-components",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-information-architecture-managed-maya-174c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Inventory repeated Maya UI construction patterns across the accepted top-level workspace and domain UIs, then identify the smallest reusable component-builder slice without moving domain logic into UI.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile main_window.py and Skinning/Setup/Scene UI modules.",
-          "Import the Python-only registry.",
-          "Inventory repeated presentation primitives such as section headers, spacing/separators, button rows, and descriptive text from repository evidence.",
-          "Identify one bounded reusable UI-component slice that can be adopted incrementally and preserves thin callbacks.",
-          "Do not implement search/status/final visual polish in this milestone.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_components_baseline_verified",
-        "delivery_id": "54c87e8ccb45d98879d8",
-        "architect_diagnosis": "Domain UIs repeatedly construct section headings/descriptions/separators and fixed button rows directly with maya.cmds. Architect introduced a bounded reusable presentation-only components module: section() and button_row(); callbacks remain domain-owned."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-components-python-verify-175b",
       "action": {
         "type": "verification",
@@ -663,9 +591,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -715,6 +643,74 @@
           "Inventory available registry metadata and current navigation surface for searchable/discoverable tool information.",
           "Identify one bounded search/discovery implementation slice; preserve Skinning/Setup/Scene domain APIs and thin UI callbacks.",
           "Do not implement status/progress or final visual polish in this milestone.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_search_discovery_baseline_verified",
+        "delivery_id": "6057cb8ce348bf76391e",
+        "architect_diagnosis": "Current registry exposes only top-level Skinning/Setup/Scene identity and module paths; main_window has no search surface. Smallest safe slice is Python-only searchable group metadata/keywords first, followed by a thin Maya search field that switches to matching tabs."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-search-discovery-registry-python-176b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/registry.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-search-discovery",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-search-discovery-inventory-176a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify Python-safe discovery metadata and deterministic top-level group search before wiring a Maya search field.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile and import aimayatool.registry outside Maya.",
+          "Verify groups() retains Skinning/Setup/Scene records and exposes keyword metadata.",
+          "Verify search_groups('skin') resolves Skinning, search_groups('rig') resolves Setup, search_groups('preset') resolves Scene, and blank query returns all groups.",
+          "No maya.cmds dependency may be introduced in registry.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
