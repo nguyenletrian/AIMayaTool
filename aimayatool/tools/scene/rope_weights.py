@@ -23,7 +23,7 @@ def weights(mode, count, driver, offset=0):
     return result
 
 
-def rope_weights_managed_maya_smoke(mode):
+def rope_weights_managed_maya_smoke(mode="roll"):
     """Managed Maya smoke for deterministic RopeRoll/RopeStraight host weight wiring."""
     try:
         from maya import cmds
