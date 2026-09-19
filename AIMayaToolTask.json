@@ -28,83 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-driven-key-hierarchy-smoke-166w",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.driven_key",
-        "callable": "driven_key_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "smoke_fix_commit": "e3a98b94842acd3fda9e51906afc36bfe91718fa",
-        "purpose": "Final DrivenKey Maya validation using the actual implementation contract: SDK offset hierarchy plus keyed offset evaluation, not a nonexistent direct SDK->child plug connection.",
-        "acceptance": [
-          "Fresh isolated unsaved scene.",
-          "Driven object is parented directly under _SDKGrp and _ZeloSDKGrp exists above it.",
-          "animCurve exists upstream of SDK offset channel.",
-          "Driver 0/10 evaluates SDK offset tx to 1/5.",
-          "Driven child local tx remains stable while parent SDK offset carries the driven motion.",
-          "Tangents linear."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "driven_key_managed_maya_verified",
-        "delivery_id": "0d8b732dfe0524366b2e",
-        "verification_evidence": {
-          "sdk_group": true,
-          "zero_group": true,
-          "child_parent": true,
-          "anim_curve": true,
-          "value0": true,
-          "value10": true,
-          "child_stable": true,
-          "linear": true,
-          "scene_saved": false
-        },
-        "architect_diagnosis": "Final corrected managed Maya validation passed. DrivenKey host behavior is proven against its actual hierarchy contract: driven object under _SDKGrp, _ZeloSDKGrp present, animCurve upstream of SDK channel, driver 0/10 evaluates SDK tx to 1/5, child local tx remains stable, and tangents are linear.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-driven-key-connection-probe-retry-166v",
-          "result": "FAILED_SMOKE_ASSERTION"
-        }
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-remaining-rig-patterns-inventory-166x",
       "action": {
         "type": "verification",
@@ -760,6 +683,67 @@
           "main_commit": "aa92ff66a9c244614213b8466491bae412878483"
         },
         "architect_diagnosis": "Fresh main baseline is healthy. The remaining blocker is architectural: current project router metadata exposes no code-implementation route, so FoldRig/Rivet/SplineRig must not be requeued until an implementation-capable route is restored or added."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-bootstrap-no-git-design-verification-167g",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "bootstrap.py"
+        ],
+        "imports": []
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-ui-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-implementation-route-recovery-assessment-retry-167f",
+          "result": "PASS"
+        },
+        "purpose": "Bounded verification/design gate for the owner-requested no-Git bootstrap path. Current bootstrap only adds its own repository directory to sys.path and launches; it cannot install AIMayaTool on a machine without Git or a pre-existing checkout.",
+        "current_evidence": "bootstrap.py currently resolves __file__/cwd, inserts that root into sys.path, imports aimayatool, and launches. No downloader/cache/update/fallback exists.",
+        "acceptance": [
+          "Fast-forward current main and py_compile bootstrap.py.",
+          "Do not mutate product code, commit, or push.",
+          "Return verification evidence only; do not claim no-Git installation support exists.",
+          "Preserve target design boundary for next implementation-capable step: stdlib-only HTTPS ZIP download, writable per-user cache/install root, staged extraction + atomic replacement, preserve last-known-good install on network/update failure, import/launch installed aimayatool, concise Maya-visible errors, and no hard-coded developer path.",
+          "Do not add credentials or assume public-repository access semantics for a private repository; authentication strategy must remain explicit if private distribution is required."
+        ],
+        "blocker": "Product implementation remains blocked because current project routers expose no implementation-capable route. This supported verification task records the bootstrap gap and keeps the queue truthful without abusing verification:python for code mutation.",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
