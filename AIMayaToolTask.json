@@ -359,9 +359,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-proxy-attribute-python-verify-164f",
       "action": {
         "type": "verification",
@@ -404,7 +404,20 @@
           "Focused deterministic smoke/tests cover normalization, multiline targets, missing targets and invalid source.",
           "No Maya behavior claim from this gate."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "proxy_attribute_python_verification_passed",
+        "delivery_id": "e6c094c223cf63b6f323",
+        "verification_evidence": {
+          "git_pull_before": "8734da5d0429db0f850cb0185893413038e67325",
+          "git_pull_after": "2f7f28f11d24b0b108babf85fe3038ded11c3d91",
+          "repository_changed": true,
+          "py_compile": true,
+          "imports": [
+            "aimayatool.tools.scene.proxy_attribute"
+          ]
+        },
+        "architect_diagnosis": "Deterministic gate passed after fast-forwarding current main. Scene ProxyAttribute adapter compiles and imports outside Maya. The generic verification route did not execute the requested focused behavioral smoke/tests, so normalization/missing-target behavior remains unproven here and is not claimed; host behavior remains gated by 164g."
       }
     },
     {
