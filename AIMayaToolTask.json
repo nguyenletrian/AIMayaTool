@@ -28,72 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-maya-build-actions-managed-retry-169e",
-      "action": {
-        "type": "maya_smoke",
-        "target": "managed_maya"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 45,
-        "module": "aimayatool.tools.scene.build_actions_smoke",
-        "callable": "run_scene_build_actions_smoke",
-        "isolated_scene": true,
-        "save_scene": false,
-        "new_scene_forced": true,
-        "expected_result": "SCENE_BUILD_ACTIONS_SMOKE_OK"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_retry_source": {
-          "task_id": "aimayatool-goal007-scene-maya-build-actions-smoke-169d",
-          "result": "FAIL",
-          "reason": "No route handler registered for verification:maya:ui_smoke"
-        },
-        "purpose": "Retry Scene build-actions host validation through the established managed Maya smoke contract with the actual repository callable.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Start/use managed Maya with a forced fresh isolated unsaved scene.",
-          "Invoke aimayatool.tools.scene.build_actions_smoke.run_scene_build_actions_smoke.",
-          "Require exact product result SCENE_BUILD_ACTIONS_SMOKE_OK.",
-          "Do not save the scene and do not involve FoldRig."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "unsupported_maya_route_contract",
-        "delivery_id": "46d2bb642ffe3dcc2fa2",
-        "architect_diagnosis": "Second route-contract attempt is also unsupported by the current Bridge runtime. No AIMayaTool product code executed. Stop guessing route names; next task is a supported Python verification that preserves progress while recording Maya host validation as blocked on Bridge capability discovery/recovery."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-maya-validation-route-blocker-169f",
       "action": {
         "type": "verification",
@@ -651,9 +585,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -699,6 +633,91 @@
           "Invoke only aimayatool.tools.scene.display_layer_smoke.run_scene_display_layer_smoke.",
           "Require exact product marker SCENE_DISPLAY_LAYER_SMOKE_OK.",
           "Do not save scene data."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_display_layer_managed_maya_pass",
+        "delivery_id": "086e1d5714eb0b239bdc",
+        "verification_evidence": {
+          "route": "maya:managed_live_smoke",
+          "result": "AIBRIDGE_UI_SMOKE_OK:SCENE_DISPLAY_LAYER_SMOKE_OK",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "managed_pid": 6168,
+          "port": 7001,
+          "session": "existing"
+        },
+        "architect_diagnosis": "Display-layer helpers passed their dedicated managed-Maya smoke in a forced fresh unsaved scene. Build-actions, SingleScript, and display-layer host slices now have direct Maya evidence; perform a bounded milestone assessment against current Scene public API/smoke coverage before deciding whether more host slices are required."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-maya-validation-assessment-169o",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py",
+          "aimayatool/tools/scene/operations.py",
+          "aimayatool/tools/scene/patterns.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene",
+          "aimayatool.tools.scene.operations",
+          "aimayatool.tools.scene.patterns"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-maya-display-layer-managed-live-169n",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "proven_maya_slices": [
+          "build_actions:SCENE_BUILD_ACTIONS_SMOKE_OK",
+          "single_script:success=True",
+          "display_layer:SCENE_DISPLAY_LAYER_SMOKE_OK"
+        ],
+        "purpose": "Assess remaining Scene host-validation requirements against current public APIs after three successful bounded managed-Maya slices. Identify any unvalidated Maya-dependent family before closing the milestone.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import representative Scene public API modules.",
+          "Reconcile current Scene public API families with existing direct Maya evidence and deterministic Python coverage.",
+          "Do not infer host validation for Maya-dependent behavior without evidence.",
+          "Return the next exact bounded host slice if one remains, otherwise return evidence supporting scene-maya-validation milestone closure."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
