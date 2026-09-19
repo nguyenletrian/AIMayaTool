@@ -231,71 +231,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-rope-roll-maya-host-assessment-165t",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.rope_weights",
-        "callable": "rope_weights_managed_maya_smoke",
-        "args": [
-          "roll"
-        ],
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-rope-weight-core-python-verify-165s"
-        ],
-        "purpose": "Bounded RopeRoll host-readiness gate. Determine whether a dedicated managed-Maya fixture exists before claiming DG/constraint parity.",
-        "acceptance": [
-          "Use fresh isolated unsaved Maya scene.",
-          "If callable exists, exercise the requested mode and return structured evidence for point/orient constraint weight wiring.",
-          "If callable is absent, return the exact missing-callable gap; do not fabricate Maya parity.",
-          "No repository mutation."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "BLOCKED_PRECONDITION",
-        "classification": "task_contract_git_pull_requires_edit_permission",
-        "delivery_id": "33df8286aa63006bdb5e",
-        "architect_diagnosis": "No Maya/product behavior was exercised. The managed-live route rejected git_pull because permissions.edit was false. Architect corrected permissions.edit=true for both RopeRoll and RopeStraight host assessments in TaskSource commit c04ef27b2e2d4be2e4e831ce08c83028413ef589. This exact failed delivery is ACKed as a task-contract failure; a corrected retry is queued separately."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-straight-maya-host-assessment-165u",
       "action": {
         "type": "maya",
@@ -697,9 +632,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -754,6 +689,89 @@
           "Compare legacy ScenePattern filenames/workflows with current aimayatool/tools/scene surface and existing catalog/registry exposure.",
           "Return a concise structured list of unresolved useful gaps, if any, separating missing implementation from missing Maya/UI validation and from duplicate/superseded/internal-only legacy items.",
           "If a clear next migration slice exists, identify its exact legacy source and target architectural boundary for Architect follow-up.",
+          "No repository mutation required."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_WITH_GAPS",
+        "classification": "scene_pattern_parity_gap_audit_passed",
+        "delivery_id": "d49aac0539513fcf6b27",
+        "verification_evidence": {
+          "py_compile": true,
+          "imports": [
+            "aimayatool.tools.scene",
+            "aimayatool.tools.scene.catalog",
+            "aimayatool.tools.scene.patterns"
+          ]
+        },
+        "architect_diagnosis": "Current Scene package/catalog/registry compiles and imports cleanly. Legacy-to-current inventory comparison shows substantial migrated coverage, but unresolved useful ScenePattern families remain absent from the current scene module surface/search, including Drivenkey, FoldRig, GradientTexture, ModuloSDK/New, Default/New SwitchIKFK variants, Rivet, SpaceSwitch, SplineControl/SplineCurve/SplineRig and Note. Do not close ScenePattern parity yet. Publish a bounded legacy inventory slice to establish semantics and clean architectural boundaries before implementation."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-sdk-switch-space-inventory-166c",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-parity-gap-audit-166b",
+          "result": "PASS_WITH_GAPS"
+        },
+        "purpose": "Inventory the next cohesive missing ScenePattern behavior family before implementation: Drivenkey, ModuloSDK variants, IK/FK switch variants and SpaceSwitch.",
+        "legacy_sources": [
+          "UIs/ScenePattern/Scene_Pattern_Drivenkey.py",
+          "UIs/ScenePattern/Scene_Pattern_ModuloSDK.py",
+          "UIs/ScenePattern/Scene_Pattern_ModuloSDKNew.py",
+          "UIs/ScenePattern/Scene_Pattern_DefaultSwitchIKFK.py",
+          "UIs/ScenePattern/Scene_Pattern_NewSwitchIKFK.py",
+          "UIs/ScenePattern/Scene_Pattern_NewSwitchIKFK_WithAddKeys.py",
+          "UIs/ScenePattern/Scene_Pattern_SpaceSwitch.py"
+        ],
+        "acceptance": [
+          "git_pull current main and confirm current Scene package imports cleanly.",
+          "Read the listed legacy sources and document exact user-visible semantics, data fields, Maya operations and meaningful edge cases without bulk-copying legacy code.",
+          "Separate deterministic Python-only planning/data normalization from Maya-host mutation for each workflow.",
+          "Identify overlap/supersession among ModuloSDK variants and IK/FK switch variants so only useful canonical behavior is migrated.",
+          "Return a concise implementation plan with proposed aimayatool/tools/scene module boundaries and focused Python/Maya verification gates.",
           "No repository mutation required."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
