@@ -28,76 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-status-progress-adoption-python-177d",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/components.py",
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.ui.components"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-status-progress",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-status-progress-component-python-177c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify Skinning and Setup adoption of the shared action status/error presenter before managed Maya validation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile components.py and both domain package entrypoints.",
-          "Import aimayatool.ui.components outside Maya.",
-          "Confirm Skinning/Setup _run wrappers delegate to run_action and no longer own duplicate traceback/inViewMessage presentation logic.",
-          "Keep domain behavior and callbacks otherwise unchanged.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_status_adoption_python_pass",
-        "delivery_id": "64f2c220c6517aec3333",
-        "architect_diagnosis": "Shared presenter adoption compiles successfully in Skinning and Setup. Next gate validates real Maya success/error presentation, including the long-lived session where module cache behavior matters."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-status-progress-adoption-maya-177e",
       "action": {
         "type": "maya",
@@ -677,9 +607,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -727,6 +657,72 @@
           "Prefer existing domain semantics; do not add opaque scene inference.",
           "Do not expand into favorites/recent, batch productivity or broad preflight work.",
           "Do not claim Maya behavior from Python inventory.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "presets_smart_defaults_inventory_pass",
+        "delivery_id": "4dd2b60d25b0f37ef3e8",
+        "architect_diagnosis": "Inventory compiles. Scene already has a deterministic filesystem PresetLibrary; Setup contains bounded prompt defaults derived from explicit selection counts. The smallest safe smart-default slice is extracting the secondary-rig paired-group count suggestion into pure deterministic _smart_group_count(total,fixed,fallback), retaining the existing prompt so users can override it."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-presets-smart-defaults-secondary-count-python-180b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/setup/__init__.py"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "presets-smart-defaults",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-presets-smart-defaults-inventory-180a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify deterministic smart default for paired secondary-rig object/destination counts while preserving explicit prompt override.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile Setup entrypoint.",
+          "_smart_group_count(total,fixed,fallback) is pure and derives half of remaining selection only when remaining is positive and even.",
+          "Ambiguous/invalid selection shapes return the explicit fallback.",
+          "_secondary_count uses the helper only as prompt text; user-entered count remains authoritative and existing validation remains unchanged.",
+          "No scene inference, selection mutation or destructive behavior is introduced.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
