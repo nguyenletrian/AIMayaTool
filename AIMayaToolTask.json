@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-maya-176j",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.ui.main_window",
-        "callable": "show",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45,
-        "expected_window": "AIMayaToolWindow"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-search-discovery",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-python-176i",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Validate Maya construction of the compact Recent/Favorites discovery surface before interaction acceptance.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use isolated fresh scene.",
-          "Invoke aimayatool.ui.main_window.show and require AIMayaToolWindow.",
-          "Confirm Recent/Favorites summary and Toggle Favorite UI construct without Maya/Python exception.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "managed_maya_partial_registry_capability_cache",
-        "delivery_id": "42926a9a41236e9e7c5e",
-        "architect_diagnosis": "The existing managed Maya registry cache already had search_groups(), so the prior cache guard considered it current even though newer recent/favorite symbols were absent. Expanded _current_registry() capability check to require the complete discovery API and reload whenever any required symbol is missing."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-maya-retry-176k",
       "action": {
         "type": "maya",
@@ -677,9 +608,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -727,6 +658,76 @@
           "Identify only bounded final-polish changes that preserve thin UI and existing domain behavior.",
           "Do not introduce broad redesign or Goal 010 productivity features.",
           "Do not claim Maya visual behavior from Python inventory.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_final_polish_inventory_pass",
+        "delivery_id": "e289549e3b01d0d72a3e",
+        "architect_diagnosis": "Final-polish inventory compiles. Setup still had repeated raw fixed-column action rows while shared button_row already exists; bounded polish converts those fixed action rows to the shared component while leaving dynamic shape rows and domain behavior unchanged."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-final-polish-setup-rows-python-178b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/ui/components.py"
+        ],
+        "imports": [
+          "aimayatool.ui.components"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-final-polish",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-final-polish-inventory-178a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Verify bounded final polish converting Setup fixed action rows to shared button_row without changing callbacks or dynamic control-shape rows.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile Setup entrypoint and components.py.",
+          "Import shared components outside Maya.",
+          "Fixed Setup action rows for transforms, constraints, spaces, IK/FK and secondary rigs use button_row.",
+          "Dynamic control-shape loops remain unchanged.",
+          "Action labels/callback targets and domain behavior remain unchanged.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
