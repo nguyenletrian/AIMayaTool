@@ -585,9 +585,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -633,7 +633,43 @@
           "Exercise bs_sequence_managed_maya_smoke().",
           "Require success=true and checks proving keyframe collection, generated shoot meshes/names, BS group/blendShape, joint/proxy/show wiring, driven keys, and frame restoration."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "bs_sequence_managed_maya_smoke_passed",
+        "delivery_id": "6fcf26971cf033c9ed20",
+        "verification_evidence": {
+          "managed_pid": 6168,
+          "port": 7001,
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "checks": {
+            "status": true,
+            "keyframes": true,
+            "generated": true,
+            "names": true,
+            "group": true,
+            "blend_shape": true,
+            "joint_connected": true,
+            "proxy": true,
+            "show_proxy": true,
+            "visibility_connected": true,
+            "driven_keys": true,
+            "frame_restored": true
+          },
+          "keyframes": [
+            5,
+            10
+          ],
+          "generated_meshes": [
+            "AIBridgeBSTarget_Shoot_01",
+            "AIBridgeBSTarget_Shoot_02"
+          ],
+          "group": "AIBridgeBSTarget_BSs",
+          "blend_shape": "AIBridgeBSTarget_sequence_BS",
+          "driver": "AIBridgeBSMain.sequence",
+          "show_driver": "AIBridgeBSMain.sequenceShowBS"
+        },
+        "architect_diagnosis": "BSSequence managed Maya smoke passed in a fresh unsaved scene. All bounded checks passed: nonzero keyframe collection, deterministic shoot generation/naming, BS group/blendShape creation, joint/proxy/show wiring, driven-key creation, and current-frame restoration."
       }
     },
     {
