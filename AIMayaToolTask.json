@@ -28,83 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-maya-route-capability-assessment-169g",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/build_actions_smoke.py",
-          "aimayatool/tools/scene/single_script.py"
-        ],
-        "imports": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-maya-validation-route-blocker-169f",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Hold the final milestone at a truthful capability boundary while comparing current smoke entrypoints with the previously proven SingleScript host-validation shape. This task intentionally uses only the supported Python route; Architect must not invent another Maya route until AIBrigde exposes/restores one.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile the representative Scene smoke/product files only.",
-          "Preserve evidence that product host execution has not occurred.",
-          "Do not mark scene-maya-validation complete.",
-          "Do not publish another guessed Maya action/target pair."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "runtime_blocker": {
-          "unsupported_routes": [
-            "verification:maya:ui_smoke",
-            "maya_smoke:managed_maya"
-          ],
-          "required_recovery": "AIBrigde must expose or restore a registered Maya execution handler before host validation can continue."
-        },
-        "result": "PASS",
-        "classification": "aibridge_maya_route_registration_root_cause_found",
-        "delivery_id": "21236f26528a80f0cbd0",
-        "verification_evidence": {
-          "py_compile": true,
-          "main_commit": "88d2ae38635e6746f2273f323fdbbb03632e80b3"
-        },
-        "architect_diagnosis": "AIBrigde source contains registered route implementations maya:ui_smoke, maya:live_smoke and maya:managed_live_smoke. Root cause of managed route rejection: install_maya_managed_live_smoke_capability existed but was omitted from standard_capabilities() in aibridge/__main__.py. Architect fixed AIBrigde main at commit a619350716ada837961f147093a74f4c070d926c. Server restart/pull is required before retrying host validation."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-aibridge-maya-route-restart-169h",
       "action": {
         "type": "bridge",
@@ -679,9 +602,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -727,6 +650,79 @@
           "Preserve direct managed-Maya PASS evidence for build_actions, display_layer, and SingleScript.",
           "Return PASS only for deterministic closeout verification; Architect performs bridgeGoals/HISTORY mutation after ACK.",
           "Do not declare broader program completion."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "scene_maya_validation_closeout_pass",
+        "delivery_id": "687f71ab190cc36adbef",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "1e0be86ee0b30fc3fc879e1232fe6cb3a13c4def"
+        },
+        "architect_diagnosis": "Final deterministic closeout gate passed after direct managed-Maya validation of build actions, display layers, and SingleScript. Scene complete migration Goal 007 satisfies its current acceptance/milestone gates and can close; activate Goal 008 next."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal008-scene-presets-inventory-170a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py",
+          "aimayatool/tools/scene/operations.py",
+          "aimayatool/tools/scene/patterns.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-008",
+        "milestone_id": "scene-presets",
+        "archived_prerequisite": {
+          "goal_id": "aimayatool-007",
+          "result": "completed",
+          "closeout_task": "aimayatool-goal007-scene-maya-validation-closeout-169p"
+        },
+        "purpose": "Start Scene 2.0 modernization by inventorying current pattern/preset APIs and legacy/reference preset-management behavior before proposing implementation changes.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Verify current Scene pattern/preset modules compile/import.",
+          "Inventory current preset-management surface and relevant legacy/reference behavior.",
+          "Identify bounded modernization gaps for preset create/save/load/organization without speculative UI implementation.",
+          "Return dependency-ready next slice."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
