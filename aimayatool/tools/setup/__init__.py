@@ -31,6 +31,30 @@ def _require_selection(minimum, usage):
     return _selection_context(minimum=minimum, usage=usage)
 
 
+def selection_context_managed_maya_smoke():
+    """Focused proof that selection context preserves order and fails without mutation."""
+    cmds = _cmds()
+    first = cmds.createNode("transform", name="AIMayaToolContextFirst")
+    second = cmds.createNode("transform", name="AIMayaToolContextSecond")
+    cmds.select(first, second, replace=True)
+    expected = _selected_transforms()
+    result = _selection_context(minimum=2, exact=2, usage="expected two")
+    if result != expected:
+        raise RuntimeError("Selection order changed: {0} != {1}".format(result, expected))
+    before = cmds.ls(selection=True, long=True) or []
+    try:
+        _selection_context(minimum=3, usage="expected context failure")
+    except ValueError as exc:
+        if str(exc) != "expected context failure":
+            raise
+    else:
+        raise RuntimeError("Expected minimum-count failure")
+    after = cmds.ls(selection=True, long=True) or []
+    if after != before:
+        raise RuntimeError("Selection context mutated Maya selection")
+    return "AIBRIDGE_CONTEXT_SELECTION_OK:ordered|nonmutating"
+
+
 def _create_selected(shape):
     cmds = _cmds()
     nodes = _require_selection(1, "Select one or more transforms to create matched controls.")
