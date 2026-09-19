@@ -28,160 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-remaining-rig-patterns-inventory-166x",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-driven-key-hierarchy-smoke-166w",
-          "result": "PASS"
-        },
-        "purpose": "Inventory the next unresolved useful ScenePattern rig-helper family after DrivenKey closure: FoldRig, GradientTexture, Rivet, SplineControl/SplineCurve/SplineRig and Note; determine canonical migration/supersession boundaries before implementation.",
-        "legacy_sources": [
-          "UIs/ScenePattern/Scene_Pattern_FoldRig.py",
-          "UIs/ScenePattern/Scene_Pattern_GradientTexture.py",
-          "UIs/ScenePattern/Scene_Pattern_Rivet.py",
-          "UIs/ScenePattern/Scene_Pattern_SplineControl.py",
-          "UIs/ScenePattern/Scene_Pattern_SplineCurve.py",
-          "UIs/ScenePattern/Scene_Pattern_SplineRig.py",
-          "UIs/ScenePattern/Scene_Pattern_Note.py"
-        ],
-        "acceptance": [
-          "git_pull current main and confirm current Scene package imports cleanly.",
-          "Read available listed legacy sources and identify exact user-visible semantics, persisted data fields, Maya mutations, dependencies and edge cases.",
-          "Cross-check current AIMayaTool Setup/Scene APIs and classify each legacy workflow as missing, already superseded/reusable, duplicate/internal-only, or intentionally retireable with evidence.",
-          "For genuinely missing useful behavior, separate deterministic planning/data normalization from Maya-host mutation and propose focused module/API boundaries.",
-          "Return dependency-ready implementation and verification slices; do not bulk-copy legacy modules and do not claim parity without evidence.",
-          "No repository mutation required."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_PARTIAL_EVIDENCE",
-        "classification": "scene_pattern_remaining_inventory_gate_passed_but_inventory_not_executed",
-        "delivery_id": "c6f1b003212f96ce84c7",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true
-        },
-        "architect_diagnosis": "The generic Python route only compiled/imported the current Scene package; it did not read or compare the listed legacy sources, so it cannot satisfy the substantive inventory acceptance criteria. Treat this as a clean prerequisite gate, not as completed parity inventory. Queue a repository-evidence assessment task whose contract explicitly returns legacy/current comparison evidence."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal007-scene-pattern-remaining-rig-patterns-repo-audit-166y",
-      "action": {
-        "type": "verification",
-        "target": "repository_audit"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "source_repository": "https://github.com/nguyenletrian/MayaScriptNew.git",
-        "target_repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "legacy_sources": [
-          "UIs/ScenePattern/Scene_Pattern_FoldRig.py",
-          "UIs/ScenePattern/Scene_Pattern_GradientTexture.py",
-          "UIs/ScenePattern/Scene_Pattern_Rivet.py",
-          "UIs/ScenePattern/Scene_Pattern_SplineControl.py",
-          "UIs/ScenePattern/Scene_Pattern_SplineCurve.py",
-          "UIs/ScenePattern/Scene_Pattern_SplineRig.py",
-          "UIs/ScenePattern/Scene_Pattern_Note.py"
-        ],
-        "target_roots": [
-          "aimayatool/tools/scene",
-          "aimayatool/tools/setup",
-          "aimayatool/registry.py"
-        ],
-        "timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-remaining-rig-patterns-inventory-166x",
-          "result": "PASS_PARTIAL_EVIDENCE"
-        },
-        "purpose": "Perform the substantive legacy/current repository comparison that 166x's generic Python route could not execute.",
-        "acceptance": [
-          "Read each available listed legacy source from MayaScriptNew and summarize persisted fields, user-visible behavior, Maya mutations, dependencies and edge cases.",
-          "Search current AIMayaTool Scene/Setup/registry surfaces for equivalent or superseding behavior.",
-          "Classify FoldRig, GradientTexture, Rivet, SplineControl, SplineCurve, SplineRig and Note individually as missing, superseded/reusable, duplicate/internal-only, or intentionally retireable, with file/function evidence.",
-          "For missing useful behavior, return dependency-ready implementation slices with deterministic-core vs Maya-host boundaries and required Python/Maya validation.",
-          "Do not mutate product code or claim parity solely from import success."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "BLOCKED_ROUTE",
-        "classification": "unsupported_verification_repository_audit_route",
-        "delivery_id": "54c804489cad7c9a8adf",
-        "architect_diagnosis": "No product/audit behavior ran. Project router metadata registers verification:python but not verification:repository_audit; publishing 166y used a nonexistent route. Correct by using the supported verification:python route only for executable local evidence, while Architect performs cross-repository source inspection directly before publishing implementation tasks."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-fold-gradient-implementation-plan-166z",
       "action": {
         "type": "verification",
@@ -752,6 +598,124 @@
           "main_commit": "b5e027e49bcc4e9554744a1f03b45e0b030fc19c"
         },
         "architect_diagnosis": "Current bootstrap compiles cleanly. This proves syntax health only; no downloader/cache/atomic-update/fallback behavior exists yet. No-Git bootstrap remains implementation-ready but blocked on the absent implementation-capable route."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-preimplementation-baseline-167h",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": []
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-bootstrap-no-git-design-verification-167g",
+          "result": "PASS_GATE_ONLY"
+        },
+        "purpose": "Establish a fresh deterministic baseline for the next FoldRig implementation slice without dispatching the known-unsupported implementation:python route.",
+        "acceptance": [
+          "Fast-forward main and compile current Scene package entrypoint.",
+          "Do not mutate, commit, or push product code.",
+          "Confirm fold_rig.py/tests are not claimed implemented by this task.",
+          "Return baseline evidence for immediate implementation once a real implementation route exists."
+        ],
+        "blocker": "Implementation-capable route is still absent from current project router/capability metadata. This task is read/verify-only and must not mutate product code.",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-preimplementation-baseline-167i",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": []
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-bootstrap-no-git-design-verification-167g",
+          "result": "PASS_GATE_ONLY"
+        },
+        "purpose": "Establish a fresh deterministic baseline for Rivet/SplineRig implementation slices while the implementation dispatcher is unavailable.",
+        "acceptance": [
+          "Fast-forward main and compile current Scene package entrypoint.",
+          "Do not mutate, commit, or push product code.",
+          "Do not claim Rivet or SplineRig parity.",
+          "Return baseline evidence preserving the already-inspected legacy contracts for later implementation."
+        ],
+        "blocker": "Implementation-capable route is still absent from current project router/capability metadata. This task is read/verify-only and must not mutate product code.",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
