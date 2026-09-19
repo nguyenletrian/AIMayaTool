@@ -92,68 +92,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-single-script-maya-validation-164z",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "save_scene": false,
-        "isolated_scene": true,
-        "module": "aimayatool.tools.scene.single_script",
-        "callable": "single_script_managed_maya_smoke"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "depends_on": [
-          "aimayatool-goal007-scene-pattern-single-script-python-verify-164y"
-        ],
-        "purpose": "Host-prove SingleScript executes a file in Maya and rejects missing files.",
-        "acceptance": [
-          "Fresh isolated unsaved Maya scene.",
-          "Temporary Python file executes through runner.",
-          "Script can mutate Maya scene.",
-          "Missing script file raises deterministic IOError.",
-          "new_scene_forced=true, scene_saved=false, smoke success=true."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL",
-        "classification": "single_script_smoke_fixture_literal_newline",
-        "delivery_id": "4905fdec445c980e2268",
-        "architect_diagnosis": "Managed Maya reached the adapter, but the temporary smoke script contained literal backslash-n sequences and failed compile with SyntaxError. This is a smoke-fixture defect, not evidence that run_script_file failed. Fixture corrected in a174187ad1ff728f068941f37cf948965674740e; retry required."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-single-script-maya-validation-retry-164aa",
       "action": {
         "type": "maya",
@@ -729,6 +667,66 @@
           }
         },
         "architect_diagnosis": "Deterministic MatchPairs core passed Python verification: both files compile, module imports outside Maya, and all 3 focused tests pass. This proves only normalization/pair mapping/XML transfer; Maya nearest-distance and selection behavior remain outside this gate."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-mesh-vertex-inventory-165g",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "purpose": "Bounded inventory/architecture gate for legacy MeshVertex before migration. Its Run body is empty while GetTopoPair performs Maya/mesh-library topology matching and vertex mutation; establish what behavior is actually portable and what requires host proof.",
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_MeshVertex.py",
+        "legacy_source_sha": "59cfc90470ad2253eb0e09098b5b6c4467521837",
+        "acceptance": [
+          "git_pull current main.",
+          "Current scene package compiles/imports cleanly.",
+          "Treat legacy Run as incomplete, not implemented behavior.",
+          "Identify a deterministic Python-only boundary for component parsing/pair data validation if useful.",
+          "Keep FindSymmetricVertexPairs and MirrorVertexPositionsByPairs as Maya/mesh-host behavior requiring later host-backed validation.",
+          "No repository mutation required."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
