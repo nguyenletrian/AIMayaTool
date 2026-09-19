@@ -157,3 +157,49 @@ def build_bs_sequence_from_object_keys(item):
 
 def execute_bs_sequence_items(items):
     return tuple(build_bs_sequence_from_object_keys(item) for item in tuple(items or ()))
+
+
+def bs_sequence_managed_maya_smoke():
+    cmds = _cmds()
+    cmds.file(new=True, force=True)
+    target = cmds.polyCube(name="AIBridgeBSTarget")[0]
+    animated = cmds.polyCube(name="AIBridgeBSAnimated")[0]
+    driver_obj = cmds.createNode("transform", name="AIBridgeBSAnimDriver")
+    main_holder = cmds.createNode("transform", name="AIBridgeBSMain")
+    proxy_holder = cmds.createNode("transform", name="AIBridgeBSProxy")
+    joint_holder = cmds.createNode("transform", name="AIBridgeBSJoint")
+    cmds.setKeyframe(driver_obj, attribute="tx", time=0, value=0)
+    cmds.setKeyframe(driver_obj, attribute="tx", time=5, value=1)
+    cmds.setKeyframe(driver_obj, attribute="tx", time=10, value=2)
+    cmds.currentTime(3, edit=True)
+    before = cmds.currentTime(query=True)
+    result = build_bs_sequence_from_object_keys({
+        "mesh": target, "meshAnimation": animated, "objectAnimation": driver_obj,
+        "attrHolder": main_holder + "\n" + proxy_holder, "jointHolder": joint_holder,
+        "attr": "sequence", "bsParent": ""
+    })
+    after = cmds.currentTime(query=True)
+    generated = list(result.get("generated_meshes") or ())
+    blend = result.get("blend_shape")
+    group = result.get("group")
+    driver = result.get("driver")
+    show_driver = result.get("show_driver")
+    joint_plug = joint_holder + ".sequence"
+    proxy_plug = proxy_holder + ".sequence"
+    show_proxy = proxy_holder + ".sequenceShowBS"
+    driven_curves = cmds.listConnections(blend, source=True, destination=False, type="animCurve") or []
+    checks = {
+        "status": result.get("status") == "applied",
+        "keyframes": tuple(result.get("keyframes") or ()) == (5.0, 10.0),
+        "generated": len(generated) == 2 and all(cmds.objExists(x) for x in generated),
+        "names": [x.split("|")[-1] for x in generated] == [target + "_Shoot_01", target + "_Shoot_02"],
+        "group": bool(group and cmds.objExists(group)),
+        "blend_shape": bool(blend and cmds.objExists(blend)),
+        "joint_connected": bool(driver and cmds.isConnected(driver, joint_plug)),
+        "proxy": cmds.objExists(proxy_plug) and cmds.attributeQuery("sequence", node=proxy_holder, exists=True),
+        "show_proxy": cmds.objExists(show_proxy) and bool(show_driver),
+        "visibility_connected": bool(show_driver and group and cmds.isConnected(show_driver, group + ".visibility")),
+        "driven_keys": bool(driven_curves),
+        "frame_restored": before == after == 3.0,
+    }
+    return {"success": all(checks.values()), "checks": checks, "result": result}
