@@ -28,84 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-status-progress-interaction-maya-177f",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.ui.components",
-        "callable": "run_action_managed_maya_smoke",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-status-progress",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-status-progress-adoption-maya-177e",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Exercise the shared action presenter success and handled-error paths in real managed Maya before closing the status/error unification slice.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use isolated fresh scene.",
-          "Invoke run_action_managed_maya_smoke.",
-          "Success path must preserve the original list result and emit in-view status.",
-          "Expected ValueError path must be handled, emit warning/highlighted error, print traceback, and return None without failing the smoke.",
-          "Callable returns AIBRIDGE_UI_STATUS_OK:success|error.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_status_progress_complete",
-        "delivery_id": "6c615a4ab4a7f7dbb8a9",
-        "verification_evidence": {
-          "marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_UI_STATUS_OK:success|error",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "pid": 6168,
-          "port": 7001,
-          "session": "existing"
-        },
-        "architect_diagnosis": "Focused managed Maya smoke proved both shared presenter paths: success preserves the original result and error is handled without escaping. ui-status-progress is complete; ui-final-polish is now active."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-final-polish-inventory-178a",
       "action": {
         "type": "verification",
@@ -665,9 +587,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -716,6 +638,85 @@
           "Calculation leaves Maya selection unchanged.",
           "Callable returns AIBRIDGE_SMART_DEFAULT_OK:deterministic|override.",
           "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "presets_smart_defaults_complete",
+        "delivery_id": "539e2e3d33a15d4164b9",
+        "verification_evidence": {
+          "marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_SMART_DEFAULT_OK:deterministic|override",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001,
+          "session": "existing"
+        },
+        "architect_diagnosis": "Managed Maya proved the smart default is deterministic, preserves explicit fallback/override semantics and does not mutate selection. presets-smart-defaults is complete; favorites-recent is activated."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-inventory-181a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/registry.py",
+          "aimayatool/ui/main_window.py",
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-presets-smart-defaults-secondary-count-maya-180c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Inventory the existing Goal 009 group-level recent/favorite discovery state and identify the smallest useful Goal 010 extension toward workflow/action-level favorites and recent access without premature persistence complexity.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile registry, main workspace and three domain entrypoints.",
+          "Inventory current group-level recent/favorite APIs and UI behavior from Goal 009.",
+          "Identify one bounded action/workflow-level favorites/recent slice that improves repeat access while preserving explicit actions and thin UI.",
+          "Do not add persistence unless repository evidence shows an established storage contract appropriate for this state.",
+          "Do not expand into batch productivity or preflight guidance.",
+          "Do not claim Maya interaction behavior from Python inventory.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
