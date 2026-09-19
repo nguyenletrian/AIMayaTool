@@ -13,9 +13,16 @@ _TABS = "AIMayaToolTabs"
 _TAB_BY_GROUP = {}
 
 
+def _current_registry():
+    global registry
+    if not hasattr(registry, "search_groups"):
+        registry = importlib.reload(registry)
+    return registry
+
+
 def _apply_search(*_):
     query = cmds.textField(_SEARCH, query=True, text=True)
-    matches = registry.search_groups(query)
+    matches = _current_registry().search_groups(query)
     if matches:
         page = _TAB_BY_GROUP.get(matches[0]["id"])
         if page:
@@ -56,7 +63,7 @@ def show():
 
     _TAB_BY_GROUP.clear()
     tab_children = []
-    for group in registry.groups():
+    for group in _current_registry().groups():
         page = cmds.scrollLayout(parent=tabs, childResizable=True)
         cmds.columnLayout(parent=page, adjustableColumn=True, rowSpacing=4)
         _load_group(group)
