@@ -38,7 +38,9 @@ def search_interaction_smoke():
         matches = _apply_search()
         selected = cmds.tabLayout(_TABS, query=True, selectTab=True)
         target = _TAB_BY_GROUP[group_id]
-        if not matches or matches[0] != group_id or selected != target:
+        selected_short = selected.rsplit("|", 1)[-1]
+        target_short = target.rsplit("|", 1)[-1]
+        if not matches or matches[0] != group_id or selected_short != target_short:
             raise RuntimeError("Search failed for {0}: {1}, selected={2}, target={3}".format(query, matches, selected, target))
     return "AIBRIDGE_UI_SEARCH_OK:" + "|".join(item[1] for item in expected)
 
