@@ -18,100 +18,6 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "task_id": "aimayatool-goal007-scene-pattern-create-offset-maya-validation-163e",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "timeout": 300,
-        "save_scene": false,
-        "isolated_scene": true,
-        "module": "aimayatool.tools.scene.create_offset",
-        "callable": "create_offset_managed_maya_smoke"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "result": "PASS",
-        "classification": "create_offset_managed_maya2024_proven",
-        "delivery_id": "eecfd52b0efcecc4c6ad",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "task_id": "aimayatool-goal007-scene-pattern-clear-offset-python-verify-163f",
-      "status": "pending",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/clear_offset.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.clear_offset"
-        ],
-        "timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "result": "PASS",
-        "classification": "clear_offset_python_verification_passed",
-        "delivery_id": "1b89d088afee4f44d5d3",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
       "task_id": "aimayatool-goal007-scene-pattern-clear-offset-maya-validation-163g",
       "status": "pending",
       "architect_ack": true,
@@ -594,6 +500,115 @@
           }
         },
         "architect_diagnosis": "Managed Maya validation passed in a forced-new unsaved scene. DeformSine creation, legacy holder attributes/connections, optional parenting, and deterministic invalid holder/curve/parent handling are host-proven."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-deform-sine-controls-python-verify-163o",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "files": [
+          "aimayatool/tools/scene/deform_sine_controls.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.deform_sine_controls"
+        ],
+        "timeout": 300
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "purpose": "Verify the ScenePattern DeformSineForControls migration against the authoritative legacy control-follow behavior.",
+        "acceptance": [
+          "git_pull fast-forwards main with permissions.edit=true.",
+          "deform_sine_controls.py compiles and imports outside Maya.",
+          "No Maya behavior claim is made from this gate."
+        ],
+        "implementation_commit": "653db5182553799b52e5c0d5013e63924644d6ed",
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_DeformSineForControls.py",
+        "legacy_source_sha": "bc69a0720170bfbb5dc8bb8ef96db3d3fdebb091",
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-deform-sine-controls-maya-validation-163p",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "timeout": 300,
+        "save_scene": false,
+        "isolated_scene": true,
+        "module": "aimayatool.tools.scene.deform_sine_controls",
+        "callable": "deform_sine_controls_managed_maya_smoke"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-deform-sine-controls-python-verify-163o"
+        ],
+        "purpose": "Validate DeformSineForControls in managed Maya after deterministic verification.",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene is used.",
+          "Per-control curve refs and _SineDeformOffset groups are created.",
+          "Requested translate axes connect from curve refs to offsets while unrequested axes remain unconnected.",
+          "SplineRefs root and sine deformer honor optional parent.",
+          "Legacy attrName Ops/Active/Offset/Visible attributes and sine connections are created.",
+          "Route reports new_scene_forced=true and scene_saved=false."
+        ],
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
       }
     }
   ]
