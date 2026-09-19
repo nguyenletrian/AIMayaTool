@@ -647,9 +647,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-visibility-toggle-maya-validation-164p",
       "action": {
         "type": "maya",
@@ -692,7 +692,29 @@
           "Missing objects skip independently.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "visibility_toggle_managed_maya2024_proven",
+        "delivery_id": "7a4502c42e89209674f7",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "port": 7001,
+          "git_pull_before": "4c60f0eccb2274fa60440726b896bbebc35053be",
+          "git_pull_after": "25487acbf6e71faafd5543a895ffbaa71b660f93",
+          "smoke": {
+            "attr": true,
+            "connected": true,
+            "child_preserved": true,
+            "missing": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: bool control attribute creation works, source connects to generated visibility target, ignoreChildren preserves child hierarchy through the replacement/follow path, and missing objects skip independently."
       }
     }
   ]
