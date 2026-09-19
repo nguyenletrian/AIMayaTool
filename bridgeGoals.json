@@ -539,19 +539,31 @@
         {
           "milestone_id": "ui-search-discovery",
           "title": "Add search/discovery and useful recent/favorite access",
-          "status": "active",
+          "status": "completed",
           "search_interaction_evidence": {
             "task_id": "aimayatool-goal009-ui-search-discovery-interaction-maya-retry-176h",
             "delivery_id": "633d21a010ed04a18e6b",
             "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
             "scene_saved": false,
             "date": "2026-09-19"
+          },
+          "completion_evidence": {
+            "task_id": "aimayatool-goal009-ui-search-discovery-recent-favorite-interaction-maya-176l",
+            "delivery_id": "41ca0d747b26a2ff31f8",
+            "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
+            "scene_saved": false,
+            "completed_date": "2026-09-19",
+            "coverage": [
+              "registry-backed Skinning/Setup/Scene search",
+              "search-selected recent access",
+              "current-tab favorite toggle and discovery summary"
+            ]
           }
         },
         {
           "milestone_id": "ui-status-progress",
           "title": "Unify status/progress/error presentation",
-          "status": "pending"
+          "status": "active"
         },
         {
           "milestone_id": "ui-final-polish",
