@@ -62,6 +62,24 @@ def _apply_search(*_):
     return tuple(item["id"] for item in matches)
 
 
+def discovery_interaction_smoke():
+    show()
+    reg = _current_registry()
+    for group_id in ("skinning", "setup", "scene"):
+        reg.set_favorite(group_id, False)
+    cmds.textField(_SEARCH, edit=True, text="rig")
+    _apply_search()
+    recent = tuple(item["id"] for item in reg.recent_groups())
+    if not recent or recent[0] != "setup":
+        raise RuntimeError("Recent discovery failed: {0}".format(recent))
+    favorite = _toggle_current_favorite()
+    favorites = tuple(item["id"] for item in reg.favorite_groups())
+    label = cmds.text(_DISCOVERY, query=True, label=True)
+    if favorite != "setup" or "setup" not in favorites or "Setup" not in label:
+        raise RuntimeError("Favorite discovery failed: favorite={0}, favorites={1}, label={2}".format(favorite, favorites, label))
+    return "AIBRIDGE_UI_DISCOVERY_OK:recent=setup|favorite=setup"
+
+
 def search_interaction_smoke():
     show()
     expected = (("skin", "skinning"), ("rig", "setup"), ("preset", "scene"))
