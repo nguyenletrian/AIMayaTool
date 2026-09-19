@@ -28,73 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-preimplementation-baseline-167i",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-bootstrap-no-git-design-verification-167g",
-          "result": "PASS_GATE_ONLY"
-        },
-        "purpose": "Establish a fresh deterministic baseline for Rivet/SplineRig implementation slices while the implementation dispatcher is unavailable.",
-        "acceptance": [
-          "Fast-forward main and compile current Scene package entrypoint.",
-          "Do not mutate, commit, or push product code.",
-          "Do not claim Rivet or SplineRig parity.",
-          "Return baseline evidence preserving the already-inspected legacy contracts for later implementation."
-        ],
-        "blocker": "Implementation-capable route is still absent from current project router/capability metadata. This task is read/verify-only and must not mutate product code.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_BASELINE",
-        "classification": "rivet_spline_preimplementation_baseline_verified",
-        "delivery_id": "74b4c81fe61d84bd2b37",
-        "verification_evidence": {
-          "py_compile": true,
-          "main_commit": "e15e007251be18b646587fd95e762093df0945ef"
-        },
-        "architect_diagnosis": "Rivet/SplineRig preimplementation baseline is healthy. This does not implement either workflow; implementation remains gated by the absent implementation-capable route."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-implementation-dispatch-blocker-freshness-167j",
       "action": {
         "type": "verification",
@@ -635,9 +568,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -680,6 +613,80 @@
           "Compile/import current Scene package baseline.",
           "Do not claim Rivet implementation or Maya parity from this task.",
           "Return current main evidence for the next Architect-owned Rivet implementation commit."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "rivet_preimplementation_sync_verified",
+        "delivery_id": "bd6115e3a892a6d60d34",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "6041237041966853d7fd06d8336bce2fd10cbee3"
+        },
+        "architect_diagnosis": "Scene baseline was healthy. Architect then implemented the bounded Rivet slice directly through repository tools; deterministic verification is queued next."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-rivet-python-verify-167s",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/rivet.py",
+          "tests/test_scene_rivet.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.rivet"
+        ],
+        "tests": [
+          "tests.test_scene_rivet"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "implementation_commits": [
+          "417957465086a6a1c8eeaa8a5b3c80ba504619ac",
+          "690b5b07e44c324d7244109e8a15edf1961add07"
+        ],
+        "purpose": "Verify Architect-authored Rivet normalization/planning and import safety before any Maya-host validation.",
+        "acceptance": [
+          "Fast-forward main including Rivet implementation and tests.",
+          "Compile rivet.py and test module.",
+          "Import aimayatool.tools.scene.rivet outside Maya.",
+          "Run tests.test_scene_rivet successfully.",
+          "Do not claim Maya parity from Python-only evidence."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
