@@ -617,12 +617,25 @@
         {
           "milestone_id": "context-selection",
           "title": "Context-aware selection helpers",
-          "status": "active"
+          "status": "completed",
+          "completion_evidence": {
+            "task_id": "aimayatool-goal010-context-selection-helper-maya-179c",
+            "delivery_id": "ad538445d23a047d2333",
+            "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_CONTEXT_SELECTION_OK:ordered|nonmutating",
+            "scene_saved": false,
+            "completed_date": "2026-09-19",
+            "coverage": [
+              "ordered transform selection context",
+              "minimum/exact count validation",
+              "caller-supplied actionable errors",
+              "non-mutating validation failure"
+            ]
+          }
         },
         {
           "milestone_id": "presets-smart-defaults",
           "title": "Reusable presets and smart defaults",
-          "status": "pending"
+          "status": "active"
         },
         {
           "milestone_id": "favorites-recent",
