@@ -28,155 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-final-polish-maya-178c",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.ui.main_window",
-        "callable": "show",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45,
-        "expected_window": "AIMayaToolWindow"
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-final-polish",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-final-polish-setup-rows-python-178b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Final managed Maya workspace regression for Goal 009 after bounded shared-row polish.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use isolated fresh scene.",
-          "Invoke aimayatool.ui.main_window.show and require AIMayaToolWindow.",
-          "Skinning, Setup and Scene tabs must construct without Maya/Python exception.",
-          "Setup shared button rows must construct after polish while dynamic control-shape rows remain available.",
-          "Search/discovery and status surfaces must coexist in the workspace without construction regression.",
-          "Do not save scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_final_polish_and_goal009_complete",
-        "delivery_id": "1f3173dca2dcf6f66ac7",
-        "verification_evidence": {
-          "marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "pid": 6168,
-          "port": 7001,
-          "session": "existing"
-        },
-        "architect_diagnosis": "Final managed Maya workspace regression passed after bounded polish. All Goal 009 milestones now have sufficient evidence; Goal 009 is complete. Goal 010 context-selection is activated for the next bounded inventory."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-context-selection-inventory-179a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py",
-          "aimayatool/registry.py"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "context-selection",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-final-polish-maya-178c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Inventory explicit selection requirements across Skinning, Setup and Scene to identify the smallest safe context-aware selection helper that reduces repetitive selection without hiding destructive behavior.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile the three domain entrypoints and registry.",
-          "Inventory selection-reading helpers and repeated selection-order validation across domains.",
-          "Identify one bounded context-selection slice with explicit fallback/error behavior and no destructive auto-selection.",
-          "Prefer reusable Python-safe logic where possible before Maya integration.",
-          "Do not expand into presets, favorites/recent, batch productivity or broad preflight work.",
-          "Do not claim Maya behavior from this inventory.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "context_selection_inventory_pass",
-        "delivery_id": "279454b296097ee37454",
-        "architect_diagnosis": "Selection inventory compiles. Setup has the densest repeated ordered transform-selection validation and already centralizes many paths through _require_selection; the smallest safe context-aware slice is an explicit ordered _selection_context helper with minimum/exact count validation and no automatic/destructive selection. Existing _require_selection now delegates to it."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-context-selection-helper-python-179b",
       "action": {
         "type": "verification",
@@ -743,6 +594,132 @@
           "diagnosis": "Failure occurred before product verification because git_pull requires edit permission. Task has already been corrected to edit=true and remains pending for a clean verification retry."
         },
         "architect_diagnosis": "ACKed the exact failed delivery without treating it as product failure. Current task definition is recovered: edit=true permits ff-only git_pull while commit/push remain false and acceptance forbids product edits. Keep the same task pending so Bridge can perform the intended compile/import/unit-test verification."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-ui-instrument-inventory-181d",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/registry.py",
+          "aimayatool/ui/components.py",
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-action-state-verify-181c"
+        ],
+        "purpose": "Inventory the smallest safe UI/domain instrumentation seam for recording stable action recency without changing action semantics or adding persistence.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile registry, shared UI components and domain entrypoints.",
+          "Identify a thin reusable action wrapper/helper that can record explicit group_id/action_id/label only when an action is intentionally invoked.",
+          "Preserve current run_action success/error presentation and existing callbacks.",
+          "Do not infer action identity from callback repr/result labels.",
+          "Do not add persistence, batch productivity or preflight behavior.",
+          "Do not claim Maya interaction behavior from this Python inventory.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-favorites-recent-workspace-inventory-181e",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/registry.py",
+          "aimayatool/ui/main_window.py",
+          "aimayatool/ui/components.py"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "favorites-recent",
+        "depends_on": [
+          "aimayatool-goal010-favorites-recent-ui-instrument-inventory-181d"
+        ],
+        "purpose": "Inventory the bounded workspace surface needed to expose action-level Recent/Favorites after instrumentation, preserving existing group discovery and thin UI.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile registry, main workspace and shared components.",
+          "Identify the smallest workspace presentation for action-level Recent/Favorites using registry state without duplicating domain business logic.",
+          "Preserve existing group search, group recent/favorites and tab navigation.",
+          "Keep action execution explicit; no automatic execution from search/discovery.",
+          "Do not add persistence, batch productivity or preflight behavior.",
+          "Do not claim Maya interaction behavior from this Python inventory.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
