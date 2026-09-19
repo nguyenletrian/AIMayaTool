@@ -668,9 +668,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-replace-path-maya-validation-164r",
       "action": {
         "type": "maya",
@@ -712,7 +712,28 @@
           "Exactly the expected file node is reported replaced.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "replace_path_managed_maya2024_proven",
+        "delivery_id": "094baf2e68541a08b779",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "port": 7001,
+          "git_pull_before": "d8f48e9caef11e009b7c1bd46f432db30bcbfda5",
+          "git_pull_after": "b607cf6037cb9bd5b0be8dccae45bab74908558f",
+          "smoke": {
+            "replaced": true,
+            "untouched": true,
+            "count": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: matching file texture basename is replaced through fileTextureName, unmatched file nodes remain untouched, and exactly the expected node is reported as replaced."
       }
     }
   ]
