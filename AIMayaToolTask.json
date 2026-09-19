@@ -21,77 +21,6 @@
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
-      "task_id": "aimayatool-goal007-scene-pattern-visibility-switch-python-verify-164s",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "files": [
-          "aimayatool/tools/scene/visibility_switch.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.visibility_switch"
-        ],
-        "timeout": 300
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "purpose": "Verify ScenePattern VisibilitySwitch adapter.",
-        "implementation_commit": "14bb62c427ee1e98540e91c49c799da942642884",
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_VisibilitySwitch.py",
-        "legacy_source_sha": "9ce2fb908f428648c3e65dffa8ea19d6d67266f4",
-        "acceptance": [
-          "git_pull current main.",
-          "Module compiles/imports outside Maya.",
-          "No Maya host claim."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "visibility_switch_python_verification_passed",
-        "delivery_id": "0be441bfe0152a0704cd",
-        "verification_evidence": {
-          "git_pull_before": "b607cf6037cb9bd5b0be8dccae45bab74908558f",
-          "git_pull_after": "bf0d8cfda51482ff1993c6deb0c9b0e1fa337e4d",
-          "repository_changed": true,
-          "py_compile": true,
-          "imports": [
-            "aimayatool.tools.scene.visibility_switch"
-          ]
-        },
-        "architect_diagnosis": "Python gate passed after fast-forwarding current main. VisibilitySwitch adapter compiles/imports cleanly; enum creation, condition-index mapping, visibility connections and host hierarchy behavior remain gated by managed-Maya task 164t."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-transfer-attribute-python-verify-164u",
       "action": {
         "type": "verification",
@@ -580,9 +509,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-script-hook-adapters-python-verify-165b",
       "action": {
         "type": "verification",
@@ -630,7 +559,11 @@
           "Focused tests pass.",
           "No Maya host behavior claim."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "dependency_dispatched_out_of_order",
+        "delivery_id": "9eb0df944a45b0e4b62d",
+        "architect_diagnosis": "Bridge dispatched verification before its pending implementation dependency 165c, so script_hooks.py did not yet exist. This is workflow ordering evidence, not a product verification failure. Requeue verification only after 165c completes."
       }
     },
     {
@@ -699,6 +632,71 @@
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled.",
         "retry_of": "aimayatool-goal007-scene-pattern-script-hook-adapters-165a"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "task_id": "aimayatool-goal007-scene-pattern-script-hook-adapters-python-verify-retry-165d",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/script_hooks.py",
+          "tests/test_scene_script_hooks.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.script_hooks"
+        ],
+        "tests": [
+          "tests.test_scene_script_hooks"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "depends_on": [
+          "aimayatool-goal007-scene-pattern-script-hook-adapters-python-impl-165c"
+        ],
+        "retry_of": "aimayatool-goal007-scene-pattern-script-hook-adapters-python-verify-165b",
+        "purpose": "Retry deterministic verification only after script-hook implementation 165c has completed.",
+        "acceptance": [
+          "git_pull current main.",
+          "Changed modules compile.",
+          "script_hooks imports outside Maya.",
+          "Focused tests pass.",
+          "No Maya host behavior claim."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
