@@ -28,81 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-components-scene-adoption-maya-175e",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.tools.scene",
-        "callable": "build_ui",
-        "isolated_scene": true,
-        "new_scene": true,
-        "save_scene": false,
-        "operation_timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-components",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-components-scene-adoption-python-175d",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Validate the first reusable UI-component adoption by constructing Scene build_ui in managed Maya.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use isolated fresh managed Maya scene.",
-          "Invoke aimayatool.tools.scene.build_ui.",
-          "Return PASS only if reusable section() rendering and Scene UI construction complete without Maya/Python exception.",
-          "Do not save the Maya scene.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_components_scene_adoption_maya_pass",
-        "delivery_id": "bb5864c55e26817e606b",
-        "verification_evidence": {
-          "marker": "AIBRIDGE_UI_SMOKE_OK:StatusLine|MainStatusLineLayout|formLayout4|columnLayout19",
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "pid": 6168,
-          "port": 7001
-        },
-        "architect_diagnosis": "Reusable section() adoption renders successfully in managed Maya. With Python and Maya gates proven, Architect expanded the bounded adoption to Setup section headings plus one representative two-button row; callbacks remain domain-owned."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-components-setup-adoption-python-175f",
       "action": {
         "type": "verification",
@@ -661,9 +586,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -711,6 +636,85 @@
           "Start/use a fresh managed Maya session so aimayatool.registry is loaded from current repository state.",
           "Use isolated fresh scene and invoke aimayatool.ui.main_window.show.",
           "Require AIMayaToolWindow and no Maya/Python exception.",
+          "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ui_search_workspace_maya_pass",
+        "delivery_id": "51eb4c3ee17128e178f1",
+        "verification_evidence": {
+          "marker": "AIBRIDGE_UI_SMOKE_OK:AIMayaToolWindow",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001,
+          "reported_session": "existing"
+        },
+        "architect_diagnosis": "Search-enabled AIMayaToolWindow now constructs successfully in managed Maya. Although the task requested fresh_session, runtime reported session=existing; the cache-robust import fix nevertheless loaded successfully. Architect added a focused callable that enters representative queries and asserts selected tabs for Skinning/Setup/Scene."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-search-discovery-interaction-maya-176f",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.ui.main_window",
+        "callable": "search_interaction_smoke",
+        "isolated_scene": true,
+        "new_scene": true,
+        "save_scene": false,
+        "operation_timeout": 45,
+        "expected_window": "AIMayaToolWindow"
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-search-discovery",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal009-ui-search-discovery-workspace-maya-retry-176e",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Validate actual search interaction by entering representative discovery queries and asserting the selected Skinning/Setup/Scene tabs in managed Maya.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use isolated fresh scene.",
+          "Invoke aimayatool.ui.main_window.search_interaction_smoke.",
+          "Require AIMayaToolWindow.",
+          "Assert skin selects Skinning, rig selects Setup, preset selects Scene.",
+          "Return marker AIBRIDGE_UI_SEARCH_OK:skinning|setup|scene without exception.",
           "Do not save scene.",
           "Do not use Codex."
         ],
