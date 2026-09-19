@@ -25,80 +25,6 @@
         "read": true,
         "edit": true,
         "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-implementation-plan-167a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-remaining-rig-patterns-repo-audit-166y",
-          "result": "BLOCKED_ROUTE"
-        },
-        "purpose": "Prepare implementation-ready Rivet + SplineRig migration boundaries from Architect-inspected legacy evidence. Current AIMayaTool search found no equivalent scene surface; SplineControl/SplineCurve named legacy files were not present and must not be invented.",
-        "legacy_evidence": [
-          "Scene_Pattern_Rivet.py: >=3 vertices -> poly facet -> curveFromMeshEdge/loft/pointOnSurfaceInfo locator orientation; optional copyTransform, child offset constraint, skin copy, parent.",
-          "Scene_Pattern_SplineRig.py fields: parent,parentGlobal,controls,numberCtrls,rebuild; builds spline offsets/joints/curve/rebuild/ikSpline/control joints+skin/controls/global blend/visibility proxy.",
-          "Scene_Pattern_SplineControl.py and Scene_Pattern_SplineCurve.py returned 404 in legacy repo; treat absent unless later evidence proves otherwise."
-        ],
-        "acceptance": [
-          "Confirm current Scene package compile/import gate.",
-          "Return canonical Rivet and SplineRig target APIs with deterministic input normalization separated from Maya mutation.",
-          "Explicitly avoid creating standalone SplineControl/SplineCurve migrations without source evidence; absorb reusable behavior into canonical SplineRig primitives where appropriate.",
-          "Define focused Python tests and managed-Maya smoke acceptance for rivet DG network and spline rig hierarchy/IK/visibility/global behavior.",
-          "No product mutation in this planning task."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_GATE_ONLY",
-        "classification": "rivet_spline_python_gate_passed_plan_evidence_architect_owned",
-        "delivery_id": "fd57839532fbb3063ddb",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true
-        },
-        "architect_diagnosis": "Supported Python gate passed. It proves current Scene package health only; substantive Rivet/Spline planning remains grounded in Architect-inspected legacy sources. Publish independent implementation slices so they can proceed without coupling."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
         "commit": true,
         "push": true
       },
@@ -737,6 +663,84 @@
           "main_commit": "af3e63f0cd41f1541075de10e70486639476754d"
         },
         "architect_diagnosis": "Fresh main remains compile/import healthy. No product implementation occurred. The implementation-dispatch blocker remains unchanged: current AIMayaTool router metadata has no implementation-capable route."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-gradient-texture-preimplementation-baseline-167k",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-implementation-dispatch-blocker-freshness-167j",
+          "result": "PASS_BASELINE"
+        },
+        "purpose": "Establish the remaining GradientTexture ScenePattern preimplementation baseline from already-inspected legacy evidence, without dispatching an unsupported implementation route.",
+        "legacy_contract": {
+          "fields": [
+            "object",
+            "type",
+            "interpolation",
+            "whiteBegin",
+            "blackBegin",
+            "runColor",
+            "minValue",
+            "maxValue",
+            "objConnect",
+            "attrConnect",
+            "reverse"
+          ],
+          "behavior": "Resolve object material through shape/shading group; create ramp and connect transparency/opacity; configure ramp entries; ensure 0..10 control attribute; remapValue drives selected ramp color position with optional reversed input range and configured output range."
+        },
+        "acceptance": [
+          "Fast-forward current main and compile/import current Scene package.",
+          "Do not mutate product code, commit, or push.",
+          "Preserve the canonical split between deterministic normalization/planning and Maya DG mutation for later implementation.",
+          "Future implementation must guard missing shape/shading group/material/target attributes with actionable errors and must not rely on legacy UI globals.",
+          "Do not claim GradientTexture parity from this task."
+        ],
+        "blocker": "Current AIMayaTool router metadata still has no implementation-capable route. This supported verification gate is the last known unbaselined ScenePattern slice from the inspected remaining-pattern set.",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
