@@ -28,78 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-fold-gradient-implementation-plan-166z",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-remaining-rig-patterns-repo-audit-166y",
-          "result": "BLOCKED_ROUTE"
-        },
-        "purpose": "Prepare implementation-ready FoldRig + GradientTexture migration boundaries from Architect-inspected legacy evidence. FoldRig is a parentConstraint/SDK fold-chain workflow; GradientTexture builds ramp/remapValue shading control. Current AIMayaTool search found no equivalent scene surface.",
-        "legacy_evidence": [
-          "Scene_Pattern_FoldRig.py fields: objEnd, objsRun, destinations, attrContent, attr, constraintContent; validates objs/destinations cardinality; builds parentConstraints and driven keys.",
-          "Scene_Pattern_GradientTexture.py fields: object,type,interpolation,whiteBegin,blackBegin,runColor,minValue,maxValue,objConnect,attrConnect,reverse; builds ramp + remapValue and material transparency/opacity connection."
-        ],
-        "acceptance": [
-          "Confirm current Scene package compile/import gate.",
-          "Return exact target module/API names for FoldRig and GradientTexture, deterministic normalization/validation helpers, and Maya-host mutation functions.",
-          "Identify focused unit tests and managed-Maya smoke fixtures required before parity acceptance.",
-          "No product mutation in this planning task."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_GATE_ONLY",
-        "classification": "fold_gradient_python_gate_passed_plan_evidence_architect_owned",
-        "delivery_id": "085cc3f23e13701c0dd2",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true
-        },
-        "architect_diagnosis": "Supported Python route passed, but as expected it only proves the current Scene package compiles/imports; implementation planning evidence is Architect-owned from inspected legacy sources. Proceed with a focused implementation task rather than repeating a non-executable planning route."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-implementation-plan-167a",
       "action": {
         "type": "verification",
@@ -732,6 +660,74 @@
           "main_commit": "e15e007251be18b646587fd95e762093df0945ef"
         },
         "architect_diagnosis": "Rivet/SplineRig preimplementation baseline is healthy. This does not implement either workflow; implementation remains gated by the absent implementation-capable route."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-implementation-dispatch-blocker-freshness-167j",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisites": [
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-fold-rig-preimplementation-baseline-167h",
+            "result": "PASS_BASELINE"
+          },
+          {
+            "task_id": "aimayatool-goal007-scene-pattern-rivet-spline-preimplementation-baseline-167i",
+            "result": "PASS_BASELINE"
+          }
+        ],
+        "purpose": "Maintain a fresh executable repository baseline while the only remaining blocker is the missing implementation-capable AIBridge dispatch route. This is a bounded freshness gate, not another migration claim.",
+        "acceptance": [
+          "Fast-forward current main.",
+          "Compile and import current Scene package.",
+          "Do not mutate product code, commit, or push.",
+          "Return current repository commit evidence.",
+          "Do not claim FoldRig, Rivet, SplineRig, GradientTexture, or no-Git bootstrap implementation."
+        ],
+        "blocker": "Current AIMayaTool .aibridge/routers.json still exposes verification:python and git:pull but no implementation-capable route. Architect also confirmed the private nguyenletrian/AIBrigde repository is accessible, but GitHub code search is not indexed, so route implementation cannot be truthfully inferred from search. Do not invent a route.",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
     }
   ]
