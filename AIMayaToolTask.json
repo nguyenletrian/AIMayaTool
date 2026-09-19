@@ -28,76 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal008-scene-build-pipeline-verify-172b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/build_pipeline.py",
-          "aimayatool/tools/scene/build_pipeline_smoke.py",
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.build_pipeline_smoke",
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-008",
-        "milestone_id": "scene-build-pipeline",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal008-scene-build-pipeline-inventory-172a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify deterministic ordered Scene build-pipeline orchestration and explicit error behavior.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile build_pipeline.py, build_pipeline_smoke.py, and Scene public API.",
-          "Import build_pipeline_smoke so ordering/error assertions execute.",
-          "Prove ordered execution, result capture, stop-on-error default, continue-on-error option, and invalid-step rejection.",
-          "No Maya validation required for this host-agnostic orchestration layer."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_build_pipeline_behavior_pass",
-        "delivery_id": "056f10d06bd881545fb0",
-        "architect_diagnosis": "Compile, import-executed build-pipeline smoke, and public Scene API import passed. Ordered orchestration/error-policy slice is accepted."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal008-scene-ux-polish-inventory-173a",
       "action": {
         "type": "verification",
@@ -645,9 +575,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -694,6 +624,76 @@
           "Compile components.py and components_smoke.py.",
           "Import components outside Maya without importing maya.cmds eagerly.",
           "Import components_smoke so deterministic invalid-input contract executes.",
+          "Do not treat Python PASS as Maya rendering acceptance."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL",
+        "classification": "ui_component_validation_order_regression",
+        "delivery_id": "734cb018cad668097ee3",
+        "architect_diagnosis": "components.py itself imports outside Maya, but button_row() loaded maya.cmds before validating empty input, so the Python contract smoke could not exercise host-independent validation. Fixed by validating items/columns/callbacks before lazy Maya import."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal009-ui-components-python-verify-retry-175c",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/ui/components.py",
+          "aimayatool/ui/components_smoke.py"
+        ],
+        "imports": [
+          "aimayatool.ui.components",
+          "aimayatool.ui.components_smoke"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-009",
+        "milestone_id": "ui-components",
+        "retry_of_archived": {
+          "task_id": "aimayatool-goal009-ui-components-python-verify-175b",
+          "result": "FAIL",
+          "classification": "ui_component_validation_order_regression",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Re-run reusable UI component Python contract after moving deterministic input validation ahead of maya.cmds import.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile components.py and components_smoke.py.",
+          "Import aimayatool.ui.components outside Maya.",
+          "Import components_smoke outside Maya; empty-row validation must execute without requiring Maya.",
           "Do not treat Python PASS as Maya rendering acceptance."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
