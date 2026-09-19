@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-bootstrap-no-git-design-verification-167g",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "bootstrap.py"
-        ],
-        "imports": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-ui-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-implementation-route-recovery-assessment-retry-167f",
-          "result": "PASS"
-        },
-        "purpose": "Bounded verification/design gate for the owner-requested no-Git bootstrap path. Current bootstrap only adds its own repository directory to sys.path and launches; it cannot install AIMayaTool on a machine without Git or a pre-existing checkout.",
-        "current_evidence": "bootstrap.py currently resolves __file__/cwd, inserts that root into sys.path, imports aimayatool, and launches. No downloader/cache/update/fallback exists.",
-        "acceptance": [
-          "Fast-forward current main and py_compile bootstrap.py.",
-          "Do not mutate product code, commit, or push.",
-          "Return verification evidence only; do not claim no-Git installation support exists.",
-          "Preserve target design boundary for next implementation-capable step: stdlib-only HTTPS ZIP download, writable per-user cache/install root, staged extraction + atomic replacement, preserve last-known-good install on network/update failure, import/launch installed aimayatool, concise Maya-visible errors, and no hard-coded developer path.",
-          "Do not add credentials or assume public-repository access semantics for a private repository; authentication strategy must remain explicit if private distribution is required."
-        ],
-        "blocker": "Product implementation remains blocked because current project routers expose no implementation-capable route. This supported verification task records the bootstrap gap and keeps the queue truthful without abusing verification:python for code mutation.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_GATE_ONLY",
-        "classification": "bootstrap_current_file_compiles_no_git_support_not_implemented",
-        "delivery_id": "0a8ae66a9257feaa493e",
-        "verification_evidence": {
-          "py_compile": true,
-          "main_commit": "b5e027e49bcc4e9554744a1f03b45e0b030fc19c"
-        },
-        "architect_diagnosis": "Current bootstrap compiles cleanly. This proves syntax health only; no downloader/cache/atomic-update/fallback behavior exists yet. No-Git bootstrap remains implementation-ready but blocked on the absent implementation-capable route."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-fold-rig-preimplementation-baseline-167h",
       "action": {
         "type": "verification",
@@ -646,9 +577,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -688,6 +619,64 @@
           "Force an isolated fresh unsaved scene and keep save_scene=false.",
           "Invoke aimayatool.tools.scene.fold_rig.fold_rig_managed_maya_smoke.",
           "Return explicit product result or exception evidence. If the same bounded operation times out/crashes again on the genuinely fresh session, preserve both runs and classify as a reproducible Maya blocker rather than retrying indefinitely."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "BLOCKED_MAYA_RUNTIME",
+        "classification": "repeated_maya_ui_smoke_timeout_no_product_evidence",
+        "delivery_id": "ac21513fb0c7aec7bbd6",
+        "architect_diagnosis": "The same bounded FoldRig UI smoke timed out twice with empty product output, including the required fresh-session retry. Per Guide, stop retrying this live validation indefinitely. Python implementation remains verified; Maya acceptance is blocked until the ui_smoke runtime/transport can return callable evidence."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-runtime-discovery-167q",
+      "action": {
+        "type": "maya",
+        "target": "runtime_discovery"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 120
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-fold-rig-managed-maya-smoke-fresh-retry-167p",
+          "result": "BLOCKED_MAYA_RUNTIME"
+        },
+        "purpose": "Bounded read-only runtime diagnosis after two FoldRig ui_smoke timeouts. Establish current Maya/runtime availability without executing FoldRig again.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Discover current Maya 2024/runtime state using the registered read-only maya:runtime_discovery route.",
+          "Do not invoke FoldRig, mutate a scene, save files, or retry maya:ui_smoke.",
+          "Return concrete runtime/process/session evidence so Architect can distinguish live-route infrastructure failure from a product blocker before any later Maya validation."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
