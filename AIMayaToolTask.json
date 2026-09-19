@@ -668,9 +668,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-transform-backup-maya-validation-164x",
       "action": {
         "type": "maya",
@@ -713,7 +713,31 @@
           "jointOrient, rotateOrder and segmentScaleCompensate restore correctly.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "transform_backup_managed_maya2024_proven",
+        "delivery_id": "b0777e1762a3f5def5d9",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "port": 7001,
+          "git_pull_before": "5900f25a54f0e01f02f3a56969ea97a416506291",
+          "git_pull_after": "f2c053e4dc0291163eaadff1b6b688de882bf4ca",
+          "smoke": {
+            "exists": true,
+            "parent": true,
+            "orient": true,
+            "rotate_order": true,
+            "ssc": true,
+            "created": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: deleted captured joint is recreated, parent relationship restored, and jointOrient, rotateOrder, and segmentScaleCompensate restore correctly."
       }
     }
   ]
