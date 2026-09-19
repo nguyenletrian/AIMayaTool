@@ -565,8 +565,8 @@
       },
       "task_id": "aimayatool-goal007-scene-pattern-unlock-attribute-python-verify-164a",
       "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "architect_ack": true,
+      "bridge_completed": true,
       "action": {
         "type": "verification",
         "target": "python"
@@ -607,7 +607,20 @@
         "implementation_commit": "a29173773d9f90e0c94e552dde67903e8a71df2b",
         "legacy_source": "UIs/ScenePattern/Scene_Pattern_UnlockAttribute.py",
         "legacy_source_sha": "8414465a8f84b07bad4e88dbf729b014ed508eb9",
-        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it."
+        "owner_constraint": "Do not use Codex until the owner explicitly re-enables it.",
+        "result": "PASS",
+        "classification": "unlock_attribute_python_verification_passed",
+        "delivery_id": "9129d747f6fca7833018",
+        "verification_evidence": {
+          "git_pull_before": "0dfba94eed633748d8672f7031d7769053066d74",
+          "git_pull_after": "8d24ccbf9c4f2476859c5ee38c5751e33d1ab182",
+          "repository_changed": true,
+          "py_compile": true,
+          "imports": [
+            "aimayatool.tools.scene.unlock_attribute"
+          ]
+        },
+        "architect_diagnosis": "Deterministic ScenePattern UnlockAttribute gate passed after fast-forwarding current main. Adapter compiles/imports cleanly; Maya unlock/keyable/disconnect behavior remains gated by dependent managed-live task 164b."
       }
     },
     {
