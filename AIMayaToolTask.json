@@ -643,9 +643,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rename-attribute-maya-validation-164n",
       "action": {
         "type": "maya",
@@ -688,7 +688,29 @@
           "Malformed plug rejected deterministically.",
           "new_scene_forced=true, scene_saved=false, smoke success=true."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "rename_attribute_managed_maya2024_proven",
+        "delivery_id": "dec2098d96d3e6abccce",
+        "maya_evidence": {
+          "pid": 6168,
+          "managed_pid": 6168,
+          "session": "existing",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "port": 7001,
+          "git_pull_before": "5713fb69660d205faf8e73d5f7ba51a14ba65087",
+          "git_pull_after": "c47a88968d72e16d379d5f79e5abf348de2f947d",
+          "smoke": {
+            "renamed": true,
+            "missing": true,
+            "existing": true,
+            "invalid": true,
+            "success": true
+          },
+          "marker": "AIBRIDGE_UI_SMOKE_OK"
+        },
+        "architect_diagnosis": "Managed Maya host proof passed in a forced-new unsaved scene: source attribute rename succeeds, missing source plugs skip independently, an existing destination attribute is preserved/skipped, and malformed plug input is rejected deterministically."
       }
     }
   ]
