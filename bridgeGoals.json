@@ -477,12 +477,12 @@
         {
           "milestone_id": "scene-presets",
           "title": "Modernize pattern/preset management",
-          "status": "active"
+          "status": "completed"
         },
         {
           "milestone_id": "scene-compare-edit",
           "title": "Improve compare/edit workflows",
-          "status": "pending"
+          "status": "active"
         },
         {
           "milestone_id": "scene-build-pipeline",
