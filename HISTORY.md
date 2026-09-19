@@ -41,3 +41,11 @@ This file records durable product/architecture milestones. Detailed task executi
 ## Prior durable milestones
 
 Earlier accepted architecture, Skinning, Setup, and Scene milestones remain preserved in Git history through the prior HISTORY checkpoint blob `c9404f150db66b6a9e55803a275872815d403e4e`.
+
+## 2026-09-19 — Scene complete migration accepted
+
+- Goal `aimayatool-007` completed after ScenePattern parity, build parity, legacy data compatibility, remaining utility parity, UI parity, and Maya validation gates all closed.
+- Managed Maya 2024 validation passed in forced fresh unsaved scenes for reusable scene build actions (`SCENE_BUILD_ACTIONS_SMOKE_OK`), SingleScript host behavior (`success=True`), and display-layer helpers (`SCENE_DISPLAY_LAYER_SMOKE_OK`).
+- Final deterministic closeout compiled/imported the Scene package successfully at checkpoint `1e0be86ee0b30fc3fc879e1232fe6cb3a13c4def`.
+- Validation tier: deterministic Python closeout plus managed live Maya 2024 host mutation; scenes were not saved.
+- Goal `aimayatool-008` (Scene 2.0 modernization) becomes the next active goal, beginning with preset management.
