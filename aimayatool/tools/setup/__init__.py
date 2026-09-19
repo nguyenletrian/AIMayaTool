@@ -93,6 +93,30 @@ def _reset_selected():
     return transforms.reset_transforms(_require_selection(1, "Select transforms to reset."), translate=True, rotate=True, scale=False)
 
 
+def batch_reset_managed_maya_smoke():
+    """Prove ordered multi-selection Reset TR behavior without saving the scene."""
+    cmds = _cmds()
+    nodes = [cmds.createNode("transform", name="AIMayaToolBatchReset{0}".format(i)) for i in range(3)]
+    for i, node in enumerate(nodes):
+        cmds.setAttr(node + ".translateX", float(i + 2))
+        cmds.setAttr(node + ".rotateY", float((i + 1) * 10))
+        cmds.setAttr(node + ".scaleX", float(i + 2))
+    cmds.select(nodes, replace=True)
+    expected = cmds.ls(selection=True, long=True) or []
+    _reset_selected()
+    actual = cmds.ls(selection=True, long=True) or []
+    if actual != expected:
+        raise RuntimeError("Selection order changed: {0} != {1}".format(actual, expected))
+    for i, node in enumerate(nodes):
+        if any(abs(cmds.getAttr(node + ".translate" + axis)) > 1e-6 for axis in "XYZ"):
+            raise RuntimeError("Translation was not reset: {0}".format(node))
+        if any(abs(cmds.getAttr(node + ".rotate" + axis)) > 1e-6 for axis in "XYZ"):
+            raise RuntimeError("Rotation was not reset: {0}".format(node))
+        if abs(cmds.getAttr(node + ".scaleX") - float(i + 2)) > 1e-6:
+            raise RuntimeError("Scale was unexpectedly changed: {0}".format(node))
+    return "AIBRIDGE_BATCH_RESET_OK:ordered|TR_reset|scale_preserved"
+
+
 def _create_joints_selected():
     from . import transforms
     cmds = _cmds()
