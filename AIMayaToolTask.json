@@ -28,77 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-parity-inventory-168a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-spline-rig-python-verify-167w",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Refresh the Scene package baseline after SplineRig completion so Architect can inventory remaining legacy ScenePattern parity gaps and publish only dependency-ready bounded slices.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import the Scene package baseline.",
-          "Do not claim full ScenePattern parity from this baseline check.",
-          "Return current-main evidence for Architect's next legacy-vs-target inventory pass."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "scene_pattern_inventory_baseline_verified",
-        "delivery_id": "a420427d30f866223dab",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "716dd3fa0f50500595193fbb720f32321605a23f"
-        },
-        "architect_diagnosis": "Scene baseline is healthy. Legacy-vs-target inventory shows explicit remaining standalone gaps including SplineCurveFromObjs and SplineControlFromObjs; RopeRoll/RopeStraight deterministic math already exists in rope_weights and should not be duplicated."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-spline-curve-from-objs-sync-168b",
       "action": {
         "type": "verification",
@@ -694,9 +623,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -749,6 +678,79 @@
           "Import module outside Maya.",
           "Run tests.test_scene_ikfk_switch successfully.",
           "Do not claim Maya runtime parity from Python-only verification."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "ikfk_runtime_python_verification_pass",
+        "delivery_id": "a2f05824702d139f3be4",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "unittest": true,
+          "main_commit": "9358c77534686ca9c7a3fc268553205bed730e6b"
+        },
+        "architect_diagnosis": "IK/FK runtime adapter is import-safe and deterministic tests remain green. Maya runtime behavior remains unclaimed pending a healthy host route."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-remaining-gap-inventory-168k",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/__init__.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-ikfk-runtime-python-verify-168j",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Refresh Scene baseline after IK/FK migration and select the next genuinely uncovered legacy ScenePattern family. Reconcile legacy aliases/variants such as ControlShapeAS, ModuloSDKNew, Note, RopeRoll/RopeStraight, and script hooks against existing target modules before adding code.",
+        "acceptance": [
+          "Fast-forward current main.",
+          "Compile/import Scene package.",
+          "Do not duplicate legacy aliases or variants already intentionally represented.",
+          "Return current-main evidence for Architect's bounded remaining-gap decision.",
+          "Do not claim full ScenePattern parity."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
