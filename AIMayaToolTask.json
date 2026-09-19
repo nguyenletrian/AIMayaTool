@@ -704,9 +704,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -750,7 +750,16 @@
           "Return repository precondition commit and verification evidence for Architect route recovery."
         ],
         "blocker": "Implementation dispatch remains unavailable; this task only establishes a fresh verified repository baseline.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "implementation_route_recovery_baseline_verified",
+        "delivery_id": "079c3eb3e8912629c1c3",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "aa92ff66a9c244614213b8466491bae412878483"
+        },
+        "architect_diagnosis": "Fresh main baseline is healthy. The remaining blocker is architectural: current project router metadata exposes no code-implementation route, so FoldRig/Rivet/SplineRig must not be requeued until an implementation-capable route is restored or added."
       }
     }
   ]
