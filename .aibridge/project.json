@@ -26,5 +26,12 @@
     "AIBrigde system contracts",
     "AIMayaTool project guide",
     "task-specific instructions"
-  ]
+  ],
+  "execution_target": {
+    "kind": "maya",
+    "host": "127.0.0.1",
+    "port": 7001,
+    "instance_id": "maya-2024-port-7001",
+    "port_policy": "managed_instance_explicit_target"
+  }
 }
