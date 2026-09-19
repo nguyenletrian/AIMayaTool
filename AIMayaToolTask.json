@@ -28,104 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry3-165z",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.bs_sequence",
-        "callable": "bs_sequence_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-maya-validation",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-bs-sequence-managed-maya-smoke-retry2-165o",
-          "result": "FAILED_MISSING_SMOKE_CALLABLE",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "implementation_commit": "7dca776546b156da4c8fd39d62427654032a512f",
-        "purpose": "Run the deferred BSSequence managed Maya validation now that bs_sequence_managed_maya_smoke exists.",
-        "acceptance": [
-          "git_pull current main.",
-          "Use fresh isolated unsaved Maya scene.",
-          "Exercise bs_sequence_managed_maya_smoke().",
-          "Require success=true and checks proving keyframe collection, generated shoot meshes/names, BS group/blendShape, joint/proxy/show wiring, driven keys, and frame restoration."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "bs_sequence_managed_maya_smoke_passed",
-        "delivery_id": "6fcf26971cf033c9ed20",
-        "verification_evidence": {
-          "managed_pid": 6168,
-          "port": 7001,
-          "new_scene_forced": true,
-          "scene_saved": false,
-          "checks": {
-            "status": true,
-            "keyframes": true,
-            "generated": true,
-            "names": true,
-            "group": true,
-            "blend_shape": true,
-            "joint_connected": true,
-            "proxy": true,
-            "show_proxy": true,
-            "visibility_connected": true,
-            "driven_keys": true,
-            "frame_restored": true
-          },
-          "keyframes": [
-            5,
-            10
-          ],
-          "generated_meshes": [
-            "AIBridgeBSTarget_Shoot_01",
-            "AIBridgeBSTarget_Shoot_02"
-          ],
-          "group": "AIBridgeBSTarget_BSs",
-          "blend_shape": "AIBridgeBSTarget_sequence_BS",
-          "driver": "AIBridgeBSMain.sequence",
-          "show_driver": "AIBridgeBSMain.sequenceShowBS"
-        },
-        "architect_diagnosis": "BSSequence managed Maya smoke passed in a fresh unsaved scene. All bounded checks passed: nonzero keyframe collection, deterministic shoot generation/naming, BS group/blendShape creation, joint/proxy/show wiring, driven-key creation, and current-frame restoration."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-rope-host-fixture-python-regression-166a",
       "action": {
         "type": "verification",
@@ -731,9 +633,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -792,6 +694,73 @@
           "Compile/import modulo_sdk outside Maya.",
           "Focused tests pass for multiline target expansion, dynamic modulo_count=max populated slot+1, legacy int/modulo/abs slot semantics, deterministic offset naming, and invalid input rejection.",
           "Keep offset-group creation and Maya expression creation for the later host adapter.",
+          "No Maya behavior claim."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAILED_TEST_FIXTURE",
+        "classification": "modulo_sdk_multiline_fixture_encoded_literal_backslash_n",
+        "delivery_id": "d5e22ca6e68f1bab8e14",
+        "architect_diagnosis": "Compile/import passed. The sole failure is the same fixture-encoding class seen earlier: the test supplied literal backslash+n inside the target group, so splitlines correctly produced one target and assignment count 1. Corrected the fixture to contain an actual newline; product core unchanged.",
+        "test_fix_commit": "edecdbfd70842e76f9b245ec2c02681041a47f2d"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-core-verify-retry-166j",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/modulo_sdk.py",
+          "tests/test_scene_modulo_sdk.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.modulo_sdk"
+        ],
+        "tests": [
+          "tests.test_scene_modulo_sdk"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "retry_of": "aimayatool-goal007-scene-pattern-modulo-sdk-core-verify-166i",
+        "test_fix_commit": "edecdbfd70842e76f9b245ec2c02681041a47f2d",
+        "purpose": "Retry deterministic ModuloSDK core verification after correcting multiline target fixture encoding.",
+        "acceptance": [
+          "git_pull current main.",
+          "Compile/import modulo_sdk outside Maya.",
+          "All tests.test_scene_modulo_sdk tests pass.",
           "No Maya behavior claim."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
