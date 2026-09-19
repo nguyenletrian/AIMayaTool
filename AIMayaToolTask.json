@@ -28,74 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-driven-key-python-syntax-regression-166r",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/driven_key.py",
-          "tests/test_scene_driven_key.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.driven_key"
-        ],
-        "tests": [
-          "tests.test_scene_driven_key"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry2-166q",
-          "result": "BLOCKED_SYNTAX_FIXTURE"
-        },
-        "syntax_fix_commit": "524acf28ee6801ae87300f64d58b4475d4822c0a",
-        "purpose": "Re-establish compile/import/unit gate after correcting smoke source newline.",
-        "acceptance": [
-          "py_compile passes.",
-          "Import outside Maya passes.",
-          "All focused tests pass."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAILED_COMPILE",
-        "classification": "driven_key_literal_escape_fix_not_applied",
-        "delivery_id": "08b189aae9a79e1510ad",
-        "architect_diagnosis": "Python gate correctly caught that the previous attempted newline repair did not alter driven_key.py at all: its reported content SHA remained unchanged and TaskSource pull contained no module diff. Repaired the actual two-character backslash+n sequence using character-level replacement, then refetched the module and verified the literal escape is absent and a real newline is present."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry3-166s",
       "action": {
         "type": "maya",
@@ -195,7 +127,6 @@
       "metadata": {
         "goal_id": "aimayatool-007",
         "milestone_id": "scene-pattern-parity",
-        "retry_of": "aimayatool-goal007-scene-pattern-driven-key-python-syntax-regression-166r",
         "syntax_fix_commit": "524acf28ee6801ae87300f64d58b4475d4822c0a",
         "purpose": "Re-run compile/import/tests after verified character-level newline repair.",
         "acceptance": [
@@ -214,7 +145,11 @@
           "unittest": true,
           "tests_run": 3
         },
-        "architect_diagnosis": "Compile/import/unit regression passed after the verified newline repair. The DrivenKey module is syntactically healthy and import-safe outside Maya; all 3 focused deterministic tests pass. The final bounded managed Maya connection-path smoke is dependency-ready."
+        "architect_diagnosis": "Compile/import/unit regression passed after the verified newline repair. The DrivenKey module is syntactically healthy and import-safe outside Maya; all 3 focused deterministic tests pass. The final bounded managed Maya connection-path smoke is dependency-ready.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-driven-key-python-syntax-regression-166r",
+          "result": "FAILED_COMPILE"
+        }
       }
     },
     {
@@ -585,9 +520,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -635,7 +570,15 @@
           "Identify focused unit tests and managed-Maya smoke fixtures required before parity acceptance.",
           "No product mutation in this planning task."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_GATE_ONLY",
+        "classification": "fold_gradient_python_gate_passed_plan_evidence_architect_owned",
+        "delivery_id": "085cc3f23e13701c0dd2",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true
+        },
+        "architect_diagnosis": "Supported Python route passed, but as expected it only proves the current Scene package compiles/imports; implementation planning evidence is Architect-owned from inspected legacy sources. Proceed with a focused implementation task rather than repeating a non-executable planning route."
       }
     },
     {
@@ -700,6 +643,82 @@
           "Explicitly avoid creating standalone SplineControl/SplineCurve migrations without source evidence; absorb reusable behavior into canonical SplineRig primitives where appropriate.",
           "Define focused Python tests and managed-Maya smoke acceptance for rivet DG network and spline rig hierarchy/IK/visibility/global behavior.",
           "No product mutation in this planning task."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-fold-rig-core-167b",
+      "action": {
+        "type": "implementation",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 600,
+        "files": [
+          "aimayatool/tools/scene/fold_rig.py",
+          "aimayatool/tools/scene/__init__.py",
+          "tests/test_scene_fold_rig.py"
+        ],
+        "tests": [
+          "tests.test_scene_fold_rig"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-fold-gradient-implementation-plan-166z",
+          "result": "PASS_GATE_ONLY"
+        },
+        "purpose": "Implement canonical FoldRig ScenePattern core from verified legacy semantics before Maya smoke validation.",
+        "legacy_contract": {
+          "fields": [
+            "objEnd",
+            "objsRun",
+            "destinations",
+            "attrContent",
+            "attr",
+            "constraintContent"
+          ],
+          "behavior": "Validate objsRun/destinations cardinality; create bounded integer driver attr when absent; for each run object build parentConstraint across objEnd + destinations, interpType=2, optional constraint parenting, and SDK weights across driver range."
+        },
+        "acceptance": [
+          "Add import-safe aimayatool.tools.scene.fold_rig with Maya import guarded/lazy so module imports outside Maya.",
+          "Provide deterministic normalization/validation for multiline objsRun/destinations and numeric driver plan; reject empty required names and unequal cardinality before Maya mutation.",
+          "Provide Maya-host apply function preserving legacy parentConstraint target ordering, interpType=2, optional constraintContent parenting, and driven-key weight behavior without UI/global ITEMS coupling.",
+          "Do not retain dead reverse-node logic from legacy: legacy ultimately resets driverAttr to attrContent.attr, so canonical implementation should model observed effective behavior only.",
+          "Add focused unit tests for normalization, cardinality rejection, driver/weight plan boundaries, and import outside Maya.",
+          "Expose only stable public API through scene package if project convention requires it; no UI work yet.",
+          "Commit/push implementation and tests; return commit SHA and test evidence."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
