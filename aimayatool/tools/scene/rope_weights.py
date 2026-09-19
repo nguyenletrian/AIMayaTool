@@ -53,3 +53,7 @@ def rope_weights_managed_maya_smoke(mode="roll"):
         wanted=[expected[i]["start"],expected[i]["end"],expected[i]["destination"]]
         if any(abs(a-b)>1e-6 for a,b in zip(actual,wanted)): raise RuntimeError("Constraint weight mismatch")
     return {"ok":True,"mode":mode,"constraint_count":len(constraints),"weights":expected}
+
+
+def rope_straight_managed_maya_smoke():
+    return rope_weights_managed_maya_smoke("straight")
