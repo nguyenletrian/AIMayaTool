@@ -93,7 +93,10 @@ def tracked_action_interaction_smoke():
     if not hasattr(components, "run_tracked_action"):
         components = importlib.reload(components)
     setup = importlib.import_module("aimayatool.tools.setup")
-    result = components.run_tracked_action("setup", "freeze_trs", "Freeze TRS", setup._freeze_selected)
+    setup = importlib.reload(setup)
+    transforms = importlib.import_module("aimayatool.tools.setup.transforms")
+    transforms = importlib.reload(transforms)
+    result = components.run_tracked_action("setup", "freeze_trs", "Freeze TRS", lambda: transforms.freeze_transforms(setup._require_selection(1, "Select transforms to freeze.")))
     _refresh_discovery()
     recent = reg.recent_actions()
     label = cmds.text(_DISCOVERY, query=True, label=True)
