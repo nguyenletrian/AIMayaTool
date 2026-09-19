@@ -28,75 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal009-ui-status-progress-component-python-177c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/ui/components.py"
-        ],
-        "imports": [
-          "aimayatool.ui.components"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-009",
-        "milestone_id": "ui-status-progress",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal009-ui-status-progress-inventory-retry-177b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "purpose": "Verify the reusable run_action status/error presenter before replacing duplicated Skinning/Setup wrappers.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile and import aimayatool.ui.components outside Maya.",
-          "run_action must validate callable input before importing Maya.",
-          "Keep Maya import lazy.",
-          "Preserve success result return and consistent no-changes/list formatting semantics.",
-          "Preserve warning, highlighted in-view error, traceback, and None-on-error behavior.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "ui_status_component_python_pass",
-        "delivery_id": "b092b763f0073f6cf09a",
-        "architect_diagnosis": "Reusable run_action compiles/imports outside Maya. Skinning and Setup now delegate their thin _run wrappers to the shared presenter while retaining domain-specific context labels; duplicate traceback/presentation logic was removed."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal009-ui-status-progress-adoption-python-177d",
       "action": {
         "type": "verification",
@@ -668,9 +599,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -718,6 +649,84 @@
           "A minimum-count failure must raise the caller-supplied actionable ValueError internally and leave selection unchanged.",
           "Callable returns AIBRIDGE_CONTEXT_SELECTION_OK:ordered|nonmutating.",
           "Do not save scene.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "context_selection_complete",
+        "delivery_id": "ad538445d23a047d2333",
+        "verification_evidence": {
+          "marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_CONTEXT_SELECTION_OK:ordered|nonmutating",
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "pid": 6168,
+          "port": 7001,
+          "session": "existing"
+        },
+        "architect_diagnosis": "Managed Maya proved ordered selection preservation and non-mutating validation failure. Context-selection milestone is complete; presets-smart-defaults is activated."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-presets-smart-defaults-inventory-180a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py",
+          "aimayatool/registry.py"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "presets-smart-defaults",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-context-selection-helper-maya-179c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "purpose": "Inventory existing presets, prompt defaults and deterministic reusable configuration to choose the smallest safe smart-default productivity slice without hiding destructive behavior.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile the three domain entrypoints and registry.",
+          "Inventory existing presets, prompt defaults, repeated literal defaults and reusable configuration across Skinning, Setup and Scene.",
+          "Identify one bounded smart-default/preset slice with deterministic fallback and explicit user override.",
+          "Prefer existing domain semantics; do not add opaque scene inference.",
+          "Do not expand into favorites/recent, batch productivity or broad preflight work.",
+          "Do not claim Maya behavior from Python inventory.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
