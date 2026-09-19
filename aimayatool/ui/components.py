@@ -36,6 +36,13 @@ def button_row(buttons, columns=None):
     return row
 
 
+def run_tracked_action(group_id, action_id, label, fn, context="AIMayaTool"):
+    """Record an explicit action identity, then preserve shared action presentation."""
+    from aimayatool import registry
+    registry.mark_recent_action(group_id, action_id, label)
+    return run_action(label, fn, context=context)
+
+
 def run_action(label, fn, context="AIMayaTool"):
     """Run a UI action with consistent success/error presentation."""
     if not callable(fn):
