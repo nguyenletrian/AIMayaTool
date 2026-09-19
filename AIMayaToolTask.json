@@ -561,9 +561,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "task_id": "aimayatool-goal007-scene-pattern-rope-roll-maya-host-assessment-retry2-165x",
       "action": {
         "type": "maya",
@@ -607,7 +607,42 @@
           "Invoke route-compatible rope_weights_managed_maya_smoke() defaulting to roll.",
           "Return structured evidence for three-target pointConstraint weights."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "rope_roll_managed_maya_smoke_passed",
+        "delivery_id": "ad1fff1866ebe1ea4daf",
+        "verification_evidence": {
+          "managed_pid": 6168,
+          "port": 7001,
+          "new_scene_forced": true,
+          "scene_saved": false,
+          "mode": "roll",
+          "constraint_count": 3,
+          "weights": [
+            {
+              "start": 0.5,
+              "end": 0.5,
+              "destination": 0,
+              "orient_reference": 1,
+              "orient_destination": 0
+            },
+            {
+              "start": 0,
+              "end": 0,
+              "destination": 1,
+              "orient_reference": 0,
+              "orient_destination": 1
+            },
+            {
+              "start": 0,
+              "end": 0,
+              "destination": 1,
+              "orient_reference": 0,
+              "orient_destination": 1
+            }
+          ]
+        },
+        "architect_diagnosis": "RopeRoll managed Maya smoke passed in a fresh unsaved scene. The no-argument route-compatible callable returned mode='roll', created three pointConstraints, and verified their three-target weight values against the deterministic RopeRoll core. This is accepted host evidence for the bounded RopeRoll weight fixture."
       }
     },
     {
