@@ -28,78 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-spline-control-from-objs-sync-168d",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-spline-curve-from-objs-python-verify-168c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        },
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_SplineControlFromObjs.py",
-        "purpose": "Sync current main immediately before Architect migrates the standalone SplineControlFromObjs slice that consumes an existing spline curve/joint chain.",
-        "acceptance": [
-          "Fast-forward current main.",
-          "Compile/import Scene package.",
-          "Do not claim SplineControlFromObjs implementation from this sync.",
-          "Return current-main evidence for immediate Architect implementation."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "spline_control_from_objs_preimplementation_sync_verified",
-        "delivery_id": "1d935788f34ddb47d06d",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "main_commit": "34a194e465da7892be8357c56b55ee0aaad727c2"
-        },
-        "architect_diagnosis": "Baseline passed; Architect migrated standalone SplineControlFromObjs and added deterministic tests."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-spline-control-from-objs-python-verify-168e",
       "action": {
         "type": "verification",
@@ -698,9 +626,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -748,6 +676,78 @@
           "Compile rope_weights.py.",
           "Import aimayatool.tools.scene.rope_weights outside Maya.",
           "Do not claim Maya runtime parity from Python-only evidence."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "rope_runtime_python_verification_pass",
+        "delivery_id": "d041ed633109df74ddc5",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "main_commit": "ef6c07fa7b6a16571bd64c14efa97aafa410e0c1"
+        },
+        "architect_diagnosis": "Shared RopeRoll/RopeStraight adapter is Python import-safe. Maya runtime parity remains unclaimed. Remaining evidence shows Note is metadata-only, while ModuloSDKNew contains distinct expression/offset-group behavior not proven by the current modulo_sdk slice."
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-modulo-sdk-new-sync-168n",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/scene/modulo_sdk.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.modulo_sdk"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-pattern-parity",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal007-scene-pattern-rope-runtime-python-verify-168m",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        },
+        "legacy_source": "UIs/ScenePattern/Scene_Pattern_ModuloSDKNew.py",
+        "purpose": "Sync current modulo_sdk implementation before Architect determines whether to extend it with ModuloSDKNew's grouped target-attribute values, per-target _Modulo_Grp offsets, and modulo expression plan rather than creating a duplicate module.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import modulo_sdk.py.",
+          "Do not claim ModuloSDKNew parity from this sync.",
+          "Return current-main evidence for immediate bounded extension decision."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
