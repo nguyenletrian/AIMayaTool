@@ -17,11 +17,18 @@ def _run(label, fn):
     from aimayatool.ui.components import run_action
     return run_action(label, fn, context="AIMayaTool Setup")
 
-def _require_selection(minimum, usage):
+def _selection_context(minimum=1, usage="Select one or more transforms.", exact=None):
+    """Return ordered transform selection with explicit count validation."""
     nodes = _selected_transforms()
+    if exact is not None and len(nodes) != exact:
+        raise ValueError(usage)
     if len(nodes) < minimum:
         raise ValueError(usage)
     return nodes
+
+
+def _require_selection(minimum, usage):
+    return _selection_context(minimum=minimum, usage=usage)
 
 
 def _create_selected(shape):
