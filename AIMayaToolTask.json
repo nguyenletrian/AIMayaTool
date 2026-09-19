@@ -28,79 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal007-scene-pattern-space-switch-core-166d",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/space_switch.py",
-          "tests/test_scene_space_switch.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.space_switch"
-        ],
-        "tests": [
-          "tests.test_scene_space_switch"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-007",
-        "milestone_id": "scene-pattern-parity",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal007-scene-pattern-sdk-switch-space-inventory-166c",
-          "result": "PASS"
-        },
-        "legacy_source": "UIs/ScenePattern/Scene_Pattern_SpaceSwitch.py",
-        "legacy_source_sha": "9a96d1b5fafe3eeb5c7991c1b8242705ccfe32c0",
-        "purpose": "Implement the deterministic Python-only SpaceSwitch planning boundary before Maya host mutation.",
-        "acceptance": [
-          "Implement aimayatool/tools/scene/space_switch.py without importing Maya at module import time.",
-          "Normalize non-empty child and parent names; support multiple children; reject missing/empty parents and invalid duplicate/ambiguous enum labels deterministically.",
-          "Model attrPick, optional attrSlide, defaultValue and maintain semantics. When maintain=false include Default at pick index 0 and shift parent indices by one; when maintain=true parent indices begin at zero.",
-          "Plan target weights/condition indices and optional slide complement (1-slide) without creating Maya nodes.",
-          "Focused tests cover maintain true/false, custom enum labels, optional slide/default value, multiple children and invalid cardinality/empty inputs.",
-          "Compile/import and focused unittest pass outside Maya.",
-          "Do not implement offset groups, constraints, condition nodes or plusMinusAverage in this task."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "BLOCKED_PRECONDITION_IMPLEMENTATION_MISSING",
-        "classification": "verification_published_before_space_switch_files",
-        "delivery_id": "75e690429834e2f9182d",
-        "architect_diagnosis": "Verification correctly rejected the task because space_switch.py did not yet exist. Architect task publication was premature: this slice required implementation before verification. Added deterministic SpaceSwitch core and focused tests in commits ba0ed2a15ab8213f7f31c581713a2c137659466c and 09bece8e8c5bec7903bd38503c2c7bf264f0e3b2; queue corrected verification retry."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal007-scene-pattern-space-switch-host-python-regression-166g",
       "action": {
         "type": "verification",
@@ -710,9 +637,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -757,6 +684,69 @@
           "Prove actual evaluation at both driver values.",
           "Prove animCurve exists and tangents are linear.",
           "Return structured checks."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAILED_SMOKE_ASSERTION",
+        "classification": "driven_key_sdk_connection_assertion_too_strict",
+        "delivery_id": "22f16d4057bfbf11b695",
+        "architect_diagnosis": "Maya behavior itself passed: SDK/zero groups exist, animCurve exists, values evaluate correctly at driver 0/10, and tangents are linear. Only the smoke's direct isConnected(offset.tx, child.tx) assertion failed because setDrivenKeyframe inserts an animCurve in the dependency path. Corrected smoke acceptance to recognize the animCurve-driven connection path; product host mutation unchanged.",
+        "smoke_fix_commit": "5d0a7071f8c2bbd3fa393f601eaac436b4853052"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-retry-166p",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.driven_key",
+        "callable": "driven_key_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-007",
+        "milestone_id": "scene-maya-validation",
+        "retry_of": "aimayatool-goal007-scene-pattern-driven-key-managed-maya-smoke-166o",
+        "smoke_fix_commit": "5d0a7071f8c2bbd3fa393f601eaac436b4853052",
+        "purpose": "Retry DrivenKey managed Maya smoke after correcting only the SDK connection-path assertion.",
+        "acceptance": [
+          "Fresh isolated unsaved Maya scene.",
+          "SDK and zero groups exist.",
+          "SDK animCurve drives the child attribute through the expected Maya DG path.",
+          "Values evaluate 1 at driver 0 and 5 at driver 10.",
+          "Tangents are linear."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       }
