@@ -654,12 +654,25 @@
         {
           "milestone_id": "favorites-recent",
           "title": "Favorites and recent workflows",
-          "status": "active"
+          "status": "completed",
+          "completion_evidence": {
+            "task_id": "aimayatool-goal010-favorites-recent-action-maya-smoke-retry2-181o",
+            "delivery_id": "808ef6ae3d24b11bdd2e",
+            "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_ACTION_RECENT_OK:setup|freeze_trs|workspace",
+            "scene_saved": false,
+            "completed_date": "2026-09-19",
+            "coverage": [
+              "stable action identity registry contract",
+              "tracked Setup Freeze TRS invocation",
+              "action-level recent workspace discovery",
+              "existing group Recent/Favorites regression"
+            ]
+          }
         },
         {
           "milestone_id": "batch-productivity",
           "title": "Batch workflow improvements",
-          "status": "pending"
+          "status": "active"
         },
         {
           "milestone_id": "preflight-guidance",
