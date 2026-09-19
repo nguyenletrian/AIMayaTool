@@ -89,9 +89,11 @@ def tracked_action_interaction_smoke():
     node = cmds.createNode("transform", name="AIMayaToolTrackedFreeze")
     cmds.setAttr(node + ".translateX", 3.0)
     cmds.select(node, replace=True)
-    from aimayatool.ui.components import run_tracked_action
-    from aimayatool.tools.setup import _freeze_selected
-    result = run_tracked_action("setup", "freeze_trs", "Freeze TRS", _freeze_selected)
+    components = importlib.import_module("aimayatool.ui.components")
+    if not hasattr(components, "run_tracked_action"):
+        components = importlib.reload(components)
+    setup = importlib.import_module("aimayatool.tools.setup")
+    result = components.run_tracked_action("setup", "freeze_trs", "Freeze TRS", setup._freeze_selected)
     _refresh_discovery()
     recent = reg.recent_actions()
     label = cmds.text(_DISCOVERY, query=True, label=True)
