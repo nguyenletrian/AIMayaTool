@@ -810,12 +810,12 @@
         {
           "milestone_id": "undo-safety",
           "title": "Audit and improve undo boundaries",
-          "status": "pending"
+          "status": "completed"
         },
         {
           "milestone_id": "scene-state-safety",
           "title": "Protect scene state during mutating workflows",
-          "status": "pending"
+          "status": "active"
         },
         {
           "milestone_id": "error-recovery",
@@ -831,6 +831,19 @@
       "activation_evidence": {
         "date": "2026-09-20",
         "reason": "Standing owner approval for continuous roadmap progression after Goal 011 completion"
+      },
+      "undo_safety_evidence": {
+        "implementation_commit": "ca331d0653461179d3098ab91c389713226ecdbe",
+        "add_influences": {
+          "baseline_one_step_complete": false,
+          "postchange_one_step_complete": true,
+          "selection_preserved": true
+        },
+        "remove_influences": {
+          "removed_count": 2,
+          "one_step_restored": true,
+          "selection_preserved": true
+        }
       }
     },
     {
