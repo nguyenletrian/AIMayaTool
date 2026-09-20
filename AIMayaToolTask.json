@@ -802,7 +802,10 @@
           "aimayatool/tools/skinning/__init__.py",
           "aimayatool/tools/setup/__init__.py",
           "aimayatool/tools/scene/__init__.py",
-          "aimayatool/maya"
+          "aimayatool/maya/__init__.py",
+          "aimayatool/maya/geometry.py",
+          "aimayatool/maya/skin.py",
+          "aimayatool/maya/undo.py"
         ],
         "imports": [
           "aimayatool.tools.skinning",
@@ -823,7 +826,14 @@
           "Run compile/import-safe checks for inspected Python entrypoints.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "failed_result_ack": {
+          "delivery_id": "5ad1f7dddba6054ebccf",
+          "result": "FAIL",
+          "classification": "invalid_verification_file_path",
+          "diagnosis": "Task payload incorrectly supplied directory aimayatool/maya where verification:python requires relative .py files. Product was not executed; correct payload to explicit Maya adapter files and retry."
+        },
+        "retry_count": 1
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
