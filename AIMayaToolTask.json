@@ -28,104 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-performance-regression-python-189a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/maya/skin.py",
-          "aimayatool/maya/geometry.py",
-          "aimayatool/tools/skinning/closest_face.py",
-          "aimayatool/tools/skinning/loop_groups.py",
-          "tests/test_maya_skin.py",
-          "tests/test_skinning_loop_groups.py"
-        ],
-        "imports": [],
-        "tests": [
-          "tests.test_maya_skin",
-          "tests.test_skinning_loop_groups"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "performance-regression",
-        "depends_on": [],
-        "purpose": "Run consolidated deterministic regression across the Goal 011 optimized geometry and skin slices before final managed-Maya performance regression/closeout.",
-        "acceptance": [
-          "Fast-forward main and compile all optimized modules plus focused tests.",
-          "Run tests.test_maya_skin and tests.test_skinning_loop_groups.",
-          "Do not require system-Python imports of Maya-host-bound modules.",
-          "Report all deterministic failures concretely; do not hide host limitations.",
-          "Do not use Codex."
-        ],
-        "evidence_summary": {
-          "closest_face": "same-workload postchange ~39.8% lower elapsed",
-          "loop_groups": "same-workload postchange ~34.8% lower elapsed; 5/5 focused tests PASS",
-          "skin_data_many": "same-workload postchange ~97.47% lower elapsed; 3/3 focused tests PASS"
-        },
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "ab8acfc5922e58467a63",
-        "verification_evidence": {
-          "py_compile": "6/6 PASS",
-          "focused_tests": "8/8 PASS"
-        },
-        "architect_diagnosis": "Consolidated deterministic regression across Goal 011 optimized geometry and skin slices is clean. Proceed to fresh managed-Maya closeout evidence.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-regression-run-188g",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-performance-regression-maya-closest-face-189b",
       "action": {
         "type": "maya",
@@ -150,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "performance-regression",
-        "depends_on": [
-          "aimayatool-goal011-performance-regression-python-189a"
-        ],
+        "depends_on": [],
         "purpose": "Fresh managed-Maya regression measurement for optimized closest-face workload before Goal 011 closeout.",
         "acceptance": [
           "Fast-forward main.",
@@ -181,7 +81,13 @@
           "prior_optimized_seconds": 0.007032600000457023,
           "reduction_vs_original_percent": 43.89007897191599
         },
-        "architect_diagnosis": "Fresh managed-Maya regression remains behavior-correct and timing is consistent with the optimized range; no hard single-run timing threshold was used."
+        "architect_diagnosis": "Fresh managed-Maya regression remains behavior-correct and timing is consistent with the optimized range; no hard single-run timing threshold was used.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-performance-regression-python-189a",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -820,9 +726,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -868,7 +774,16 @@
           "Fresh isolated scene, no save, no Maya quit.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "2479b98009cb88f692bb",
+        "postchange_evidence": {
+          "removed_count": 2,
+          "expected_removed": true,
+          "one_step_restored": true,
+          "selection_preserved": true
+        },
+        "architect_diagnosis": "Paired skin influence mutations are now proven single-step undoable in managed Maya. Undo-safety milestone can close for this audited slice."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -878,6 +793,82 @@
         "host": "127.0.0.1",
         "port": 7001,
         "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-scene-state-safety-inventory-191a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/maya/skin.py",
+          "aimayatool/tools/skinning/closest_face.py",
+          "aimayatool/tools/skinning/loop_groups.py"
+        ],
+        "imports": [],
+        "tests": []
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "scene-state-safety",
+        "depends_on": [
+          "aimayatool-goal012-undo-safety-skin-remove-postchange-190f"
+        ],
+        "purpose": "Begin scene-state-safety milestone by auditing representative mutating/geometry paths for selection, time, tool/context, or other scene-state side effects and selecting one bounded high-value gap.",
+        "acceptance": [
+          "Fast-forward main and compile concrete representative modules.",
+          "Inspect source; do not infer safety solely from compile success.",
+          "Identify one concrete scene-state risk with a bounded reproducible Maya verification path, or report no gap in this slice and nominate the next slice.",
+          "Do not change behavior in this inventory task.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
       },
       "delivery_target": {
         "kind": "browser-cdp",
