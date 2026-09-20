@@ -28,96 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-baseline-run-187f",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.skinning.loop_groups",
-        "callable": "performance_baseline_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "geometry-hotpaths",
-        "depends_on": [],
-        "purpose": "Capture the pre-optimization managed Maya baseline for the loop_groups full-edge-scan hot path using the newly committed bounded harness.",
-        "acceptance": [
-          "Fast-forward main including commit 6ae80c554ed9124fa1e2337c95ba9474641ed1c4.",
-          "Use isolated_scene=true and save_scene=false.",
-          "Run performance_baseline_managed_maya_smoke.",
-          "Require valid_results=true and selection_preserved=true.",
-          "Capture sample_count and elapsed_seconds as authoritative pre-optimization evidence.",
-          "Do not save or quit Maya.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "ace92ab9a14f4881d931",
-        "baseline_evidence": {
-          "operation": "loop_groups_root_loop",
-          "sample_count": 21,
-          "elapsed_seconds": 0.07802600000104576,
-          "valid_results": true,
-          "selection_preserved": true
-        },
-        "architect_diagnosis": "Authoritative pre-optimization managed Maya baseline captured: 21 root vertices in 0.078026 s with valid results and preserved selection.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-edit-187e",
-          "result": "PASS_WORKER_VERIFICATION_IMPLEMENTATION_APPLIED_BY_ARCHITECT",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-postbench-187g",
       "action": {
         "type": "maya",
@@ -142,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "geometry-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-geometry-hotpaths-loop-groups-baseline-run-187f"
-        ],
+        "depends_on": [],
         "implementation_commit": "02969bfbe09ba9888a5b5468236eb00d6b67c7ee",
         "baseline": {
           "operation": "loop_groups_root_loop",
@@ -165,7 +73,13 @@
         "result": "FAIL_INVALID_MAYA_API_METHOD",
         "classification": "product_optimization_api_error",
         "delivery_id": "93e174047290fcb27f8f",
-        "architect_diagnosis": "Optimization used nonexistent MFnMesh.getVertexEdges in Maya API 2.0. Managed Maya correctly caught the error before any performance claim. Architect replaced it with MItMeshVertex.getConnectedEdges using the MFnMesh dagPath in commit 5740dc26b94db2638cf4a5b98d67f081797cf269."
+        "architect_diagnosis": "Optimization used nonexistent MFnMesh.getVertexEdges in Maya API 2.0. Managed Maya correctly caught the error before any performance claim. Architect replaced it with MItMeshVertex.getConnectedEdges using the MFnMesh dagPath in commit 5740dc26b94db2638cf4a5b98d67f081797cf269.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-baseline-run-187f",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -804,9 +718,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -849,6 +763,99 @@
           "Require valid_results=true and selection_preserved=true.",
           "Capture sample_count and elapsed_seconds for skin_data_100_queries.",
           "Do not optimize product code in this task.",
+          "Do not save or quit Maya.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "e1e7d223c4f706c011fb",
+        "baseline_evidence": {
+          "operation": "skin_data_100_queries",
+          "sample_count": 100,
+          "elapsed_seconds": 0.007467800000085845,
+          "valid_results": true,
+          "selection_preserved": true
+        },
+        "architect_diagnosis": "Authoritative baseline captured for 100 repeated skin_data queries on the same mesh. This workload exposes redundant repeated discovery and is suitable for bounded per-mesh batching/caching without changing single-query semantics."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-postbench-188e",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.maya.skin",
+        "callable": "performance_postchange_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "skin-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-skin-hotpaths-skin-adapter-baseline-run-188d"
+        ],
+        "implementation_commit": "efdac082b7feb269167837d485f6849df73b641a",
+        "baseline": {
+          "operation": "skin_data_100_queries",
+          "sample_count": 100,
+          "elapsed_seconds": 0.007467800000085845
+        },
+        "purpose": "Measure identical 100-item skin-data workload after introducing bounded per-mesh batching that resolves discovery once per unique mesh.",
+        "acceptance": [
+          "Fast-forward main including efdac082b7feb269167837d485f6849df73b641a.",
+          "Run isolated_scene=true and save_scene=false.",
+          "Run performance_postchange_managed_maya_smoke with the same 100-item same-mesh workload.",
+          "Require valid_results=true and selection_preserved=true.",
+          "Capture elapsed_seconds and compare only with 0.007467800000085845 s baseline.",
+          "Do not claim improvement unless measured evidence supports it.",
           "Do not save or quit Maya.",
           "Do not use Codex."
         ],
