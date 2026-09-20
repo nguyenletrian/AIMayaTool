@@ -63,3 +63,11 @@ def performance_baseline_managed_maya_smoke():
     evidence = {'operation': 'closest_face_100_vertices', 'sample_count': len(sample), 'elapsed_seconds': elapsed, 'valid_results': valid, 'selection_preserved': selection_preserved}
     print('AIBRIDGE_PERFORMANCE_BASELINE_OK:%s|%.6f' % (len(sample), elapsed))
     return evidence
+
+
+def performance_postchange_managed_maya_smoke():
+    """Reload changed geometry dependency before benchmarking in a persistent Maya session."""
+    import importlib
+    global geometry
+    geometry = importlib.reload(geometry)
+    return performance_baseline_managed_maya_smoke()
