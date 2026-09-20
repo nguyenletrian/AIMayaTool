@@ -25,95 +25,6 @@
         "read": true,
         "edit": true,
         "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-baseline-187b",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.skinning.loop_groups",
-        "callable": "performance_baseline_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "geometry-hotpaths",
-        "depends_on": [],
-        "purpose": "Establish a bounded managed Maya baseline for loop_groups before replacing repeated full-mesh edge scans with vertex-adjacency traversal.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use an isolated unsaved Maya scene.",
-          "Invoke performance_baseline_managed_maya_smoke only if it exists; if absent, return the concrete missing-harness gap so Architect can add the bounded harness.",
-          "Benchmark a representative group_vertices_by_perpendicular_loops workload and preserve result validity/selection state.",
-          "Do not optimize product code in this task.",
-          "Do not save or quit Maya.",
-          "Do not use Codex."
-        ],
-        "hotpath_evidence": [
-          "connected_vertices_in_set scans every mesh edge for each source vertex.",
-          "perpendicular_edge_from_vertices scans every mesh edge again for each source vertex.",
-          "group_vertices_by_perpendicular_loops calls these within its vertex loop."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_MISSING_BASELINE_HARNESS",
-        "classification": "managed_maya_callable_missing",
-        "delivery_id": "f14e1d6d3efe636dafe5",
-        "architect_diagnosis": "Managed Maya route and scene safety succeeded; product validation stopped only because loop_groups lacks performance_baseline_managed_maya_smoke. This is the expected harness gap and not a product failure.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-geometry-hotpaths-inventory-187a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
         "commit": true,
         "push": true
       },
@@ -143,9 +54,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "geometry-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-geometry-hotpaths-loop-groups-baseline-187b"
-        ],
+        "depends_on": [],
         "purpose": "Add the missing bounded managed-Maya performance baseline harness for the existing loop_groups implementation without optimizing the production hot path.",
         "acceptance": [
           "Fast-forward main.",
@@ -161,7 +70,13 @@
         "result": "FAIL_UNSUPPORTED_ROUTE",
         "classification": "task_action_route_mismatch",
         "delivery_id": "d20f33332257fb30ecf5",
-        "architect_diagnosis": "AIBridge has no implementation:python route handler. This is a task publication routing error; no product code ran or failed. Republish the same bounded harness work through the established verification:python route with edit/commit/push permissions."
+        "architect_diagnosis": "AIBridge has no implementation:python route handler. This is a task publication routing error; no product code ran or failed. Republish the same bounded harness work through the established verification:python route with edit/commit/push permissions.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-baseline-187b",
+          "result": "FAIL_MISSING_BASELINE_HARNESS",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -800,9 +715,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -850,6 +765,97 @@
           "Do not require Maya installation for deterministic unit tests.",
           "Do not use Codex."
         ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "6e2e98b300e87822bbb7",
+        "verification_evidence": {
+          "py_compile": true,
+          "focused_tests": "5/5 PASS"
+        },
+        "architect_diagnosis": "Loop-groups adjacency optimization now has both managed Maya performance evidence and deterministic regression coverage. Geometry-hotpaths slice is safe to advance."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-skin-hotpaths-inventory-188a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/skinning"
+        ],
+        "imports": [],
+        "tests": []
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "skin-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-geometry-hotpaths-loop-groups-regression-retry-187k"
+        ],
+        "purpose": "Inventory current skinning implementation for evidence-backed next hot path after completing geometry-hotpaths.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Inspect skinning modules for repeated per-vertex/per-influence host calls, repeated MFnSkinCluster/MFnMesh construction, unbounded component loops, or avoidable cmds-heavy operations.",
+          "Do not optimize code in this inventory task.",
+          "Return concrete candidate module/function and why it is likely hot, grounded in current source.",
+          "Prefer a candidate that can be benchmarked with a bounded managed-Maya harness.",
+          "Do not use Codex."
+        ],
+        "completed_geometry_evidence": {
+          "closest_face": "~39.8% lower bounded elapsed time",
+          "loop_groups": {
+            "baseline_seconds": 0.07802600000104576,
+            "postchange_seconds": 0.05084499999975378,
+            "improvement_percent": 34.84,
+            "regression_tests": "5/5 PASS"
+          }
+        },
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       },
       "system_id": "aimayatool",
