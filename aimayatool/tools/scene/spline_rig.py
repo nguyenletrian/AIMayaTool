@@ -155,3 +155,33 @@ def spline_rig_managed_maya_smoke():
     if not all(checks.values()):
         raise RuntimeError("SplineRig smoke failed: {0}".format(checks))
     return {"ok": True, "checks": checks}
+
+def spline_rig_selection_state_managed_maya_smoke():
+    """Measure whether Spline Rig construction preserves an unrelated explicit selection."""
+    import maya.cmds as cmds
+    parent = cmds.createNode("transform", name="AIBridgeSplineStateParent")
+    parent_global = cmds.createNode("transform", name="AIBridgeSplineStateGlobal")
+    controls = []
+    for index, x in enumerate((0.0, 5.0, 10.0)):
+        ctrl = cmds.createNode("transform", name="AIBridgeSplineStateCtrl%d" % (index + 1))
+        cmds.setAttr(ctrl + ".tx", x)
+        controls.append(ctrl)
+    sentinel = cmds.createNode("transform", name="AIBridgeSplineStateSentinel")
+    cmds.select(sentinel, replace=True)
+    before = cmds.ls(selection=True, long=True) or []
+    result = apply_spline_rig({"parent": parent, "parentGlobal": parent_global, "controls": controls, "numberCtrls": 1, "rebuild": 8})
+    after = cmds.ls(selection=True, long=True) or []
+    functional = bool(
+        cmds.objExists(result["rigGroup"])
+        and cmds.objExists(result["ikHandle"])
+        and cmds.objExists(result["curve"])
+        and len(result["splineControls"]) == 3
+    )
+    return {
+        "operation": "spline_rig_selection_state",
+        "functional": functional,
+        "selection_preserved": before == after,
+        "before": before,
+        "after": after,
+    }
+
