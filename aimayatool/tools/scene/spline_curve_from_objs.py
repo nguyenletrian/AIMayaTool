@@ -31,7 +31,7 @@ def _offset_group(cmds,node,name):
     if parent: cmds.parent(grp,parent)
     cmds.parent(node,grp); return grp
 
-def apply_spline_curve_from_objs(data):
+def _apply_spline_curve_from_objs_unprotected(data):
     import maya.cmds as cmds
     plan=normalize_spline_curve_from_objs(data)
     missing=[x for x in [plan["parent"]]+plan["controls"] if not cmds.objExists(x)]
@@ -59,6 +59,23 @@ def apply_spline_curve_from_objs(data):
     hidden=cmds.group(empty=True,name=plan["hiddenGroup"],parent=rig); cmds.setAttr(hidden+".visibility",0)
     cmds.parent(curve,ik,joints[0],rebuilt,hidden); cmds.parent(rig,plan["parent"])
     return {"plan":plan,"joints":joints,"followGroups":refs,"curve":curve,"rebuiltCurve":rebuilt,"ikHandle":ik,"rigGroup":rig,"visibleGroup":visible,"hiddenGroup":hidden}
+
+
+def apply_spline_curve_from_objs(data):
+    import maya.cmds as cmds
+    selection_uuids=cmds.ls(selection=True,uuid=True) or []
+    try:
+        return _apply_spline_curve_from_objs_unprotected(data)
+    finally:
+        restored=[]
+        for node_uuid in selection_uuids:
+            matches=cmds.ls(node_uuid,long=True) or []
+            if matches:
+                restored.append(matches[0])
+        if restored:
+            cmds.select(restored,replace=True)
+        else:
+            cmds.select(clear=True)
 
 def spline_curve_from_objs_managed_maya_smoke():
     import maya.cmds as cmds
