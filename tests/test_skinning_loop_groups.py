@@ -25,6 +25,8 @@ class _MeshFn(object):
         return self.polygons[face_id]
     def getPoints(self):
         return self.points
+    def connectedEdgeIds(self, vertex_id):
+        return [edge_id for edge_id, vertices in enumerate(self.edges) if vertex_id in vertices]
 
 
 class LoopGroupTests(unittest.TestCase):
