@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import time
+
 import maya.cmds as cmds
 
 
@@ -62,3 +64,20 @@ def remove_influences(skin_cluster, joints):
         current.discard(joint)
         removed.append(joint)
     return removed
+
+
+def performance_baseline_managed_maya_smoke():
+    """Bounded managed-Maya baseline for repeated skin adapter discovery."""
+    mesh = cmds.polyPlane(name='AIBridgeSkinBaseline', subdivisionsX=10, subdivisionsY=10)[0]
+    joint = cmds.joint(name='AIBridgeSkinBaselineJoint')
+    cmds.skinCluster(joint, mesh, toSelectedBones=True, name='AIBridgeSkinBaselineCluster')
+    before = cmds.ls(selection=True, long=True) or []
+    sample_count = 100
+    start = time.perf_counter()
+    results = [skin_data(mesh) for _ in range(sample_count)]
+    elapsed = time.perf_counter() - start
+    valid = all(item.get('mesh') == mesh and item.get('skin_cluster') and joint in item.get('influences', []) for item in results)
+    selection_preserved = (cmds.ls(selection=True, long=True) or []) == before
+    if not valid or not selection_preserved:
+        raise AssertionError('Skin adapter baseline changed result validity or selection state')
+    return {'operation': 'skin_data_100_queries', 'sample_count': sample_count, 'elapsed_seconds': elapsed, 'valid_results': valid, 'selection_preserved': selection_preserved}
