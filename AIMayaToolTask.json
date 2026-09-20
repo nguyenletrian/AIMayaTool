@@ -28,87 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-skin-hotpaths-source-inventory-188b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning/__init__.py"
-        ],
-        "imports": [],
-        "tests": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "skin-hotpaths",
-        "depends_on": [],
-        "purpose": "Establish a valid synchronized checkpoint for skin-hotpath source inventory; Architect performs repository-wide source inspection directly after this checkpoint.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile the concrete .py checkpoint aimayatool/tools/skinning/__init__.py.",
-          "Do not edit product code.",
-          "Do not use directory paths in verification files.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_SYNC_CHECKPOINT",
-        "delivery_id": "5444d1776ff3df335e14",
-        "architect_diagnosis": "Concrete skinning package checkpoint compiles after ff-only sync. Architect source inspection identifies aimayatool/maya/skin.py as the clearest current skin hotpath seam: find_skin_cluster performs repeated shape/history/type queries and influences performs cmds.skinCluster queries, while add/remove operations repeatedly cross the cmds boundary.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-skin-hotpaths-inventory-188a",
-          "result": "FAIL_INVALID_VERIFICATION_FILE_PATH",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-baseline-188c",
       "action": {
         "type": "maya",
@@ -133,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "skin-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-skin-hotpaths-source-inventory-188b"
-        ],
+        "depends_on": [],
         "candidate": {
           "module": "aimayatool/maya/skin.py",
           "functions": [
@@ -159,7 +76,13 @@
         "classification": "managed_maya_callable_missing",
         "delivery_id": "56863203a34c3de24561",
         "architect_diagnosis": "Expected probe result: aimayatool.maya.skin had no baseline callable. Architect added a reusable bounded 100-query skin_data managed-Maya harness directly to main.",
-        "harness_commit": "4e6490fc3f651e1a74acbc278d7bc3ef4ff9524f"
+        "harness_commit": "4e6490fc3f651e1a74acbc278d7bc3ef4ff9524f",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-skin-hotpaths-source-inventory-188b",
+          "result": "PASS_SYNC_CHECKPOINT",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -832,9 +755,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -882,7 +805,22 @@
           "baseline_seconds": 0.007467800000085845,
           "optimized_seconds": 0.00018900000031862874
         },
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "f81dd1f8c0639dd2f901",
+        "regression_evidence": {
+          "operation": "skin_data_100_queries",
+          "sample_count": 100,
+          "elapsed_seconds": 0.00019289999909233302,
+          "valid_results": true,
+          "selection_preserved": true
+        },
+        "comparison": {
+          "original_baseline_seconds": 0.007467800000085845,
+          "prior_optimized_seconds": 0.00018900000031862874,
+          "reduction_vs_original_percent": 97.41706107976253
+        },
+        "architect_diagnosis": "Final Goal 011 managed-Maya runtime gate passed. Fresh skin-data timing remains consistent with optimized evidence and correctness/selection invariants hold."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -892,6 +830,83 @@
         "host": "127.0.0.1",
         "port": 7001,
         "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-undo-safety-inventory-190a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/maya/undo.py",
+          "aimayatool/maya/skin.py",
+          "aimayatool/tools/skinning/loop_groups.py"
+        ],
+        "imports": [],
+        "tests": []
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "undo-safety",
+        "depends_on": [
+          "aimayatool-goal011-performance-regression-maya-skin-data-189d"
+        ],
+        "purpose": "Start Goal 012 with a bounded reliability inventory of existing undo boundaries and representative mutating skin/geometry helpers.",
+        "acceptance": [
+          "Fast-forward main including Goal 011 closeout.",
+          "Compile concrete undo and representative mutating helper modules.",
+          "Inspect existing undo abstraction and identify the smallest high-value mutating workflow lacking an appropriate undo boundary or scene-state protection.",
+          "Do not change behavior in this inventory task.",
+          "Prefer reusable undo/recovery infrastructure over per-tool duplication when evidence supports it.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
       },
       "delivery_target": {
         "kind": "browser-cdp",
