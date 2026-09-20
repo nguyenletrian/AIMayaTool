@@ -28,197 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal012-undo-safety-skin-influence-postchange-190d",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.maya.skin",
-        "callable": "undo_safety_baseline_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-012",
-        "milestone_id": "undo-safety",
-        "depends_on": [],
-        "implementation_commit": "ca331d0653461179d3098ab91c389713226ecdbe",
-        "purpose": "Validate that add_influences now behaves as one Maya undo step after adopting the shared undo_chunk abstraction.",
-        "acceptance": [
-          "Fast-forward main including ca331d0653461179d3098ab91c389713226ecdbe.",
-          "Require added_count=2 and expected_added=true.",
-          "Require one_step_complete=true after one Maya undo.",
-          "Require selection_preserved=true.",
-          "Fresh isolated scene, no save, no Maya quit.",
-          "Do not use Codex."
-        ],
-        "baseline": {
-          "one_step_complete": false,
-          "two_steps_complete": true,
-          "selection_preserved": true
-        },
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "INCONCLUSIVE_HARNESS_ASSUMPTION",
-        "delivery_id": "895f30f10493e534d11b",
-        "classification": "verification_harness_bug",
-        "architect_diagnosis": "Postchange reached a state with no second undo entry. The harness still unconditionally called a second undo, so it crashed after the behavior may already have become the intended single-step undo. Product change is not classified failed.",
-        "harness_fix_commit": "5f4cc971deddb86ec44b6df0145a019e8b7681e0",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal012-undo-safety-skin-influence-baseline-run-190c",
-          "result": "PASS_BASELINE_UNSAFE_GRANULARITY_CONFIRMED",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "baseline_evidence": {
-            "added_count": 2,
-            "expected_added": true,
-            "one_step_complete": false,
-            "two_steps_complete": true,
-            "selection_preserved": true
-          },
-          "prior_probe": {
-            "task_id": "aimayatool-goal012-undo-safety-skin-influence-live-baseline-190b",
-            "result": "FAIL_MISSING_BASELINE_HARNESS",
-            "architect_ack": true,
-            "bridge_completed": true
-          }
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal012-undo-safety-skin-influence-postchange-retry-190e",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.maya.skin",
-        "callable": "undo_safety_baseline_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-012",
-        "milestone_id": "undo-safety",
-        "depends_on": [
-          "aimayatool-goal012-undo-safety-skin-influence-postchange-190d"
-        ],
-        "implementation_commit": "ca331d0653461179d3098ab91c389713226ecdbe",
-        "harness_fix_commit": "5f4cc971deddb86ec44b6df0145a019e8b7681e0",
-        "purpose": "Retry postchange undo validation with a harness that treats absence of a second undo entry as valid evidence after complete first-step rollback.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Require added_count=2, expected_added=true, one_step_complete=true, selection_preserved=true.",
-          "Record second_undo_available; false is expected/acceptable when the first undo consumed the grouped operation.",
-          "Do not require a second undo after one-step completion.",
-          "Fresh isolated scene, no save, no Maya quit.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "18a6be2a8307e96c8643",
-        "postchange_evidence": {
-          "added_count": 2,
-          "expected_added": true,
-          "one_step_complete": true,
-          "two_steps_complete": true,
-          "second_undo_available": false,
-          "selection_preserved": true
-        },
-        "architect_diagnosis": "Undo hardening succeeded: adding two influences is now one logical Maya undo step, with selection preserved. Baseline required two undo calls."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal012-undo-safety-skin-remove-postchange-190f",
       "action": {
         "type": "maya",
@@ -243,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-012",
         "milestone_id": "undo-safety",
-        "depends_on": [
-          "aimayatool-goal012-undo-safety-skin-influence-postchange-retry-190e"
-        ],
+        "depends_on": [],
         "implementation_commit": "ca331d0653461179d3098ab91c389713226ecdbe",
         "harness_commit": "06d476b7d9c785a9d7e64204e4d213b40249bd62",
         "purpose": "Validate the paired remove_influences mutation is also grouped into one Maya undo step.",
@@ -266,7 +73,28 @@
           "one_step_restored": true,
           "selection_preserved": true
         },
-        "architect_diagnosis": "Paired skin influence mutations are now proven single-step undoable in managed Maya. Undo-safety milestone can close for this audited slice."
+        "architect_diagnosis": "Paired skin influence mutations are now proven single-step undoable in managed Maya. Undo-safety milestone can close for this audited slice.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal012-undo-safety-skin-influence-postchange-retry-190e",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "postchange_evidence": {
+            "added_count": 2,
+            "expected_added": true,
+            "one_step_complete": true,
+            "two_steps_complete": true,
+            "second_undo_available": false,
+            "selection_preserved": true
+          },
+          "prior_postchange": {
+            "task_id": "aimayatool-goal012-undo-safety-skin-influence-postchange-190d",
+            "result": "INCONCLUSIVE_HARNESS_ASSUMPTION",
+            "architect_ack": true,
+            "bridge_completed": true,
+            "classification": "verification_harness_bug"
+          }
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -819,9 +647,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -863,6 +691,186 @@
           "Require functional=true so state evidence comes from a completed Spline Rig build.",
           "Record selection_preserved plus before/after exactly.",
           "Do not classify a selection change as acceptable; use the evidence to decide the next product change.",
+          "Fresh isolated scene, no save, no Maya quit.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_GAP_CONFIRMED",
+        "delivery_id": "5f3ae7ee35aabe1c45f0",
+        "probe_evidence": {
+          "functional": true,
+          "selection_preserved": false,
+          "before": [
+            "|AIBridgeSplineStateSentinel"
+          ],
+          "after": [
+            "blendColors1"
+          ]
+        },
+        "architect_diagnosis": "Spline Rig construction is functionally correct but leaks Maya selection state: an unrelated sentinel selection is replaced by the final blendColors utility node. Product hardening is required at apply_spline_rig boundary.",
+        "implementation_commit": "c3518976b0e0c4147a0d53d515037a84a6021ac7"
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-scene-state-spline-rig-selection-deterministic-191h",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 180,
+        "files": [
+          "aimayatool/tools/scene/spline_rig.py",
+          "tests/test_scene_spline_rig.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.spline_rig"
+        ],
+        "tests": [
+          "tests.test_scene_spline_rig"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "scene-state-safety",
+        "depends_on": [
+          "aimayatool-goal012-scene-state-spline-rig-selection-probe-191g"
+        ],
+        "implementation_commit": "c3518976b0e0c4147a0d53d515037a84a6021ac7",
+        "purpose": "Verify the Spline Rig selection-preservation hardening compiles/imports cleanly and leaves deterministic normalization behavior unchanged before live Maya validation.",
+        "acceptance": [
+          "Fast-forward main including implementation commit c3518976b0e0c4147a0d53d515037a84a6021ac7.",
+          "py_compile changed Spline Rig module and focused test.",
+          "Import aimayatool.tools.scene.spline_rig outside Maya.",
+          "Run tests.test_scene_spline_rig and require all focused tests PASS.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-scene-state-spline-rig-selection-postchange-191i",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.spline_rig",
+        "callable": "spline_rig_selection_state_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "scene-state-safety",
+        "depends_on": [
+          "aimayatool-goal012-scene-state-spline-rig-selection-deterministic-191h"
+        ],
+        "implementation_commit": "c3518976b0e0c4147a0d53d515037a84a6021ac7",
+        "baseline": {
+          "functional": true,
+          "selection_preserved": false,
+          "before": [
+            "|AIBridgeSplineStateSentinel"
+          ],
+          "after": [
+            "blendColors1"
+          ]
+        },
+        "purpose": "Prove Spline Rig now preserves an unrelated explicit selection while retaining functional construction behavior.",
+        "acceptance": [
+          "Fast-forward main after deterministic verification.",
+          "Require functional=true.",
+          "Require selection_preserved=true.",
+          "Require before and after to both identify AIBridgeSplineStateSentinel.",
           "Fresh isolated scene, no save, no Maya quit.",
           "Do not use Codex."
         ],
