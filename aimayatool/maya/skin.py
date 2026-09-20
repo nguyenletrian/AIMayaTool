@@ -112,6 +112,28 @@ def undo_safety_baseline_managed_maya_smoke():
     return {'operation': 'skin_add_influences_undo_baseline', 'added_count': len(added), 'expected_added': expected_added, 'one_step_complete': one_step_complete, 'two_steps_complete': two_steps_complete, 'second_undo_available': second_undo_available, 'selection_preserved': selection_preserved}
 
 
+def undo_safety_remove_managed_maya_smoke():
+    """Validate that removing multiple skin influences is one Maya undo step."""
+    mesh = cmds.polyPlane(name='AIBridgeUndoSkinRemove', subdivisionsX=1, subdivisionsY=1)[0]
+    root = cmds.joint(name='AIBridgeUndoSkinRemoveRoot')
+    cmds.select(clear=True)
+    joint_a = cmds.joint(name='AIBridgeUndoSkinRemoveA')
+    cmds.select(clear=True)
+    joint_b = cmds.joint(name='AIBridgeUndoSkinRemoveB')
+    skin_cluster = cmds.skinCluster(root, mesh, toSelectedBones=True, name='AIBridgeUndoSkinRemoveCluster')[0]
+    add_influences(skin_cluster, [joint_a, joint_b])
+    before_selection = cmds.ls(selection=True, long=True) or []
+    cmds.flushUndo()
+    removed = remove_influences(skin_cluster, [joint_a, joint_b])
+    after_remove = set(influences(skin_cluster))
+    cmds.undo()
+    after_one_undo = set(influences(skin_cluster))
+    selection_preserved = (cmds.ls(selection=True, long=True) or []) == before_selection
+    expected_removed = joint_a not in after_remove and joint_b not in after_remove
+    one_step_restored = joint_a in after_one_undo and joint_b in after_one_undo
+    return {'operation': 'skin_remove_influences_undo', 'removed_count': len(removed), 'expected_removed': expected_removed, 'one_step_restored': one_step_restored, 'selection_preserved': selection_preserved}
+
+
 def performance_postchange_managed_maya_smoke():
     """Bounded managed-Maya baseline for repeated skin adapter discovery."""
     mesh = cmds.polyPlane(name='AIBridgeSkinBaseline', subdivisionsX=10, subdivisionsY=10)[0]
