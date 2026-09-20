@@ -28,94 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-regression-188f",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/maya/skin.py"
-        ],
-        "imports": [],
-        "tests": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "skin-hotpaths",
-        "depends_on": [],
-        "purpose": "Run deterministic compile gate and inspect regression-test gap for skin_data_many after measured performance improvement.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile aimayatool/maya/skin.py.",
-          "Do not require system-Python import of this Maya-host-bound module.",
-          "Report whether focused deterministic tests for skin_data_many exist; if absent, report the concrete test gap rather than claiming full regression coverage.",
-          "Do not edit product code in this task.",
-          "Do not use Codex."
-        ],
-        "performance_evidence": {
-          "baseline_seconds": 0.007467800000085845,
-          "postchange_seconds": 0.00018900000031862874,
-          "sample_count": 100
-        },
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_COMPILE_TEST_GAP_CONFIRMED",
-        "delivery_id": "965680a4e66eec44a7fe",
-        "architect_diagnosis": "Maya-bound skin.py compiles, but the verification task had no focused deterministic tests. Architect added isolated unit coverage for skin_data_many unique-mesh batching, order preservation, independent result dicts, and empty input.",
-        "test_commit": "b7374936bb21b3728adbab4dbd623557a20597a6",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-postbench-188e",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-regression-run-188g",
       "action": {
         "type": "verification",
@@ -143,9 +55,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "skin-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-skin-hotpaths-skin-adapter-regression-188f"
-        ],
+        "depends_on": [],
         "test_commit": "b7374936bb21b3728adbab4dbd623557a20597a6",
         "purpose": "Run focused deterministic regression for the measured skin_data_many batching optimization.",
         "acceptance": [
@@ -168,7 +78,13 @@
           "py_compile": true,
           "focused_tests": "3/3 PASS"
         },
-        "architect_diagnosis": "Skin batching slice now has baseline, same-workload managed Maya post-benchmark, and deterministic regression coverage. Goal 011 can advance to performance-regression."
+        "architect_diagnosis": "Skin batching slice now has baseline, same-workload managed Maya post-benchmark, and deterministic regression coverage. Goal 011 can advance to performance-regression.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-regression-188f",
+          "result": "PASS_COMPILE_TEST_GAP_CONFIRMED",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -821,9 +737,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -873,6 +789,88 @@
           "two_steps_complete": true,
           "selection_preserved": true
         },
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "INCONCLUSIVE_HARNESS_ASSUMPTION",
+        "delivery_id": "895f30f10493e534d11b",
+        "classification": "verification_harness_bug",
+        "architect_diagnosis": "Postchange reached a state with no second undo entry. The harness still unconditionally called a second undo, so it crashed after the behavior may already have become the intended single-step undo. Product change is not classified failed.",
+        "harness_fix_commit": "5f4cc971deddb86ec44b6df0145a019e8b7681e0"
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-undo-safety-skin-influence-postchange-retry-190e",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.maya.skin",
+        "callable": "undo_safety_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "undo-safety",
+        "depends_on": [
+          "aimayatool-goal012-undo-safety-skin-influence-postchange-190d"
+        ],
+        "implementation_commit": "ca331d0653461179d3098ab91c389713226ecdbe",
+        "harness_fix_commit": "5f4cc971deddb86ec44b6df0145a019e8b7681e0",
+        "purpose": "Retry postchange undo validation with a harness that treats absence of a second undo entry as valid evidence after complete first-step rollback.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Require added_count=2, expected_added=true, one_step_complete=true, selection_preserved=true.",
+          "Record second_undo_available; false is expected/acceptable when the first undo consumed the grouped operation.",
+          "Do not require a second undo after one-step completion.",
+          "Fresh isolated scene, no save, no Maya quit.",
+          "Do not use Codex."
+        ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       },
       "system_id": "aimayatool",
