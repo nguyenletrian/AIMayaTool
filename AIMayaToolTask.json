@@ -773,9 +773,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -834,7 +834,15 @@
           "notes": "BS Sequence paths restore currentTime; modulo_sdk refresh(force=True) is not persistent scene state; existing Space Switch, Spline Rig and Rivet selection leaks are now hardened and Maya-proven."
         },
         "source_evidence": "apply_spline_control_from_objs calls cmds.select(clear=True) while creating control joints, so unrelated user selection may be overwritten.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "5872b25b913ad3fd6865",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "focused_tests": "3/3 PASS"
+        },
+        "architect_diagnosis": "Spline Control From Objects selection-state probe harness compiles/imports cleanly and deterministic normalization remains unchanged across all focused tests."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
