@@ -28,98 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-skin-hotpaths-inventory-188a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning"
-        ],
-        "imports": [],
-        "tests": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "skin-hotpaths",
-        "depends_on": [],
-        "purpose": "Inventory current skinning implementation for evidence-backed next hot path after completing geometry-hotpaths.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Inspect skinning modules for repeated per-vertex/per-influence host calls, repeated MFnSkinCluster/MFnMesh construction, unbounded component loops, or avoidable cmds-heavy operations.",
-          "Do not optimize code in this inventory task.",
-          "Return concrete candidate module/function and why it is likely hot, grounded in current source.",
-          "Prefer a candidate that can be benchmarked with a bounded managed-Maya harness.",
-          "Do not use Codex."
-        ],
-        "completed_geometry_evidence": {
-          "closest_face": "~39.8% lower bounded elapsed time",
-          "loop_groups": {
-            "baseline_seconds": 0.07802600000104576,
-            "postchange_seconds": 0.05084499999975378,
-            "improvement_percent": 34.84,
-            "regression_tests": "5/5 PASS"
-          }
-        },
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_INVALID_VERIFICATION_FILE_PATH",
-        "classification": "task_payload_directory_in_files",
-        "delivery_id": "1c2a1256c494e1ffc7cc",
-        "architect_diagnosis": "verification:python files accepts relative .py paths, not directories. Inventory is source inspection rather than compile verification, so Architect will inspect repository source directly instead of retrying the same invalid payload.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-regression-retry-187k",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-skin-hotpaths-source-inventory-188b",
       "action": {
         "type": "verification",
@@ -144,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "skin-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-skin-hotpaths-inventory-188a"
-        ],
+        "depends_on": [],
         "purpose": "Establish a valid synchronized checkpoint for skin-hotpath source inventory; Architect performs repository-wide source inspection directly after this checkpoint.",
         "acceptance": [
           "Fast-forward main.",
@@ -158,7 +64,13 @@
         "owner_constraint": "Do not use Codex until explicitly re-enabled.",
         "result": "PASS_SYNC_CHECKPOINT",
         "delivery_id": "5444d1776ff3df335e14",
-        "architect_diagnosis": "Concrete skinning package checkpoint compiles after ff-only sync. Architect source inspection identifies aimayatool/maya/skin.py as the clearest current skin hotpath seam: find_skin_cluster performs repeated shape/history/type queries and influences performs cmds.skinCluster queries, while add/remove operations repeatedly cross the cmds boundary."
+        "architect_diagnosis": "Concrete skinning package checkpoint compiles after ff-only sync. Architect source inspection identifies aimayatool/maya/skin.py as the clearest current skin hotpath seam: find_skin_cluster performs repeated shape/history/type queries and influences performs cmds.skinCluster queries, while add/remove operations repeatedly cross the cmds boundary.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-skin-hotpaths-inventory-188a",
+          "result": "FAIL_INVALID_VERIFICATION_FILE_PATH",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -826,9 +738,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -875,6 +787,100 @@
         "historical_evidence": {
           "baseline_seconds": 0.07802600000104576,
           "optimized_seconds": 0.05084499999975378
+        },
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "76f72eef1ff540398050",
+        "regression_evidence": {
+          "operation": "loop_groups_root_loop",
+          "sample_count": 21,
+          "elapsed_seconds": 0.050347899999906076,
+          "valid_results": true,
+          "selection_preserved": true
+        },
+        "comparison": {
+          "original_baseline_seconds": 0.07802600000104576,
+          "prior_optimized_seconds": 0.05084499999975378,
+          "reduction_vs_original_percent": 35.47311345757037
+        },
+        "architect_diagnosis": "Fresh managed-Maya loop-groups regression remains correct and consistent with prior optimized timing."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-performance-regression-maya-skin-data-189d",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.maya.skin",
+        "callable": "performance_postchange_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "performance-regression",
+        "depends_on": [
+          "aimayatool-goal011-performance-regression-maya-loop-groups-189c"
+        ],
+        "purpose": "Fresh managed-Maya regression measurement for optimized batched skin-data workload; final runtime gate before Goal 011 closeout.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Run isolated unsaved fresh scene.",
+          "Require sample_count=100, valid_results=true, selection_preserved=true.",
+          "Capture elapsed_seconds; compare with original 0.007467800000085845 s and prior optimized 0.00018900000031862874 s without a hard single-run threshold.",
+          "Do not save or quit Maya.",
+          "Do not use Codex."
+        ],
+        "historical_evidence": {
+          "baseline_seconds": 0.007467800000085845,
+          "optimized_seconds": 0.00018900000031862874
         },
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       },
