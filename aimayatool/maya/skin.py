@@ -78,6 +78,30 @@ def remove_influences(skin_cluster, joints):
     return removed
 
 
+def undo_safety_baseline_managed_maya_smoke():
+    """Measure current multi-influence mutation undo behavior before hardening."""
+    mesh = cmds.polyPlane(name='AIBridgeUndoSkinBaseline', subdivisionsX=1, subdivisionsY=1)[0]
+    root = cmds.joint(name='AIBridgeUndoSkinRoot')
+    cmds.select(clear=True)
+    joint_a = cmds.joint(name='AIBridgeUndoSkinA')
+    cmds.select(clear=True)
+    joint_b = cmds.joint(name='AIBridgeUndoSkinB')
+    skin_cluster = cmds.skinCluster(root, mesh, toSelectedBones=True, name='AIBridgeUndoSkinCluster')[0]
+    before_selection = cmds.ls(selection=True, long=True) or []
+    cmds.flushUndo()
+    added = add_influences(skin_cluster, [joint_a, joint_b])
+    after_add = set(influences(skin_cluster))
+    cmds.undo()
+    after_one_undo = set(influences(skin_cluster))
+    cmds.undo()
+    after_two_undos = set(influences(skin_cluster))
+    selection_preserved = (cmds.ls(selection=True, long=True) or []) == before_selection
+    expected_added = set([joint_a, joint_b]).issubset(after_add)
+    one_step_complete = joint_a not in after_one_undo and joint_b not in after_one_undo
+    two_steps_complete = joint_a not in after_two_undos and joint_b not in after_two_undos
+    return {'operation': 'skin_add_influences_undo_baseline', 'added_count': len(added), 'expected_added': expected_added, 'one_step_complete': one_step_complete, 'two_steps_complete': two_steps_complete, 'selection_preserved': selection_preserved}
+
+
 def performance_postchange_managed_maya_smoke():
     """Bounded managed-Maya baseline for repeated skin adapter discovery."""
     mesh = cmds.polyPlane(name='AIBridgeSkinBaseline', subdivisionsX=10, subdivisionsY=10)[0]
