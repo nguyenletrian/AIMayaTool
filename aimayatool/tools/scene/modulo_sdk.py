@@ -75,3 +75,40 @@ def modulo_sdk_managed_maya_smoke():
     checks={"driver_attr":cmds.attributeQuery("modulo",node=driver,exists=True),"offset_a":cmds.objExists(a+"_Modulo_Grp"),"offset_b":cmds.objExists(b+"_Modulo_Grp"),"expression":cmds.objExists(result["expression"]),"modulo_count":result["plan"]["modulo_count"]==3,"slot2_a":abs(cmds.getAttr(a+"_Modulo_Grp.tx")-3.0)<1e-6,"slot2_b":abs(cmds.getAttr(b+"_Modulo_Grp.ry")-3.0)<1e-6}
     if not all(checks.values()): raise RuntimeError("ModuloSDK smoke failed: {0}".format(checks))
     return {"ok":True,"checks":checks,"expression":result["expression"],"script":result["script"]}
+
+def modulo_sdk_partial_failure_managed_maya_smoke():
+    """Measure whether a later missing target leaves partial Modulo SDK mutation."""
+    import maya.cmds as cmds
+
+    driver=cmds.createNode("transform",name="AIBridgeModuloPartialDriver")
+    valid=cmds.createNode("transform",name="AIBridgeModuloPartialA")
+    missing="AIBridgeModuloPartialZMissing"
+    driver_plug=driver+".modulo"
+    offset=valid+"_Modulo_Grp"
+    before_parent=(cmds.listRelatives(valid,parent=True,fullPath=True) or [None])[0]
+    driver_attr_before=cmds.attributeQuery("modulo",node=driver,exists=True)
+    error=""
+    try:
+        apply_modulo_sdk(driver_plug,{valid+".tx\n"+missing+".ry":{"0":"1","2":"3"}})
+    except ValueError as exc:
+        error=str(exc)
+    after_parent=(cmds.listRelatives(valid,parent=True,fullPath=True) or [None])[0]
+    driver_attr_after=cmds.attributeQuery("modulo",node=driver,exists=True)
+    offset_exists=cmds.objExists(offset)
+    partial_mutation=bool(
+        driver_attr_before!=driver_attr_after
+        or offset_exists
+        or before_parent!=after_parent
+    )
+    return {
+        "operation":"modulo_sdk_partial_failure",
+        "caught_missing":("Missing target: "+missing) in error,
+        "partial_mutation":partial_mutation,
+        "driver_attr_before":bool(driver_attr_before),
+        "driver_attr_after":bool(driver_attr_after),
+        "offset_exists":bool(offset_exists),
+        "before_parent":before_parent,
+        "after_parent":after_parent,
+        "error":error,
+    }
+
