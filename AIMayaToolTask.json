@@ -1208,6 +1208,90 @@
         "proven_main_commit": "da2dda4d54ebc35579e54107857fe6246d6e2640",
         "evidence": "ff-only sync updated main from a9629c4c68ca0b1fc2da75ff860a8c6015dc1bb4 to da2dda4d54ebc35579e54107857fe6246d6e2640; py_compile aimayatool/registry.py passed; import aimayatool.registry passed; no Maya mutation."
       }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal010-preflight-guidance-verify-184c",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/preflight.py",
+          "tests/test_preflight_guidance.py"
+        ],
+        "imports": [
+          "aimayatool.preflight"
+        ],
+        "tests": [
+          "tests.test_preflight_guidance"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-010",
+        "milestone_id": "preflight-guidance",
+        "depends_on": [
+          "aimayatool-goal010-preflight-guidance-implementation-184b"
+        ],
+        "purpose": "Verify the Architect-implemented bounded non-mutating preflight guidance contract and deterministic tests.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile/import aimayatool.preflight.",
+          "Run tests.test_preflight_guidance.",
+          "Confirm stable valid/severity/category/message result shape, actionable messages, non-mutating behavior, and invalid-contract rejection.",
+          "Do not edit product code.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "implementation_evidence": {
+          "contract_commit": "0859613e8643632a7a09e7d44e26b0d1a23d8103",
+          "tests_commit": "cdb09b495f36b2d6bb4ccf28c94026a7a13c9b8a"
+        }
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
     }
   ]
 }
