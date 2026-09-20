@@ -28,90 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185f",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 900,
-        "module": "aimayatool.tools.skinning.closest_face",
-        "callable": "performance_baseline_managed_maya_smoke",
-        "new_scene": true,
-        "save_scene": false
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "performance-baseline",
-        "depends_on": [],
-        "retry_of": "aimayatool-goal011-performance-baseline-managed-maya-185e",
-        "purpose": "Run the bounded Goal 011 performance baseline using the repository-proven managed Maya routing pattern: verification:python action with Maya execution target.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use execution_target kind=maya on port 7001 and a fresh unsaved scene.",
-          "Invoke performance_baseline_managed_maya_smoke only if present; otherwise return the concrete missing-harness blocker.",
-          "Capture repeatable timing and behavior-preservation evidence for representative geometry/skin workloads.",
-          "Do not optimize product code.",
-          "Do not save scene or quit Maya.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_INVALID_TIMEOUT",
-        "classification": "verification_timeout_exceeds_300_seconds",
-        "delivery_id": "f3de3f483ecfb5358227",
-        "architect_diagnosis": "Route is now correct, but verification:python enforces timeout <=300 seconds. Product did not execute. Retry with identical proven Maya execution target and bounded 300-second timeout.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-performance-baseline-managed-maya-185e",
-          "result": "FAIL_UNSUPPORTED_ROUTE",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185g",
       "action": {
         "type": "verification",
@@ -135,9 +51,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "performance-baseline",
-        "depends_on": [
-          "aimayatool-goal011-performance-baseline-managed-maya-retry-185f"
-        ],
+        "depends_on": [],
         "retry_of": "aimayatool-goal011-performance-baseline-managed-maya-retry-185f",
         "purpose": "Run the bounded Goal 011 performance baseline through the proven managed Maya routing pattern with the verification route's valid timeout bound.",
         "acceptance": [
@@ -153,7 +67,13 @@
         "result": "FAIL_INVALID_VERIFICATION_PAYLOAD",
         "classification": "verification_python_requires_targets",
         "delivery_id": "fa2045e2e39a44bbc4d0",
-        "architect_diagnosis": "verification:python is not the managed Maya smoke action. Historical repository evidence shows the correct route is action type=maya,target=managed_live_smoke with execution_target kind=maya. Product did not execute."
+        "architect_diagnosis": "verification:python is not the managed Maya smoke action. Historical repository evidence shows the correct route is action type=maya,target=managed_live_smoke with execution_target kind=maya. Product did not execute.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185f",
+          "result": "FAIL_INVALID_TIMEOUT",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -780,9 +700,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -833,6 +753,85 @@
           "postchange_seconds": 0.007032600000457023,
           "sample_count": 100
         },
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_WITH_EXPECTED_HOST_IMPORT_LIMITATION",
+        "classification": "maya_host_module_not_importable_in_system_python",
+        "delivery_id": "788fcb041975f71e1051",
+        "architect_diagnosis": "py_compile passed for both changed modules. The only failed check was importing closest_face under D:/softFolder/python, which predictably lacks maya.cmds. Source confirms closest_face is intentionally Maya-host-bound via top-level import maya.cmds; managed Maya behavior already passed in 186c. This is not a product regression."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-geometry-hotpaths-inventory-187a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/maya/geometry.py"
+        ],
+        "imports": [],
+        "tests": []
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "geometry-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-geometry-hotpaths-closest-face-regression-186d"
+        ],
+        "purpose": "Inventory the next evidence-backed geometry-heavy hot path after completing the closest-face optimization slice.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Inspect geometry-heavy AIMayaTool call sites and identify repeated Maya cmds, DAG/MFn construction, per-component loops, or avoidable selection-driven work with a concrete production caller.",
+          "Prefer a bounded existing workflow with behavior that can be verified before and after optimization.",
+          "Return the chosen hot path, current implementation evidence, proposed behavior-preserving optimization boundary, and cheapest sufficient verification tier.",
+          "Do not modify product code in this assessment task.",
+          "Do not use Codex."
+        ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       },
       "system_id": "aimayatool",
