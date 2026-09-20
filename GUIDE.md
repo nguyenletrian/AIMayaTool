@@ -266,6 +266,18 @@ When Bridge requests additional work because the queue is exhausted, Architect m
 
 Serialization safety and automation continuity are complementary requirements: **serialize correctly and continue**, rather than choosing one at the expense of the other.
 
+#### Approved-roadmap goal continuation rule
+An owner-approved roadmap is continuous authorization for its ordered planned goals unless the owner explicitly pauses, cancels, reorders, or narrows that authorization. A goal completing must not create an artificial idle boundary merely because the next approved roadmap goal is still marked `planned`.
+
+When the queue is exhausted and there is no active goal, Architect must:
+1. re-read `bridgeGoals.json` and identify the next `planned` goal in roadmap order that is already covered by owner approval;
+2. verify that all required predecessor goals/dependencies are completed and that no owner pause/blocker applies;
+3. transition exactly that next goal from `planned` to `active` using a structured, validated state mutation;
+4. identify and publish the smallest safe dependency-ready task(s) for its first pending milestone in the same turn;
+5. continue this rule across later approved roadmap goals without asking for routine per-goal confirmation.
+
+Do not activate multiple future goals speculatively. Only the next dependency-ready approved goal becomes active. A truthful idle boundary is valid only when no active goal exists **and** no next planned goal is covered by standing owner approval, or when a concrete dependency/runtime/intent blocker prevents activation. Planned goals outside owner-approved roadmap scope still require explicit approval.
+
 #### Bounded TaskSource retention
 `AIMayaToolTask.json` must contain at most the 10 newest task records, preserving their chronological order. Apply this retention rule whenever Architect publishes, ACKs, recovers, or otherwise rewrites TaskSource.
 
