@@ -28,93 +28,6 @@
         "commit": true,
         "push": true
       },
-      "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-187c",
-      "action": {
-        "type": "implementation",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning/loop_groups.py",
-          "tests/test_skinning_loop_groups.py"
-        ],
-        "tests": [
-          "tests.test_skinning_loop_groups"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "geometry-hotpaths",
-        "depends_on": [],
-        "purpose": "Add the missing bounded managed-Maya performance baseline harness for the existing loop_groups implementation without optimizing the production hot path.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Add performance_baseline_managed_maya_smoke with a representative bounded mesh/vertex workload that exercises group_vertices_by_perpendicular_loops.",
-          "Measure the existing implementation only; do not replace the full-edge scans yet.",
-          "Assert valid deterministic result shape and selection preservation.",
-          "Keep benchmark setup bounded enough for managed Maya timeout.",
-          "Compile changed Python and run focused loop_groups deterministic tests.",
-          "Commit and push the bounded harness change to main.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_UNSUPPORTED_ROUTE",
-        "classification": "task_action_route_mismatch",
-        "delivery_id": "d20f33332257fb30ecf5",
-        "architect_diagnosis": "AIBridge has no implementation:python route handler. This is a task publication routing error; no product code ran or failed. Republish the same bounded harness work through the established verification:python route with edit/commit/push permissions.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-baseline-187b",
-          "result": "FAIL_MISSING_BASELINE_HARNESS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": true,
-        "push": true
-      },
       "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-retry-187d",
       "action": {
         "type": "verification",
@@ -142,9 +55,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "geometry-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-187c"
-        ],
+        "depends_on": [],
         "retry_of": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-187c",
         "purpose": "Retry the same bounded benchmark-harness implementation through the established verification:python route.",
         "acceptance": [
@@ -160,7 +71,13 @@
         "result": "PASS_VERIFICATION_BUT_IMPLEMENTATION_MISSING",
         "classification": "worker_did_not_apply_authorized_edit",
         "delivery_id": "73c2cb9a80771d9edede",
-        "architect_diagnosis": "py_compile and five focused tests passed, but refetching main shows loop_groups.py still has no performance_baseline_managed_maya_smoke. The worker verified existing files without applying the authorized harness edit, so baseline cannot proceed yet."
+        "architect_diagnosis": "py_compile and five focused tests passed, but refetching main shows loop_groups.py still has no performance_baseline_managed_maya_smoke. The worker verified existing files without applying the authorized harness edit, so baseline cannot proceed yet.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-187c",
+          "result": "FAIL_UNSUPPORTED_ROUTE",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -801,9 +718,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -856,6 +773,84 @@
             "regression_tests": "5/5 PASS"
           }
         },
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_INVALID_VERIFICATION_FILE_PATH",
+        "classification": "task_payload_directory_in_files",
+        "delivery_id": "1c2a1256c494e1ffc7cc",
+        "architect_diagnosis": "verification:python files accepts relative .py paths, not directories. Inventory is source inspection rather than compile verification, so Architect will inspect repository source directly instead of retrying the same invalid payload."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-skin-hotpaths-source-inventory-188b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/skinning/__init__.py"
+        ],
+        "imports": [],
+        "tests": []
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "skin-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-skin-hotpaths-inventory-188a"
+        ],
+        "purpose": "Establish a valid synchronized checkpoint for skin-hotpath source inventory; Architect performs repository-wide source inspection directly after this checkpoint.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Compile the concrete .py checkpoint aimayatool/tools/skinning/__init__.py.",
+          "Do not edit product code.",
+          "Do not use directory paths in verification files.",
+          "Do not use Codex."
+        ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       },
       "system_id": "aimayatool",
