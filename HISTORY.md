@@ -65,3 +65,13 @@ Earlier accepted architecture, Skinning, Setup, and Scene milestones remain pres
 - The reusable `reset_transforms` and `freeze_transforms` helpers validate the full ordered collection before mutation and delegate to the existing single-node primitives.
 - Batch milestone closeout was recorded in `AIMayaToolTask.json`; the next dependency-ready slice is an inventory for preflight validation and actionable guidance.
 
+## 2026-09-20 — Reliability scene-state safety accepted
+
+- Completed Goal `aimayatool-012` milestone `scene-state-safety` after a bounded audit of 63 top-level Scene modules for persistent selection/time/tool-context state mutations.
+- Managed Maya probes confirmed and then regression-proved selection preservation for Space Switch, Spline Rig, Rivet, Spline Control From Objects, and Spline Curve From Objects; each path now restores unrelated explicit selection at its public mutation boundary.
+- Rivet validation also exposed and corrected a pre-existing functional orientation blocker by restoring the legacy-compatible manually wired `aimConstraint` graph before selection-state hardening.
+- Final managed Maya gate `aimayatool-goal012-scene-state-spline-curve-selection-postchange-191w` passed with `functional=True`, `selection_preserved=True`, and identical sentinel selection before/after; the scene remained unsaved.
+- Accepted implementation checkpoints: Space Switch `9152210b05f9788cf97b06addc9bb457b18b3804`; Spline Rig `c3518976b0e0c4147a0d53d515037a84a6021ac7`; Rivet functional/orientation `52784720a2a3bca0379a26cc576a2bfccbe125ea` plus selection `3691f693045babde3402470b2cd4eb8241893403`; Spline Control `2bcd792f13be4fd5080c469194bcfd4f856bed00`; Spline Curve `f5e595831bb2f673561cefb75501bac8b59fad17`.
+- Validation tier: focused deterministic Python verification plus managed live Maya 2024 state-mutation regression.
+- The next active milestone is `error-recovery`, beginning with late-validation/partial-mutation behavior in Driven Key workflows.
+
