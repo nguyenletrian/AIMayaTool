@@ -857,7 +857,7 @@
         "via": "web"
       },
       "status": "pending",
-      "architect_ack": false,
+      "architect_ack": true,
       "bridge_completed": false,
       "permissions": {
         "read": true,
@@ -899,7 +899,8 @@
           "aimayatool.registry imports successfully.",
           "No Maya scene mutation or destructive operation is performed.",
           "Result is attributable to the AIMayaTool worker and task 185."
-        ]
+        ],
+        "architect_ack_note": "ACK: Python verification passed; registry.py compiled and aimayatool.registry imported successfully; acceptance conditions satisfied."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
