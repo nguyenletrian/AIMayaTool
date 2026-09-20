@@ -780,9 +780,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -843,7 +843,15 @@
           ]
         },
         "source_evidence": "apply_spline_curve_from_objs calls cmds.select(clear=True) while creating spline joints, so unrelated user selection may be overwritten.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "8fd7552e135f4a4c326a",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "focused_tests": "3/3 PASS"
+        },
+        "architect_diagnosis": "Spline Curve From Objects selection-state probe harness compiles/imports cleanly and deterministic normalization remains unchanged across all focused tests."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
