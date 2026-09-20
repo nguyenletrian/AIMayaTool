@@ -85,8 +85,12 @@ def apply_rivet(data):
     cmds.setAttr(posi + ".parameterV", 0.5)
     locator = cmds.spaceLocator(name=plan["locator"])[0]
     cmds.connectAttr(posi + ".position", locator + ".translate", force=True)
-    aim = cmds.aimConstraint(posi, locator, aimVector=(0, 1, 0), upVector=(0, 0, 1), worldUpType="objectrotation", worldUpObject=posi)[0]
+    aim = cmds.createNode("aimConstraint", name=plan["name"] + "_AimConstraint", parent=locator)
+    cmds.setAttr(aim + ".aimVector", 0, 1, 0, type="double3")
+    cmds.setAttr(aim + ".upVector", 0, 0, 1, type="double3")
     cmds.connectAttr(posi + ".normal", aim + ".target[0].targetTranslate", force=True)
+    cmds.connectAttr(posi + ".tangentV", aim + ".worldUpVector", force=True)
+    cmds.connectAttr(aim + ".constraintRotate", locator + ".rotate", force=True)
     copied = ""
     if plan["copyTransform"]:
         if not cmds.objExists(plan["copyTransform"]):
