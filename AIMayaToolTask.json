@@ -844,6 +844,78 @@
         "port": 9222,
         "instance_id": "aibridge-architect"
       }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-routing-adoption-smoke-185",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 180,
+        "files": [
+          "aimayatool/registry.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ],
+        "tests": []
+      },
+      "metadata": {
+        "goal_id": "aibridge-batch-task-runtime-001",
+        "milestone_id": "aimayatool-adoption",
+        "purpose": "First task executed by the AIMayaTool worker after AIBrigde routing validation. Confirm the AIMayaTool project-side Python runtime is reachable and its registry imports cleanly; do not execute Maya operations.",
+        "acceptance": [
+          "Fast-forward AIMayaTool main.",
+          "aimayatool/registry.py compiles.",
+          "aimayatool.registry imports successfully.",
+          "No Maya scene mutation or destructive operation is performed.",
+          "Result is attributable to the AIMayaTool worker and task 185."
+        ]
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
     }
   ]
 }
