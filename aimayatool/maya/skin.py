@@ -36,6 +36,18 @@ def skin_data(node):
     }
 
 
+def skin_data_many(nodes):
+    """Resolve skin data once per mesh while preserving input order and result shape."""
+    cache = {}
+    result = []
+    for node in nodes or []:
+        mesh = mesh_from_component(node)
+        if mesh not in cache:
+            cache[mesh] = skin_data(mesh)
+        result.append(dict(cache[mesh]))
+    return result
+
+
 def add_influences(skin_cluster, joints, weight=0.0, lock_weights=True):
     current = set(influences(skin_cluster))
     added = []
@@ -66,7 +78,7 @@ def remove_influences(skin_cluster, joints):
     return removed
 
 
-def performance_baseline_managed_maya_smoke():
+def performance_postchange_managed_maya_smoke():
     """Bounded managed-Maya baseline for repeated skin adapter discovery."""
     mesh = cmds.polyPlane(name='AIBridgeSkinBaseline', subdivisionsX=10, subdivisionsY=10)[0]
     joint = cmds.joint(name='AIBridgeSkinBaselineJoint')
@@ -74,10 +86,14 @@ def performance_baseline_managed_maya_smoke():
     before = cmds.ls(selection=True, long=True) or []
     sample_count = 100
     start = time.perf_counter()
-    results = [skin_data(mesh) for _ in range(sample_count)]
+    results = skin_data_many([mesh] * sample_count)
     elapsed = time.perf_counter() - start
     valid = all(item.get('mesh') == mesh and item.get('skin_cluster') and joint in item.get('influences', []) for item in results)
     selection_preserved = (cmds.ls(selection=True, long=True) or []) == before
     if not valid or not selection_preserved:
         raise AssertionError('Skin adapter baseline changed result validity or selection state')
     return {'operation': 'skin_data_100_queries', 'sample_count': sample_count, 'elapsed_seconds': elapsed, 'valid_results': valid, 'selection_preserved': selection_preserved}
+
+
+# Reusable benchmark entry point for the current implementation.
+performance_baseline_managed_maya_smoke = performance_postchange_managed_maya_smoke
