@@ -757,9 +757,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -810,7 +810,15 @@
           "Do not use Codex."
         ],
         "source_evidence": "apply_rivet explicitly selects generated plane edges with cmds.select(edge, replace=True) before polyToCurve, so unrelated user selection may be overwritten.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "cd708eb26b7563275c4b",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "focused_tests": "3/3 PASS"
+        },
+        "architect_diagnosis": "Rivet selection-state probe harness compiles/imports cleanly and deterministic Rivet normalization behavior remains unchanged across all focused tests."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
