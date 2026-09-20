@@ -28,96 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-geometry-hotpaths-closest-face-regression-186d",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/maya/geometry.py",
-          "aimayatool/tools/skinning/closest_face.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning.closest_face"
-        ],
-        "tests": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "geometry-hotpaths",
-        "depends_on": [],
-        "purpose": "Run bounded deterministic regression after the proven MFnMesh reuse optimization before advancing to another geometry hot path.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile the changed geometry and closest-face modules.",
-          "Import-smoke closest_face where existing host isolation permits.",
-          "Preserve public closest-face behavior and batch MFnMesh reuse; report regressions concretely.",
-          "Do not use Codex."
-        ],
-        "performance_evidence": {
-          "baseline_seconds": 0.011680999999953201,
-          "postchange_seconds": 0.007032600000457023,
-          "sample_count": 100
-        },
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_WITH_EXPECTED_HOST_IMPORT_LIMITATION",
-        "classification": "maya_host_module_not_importable_in_system_python",
-        "delivery_id": "788fcb041975f71e1051",
-        "architect_diagnosis": "py_compile passed for both changed modules. The only failed check was importing closest_face under D:/softFolder/python, which predictably lacks maya.cmds. Source confirms closest_face is intentionally Maya-host-bound via top-level import maya.cmds; managed Maya behavior already passed in 186c. This is not a product regression.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-geometry-hotpaths-closest-face-postbench-reload-186c",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-geometry-hotpaths-inventory-187a",
       "action": {
         "type": "verification",
@@ -142,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "geometry-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-geometry-hotpaths-closest-face-regression-186d"
-        ],
+        "depends_on": [],
         "purpose": "Inventory the next evidence-backed geometry-heavy hot path after completing the closest-face optimization slice.",
         "acceptance": [
           "Fast-forward main.",
@@ -157,7 +65,13 @@
         "owner_constraint": "Do not use Codex until explicitly re-enabled.",
         "result": "PASS",
         "delivery_id": "132c57c0d5cdca70f7d7",
-        "architect_diagnosis": "Inventory identified loop_groups connected_vertices_in_set and perpendicular_edge_from_vertices as the next bounded geometry hot path: each scans range(mesh_fn.numEdges) per source vertex, and group_vertices_by_perpendicular_loops invokes these inside a vertex loop. A behavior-preserving adjacency-based API traversal is a concrete optimization candidate."
+        "architect_diagnosis": "Inventory identified loop_groups connected_vertices_in_set and perpendicular_edge_from_vertices as the next bounded geometry hot path: each scans range(mesh_fn.numEdges) per source vertex, and group_vertices_by_perpendicular_loops invokes these inside a vertex loop. A behavior-preserving adjacency-based API traversal is a concrete optimization candidate.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-geometry-hotpaths-closest-face-regression-186d",
+          "result": "PASS_WITH_EXPECTED_HOST_IMPORT_LIMITATION",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -791,9 +705,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -845,6 +759,92 @@
           "postchange_seconds": 0.05084499999975378,
           "sample_count": 21
         },
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_TEST_DOUBLE_MISSING_ADJACENCY_CONTRACT",
+        "classification": "deterministic_test_fixture_regression",
+        "delivery_id": "bc2e2190858993b9ddce",
+        "architect_diagnosis": "Production Maya path already passed. System-Python tests failed because _MeshFn did not model the new vertex-adjacency contract, causing fallback to import Maya. Added connectedEdgeIds to the test double and a narrow injectable topology-contract fallback; Maya continues to use MItMeshVertex.",
+        "fix_commits": [
+          "19282f8b81ab641ccf28adb48561995b68604f26",
+          "8f5e3f6ed2329c133c509648854a3c42444f54d3"
+        ]
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": false,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-regression-retry-187j",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/skinning/loop_groups.py",
+          "tests/test_skinning_loop_groups.py"
+        ],
+        "imports": [],
+        "tests": [
+          "tests.test_skinning_loop_groups"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "geometry-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-geometry-hotpaths-loop-groups-regression-187i"
+        ],
+        "retry_of": "aimayatool-goal011-geometry-hotpaths-loop-groups-regression-187i",
+        "purpose": "Re-run deterministic loop_groups regression after updating the test topology contract for the optimized adjacency path.",
+        "acceptance": [
+          "Fast-forward main including commits 19282f8b81ab641ccf28adb48561995b68604f26 and 8f5e3f6ed2329c133c509648854a3c42444f54d3.",
+          "Compile loop_groups.py and tests/test_skinning_loop_groups.py.",
+          "Run tests.test_skinning_loop_groups; all focused tests must pass.",
+          "Do not require Maya installation for deterministic unit tests.",
+          "Do not use Codex."
+        ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       },
       "system_id": "aimayatool",
