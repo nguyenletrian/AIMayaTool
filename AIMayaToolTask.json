@@ -28,98 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-performance-baseline-inventory-185a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py",
-          "aimayatool/maya/__init__.py",
-          "aimayatool/maya/geometry.py",
-          "aimayatool/maya/skin.py",
-          "aimayatool/maya/undo.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning",
-          "aimayatool.tools.setup",
-          "aimayatool.tools.scene"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "performance-baseline",
-        "depends_on": [],
-        "purpose": "Inventory representative production hot paths and existing Maya API/cmds boundaries before any optimization, so Goal 011 remains evidence-driven and behavior-preserving.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Inspect Skinning, Setup, Scene and Maya adapter surfaces for likely geometry/skin/batch hot paths and existing API 2.0 usage.",
-          "Do not optimize or change product behavior in this inventory slice.",
-          "Identify the smallest representative baseline candidates and cheapest valid measurement tier.",
-          "Run compile/import-safe checks for inspected Python entrypoints.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "failed_result_ack": {
-          "delivery_id": "5ad1f7dddba6054ebccf",
-          "result": "FAIL",
-          "classification": "invalid_verification_file_path",
-          "diagnosis": "Task payload incorrectly supplied directory aimayatool/maya where verification:python requires relative .py files. Product was not executed; correct payload to explicit Maya adapter files and retry."
-        },
-        "retry_count": 1,
-        "result": "FAIL_CORRECTED_BY_RETRY",
-        "classification": "invalid_verification_file_path",
-        "architect_diagnosis": "Original 185a result is durably ACKed as task-contract failure. The directory path was invalid for verification:python; product execution never began. Corrected work is moved to retry 185b so the failed-result ACK gate cannot conflict with pending retry state."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-performance-baseline-inventory-retry-185b",
       "action": {
         "type": "verification",
@@ -761,9 +669,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -807,6 +715,88 @@
           "If callable is absent, report that exact harness gap; do not fabricate success.",
           "If present, capture repeatable timing and behavior-preservation evidence for representative geometry/skin workloads.",
           "Do not optimize product code.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_MISSING_BASELINE_HARNESS",
+        "classification": "managed_maya_callable_missing",
+        "delivery_id": "55a6d4f86f23b08156fe",
+        "architect_diagnosis": "Managed Maya route and scene-safety contract are proven. Failure is the expected product-side harness gap: closest_face lacked performance_baseline_managed_maya_smoke. Architect implemented a bounded 100-vertex closest-face baseline with behavior and selection-preservation assertions in commit 3288b3fa7f0de6f6974bfae7d1bd776e5d2c9b51."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-performance-baseline-managed-maya-verify-185k",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.skinning.closest_face",
+        "callable": "performance_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "timeout": 45,
+        "save_scene": false,
+        "isolated_scene": true
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "performance-baseline",
+        "depends_on": [
+          "aimayatool-goal011-performance-baseline-managed-maya-retry-185j"
+        ],
+        "implementation_commit": "3288b3fa7f0de6f6974bfae7d1bd776e5d2c9b51",
+        "purpose": "Verify the newly implemented bounded closest-face performance baseline in managed Maya.",
+        "acceptance": [
+          "Fast-forward main including implementation commit 3288b3fa7f0de6f6974bfae7d1bd776e5d2c9b51.",
+          "Use isolated_scene=true and save_scene=false.",
+          "Run performance_baseline_managed_maya_smoke.",
+          "Require AIBRIDGE_PERFORMANCE_BASELINE_OK marker and structured evidence for 100 vertices.",
+          "Require valid_results=true and selection_preserved=true.",
+          "Capture elapsed_seconds as baseline evidence, not as an optimization claim.",
+          "Do not save or quit Maya.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
