@@ -65,6 +65,21 @@ def apply_space_switch(children, parents, attr_pick="space", enum=None, attr_sli
     return results
 
 
+def space_switch_selection_state_managed_maya_smoke():
+    """Measure whether Space Switch construction preserves an unrelated explicit selection."""
+    import maya.cmds as cmds
+    root=cmds.createNode("transform",name="AIBridgeSpaceStateRoot")
+    world=cmds.createNode("transform",name="AIBridgeSpaceStateWorld")
+    body=cmds.createNode("transform",name="AIBridgeSpaceStateBody")
+    child=cmds.createNode("transform",name="AIBridgeSpaceStateChild",parent=root)
+    sentinel=cmds.createNode("transform",name="AIBridgeSpaceStateSentinel")
+    cmds.select(sentinel,replace=True)
+    before=cmds.ls(selection=True,long=True) or []
+    result=apply_space_switch(child,[world,body],attr_pick="space",attr_slide="spaceBlend",default_value=.25,maintain=False)[0]
+    after=cmds.ls(selection=True,long=True) or []
+    return {"operation":"space_switch_selection_state","functional":bool(result.get("constraint") and cmds.objExists(result["constraint"])),"selection_preserved":before==after,"before":before,"after":after}
+
+
 def space_switch_managed_maya_smoke():
     import maya.cmds as cmds
     root=cmds.createNode("transform",name="AIBridgeSpaceRoot"); world=cmds.createNode("transform",name="AIBridgeSpaceWorld"); body=cmds.createNode("transform",name="AIBridgeSpaceBody"); child=cmds.createNode("transform",name="AIBridgeSpaceChild",parent=root)
