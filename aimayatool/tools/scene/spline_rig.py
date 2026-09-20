@@ -49,7 +49,7 @@ def _offset_group(cmds, node, name):
     cmds.parent(node, group)
     return group
 
-def apply_spline_rig(data):
+def _apply_spline_rig_unprotected(data):
     import maya.cmds as cmds
     plan = normalize_spline_rig(data)
     required = [plan["parent"], plan["parentGlobal"]] + plan["controls"]
@@ -140,6 +140,23 @@ def apply_spline_rig(data):
         if ctrl != master and not cmds.attributeQuery("SplineControls", node=ctrl, exists=True):
             cmds.addAttr(ctrl, longName="SplineControls", proxy=master + ".SplineControls")
     return {"plan": plan, "joints": joints, "refs": refs, "curve": source_curve, "rebuiltCurve": rebuilt, "ikHandle": ik_handle, "controlJoints": control_joints, "splineControls": spline_ctrls, "skinCluster": skin, "rigGroup": rig, "visibleGroup": visible, "hiddenGroup": hidden, "globalGroup": global_group, "constraints": constraints}
+
+
+def apply_spline_rig(data):
+    import maya.cmds as cmds
+    selection_uuids = cmds.ls(selection=True, uuid=True) or []
+    try:
+        return _apply_spline_rig_unprotected(data)
+    finally:
+        restored = []
+        for node_uuid in selection_uuids:
+            matches = cmds.ls(node_uuid, long=True) or []
+            if matches:
+                restored.append(matches[0])
+        if restored:
+            cmds.select(restored, replace=True)
+        else:
+            cmds.select(clear=True)
 
 def spline_rig_managed_maya_smoke():
     import maya.cmds as cmds
