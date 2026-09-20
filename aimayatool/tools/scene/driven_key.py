@@ -41,12 +41,15 @@ def _offset_group(cmds,obj,name):
 
 def apply_driven_key(items):
     import maya.cmds as cmds
-    results=[]
-    for plan in build_driven_key_plan(items):
+    plans=build_driven_key_plan(items)
+    for plan in plans:
         if not cmds.objExists(plan["driverAttr"]): raise ValueError("Driver attr not found: "+plan["driverAttr"])
-        offsets={}
         for obj in plan["drivenObjects"]:
             if not cmds.objExists(obj): raise ValueError("Missing driven object: "+obj)
+    results=[]
+    for plan in plans:
+        offsets={}
+        for obj in plan["drivenObjects"]:
             parent=(cmds.listRelatives(obj,parent=True) or [None])[0]
             offset=parent if parent and parent.endswith("_SDKGrp") else _offset_group(cmds,obj,plan["offsets"][obj])
             zero=plan["zeroOffsets"][obj]
