@@ -720,7 +720,7 @@
     {
       "goal_id": "aimayatool-011",
       "title": "Performance and Maya API modernization",
-      "status": "active",
+      "status": "completed",
       "purpose": "Profile AIMayaTool and modernize proven hot paths using Maya API 2.0, caching and bounded batching where it materially improves production performance.",
       "acceptance": [
         "Optimization is evidence-driven and behavior-preserving.",
@@ -745,7 +745,7 @@
         {
           "milestone_id": "performance-regression",
           "title": "Add performance regression evidence",
-          "status": "active"
+          "status": "completed"
         }
       ],
       "activation_evidence": {
@@ -772,12 +772,34 @@
             "focused_tests": "3/3 PASS"
           }
         }
+      },
+      "completion_evidence": {
+        "completed_date": "2026-09-20",
+        "python_regression": "8/8 focused tests PASS",
+        "managed_maya": {
+          "closest_face": {
+            "baseline_seconds": 0.011680999999953201,
+            "postchange_seconds": 0.007032600000457023,
+            "fresh_regression_seconds": 0.006554199999300181
+          },
+          "loop_groups": {
+            "baseline_seconds": 0.07802600000104576,
+            "postchange_seconds": 0.05084499999975378,
+            "fresh_regression_seconds": 0.050347899999906076
+          },
+          "skin_data_many": {
+            "baseline_seconds": 0.007467800000085845,
+            "postchange_seconds": 0.00018900000031862874,
+            "fresh_regression_seconds": 0.00019289999909233302
+          }
+        },
+        "scene_saved": false
       }
     },
     {
       "goal_id": "aimayatool-012",
       "title": "Reliability, undo and recovery",
-      "status": "planned",
+      "status": "active",
       "purpose": "Harden all three domains for production use with undo safety, scene-state protection, robust validation, deterministic failures and bounded Maya runtime recovery.",
       "acceptance": [
         "Common invalid inputs fail safely and clearly.",
@@ -805,7 +827,11 @@
           "title": "Run reliability/runtime regression",
           "status": "pending"
         }
-      ]
+      ],
+      "activation_evidence": {
+        "date": "2026-09-20",
+        "reason": "Standing owner approval for continuous roadmap progression after Goal 011 completion"
+      }
     },
     {
       "goal_id": "aimayatool-013",
