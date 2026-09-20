@@ -28,89 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-preflight-guidance-closeout-184d",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/preflight.py",
-          "tests/test_preflight_guidance.py"
-        ],
-        "imports": [
-          "aimayatool.preflight"
-        ],
-        "tests": [
-          "tests.test_preflight_guidance"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "preflight-guidance",
-        "depends_on": [
-          "aimayatool-goal010-preflight-guidance-verify-184c"
-        ],
-        "purpose": "Close out the bounded preflight-guidance milestone against its verified deterministic contract before publishing further Goal 010 work.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Re-run focused preflight compile/import/tests.",
-          "Confirm 184c implementation evidence remains green.",
-          "No product edits.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "preflight_guidance_closeout_pass",
-        "delivery_id": "910054bf3e6796740ec7",
-        "architect_diagnosis": "Focused closeout rerun is green: contract and tests compile, module imports, and all 3 deterministic tests pass. Milestone acceptance is satisfied."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-performance-baseline-inventory-185a",
       "action": {
         "type": "verification",
@@ -764,9 +681,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -805,6 +722,87 @@
         "acceptance": [
           "Use a fresh managed Maya scene.",
           "Require save_scene=false; do not save or quit Maya.",
+          "Invoke performance_baseline_managed_maya_smoke.",
+          "If callable is absent, report that exact harness gap; do not fabricate success.",
+          "If present, capture repeatable timing and behavior-preservation evidence for representative geometry/skin workloads.",
+          "Do not optimize product code.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_MISSING_ISOLATED_SCENE_TRUE",
+        "classification": "managed_maya_payload_contract",
+        "delivery_id": "37b81f5e19b43dee4cf1",
+        "architect_diagnosis": "maya:managed_live_smoke route and save_scene=false passed validation; next required contract field is isolated_scene=true. Product/callable did not execute."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185j",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.skinning.closest_face",
+        "callable": "performance_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "timeout": 45,
+        "save_scene": false,
+        "isolated_scene": true
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "performance-baseline",
+        "depends_on": [
+          "aimayatool-goal011-performance-baseline-managed-maya-retry-185i"
+        ],
+        "retry_of": "aimayatool-goal011-performance-baseline-managed-maya-retry-185i",
+        "purpose": "Run Goal 011 baseline through validated managed Maya smoke contract with explicit isolated unsaved scene safety.",
+        "acceptance": [
+          "Use a fresh managed Maya scene with isolated_scene=true and save_scene=false.",
+          "Do not save or quit Maya.",
           "Invoke performance_baseline_managed_maya_smoke.",
           "If callable is absent, report that exact harness gap; do not fabricate success.",
           "If present, capture repeatable timing and behavior-preservation evidence for representative geometry/skin workloads.",
