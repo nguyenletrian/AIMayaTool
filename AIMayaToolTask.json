@@ -28,107 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-postbench-retry-187h",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.skinning.loop_groups",
-        "callable": "performance_postchange_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "geometry-hotpaths",
-        "depends_on": [],
-        "retry_of": "aimayatool-goal011-geometry-hotpaths-loop-groups-postbench-187g",
-        "fix_commit": "5740dc26b94db2638cf4a5b98d67f081797cf269",
-        "baseline": {
-          "operation": "loop_groups_root_loop",
-          "sample_count": 21,
-          "elapsed_seconds": 0.07802600000104576
-        },
-        "purpose": "Retry identical loop-groups post-change benchmark after correcting adjacency traversal to MItMeshVertex.getConnectedEdges.",
-        "acceptance": [
-          "Fast-forward main including fix commit 5740dc26b94db2638cf4a5b98d67f081797cf269.",
-          "Use isolated_scene=true and save_scene=false.",
-          "Run identical 21-root-vertex performance_postchange_managed_maya_smoke workload.",
-          "Require valid_results=true and selection_preserved=true.",
-          "Capture elapsed_seconds and compare only to 0.07802600000104576 s baseline.",
-          "Do not save or quit Maya.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "loop_groups_adjacency_optimization_proven",
-        "delivery_id": "a5cb177aaff542699da9",
-        "verification_evidence": {
-          "operation": "loop_groups_root_loop",
-          "sample_count": 21,
-          "elapsed_seconds": 0.05084499999975378,
-          "valid_results": true,
-          "selection_preserved": true,
-          "scene_saved": false,
-          "managed_pid": 11952,
-          "port": 7001
-        },
-        "architect_diagnosis": "Identical 21-root-vertex managed Maya workload passed in 0.050845 s versus pre-change 0.078026 s, with valid results and preserved selection. This single bounded run is about 34.8% lower elapsed time.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-postbench-187g",
-          "result": "FAIL_INVALID_MAYA_API_METHOD",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-regression-187i",
       "action": {
         "type": "verification",
@@ -156,9 +55,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "geometry-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-geometry-hotpaths-loop-groups-postbench-retry-187h"
-        ],
+        "depends_on": [],
         "purpose": "Run focused deterministic regression after the proven loop_groups adjacency optimization before closing or advancing the geometry-hotpaths milestone.",
         "acceptance": [
           "Fast-forward main.",
@@ -181,7 +78,13 @@
         "fix_commits": [
           "19282f8b81ab641ccf28adb48561995b68604f26",
           "8f5e3f6ed2329c133c509648854a3c42444f54d3"
-        ]
+        ],
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-postbench-retry-187h",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -819,9 +722,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -863,6 +766,94 @@
           "Do not require system-Python import of this Maya-host-bound module.",
           "Report whether focused deterministic tests for skin_data_many exist; if absent, report the concrete test gap rather than claiming full regression coverage.",
           "Do not edit product code in this task.",
+          "Do not use Codex."
+        ],
+        "performance_evidence": {
+          "baseline_seconds": 0.007467800000085845,
+          "postchange_seconds": 0.00018900000031862874,
+          "sample_count": 100
+        },
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_COMPILE_TEST_GAP_CONFIRMED",
+        "delivery_id": "965680a4e66eec44a7fe",
+        "architect_diagnosis": "Maya-bound skin.py compiles, but the verification task had no focused deterministic tests. Architect added isolated unit coverage for skin_data_many unique-mesh batching, order preservation, independent result dicts, and empty input.",
+        "test_commit": "b7374936bb21b3728adbab4dbd623557a20597a6"
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-regression-run-188g",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/maya/skin.py",
+          "tests/test_maya_skin.py"
+        ],
+        "imports": [],
+        "tests": [
+          "tests.test_maya_skin"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "skin-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-skin-hotpaths-skin-adapter-regression-188f"
+        ],
+        "test_commit": "b7374936bb21b3728adbab4dbd623557a20597a6",
+        "purpose": "Run focused deterministic regression for the measured skin_data_many batching optimization.",
+        "acceptance": [
+          "Fast-forward main including b7374936bb21b3728adbab4dbd623557a20597a6.",
+          "Compile skin.py and tests/test_maya_skin.py.",
+          "Run tests.test_maya_skin.",
+          "Require batching once per unique mesh, input-order preservation, independent result dicts, and empty-input behavior to pass.",
+          "Do not require a Maya installation for these deterministic tests.",
           "Do not use Codex."
         ],
         "performance_evidence": {
