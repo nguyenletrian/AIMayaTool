@@ -47,3 +47,37 @@ def set_default_values(items):
             cmds.setAttr(plug, value)
         results.append({"attribute": plug, "status": "set", "type": attr_type})
     return tuple(results)
+
+def default_value_partial_failure_managed_maya_smoke():
+    """Measure whether invalid numeric input leaves unlock/disconnect partial mutation."""
+    import maya.cmds as cmds
+
+    driver=cmds.createNode("transform",name="AIBridgeDefaultValuePartialDriver")
+    target=cmds.createNode("transform",name="AIBridgeDefaultValuePartialTarget")
+    cmds.addAttr(driver,longName="outValue",attributeType="double",keyable=True)
+    cmds.addAttr(target,longName="value",attributeType="double",keyable=True)
+    source=driver+".outValue"
+    plug=target+".value"
+    cmds.connectAttr(source,plug,force=True)
+    cmds.setAttr(plug,lock=True)
+    before_locked=bool(cmds.getAttr(plug,lock=True))
+    before_source=cmds.connectionInfo(plug,sourceFromDestination=True) or ""
+    error=""
+    try:
+        set_default_values([{"attribute":plug,"value":"not-a-number"}])
+    except (TypeError,ValueError) as exc:
+        error=str(exc)
+    after_locked=bool(cmds.getAttr(plug,lock=True))
+    after_source=cmds.connectionInfo(plug,sourceFromDestination=True) or ""
+    partial_mutation=bool(before_locked!=after_locked or before_source!=after_source)
+    return {
+        "operation":"default_value_partial_failure",
+        "caught_invalid":bool(error),
+        "partial_mutation":partial_mutation,
+        "before_locked":before_locked,
+        "after_locked":after_locked,
+        "before_source":before_source,
+        "after_source":after_source,
+        "error":error,
+    }
+
