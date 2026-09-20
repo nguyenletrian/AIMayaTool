@@ -45,11 +45,16 @@ def apply_modulo_sdk(driver, attrs_data):
     import maya.cmds as cmds
     plan=build_expression_plan(driver,attrs_data)
     if not cmds.objExists(plan["driver_node"]): raise ValueError("Missing driver: "+plan["driver_node"])
+    targets=[]
+    for plug in plan["targets"]:
+        target,_=_plug(plug,"target")
+        if target not in targets: targets.append(target)
+    for target in targets:
+        if not cmds.objExists(target): raise ValueError("Missing target: "+target)
     if not cmds.attributeQuery(plan["driver_attr"],node=plan["driver_node"],exists=True): cmds.addAttr(plan["driver_node"],longName=plan["driver_attr"],attributeType="long",defaultValue=0,keyable=True)
     offsets={}
     for plug in plan["targets"]:
         target,_=_plug(plug,"target")
-        if not cmds.objExists(target): raise ValueError("Missing target: "+target)
         if target not in offsets:
             name=target+"_Modulo_Grp"
             if cmds.objExists(name): offsets[target]=name
