@@ -28,91 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185j",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.skinning.closest_face",
-        "callable": "performance_baseline_managed_maya_smoke",
-        "new_scene": true,
-        "timeout": 45,
-        "save_scene": false,
-        "isolated_scene": true
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "performance-baseline",
-        "depends_on": [],
-        "retry_of": "aimayatool-goal011-performance-baseline-managed-maya-retry-185i",
-        "purpose": "Run Goal 011 baseline through validated managed Maya smoke contract with explicit isolated unsaved scene safety.",
-        "acceptance": [
-          "Use a fresh managed Maya scene with isolated_scene=true and save_scene=false.",
-          "Do not save or quit Maya.",
-          "Invoke performance_baseline_managed_maya_smoke.",
-          "If callable is absent, report that exact harness gap; do not fabricate success.",
-          "If present, capture repeatable timing and behavior-preservation evidence for representative geometry/skin workloads.",
-          "Do not optimize product code.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_MISSING_BASELINE_HARNESS",
-        "classification": "managed_maya_callable_missing",
-        "delivery_id": "55a6d4f86f23b08156fe",
-        "architect_diagnosis": "Managed Maya route and scene-safety contract are proven. Failure is the expected product-side harness gap: closest_face lacked performance_baseline_managed_maya_smoke. Architect implemented a bounded 100-vertex closest-face baseline with behavior and selection-preservation assertions in commit 3288b3fa7f0de6f6974bfae7d1bd776e5d2c9b51.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185i",
-          "result": "FAIL_MISSING_ISOLATED_SCENE_TRUE",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-performance-baseline-managed-maya-verify-185k",
       "action": {
         "type": "maya",
@@ -137,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "performance-baseline",
-        "depends_on": [
-          "aimayatool-goal011-performance-baseline-managed-maya-retry-185j"
-        ],
+        "depends_on": [],
         "implementation_commit": "3288b3fa7f0de6f6974bfae7d1bd776e5d2c9b51",
         "purpose": "Verify the newly implemented bounded closest-face performance baseline in managed Maya.",
         "acceptance": [
@@ -166,7 +79,13 @@
           "managed_pid": 11952,
           "port": 7001
         },
-        "architect_diagnosis": "Managed Maya baseline passed on 100 vertices in ~11.681 ms with valid results, preserved selection, and unsaved scene. This is baseline evidence only, not an optimization claim."
+        "architect_diagnosis": "Managed Maya baseline passed on 100 vertices in ~11.681 ms with valid results, preserved selection, and unsaved scene. This is baseline evidence only, not an optimization claim.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185j",
+          "result": "FAIL_MISSING_BASELINE_HARNESS",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -794,9 +713,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -843,6 +762,90 @@
           "Assert deterministic result validity and selection preservation.",
           "Compile changed Python and run focused loop_groups tests.",
           "Commit and push the bounded harness change to main.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_VERIFICATION_BUT_IMPLEMENTATION_MISSING",
+        "classification": "worker_did_not_apply_authorized_edit",
+        "delivery_id": "73c2cb9a80771d9edede",
+        "architect_diagnosis": "py_compile and five focused tests passed, but refetching main shows loop_groups.py still has no performance_baseline_managed_maya_smoke. The worker verified existing files without applying the authorized harness edit, so baseline cannot proceed yet."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-edit-187e",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/skinning/loop_groups.py",
+          "tests/test_skinning_loop_groups.py"
+        ],
+        "imports": [],
+        "tests": [
+          "tests.test_skinning_loop_groups"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "geometry-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-retry-187d"
+        ],
+        "retry_of": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-retry-187d",
+        "purpose": "Apply, not merely verify, the missing bounded loop_groups managed-Maya baseline harness.",
+        "acceptance": [
+          "Fast-forward main.",
+          "MUST edit aimayatool/tools/skinning/loop_groups.py so performance_baseline_managed_maya_smoke exists on main after this task.",
+          "Harness must create a bounded representative polygon mesh, exercise group_vertices_by_perpendicular_loops on an explicit connected root-loop vertex set, time only the existing production grouping call, assert nonempty/valid result and selection preservation, and return evidence including operation, sample_count, elapsed_seconds, valid_results, selection_preserved.",
+          "Do not optimize connected_vertices_in_set or perpendicular_edge_from_vertices yet.",
+          "Run py_compile and focused loop_groups tests.",
+          "Commit and push the actual harness edit to main; verification-only completion without the callable is failure.",
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
