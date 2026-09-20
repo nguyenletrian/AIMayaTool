@@ -28,218 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal012-scene-state-spline-rig-selection-deterministic-191h",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 180,
-        "files": [
-          "aimayatool/tools/scene/spline_rig.py",
-          "tests/test_scene_spline_rig.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.spline_rig"
-        ],
-        "tests": [
-          "tests.test_scene_spline_rig"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-012",
-        "milestone_id": "scene-state-safety",
-        "depends_on": [],
-        "implementation_commit": "c3518976b0e0c4147a0d53d515037a84a6021ac7",
-        "purpose": "Verify the Spline Rig selection-preservation hardening compiles/imports cleanly and leaves deterministic normalization behavior unchanged before live Maya validation.",
-        "acceptance": [
-          "Fast-forward main including implementation commit c3518976b0e0c4147a0d53d515037a84a6021ac7.",
-          "py_compile changed Spline Rig module and focused test.",
-          "Import aimayatool.tools.scene.spline_rig outside Maya.",
-          "Run tests.test_scene_spline_rig and require all focused tests PASS.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "3fa94da8449172d1df01",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "focused_tests": "3/3 PASS"
-        },
-        "architect_diagnosis": "Spline Rig selection-preservation hardening compiles/imports cleanly and deterministic normalization behavior remains unchanged across all focused tests.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal012-scene-state-spline-rig-selection-probe-191g",
-          "result": "PASS_GAP_CONFIRMED",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "probe_evidence": {
-            "functional": true,
-            "selection_preserved": false,
-            "before": [
-              "|AIBridgeSplineStateSentinel"
-            ],
-            "after": [
-              "blendColors1"
-            ]
-          },
-          "prior_deterministic": {
-            "task_id": "aimayatool-goal012-scene-state-spline-rig-probe-deterministic-191f",
-            "result": "PASS",
-            "architect_ack": true,
-            "bridge_completed": true,
-            "verification_evidence": {
-              "py_compile": true,
-              "import": true,
-              "focused_tests": "3/3 PASS"
-            }
-          }
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal012-scene-state-spline-rig-selection-postchange-191i",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.spline_rig",
-        "callable": "spline_rig_selection_state_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-012",
-        "milestone_id": "scene-state-safety",
-        "depends_on": [
-          "aimayatool-goal012-scene-state-spline-rig-selection-deterministic-191h"
-        ],
-        "implementation_commit": "c3518976b0e0c4147a0d53d515037a84a6021ac7",
-        "baseline": {
-          "functional": true,
-          "selection_preserved": false,
-          "before": [
-            "|AIBridgeSplineStateSentinel"
-          ],
-          "after": [
-            "blendColors1"
-          ]
-        },
-        "purpose": "Prove Spline Rig now preserves an unrelated explicit selection while retaining functional construction behavior.",
-        "acceptance": [
-          "Fast-forward main after deterministic verification.",
-          "Require functional=true.",
-          "Require selection_preserved=true.",
-          "Require before and after to both identify AIBridgeSplineStateSentinel.",
-          "Fresh isolated scene, no save, no Maya quit.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "9f2ecf9f03a43783d895",
-        "postchange_evidence": {
-          "functional": true,
-          "selection_preserved": true,
-          "before": [
-            "|AIBridgeSplineStateSentinel"
-          ],
-          "after": [
-            "|AIBridgeSplineStateSentinel"
-          ]
-        },
-        "architect_diagnosis": "Managed Maya confirms Spline Rig selection-state hardening: functional construction remains intact and unrelated explicit selection is preserved exactly."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal012-scene-state-rivet-probe-deterministic-191j",
       "action": {
         "type": "verification",
@@ -269,9 +57,7 @@
       "metadata": {
         "goal_id": "aimayatool-012",
         "milestone_id": "scene-state-safety",
-        "depends_on": [
-          "aimayatool-goal012-scene-state-spline-rig-selection-postchange-191i"
-        ],
+        "depends_on": [],
         "harness_commit": "73d76aa68dcede235fb57942109ac530ab1a3cd8",
         "purpose": "Verify the new Rivet selection-state probe harness compiles/imports cleanly and existing deterministic Rivet normalization behavior remains unchanged before live state measurement.",
         "acceptance": [
@@ -291,7 +77,34 @@
           "import": true,
           "focused_tests": "3/3 PASS"
         },
-        "architect_diagnosis": "Rivet selection-state probe harness compiles/imports cleanly and deterministic Rivet normalization behavior remains unchanged across all focused tests."
+        "architect_diagnosis": "Rivet selection-state probe harness compiles/imports cleanly and deterministic Rivet normalization behavior remains unchanged across all focused tests.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal012-scene-state-spline-rig-selection-postchange-191i",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "postchange_evidence": {
+            "functional": true,
+            "selection_preserved": true,
+            "before": [
+              "|AIBridgeSplineStateSentinel"
+            ],
+            "after": [
+              "|AIBridgeSplineStateSentinel"
+            ]
+          },
+          "prior_deterministic": {
+            "task_id": "aimayatool-goal012-scene-state-spline-rig-selection-deterministic-191h",
+            "result": "PASS",
+            "architect_ack": true,
+            "bridge_completed": true,
+            "verification_evidence": {
+              "py_compile": true,
+              "import": true,
+              "focused_tests": "3/3 PASS"
+            }
+          }
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -871,9 +684,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -915,6 +728,186 @@
           "Require functional=true so state evidence comes from a completed build.",
           "Record selection_preserved plus before/after exactly.",
           "Do not classify a selection change as acceptable; use evidence to decide the next product change.",
+          "Fresh isolated scene, no save, no Maya quit.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_GAP_CONFIRMED",
+        "delivery_id": "cac17b2af44d339da37b",
+        "probe_evidence": {
+          "functional": true,
+          "selection_preserved": false,
+          "before": [
+            "|AIBridgeSplineControlStateSentinel"
+          ],
+          "after": [
+            "blendColors1"
+          ]
+        },
+        "architect_diagnosis": "Managed Maya confirms Spline Control From Objects builds successfully but leaks selection state: the unrelated sentinel is replaced by the final blendColors utility node. Product hardening is required at apply_spline_control_from_objs boundary.",
+        "selection_fix_commit": "2bcd792f13be4fd5080c469194bcfd4f856bed00"
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-scene-state-spline-control-selection-deterministic-191r",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 180,
+        "files": [
+          "aimayatool/tools/scene/spline_control_from_objs.py",
+          "tests/test_scene_spline_control_from_objs.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.spline_control_from_objs"
+        ],
+        "tests": [
+          "tests.test_scene_spline_control_from_objs"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "scene-state-safety",
+        "depends_on": [
+          "aimayatool-goal012-scene-state-spline-control-selection-probe-191q"
+        ],
+        "implementation_commit": "2bcd792f13be4fd5080c469194bcfd4f856bed00",
+        "purpose": "Verify Spline Control From Objects selection-preservation hardening compiles/imports cleanly and deterministic normalization remains unchanged before live Maya validation.",
+        "acceptance": [
+          "Fast-forward main including implementation commit 2bcd792f13be4fd5080c469194bcfd4f856bed00.",
+          "py_compile changed module and focused test.",
+          "Import aimayatool.tools.scene.spline_control_from_objs outside Maya.",
+          "Run tests.test_scene_spline_control_from_objs and require all focused tests PASS.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-scene-state-spline-control-selection-postchange-191s",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.spline_control_from_objs",
+        "callable": "spline_control_from_objs_selection_state_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "scene-state-safety",
+        "depends_on": [
+          "aimayatool-goal012-scene-state-spline-control-selection-deterministic-191r"
+        ],
+        "implementation_commit": "2bcd792f13be4fd5080c469194bcfd4f856bed00",
+        "baseline": {
+          "functional": true,
+          "selection_preserved": false,
+          "before": [
+            "|AIBridgeSplineControlStateSentinel"
+          ],
+          "after": [
+            "blendColors1"
+          ]
+        },
+        "purpose": "Prove Spline Control From Objects now preserves unrelated selection while retaining functional construction behavior.",
+        "acceptance": [
+          "Fast-forward main after deterministic verification.",
+          "Require functional=true.",
+          "Require selection_preserved=true.",
+          "Require before and after to both identify AIBridgeSplineControlStateSentinel.",
           "Fresh isolated scene, no save, no Maya quit.",
           "Do not use Codex."
         ],
