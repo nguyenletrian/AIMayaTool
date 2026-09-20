@@ -78,3 +78,43 @@ def driven_key_managed_maya_smoke():
     checks={"sdk_group":cmds.objExists(offset),"zero_group":cmds.objExists(zero),"child_parent":(cmds.listRelatives(driven,parent=True) or [""])[0]==offset,"anim_curve":bool(curves),"value0":abs(v0-1)<1e-6,"value10":abs(v10-5)<1e-6,"child_stable":abs(child_v0)<1e-6 and abs(child_v10)<1e-6,"linear":bool(tangents) and all(x=="linear" for x in tangents)}
     if not all(checks.values()): raise RuntimeError("DrivenKey smoke failed: {0}".format(checks))
     return {"ok":True,"checks":checks,"offset":offset,"zero":zero,"curves":curves}
+
+def driven_key_partial_failure_managed_maya_smoke():
+    """Measure whether invalid later Driven Key inputs leave partial scene mutation."""
+    import maya.cmds as cmds
+
+    driver=cmds.createNode("transform",name="AIBridgeSDKPartialDriver")
+    cmds.addAttr(driver,longName="drive",attributeType="double",keyable=True)
+    valid=cmds.createNode("transform",name="AIBridgeSDKPartialA")
+    missing="AIBridgeSDKPartialZMissing"
+    before_parent=(cmds.listRelatives(valid,parent=True,fullPath=True) or [None])[0]
+    sdk_group=valid+"_SDKGrp"
+    zero_group=valid+"_ZeloSDKGrp"
+    item={
+        "driverAttr":driver+".drive",
+        "drivenAttrs":"\n".join([valid+".tx",missing+".tx"]),
+        "keyData":[
+            {"driverValue":0,"drivenValues":{valid:{"tx":1},missing:{"tx":2}}},
+            {"driverValue":10,"drivenValues":{valid:{"tx":5},missing:{"tx":6}}},
+        ],
+    }
+    error=""
+    try:
+        apply_driven_key([item])
+    except ValueError as exc:
+        error=str(exc)
+    after_parent=(cmds.listRelatives(valid,parent=True,fullPath=True) or [None])[0]
+    sdk_exists=cmds.objExists(sdk_group)
+    zero_exists=cmds.objExists(zero_group)
+    partial_mutation=bool(sdk_exists or zero_exists or before_parent!=after_parent)
+    return {
+        "operation":"driven_key_partial_failure",
+        "caught_missing":("Missing driven object: "+missing) in error,
+        "partial_mutation":partial_mutation,
+        "sdk_group_exists":bool(sdk_exists),
+        "zero_group_exists":bool(zero_exists),
+        "before_parent":before_parent,
+        "after_parent":after_parent,
+        "error":error,
+    }
+
