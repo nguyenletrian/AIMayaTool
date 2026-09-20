@@ -28,206 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal012-scene-state-rivet-functional-fix-deterministic-191l",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 180,
-        "files": [
-          "aimayatool/tools/scene/rivet.py",
-          "tests/test_scene_rivet.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.rivet"
-        ],
-        "tests": [
-          "tests.test_scene_rivet"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-012",
-        "milestone_id": "scene-state-safety",
-        "depends_on": [],
-        "implementation_commit": "52784720a2a3bca0379a26cc576a2bfccbe125ea",
-        "purpose": "Verify the bounded Rivet functional fix compiles/imports cleanly and deterministic Rivet normalization remains unchanged before retrying managed Maya.",
-        "acceptance": [
-          "Fast-forward main including implementation commit 52784720a2a3bca0379a26cc576a2bfccbe125ea.",
-          "py_compile changed Rivet module and focused test.",
-          "Import aimayatool.tools.scene.rivet outside Maya.",
-          "Run tests.test_scene_rivet and require all focused tests PASS.",
-          "Do not classify selection-state behavior yet; the prior probe did not reach measurement.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "a583db3c7c74a3e4f515",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "focused_tests": "3/3 PASS"
-        },
-        "architect_diagnosis": "The bounded Rivet functional fix compiles/imports cleanly and deterministic Rivet normalization remains unchanged across all focused tests. Managed Maya retry is now the required product/runtime gate.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal012-scene-state-rivet-selection-probe-191k",
-          "result": "FAIL_PRODUCT_BLOCKER",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "classification": "functional_product_bug",
-          "failure_evidence": {
-            "exception": "RuntimeError: Invalid worldUpObject.",
-            "location": "aimayatool/tools/scene/rivet.py:88",
-            "operation": "cmds.aimConstraint(... worldUpType='objectrotation', worldUpObject=posi)"
-          },
-          "prior_probe_deterministic": {
-            "task_id": "aimayatool-goal012-scene-state-rivet-probe-deterministic-191j",
-            "result": "PASS",
-            "architect_ack": true,
-            "bridge_completed": true,
-            "verification_evidence": {
-              "py_compile": true,
-              "import": true,
-              "focused_tests": "3/3 PASS"
-            }
-          }
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal012-scene-state-rivet-selection-probe-retry-191m",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.rivet",
-        "callable": "rivet_selection_state_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-012",
-        "milestone_id": "scene-state-safety",
-        "depends_on": [
-          "aimayatool-goal012-scene-state-rivet-functional-fix-deterministic-191l"
-        ],
-        "implementation_commit": "52784720a2a3bca0379a26cc576a2bfccbe125ea",
-        "purpose": "Retry Rivet selection-state measurement after restoring the legacy-compatible surface-orientation constraint graph.",
-        "acceptance": [
-          "Fast-forward main after deterministic functional-fix verification.",
-          "Require functional=true; failure before state measurement remains a product blocker.",
-          "Record selection_preserved plus before/after exactly.",
-          "Do not harden selection behavior unless the successful functional build proves a state leak.",
-          "Fresh isolated scene, no save, no Maya quit.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_GAP_CONFIRMED",
-        "delivery_id": "1d494cdbb4b6b8a0d2af",
-        "probe_evidence": {
-          "functional": true,
-          "selection_preserved": false,
-          "before": [
-            "|AIBridgeRivetStateSentinel"
-          ],
-          "after": [
-            "|AIBridgeRivetStateChild_RivetOffset|AIBridgeRivetStateChild"
-          ]
-        },
-        "architect_diagnosis": "After the functional Rivet fix, managed Maya confirms construction succeeds but leaks selection state: the unrelated sentinel is replaced by the reparented Rivet child. Product hardening is required at apply_rivet boundary.",
-        "selection_fix_commit": "3691f693045babde3402470b2cd4eb8241893403"
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal012-scene-state-rivet-selection-deterministic-191n",
       "action": {
         "type": "verification",
@@ -257,9 +57,7 @@
       "metadata": {
         "goal_id": "aimayatool-012",
         "milestone_id": "scene-state-safety",
-        "depends_on": [
-          "aimayatool-goal012-scene-state-rivet-selection-probe-retry-191m"
-        ],
+        "depends_on": [],
         "implementation_commit": "3691f693045babde3402470b2cd4eb8241893403",
         "purpose": "Verify Rivet selection-preservation hardening compiles/imports cleanly and deterministic normalization remains unchanged before live Maya postchange validation.",
         "acceptance": [
@@ -277,7 +75,34 @@
           "import": true,
           "focused_tests": "3/3 PASS"
         },
-        "architect_diagnosis": "Rivet selection-preservation hardening compiles/imports cleanly and deterministic Rivet normalization remains unchanged across all focused tests."
+        "architect_diagnosis": "Rivet selection-preservation hardening compiles/imports cleanly and deterministic Rivet normalization remains unchanged across all focused tests.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal012-scene-state-rivet-selection-probe-retry-191m",
+          "result": "PASS_GAP_CONFIRMED",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "probe_evidence": {
+            "functional": true,
+            "selection_preserved": false,
+            "before": [
+              "|AIBridgeRivetStateSentinel"
+            ],
+            "after": [
+              "|AIBridgeRivetStateChild_RivetOffset|AIBridgeRivetStateChild"
+            ]
+          },
+          "prior_functional_fix_deterministic": {
+            "task_id": "aimayatool-goal012-scene-state-rivet-functional-fix-deterministic-191l",
+            "result": "PASS",
+            "architect_ack": true,
+            "bridge_completed": true,
+            "verification_evidence": {
+              "py_compile": true,
+              "import": true,
+              "focused_tests": "3/3 PASS"
+            }
+          }
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -880,9 +705,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -924,6 +749,186 @@
           "Require functional=true so state evidence comes from a completed build.",
           "Record selection_preserved plus before/after exactly.",
           "Do not classify a selection change as acceptable; use evidence to decide the next product change.",
+          "Fresh isolated scene, no save, no Maya quit.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_GAP_CONFIRMED",
+        "delivery_id": "930a9e47a5907940633d",
+        "probe_evidence": {
+          "functional": true,
+          "selection_preserved": false,
+          "before": [
+            "|AIBridgeSplineCurveStateSentinel"
+          ],
+          "after": [
+            "|AIBridgeSplineCurveStateParent|AIBridgeSplineCurveStateCtrl1_SplineRig"
+          ]
+        },
+        "architect_diagnosis": "Managed Maya confirms Spline Curve From Objects builds successfully but leaks selection state: the unrelated sentinel is replaced by the newly parented rig group. Product hardening is required at apply_spline_curve_from_objs boundary.",
+        "selection_fix_commit": "f5e595831bb2f673561cefb75501bac8b59fad17"
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-scene-state-spline-curve-selection-deterministic-191v",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 180,
+        "files": [
+          "aimayatool/tools/scene/spline_curve_from_objs.py",
+          "tests/test_scene_spline_curve_from_objs.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.spline_curve_from_objs"
+        ],
+        "tests": [
+          "tests.test_scene_spline_curve_from_objs"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "scene-state-safety",
+        "depends_on": [
+          "aimayatool-goal012-scene-state-spline-curve-selection-probe-191u"
+        ],
+        "implementation_commit": "f5e595831bb2f673561cefb75501bac8b59fad17",
+        "purpose": "Verify Spline Curve From Objects selection-preservation hardening compiles/imports cleanly and deterministic normalization remains unchanged before live Maya validation.",
+        "acceptance": [
+          "Fast-forward main including implementation commit f5e595831bb2f673561cefb75501bac8b59fad17.",
+          "py_compile changed module and focused test.",
+          "Import aimayatool.tools.scene.spline_curve_from_objs outside Maya.",
+          "Run tests.test_scene_spline_curve_from_objs and require all focused tests PASS.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-scene-state-spline-curve-selection-postchange-191w",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.spline_curve_from_objs",
+        "callable": "spline_curve_from_objs_selection_state_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "scene-state-safety",
+        "depends_on": [
+          "aimayatool-goal012-scene-state-spline-curve-selection-deterministic-191v"
+        ],
+        "implementation_commit": "f5e595831bb2f673561cefb75501bac8b59fad17",
+        "baseline": {
+          "functional": true,
+          "selection_preserved": false,
+          "before": [
+            "|AIBridgeSplineCurveStateSentinel"
+          ],
+          "after": [
+            "|AIBridgeSplineCurveStateParent|AIBridgeSplineCurveStateCtrl1_SplineRig"
+          ]
+        },
+        "purpose": "Prove Spline Curve From Objects now preserves unrelated selection while retaining functional construction behavior.",
+        "acceptance": [
+          "Fast-forward main after deterministic verification.",
+          "Require functional=true.",
+          "Require selection_preserved=true.",
+          "Require before and after to both identify AIBridgeSplineCurveStateSentinel.",
           "Fresh isolated scene, no save, no Maya quit.",
           "Do not use Codex."
         ],
