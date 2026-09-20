@@ -795,9 +795,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -846,7 +846,15 @@
           "Run tests.test_scene_spline_curve_from_objs and require all focused tests PASS.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "c9ef0c33a9050718c672",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "focused_tests": "3/3 PASS"
+        },
+        "architect_diagnosis": "Spline Curve From Objects selection-preservation hardening compiles/imports cleanly and deterministic normalization remains unchanged across all focused tests."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
