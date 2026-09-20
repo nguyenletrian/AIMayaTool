@@ -28,97 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-baseline-run-188d",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.maya.skin",
-        "callable": "performance_baseline_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "skin-hotpaths",
-        "depends_on": [],
-        "harness_commit": "4e6490fc3f651e1a74acbc278d7bc3ef4ff9524f",
-        "purpose": "Capture authoritative pre-optimization timing for 100 repeated skin_data queries on one bounded skinned mesh.",
-        "acceptance": [
-          "Fast-forward main including harness commit 4e6490fc3f651e1a74acbc278d7bc3ef4ff9524f.",
-          "Run isolated_scene=true, save_scene=false.",
-          "Require valid_results=true and selection_preserved=true.",
-          "Capture sample_count and elapsed_seconds for skin_data_100_queries.",
-          "Do not optimize product code in this task.",
-          "Do not save or quit Maya.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "e1e7d223c4f706c011fb",
-        "baseline_evidence": {
-          "operation": "skin_data_100_queries",
-          "sample_count": 100,
-          "elapsed_seconds": 0.007467800000085845,
-          "valid_results": true,
-          "selection_preserved": true
-        },
-        "architect_diagnosis": "Authoritative baseline captured for 100 repeated skin_data queries on the same mesh. This workload exposes redundant repeated discovery and is suitable for bounded per-mesh batching/caching without changing single-query semantics.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-baseline-188c",
-          "result": "FAIL_MISSING_BASELINE_HARNESS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-postbench-188e",
       "action": {
         "type": "maya",
@@ -143,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "skin-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-skin-hotpaths-skin-adapter-baseline-run-188d"
-        ],
+        "depends_on": [],
         "implementation_commit": "efdac082b7feb269167837d485f6849df73b641a",
         "baseline": {
           "operation": "skin_data_100_queries",
@@ -180,7 +87,13 @@
           "reduction_percent": 97.46913200302008,
           "speedup_factor": 39.51216924585314
         },
-        "architect_diagnosis": "Identical bounded 100-item same-mesh workload shows large reduction by resolving skin discovery once per unique mesh. This proves the batching helper on this workload only; single-query skin_data semantics remain unchanged."
+        "architect_diagnosis": "Identical bounded 100-item same-mesh workload shows large reduction by resolving skin discovery once per unique mesh. This proves the batching helper on this workload only; single-query skin_data semantics remain unchanged.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-baseline-run-188d",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -840,9 +753,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -887,6 +800,87 @@
           "Do not use Codex."
         ],
         "candidate": "aimayatool.maya.skin add_influences/remove_influences",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_MISSING_BASELINE_HARNESS",
+        "delivery_id": "a39fad7f773382cb2a67",
+        "classification": "expected_probe_gap",
+        "architect_diagnosis": "Probe confirmed the explicit undo baseline callable was absent; this is harness absence, not a product undo result.",
+        "harness_commit": "2bf1edc874ed0612b633d023a105d24580f6d469"
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-undo-safety-skin-influence-baseline-run-190c",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.maya.skin",
+        "callable": "undo_safety_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "undo-safety",
+        "depends_on": [
+          "aimayatool-goal012-undo-safety-skin-influence-live-baseline-190b"
+        ],
+        "harness_commit": "2bf1edc874ed0612b633d023a105d24580f6d469",
+        "purpose": "Run the new bounded managed-Maya baseline to establish current undo granularity for adding two skin influences.",
+        "acceptance": [
+          "Fast-forward main including harness commit.",
+          "Require added_count=2 and expected_added=true.",
+          "Record one_step_complete and two_steps_complete as baseline evidence; do not require one-step behavior before hardening.",
+          "Record selection_preserved.",
+          "Fresh isolated scene, no save, no Maya quit.",
+          "Do not use Codex."
+        ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       },
       "system_id": "aimayatool",
