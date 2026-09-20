@@ -18,96 +18,6 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-preflight-guidance-implementation-184b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/core/result.py",
-          "aimayatool/registry.py",
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ],
-        "tests": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "preflight-guidance",
-        "depends_on": [],
-        "purpose": "Implement the smallest reusable preflight guidance primitive approved by the contract.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Read 183e and 184a evidence before implementation.",
-          "Implement only the bounded shared preflight contract; no broad refactor.",
-          "Validation must be non-mutating and preserve explicit domain APIs.",
-          "Run py_compile/import-safe checks and focused tests.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "architect_note": "184a exposed an invalid verification-first contract because target files/tests did not exist. 184b must create the bounded preflight contract and focused deterministic tests together, then a separate verification task will validate them.",
-        "result": "FAIL_INVALID_ROUTE",
-        "classification": "verification_route_cannot_implement",
-        "delivery_id": "e5aeb767bcfe8454a469",
-        "architect_diagnosis": "184b remained action verification:python, so it could not create the missing preflight module/tests and failed before execution. Architect will implement the bounded contract directly, then publish verification.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal010-preflight-guidance-contract-tests-184a",
-          "result": "FAIL_INVALID_TASK_CONTRACT",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
       "status": "COMPLETED",
       "architect_ack": true,
       "bridge_completed": true,
@@ -146,9 +56,7 @@
       "metadata": {
         "goal_id": "aimayatool-010",
         "milestone_id": "preflight-guidance",
-        "depends_on": [
-          "aimayatool-goal010-preflight-guidance-implementation-184b"
-        ],
+        "depends_on": [],
         "purpose": "Validate bounded preflight guidance in managed Maya across representative Skinning, Setup, and Scene contexts.",
         "acceptance": [
           "Fast-forward main.",
@@ -160,7 +68,13 @@
           "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "completion_note": "Python verification passed; Architect ACK already recorded; closing task to prevent requeue."
+        "completion_note": "Python verification passed; Architect ACK already recorded; closing task to prevent requeue.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-preflight-guidance-implementation-184b",
+          "result": "FAIL_INVALID_ROUTE",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -556,9 +470,7 @@
       "metadata": {
         "goal_id": "aimayatool-010",
         "milestone_id": "preflight-guidance",
-        "depends_on": [
-          "aimayatool-goal010-preflight-guidance-implementation-184b"
-        ],
+        "depends_on": [],
         "purpose": "Verify the Architect-implemented bounded non-mutating preflight guidance contract and deterministic tests.",
         "acceptance": [
           "Fast-forward main.",
@@ -576,7 +488,13 @@
         "result": "PASS",
         "classification": "preflight_guidance_contract_verified",
         "delivery_id": "bdc3c9d75f992f0e725b",
-        "architect_diagnosis": "Bounded preflight contract compiles/imports and all 3 deterministic tests pass. Stable result shape, actionable message requirement, non-mutating behavior, and invalid contract rejection are verified."
+        "architect_diagnosis": "Bounded preflight contract compiles/imports and all 3 deterministic tests pass. Stable result shape, actionable message requirement, non-mutating behavior, and invalid contract rejection are verified.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-preflight-guidance-implementation-184b",
+          "result": "FAIL_INVALID_ROUTE",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -780,9 +698,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -835,7 +753,92 @@
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled.",
         "retry_count": 1,
-        "retry_of": "aimayatool-goal011-performance-baseline-inventory-185a"
+        "retry_of": "aimayatool-goal011-performance-baseline-inventory-185a",
+        "result": "PASS_BASELINE_ENTRYPOINTS",
+        "classification": "performance_baseline_inventory_entrypoints_verified",
+        "delivery_id": "c8de979259bc3b4040de",
+        "architect_diagnosis": "Corrected explicit Python files compile and Skinning/Setup/Scene entrypoints import. Source inspection identifies API2 mesh closest-point and cmds-based skin/history/influence operations as representative baseline seams; mechanical verification alone does not measure performance."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-performance-baseline-measurement-design-185c",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/maya/geometry.py",
+          "aimayatool/maya/skin.py",
+          "aimayatool/tools/skinning/closest_face.py",
+          "aimayatool/tools/skinning/max_influences.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning.closest_face",
+          "aimayatool.tools.skinning.max_influences"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "performance-baseline",
+        "depends_on": [
+          "aimayatool-goal011-performance-baseline-inventory-retry-185b"
+        ],
+        "purpose": "Bound the first representative performance measurements around geometry closest-face and skin-weight/influence paths before optimization.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Inspect the selected geometry and skinning call paths and identify representative input sizes/operations suitable for repeatable timing.",
+          "Separate pure Python/import-safe checks from Maya-host measurements; do not claim timing from import/compile.",
+          "Identify the cheapest sufficient Maya tier for each baseline and the exact behavior-preservation assertions needed beside timing.",
+          "Do not optimize product code.",
+          "Compile/import inspected import-safe entrypoints.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
