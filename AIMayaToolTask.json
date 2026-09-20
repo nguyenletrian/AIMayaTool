@@ -28,98 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-preflight-guidance-verify-184c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/preflight.py",
-          "tests/test_preflight_guidance.py"
-        ],
-        "imports": [
-          "aimayatool.preflight"
-        ],
-        "tests": [
-          "tests.test_preflight_guidance"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "preflight-guidance",
-        "depends_on": [],
-        "purpose": "Verify the Architect-implemented bounded non-mutating preflight guidance contract and deterministic tests.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import aimayatool.preflight.",
-          "Run tests.test_preflight_guidance.",
-          "Confirm stable valid/severity/category/message result shape, actionable messages, non-mutating behavior, and invalid-contract rejection.",
-          "Do not edit product code.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "implementation_evidence": {
-          "contract_commit": "0859613e8643632a7a09e7d44e26b0d1a23d8103",
-          "tests_commit": "cdb09b495f36b2d6bb4ccf28c94026a7a13c9b8a"
-        },
-        "result": "PASS",
-        "classification": "preflight_guidance_contract_verified",
-        "delivery_id": "bdc3c9d75f992f0e725b",
-        "architect_diagnosis": "Bounded preflight contract compiles/imports and all 3 deterministic tests pass. Stable result shape, actionable message requirement, non-mutating behavior, and invalid contract rejection are verified.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal010-preflight-guidance-implementation-184b",
-          "result": "FAIL_INVALID_ROUTE",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-preflight-guidance-closeout-184d",
       "action": {
         "type": "verification",
@@ -778,9 +686,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -819,6 +727,86 @@
           "Use a fresh managed Maya scene and do not save it.",
           "Invoke performance_baseline_managed_maya_smoke.",
           "If callable is absent, report that exact harness gap; do not fabricate host success.",
+          "If present, capture repeatable timing and behavior-preservation evidence for representative geometry/skin workloads.",
+          "Do not optimize product code.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_MISSING_SAVE_SCENE_FALSE",
+        "classification": "managed_maya_payload_contract",
+        "delivery_id": "c1e183cf53de4ccd91d4",
+        "architect_diagnosis": "maya:managed_live_smoke route is correct and reached its payload validator. The only reported blocker is explicit payload.save_scene=false. Product/callable did not execute."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185i",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.skinning.closest_face",
+        "callable": "performance_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "timeout": 45,
+        "save_scene": false
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "performance-baseline",
+        "depends_on": [
+          "aimayatool-goal011-performance-baseline-managed-maya-retry-185h"
+        ],
+        "retry_of": "aimayatool-goal011-performance-baseline-managed-maya-retry-185h",
+        "purpose": "Run Goal 011 baseline through the validated maya:managed_live_smoke route with the complete unsaved-scene payload contract.",
+        "acceptance": [
+          "Use a fresh managed Maya scene.",
+          "Require save_scene=false; do not save or quit Maya.",
+          "Invoke performance_baseline_managed_maya_smoke.",
+          "If callable is absent, report that exact harness gap; do not fabricate success.",
           "If present, capture repeatable timing and behavior-preservation evidence for representative geometry/skin workloads.",
           "Do not optimize product code.",
           "Do not use Codex."
