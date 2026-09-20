@@ -19,10 +19,14 @@ def _mesh_dag_path(mesh):
     return selection.getDagPath(0)
 
 
-def closest_point_and_face(mesh, point, space=om.MSpace.kWorld):
+def mesh_function(mesh):
+    """Resolve a mesh once for repeated API 2.0 queries."""
+    return om.MFnMesh(_mesh_dag_path(mesh))
+
+
+def closest_point_and_face(mesh, point, space=om.MSpace.kWorld, fn_mesh=None):
     """Return ((x, y, z), face_index) for the closest point on a polygon mesh."""
-    dag = _mesh_dag_path(mesh)
-    fn_mesh = om.MFnMesh(dag)
+    fn_mesh = fn_mesh or mesh_function(mesh)
     query = om.MPoint(float(point[0]), float(point[1]), float(point[2]))
     closest, face_index = fn_mesh.getClosestPoint(query, space)
     return (closest.x, closest.y, closest.z), int(face_index)
