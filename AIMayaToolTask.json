@@ -18,9 +18,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
+      "status": "completed",
       "architect_ack": true,
-      "bridge_completed": false,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -80,13 +80,20 @@
           "classification": "precondition_permission_mismatch",
           "diagnosis": "Failure occurred before product verification because git_pull requires edit permission. Task has already been corrected to edit=true and remains pending for a clean verification retry."
         },
-        "architect_diagnosis": "ACKed the exact failed delivery without treating it as product failure. Current task definition is recovered: edit=true permits ff-only git_pull while commit/push remain false and acceptance forbids product edits. Keep the same task pending so Bridge can perform the intended compile/import/unit-test verification.",
+        "architect_diagnosis": "Milestone favorites-recent already has later managed-Maya completion evidence. This stale verification entry is reconciled as completed so it cannot block runnable task selection.",
         "archived_prerequisite": {
           "task_id": "aimayatool-goal010-favorites-recent-action-state-181b",
           "result": "IMPLEMENTED_PENDING_WORKER_VERIFICATION",
           "architect_ack": true,
           "bridge_completed": true,
           "proven_main_commit": "e87e0607622764e743595b7f4d42748df13fc311"
+        },
+        "result": "ARCHIVED_STALE_RECOVERED",
+        "classification": "stale_pending_reconciled",
+        "reconciled_against": {
+          "milestone_task_id": "aimayatool-goal010-favorites-recent-action-maya-smoke-retry2-181o",
+          "delivery_id": "808ef6ae3d24b11bdd2e",
+          "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_ACTION_RECENT_OK:setup|freeze_trs|workspace"
         }
       },
       "system_id": "aimayatool",
