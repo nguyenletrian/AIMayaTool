@@ -729,9 +729,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -782,7 +782,15 @@
           "Do not use Codex."
         ],
         "source_evidence": "apply_spline_rig contains explicit cmds.select(clear=True) calls during joint/control-joint creation, so selection preservation must be measured in Maya.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "f3f240bdb234c2bfd8ab",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "focused_tests": "3/3 PASS"
+        },
+        "architect_diagnosis": "Spline Rig selection-state probe harness compiles/imports cleanly and existing deterministic Spline Rig behavior remains unchanged across all focused tests."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
