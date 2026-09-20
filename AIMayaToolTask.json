@@ -28,110 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-postbench-188e",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.maya.skin",
-        "callable": "performance_postchange_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "skin-hotpaths",
-        "depends_on": [],
-        "implementation_commit": "efdac082b7feb269167837d485f6849df73b641a",
-        "baseline": {
-          "operation": "skin_data_100_queries",
-          "sample_count": 100,
-          "elapsed_seconds": 0.007467800000085845
-        },
-        "purpose": "Measure identical 100-item skin-data workload after introducing bounded per-mesh batching that resolves discovery once per unique mesh.",
-        "acceptance": [
-          "Fast-forward main including efdac082b7feb269167837d485f6849df73b641a.",
-          "Run isolated_scene=true and save_scene=false.",
-          "Run performance_postchange_managed_maya_smoke with the same 100-item same-mesh workload.",
-          "Require valid_results=true and selection_preserved=true.",
-          "Capture elapsed_seconds and compare only with 0.007467800000085845 s baseline.",
-          "Do not claim improvement unless measured evidence supports it.",
-          "Do not save or quit Maya.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "skin_data_batching_performance_proven",
-        "delivery_id": "dc31637488f3b6354b8d",
-        "postchange_evidence": {
-          "operation": "skin_data_100_queries",
-          "sample_count": 100,
-          "elapsed_seconds": 0.00018900000031862874,
-          "valid_results": true,
-          "selection_preserved": true
-        },
-        "comparison": {
-          "baseline_seconds": 0.007467800000085845,
-          "postchange_seconds": 0.00018900000031862874,
-          "reduction_percent": 97.46913200302008,
-          "speedup_factor": 39.51216924585314
-        },
-        "architect_diagnosis": "Identical bounded 100-item same-mesh workload shows large reduction by resolving skin discovery once per unique mesh. This proves the batching helper on this workload only; single-query skin_data semantics remain unchanged.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-baseline-run-188d",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-regression-188f",
       "action": {
         "type": "verification",
@@ -156,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "skin-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-skin-hotpaths-skin-adapter-postbench-188e"
-        ],
+        "depends_on": [],
         "purpose": "Run deterministic compile gate and inspect regression-test gap for skin_data_many after measured performance improvement.",
         "acceptance": [
           "Fast-forward main.",
@@ -177,7 +71,13 @@
         "result": "PASS_COMPILE_TEST_GAP_CONFIRMED",
         "delivery_id": "965680a4e66eec44a7fe",
         "architect_diagnosis": "Maya-bound skin.py compiles, but the verification task had no focused deterministic tests. Architect added isolated unit coverage for skin_data_many unique-mesh batching, order preservation, independent result dicts, and empty input.",
-        "test_commit": "b7374936bb21b3728adbab4dbd623557a20597a6"
+        "test_commit": "b7374936bb21b3728adbab4dbd623557a20597a6",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-postbench-188e",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -834,9 +734,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -881,6 +781,98 @@
           "Fresh isolated scene, no save, no Maya quit.",
           "Do not use Codex."
         ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_BASELINE_UNSAFE_GRANULARITY_CONFIRMED",
+        "delivery_id": "1715b6f5d3ff45e58f01",
+        "baseline_evidence": {
+          "added_count": 2,
+          "expected_added": true,
+          "one_step_complete": false,
+          "two_steps_complete": true,
+          "selection_preserved": true
+        },
+        "architect_diagnosis": "Two-influence add is functionally correct but currently creates two undo steps. This confirms a concrete undo-boundary gap.",
+        "implementation_commit": "ca331d0653461179d3098ab91c389713226ecdbe"
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-undo-safety-skin-influence-postchange-190d",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.maya.skin",
+        "callable": "undo_safety_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "undo-safety",
+        "depends_on": [
+          "aimayatool-goal012-undo-safety-skin-influence-baseline-run-190c"
+        ],
+        "implementation_commit": "ca331d0653461179d3098ab91c389713226ecdbe",
+        "purpose": "Validate that add_influences now behaves as one Maya undo step after adopting the shared undo_chunk abstraction.",
+        "acceptance": [
+          "Fast-forward main including ca331d0653461179d3098ab91c389713226ecdbe.",
+          "Require added_count=2 and expected_added=true.",
+          "Require one_step_complete=true after one Maya undo.",
+          "Require selection_preserved=true.",
+          "Fresh isolated scene, no save, no Maya quit.",
+          "Do not use Codex."
+        ],
+        "baseline": {
+          "one_step_complete": false,
+          "two_steps_complete": true,
+          "selection_preserved": true
+        },
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       },
       "system_id": "aimayatool",
