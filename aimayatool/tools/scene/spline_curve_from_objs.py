@@ -70,3 +70,33 @@ def spline_curve_from_objs_managed_maya_smoke():
     checks={"curve":cmds.objExists(result["curve"]),"rebuilt":cmds.objExists(result["rebuiltCurve"]),"ik":cmds.objExists(result["ikHandle"]),"joints":len(result["joints"])==3,"refs":len(result["followGroups"])==3}
     if not all(checks.values()): raise RuntimeError("SplineCurveFromObjs smoke failed: {0}".format(checks))
     return {"ok":True,"checks":checks}
+
+def spline_curve_from_objs_selection_state_managed_maya_smoke():
+    """Measure whether Spline Curve From Objects preserves unrelated selection."""
+    import maya.cmds as cmds
+    parent=cmds.createNode("transform",name="AIBridgeSplineCurveStateParent")
+    controls=[]
+    for i,x in enumerate((0.0,5.0,10.0)):
+        c=cmds.createNode("transform",name="AIBridgeSplineCurveStateCtrl%d"%(i+1))
+        cmds.setAttr(c+".tx",x)
+        controls.append(c)
+    sentinel=cmds.createNode("transform",name="AIBridgeSplineCurveStateSentinel")
+    cmds.select(sentinel,replace=True)
+    before=cmds.ls(selection=True,long=True) or []
+    result=apply_spline_curve_from_objs({"parent":parent,"controls":controls,"rebuild":8})
+    after=cmds.ls(selection=True,long=True) or []
+    functional=bool(
+        cmds.objExists(result["curve"])
+        and cmds.objExists(result["rebuiltCurve"])
+        and cmds.objExists(result["ikHandle"])
+        and len(result["joints"])==3
+        and len(result["followGroups"])==3
+    )
+    return {
+        "operation":"spline_curve_from_objs_selection_state",
+        "functional":functional,
+        "selection_preserved":before==after,
+        "before":before,
+        "after":after,
+    }
+
