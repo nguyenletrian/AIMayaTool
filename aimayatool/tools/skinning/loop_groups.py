@@ -38,14 +38,9 @@ def connected_vertices_in_set(mesh, vertex, vertices, mesh_fn=None):
     source_id = component_index(vertex)
     allowed = {component_index(item) for item in vertices or []}
     result = []
-    for edge_id in range(mesh_fn.numEdges):
+    for edge_id in mesh_fn.getVertexEdges(source_id):
         v0, v1 = mesh_fn.getEdgeVertices(edge_id)
-        if v0 == source_id:
-            other = v1
-        elif v1 == source_id:
-            other = v0
-        else:
-            continue
+        other = v1 if v0 == source_id else v0
         if other in allowed:
             result.append((vertex, '%s.vtx[%d]' % (mesh, other), '%s.e[%d]' % (mesh, edge_id)))
     return result
@@ -62,14 +57,9 @@ def perpendicular_edge_from_vertices(mesh, source_vertex, target_vertex, thresho
         return None
     best_edge = None
     best_score = float('inf')
-    for edge_id in range(mesh_fn.numEdges):
+    for edge_id in mesh_fn.getVertexEdges(source_id):
         v0, v1 = mesh_fn.getEdgeVertices(edge_id)
-        if v0 == source_id:
-            other = v1
-        elif v1 == source_id:
-            other = v0
-        else:
-            continue
+        other = v1 if v0 == source_id else v0
         if other == target_id:
             continue
         direction = _direction(points[source_id], points[other])
@@ -156,8 +146,8 @@ def group_vertices_by_perpendicular_loops(mesh, vertices, threshold=0.25, mesh_f
     return result
 
 
-def performance_baseline_managed_maya_smoke():
-    """Bounded managed-Maya baseline for the current loop grouping path."""
+def performance_postchange_managed_maya_smoke():
+    """Bounded managed-Maya benchmark for the optimized loop grouping path."""
     cmds = _cmds()
     mesh = cmds.polyPlane(name='AIBridgeLoopGroupsBaseline', width=20, height=20, subdivisionsX=20, subdivisionsY=20)[0]
     mesh_fn = _mesh_fn(mesh)
@@ -171,5 +161,9 @@ def performance_baseline_managed_maya_smoke():
     if not valid or not selection_preserved:
         raise AssertionError('Loop-groups baseline changed behavior or selection state')
     evidence = {'operation': 'loop_groups_root_loop', 'sample_count': len(root_vertices), 'elapsed_seconds': elapsed, 'valid_results': valid, 'selection_preserved': selection_preserved}
-    print('AIBRIDGE_PERFORMANCE_BASELINE_OK:%s|%.6f' % (len(root_vertices), elapsed))
+    print('AIBRIDGE_PERFORMANCE_POSTCHANGE_OK:%s|%.6f' % (len(root_vertices), elapsed))
     return evidence
+
+
+# Keep the original callable name as a reusable benchmark entry point.
+performance_baseline_managed_maya_smoke = performance_postchange_managed_maya_smoke
