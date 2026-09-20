@@ -33,3 +33,40 @@ def transfer_attribute_managed_maya_smoke():
     smoke={"attr":attr,"enum":enum,"incoming":incoming,"outgoing":outgoing,"skips":skips}; smoke["success"]=all(smoke.values())
     if not smoke["success"]: raise AssertionError(smoke)
     print("AIBRIDGE_UI_SMOKE_OK:{0}".format(smoke)); return smoke
+
+def transfer_attribute_partial_failure_managed_maya_smoke():
+    """Measure whether a late locked-destination failure leaves partial transfer mutation."""
+    import maya.cmds as cmds
+
+    source=cmds.createNode("transform",name="AIBridgeTransferPartialSource")
+    target=cmds.createNode("transform",name="AIBridgeTransferPartialTarget")
+    driven=cmds.createNode("transform",name="AIBridgeTransferPartialDriven")
+    cmds.addAttr(source,longName="value",attributeType="double",keyable=True)
+    cmds.connectAttr(source+".value",driven+".ty",force=True)
+    cmds.setAttr(driven+".ty",lock=True)
+
+    dst=target+".copiedValue"
+    before_dst_exists=cmds.objExists(dst)
+    before_source=cmds.connectionInfo(driven+".ty",sourceFromDestination=True) or ""
+    error=""
+    try:
+        apply_transfer_attributes([
+            {"attribute":source+".value","target":target,"newName":"copiedValue","delete":False}
+        ],cmds_module=cmds)
+    except RuntimeError as exc:
+        error=str(exc)
+
+    after_dst_exists=cmds.objExists(dst)
+    after_source=cmds.connectionInfo(driven+".ty",sourceFromDestination=True) or ""
+    partial_mutation=bool(before_dst_exists!=after_dst_exists or before_source!=after_source)
+    return {
+        "operation":"transfer_attribute_partial_failure",
+        "caught_locked":bool(error),
+        "partial_mutation":partial_mutation,
+        "before_dst_exists":bool(before_dst_exists),
+        "after_dst_exists":bool(after_dst_exists),
+        "before_source":before_source,
+        "after_source":after_source,
+        "error":error,
+    }
+
