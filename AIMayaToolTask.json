@@ -28,101 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-regression-run-188g",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/maya/skin.py",
-          "tests/test_maya_skin.py"
-        ],
-        "imports": [],
-        "tests": [
-          "tests.test_maya_skin"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "skin-hotpaths",
-        "depends_on": [],
-        "test_commit": "b7374936bb21b3728adbab4dbd623557a20597a6",
-        "purpose": "Run focused deterministic regression for the measured skin_data_many batching optimization.",
-        "acceptance": [
-          "Fast-forward main including b7374936bb21b3728adbab4dbd623557a20597a6.",
-          "Compile skin.py and tests/test_maya_skin.py.",
-          "Run tests.test_maya_skin.",
-          "Require batching once per unique mesh, input-order preservation, independent result dicts, and empty-input behavior to pass.",
-          "Do not require a Maya installation for these deterministic tests.",
-          "Do not use Codex."
-        ],
-        "performance_evidence": {
-          "baseline_seconds": 0.007467800000085845,
-          "postchange_seconds": 0.00018900000031862874,
-          "sample_count": 100
-        },
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "a86c9661328cfd87b638",
-        "verification_evidence": {
-          "py_compile": true,
-          "focused_tests": "3/3 PASS"
-        },
-        "architect_diagnosis": "Skin batching slice now has baseline, same-workload managed Maya post-benchmark, and deterministic regression coverage. Goal 011 can advance to performance-regression.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-regression-188f",
-          "result": "PASS_COMPILE_TEST_GAP_CONFIRMED",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-performance-regression-python-189a",
       "action": {
         "type": "verification",
@@ -155,9 +60,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "performance-regression",
-        "depends_on": [
-          "aimayatool-goal011-skin-hotpaths-skin-adapter-regression-run-188g"
-        ],
+        "depends_on": [],
         "purpose": "Run consolidated deterministic regression across the Goal 011 optimized geometry and skin slices before final managed-Maya performance regression/closeout.",
         "acceptance": [
           "Fast-forward main and compile all optimized modules plus focused tests.",
@@ -178,7 +81,13 @@
           "py_compile": "6/6 PASS",
           "focused_tests": "8/8 PASS"
         },
-        "architect_diagnosis": "Consolidated deterministic regression across Goal 011 optimized geometry and skin slices is clean. Proceed to fresh managed-Maya closeout evidence."
+        "architect_diagnosis": "Consolidated deterministic regression across Goal 011 optimized geometry and skin slices is clean. Proceed to fresh managed-Maya closeout evidence.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-regression-run-188g",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -823,9 +732,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -868,6 +777,94 @@
           "Require added_count=2, expected_added=true, one_step_complete=true, selection_preserved=true.",
           "Record second_undo_available; false is expected/acceptable when the first undo consumed the grouped operation.",
           "Do not require a second undo after one-step completion.",
+          "Fresh isolated scene, no save, no Maya quit.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "18a6be2a8307e96c8643",
+        "postchange_evidence": {
+          "added_count": 2,
+          "expected_added": true,
+          "one_step_complete": true,
+          "two_steps_complete": true,
+          "second_undo_available": false,
+          "selection_preserved": true
+        },
+        "architect_diagnosis": "Undo hardening succeeded: adding two influences is now one logical Maya undo step, with selection preserved. Baseline required two undo calls."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-undo-safety-skin-remove-postchange-190f",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.maya.skin",
+        "callable": "undo_safety_remove_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "undo-safety",
+        "depends_on": [
+          "aimayatool-goal012-undo-safety-skin-influence-postchange-retry-190e"
+        ],
+        "implementation_commit": "ca331d0653461179d3098ab91c389713226ecdbe",
+        "harness_commit": "06d476b7d9c785a9d7e64204e4d213b40249bd62",
+        "purpose": "Validate the paired remove_influences mutation is also grouped into one Maya undo step.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Require removed_count=2 and expected_removed=true.",
+          "Require one_step_restored=true after one Maya undo.",
+          "Require selection_preserved=true.",
           "Fresh isolated scene, no save, no Maya quit.",
           "Do not use Codex."
         ],
