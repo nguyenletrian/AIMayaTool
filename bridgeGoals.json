@@ -608,7 +608,7 @@
     {
       "goal_id": "aimayatool-010",
       "title": "Workflow intelligence and productivity",
-      "status": "active",
+      "status": "completed",
       "purpose": "Add safe productivity features such as contextual selection, presets, smart defaults, favorites/recent actions, batch operations and preflight validation.",
       "acceptance": [
         "Productivity features reduce repetitive manual work without hiding destructive behavior or weakening explicit APIs."
@@ -693,9 +693,29 @@
         {
           "milestone_id": "preflight-guidance",
           "title": "Preflight validation and actionable guidance",
-          "status": "pending"
+          "status": "completed",
+          "completion_evidence": {
+            "task_id": "aimayatool-goal010-preflight-guidance-closeout-184d",
+            "delivery_id": "910054bf3e6796740ec7",
+            "contract_commit": "0859613e8643632a7a09e7d44e26b0d1a23d8103",
+            "tests_commit": "cdb09b495f36b2d6bb4ccf28c94026a7a13c9b8a",
+            "completed_date": "2026-09-20",
+            "coverage": [
+              "stable valid/severity/category/message result contract",
+              "actionable non-empty guidance messages",
+              "non-mutating deterministic validation contract",
+              "invalid category/message/severity rejection",
+              "focused Python compile/import/unit verification"
+            ]
+          }
         }
-      ]
+      ],
+      "completion_evidence": {
+        "closeout_task": "aimayatool-goal010-preflight-guidance-closeout-184d",
+        "delivery_id": "910054bf3e6796740ec7",
+        "completed_date": "2026-09-20",
+        "note": "All five Workflow intelligence and productivity milestones are completed with bounded verification/runtime evidence."
+      }
     },
     {
       "goal_id": "aimayatool-011",
