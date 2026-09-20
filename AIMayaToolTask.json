@@ -786,9 +786,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -837,7 +837,15 @@
           "Run tests.test_scene_driven_key and require all focused tests PASS.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "88e198a3c0b72e4c848c",
+        "verification_evidence": {
+          "py_compile": true,
+          "import": true,
+          "focused_tests": "3/3 PASS"
+        },
+        "architect_diagnosis": "Driven Key full-object preflight hardening compiles/imports cleanly and deterministic normalization remains unchanged across all focused tests."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
