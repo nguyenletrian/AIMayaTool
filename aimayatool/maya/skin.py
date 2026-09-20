@@ -97,13 +97,19 @@ def undo_safety_baseline_managed_maya_smoke():
     after_add = set(influences(skin_cluster))
     cmds.undo()
     after_one_undo = set(influences(skin_cluster))
-    cmds.undo()
+    second_undo_available = True
+    try:
+        cmds.undo()
+    except RuntimeError as exc:
+        if 'no more commands to undo' not in str(exc).lower():
+            raise
+        second_undo_available = False
     after_two_undos = set(influences(skin_cluster))
     selection_preserved = (cmds.ls(selection=True, long=True) or []) == before_selection
     expected_added = set([joint_a, joint_b]).issubset(after_add)
     one_step_complete = joint_a not in after_one_undo and joint_b not in after_one_undo
     two_steps_complete = joint_a not in after_two_undos and joint_b not in after_two_undos
-    return {'operation': 'skin_add_influences_undo_baseline', 'added_count': len(added), 'expected_added': expected_added, 'one_step_complete': one_step_complete, 'two_steps_complete': two_steps_complete, 'selection_preserved': selection_preserved}
+    return {'operation': 'skin_add_influences_undo_baseline', 'added_count': len(added), 'expected_added': expected_added, 'one_step_complete': one_step_complete, 'two_steps_complete': two_steps_complete, 'second_undo_available': second_undo_available, 'selection_preserved': selection_preserved}
 
 
 def performance_postchange_managed_maya_smoke():
