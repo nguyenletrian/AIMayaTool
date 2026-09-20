@@ -28,90 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185g",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "module": "aimayatool.tools.skinning.closest_face",
-        "callable": "performance_baseline_managed_maya_smoke",
-        "new_scene": true,
-        "save_scene": false
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "performance-baseline",
-        "depends_on": [],
-        "retry_of": "aimayatool-goal011-performance-baseline-managed-maya-retry-185f",
-        "purpose": "Run the bounded Goal 011 performance baseline through the proven managed Maya routing pattern with the verification route's valid timeout bound.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use verification:python with execution_target kind=maya on port 7001.",
-          "Use a fresh unsaved scene and timeout <=300 seconds.",
-          "Invoke performance_baseline_managed_maya_smoke only if present; otherwise return the concrete missing-harness blocker.",
-          "Capture repeatable timing and behavior-preservation evidence; do not optimize product code.",
-          "Do not save scene or quit Maya.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_INVALID_VERIFICATION_PAYLOAD",
-        "classification": "verification_python_requires_targets",
-        "delivery_id": "fa2045e2e39a44bbc4d0",
-        "architect_diagnosis": "verification:python is not the managed Maya smoke action. Historical repository evidence shows the correct route is action type=maya,target=managed_live_smoke with execution_target kind=maya. Product did not execute.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185f",
-          "result": "FAIL_INVALID_TIMEOUT",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185h",
       "action": {
         "type": "maya",
@@ -134,9 +50,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "performance-baseline",
-        "depends_on": [
-          "aimayatool-goal011-performance-baseline-managed-maya-retry-185g"
-        ],
+        "depends_on": [],
         "retry_of": "aimayatool-goal011-performance-baseline-managed-maya-retry-185g",
         "purpose": "Run Goal 011 performance baseline using the exact historically proven managed Maya smoke action contract.",
         "acceptance": [
@@ -151,7 +65,13 @@
         "result": "FAIL_MISSING_SAVE_SCENE_FALSE",
         "classification": "managed_maya_payload_contract",
         "delivery_id": "c1e183cf53de4ccd91d4",
-        "architect_diagnosis": "maya:managed_live_smoke route is correct and reached its payload validator. The only reported blocker is explicit payload.save_scene=false. Product/callable did not execute."
+        "architect_diagnosis": "maya:managed_live_smoke route is correct and reached its payload validator. The only reported blocker is explicit payload.save_scene=false. Product/callable did not execute.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185g",
+          "result": "FAIL_INVALID_VERIFICATION_PAYLOAD",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -786,9 +706,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -832,7 +752,10 @@
           "Do not modify product code in this assessment task.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "132c57c0d5cdca70f7d7",
+        "architect_diagnosis": "Inventory identified loop_groups connected_vertices_in_set and perpendicular_edge_from_vertices as the next bounded geometry hot path: each scans range(mesh_fn.numEdges) per source vertex, and group_vertices_by_perpendicular_loops invokes these inside a vertex loop. A behavior-preserving adjacency-based API traversal is a concrete optimization candidate."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -842,6 +765,87 @@
         "host": "127.0.0.1",
         "port": 0,
         "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-baseline-187b",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.skinning.loop_groups",
+        "callable": "performance_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "geometry-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-geometry-hotpaths-inventory-187a"
+        ],
+        "purpose": "Establish a bounded managed Maya baseline for loop_groups before replacing repeated full-mesh edge scans with vertex-adjacency traversal.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use an isolated unsaved Maya scene.",
+          "Invoke performance_baseline_managed_maya_smoke only if it exists; if absent, return the concrete missing-harness gap so Architect can add the bounded harness.",
+          "Benchmark a representative group_vertices_by_perpendicular_loops workload and preserve result validity/selection state.",
+          "Do not optimize product code in this task.",
+          "Do not save or quit Maya.",
+          "Do not use Codex."
+        ],
+        "hotpath_evidence": [
+          "connected_vertices_in_set scans every mesh edge for each source vertex.",
+          "perpendicular_edge_from_vertices scans every mesh edge again for each source vertex.",
+          "group_vertices_by_perpendicular_loops calls these within its vertex loop."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
       },
       "delivery_target": {
         "kind": "browser-cdp",
