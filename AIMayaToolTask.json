@@ -28,190 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal012-undo-safety-skin-remove-postchange-190f",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.maya.skin",
-        "callable": "undo_safety_remove_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-012",
-        "milestone_id": "undo-safety",
-        "depends_on": [],
-        "implementation_commit": "ca331d0653461179d3098ab91c389713226ecdbe",
-        "harness_commit": "06d476b7d9c785a9d7e64204e4d213b40249bd62",
-        "purpose": "Validate the paired remove_influences mutation is also grouped into one Maya undo step.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Require removed_count=2 and expected_removed=true.",
-          "Require one_step_restored=true after one Maya undo.",
-          "Require selection_preserved=true.",
-          "Fresh isolated scene, no save, no Maya quit.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "2479b98009cb88f692bb",
-        "postchange_evidence": {
-          "removed_count": 2,
-          "expected_removed": true,
-          "one_step_restored": true,
-          "selection_preserved": true
-        },
-        "architect_diagnosis": "Paired skin influence mutations are now proven single-step undoable in managed Maya. Undo-safety milestone can close for this audited slice.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal012-undo-safety-skin-influence-postchange-retry-190e",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "postchange_evidence": {
-            "added_count": 2,
-            "expected_added": true,
-            "one_step_complete": true,
-            "two_steps_complete": true,
-            "second_undo_available": false,
-            "selection_preserved": true
-          },
-          "prior_postchange": {
-            "task_id": "aimayatool-goal012-undo-safety-skin-influence-postchange-190d",
-            "result": "INCONCLUSIVE_HARNESS_ASSUMPTION",
-            "architect_ack": true,
-            "bridge_completed": true,
-            "classification": "verification_harness_bug"
-          }
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal012-scene-state-safety-inventory-191a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/maya/skin.py",
-          "aimayatool/tools/skinning/closest_face.py",
-          "aimayatool/tools/skinning/loop_groups.py"
-        ],
-        "imports": [],
-        "tests": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-012",
-        "milestone_id": "scene-state-safety",
-        "depends_on": [
-          "aimayatool-goal012-undo-safety-skin-remove-postchange-190f"
-        ],
-        "purpose": "Begin scene-state-safety milestone by auditing representative mutating/geometry paths for selection, time, tool/context, or other scene-state side effects and selecting one bounded high-value gap.",
-        "acceptance": [
-          "Fast-forward main and compile concrete representative modules.",
-          "Inspect source; do not infer safety solely from compile success.",
-          "Identify one concrete scene-state risk with a bounded reproducible Maya verification path, or report no gap in this slice and nominate the next slice.",
-          "Do not change behavior in this inventory task.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_INVENTORY",
-        "delivery_id": "668b236a67bab6bccc08",
-        "architect_diagnosis": "Representative performance/skin paths compile and already assert selection preservation. Broader source inspection found BS Sequence explicitly protects currentTime with try/finally during duplicate sampling, making it a useful proven pattern. Next bounded risk selected: multi-command Space Switch construction has no explicit selection-state assertion and should be verified in managed Maya before changing behavior."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal012-scene-state-space-switch-selection-baseline-191b",
       "action": {
         "type": "maya",
@@ -236,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-012",
         "milestone_id": "scene-state-safety",
-        "depends_on": [
-          "aimayatool-goal012-scene-state-safety-inventory-191a"
-        ],
+        "depends_on": [],
         "purpose": "Run the existing Space Switch managed-Maya smoke as a bounded baseline before adding explicit scene-state assertions/hardening.",
         "acceptance": [
           "Fast-forward main.",
@@ -251,7 +65,26 @@
         "result": "PASS_FUNCTIONAL_BASELINE",
         "delivery_id": "befe59168773ac198640",
         "architect_diagnosis": "Existing Space Switch functional smoke passes all 8 checks. It does not establish selection-state safety, so a dedicated non-mutating-observation harness was added.",
-        "selection_probe_commit": "8fa75d7fe02bd1fdaf5ab90e77f636b1d31ced44"
+        "selection_probe_commit": "8fa75d7fe02bd1fdaf5ab90e77f636b1d31ced44",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal012-scene-state-safety-inventory-191a",
+          "result": "PASS_INVENTORY",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "architect_diagnosis": "Representative performance/skin paths compile and already assert selection preservation. Broader source inspection found BS Sequence explicitly protects currentTime with try/finally during duplicate sampling, making it a useful proven pattern. Next bounded risk selected: multi-command Space Switch construction has no explicit selection-state assertion and should be verified in managed Maya before changing behavior.",
+          "prior_milestone_gate": {
+            "task_id": "aimayatool-goal012-undo-safety-skin-remove-postchange-190f",
+            "result": "PASS",
+            "architect_ack": true,
+            "bridge_completed": true,
+            "postchange_evidence": {
+              "removed_count": 2,
+              "expected_removed": true,
+              "one_step_restored": true,
+              "selection_preserved": true
+            }
+          }
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -825,9 +658,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -879,6 +712,177 @@
           "Require functional=true.",
           "Require selection_preserved=true.",
           "Require before and after to both identify AIBridgeSplineStateSentinel.",
+          "Fresh isolated scene, no save, no Maya quit.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "9f2ecf9f03a43783d895",
+        "postchange_evidence": {
+          "functional": true,
+          "selection_preserved": true,
+          "before": [
+            "|AIBridgeSplineStateSentinel"
+          ],
+          "after": [
+            "|AIBridgeSplineStateSentinel"
+          ]
+        },
+        "architect_diagnosis": "Managed Maya confirms Spline Rig selection-state hardening: functional construction remains intact and unrelated explicit selection is preserved exactly."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-scene-state-rivet-probe-deterministic-191j",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 180,
+        "files": [
+          "aimayatool/tools/scene/rivet.py",
+          "tests/test_scene_rivet.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.rivet"
+        ],
+        "tests": [
+          "tests.test_scene_rivet"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "scene-state-safety",
+        "depends_on": [
+          "aimayatool-goal012-scene-state-spline-rig-selection-postchange-191i"
+        ],
+        "harness_commit": "73d76aa68dcede235fb57942109ac530ab1a3cd8",
+        "purpose": "Verify the new Rivet selection-state probe harness compiles/imports cleanly and existing deterministic Rivet normalization behavior remains unchanged before live state measurement.",
+        "acceptance": [
+          "Fast-forward main including harness commit 73d76aa68dcede235fb57942109ac530ab1a3cd8.",
+          "py_compile changed Rivet module and focused test.",
+          "Import aimayatool.tools.scene.rivet outside Maya.",
+          "Run tests.test_scene_rivet and require all focused tests PASS.",
+          "Do not change product behavior in this task.",
+          "Do not use Codex."
+        ],
+        "source_evidence": "apply_rivet explicitly selects generated plane edges with cmds.select(edge, replace=True) before polyToCurve, so unrelated user selection may be overwritten.",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-scene-state-rivet-selection-probe-191k",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.rivet",
+        "callable": "rivet_selection_state_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "scene-state-safety",
+        "depends_on": [
+          "aimayatool-goal012-scene-state-rivet-probe-deterministic-191j"
+        ],
+        "harness_commit": "73d76aa68dcede235fb57942109ac530ab1a3cd8",
+        "purpose": "Measure whether successful Rivet construction preserves an unrelated explicit selection before deciding whether product hardening is required.",
+        "acceptance": [
+          "Fast-forward main after deterministic harness verification.",
+          "Require functional=true so state evidence comes from a completed Rivet build.",
+          "Record selection_preserved plus before/after exactly.",
+          "Do not classify a selection change as acceptable; use evidence to decide the next product change.",
           "Fresh isolated scene, no save, no Maya quit.",
           "Do not use Codex."
         ],
