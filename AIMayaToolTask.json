@@ -28,628 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-favorites-recent-action-state-verify-181c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/registry.py",
-          "tests/test_registry_action_state.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ],
-        "tests": [
-          "tests.test_registry_action_state"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "favorites-recent",
-        "purpose": "Independently verify the Architect-implemented action-level recent/favorite registry contract after recovery from the unsupported implementation:python route.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile registry.py and tests/test_registry_action_state.py.",
-          "Import aimayatool.registry outside Maya.",
-          "Run tests.test_registry_action_state and require all tests pass.",
-          "Confirm existing group-level APIs remain available.",
-          "Do not edit product code in this verification task.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "permission_recovery": {
-          "failed_delivery_id": "66dbeb25b379c22e6f8a",
-          "classification": "precondition_permission_mismatch",
-          "note": "git_pull mutates the local worktree, so the verification route requires permissions.edit=true even though product files remain read-only by acceptance."
-        },
-        "retry_count": 1,
-        "failed_result_ack": {
-          "delivery_id": "66dbeb25b379c22e6f8a",
-          "result": "FAIL",
-          "classification": "precondition_permission_mismatch",
-          "diagnosis": "Failure occurred before product verification because git_pull requires edit permission. Task has already been corrected to edit=true and remains pending for a clean verification retry."
-        },
-        "architect_diagnosis": "Milestone favorites-recent already has later managed-Maya completion evidence. This stale verification entry is reconciled as completed so it cannot block runnable task selection.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal010-favorites-recent-action-state-181b",
-          "result": "IMPLEMENTED_PENDING_WORKER_VERIFICATION",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "e87e0607622764e743595b7f4d42748df13fc311"
-        },
-        "result": "ARCHIVED_STALE_RECOVERED",
-        "classification": "stale_pending_reconciled",
-        "reconciled_against": {
-          "milestone_task_id": "aimayatool-goal010-favorites-recent-action-maya-smoke-retry2-181o",
-          "delivery_id": "808ef6ae3d24b11bdd2e",
-          "managed_maya_marker": "AIBRIDGE_UI_SMOKE_OK:AIBRIDGE_ACTION_RECENT_OK:setup|freeze_trs|workspace"
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-batch-productivity-closeout-182k",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/setup/transforms.py",
-          "aimayatool/tools/setup/__init__.py",
-          "bridgeGoals.json",
-          "HISTORY.md"
-        ],
-        "imports": [
-          "aimayatool.tools.setup",
-          "aimayatool.tools.setup.transforms"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "batch-productivity",
-        "depends_on": [],
-        "purpose": "Close out the bounded Batch Productivity milestone from the runtime-proven Reset TR and Freeze TRS slices, and identify the dependency-ready transition into preflight-guidance.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Compile/import Setup transform modules.",
-          "Confirm Reset TR and Freeze TRS ordered batch helpers remain present and explicit.",
-          "Treat the managed Maya Reset and Freeze markers as runtime evidence; do not rerun Maya in this closeout.",
-          "Inspect goal/milestone state and report whether batch-productivity acceptance is satisfied without inventing additional scope.",
-          "Identify the smallest dependency-ready preflight-guidance inventory slice.",
-          "Do not edit product code.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "batch_productivity_closeout_pass",
-        "proven_main_commit": "33e928fe27e344e1e0236d3c834135af2f2d2b76",
-        "evidence": "Repository/task evidence confirms the runtime-proven Reset TR marker and Freeze TRS marker, and current Setup source still contains explicit ordered reset_transforms/freeze_transforms integration. No Maya rerun was performed. The bounded milestone acceptance is satisfied; the next dependency-ready slice is a preflight-guidance inventory.",
-        "architect_diagnosis": "Batch Productivity is closed on the two proven bounded slices: ordered Reset TR and ordered Freeze TRS. The next safe step is inventory-only preflight guidance, not speculative broad validation.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal010-batch-productivity-freeze-maya-smoke-182j",
-          "result": "COMPLETED_PREREQUISITE",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "proven_main_commit": "88beb291fae0cede0a1cab82d7bda6d1662253e7"
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-preflight-guidance-inventory-183a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py",
-          "aimayatool/ui/components.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning",
-          "aimayatool.tools.setup",
-          "aimayatool.tools.scene",
-          "aimayatool.ui.components"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "preflight-guidance",
-        "depends_on": [
-          "aimayatool-goal010-batch-productivity-closeout-182k"
-        ],
-        "purpose": "Inventory existing deterministic previews, selection/context checks, and validation/error presentation to define the smallest reusable preflight-guidance contract before implementation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Inventory existing Skinning, Setup and Scene validation/preview/context checks and shared run_action error presentation.",
-          "Identify duplicated or incompatible validation-result shapes that could be unified without changing domain behavior.",
-          "Propose one bounded preflight guidance contract with explicit inputs, non-mutating validation, actionable messages, and no hidden mutation.",
-          "Do not implement the preflight feature in this inventory slice.",
-          "Do not alter existing product behavior.",
-          "Run py_compile/import-safe checks for inspected entrypoints.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "preflight_inventory_baseline_verified",
-        "delivery_id": "2196901abc5ced56d4b1",
-        "architect_diagnosis": "Baseline preflight inventory entrypoints compile and import safely. Continue with the already-published dependency-ready domain inventories; this mechanical verification alone does not claim the synthesis acceptance."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-preflight-guidance-skinning-inventory-183b",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "preflight-guidance",
-        "depends_on": [
-          "aimayatool-goal010-preflight-guidance-inventory-183a"
-        ],
-        "purpose": "Inventory Skinning validation and preview seams that can feed a future shared preflight guidance contract.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Inspect existing validation, preview, selection/context, and actionable error behavior without changing product code.",
-          "Separate deterministic/non-mutating checks from Maya mutation and identify existing result/message contracts.",
-          "Recommend only the smallest reusable preflight guidance inputs/outputs needed by current workflows.",
-          "Compile/import the inspected Skinning entrypoint.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "preflight_skinning_inventory_verified",
-        "delivery_id": "328ae91a7804b53d8f78",
-        "architect_diagnosis": "Skinning preflight inventory entrypoint compiles and imports safely. This closes the Skinning inventory dependency only; contract synthesis remains gated on Setup and Scene inventories."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-preflight-guidance-setup-inventory-183c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/setup/transforms.py"
-        ],
-        "imports": [
-          "aimayatool.tools.setup",
-          "aimayatool.tools.setup.transforms"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "preflight-guidance",
-        "depends_on": [
-          "aimayatool-goal010-preflight-guidance-inventory-183a"
-        ],
-        "purpose": "Inventory Setup selection/context validation and deterministic transform checks for shared preflight guidance.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Inspect existing validation, preview, selection/context, and actionable error behavior without changing product code.",
-          "Separate deterministic/non-mutating checks from Maya mutation and identify existing result/message contracts.",
-          "Recommend only the smallest reusable preflight guidance inputs/outputs needed by current workflows.",
-          "Compile/import the inspected Setup modules.",
-          "Preserve the already-proven ordered batch semantics as evidence, not as new scope.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "preflight_setup_inventory_verified",
-        "delivery_id": "2c2fac54eaa62feea32b",
-        "architect_diagnosis": "Setup preflight inventory entrypoints compile and import safely, including transforms. This closes the Setup inventory dependency; synthesis remains gated on Scene inventory."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-preflight-guidance-scene-inventory-183d",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/scene/__init__.py",
-          "aimayatool/ui/components.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene",
-          "aimayatool.ui.components"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "preflight-guidance",
-        "depends_on": [
-          "aimayatool-goal010-preflight-guidance-inventory-183a"
-        ],
-        "purpose": "Inventory Scene validation/preview surfaces and shared UI error presentation relevant to preflight guidance.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Inspect existing validation, preview, selection/context, and actionable error behavior without changing product code.",
-          "Separate deterministic/non-mutating checks from Maya mutation and identify existing result/message contracts.",
-          "Recommend only the smallest reusable preflight guidance inputs/outputs needed by current workflows.",
-          "Compile/import the inspected Scene package and shared UI components.",
-          "Do not redesign run_action or add UI behavior in this inventory.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "preflight_scene_inventory_verified",
-        "delivery_id": "2302f9630fe9beb38081",
-        "architect_diagnosis": "Scene and shared UI components compile/import safely. Skinning, Setup and Scene inventory dependencies are now all complete, so contract synthesis 183e is dependency-ready."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-preflight-guidance-contract-synthesis-183e",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/setup/transforms.py",
-          "aimayatool/tools/scene/__init__.py",
-          "aimayatool/ui/components.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning",
-          "aimayatool.tools.setup",
-          "aimayatool.tools.setup.transforms",
-          "aimayatool.tools.scene",
-          "aimayatool.ui.components"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "preflight-guidance",
-        "depends_on": [
-          "aimayatool-goal010-preflight-guidance-skinning-inventory-183b",
-          "aimayatool-goal010-preflight-guidance-setup-inventory-183c",
-          "aimayatool-goal010-preflight-guidance-scene-inventory-183d"
-        ],
-        "purpose": "Synthesize the three domain inventories into one implementation-ready, bounded preflight guidance contract without implementing it.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Read the completed domain inventory results for Skinning, Setup, and Scene.",
-          "Define one explicit non-mutating preflight result shape with actionable messages and stable severity/category fields.",
-          "Identify the smallest first implementation target and its acceptance tests.",
-          "Do not implement product code or UI changes in this synthesis task.",
-          "Run compile/import-safe checks only where needed to validate referenced APIs.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_BASELINE_ONLY",
-        "classification": "preflight_contract_synthesis_mechanical_verification",
-        "delivery_id": "98ca9ba6174eee3c6e5f",
-        "architect_diagnosis": "Worker verified all referenced domain/UI APIs compile and import after the three inventories. The route did not emit a prose synthesis artifact, so acceptance is treated as mechanical baseline only; the already-published contract-tests task remains the bounded executable specification step."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-preflight-guidance-contract-tests-184a",
       "action": {
         "type": "verification",
@@ -680,9 +58,7 @@
       "metadata": {
         "goal_id": "aimayatool-010",
         "milestone_id": "preflight-guidance",
-        "depends_on": [
-          "aimayatool-goal010-preflight-guidance-contract-synthesis-183e"
-        ],
+        "depends_on": [],
         "purpose": "Turn the approved preflight guidance contract into deterministic Python test cases before product implementation.",
         "acceptance": [
           "Fast-forward main.",
@@ -696,7 +72,13 @@
         "result": "FAIL_INVALID_TASK_CONTRACT",
         "classification": "invalid_preimplementation_verification",
         "delivery_id": "03b0116f5b6c0099b363",
-        "architect_diagnosis": "184a referenced files/tests that do not yet exist (aimayatool/core/result.py and tests.test_preflight_guidance). A verification-only route cannot create the executable specification it was asked to define. Close this invalid task and replace it with an implementation task that creates the bounded contract plus deterministic tests."
+        "architect_diagnosis": "184a referenced files/tests that do not yet exist (aimayatool/core/result.py and tests.test_preflight_guidance). A verification-only route cannot create the executable specification it was asked to define. Close this invalid task and replace it with an implementation task that creates the bounded contract plus deterministic tests.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-preflight-guidance-contract-synthesis-183e",
+          "result": "PASS_BASELINE_ONLY",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -1363,6 +745,85 @@
         "classification": "preflight_guidance_closeout_pass",
         "delivery_id": "910054bf3e6796740ec7",
         "architect_diagnosis": "Focused closeout rerun is green: contract and tests compile, module imports, and all 3 deterministic tests pass. Milestone acceptance is satisfied."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-performance-baseline-inventory-185a",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py",
+          "aimayatool/maya"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning",
+          "aimayatool.tools.setup",
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "performance-baseline",
+        "depends_on": [],
+        "purpose": "Inventory representative production hot paths and existing Maya API/cmds boundaries before any optimization, so Goal 011 remains evidence-driven and behavior-preserving.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Inspect Skinning, Setup, Scene and Maya adapter surfaces for likely geometry/skin/batch hot paths and existing API 2.0 usage.",
+          "Do not optimize or change product behavior in this inventory slice.",
+          "Identify the smallest representative baseline candidates and cheapest valid measurement tier.",
+          "Run compile/import-safe checks for inspected Python entrypoints.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
