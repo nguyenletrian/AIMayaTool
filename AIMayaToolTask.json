@@ -28,102 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-performance-baseline-managed-maya-verify-185k",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.skinning.closest_face",
-        "callable": "performance_baseline_managed_maya_smoke",
-        "new_scene": true,
-        "timeout": 45,
-        "save_scene": false,
-        "isolated_scene": true
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "performance-baseline",
-        "depends_on": [],
-        "implementation_commit": "3288b3fa7f0de6f6974bfae7d1bd776e5d2c9b51",
-        "purpose": "Verify the newly implemented bounded closest-face performance baseline in managed Maya.",
-        "acceptance": [
-          "Fast-forward main including implementation commit 3288b3fa7f0de6f6974bfae7d1bd776e5d2c9b51.",
-          "Use isolated_scene=true and save_scene=false.",
-          "Run performance_baseline_managed_maya_smoke.",
-          "Require AIBRIDGE_PERFORMANCE_BASELINE_OK marker and structured evidence for 100 vertices.",
-          "Require valid_results=true and selection_preserved=true.",
-          "Capture elapsed_seconds as baseline evidence, not as an optimization claim.",
-          "Do not save or quit Maya.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "classification": "closest_face_performance_baseline_proven",
-        "delivery_id": "54af1757cfe3be342fba",
-        "verification_evidence": {
-          "operation": "closest_face_100_vertices",
-          "sample_count": 100,
-          "elapsed_seconds": 0.011680999999953201,
-          "valid_results": true,
-          "selection_preserved": true,
-          "scene_saved": false,
-          "managed_pid": 11952,
-          "port": 7001
-        },
-        "architect_diagnosis": "Managed Maya baseline passed on 100 vertices in ~11.681 ms with valid results, preserved selection, and unsaved scene. This is baseline evidence only, not an optimization claim.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185j",
-          "result": "FAIL_MISSING_BASELINE_HARNESS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-geometry-hotpaths-closest-face-analysis-186a",
       "action": {
         "type": "verification",
@@ -149,9 +53,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "geometry-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-performance-baseline-managed-maya-verify-185k"
-        ],
+        "depends_on": [],
         "baseline": {
           "operation": "closest_face_100_vertices",
           "elapsed_seconds": 0.011680999999953201,
@@ -169,7 +71,13 @@
         "owner_constraint": "Do not use Codex until explicitly re-enabled.",
         "result": "PASS_ANALYSIS_IMPLEMENTED",
         "delivery_id": "6554967bd86c60e29c00",
-        "architect_diagnosis": "py_compile passed. Source inspection confirmed repeated _mesh_dag_path/MFnMesh construction per component. Architect implemented behavior-preserving MFnMesh reuse across a batch in commits fd83b4a and d498f5d; post-change managed Maya comparison is required before any performance claim."
+        "architect_diagnosis": "py_compile passed. Source inspection confirmed repeated _mesh_dag_path/MFnMesh construction per component. Architect implemented behavior-preserving MFnMesh reuse across a batch in commits fd83b4a and d498f5d; post-change managed Maya comparison is required before any performance claim.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-performance-baseline-managed-maya-verify-185k",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -797,9 +705,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -848,7 +756,11 @@
           "Commit and push the actual harness edit to main; verification-only completion without the callable is failure.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_WORKER_VERIFICATION_IMPLEMENTATION_APPLIED_BY_ARCHITECT",
+        "delivery_id": "019d7a4ed799629b2030",
+        "implementation_commit": "6ae80c554ed9124fa1e2337c95ba9474641ed1c4",
+        "architect_diagnosis": "Worker again only verified existing files; repository refetch confirmed callable absent. Architect applied the bounded baseline harness directly to main after successful worker py_compile/tests. Production hot-path logic remains unchanged."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -858,6 +770,82 @@
         "host": "127.0.0.1",
         "port": 0,
         "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-baseline-run-187f",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.skinning.loop_groups",
+        "callable": "performance_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "geometry-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-edit-187e"
+        ],
+        "purpose": "Capture the pre-optimization managed Maya baseline for the loop_groups full-edge-scan hot path using the newly committed bounded harness.",
+        "acceptance": [
+          "Fast-forward main including commit 6ae80c554ed9124fa1e2337c95ba9474641ed1c4.",
+          "Use isolated_scene=true and save_scene=false.",
+          "Run performance_baseline_managed_maya_smoke.",
+          "Require valid_results=true and selection_preserved=true.",
+          "Capture sample_count and elapsed_seconds as authoritative pre-optimization evidence.",
+          "Do not save or quit Maya.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
       },
       "delivery_target": {
         "kind": "browser-cdp",
