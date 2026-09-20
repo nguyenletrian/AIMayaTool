@@ -13,9 +13,9 @@ def component_world_position(component):
     return tuple(values[:3])
 
 
-def closest_face_for_component(component, target_mesh):
+def closest_face_for_component(component, target_mesh, fn_mesh=None):
     point = component_world_position(component)
-    closest_point, face_index = geometry.closest_point_and_face(target_mesh, point)
+    closest_point, face_index = geometry.closest_point_and_face(target_mesh, point, fn_mesh=fn_mesh)
     return {
         'component': component,
         'target_mesh': target_mesh,
@@ -27,7 +27,11 @@ def closest_face_for_component(component, target_mesh):
 
 
 def match_components_to_mesh(components, target_mesh):
-    return [closest_face_for_component(component, target_mesh) for component in components or []]
+    components = components or []
+    if not components:
+        return []
+    fn_mesh = geometry.mesh_function(target_mesh)
+    return [closest_face_for_component(component, target_mesh, fn_mesh=fn_mesh) for component in components]
 
 
 def match_from_selection():
