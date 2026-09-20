@@ -32,13 +32,21 @@ def _direction(a, b):
     return tuple(value / length for value in vector)
 
 
+def _connected_edge_ids(mesh_fn, vertex_id):
+    """Return edge ids adjacent to one vertex using an API 2.0 mesh-vertex iterator."""
+    import maya.api.OpenMaya as om
+    iterator = om.MItMeshVertex(mesh_fn.dagPath())
+    iterator.setIndex(int(vertex_id))
+    return list(iterator.getConnectedEdges())
+
+
 def connected_vertices_in_set(mesh, vertex, vertices, mesh_fn=None):
     """Return connected target vertices and their edges, limited to an explicit vertex set."""
     mesh_fn = mesh_fn or _mesh_fn(mesh)
     source_id = component_index(vertex)
     allowed = {component_index(item) for item in vertices or []}
     result = []
-    for edge_id in mesh_fn.getVertexEdges(source_id):
+    for edge_id in _connected_edge_ids(mesh_fn, source_id):
         v0, v1 = mesh_fn.getEdgeVertices(edge_id)
         other = v1 if v0 == source_id else v0
         if other in allowed:
@@ -57,7 +65,7 @@ def perpendicular_edge_from_vertices(mesh, source_vertex, target_vertex, thresho
         return None
     best_edge = None
     best_score = float('inf')
-    for edge_id in mesh_fn.getVertexEdges(source_id):
+    for edge_id in _connected_edge_ids(mesh_fn, source_id):
         v0, v1 = mesh_fn.getEdgeVertices(edge_id)
         other = v1 if v0 == source_id else v0
         if other == target_id:
