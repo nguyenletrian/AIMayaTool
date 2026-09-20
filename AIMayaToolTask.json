@@ -8,89 +8,6 @@
   },
   "tasks": [
     {
-      "task_id": "aimayatool-batch-smoke-186",
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 180,
-        "files": [
-          "aimayatool/registry.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ],
-        "tests": []
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "metadata": {
-        "goal_id": "aibridge-batch-task-runtime-001",
-        "milestone_id": "aimayatool-batch-smoke",
-        "purpose": "First small AIMayaTool batch smoke: execute this task independently as part of a multi-task batch; no Maya scene mutation.",
-        "batch_id": "aimayatool-batch-smoke-001",
-        "batch_size": 3,
-        "batch_members": [
-          "aimayatool-batch-smoke-186",
-          "aimayatool-batch-smoke-187",
-          "aimayatool-batch-smoke-188"
-        ],
-        "acceptance": [
-          "AIMayaTool worker receives task 186 from AIMayaToolTask.json.",
-          "AIMayaTool main is fast-forwarded.",
-          "registry.py compiles and registry imports.",
-          "Result is attributed to task_id 186.",
-          "No Maya scene mutation."
-        ],
-        "result": "PASS",
-        "delivery_id": "289a51d30290df1301dd",
-        "proven_main_commit": "4776a6e22f0a0250172b02cdd07a7579e2fce83e",
-        "evidence": "ff-only sync updated main from 3299e55a2b9b136aa5eb5ba4e888f4623a1ad25e to 4776a6e22f0a0250172b02cdd07a7579e2fce83e; py_compile aimayatool/registry.py passed; import aimayatool.registry passed; no Maya mutation."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
       "project": {
         "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
         "branch": "main",
@@ -789,9 +706,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -836,7 +753,11 @@
           "Do not save scene or quit Maya.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_UNSUPPORTED_ROUTE",
+        "classification": "managed_live_smoke_route_not_registered",
+        "delivery_id": "c91710afcd02cac8feae",
+        "architect_diagnosis": "managed_live_smoke:maya is not a registered action route. Historical successful Maya tasks used action verification:python plus execution_target.kind=maya; the execution target selects managed Maya. Product did not execute."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -846,6 +767,82 @@
         "host": "127.0.0.1",
         "port": 7001,
         "instance_id": "aimayatool-architect"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185f",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 900,
+        "module": "aimayatool.tools.skinning.closest_face",
+        "callable": "performance_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "save_scene": false
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "performance-baseline",
+        "depends_on": [
+          "aimayatool-goal011-performance-baseline-managed-maya-185e"
+        ],
+        "retry_of": "aimayatool-goal011-performance-baseline-managed-maya-185e",
+        "purpose": "Run the bounded Goal 011 performance baseline using the repository-proven managed Maya routing pattern: verification:python action with Maya execution target.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use execution_target kind=maya on port 7001 and a fresh unsaved scene.",
+          "Invoke performance_baseline_managed_maya_smoke only if present; otherwise return the concrete missing-harness blocker.",
+          "Capture repeatable timing and behavior-preservation evidence for representative geometry/skin workloads.",
+          "Do not optimize product code.",
+          "Do not save scene or quit Maya.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
       },
       "delivery_target": {
         "kind": "browser-cdp",
