@@ -60,7 +60,7 @@ def _match_group(cmds, node, name):
     return group
 
 
-def apply_rivet(data):
+def _apply_rivet_unprotected(data):
     import maya.cmds as cmds
 
     plan = normalize_rivet(data)
@@ -119,6 +119,23 @@ def apply_rivet(data):
         cmds.parent(plane, locator, plan["parent"])
     return {"plan": plan, "plane": plane, "locator": locator, "surface": surface, "curves": curves, "copyTransform": copied, "childOffset": child_offset}
 
+
+
+def apply_rivet(data):
+    import maya.cmds as cmds
+    selection_uuids = cmds.ls(selection=True, uuid=True) or []
+    try:
+        return _apply_rivet_unprotected(data)
+    finally:
+        restored = []
+        for node_uuid in selection_uuids:
+            matches = cmds.ls(node_uuid, long=True) or []
+            if matches:
+                restored.append(matches[0])
+        if restored:
+            cmds.select(restored, replace=True)
+        else:
+            cmds.select(clear=True)
 
 def rivet_managed_maya_smoke():
     import maya.cmds as cmds
