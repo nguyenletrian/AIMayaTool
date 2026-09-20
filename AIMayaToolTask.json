@@ -28,91 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-performance-baseline-measurement-design-185c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/maya/geometry.py",
-          "aimayatool/maya/skin.py",
-          "aimayatool/tools/skinning/closest_face.py",
-          "aimayatool/tools/skinning/max_influences.py"
-        ],
-        "imports": [
-          "aimayatool.tools.skinning.closest_face",
-          "aimayatool.tools.skinning.max_influences"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "performance-baseline",
-        "depends_on": [
-          "aimayatool-goal011-performance-baseline-inventory-retry-185b"
-        ],
-        "purpose": "Bound the first representative performance measurements around geometry closest-face and skin-weight/influence paths before optimization.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Inspect the selected geometry and skinning call paths and identify representative input sizes/operations suitable for repeatable timing.",
-          "Separate pure Python/import-safe checks from Maya-host measurements; do not claim timing from import/compile.",
-          "Identify the cheapest sufficient Maya tier for each baseline and the exact behavior-preservation assertions needed beside timing.",
-          "Do not optimize product code.",
-          "Compile/import inspected import-safe entrypoints.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_INVALID_HOST_TIER",
-        "classification": "maya_host_module_imported_with_normal_python",
-        "delivery_id": "b6c8ac030b99a8aa936b",
-        "architect_diagnosis": "py_compile passed, but closest_face imports maya.cmds at module scope and cannot be imported by normal Python. This is expected host-boundary evidence, not a product regression. Measurement design must use Maya-capable validation for these modules."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-performance-baseline-maya-measurement-185d",
       "action": {
         "type": "verification",
@@ -754,9 +669,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -806,7 +721,10 @@
           "Keep public behavior and result shape unchanged.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_ANALYSIS_IMPLEMENTED",
+        "delivery_id": "6554967bd86c60e29c00",
+        "architect_diagnosis": "py_compile passed. Source inspection confirmed repeated _mesh_dag_path/MFnMesh construction per component. Architect implemented behavior-preserving MFnMesh reuse across a batch in commits fd83b4a and d498f5d; post-change managed Maya comparison is required before any performance claim."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -816,6 +734,90 @@
         "host": "127.0.0.1",
         "port": 0,
         "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-geometry-hotpaths-closest-face-postbench-186b",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.skinning.closest_face",
+        "callable": "performance_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "geometry-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-geometry-hotpaths-closest-face-analysis-186a"
+        ],
+        "baseline": {
+          "sample_count": 100,
+          "elapsed_seconds": 0.011680999999953201
+        },
+        "implementation_commits": [
+          "fd83b4aea0c2ffd2be3c6126a67743a928c62634",
+          "d498f5d1ab3b87bc5ed4fc11629d7c4ce505ba1a"
+        ],
+        "purpose": "Measure the same 100-vertex closest-face workload after reusing one MFnMesh per batch.",
+        "acceptance": [
+          "Fast-forward main including both optimization commits.",
+          "Use isolated_scene=true and save_scene=false.",
+          "Run the identical performance_baseline_managed_maya_smoke 100-vertex workload.",
+          "Require valid_results=true and selection_preserved=true.",
+          "Report elapsed_seconds and compare descriptively against the pre-change 0.011680999999953201 s baseline; do not claim improvement if evidence does not support it.",
+          "Do not save or quit Maya.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
       },
       "delivery_target": {
         "kind": "browser-cdp",
