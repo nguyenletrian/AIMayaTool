@@ -26,6 +26,16 @@ def _unlock_disconnect_chain(cmds, plug):
             cmds.disconnectAttr(source, item)
 
 
+
+def _coerce_default_value(attr_type, value):
+    if attr_type in ("double", "float", "doubleAngle", "doubleLinear"):
+        return float(value)
+    if attr_type in ("long", "short", "byte", "bool", "enum"):
+        return int(value)
+    if attr_type == "string":
+        return str(value)
+    return value
+
 def set_default_values(items):
     """Set explicit attribute values after safely unlocking/disconnecting their compound chain."""
     cmds = _cmds()
@@ -35,14 +45,11 @@ def set_default_values(items):
         value = item.get("value") if isinstance(item, dict) else None
         if not plug or "." not in plug or not cmds.objExists(plug):
             results.append({"attribute": plug, "status": "skipped_missing"}); continue
-        _unlock_disconnect_chain(cmds, plug)
         attr_type = cmds.getAttr(plug, type=True)
-        if attr_type in ("double", "float", "doubleAngle", "doubleLinear"):
-            value = float(value)
-        elif attr_type in ("long", "short", "byte", "bool", "enum"):
-            value = int(value)
+        value = _coerce_default_value(attr_type, value)
+        _unlock_disconnect_chain(cmds, plug)
         if attr_type == "string":
-            cmds.setAttr(plug, str(value), type="string")
+            cmds.setAttr(plug, value, type="string")
         else:
             cmds.setAttr(plug, value)
         results.append({"attribute": plug, "status": "set", "type": attr_type})
