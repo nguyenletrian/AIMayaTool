@@ -28,94 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-geometry-hotpaths-closest-face-analysis-186a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/maya/geometry.py",
-          "aimayatool/tools/skinning/closest_face.py"
-        ],
-        "imports": [],
-        "tests": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "geometry-hotpaths",
-        "depends_on": [],
-        "baseline": {
-          "operation": "closest_face_100_vertices",
-          "elapsed_seconds": 0.011680999999953201,
-          "sample_count": 100
-        },
-        "purpose": "Analyze the proven closest-face hot path before behavior-preserving optimization; focus on repeated DAG/MFnMesh setup across component queries.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use the 185k managed Maya baseline as authoritative pre-optimization evidence.",
-          "Inspect repeated per-component work in closest_face_for_component and geometry.closest_point_and_face, especially repeated mesh DAG/MFnMesh construction.",
-          "Do not claim improvement without a post-change managed Maya comparison using the same 100-vertex workload.",
-          "Keep public behavior and result shape unchanged.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_ANALYSIS_IMPLEMENTED",
-        "delivery_id": "6554967bd86c60e29c00",
-        "architect_diagnosis": "py_compile passed. Source inspection confirmed repeated _mesh_dag_path/MFnMesh construction per component. Architect implemented behavior-preserving MFnMesh reuse across a batch in commits fd83b4a and d498f5d; post-change managed Maya comparison is required before any performance claim.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-performance-baseline-managed-maya-verify-185k",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-geometry-hotpaths-closest-face-postbench-186b",
       "action": {
         "type": "maya",
@@ -140,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "geometry-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-geometry-hotpaths-closest-face-analysis-186a"
-        ],
+        "depends_on": [],
         "baseline": {
           "sample_count": 100,
           "elapsed_seconds": 0.011680999999953201
@@ -165,7 +75,13 @@
         "result": "FAIL_STALE_MAYA_MODULE_CACHE",
         "classification": "managed_maya_existing_session_stale_dependency_module",
         "delivery_id": "78aac4825341f495d9a8",
-        "architect_diagnosis": "The pulled source contains geometry.mesh_function, but the existing Maya PID 11952 retained the previously imported aimayatool.maya.geometry module. closest_face reloaded from disk and called a symbol absent from the stale dependency module. This is a runtime reload/cache issue, not evidence against the optimization."
+        "architect_diagnosis": "The pulled source contains geometry.mesh_function, but the existing Maya PID 11952 retained the previously imported aimayatool.maya.geometry module. closest_face reloaded from disk and called a symbol absent from the stale dependency module. This is a runtime reload/cache issue, not evidence against the optimization.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-geometry-hotpaths-closest-face-analysis-186a",
+          "result": "PASS_ANALYSIS_IMPLEMENTED",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -789,9 +705,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -833,6 +749,98 @@
           "Run performance_baseline_managed_maya_smoke.",
           "Require valid_results=true and selection_preserved=true.",
           "Capture sample_count and elapsed_seconds as authoritative pre-optimization evidence.",
+          "Do not save or quit Maya.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "ace92ab9a14f4881d931",
+        "baseline_evidence": {
+          "operation": "loop_groups_root_loop",
+          "sample_count": 21,
+          "elapsed_seconds": 0.07802600000104576,
+          "valid_results": true,
+          "selection_preserved": true
+        },
+        "architect_diagnosis": "Authoritative pre-optimization managed Maya baseline captured: 21 root vertices in 0.078026 s with valid results and preserved selection."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-postbench-187g",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.skinning.loop_groups",
+        "callable": "performance_postchange_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "geometry-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-geometry-hotpaths-loop-groups-baseline-run-187f"
+        ],
+        "implementation_commit": "02969bfbe09ba9888a5b5468236eb00d6b67c7ee",
+        "baseline": {
+          "operation": "loop_groups_root_loop",
+          "sample_count": 21,
+          "elapsed_seconds": 0.07802600000104576
+        },
+        "purpose": "Measure the identical loop-groups workload after replacing per-vertex full-mesh edge scans with MFnMesh vertex-adjacency queries.",
+        "acceptance": [
+          "Fast-forward main including optimization commit 02969bfbe09ba9888a5b5468236eb00d6b67c7ee.",
+          "Use isolated_scene=true and save_scene=false.",
+          "Run the identical 21-root-vertex workload via performance_postchange_managed_maya_smoke.",
+          "Require valid_results=true and selection_preserved=true.",
+          "Report elapsed_seconds against the 0.07802600000104576 s baseline; do not claim improvement unless evidence supports it.",
           "Do not save or quit Maya.",
           "Do not use Codex."
         ],
