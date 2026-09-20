@@ -815,12 +815,12 @@
         {
           "milestone_id": "scene-state-safety",
           "title": "Protect scene state during mutating workflows",
-          "status": "active"
+          "status": "completed"
         },
         {
           "milestone_id": "error-recovery",
           "title": "Standardize validation and recovery",
-          "status": "pending"
+          "status": "active"
         },
         {
           "milestone_id": "runtime-regression",
@@ -844,6 +844,60 @@
           "one_step_restored": true,
           "selection_preserved": true
         }
+      },
+      "scene_state_safety_evidence": {
+        "completed_date": "2026-09-20",
+        "audit": {
+          "scene_top_level_modules_scanned": 63,
+          "state_patterns_reviewed": [
+            "selection",
+            "currentTime",
+            "tool/context",
+            "playback/autokey"
+          ],
+          "notes": "Explicit product selection candidates were measured in managed Maya. BS Sequence time-mutating paths already restore currentTime; no other persistent state candidate remained from the bounded top-level Scene audit."
+        },
+        "hardened": [
+          {
+            "module": "aimayatool.tools.scene.space_switch",
+            "implementation_commit": "9152210b05f9788cf97b06addc9bb457b18b3804"
+          },
+          {
+            "module": "aimayatool.tools.scene.spline_rig",
+            "implementation_commit": "c3518976b0e0c4147a0d53d515037a84a6021ac7"
+          },
+          {
+            "module": "aimayatool.tools.scene.rivet",
+            "functional_fix_commit": "52784720a2a3bca0379a26cc576a2bfccbe125ea",
+            "selection_fix_commit": "3691f693045babde3402470b2cd4eb8241893403"
+          },
+          {
+            "module": "aimayatool.tools.scene.spline_control_from_objs",
+            "implementation_commit": "2bcd792f13be4fd5080c469194bcfd4f856bed00"
+          },
+          {
+            "module": "aimayatool.tools.scene.spline_curve_from_objs",
+            "implementation_commit": "f5e595831bb2f673561cefb75501bac8b59fad17"
+          }
+        ],
+        "final_gate": {
+          "task_id": "aimayatool-goal012-scene-state-spline-curve-selection-postchange-191w",
+          "delivery_id": "3e95374081c435d93820",
+          "functional": true,
+          "selection_preserved": true,
+          "before": [
+            "|AIBridgeSplineCurveStateSentinel"
+          ],
+          "after": [
+            "|AIBridgeSplineCurveStateSentinel"
+          ],
+          "scene_saved": false
+        }
+      },
+      "error_recovery_activation_evidence": {
+        "date": "2026-09-20",
+        "reason": "scene-state-safety completed after bounded 63-module Scene audit and managed-Maya postchange proof for all explicit selection-leak candidates",
+        "first_slice": "Driven Key partial-mutation-on-late-invalid-input probe"
       }
     },
     {
