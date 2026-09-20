@@ -28,104 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-performance-regression-maya-closest-face-189b",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.skinning.closest_face",
-        "callable": "performance_baseline_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "performance-regression",
-        "depends_on": [],
-        "purpose": "Fresh managed-Maya regression measurement for optimized closest-face workload before Goal 011 closeout.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Run isolated unsaved fresh scene.",
-          "Require sample_count=100, valid_results=true, selection_preserved=true.",
-          "Capture elapsed_seconds as regression evidence; compare with historical optimized evidence 0.007032600000457023 s but do not require an exact timing threshold from a single run.",
-          "Do not save or quit Maya.",
-          "Do not use Codex."
-        ],
-        "historical_evidence": {
-          "baseline_seconds": 0.011680999999953201,
-          "optimized_seconds": 0.007032600000457023
-        },
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "ae54cbd8964c791e6ecd",
-        "regression_evidence": {
-          "operation": "closest_face_100_vertices",
-          "sample_count": 100,
-          "elapsed_seconds": 0.006554199999300181,
-          "valid_results": true,
-          "selection_preserved": true
-        },
-        "comparison": {
-          "original_baseline_seconds": 0.011680999999953201,
-          "prior_optimized_seconds": 0.007032600000457023,
-          "reduction_vs_original_percent": 43.89007897191599
-        },
-        "architect_diagnosis": "Fresh managed-Maya regression remains behavior-correct and timing is consistent with the optimized range; no hard single-run timing threshold was used.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-performance-regression-python-189a",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-performance-regression-maya-loop-groups-189c",
       "action": {
         "type": "maya",
@@ -150,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "performance-regression",
-        "depends_on": [
-          "aimayatool-goal011-performance-regression-maya-closest-face-189b"
-        ],
+        "depends_on": [],
         "purpose": "Fresh managed-Maya regression measurement for optimized loop-groups workload before Goal 011 closeout.",
         "acceptance": [
           "Fast-forward main.",
@@ -181,7 +81,13 @@
           "prior_optimized_seconds": 0.05084499999975378,
           "reduction_vs_original_percent": 35.47311345757037
         },
-        "architect_diagnosis": "Fresh managed-Maya loop-groups regression remains correct and consistent with prior optimized timing."
+        "architect_diagnosis": "Fresh managed-Maya loop-groups regression remains correct and consistent with prior optimized timing.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-performance-regression-maya-closest-face-189b",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -812,9 +718,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -859,7 +765,10 @@
           "Do not change behavior in this inventory task.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_INVENTORY",
+        "delivery_id": "668b236a67bab6bccc08",
+        "architect_diagnosis": "Representative performance/skin paths compile and already assert selection preservation. Broader source inspection found BS Sequence explicitly protects currentTime with try/finally during duplicate sampling, making it a useful proven pattern. Next bounded risk selected: multi-command Space Switch construction has no explicit selection-state assertion and should be verified in managed Maya before changing behavior."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -869,6 +778,80 @@
         "host": "127.0.0.1",
         "port": 0,
         "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-scene-state-space-switch-selection-baseline-191b",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.space_switch",
+        "callable": "space_switch_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "scene-state-safety",
+        "depends_on": [
+          "aimayatool-goal012-scene-state-safety-inventory-191a"
+        ],
+        "purpose": "Run the existing Space Switch managed-Maya smoke as a bounded baseline before adding explicit scene-state assertions/hardening.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Run existing Space Switch smoke in fresh isolated scene and require its existing functional checks to pass.",
+          "Treat this as functional baseline only: current harness does not yet prove selection preservation.",
+          "Do not change behavior in this task.",
+          "No save, no Maya quit, no Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
       },
       "delivery_target": {
         "kind": "browser-cdp",
