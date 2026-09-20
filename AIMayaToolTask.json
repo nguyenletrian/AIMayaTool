@@ -28,95 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal010-preflight-guidance-contract-tests-184a",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/core/result.py",
-          "aimayatool/registry.py",
-          "tests"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ],
-        "tests": [
-          "tests.test_preflight_guidance"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "preflight-guidance",
-        "depends_on": [],
-        "purpose": "Turn the approved preflight guidance contract into deterministic Python test cases before product implementation.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Read 183e contract synthesis evidence.",
-          "Define focused deterministic expectations for non-mutating preflight results, stable severity/category fields, actionable messages, and empty-valid cases.",
-          "Do not change product behavior or implement the feature.",
-          "Run py_compile/import-safe checks and focused tests.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_INVALID_TASK_CONTRACT",
-        "classification": "invalid_preimplementation_verification",
-        "delivery_id": "03b0116f5b6c0099b363",
-        "architect_diagnosis": "184a referenced files/tests that do not yet exist (aimayatool/core/result.py and tests.test_preflight_guidance). A verification-only route cannot create the executable specification it was asked to define. Close this invalid task and replace it with an implementation task that creates the bounded contract plus deterministic tests.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal010-preflight-guidance-contract-synthesis-183e",
-          "result": "PASS_BASELINE_ONLY",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal010-preflight-guidance-implementation-184b",
       "action": {
         "type": "verification",
@@ -147,9 +58,7 @@
       "metadata": {
         "goal_id": "aimayatool-010",
         "milestone_id": "preflight-guidance",
-        "depends_on": [
-          "aimayatool-goal010-preflight-guidance-contract-tests-184a"
-        ],
+        "depends_on": [],
         "purpose": "Implement the smallest reusable preflight guidance primitive approved by the contract.",
         "acceptance": [
           "Fast-forward main.",
@@ -164,7 +73,13 @@
         "result": "FAIL_INVALID_ROUTE",
         "classification": "verification_route_cannot_implement",
         "delivery_id": "e5aeb767bcfe8454a469",
-        "architect_diagnosis": "184b remained action verification:python, so it could not create the missing preflight module/tests and failed before execution. Architect will implement the bounded contract directly, then publish verification."
+        "architect_diagnosis": "184b remained action verification:python, so it could not create the missing preflight module/tests and failed before execution. Architect will implement the bounded contract directly, then publish verification.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal010-preflight-guidance-contract-tests-184a",
+          "result": "FAIL_INVALID_TASK_CONTRACT",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -773,9 +688,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -833,7 +748,94 @@
           "classification": "invalid_verification_file_path",
           "diagnosis": "Task payload incorrectly supplied directory aimayatool/maya where verification:python requires relative .py files. Product was not executed; correct payload to explicit Maya adapter files and retry."
         },
-        "retry_count": 1
+        "retry_count": 1,
+        "result": "FAIL_CORRECTED_BY_RETRY",
+        "classification": "invalid_verification_file_path",
+        "architect_diagnosis": "Original 185a result is durably ACKed as task-contract failure. The directory path was invalid for verification:python; product execution never began. Corrected work is moved to retry 185b so the failed-result ACK gate cannot conflict with pending retry state."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-performance-baseline-inventory-retry-185b",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/skinning/__init__.py",
+          "aimayatool/tools/setup/__init__.py",
+          "aimayatool/tools/scene/__init__.py",
+          "aimayatool/maya/__init__.py",
+          "aimayatool/maya/geometry.py",
+          "aimayatool/maya/skin.py",
+          "aimayatool/maya/undo.py"
+        ],
+        "imports": [
+          "aimayatool.tools.skinning",
+          "aimayatool.tools.setup",
+          "aimayatool.tools.scene"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "performance-baseline",
+        "depends_on": [],
+        "purpose": "Retry Goal 011 performance baseline inventory with explicit relative .py verification paths after 185a task-contract failure.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Inspect Skinning, Setup, Scene and Maya adapter surfaces for likely geometry/skin/batch hot paths and existing API 2.0 usage.",
+          "Do not optimize or change product behavior in this inventory slice.",
+          "Identify the smallest representative baseline candidates and cheapest valid measurement tier.",
+          "Run compile/import-safe checks for inspected Python entrypoints.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "retry_count": 1,
+        "retry_of": "aimayatool-goal011-performance-baseline-inventory-185a"
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
