@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import time
+
 from .topology import component_index, vertices_from_edges
 
 
@@ -152,3 +154,22 @@ def group_vertices_by_perpendicular_loops(mesh, vertices, threshold=0.25, mesh_f
             if edge is not None:
                 result[vertex] = edge_loop_vertices(mesh, edge, mesh_fn=mesh_fn, selector=selector)
     return result
+
+
+def performance_baseline_managed_maya_smoke():
+    """Bounded managed-Maya baseline for the current loop grouping path."""
+    cmds = _cmds()
+    mesh = cmds.polyPlane(name='AIBridgeLoopGroupsBaseline', width=20, height=20, subdivisionsX=20, subdivisionsY=20)[0]
+    mesh_fn = _mesh_fn(mesh)
+    root_vertices = ['%s.vtx[%d]' % (mesh, index) for index in range(210, 231)]
+    before = cmds.ls(selection=True, long=True) or []
+    start = time.perf_counter()
+    result = group_vertices_by_perpendicular_loops(mesh, root_vertices, mesh_fn=mesh_fn)
+    elapsed = time.perf_counter() - start
+    valid = bool(result) and all(key in root_vertices and value for key, value in result.items())
+    selection_preserved = (cmds.ls(selection=True, long=True) or []) == before
+    if not valid or not selection_preserved:
+        raise AssertionError('Loop-groups baseline changed behavior or selection state')
+    evidence = {'operation': 'loop_groups_root_loop', 'sample_count': len(root_vertices), 'elapsed_seconds': elapsed, 'valid_results': valid, 'selection_preserved': selection_preserved}
+    print('AIBRIDGE_PERFORMANCE_BASELINE_OK:%s|%.6f' % (len(root_vertices), elapsed))
+    return evidence
