@@ -28,221 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal012-scene-state-spline-curve-probe-deterministic-191t",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 180,
-        "files": [
-          "aimayatool/tools/scene/spline_curve_from_objs.py",
-          "tests/test_scene_spline_curve_from_objs.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.spline_curve_from_objs"
-        ],
-        "tests": [
-          "tests.test_scene_spline_curve_from_objs"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-012",
-        "milestone_id": "scene-state-safety",
-        "depends_on": [],
-        "harness_commit": "1e1c61c97025c9baf1f361ef795304f7d21b88f8",
-        "purpose": "Verify the Spline Curve From Objects selection-state probe harness compiles/imports cleanly and deterministic normalization remains unchanged before live state measurement.",
-        "acceptance": [
-          "Fast-forward main including harness commit 1e1c61c97025c9baf1f361ef795304f7d21b88f8.",
-          "py_compile changed Spline Curve From Objects module and focused test.",
-          "Import aimayatool.tools.scene.spline_curve_from_objs outside Maya.",
-          "Run tests.test_scene_spline_curve_from_objs and require all focused tests PASS.",
-          "Do not change product behavior in this task.",
-          "Do not use Codex."
-        ],
-        "audit_evidence": {
-          "scene_top_level_modules_scanned": 63,
-          "candidate_status": "last_explicit_product_selection_candidate_from_audit",
-          "prior_hardened": [
-            "space_switch",
-            "spline_rig",
-            "rivet",
-            "spline_control_from_objs"
-          ]
-        },
-        "source_evidence": "apply_spline_curve_from_objs calls cmds.select(clear=True) while creating spline joints, so unrelated user selection may be overwritten.",
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "8fd7552e135f4a4c326a",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "focused_tests": "3/3 PASS"
-        },
-        "architect_diagnosis": "Spline Curve From Objects selection-state probe harness compiles/imports cleanly and deterministic normalization remains unchanged across all focused tests.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal012-scene-state-spline-control-selection-postchange-191s",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "postchange_evidence": {
-            "functional": true,
-            "selection_preserved": true,
-            "before": [
-              "|AIBridgeSplineControlStateSentinel"
-            ],
-            "after": [
-              "|AIBridgeSplineControlStateSentinel"
-            ]
-          },
-          "prior_deterministic": {
-            "task_id": "aimayatool-goal012-scene-state-spline-control-selection-deterministic-191r",
-            "result": "PASS",
-            "architect_ack": true,
-            "bridge_completed": true,
-            "verification_evidence": {
-              "py_compile": true,
-              "import": true,
-              "focused_tests": "3/3 PASS"
-            }
-          }
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal012-scene-state-spline-curve-selection-probe-191u",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.spline_curve_from_objs",
-        "callable": "spline_curve_from_objs_selection_state_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-012",
-        "milestone_id": "scene-state-safety",
-        "depends_on": [
-          "aimayatool-goal012-scene-state-spline-curve-probe-deterministic-191t"
-        ],
-        "harness_commit": "1e1c61c97025c9baf1f361ef795304f7d21b88f8",
-        "purpose": "Measure whether successful Spline Curve From Objects construction preserves an unrelated explicit selection before deciding whether product hardening is required.",
-        "acceptance": [
-          "Fast-forward main after deterministic harness verification.",
-          "Require functional=true so state evidence comes from a completed build.",
-          "Record selection_preserved plus before/after exactly.",
-          "Do not classify a selection change as acceptable; use evidence to decide the next product change.",
-          "Fresh isolated scene, no save, no Maya quit.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_GAP_CONFIRMED",
-        "delivery_id": "930a9e47a5907940633d",
-        "probe_evidence": {
-          "functional": true,
-          "selection_preserved": false,
-          "before": [
-            "|AIBridgeSplineCurveStateSentinel"
-          ],
-          "after": [
-            "|AIBridgeSplineCurveStateParent|AIBridgeSplineCurveStateCtrl1_SplineRig"
-          ]
-        },
-        "architect_diagnosis": "Managed Maya confirms Spline Curve From Objects builds successfully but leaks selection state: the unrelated sentinel is replaced by the newly parented rig group. Product hardening is required at apply_spline_curve_from_objs boundary.",
-        "selection_fix_commit": "f5e595831bb2f673561cefb75501bac8b59fad17"
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal012-scene-state-spline-curve-selection-deterministic-191v",
       "action": {
         "type": "verification",
@@ -272,9 +57,7 @@
       "metadata": {
         "goal_id": "aimayatool-012",
         "milestone_id": "scene-state-safety",
-        "depends_on": [
-          "aimayatool-goal012-scene-state-spline-curve-selection-probe-191u"
-        ],
+        "depends_on": [],
         "implementation_commit": "f5e595831bb2f673561cefb75501bac8b59fad17",
         "purpose": "Verify Spline Curve From Objects selection-preservation hardening compiles/imports cleanly and deterministic normalization remains unchanged before live Maya validation.",
         "acceptance": [
@@ -292,7 +75,34 @@
           "import": true,
           "focused_tests": "3/3 PASS"
         },
-        "architect_diagnosis": "Spline Curve From Objects selection-preservation hardening compiles/imports cleanly and deterministic normalization remains unchanged across all focused tests."
+        "architect_diagnosis": "Spline Curve From Objects selection-preservation hardening compiles/imports cleanly and deterministic normalization remains unchanged across all focused tests.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal012-scene-state-spline-curve-selection-probe-191u",
+          "result": "PASS_GAP_CONFIRMED",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "probe_evidence": {
+            "functional": true,
+            "selection_preserved": false,
+            "before": [
+              "|AIBridgeSplineCurveStateSentinel"
+            ],
+            "after": [
+              "|AIBridgeSplineCurveStateParent|AIBridgeSplineCurveStateCtrl1_SplineRig"
+            ]
+          },
+          "prior_probe_deterministic": {
+            "task_id": "aimayatool-goal012-scene-state-spline-curve-probe-deterministic-191t",
+            "result": "PASS",
+            "architect_ack": true,
+            "bridge_completed": true,
+            "verification_evidence": {
+              "py_compile": true,
+              "import": true,
+              "focused_tests": "3/3 PASS"
+            }
+          }
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -874,9 +684,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -918,6 +728,187 @@
           "Require caught_missing=true so invalid target detection is clear.",
           "Record partial_mutation, driver_attr_before/after, offset_exists, before_parent and after_parent exactly.",
           "If partial_mutation=true, classify a recovery/atomicity gap and harden validation before mutation; do not treat it as acceptable.",
+          "Fresh isolated scene, no save, no Maya quit.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_GAP_CONFIRMED",
+        "delivery_id": "0d4981000135fd68e292",
+        "probe_evidence": {
+          "caught_missing": true,
+          "partial_mutation": true,
+          "driver_attr_before": false,
+          "driver_attr_after": true,
+          "offset_exists": true,
+          "before_parent": null,
+          "after_parent": "|AIBridgeModuloPartialA_Modulo_Grp",
+          "error": "Missing target: AIBridgeModuloPartialZMissing"
+        },
+        "architect_diagnosis": "Managed Maya confirms a Modulo SDK recovery/atomicity gap: a later missing target is reported clearly, but the driver attribute and an earlier target offset hierarchy are already created. All target existence validation must complete before any scene mutation.",
+        "implementation_commit": "5ae76a2719384e415d1421065479ab0fec5f51a3"
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-error-recovery-modulo-sdk-preflight-deterministic-192g",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 180,
+        "files": [
+          "aimayatool/tools/scene/modulo_sdk.py",
+          "tests/test_scene_modulo_sdk.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.modulo_sdk"
+        ],
+        "tests": [
+          "tests.test_scene_modulo_sdk"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "error-recovery",
+        "depends_on": [
+          "aimayatool-goal012-error-recovery-modulo-sdk-partial-failure-probe-192f"
+        ],
+        "implementation_commit": "5ae76a2719384e415d1421065479ab0fec5f51a3",
+        "purpose": "Verify Modulo SDK full target preflight compiles/imports cleanly and deterministic planning behavior remains unchanged before live Maya atomic-failure validation.",
+        "acceptance": [
+          "Fast-forward main including implementation commit 5ae76a2719384e415d1421065479ab0fec5f51a3.",
+          "py_compile changed Modulo SDK module and focused test.",
+          "Import aimayatool.tools.scene.modulo_sdk outside Maya.",
+          "Run tests.test_scene_modulo_sdk and require all focused tests PASS.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-error-recovery-modulo-sdk-preflight-postchange-192h",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.modulo_sdk",
+        "callable": "modulo_sdk_partial_failure_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "error-recovery",
+        "depends_on": [
+          "aimayatool-goal012-error-recovery-modulo-sdk-preflight-deterministic-192g"
+        ],
+        "implementation_commit": "5ae76a2719384e415d1421065479ab0fec5f51a3",
+        "baseline": {
+          "caught_missing": true,
+          "partial_mutation": true,
+          "driver_attr_before": false,
+          "driver_attr_after": true,
+          "offset_exists": true,
+          "before_parent": null,
+          "after_parent": "|AIBridgeModuloPartialA_Modulo_Grp"
+        },
+        "purpose": "Prove Modulo SDK late invalid target now fails before mutation and leaves both driver and earlier valid target untouched.",
+        "acceptance": [
+          "Fast-forward main after deterministic verification.",
+          "Require caught_missing=true.",
+          "Require partial_mutation=false.",
+          "Require driver_attr_before=false and driver_attr_after=false.",
+          "Require offset_exists=false.",
+          "Require before_parent and after_parent to match exactly.",
           "Fresh isolated scene, no save, no Maya quit.",
           "Do not use Codex."
         ],
