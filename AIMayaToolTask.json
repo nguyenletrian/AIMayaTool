@@ -775,9 +775,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
+      "status": "COMPLETED",
       "architect_ack": true,
-      "bridge_completed": false,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -826,7 +826,8 @@
           "Follow Guide runtime-loss recovery if Maya crashes.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "completion_note": "Python verification passed; Architect ACK already recorded; closing task to prevent requeue."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
