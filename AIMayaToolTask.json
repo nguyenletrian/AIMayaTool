@@ -28,104 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-performance-regression-maya-loop-groups-189c",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.skinning.loop_groups",
-        "callable": "performance_postchange_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "performance-regression",
-        "depends_on": [],
-        "purpose": "Fresh managed-Maya regression measurement for optimized loop-groups workload before Goal 011 closeout.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Run isolated unsaved fresh scene.",
-          "Require sample_count=21, valid_results=true, selection_preserved=true.",
-          "Capture elapsed_seconds; compare with original 0.07802600000104576 s and prior optimized 0.05084499999975378 s without enforcing a hard threshold from one run.",
-          "Do not save or quit Maya.",
-          "Do not use Codex."
-        ],
-        "historical_evidence": {
-          "baseline_seconds": 0.07802600000104576,
-          "optimized_seconds": 0.05084499999975378
-        },
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "76f72eef1ff540398050",
-        "regression_evidence": {
-          "operation": "loop_groups_root_loop",
-          "sample_count": 21,
-          "elapsed_seconds": 0.050347899999906076,
-          "valid_results": true,
-          "selection_preserved": true
-        },
-        "comparison": {
-          "original_baseline_seconds": 0.07802600000104576,
-          "prior_optimized_seconds": 0.05084499999975378,
-          "reduction_vs_original_percent": 35.47311345757037
-        },
-        "architect_diagnosis": "Fresh managed-Maya loop-groups regression remains correct and consistent with prior optimized timing.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-performance-regression-maya-closest-face-189b",
-          "result": "PASS",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-performance-regression-maya-skin-data-189d",
       "action": {
         "type": "maya",
@@ -150,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "performance-regression",
-        "depends_on": [
-          "aimayatool-goal011-performance-regression-maya-loop-groups-189c"
-        ],
+        "depends_on": [],
         "purpose": "Fresh managed-Maya regression measurement for optimized batched skin-data workload; final runtime gate before Goal 011 closeout.",
         "acceptance": [
           "Fast-forward main.",
@@ -181,7 +81,13 @@
           "prior_optimized_seconds": 0.00018900000031862874,
           "reduction_vs_original_percent": 97.41706107976253
         },
-        "architect_diagnosis": "Final Goal 011 managed-Maya runtime gate passed. Fresh skin-data timing remains consistent with optimized evidence and correctness/selection invariants hold."
+        "architect_diagnosis": "Final Goal 011 managed-Maya runtime gate passed. Fresh skin-data timing remains consistent with optimized evidence and correctness/selection invariants hold.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-performance-regression-maya-loop-groups-189c",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -797,9 +703,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -841,6 +747,86 @@
           "Treat this as functional baseline only: current harness does not yet prove selection preservation.",
           "Do not change behavior in this task.",
           "No save, no Maya quit, no Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS_FUNCTIONAL_BASELINE",
+        "delivery_id": "befe59168773ac198640",
+        "architect_diagnosis": "Existing Space Switch functional smoke passes all 8 checks. It does not establish selection-state safety, so a dedicated non-mutating-observation harness was added.",
+        "selection_probe_commit": "8fa75d7fe02bd1fdaf5ab90e77f636b1d31ced44"
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-scene-state-space-switch-selection-probe-191c",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.space_switch",
+        "callable": "space_switch_selection_state_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "scene-state-safety",
+        "depends_on": [
+          "aimayatool-goal012-scene-state-space-switch-selection-baseline-191b"
+        ],
+        "harness_commit": "8fa75d7fe02bd1fdaf5ab90e77f636b1d31ced44",
+        "purpose": "Measure whether Space Switch construction preserves an unrelated explicit selection before deciding whether product hardening is necessary.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Require functional=true so state evidence comes from a completed Space Switch build.",
+          "Record selection_preserved plus before/after exactly.",
+          "Do not classify selection change as fixed or acceptable; use evidence to decide next product change.",
+          "Fresh isolated scene, no save, no Maya quit.",
+          "Do not use Codex."
         ],
         "owner_constraint": "Do not use Codex until explicitly re-enabled."
       },
