@@ -25,94 +25,6 @@
         "read": true,
         "edit": true,
         "run_tests": true,
-        "commit": true,
-        "push": true
-      },
-      "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-edit-187e",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning/loop_groups.py",
-          "tests/test_skinning_loop_groups.py"
-        ],
-        "imports": [],
-        "tests": [
-          "tests.test_skinning_loop_groups"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "geometry-hotpaths",
-        "depends_on": [],
-        "retry_of": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-retry-187d",
-        "purpose": "Apply, not merely verify, the missing bounded loop_groups managed-Maya baseline harness.",
-        "acceptance": [
-          "Fast-forward main.",
-          "MUST edit aimayatool/tools/skinning/loop_groups.py so performance_baseline_managed_maya_smoke exists on main after this task.",
-          "Harness must create a bounded representative polygon mesh, exercise group_vertices_by_perpendicular_loops on an explicit connected root-loop vertex set, time only the existing production grouping call, assert nonempty/valid result and selection preservation, and return evidence including operation, sample_count, elapsed_seconds, valid_results, selection_preserved.",
-          "Do not optimize connected_vertices_in_set or perpendicular_edge_from_vertices yet.",
-          "Run py_compile and focused loop_groups tests.",
-          "Commit and push the actual harness edit to main; verification-only completion without the callable is failure.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS_WORKER_VERIFICATION_IMPLEMENTATION_APPLIED_BY_ARCHITECT",
-        "delivery_id": "019d7a4ed799629b2030",
-        "implementation_commit": "6ae80c554ed9124fa1e2337c95ba9474641ed1c4",
-        "architect_diagnosis": "Worker again only verified existing files; repository refetch confirmed callable absent. Architect applied the bounded baseline harness directly to main after successful worker py_compile/tests. Production hot-path logic remains unchanged.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-retry-187d",
-          "result": "PASS_VERIFICATION_BUT_IMPLEMENTATION_MISSING",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
         "commit": false,
         "push": false
       },
@@ -140,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "geometry-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-edit-187e"
-        ],
+        "depends_on": [],
         "purpose": "Capture the pre-optimization managed Maya baseline for the loop_groups full-edge-scan hot path using the newly committed bounded harness.",
         "acceptance": [
           "Fast-forward main including commit 6ae80c554ed9124fa1e2337c95ba9474641ed1c4.",
@@ -163,7 +73,13 @@
           "valid_results": true,
           "selection_preserved": true
         },
-        "architect_diagnosis": "Authoritative pre-optimization managed Maya baseline captured: 21 root vertices in 0.078026 s with valid results and preserved selection."
+        "architect_diagnosis": "Authoritative pre-optimization managed Maya baseline captured: 21 root vertices in 0.078026 s with valid results and preserved selection.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-edit-187e",
+          "result": "PASS_WORKER_VERIFICATION_IMPLEMENTATION_APPLIED_BY_ARCHITECT",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -799,9 +715,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -851,6 +767,88 @@
           "Attempt performance_baseline_managed_maya_smoke in aimayatool.maya.skin using isolated unsaved scene.",
           "If callable is absent, return the concrete missing-harness gap; do not optimize product code yet.",
           "If present, capture repeated skin_data workload timing plus validity/selection preservation.",
+          "Do not save or quit Maya.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_MISSING_BASELINE_HARNESS",
+        "classification": "managed_maya_callable_missing",
+        "delivery_id": "56863203a34c3de24561",
+        "architect_diagnosis": "Expected probe result: aimayatool.maya.skin had no baseline callable. Architect added a reusable bounded 100-query skin_data managed-Maya harness directly to main.",
+        "harness_commit": "4e6490fc3f651e1a74acbc278d7bc3ef4ff9524f"
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-skin-hotpaths-skin-adapter-baseline-run-188d",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.maya.skin",
+        "callable": "performance_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "skin-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-skin-hotpaths-skin-adapter-baseline-188c"
+        ],
+        "harness_commit": "4e6490fc3f651e1a74acbc278d7bc3ef4ff9524f",
+        "purpose": "Capture authoritative pre-optimization timing for 100 repeated skin_data queries on one bounded skinned mesh.",
+        "acceptance": [
+          "Fast-forward main including harness commit 4e6490fc3f651e1a74acbc278d7bc3ef4ff9524f.",
+          "Run isolated_scene=true, save_scene=false.",
+          "Require valid_results=true and selection_preserved=true.",
+          "Capture sample_count and elapsed_seconds for skin_data_100_queries.",
+          "Do not optimize product code in this task.",
           "Do not save or quit Maya.",
           "Do not use Codex."
         ],
