@@ -68,3 +68,40 @@ def spline_control_from_objs_managed_maya_smoke():
     checks={"controls":len(r["splineControls"])==3,"controlJoints":len(r["controlJoints"])==3,"global":cmds.attributeQuery("Global",node=r["splineControls"][0],exists=True),"skin":cmds.objExists(r["skinCluster"])}
     if not all(checks.values()): raise RuntimeError("SplineControlFromObjs smoke failed: {0}".format(checks))
     return {"ok":True,"checks":checks}
+
+def spline_control_from_objs_selection_state_managed_maya_smoke():
+    """Measure whether Spline Control From Objects preserves unrelated selection."""
+    import maya.cmds as cmds
+    parent=cmds.createNode("transform",name="AIBridgeSplineControlStateParent")
+    world=cmds.createNode("transform",name="AIBridgeSplineControlStateWorld")
+    cmds.select(clear=True)
+    joints=[]
+    for i,x in enumerate((0.0,5.0,10.0)):
+        j=cmds.joint(position=(x,0,0),name="AIBridgeSplineControlState%d_SplineJnt"%(i+1))
+        joints.append(j)
+    curve=cmds.curve(degree=2,point=[(0,0,0),(5,0,0),(10,0,0)],name="AIBridgeSplineControlStateCurve")
+    sentinel=cmds.createNode("transform",name="AIBridgeSplineControlStateSentinel")
+    cmds.select(sentinel,replace=True)
+    before=cmds.ls(selection=True,long=True) or []
+    result=apply_spline_control_from_objs({
+        "parent":parent,
+        "parentGlobal":world,
+        "curve":curve,
+        "joints":joints,
+        "numberCtrls":1,
+    })
+    after=cmds.ls(selection=True,long=True) or []
+    functional=bool(
+        len(result["splineControls"])==3
+        and len(result["controlJoints"])==3
+        and cmds.objExists(result["skinCluster"])
+        and cmds.objExists(result["globalGroup"])
+    )
+    return {
+        "operation":"spline_control_from_objs_selection_state",
+        "functional":functional,
+        "selection_preserved":before==after,
+        "before":before,
+        "after":after,
+    }
+
