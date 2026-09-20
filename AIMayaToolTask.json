@@ -28,215 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal012-error-recovery-driven-key-preflight-deterministic-192c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 180,
-        "files": [
-          "aimayatool/tools/scene/driven_key.py",
-          "tests/test_scene_driven_key.py"
-        ],
-        "imports": [
-          "aimayatool.tools.scene.driven_key"
-        ],
-        "tests": [
-          "tests.test_scene_driven_key"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-012",
-        "milestone_id": "error-recovery",
-        "depends_on": [],
-        "implementation_commit": "905d6a6aca702f9359fb40334a949c067755979d",
-        "purpose": "Verify Driven Key full object preflight compiles/imports cleanly and deterministic normalization remains unchanged before live Maya atomic-failure validation.",
-        "acceptance": [
-          "Fast-forward main including implementation commit 905d6a6aca702f9359fb40334a949c067755979d.",
-          "py_compile changed Driven Key module and focused test.",
-          "Import aimayatool.tools.scene.driven_key outside Maya.",
-          "Run tests.test_scene_driven_key and require all focused tests PASS.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "88e198a3c0b72e4c848c",
-        "verification_evidence": {
-          "py_compile": true,
-          "import": true,
-          "focused_tests": "3/3 PASS"
-        },
-        "architect_diagnosis": "Driven Key full-object preflight hardening compiles/imports cleanly and deterministic normalization remains unchanged across all focused tests.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal012-error-recovery-driven-key-partial-failure-probe-192b",
-          "result": "PASS_GAP_CONFIRMED",
-          "architect_ack": true,
-          "bridge_completed": true,
-          "probe_evidence": {
-            "caught_missing": true,
-            "partial_mutation": true,
-            "sdk_group_exists": true,
-            "zero_group_exists": true,
-            "before_parent": null,
-            "after_parent": "|AIBridgeSDKPartialA_ZeloSDKGrp|AIBridgeSDKPartialA_SDKGrp",
-            "error": "Missing driven object: AIBridgeSDKPartialZMissing"
-          },
-          "prior_probe_deterministic": {
-            "task_id": "aimayatool-goal012-error-recovery-driven-key-partial-failure-probe-deterministic-192a",
-            "result": "PASS",
-            "architect_ack": true,
-            "bridge_completed": true,
-            "verification_evidence": {
-              "py_compile": true,
-              "import": true,
-              "focused_tests": "3/3 PASS"
-            }
-          }
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal012-error-recovery-driven-key-preflight-postchange-192d",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.scene.driven_key",
-        "callable": "driven_key_partial_failure_managed_maya_smoke",
-        "new_scene": true,
-        "isolated_scene": true,
-        "save_scene": false,
-        "timeout": 45
-      },
-      "metadata": {
-        "goal_id": "aimayatool-012",
-        "milestone_id": "error-recovery",
-        "depends_on": [
-          "aimayatool-goal012-error-recovery-driven-key-preflight-deterministic-192c"
-        ],
-        "implementation_commit": "905d6a6aca702f9359fb40334a949c067755979d",
-        "baseline": {
-          "caught_missing": true,
-          "partial_mutation": true,
-          "sdk_group_exists": true,
-          "zero_group_exists": true,
-          "before_parent": null,
-          "after_parent": "|AIBridgeSDKPartialA_ZeloSDKGrp|AIBridgeSDKPartialA_SDKGrp"
-        },
-        "purpose": "Prove Driven Key late invalid input now fails before mutation and leaves the earlier valid object untouched.",
-        "acceptance": [
-          "Fast-forward main after deterministic verification.",
-          "Require caught_missing=true.",
-          "Require partial_mutation=false.",
-          "Require sdk_group_exists=false and zero_group_exists=false.",
-          "Require before_parent and after_parent to match exactly.",
-          "Fresh isolated scene, no save, no Maya quit.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "PASS",
-        "delivery_id": "3460a9fe280c7ad52c7d",
-        "postchange_evidence": {
-          "caught_missing": true,
-          "partial_mutation": false,
-          "sdk_group_exists": false,
-          "zero_group_exists": false,
-          "before_parent": null,
-          "after_parent": null,
-          "error": "Missing driven object: AIBridgeSDKPartialZMissing"
-        },
-        "architect_diagnosis": "Managed Maya confirms Driven Key late invalid input now fails atomically before scene mutation: the missing object is reported clearly, no SDK/zero groups are created, and the earlier valid object's parent remains unchanged."
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal012-error-recovery-modulo-sdk-partial-failure-probe-deterministic-192e",
       "action": {
         "type": "verification",
@@ -266,9 +57,7 @@
       "metadata": {
         "goal_id": "aimayatool-012",
         "milestone_id": "error-recovery",
-        "depends_on": [
-          "aimayatool-goal012-error-recovery-driven-key-preflight-postchange-192d"
-        ],
+        "depends_on": [],
         "harness_commit": "042e8035b3dc43038be73cc04f32380adc4d8bb3",
         "purpose": "Verify the Modulo SDK late-invalid-target partial-failure probe compiles/imports cleanly and deterministic planning behavior remains unchanged before managed Maya measurement.",
         "acceptance": [
@@ -288,7 +77,33 @@
           "import": true,
           "focused_tests": "3/3 PASS"
         },
-        "architect_diagnosis": "Modulo SDK partial-failure probe harness compiles/imports cleanly and deterministic planning behavior remains unchanged across all focused tests."
+        "architect_diagnosis": "Modulo SDK partial-failure probe harness compiles/imports cleanly and deterministic planning behavior remains unchanged across all focused tests.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal012-error-recovery-driven-key-preflight-postchange-192d",
+          "result": "PASS",
+          "architect_ack": true,
+          "bridge_completed": true,
+          "postchange_evidence": {
+            "caught_missing": true,
+            "partial_mutation": false,
+            "sdk_group_exists": false,
+            "zero_group_exists": false,
+            "before_parent": null,
+            "after_parent": null,
+            "error": "Missing driven object: AIBridgeSDKPartialZMissing"
+          },
+          "prior_deterministic": {
+            "task_id": "aimayatool-goal012-error-recovery-driven-key-preflight-deterministic-192c",
+            "result": "PASS",
+            "architect_ack": true,
+            "bridge_completed": true,
+            "verification_evidence": {
+              "py_compile": true,
+              "import": true,
+              "focused_tests": "3/3 PASS"
+            }
+          }
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -860,9 +675,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -914,6 +729,172 @@
           "Require partial_mutation=false.",
           "Require before_locked=true and after_locked=true.",
           "Require before_source and after_source to both equal AIBridgeDefaultValuePartialDriver.outValue.",
+          "Fresh isolated scene, no save, no Maya quit.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "8c1cf8eb15b0f325ed7a",
+        "postchange_evidence": {
+          "caught_invalid": true,
+          "partial_mutation": false,
+          "before_locked": true,
+          "after_locked": true,
+          "before_source": "AIBridgeDefaultValuePartialDriver.outValue",
+          "after_source": "AIBridgeDefaultValuePartialDriver.outValue",
+          "error": "could not convert string to float: 'not-a-number'"
+        },
+        "architect_diagnosis": "Managed Maya confirms invalid numeric Default Value input now fails atomically before unlock/disconnect mutation: lock state and the incoming source connection remain unchanged."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-error-recovery-transfer-attribute-partial-failure-probe-deterministic-192m",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 180,
+        "files": [
+          "aimayatool/tools/scene/transfer_attribute.py"
+        ],
+        "imports": [
+          "aimayatool.tools.scene.transfer_attribute"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "error-recovery",
+        "depends_on": [
+          "aimayatool-goal012-error-recovery-default-value-preflight-postchange-192l"
+        ],
+        "harness_commit": "26bb288d51d4c5ce4775bcb08c183ec826688a59",
+        "purpose": "Verify the Transfer Attribute locked-downstream partial-failure probe compiles/imports cleanly before managed Maya measurement.",
+        "acceptance": [
+          "Fast-forward main including harness commit 26bb288d51d4c5ce4775bcb08c183ec826688a59.",
+          "py_compile aimayatool/tools/scene/transfer_attribute.py.",
+          "Import aimayatool.tools.scene.transfer_attribute outside Maya.",
+          "No dedicated focused unittest file currently exists for this host-specific workflow; do not fabricate a test PASS.",
+          "Do not change product behavior in this task.",
+          "Do not use Codex."
+        ],
+        "source_evidence": "apply_transfer_attributes creates and sets the destination attribute before rewiring outgoing destinations. A locked downstream destination can make connectAttr(force=True) fail after the destination attribute has already been created.",
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal012-error-recovery-transfer-attribute-partial-failure-probe-192n",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.scene.transfer_attribute",
+        "callable": "transfer_attribute_partial_failure_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-012",
+        "milestone_id": "error-recovery",
+        "depends_on": [
+          "aimayatool-goal012-error-recovery-transfer-attribute-partial-failure-probe-deterministic-192m"
+        ],
+        "harness_commit": "26bb288d51d4c5ce4775bcb08c183ec826688a59",
+        "purpose": "Measure whether a locked downstream destination causes Transfer Attribute to fail after creating the destination attribute or disturbing the original connection.",
+        "acceptance": [
+          "Fast-forward main after deterministic harness verification.",
+          "Require caught_locked=true so the late host failure is observed.",
+          "Record partial_mutation, destination-attribute existence before/after, and downstream source connection before/after exactly.",
+          "If partial_mutation=true, classify a recovery/atomicity gap and harden preflight or rollback behavior before mutation.",
           "Fresh isolated scene, no save, no Maya quit.",
           "Do not use Codex."
         ],
