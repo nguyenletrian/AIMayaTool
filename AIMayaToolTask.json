@@ -303,9 +303,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
+      "status": "completed",
       "architect_ack": true,
-      "bridge_completed": false,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -350,7 +350,11 @@
           "Compile/import the inspected Skinning entrypoint.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "preflight_skinning_inventory_verified",
+        "delivery_id": "328ae91a7804b53d8f78",
+        "architect_diagnosis": "Skinning preflight inventory entrypoint compiles and imports safely. This closes the Skinning inventory dependency only; contract synthesis remains gated on Setup and Scene inventories."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
