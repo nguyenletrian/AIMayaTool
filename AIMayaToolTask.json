@@ -28,90 +28,6 @@
         "commit": false,
         "push": false
       },
-      "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185i",
-      "action": {
-        "type": "maya",
-        "target": "managed_live_smoke"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "module": "aimayatool.tools.skinning.closest_face",
-        "callable": "performance_baseline_managed_maya_smoke",
-        "new_scene": true,
-        "timeout": 45,
-        "save_scene": false
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "performance-baseline",
-        "depends_on": [],
-        "retry_of": "aimayatool-goal011-performance-baseline-managed-maya-retry-185h",
-        "purpose": "Run Goal 011 baseline through the validated maya:managed_live_smoke route with the complete unsaved-scene payload contract.",
-        "acceptance": [
-          "Use a fresh managed Maya scene.",
-          "Require save_scene=false; do not save or quit Maya.",
-          "Invoke performance_baseline_managed_maya_smoke.",
-          "If callable is absent, report that exact harness gap; do not fabricate success.",
-          "If present, capture repeatable timing and behavior-preservation evidence for representative geometry/skin workloads.",
-          "Do not optimize product code.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_MISSING_ISOLATED_SCENE_TRUE",
-        "classification": "managed_maya_payload_contract",
-        "delivery_id": "37b81f5e19b43dee4cf1",
-        "architect_diagnosis": "maya:managed_live_smoke route and save_scene=false passed validation; next required contract field is isolated_scene=true. Product/callable did not execute.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185h",
-          "result": "FAIL_MISSING_SAVE_SCENE_FALSE",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
       "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185j",
       "action": {
         "type": "maya",
@@ -136,9 +52,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "performance-baseline",
-        "depends_on": [
-          "aimayatool-goal011-performance-baseline-managed-maya-retry-185i"
-        ],
+        "depends_on": [],
         "retry_of": "aimayatool-goal011-performance-baseline-managed-maya-retry-185i",
         "purpose": "Run Goal 011 baseline through validated managed Maya smoke contract with explicit isolated unsaved scene safety.",
         "acceptance": [
@@ -154,7 +68,13 @@
         "result": "FAIL_MISSING_BASELINE_HARNESS",
         "classification": "managed_maya_callable_missing",
         "delivery_id": "55a6d4f86f23b08156fe",
-        "architect_diagnosis": "Managed Maya route and scene-safety contract are proven. Failure is the expected product-side harness gap: closest_face lacked performance_baseline_managed_maya_smoke. Architect implemented a bounded 100-vertex closest-face baseline with behavior and selection-preservation assertions in commit 3288b3fa7f0de6f6974bfae7d1bd776e5d2c9b51."
+        "architect_diagnosis": "Managed Maya route and scene-safety contract are proven. Failure is the expected product-side harness gap: closest_face lacked performance_baseline_managed_maya_smoke. Architect implemented a bounded 100-vertex closest-face baseline with behavior and selection-preservation assertions in commit 3288b3fa7f0de6f6974bfae7d1bd776e5d2c9b51.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185i",
+          "result": "FAIL_MISSING_ISOLATED_SCENE_TRUE",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -791,9 +711,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -838,6 +758,90 @@
           "Assert valid deterministic result shape and selection preservation.",
           "Keep benchmark setup bounded enough for managed Maya timeout.",
           "Compile changed Python and run focused loop_groups deterministic tests.",
+          "Commit and push the bounded harness change to main.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_UNSUPPORTED_ROUTE",
+        "classification": "task_action_route_mismatch",
+        "delivery_id": "d20f33332257fb30ecf5",
+        "architect_diagnosis": "AIBridge has no implementation:python route handler. This is a task publication routing error; no product code ran or failed. Republish the same bounded harness work through the established verification:python route with edit/commit/push permissions."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": true,
+        "push": true
+      },
+      "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-retry-187d",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "files": [
+          "aimayatool/tools/skinning/loop_groups.py",
+          "tests/test_skinning_loop_groups.py"
+        ],
+        "imports": [],
+        "tests": [
+          "tests.test_skinning_loop_groups"
+        ]
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "geometry-hotpaths",
+        "depends_on": [
+          "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-187c"
+        ],
+        "retry_of": "aimayatool-goal011-geometry-hotpaths-loop-groups-harness-187c",
+        "purpose": "Retry the same bounded benchmark-harness implementation through the established verification:python route.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Add performance_baseline_managed_maya_smoke with a representative bounded workload exercising group_vertices_by_perpendicular_loops.",
+          "Measure existing implementation only; do not optimize the full-edge scans yet.",
+          "Assert deterministic result validity and selection preservation.",
+          "Compile changed Python and run focused loop_groups tests.",
           "Commit and push the bounded harness change to main.",
           "Do not use Codex."
         ],
