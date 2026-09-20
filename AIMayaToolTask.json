@@ -921,6 +921,85 @@
         "port": 9222,
         "instance_id": "aibridge-architect"
       }
+    },
+    {
+      "task_id": "aimayatool-batch-smoke-186",
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 180,
+        "files": [
+          "aimayatool/registry.py"
+        ],
+        "imports": [
+          "aimayatool.registry"
+        ],
+        "tests": []
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "metadata": {
+        "goal_id": "aibridge-batch-task-runtime-001",
+        "milestone_id": "aimayatool-batch-smoke",
+        "purpose": "First small AIMayaTool batch smoke: execute this task independently as part of a multi-task batch; no Maya scene mutation.",
+        "batch_id": "aimayatool-batch-smoke-001",
+        "batch_size": 3,
+        "batch_members": [
+          "aimayatool-batch-smoke-186",
+          "aimayatool-batch-smoke-187",
+          "aimayatool-batch-smoke-188"
+        ],
+        "acceptance": [
+          "AIMayaTool worker receives task 186 from AIMayaToolTask.json.",
+          "AIMayaTool main is fast-forwarded.",
+          "registry.py compiles and registry imports.",
+          "Result is attributed to task_id 186.",
+          "No Maya scene mutation."
+        ]
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "project-python",
+        "host": "127.0.0.1",
+        "port": 0,
+        "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
     }
   ]
 }
