@@ -21,7 +21,7 @@ def normalize_spline_control_from_objs(data):
 def _match_group(cmds,node,name):
     grp=cmds.group(empty=True,name=name); cmds.matchTransform(grp,node); return grp
 
-def apply_spline_control_from_objs(data):
+def _apply_spline_control_from_objs_unprotected(data):
     import maya.cmds as cmds
     p=normalize_spline_control_from_objs(data)
     missing=[x for x in [p["parent"],p["parentGlobal"],p["curve"]]+p["joints"] if not cmds.objExists(x)]
@@ -56,6 +56,23 @@ def apply_spline_control_from_objs(data):
     cmds.connectAttr(parent_con+".constraintRotate",blend+".color1",force=True); cmds.connectAttr(orient_con+".constraintRotate",blend+".color2",force=True)
     cmds.connectAttr(blend+".output",global_grp+".rotate",force=True); cmds.connectAttr(master+".Global",blend+".blender",force=True)
     return {"plan":p,"controlJoints":control_joints,"splineControls":spline_ctrls,"skinCluster":skin,"globalGroup":global_grp,"parentConstraint":parent_con,"orientConstraint":orient_con,"blend":blend}
+
+
+def apply_spline_control_from_objs(data):
+    import maya.cmds as cmds
+    selection_uuids=cmds.ls(selection=True,uuid=True) or []
+    try:
+        return _apply_spline_control_from_objs_unprotected(data)
+    finally:
+        restored=[]
+        for node_uuid in selection_uuids:
+            matches=cmds.ls(node_uuid,long=True) or []
+            if matches:
+                restored.append(matches[0])
+        if restored:
+            cmds.select(restored,replace=True)
+        else:
+            cmds.select(clear=True)
 
 def spline_control_from_objs_managed_maya_smoke():
     import maya.cmds as cmds
