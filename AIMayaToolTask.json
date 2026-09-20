@@ -62,90 +62,6 @@
         "port": 9222,
         "instance_id": "aibridge-architect"
       },
-      "task_id": "aimayatool-batch-smoke-187",
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "metadata": {
-        "goal_id": "aibridge-batch-task-runtime-001",
-        "milestone_id": "aimayatool-batch-smoke",
-        "purpose": "Three-task AIMayaTool batch smoke member; independent execution/result identity; no Maya scene mutation.",
-        "batch_id": "aimayatool-batch-smoke-001",
-        "batch_size": 3,
-        "batch_members": [
-          "aimayatool-batch-smoke-186",
-          "aimayatool-batch-smoke-187",
-          "aimayatool-batch-smoke-188"
-        ],
-        "member_index": 2,
-        "acceptance": [
-          "Received from AIMayaToolTask.json.",
-          "AIMayaTool main fast-forwarded.",
-          "registry.py compiles and imports.",
-          "Result attributed to this task_id.",
-          "No Maya scene mutation."
-        ],
-        "result": "PASS",
-        "delivery_id": "21c7da9e0d3fbb448ece",
-        "proven_main_commit": "a9629c4c68ca0b1fc2da75ff860a8c6015dc1bb4",
-        "evidence": "ff-only sync updated main from 4776a6e22f0a0250172b02cdd07a7579e2fce83e to a9629c4c68ca0b1fc2da75ff860a8c6015dc1bb4; py_compile aimayatool/registry.py passed; import aimayatool.registry passed; no Maya mutation."
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 180,
-        "files": [
-          "aimayatool/registry.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ],
-        "tests": []
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      },
       "task_id": "aimayatool-batch-smoke-188",
       "status": "completed",
       "architect_ack": true,
@@ -786,9 +702,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -830,6 +746,86 @@
           "Invoke performance_baseline_managed_maya_smoke only if present; otherwise return the concrete missing-harness blocker.",
           "Capture repeatable timing and behavior-preservation evidence for representative geometry/skin workloads.",
           "Do not optimize product code.",
+          "Do not save scene or quit Maya.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_INVALID_TIMEOUT",
+        "classification": "verification_timeout_exceeds_300_seconds",
+        "delivery_id": "f3de3f483ecfb5358227",
+        "architect_diagnosis": "Route is now correct, but verification:python enforces timeout <=300 seconds. Product did not execute. Retry with identical proven Maya execution target and bounded 300-second timeout."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-performance-baseline-managed-maya-retry-185g",
+      "action": {
+        "type": "verification",
+        "target": "python"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.tools.skinning.closest_face",
+        "callable": "performance_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "save_scene": false
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "performance-baseline",
+        "depends_on": [
+          "aimayatool-goal011-performance-baseline-managed-maya-retry-185f"
+        ],
+        "retry_of": "aimayatool-goal011-performance-baseline-managed-maya-retry-185f",
+        "purpose": "Run the bounded Goal 011 performance baseline through the proven managed Maya routing pattern with the verification route's valid timeout bound.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Use verification:python with execution_target kind=maya on port 7001.",
+          "Use a fresh unsaved scene and timeout <=300 seconds.",
+          "Invoke performance_baseline_managed_maya_smoke only if present; otherwise return the concrete missing-harness blocker.",
+          "Capture repeatable timing and behavior-preservation evidence; do not optimize product code.",
           "Do not save scene or quit Maya.",
           "Do not use Codex."
         ],
