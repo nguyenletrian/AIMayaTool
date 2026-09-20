@@ -33,7 +33,9 @@ def _direction(a, b):
 
 
 def _connected_edge_ids(mesh_fn, vertex_id):
-    """Return edge ids adjacent to one vertex using an API 2.0 mesh-vertex iterator."""
+    """Return adjacent edge ids; injected test doubles may provide the same topology contract."""
+    if hasattr(mesh_fn, 'connectedEdgeIds'):
+        return list(mesh_fn.connectedEdgeIds(int(vertex_id)))
     import maya.api.OpenMaya as om
     iterator = om.MItMeshVertex(mesh_fn.dagPath())
     iterator.setIndex(int(vertex_id))
