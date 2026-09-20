@@ -23,92 +23,6 @@
       "bridge_completed": true,
       "permissions": {
         "read": true,
-        "edit": false,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-regression-retry-187j",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning/loop_groups.py",
-          "tests/test_skinning_loop_groups.py"
-        ],
-        "imports": [],
-        "tests": [
-          "tests.test_skinning_loop_groups"
-        ]
-      },
-      "metadata": {
-        "goal_id": "aimayatool-011",
-        "milestone_id": "geometry-hotpaths",
-        "depends_on": [],
-        "retry_of": "aimayatool-goal011-geometry-hotpaths-loop-groups-regression-187i",
-        "purpose": "Re-run deterministic loop_groups regression after updating the test topology contract for the optimized adjacency path.",
-        "acceptance": [
-          "Fast-forward main including commits 19282f8b81ab641ccf28adb48561995b68604f26 and 8f5e3f6ed2329c133c509648854a3c42444f54d3.",
-          "Compile loop_groups.py and tests/test_skinning_loop_groups.py.",
-          "Run tests.test_skinning_loop_groups; all focused tests must pass.",
-          "Do not require Maya installation for deterministic unit tests.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "result": "FAIL_GIT_PULL_PERMISSION_CONTRACT",
-        "classification": "task_permission_mismatch",
-        "delivery_id": "367f259317796e153f39",
-        "architect_diagnosis": "Task included a mutating git_pull precondition while permissions.edit=false. AIBridge correctly rejected it before verification. Republish with edit=true solely to authorize ff-only repository synchronization; product files remain verification-only.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-regression-187i",
-          "result": "FAIL_TEST_DOUBLE_MISSING_ADJACENCY_CONTRACT",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "project-python",
-        "host": "127.0.0.1",
-        "port": 0,
-        "instance_id": "aimayatool-project"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
-      "status": "completed",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
         "edit": true,
         "run_tests": true,
         "commit": false,
@@ -141,9 +55,7 @@
       "metadata": {
         "goal_id": "aimayatool-011",
         "milestone_id": "geometry-hotpaths",
-        "depends_on": [
-          "aimayatool-goal011-geometry-hotpaths-loop-groups-regression-retry-187j"
-        ],
+        "depends_on": [],
         "retry_of": "aimayatool-goal011-geometry-hotpaths-loop-groups-regression-retry-187j",
         "purpose": "Re-run deterministic loop_groups regression with edit permission enabled only because ff-only git_pull mutates the local checkout.",
         "acceptance": [
@@ -161,7 +73,13 @@
           "py_compile": true,
           "focused_tests": "5/5 PASS"
         },
-        "architect_diagnosis": "Loop-groups adjacency optimization now has both managed Maya performance evidence and deterministic regression coverage. Geometry-hotpaths slice is safe to advance."
+        "architect_diagnosis": "Loop-groups adjacency optimization now has both managed Maya performance evidence and deterministic regression coverage. Geometry-hotpaths slice is safe to advance.",
+        "archived_prerequisite": {
+          "task_id": "aimayatool-goal011-geometry-hotpaths-loop-groups-regression-retry-187j",
+          "result": "FAIL_GIT_PULL_PERMISSION_CONTRACT",
+          "architect_ack": true,
+          "bridge_completed": true
+        }
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -806,9 +724,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -864,7 +782,14 @@
           "loop_groups": "same-workload postchange ~34.8% lower elapsed; 5/5 focused tests PASS",
           "skin_data_many": "same-workload postchange ~97.47% lower elapsed; 3/3 focused tests PASS"
         },
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "delivery_id": "ab8acfc5922e58467a63",
+        "verification_evidence": {
+          "py_compile": "6/6 PASS",
+          "focused_tests": "8/8 PASS"
+        },
+        "architect_diagnosis": "Consolidated deterministic regression across Goal 011 optimized geometry and skin slices is clean. Proceed to fresh managed-Maya closeout evidence."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -874,6 +799,85 @@
         "host": "127.0.0.1",
         "port": 0,
         "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-performance-regression-maya-closest-face-189b",
+      "action": {
+        "type": "maya",
+        "target": "managed_live_smoke"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "module": "aimayatool.tools.skinning.closest_face",
+        "callable": "performance_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "isolated_scene": true,
+        "save_scene": false,
+        "timeout": 45
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "performance-regression",
+        "depends_on": [
+          "aimayatool-goal011-performance-regression-python-189a"
+        ],
+        "purpose": "Fresh managed-Maya regression measurement for optimized closest-face workload before Goal 011 closeout.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Run isolated unsaved fresh scene.",
+          "Require sample_count=100, valid_results=true, selection_preserved=true.",
+          "Capture elapsed_seconds as regression evidence; compare with historical optimized evidence 0.007032600000457023 s but do not require an exact timing threshold from a single run.",
+          "Do not save or quit Maya.",
+          "Do not use Codex."
+        ],
+        "historical_evidence": {
+          "baseline_seconds": 0.011680999999953201,
+          "optimized_seconds": 0.007032600000457023
+        },
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "maya-2024-port-7001"
       },
       "delivery_target": {
         "kind": "browser-cdp",
