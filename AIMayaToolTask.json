@@ -799,7 +799,7 @@
             "branch": "main"
           }
         ],
-        "timeout": 900,
+        "timeout": 300,
         "files": [
           "aimayatool/tools/skinning/__init__.py",
           "aimayatool/tools/setup/__init__.py",
