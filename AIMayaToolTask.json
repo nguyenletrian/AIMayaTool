@@ -18,91 +18,6 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "COMPLETED",
-      "architect_ack": true,
-      "bridge_completed": true,
-      "permissions": {
-        "read": true,
-        "edit": true,
-        "run_tests": true,
-        "commit": false,
-        "push": false
-      },
-      "task_id": "aimayatool-goal010-preflight-guidance-maya-smoke-184c",
-      "action": {
-        "type": "verification",
-        "target": "python"
-      },
-      "payload": {
-        "preconditions": [
-          {
-            "type": "git_pull",
-            "strategy": "ff-only",
-            "remote": "origin",
-            "branch": "main"
-          }
-        ],
-        "timeout": 300,
-        "files": [
-          "aimayatool/tools/skinning/__init__.py",
-          "aimayatool/tools/setup/__init__.py",
-          "aimayatool/tools/scene/__init__.py"
-        ],
-        "imports": [
-          "aimayatool.registry"
-        ],
-        "tests": []
-      },
-      "metadata": {
-        "goal_id": "aimayatool-010",
-        "milestone_id": "preflight-guidance",
-        "depends_on": [],
-        "purpose": "Validate bounded preflight guidance in managed Maya across representative Skinning, Setup, and Scene contexts.",
-        "acceptance": [
-          "Fast-forward main.",
-          "Use a fresh unsaved managed Maya scene.",
-          "Cover valid and invalid contexts across Skinning, Setup, and Scene where applicable.",
-          "Confirm validation is non-mutating and guidance is actionable.",
-          "Require explicit success markers and scene_saved=false.",
-          "Follow Guide runtime-loss recovery if Maya crashes.",
-          "Do not use Codex."
-        ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
-        "completion_note": "Python verification passed; Architect ACK already recorded; closing task to prevent requeue.",
-        "archived_prerequisite": {
-          "task_id": "aimayatool-goal010-preflight-guidance-implementation-184b",
-          "result": "FAIL_INVALID_ROUTE",
-          "architect_ack": true,
-          "bridge_completed": true
-        }
-      },
-      "system_id": "aimayatool",
-      "project_id": "aimayatool",
-      "worker_id": "aimayatool-worker",
-      "execution_target": {
-        "kind": "maya",
-        "host": "127.0.0.1",
-        "port": 7001,
-        "instance_id": "maya-2024-port-7001"
-      },
-      "delivery_target": {
-        "kind": "browser-cdp",
-        "host": "127.0.0.1",
-        "port": 9222,
-        "instance_id": "aibridge-architect"
-      }
-    },
-    {
-      "project": {
-        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
-        "branch": "main",
-        "workdir": "D:/AIMayaTool"
-      },
-      "return_route": {
-        "type": "provider",
-        "target": "OpenAI",
-        "via": "web"
-      },
       "status": "completed",
       "architect_ack": true,
       "bridge_completed": true,
@@ -786,9 +701,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
-      "architect_ack": false,
-      "bridge_completed": false,
+      "status": "completed",
+      "architect_ack": true,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -838,7 +753,11 @@
           "Compile/import inspected import-safe entrypoints.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "FAIL_INVALID_HOST_TIER",
+        "classification": "maya_host_module_imported_with_normal_python",
+        "delivery_id": "b6c8ac030b99a8aa936b",
+        "architect_diagnosis": "py_compile passed, but closest_face imports maya.cmds at module scope and cannot be imported by normal Python. This is expected host-boundary evidence, not a product regression. Measurement design must use Maya-capable validation for these modules."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
@@ -848,6 +767,82 @@
         "host": "127.0.0.1",
         "port": 0,
         "instance_id": "aimayatool-project"
+      },
+      "delivery_target": {
+        "kind": "browser-cdp",
+        "host": "127.0.0.1",
+        "port": 9222,
+        "instance_id": "aibridge-architect"
+      }
+    },
+    {
+      "project": {
+        "repository": "https://github.com/nguyenletrian/AIMayaTool.git",
+        "branch": "main",
+        "workdir": "D:/AIMayaTool"
+      },
+      "return_route": {
+        "type": "provider",
+        "target": "OpenAI",
+        "via": "web"
+      },
+      "status": "pending",
+      "architect_ack": false,
+      "bridge_completed": false,
+      "permissions": {
+        "read": true,
+        "edit": true,
+        "run_tests": true,
+        "commit": false,
+        "push": false
+      },
+      "task_id": "aimayatool-goal011-performance-baseline-maya-measurement-185d",
+      "action": {
+        "type": "verification",
+        "target": "maya_live"
+      },
+      "payload": {
+        "preconditions": [
+          {
+            "type": "git_pull",
+            "strategy": "ff-only",
+            "remote": "origin",
+            "branch": "main"
+          }
+        ],
+        "timeout": 300,
+        "module": "aimayatool.tools.skinning.closest_face",
+        "callable": "performance_baseline_managed_maya_smoke",
+        "new_scene": true,
+        "save_scene": false
+      },
+      "metadata": {
+        "goal_id": "aimayatool-011",
+        "milestone_id": "performance-baseline",
+        "depends_on": [
+          "aimayatool-goal011-performance-baseline-measurement-design-185c"
+        ],
+        "retry_of": "aimayatool-goal011-performance-baseline-measurement-design-185c",
+        "purpose": "Measure representative closest-face and skinning hot paths in a Maya-capable runtime after normal-Python host-boundary failure.",
+        "acceptance": [
+          "Fast-forward main.",
+          "Run only in a fresh unsaved managed Maya scene.",
+          "Establish repeatable representative geometry/skin workloads and behavior-preservation assertions before reporting timing.",
+          "Do not optimize product code in this baseline task.",
+          "Return explicit baseline measurements or a concrete missing-harness blocker; never treat normal-Python importability as required for Maya-bound modules.",
+          "Do not save the scene or quit Maya.",
+          "Do not use Codex."
+        ],
+        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+      },
+      "system_id": "aimayatool",
+      "project_id": "aimayatool",
+      "worker_id": "aimayatool-worker",
+      "execution_target": {
+        "kind": "maya",
+        "host": "127.0.0.1",
+        "port": 7001,
+        "instance_id": "aimayatool-architect"
       },
       "delivery_target": {
         "kind": "browser-cdp",
