@@ -383,9 +383,9 @@
         "target": "OpenAI",
         "via": "web"
       },
-      "status": "pending",
+      "status": "completed",
       "architect_ack": true,
-      "bridge_completed": false,
+      "bridge_completed": true,
       "permissions": {
         "read": true,
         "edit": true,
@@ -433,7 +433,11 @@
           "Preserve the already-proven ordered batch semantics as evidence, not as new scope.",
           "Do not use Codex."
         ],
-        "owner_constraint": "Do not use Codex until explicitly re-enabled."
+        "owner_constraint": "Do not use Codex until explicitly re-enabled.",
+        "result": "PASS",
+        "classification": "preflight_setup_inventory_verified",
+        "delivery_id": "2c2fac54eaa62feea32b",
+        "architect_diagnosis": "Setup preflight inventory entrypoints compile and import safely, including transforms. This closes the Setup inventory dependency; synthesis remains gated on Scene inventory."
       },
       "system_id": "aimayatool",
       "project_id": "aimayatool",
