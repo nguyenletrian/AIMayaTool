@@ -126,3 +126,33 @@ def rivet_managed_maya_smoke():
     if not all(checks.values()):
         raise RuntimeError("Rivet smoke failed: {0}".format(checks))
     return {"ok": True, "checks": checks}
+
+def rivet_selection_state_managed_maya_smoke():
+    """Measure whether Rivet construction preserves an unrelated explicit selection."""
+    import maya.cmds as cmds
+
+    mesh = cmds.polyPlane(name="AIBridgeRivetStateSource", subdivisionsX=1, subdivisionsY=1)[0]
+    child = cmds.createNode("transform", name="AIBridgeRivetStateChild")
+    sentinel = cmds.createNode("transform", name="AIBridgeRivetStateSentinel")
+    cmds.select(sentinel, replace=True)
+    before = cmds.ls(selection=True, long=True) or []
+    result = apply_rivet({
+        "vertexs": "\n".join([mesh + ".vtx[0]", mesh + ".vtx[1]", mesh + ".vtx[2]"]),
+        "name": "AIBridgeRivetState",
+        "child": child,
+    })
+    after = cmds.ls(selection=True, long=True) or []
+    functional = bool(
+        cmds.objExists(result["plane"])
+        and cmds.objExists(result["locator"])
+        and cmds.objExists(result["surface"])
+        and cmds.objExists(result["childOffset"])
+    )
+    return {
+        "operation": "rivet_selection_state",
+        "functional": functional,
+        "selection_preserved": before == after,
+        "before": before,
+        "after": after,
+    }
+
