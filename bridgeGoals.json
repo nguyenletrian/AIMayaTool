@@ -730,28 +730,48 @@
         {
           "milestone_id": "performance-baseline",
           "title": "Establish representative performance baselines",
-          "status": "pending"
+          "status": "completed"
         },
         {
           "milestone_id": "geometry-hotpaths",
           "title": "Optimize geometry-heavy operations",
-          "status": "pending"
+          "status": "completed"
         },
         {
           "milestone_id": "skin-hotpaths",
           "title": "Optimize skin-weight hot paths",
-          "status": "pending"
+          "status": "completed"
         },
         {
           "milestone_id": "performance-regression",
           "title": "Add performance regression evidence",
-          "status": "pending"
+          "status": "active"
         }
       ],
       "activation_evidence": {
         "date": "2026-09-20",
         "reason": "Standing owner approval for continuous roadmap progression after Goal 010 completion",
         "guide_commit": "4827736f28c56b13b0c284e8a76507887fde1acb"
+      },
+      "performance_evidence": {
+        "geometry": {
+          "closest_face": {
+            "baseline_seconds": 0.011680999999953201,
+            "postchange_seconds": 0.007032600000457023
+          },
+          "loop_groups": {
+            "baseline_seconds": 0.07802600000104576,
+            "postchange_seconds": 0.05084499999975378,
+            "focused_tests": "5/5 PASS"
+          }
+        },
+        "skin": {
+          "skin_data_many": {
+            "baseline_seconds": 0.007467800000085845,
+            "postchange_seconds": 0.00018900000031862874,
+            "focused_tests": "3/3 PASS"
+          }
+        }
       }
     },
     {
