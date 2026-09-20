@@ -720,7 +720,7 @@
     {
       "goal_id": "aimayatool-011",
       "title": "Performance and Maya API modernization",
-      "status": "planned",
+      "status": "active",
       "purpose": "Profile AIMayaTool and modernize proven hot paths using Maya API 2.0, caching and bounded batching where it materially improves production performance.",
       "acceptance": [
         "Optimization is evidence-driven and behavior-preserving.",
@@ -747,7 +747,12 @@
           "title": "Add performance regression evidence",
           "status": "pending"
         }
-      ]
+      ],
+      "activation_evidence": {
+        "date": "2026-09-20",
+        "reason": "Standing owner approval for continuous roadmap progression after Goal 010 completion",
+        "guide_commit": "4827736f28c56b13b0c284e8a76507887fde1acb"
+      }
     },
     {
       "goal_id": "aimayatool-012",
