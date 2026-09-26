@@ -1,10 +1,27 @@
 from __future__ import absolute_import
 
+def _preflight_transfer_attributes(items,cmds):
+    """Validate failure-prone transfer destinations before any scene mutation."""
+    for item in items or []:
+        src=str((item or {}).get("attribute") or "").strip(); target=str((item or {}).get("target") or "").strip()
+        if "." not in src: continue
+        source,attr=src.split(".",1); new_name=str((item or {}).get("newName") or attr).strip() or attr
+        if not (cmds.objExists(src) and cmds.objExists(target)): continue
+        dst=target+"."+new_name
+        if cmds.objExists(dst) and cmds.getAttr(dst,lock=True):
+            raise RuntimeError("Transfer destination is locked: "+dst)
+        outgoing=cmds.listConnections(src,s=False,d=True,p=True) or []
+        for plug in outgoing:
+            if cmds.objExists(plug) and cmds.getAttr(plug,lock=True):
+                raise RuntimeError("Transfer outgoing destination is locked: "+plug)
+
 def apply_transfer_attributes(items,cmds_module=None):
     cmds=cmds_module
     if cmds is None: import maya.cmds as cmds
+    items=list(items or [])
+    _preflight_transfer_attributes(items,cmds)
     result=[]; delete_nodes=[]
-    for item in items or []:
+    for item in items:
         src=str((item or {}).get("attribute") or "").strip(); target=str((item or {}).get("target") or "").strip()
         if "." not in src: result.append({"attribute":src,"status":"skipped_invalid"}); continue
         source,attr=src.split(".",1); new_name=str((item or {}).get("newName") or attr).strip() or attr
@@ -69,4 +86,3 @@ def transfer_attribute_partial_failure_managed_maya_smoke():
         "after_source":after_source,
         "error":error,
     }
-
